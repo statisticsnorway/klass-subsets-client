@@ -1,36 +1,33 @@
-# Classification subsets web application
+checkValidServiceWorker# Classification subsets web application
 Statistics Norway
 2019
 
 # Installation guide for local environment
 
 ## Required software 
-* Git
-> Download and install git.
+*  Git<br>
+Download and install git.
 
-* Node.js (npm)
-> Download and install node.js https://nodejs.org/en/ 
+*  Node.js (npm)<br>
+Download and install [node.js](https://nodejs.org/en/) 
 
-* Browser
-> Download and install a modern browser of your choice.<br>
-> Recommend to use Chrome, the most secure browser today.
+*  Browser<br>
+Download and install a modern browser of your choice.<br>
+Recommend to use Chrome, the most secure browser today.
 
 ## Source code (development branch)
-```
-$ git clone https://<git-username>@git.vegvesen.no/scm/brut/tunnels-web.git
-```
+`$ git clone https://<git-username>@git.vegvesen.no/scm/brut/tunnels-web.git`
 
 ## Start local server
 Install dependencies for the project (production build):
-```
+```shell
 $ cd /klass-subsets-web
-$ npm run build
 $ npm start
 ```
-> In case you need to run a development build do: `$ npm install` instead of `$ npm run build`
+In case you need to run a development build do: `$ npm install` instead of `$ npm run build`
 
 ## Start application in a browser
-http://localhost:3000/
+[http://localhost:3000/](http://localhost:3000/)
 
 # React web application
 
@@ -86,24 +83,24 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+This section has moved [here:](https://facebook.github.io/create-react-app/docs/code-splitting)
 
 ### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+This section has moved [here:](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
 ### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+This section has moved [here:](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
 ### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+This section has moved [here:](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
 ### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+This section has moved [here:](https://facebook.github.io/create-react-app/docs/deployment)
 
 ### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved [here:](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
