@@ -1,0 +1,9 @@
+kind: pipeline
+name: simplebuild
+
+steps:
+  - name: reactapp
+    image: node
+    commands:
+      - npm install
+      - npm test
