@@ -5,13 +5,13 @@ Statistics Norway
 # Installation guide for local environment
 
 ## Required software 
-*  Git<br>
+*   Git<br>
 Download and install git.
 
-*  Node.js (npm)<br>
+*   Node.js (npm)<br>
 Download and install [node.js](https://nodejs.org/en/) 
 
-*  Browser<br>
+*   Browser<br>
 Download and install a modern browser of your choice.<br>
 Recommend to use Chrome, the most secure browser today.
 
@@ -63,7 +63,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `npm install react-scripts@latest`
 Easy to maintain.<br>
 Updating your build tooling is typically a daunting and time-consuming task. When new versions of Create React App are released, you can upgrade using this single command.
-https://facebook.github.io/create-react-app/
+[https://facebook.github.io/create-react-app/](https://facebook.github.io/create-react-app/)
 
 ### `npm run eject`
 

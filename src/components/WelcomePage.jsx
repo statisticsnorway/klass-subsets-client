@@ -15,5 +15,5 @@ export default function WelcomePage() {
                 >GitHub repository</a>
             </p>
         </div>
-    )
+    );
 }
