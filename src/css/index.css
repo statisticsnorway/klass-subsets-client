@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  font-family:  "Open Sans", Arial, "DejaVu Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+h1, h2, h3 {
+  font-family:  "Open Sans Light", Arial, "DejaVu Sans", sans-serif;
+}
