@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../images/SSB_logo.png';
 import '../css/App.css';
-import WelcomePage from "./WelcomePage";
+import WelcomePage from './WelcomePage';
 
 export default function App() {
     return (
