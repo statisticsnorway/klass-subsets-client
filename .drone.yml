@@ -1,5 +1,5 @@
 kind: pipeline
-name: simplebuild
+name: default
 
 steps:
   - name: build
