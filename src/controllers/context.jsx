@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from 'react'
+import React, { createContext } from 'react'
 import {useSubset} from "../utils/useSubset";
 
 /** Context Principles
@@ -32,8 +32,6 @@ export const ContextProvider = ({ children }) => {
             description: "Default desc"
         }
     );
-
-    useEffect(() => {console.log({ newState: subset.draft })},[subset]);
 
     return (
         <AppContext.Provider value={{subset}}>
