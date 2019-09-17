@@ -2,11 +2,11 @@ import React, {useContext} from "react";
 import {AppContext} from "../controllers/context";
 
 export default function Error() {
-    const {errors} = useContext(AppContext);
+    const {errorRegister} = useContext(AppContext);
 
     return (
         <>
-            { errors.errors.map((error, index) => (
+            { errorRegister.errors.map((error, index) => (
                 <div key={index} >
                     <span style={{color: "red"}}>{error && `${error.status}: ${error.message}`}</span>
                     <button

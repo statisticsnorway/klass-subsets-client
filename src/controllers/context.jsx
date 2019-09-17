@@ -1,6 +1,6 @@
 import React, { createContext } from "react";
 import { useSubset } from "../utils/useSubset";
-import { useErrors } from "../utils/useErrors";
+import { useErrorRegister } from "../utils/useErrorRegister";
 
 /** Context Principles
  *
@@ -27,7 +27,7 @@ import { useErrors } from "../utils/useErrors";
 export const AppContext = createContext({});
 
 export const ContextProvider = ({ children }) => {
-    const errors = useErrors([{
+    const errorRegister = useErrorRegister([{
             status: "11034 BAD",
             message: "Something bad happend during testing of error handling",
         },
@@ -45,7 +45,7 @@ export const ContextProvider = ({ children }) => {
     );
 
     return (
-        <AppContext.Provider value={{subset, errors}}>
+        <AppContext.Provider value={{subset, errorRegister}}>
             {children}
         </AppContext.Provider>
     );
