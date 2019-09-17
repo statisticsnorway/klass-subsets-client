@@ -1,9 +1,9 @@
-import React from 'react';
-import logo from '../images/SSB_logo.png';
-import '../css/App.css';
+import React from "react";
+import logo from "../images/SSB_logo.png";
+import "../css/App.css";
 import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
-import {ContextProvider} from '../controllers/context'
-import WelcomePage from './WelcomePage';
+import {ContextProvider} from "../controllers/context";
+import WelcomePage from "./WelcomePage";
 import SubsetForm from "./SubsetForm";
 
 export default function App() {
@@ -27,7 +27,7 @@ export default function App() {
                 </div>
             </Router>
         </ContextProvider>
-    )
+    );
 }
 
 export function NoMatch({location}) {

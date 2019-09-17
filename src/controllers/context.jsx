@@ -1,5 +1,5 @@
-import React, { createContext } from 'react'
-import {useSubset} from "../utils/useSubset";
+import React, { createContext } from "react";
+import { useSubset } from "../utils/useSubset";
 
 /** Context Principles
  *
