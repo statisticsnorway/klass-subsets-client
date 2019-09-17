@@ -16,7 +16,6 @@ export const Step = ({children}) => {
 };
 
 export const ProgressBar = ({steps, handleClick}) => {
-
     return (
         <>
             {steps.map((step, index) => (
@@ -25,7 +24,7 @@ export const ProgressBar = ({steps, handleClick}) => {
                 >{index+1}</button>
             ))}
         </>
-    )
+    );
 };
 
 export const PrevNext = ({min, max, handleClick}) => {
