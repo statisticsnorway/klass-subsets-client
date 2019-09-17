@@ -8,7 +8,7 @@ export function Navigation({children}) {
             <div>{children[step]}</div>
             <PrevNext min={step===0} max={step===children.length-1} handleClick={setStep} />
         </>
-    );
+    )
 }
 
 export const Step = ({children}) => {
