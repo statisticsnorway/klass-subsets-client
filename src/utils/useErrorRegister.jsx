@@ -4,6 +4,9 @@ export const useErrorRegister = (init) => {
 
     function subsetReducer(state, {action, data}) {
         switch (action) {
+            case "add": {
+                return [...state, data];
+            }
             case "remove": {
                 return state.filter((item, index) => index !== data);
             }

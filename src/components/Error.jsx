@@ -4,6 +4,8 @@ import {AppContext} from "../controllers/context";
 export default function Error() {
     const {errorRegister} = useContext(AppContext);
 
+    // TODO: sanitize input
+
     return (
         <>
             { errorRegister.errors.map((error, index) => (
@@ -11,15 +13,19 @@ export default function Error() {
                     <span style={{color: "red"}}>{`${error.status}: ${error.message}`}</span>
                     <button
                         style={{color: "red", background: "none", border: "none", fontWeight: "600"}}
-                        onClick={(e) => {errorRegister.dispatch({action: "remove", data: index})}}
+                        onClick={() => {errorRegister.dispatch({action: "remove", data: index})}}
                     >x
                     </button>
                 </div>
             ))}
             { errorRegister.errors.length > 1 &&
-                <button onClick={(e) => {errorRegister.dispatch({action: "empty"})}}
+                <button onClick={() => {errorRegister.dispatch({action: "empty"})}}
                 >Dismiss all</button>
             }
+            <button
+                onClick={(e) => {errorRegister.dispatch({action: "add", data: {status: "199", message: e.target}})}}
+            >+
+            </button>
         </>
     );
 }
