@@ -43,5 +43,5 @@ export const PrevNext = ({min, max, handleClick}) => {
             <button disabled={min} onClick={ prev }>Previous</button>
             <button disabled={max} onClick={ next }>Next</button>
         </>
-    )
+    );
 };

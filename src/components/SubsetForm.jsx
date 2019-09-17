@@ -22,7 +22,7 @@ export const SubsetCodes = ({subset}) => {
     return (
         <>
             <h3>Choose codes</h3>
-            <button onClick={() => {console.log("Submit subset draft: ", subset.draft)}}>Save draft</button>
+            <button onClick={() => {console.log("Submit subset draft: ", subset.draft);}}>Save draft</button>
             <br/><br/>
         </>
     );
@@ -32,7 +32,7 @@ export const SubsetPreview = ({subset}) => {
     return (
         <>
             <h3>Subset preview</h3>
-            <button onClick={() => {console.log("Publish subset: ", subset.draft)}}>Publish</button>
+            <button onClick={() => {console.log("Publish subset: ", subset.draft);}}>Publish</button>
             <br/><br/>
         </>
     );
