@@ -10,18 +10,19 @@ export default function Errors() {
         <>
             { errorRegister.errors.map((error, index) => (
                 <Error key={index} error={error}
-                        remove={(e) => {errorRegister.dispatch({action: "remove", data: index})}
-                       }/>
+                       remove={(e) => errorRegister.dispatch({action: "remove", data: index})}/>
             ))}
             { errorRegister.errors.length > 1 &&
-                <button onClick={() => {errorRegister.dispatch({action: "empty"})}}
+                <button onClick={() => errorRegister.dispatch({action: "empty"})}
                 >Dismiss all</button>
             }
-            <button onClick={(e) => {errorRegister.dispatch({action: "add", data: {
+
+            {/* FIXME: for visible test purposes. Remove before release! */}
+            <button onClick={(e) => errorRegister.dispatch({action: "add", data: {
                     status: "199",
                     message: "Pluss button works",
                     source: e.target
-                }})}}
+                }})}
             >+
             </button>
         </>
@@ -40,5 +41,5 @@ export const Error = ({error, remove}) => {
             >x
             </button>
         </div>
-    )
+    );
 };
