@@ -1,5 +1,6 @@
 import React, { createContext } from "react";
 import { useSubset } from "../utils/useSubset";
+import { useErrorRegister } from "../utils/useErrorRegister";
 
 /** Context Principles
  *
@@ -26,6 +27,20 @@ import { useSubset } from "../utils/useSubset";
 export const AppContext = createContext({});
 
 export const ContextProvider = ({ children }) => {
+    const errorRegister = useErrorRegister(
+        /* FIXME: for visible test purposes. Remove before release! */
+            [{
+            status: "0",
+            message: "Temporary: visual test 1 of error handling",
+            source: "initial data"
+        },
+        {
+            status: "1",
+            message: "Temporary: visual test 2 of error handling",
+            source: "initial data"
+        }]
+    );
+
     const subset = useSubset({
             ownerId: "Default ownerId",
             names: "Default name",
@@ -34,7 +49,7 @@ export const ContextProvider = ({ children }) => {
     );
 
     return (
-        <AppContext.Provider value={{subset}}>
+        <AppContext.Provider value={{subset, errorRegister}}>
             {children}
         </AppContext.Provider>
     );
