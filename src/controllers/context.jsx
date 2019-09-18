@@ -29,27 +29,13 @@ export const AppContext = createContext({});
 export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister([{
             status: "0",
-            message: "Something bad happend during testing of error handling",
+            message: "Temporary: visual test 1 of error handling",
+            source: "initial data"
         },
         {
             status: "1",
-            message: "Something wrong in testing of error handling",
-        },
-        {
-            status: "2",
-            message: "Third error min the list",
-        },
-        {
-            status: "3",
-            message: "Something bad happend during testing of error handling",
-        },
-        {
-            status: "4",
-            message: "Something wrong in testing of error handling",
-        },
-        {
-            status: "6",
-            message: "Third error min the list",
+            message: "Temporary: visual test 2 of error handling",
+            source: "initial data"
         }]
     );
 
