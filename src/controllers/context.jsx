@@ -27,7 +27,9 @@ import { useErrorRegister } from "../utils/useErrorRegister";
 export const AppContext = createContext({});
 
 export const ContextProvider = ({ children }) => {
-    const errorRegister = useErrorRegister([{
+    const errorRegister = useErrorRegister(
+        /* FIXME: for visible test purposes. Remove before release! */
+            [{
             status: "0",
             message: "Temporary: visual test 1 of error handling",
             source: "initial data"
