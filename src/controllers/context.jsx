@@ -45,7 +45,27 @@ export const ContextProvider = ({ children }) => {
         ownerId: "Default ownerId",
         names: "Default name",
         description: "Default desc",
-        codes: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6']
+        codes: [
+            { title: 'Arbeid', children:
+                    [
+                        { title: 'A dfg' },
+                        { title: 'B xfdggfh' },
+                        { title: 'C xc' },
+                        { title: 'D dfgs' },
+                        { title: 'E salølæsødlfæsød' },
+                    ]
+            },
+            { title: 'Yrke', children:
+                    [
+                        { title: '1 dfg' },
+                        { title: '2 xfdggfh' },
+                        { title: '3 xc' },
+                        { title: '4 dfgs' },
+                        { title: '5 salølæsødlfæsød' },
+                        { title: '6 Zzzsødlfæsød' },
+                    ]
+            }
+        ]
     });
 
     return (
