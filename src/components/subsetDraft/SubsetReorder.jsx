@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import SortableTree from 'react-sortable-tree';
-import 'react-sortable-tree/style.css';
+import FileExplorerTheme from 'react-sortable-tree-theme-minimal';
 
 export const SubsetReorder = ({subset}) => {
     const [state, setState] = useState({treeData:
@@ -32,6 +32,7 @@ export const SubsetReorder = ({subset}) => {
             <div style={{ height: 800 }}><SortableTree
                 treeData={state.treeData}
                 onChange={treeData => setState({ treeData })}
+                theme={FileExplorerTheme}
             />
             </div>
             <br/><br/>
