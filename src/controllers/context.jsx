@@ -45,12 +45,8 @@ export const ContextProvider = ({ children }) => {
         ownerId: "Default ownerId",
         names: "Default name",
         description: "Default desc",
-        codes: [
-            {content: 'Item 1'},
-            {content: 'Item 2'},
-            {content: 'Item 3'}
-        ]}
-    );
+        codes: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6']
+    });
 
     return (
         <AppContext.Provider value={{subset, errorRegister}}>
