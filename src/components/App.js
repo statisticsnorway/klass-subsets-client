@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
 import {ContextProvider} from "../controllers/context";
 import WelcomePage from "./WelcomePage";
 import Errors from "./Errors";
-import SubsetForm from "./SubsetForm";
+import SubsetForm from "./subsetDraft/SubsetForm";
 
 export default function App() {
     return (
