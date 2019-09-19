@@ -16,11 +16,14 @@ export const useSubset = (init) => {
             case "ownerId": {
                 return  {...state, ownerId: data};
             }
+            case "codes": {
+                return  {...state, codes: data};
+            }
             case "reset": {
                 return init;
             }
             case "empty": {
-                return { names: "", description: "", ownerId: "" };
+                return { names: "", description: "", ownerId: "", codes: [] };
             }
             default:
                 return state;
