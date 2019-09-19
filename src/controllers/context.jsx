@@ -46,9 +46,9 @@ export const ContextProvider = ({ children }) => {
         names: "Default name",
         description: "Default desc",
         codes: [
-            {name: 'Item 1'},
-            {name: 'Item 2'},
-            {name: 'Item 3'}
+            {content: 'Item 1'},
+            {content: 'Item 2'},
+            {content: 'Item 3'}
         ]}
     );
 
