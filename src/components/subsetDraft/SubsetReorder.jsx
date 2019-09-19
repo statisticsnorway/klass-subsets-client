@@ -1,32 +1,39 @@
-import React from "react";
-import {SortableContainer, SortableElement} from "react-sortable-hoc";
-import arrayMove from "array-move";
+import React, {useState} from "react";
+import SortableTree from 'react-sortable-tree';
+import 'react-sortable-tree/style.css';
 
 export const SubsetReorder = ({subset}) => {
-    const SortableItem = SortableElement(({value}) => <li>{value}</li>);
-
-    const SortableList = SortableContainer(({codes}) => {
-        return (
-            <ul>
-                {codes.map((value, index) => (
-                    <SortableItem key={`item-${value}`} index={index} value={value} />
-                ))}
-            </ul>
-        );
-    });
-
-    const onSortEnd = ({oldIndex, newIndex}) => {
-        subset.dispatch({
-            action: "codes",
-            data: arrayMove(subset.draft.codes, oldIndex, newIndex),
-        });
-    };
+    const [state, setState] = useState({treeData:
+            [
+                { title: 'Arbeid', children:
+                        [
+                            { title: 'A dfg' },
+                            { title: 'B xfdggfh' },
+                            { title: 'C xc' },
+                            { title: 'D dfgs' },
+                            { title: 'E salølæsødlfæsød' },
+                        ]
+                },
+                { title: 'Others', children:
+                        [
+                            { title: '1 dfg' },
+                            { title: '2 xfdggfh' },
+                            { title: '3 xc' },
+                            { title: '4 dfgs' },
+                            { title: '5 salølæsødlfæsød' },
+                        ]
+                }
+            ]});
 
     return (
         <>
             <h3>Subset reorder</h3>
             <button onClick={() => {console.log("Reorder subset: ", subset.draft);}}>Show codes</button>
-            <SortableList codes={subset.draft.codes} onSortEnd={onSortEnd} />
+            <div style={{ height: 800 }}><SortableTree
+                treeData={state.treeData}
+                onChange={treeData => setState({ treeData })}
+            />
+            </div>
             <br/><br/>
         </>
     );
