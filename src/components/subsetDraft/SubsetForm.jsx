@@ -12,6 +12,7 @@ export default function SubsetForm() {
             <Navigation>
                 <Step label={"Metadata"}><SubsetMetadata subset={subset} /></Step>
                 <Step label={"Choose codes"}><SubsetCodes subset={subset} /></Step>
+                <Step label={"Reorder codes"}><SubsetReorder subset={subset} /></Step>
                 <Step label={"Preview"}><SubsetPreview subset={subset} /></Step>
             </Navigation>
         </div>
