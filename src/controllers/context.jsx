@@ -42,11 +42,31 @@ export const ContextProvider = ({ children }) => {
     );
 
     const subset = useSubset({
-            ownerId: "Default ownerId",
-            names: "Default name",
-            description: "Default desc"
-        }
-    );
+        ownerId: "Default ownerId",
+        names: "Default name",
+        description: "Default desc",
+        codes: [
+            { title: 'Arbeid', children:
+                    [
+                        { title: 'A dfg' },
+                        { title: 'B xfdggfh' },
+                        { title: 'C xc' },
+                        { title: 'D dfgs' },
+                        { title: 'E salølæsødlfæsød' },
+                    ]
+            },
+            { title: 'Yrke', children:
+                    [
+                        { title: '1 dfg' },
+                        { title: '2 xfdggfh' },
+                        { title: '3 xc' },
+                        { title: '4 dfgs' },
+                        { title: '5 salølæsødlfæsød' },
+                        { title: '6 Zzzsødlfæsød' },
+                    ]
+            }
+        ]
+    });
 
     return (
         <AppContext.Provider value={{subset, errorRegister}}>

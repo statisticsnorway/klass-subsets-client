@@ -1,7 +1,8 @@
 import React, {useContext} from "react";
-import "../css/pages.css";
-import {AppContext} from "../controllers/context";
-import {Navigation, Step} from "../utils/navigation";
+import "../../css/pages.css";
+import {AppContext} from "../../controllers/context";
+import {Navigation, Step} from "../../utils/navigation";
+import {SubsetReorder} from "./SubsetReorder"
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
@@ -12,6 +13,7 @@ export default function SubsetForm() {
             <Navigation>
                 <Step><SubsetMetadata subset={subset} /></Step>
                 <Step><SubsetCodes subset={subset} /></Step>
+                <Step><SubsetReorder subset={subset} /></Step>
                 <Step><SubsetPreview subset={subset} /></Step>
             </Navigation>
         </div>
