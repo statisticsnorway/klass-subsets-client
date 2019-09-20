@@ -20,7 +20,7 @@ export default function Errors() {
             {/* FIXME: for visible test purposes. Remove before release! */}
             <button onClick={(e) => errorRegister.dispatch({action: "add", data: {
                     status: "199",
-                    message: "Pluss button works",
+                    message: "Plus button works",
                     source: e.target
                 }})}
             >+

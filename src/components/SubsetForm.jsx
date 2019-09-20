@@ -10,9 +10,9 @@ export default function SubsetForm() {
         <div className="page">
             <h2>Create new subset</h2>
             <Navigation>
-                <Step><SubsetMetadata subset={subset} /></Step>
-                <Step><SubsetCodes subset={subset} /></Step>
-                <Step><SubsetPreview subset={subset} /></Step>
+                <Step name={"Metadata"}><SubsetMetadata subset={subset} /></Step>
+                <Step name={"Choose codes"}><SubsetCodes subset={subset} /></Step>
+                <Step name={"Preview"}><SubsetPreview subset={subset} /></Step>
             </Navigation>
         </div>
     );
