@@ -3,6 +3,7 @@ import "../../css/pages.css";
 import {AppContext} from "../../controllers/context";
 import {Navigation, Step} from "../../utils/navigation";
 import {SubsetReorder} from "./SubsetReorder";
+import {SubsetCodes} from "./SubsetCodes";
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
@@ -19,16 +20,6 @@ export default function SubsetForm() {
         </div>
     );
 }
-
-export const SubsetCodes = ({subset}) => {
-    return (
-        <>
-            <h3>Choose codes</h3>
-            <button onClick={() => {console.log("Submit subset draft: ", subset.draft);}}>Save draft</button>
-            <br/><br/>
-        </>
-    );
-};
 
 export const SubsetPreview = ({subset}) => {
     return (
