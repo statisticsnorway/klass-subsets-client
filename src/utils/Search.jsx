@@ -30,6 +30,15 @@ export const Search = ({value, suggestions, onChange, onSubmit, onBlur}) => {
         }
     }
 
+    function highlight(origin, substring) {
+        const i = origin.toLowerCase().search(substring.toLowerCase());
+        return  <>
+            <span>{origin.substr(0, i)}</span>
+            <span style={{color:"red"}}>{origin.substr(i, substring.length)}</span>
+            <span>{origin.substr(i+substring.length, origin.length)}</span>
+        </>;
+    }
+
     // TODO: convert divs to list items (li)
     // TODO: return useful object
 
@@ -43,9 +52,9 @@ export const Search = ({value, suggestions, onChange, onSubmit, onBlur}) => {
                        onKeyDown={keyHandler} />
                 <div id="autocomplete-list" className="autocomplete-items">
                     {suggestions.map((suggestion, i) => (
-                        <div key={i} className={i===active? "autocomplete-active" : "autocomplete"}
+                        <div key={i} className={i===active ? "autocomplete-active" : "autocomplete"}
                              onClick={() => console.log("choosen", suggestion)}>
-                            {suggestion}
+                            {highlight(suggestion,value)}
                         </div>))}
                 </div>
             </div>

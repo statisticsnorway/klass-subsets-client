@@ -9,20 +9,9 @@ export const SubsetCodes = ({subset}) => {
 
     const handleInput = (e) => {
         setValue(e.target.value);
-        const s = countries.filter(i => i.toLowerCase().search(e.target.value.toLowerCase()) > -1)
-            .map(i => highlight(i,e.target.value.toLowerCase()));
+        const s = countries.filter(i => i.toLowerCase().search(e.target.value.toLowerCase()) > -1);
         setSuggestion([...s]);
     };
-
-
-    function highlight(origin, highlight) {
-        const i = origin.toLowerCase().search(highlight.toLowerCase());
-        return  <>
-            <span>{origin.substr(0, i)}</span>
-            <span style={{color:"red"}}>{origin.substr(i, highlight.length)}</span>
-            <span>{origin.substr(i+highlight.length, origin.length)}</span>
-        </>;
-    }
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
         "Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh",
@@ -56,7 +45,7 @@ export const SubsetCodes = ({subset}) => {
 
     return (
         <div className="page">
-            <h3>Autosuggest Demo Page</h3>
+            <h3>Choose codes</h3>
             <Search
                 value={value}
                 onChange={handleInput}
@@ -71,18 +60,6 @@ export const SubsetCodes = ({subset}) => {
                 }}
             />
         </div>
-    );
-
-    return (
-        <>
-            <h3>Choose codes</h3>
-
-            <Search value={value} onChange={handleInput}/>
-
-            <br/><br/>
-            <button onClick={() => {console.log("Submit subset draft: ", subset.draft);}}>Save draft</button>
-            <br/><br/>
-        </>
     );
 };
 
