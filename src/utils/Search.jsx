@@ -1,33 +1,50 @@
 import React, {useState, useRef} from "react";
 import "../css/autosuggest.css";
 
-export const Search = ({value, suggestions, onChange, onSubmit, onBlur}) => {
-
+export const Search = ({countries, setChosen}) => {
     // inspired: https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
-    const countrySearch = useRef(null);
+    const dom = useRef(null);
 
+    const [value, setValue] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
     const [active, setActive] = useState(-1);
 
+    const handleInput = (e) => {
+        setValue(e.target.value);
+        e.target.value === ""
+            ? setSuggestions([])
+            : setSuggestions(countries.filter(i =>
+            i.toLowerCase().search(e.target.value.toLowerCase()) > -1));
+    };
+
     function keyHandler(e) {
-        if (e.keyCode === 40) {/*DOWN*/
-            setActive(active => (active+1) % suggestions.length);
-        } else if (e.keyCode === 38) { /*UP*/
-            setActive(active => active-1 < 0 ? suggestions.length-1 : active-1);
-        } else if (e.keyCode === 13) {/*ENTER*/
-            e.preventDefault();
-            onEnter(active);
+        const keys = { DOWN: 40, UP: 38, ENTER: 13 };
+        switch (e.keyCode) {
+            case keys.DOWN: {
+                setActive((active + 1) % suggestions.length);
+                break;
+            }
+            case keys.UP: {
+                setActive(active - 1 < 0 ? suggestions.length - 1 : active - 1);
+                break;
+            }
+            case keys.ENTER: {
+                e.preventDefault();
+                handleChoice(active === -1 ? value : suggestions[active]);
+                break;
+            }
+            default: break;
         }
     }
 
-    function onEnter(index) {
-        console.log("choosen2");
-        if (index === -1) {
-            return countrySearch.current.value;
-        } else {
-            countrySearch.current.value = suggestions[index];
-            return suggestions[index]
-        }
+    function handleChoice(choice) {
+        setSuggestions([]);
+        setValue(choice);
+        dom.current.focus();
+        setActive(-1);
+
+        choice.length > 0 && setChosen(choice);
     }
 
     function highlight(origin, substring) {
@@ -40,25 +57,33 @@ export const Search = ({value, suggestions, onChange, onSubmit, onBlur}) => {
     }
 
     // TODO: convert divs to list items (li)
-    // TODO: return useful object
+    // FIXME: scroll and limit amount of suggestion shown by screen size
+
+    // FIXME: sanitize input !!!!
+
+    // TODO: async fetch ?
 
     return (
-        <form autoComplete="off"
-              onSubmit={onSubmit}
-                onBlur={onBlur}>
+        <>
             <div className="autocomplete" style={{width:"300px"}}>
-                <input type="search" name="countrySearch" ref={countrySearch}
-                       placeholder="Country" value={value} onChange={onChange}
+                <input type="search" name="countrySearch" ref={dom}
+                       placeholder="Country" value={value} onChange={handleInput}
                        onKeyDown={keyHandler} />
                 <div id="autocomplete-list" className="autocomplete-items">
                     {suggestions.map((suggestion, i) => (
                         <div key={i} className={i===active ? "autocomplete-active" : "autocomplete"}
-                             onClick={() => console.log("choosen", suggestion)}>
+                             onClick={(e) => {
+                                 e.preventDefault();
+                                 setActive(i);
+                                 handleChoice(suggestion);
+                             }}>
                             {highlight(suggestion,value)}
                         </div>))}
                 </div>
             </div>
-            <input type="submit" value="Search" />
-        </form>
+            <button onClick={() => {
+                handleChoice(value)
+            }}>Search</button>
+        </>
     );
 };

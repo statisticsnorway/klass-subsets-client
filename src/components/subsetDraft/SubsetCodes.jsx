@@ -1,17 +1,12 @@
 
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Search} from "../../utils/Search"
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
-    const [value, setValue] = useState("");
-
-    const handleInput = (e) => {
-        setValue(e.target.value);
-        const s = countries.filter(i => i.toLowerCase().search(e.target.value.toLowerCase()) > -1);
-        setSuggestion([...s]);
-    };
+    const [chosen, setChosen] = useState("");
+    useEffect(() => {console.log({ newState: chosen })},[chosen]);
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
         "Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh",
@@ -40,25 +35,11 @@ export const SubsetCodes = ({subset}) => {
         "Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay",
         "Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia",
         "Zimbabwe"];
-    const [suggestions, setSuggestion] = useState([]);
-
 
     return (
         <div className="page">
             <h3>Choose codes</h3>
-            <Search
-                value={value}
-                onChange={handleInput}
-                suggestions={suggestions}
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    console.log("submit?", e);
-                }}
-                onBlur={() => {
-                    setValue("");
-                    setSuggestion([]);
-                }}
-            />
+            <Search countries={countries} setChosen={ (item) => setChosen(item) }/>
         </div>
     );
 };
