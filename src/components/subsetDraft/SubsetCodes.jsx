@@ -55,7 +55,7 @@ export const SubsetCodes = ({subset}) => {
                     placeholder="Country"/>
             <h3>Search results</h3>
             {chosen.length < 1
-                ? <p>"Nothing to show"</p>
+                ? <p>Nothing to show</p>
                 : <List items={subset.draft.codes} />}
         </div>
     );
@@ -65,8 +65,16 @@ export const SubsetCodes = ({subset}) => {
 export const List = ({items = []}) => {
 
     return (<ul>
-            {items.map((item, i) => <li key={i}>{item.title}</li>)}
+            {items.map((item, i) => <ListItem key={i} title={item.title} children={item.children}/>)}
         </ul>
     )
+};
 
-}
+export const ListItem = ({title = "Title", children = []}) => {
+    return (
+        <li>
+            <h4>{title}</h4>
+            <List items={children} />
+        </li>
+    )
+};
