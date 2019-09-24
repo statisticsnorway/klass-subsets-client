@@ -39,7 +39,9 @@ export const SubsetCodes = ({subset}) => {
     return (
         <div className="page">
             <h3>Choose codes</h3>
-            <Search countries={countries} setChosen={ (item) => setChosen(item) }/>
+            <Search items={countries}
+                    setChosen={ (item) => setChosen(item) }
+                    placeholder="Country"/>
         </div>
     );
 };

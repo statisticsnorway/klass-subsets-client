@@ -1,7 +1,9 @@
 import React, {useState, useRef} from "react";
 import "../css/autosuggest.css";
 
-export const Search = ({countries, setChosen}) => {
+export const Search = ({items = [],
+                           setChosen = (item) => console.log("chosen item:", item),
+                           placeholder = "Search"}) => {
     // inspired: https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
     const dom = useRef(null);
@@ -14,7 +16,7 @@ export const Search = ({countries, setChosen}) => {
         setValue(e.target.value);
         e.target.value === ""
             ? setSuggestions([])
-            : setSuggestions(countries.filter(i =>
+            : setSuggestions(items.filter(i =>
             i.toLowerCase().search(e.target.value.toLowerCase()) > -1));
     };
 
@@ -31,6 +33,7 @@ export const Search = ({countries, setChosen}) => {
             }
             case keys.ENTER: {
                 e.preventDefault();
+                console.log("Chosen by ENTER", suggestions[active], value);
                 handleChoice(active === -1 ? value : suggestions[active]);
                 break;
             }
@@ -67,13 +70,14 @@ export const Search = ({countries, setChosen}) => {
         <>
             <div className="autocomplete" style={{width:"300px"}}>
                 <input type="search" name="countrySearch" ref={dom}
-                       placeholder="Country" value={value} onChange={handleInput}
+                       placeholder={placeholder} value={value} onChange={handleInput}
                        onKeyDown={keyHandler} />
                 <div id="autocomplete-list" className="autocomplete-items">
                     {suggestions.map((suggestion, i) => (
                         <div key={i} className={i===active ? "autocomplete-active" : "autocomplete"}
                              onClick={(e) => {
                                  e.preventDefault();
+                                 console.log("Chosen by click", suggestion);
                                  setActive(i);
                                  handleChoice(suggestion);
                              }}>
@@ -82,6 +86,7 @@ export const Search = ({countries, setChosen}) => {
                 </div>
             </div>
             <button onClick={() => {
+                console.log("Chosen by search button", value);
                 handleChoice(value)
             }}>Search</button>
         </>
