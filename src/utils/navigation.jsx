@@ -21,7 +21,7 @@ export const ProgressBar = ({steps, handleClick}) => {
             {steps.map((step, index) => (
                 <button key={index}
                         onClick={ () => handleClick(index) }
-                >{index+1}</button>
+                >{step.props.label}</button>
             ))}
         </>
     );
