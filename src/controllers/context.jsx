@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, {createContext, useEffect} from "react";
 import { useSubset } from "../utils/useSubset";
 import { useErrorRegister } from "../utils/useErrorRegister";
 
@@ -67,6 +67,8 @@ export const ContextProvider = ({ children }) => {
             }
         ]
     });
+
+    useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
     return (
         <AppContext.Provider value={{subset, errorRegister}}>

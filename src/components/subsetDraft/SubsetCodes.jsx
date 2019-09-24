@@ -6,7 +6,18 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
     const [chosen, setChosen] = useState("");
-    useEffect(() => {console.log({ newState: chosen })},[chosen]);
+    useEffect(() => console.log({ newState: chosen }),[chosen]);
+    useEffect(() => {
+        if (chosen) {
+            subset.dispatch({action: "codes_add", data:
+                { title: chosen, children:
+                    [
+                        { title: 'A' },
+                        { title: 'B' }
+                    ]
+                }
+            })}
+    },[chosen]);
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
         "Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh",
@@ -42,8 +53,20 @@ export const SubsetCodes = ({subset}) => {
             <Search items={countries}
                     setChosen={ (item) => setChosen(item) }
                     placeholder="Country"/>
+            <h3>Search results</h3>
+            {chosen.length < 1
+                ? <p>"Nothing to show"</p>
+                : <List items={subset.draft.codes} />}
         </div>
     );
 };
 
 
+export const List = ({items = []}) => {
+
+    return (<ul>
+            {items.map((item, i) => <li key={i}>{item.title}</li>)}
+        </ul>
+    )
+
+}
