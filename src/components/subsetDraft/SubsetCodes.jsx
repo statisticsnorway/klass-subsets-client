@@ -65,16 +65,20 @@ export const SubsetCodes = ({subset}) => {
 export const List = ({items = []}) => {
 
     return (<ul>
-            {items.map((item, i) => <ListItem key={i} title={item.title} children={item.children}/>)}
+            {items.map((item, i) =>
+                <ListItem key={i}
+                          title={item.title}
+                          children={item.children}
+                          hidden={item.hidden}/>)}
         </ul>
     )
 };
 
-export const ListItem = ({title = "Title", children = []}) => {
+export const ListItem = ({title = "Title", children = [], hidden = true}) => {
     return (
         <li>
             <h4>{title}</h4>
-            <List items={children} />
+            {!hidden && <List items={children} />}
         </li>
     )
 };

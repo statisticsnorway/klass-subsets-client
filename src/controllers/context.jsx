@@ -63,7 +63,8 @@ export const ContextProvider = ({ children }) => {
                         { title: '4 dfgs' },
                         { title: '5 salølæsødlfæsød' },
                         { title: '6 Zzzsødlfæsød' },
-                    ]
+                    ],
+                hidden: false
             }
         ]
     });
