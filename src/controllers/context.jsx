@@ -29,16 +29,7 @@ export const AppContext = createContext({});
 export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister(
         /* FIXME: for visible test purposes. Remove before release! */
-            [{
-            status: "0",
-            message: "Temporary: visual test 1 of error handling",
-            source: "initial data"
-        },
-        {
-            status: "1",
-            message: "Temporary: visual test 2 of error handling",
-            source: "initial data"
-        }]
+            []
     );
 
     const subset = useSubset({
@@ -46,26 +37,6 @@ export const ContextProvider = ({ children }) => {
         names: "Default name",
         description: "Default desc",
         codes: [
-            { title: 'Arbeid', children:
-                    [
-                        { title: 'A dfg' },
-                        { title: 'B xfdggfh' },
-                        { title: 'C xc' },
-                        { title: 'D dfgs' },
-                        { title: 'E salølæsødlfæsød' },
-                    ]
-            },
-            { title: 'Yrke', children:
-                    [
-                        { title: '1 dfg' },
-                        { title: '2 xfdggfh' },
-                        { title: '3 xc' },
-                        { title: '4 dfgs' },
-                        { title: '5 salølæsødlfæsød' },
-                        { title: '6 Zzzsødlfæsød' },
-                    ],
-                hidden: false
-            }
         ]
     });
 

@@ -1,6 +1,7 @@
 
 import React, {useState, useEffect} from "react";
-import {Search} from "../../utils/Search"
+import {Search} from "../../utils/Search";
+import {List} from "../../utils/list";
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
@@ -14,8 +15,7 @@ export const SubsetCodes = ({subset}) => {
                     [
                         { title: 'A' },
                         { title: 'B' }
-                    ]
-                }
+                    ]}
             })}
     },[chosen]);
 
@@ -47,6 +47,50 @@ export const SubsetCodes = ({subset}) => {
         "Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia",
         "Zimbabwe"];
 
+    const listItems = [
+        { title: 'Arbeid', children:
+                [
+                    { title: 'A dfg' },
+                    { title: 'B xfdggfh' },
+                    { title: 'C xc' },
+                    { title: 'D dfgs' },
+                    { title: 'E salølæsødlfæsød' },
+                ]
+        },
+        { title: 'Yrke', children:
+                [
+                    { title: '1 dfg' },
+                    { title: '2 xfdggfh' },
+                    { title: '3 xc' },
+                    { title: '4 dfgs' },
+                    { title: '5 salølæsødlfæsød' },
+                    { title: '6 Zzzsødlfæsød' },
+                ],
+            expanded: true
+        },
+        { title: 'Commune', children:
+                [
+                    { title: 'I dfg' },
+                    { title: 'II xfdggfh' },
+                    { title: 'III xczzpppsk' },
+                    { title: 'IV dfgs 1233' },
+                    { title: 'V salæsød' },
+                    { title: 'VI salølæsø' },
+                    { title: 'VII aalokdk' },
+                    { title: 'VIII domdomd', children:
+                            [
+                                { title: 'A dfg' },
+                                { title: 'B xfdggfh' },
+                                { title: 'C xc' },
+                                { title: 'D dfgs' },
+                                { title: 'E salølæsødlfæsød' },
+                            ]},
+                    { title: 'IX Pjfklsvnnn' },
+                    { title: 'X AKOKO' },
+                ]
+        },
+    ];
+
     return (
         <div className="page">
             <h3>Choose codes</h3>
@@ -56,13 +100,16 @@ export const SubsetCodes = ({subset}) => {
             <h3>Search results</h3>
             {chosen.length < 1
                 ? <p>Nothing to show</p>
-                : <List items={subset.draft.codes} />}
+                : <List1 items={subset.draft.codes} />}
+            <h3>List demo</h3>
+                <List listitems={listItems} />
+                <button onClick={() => console.log("current state", listItems)}>Show data</button>
         </div>
     );
 };
 
 
-export const List = ({items = []}) => {
+export const List1 = ({items = []}) => {
 
     return (<ul>
             {items.map((item, i) =>
