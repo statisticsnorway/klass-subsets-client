@@ -7,9 +7,10 @@ export const List = ({listitems = [],
                              include: {after: true,
                                  callback: (i) => console.log("include", i.title)}}
                      }) => {
-
+    console.log("reload List");
     const [items, setItems] = useState(listitems);
     useEffect(() => console.log({ list: items }),[items]);
+    useEffect(() => setItems(listitems),[listitems]);
 
     return (
         <ul className="list">

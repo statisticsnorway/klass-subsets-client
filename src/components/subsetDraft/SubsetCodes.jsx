@@ -16,7 +16,8 @@ export const SubsetCodes = ({subset}) => {
                         { title: 'A' },
                         { title: 'B' }
                     ]}
-            })}
+            });
+        }
     },[chosen]);
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
@@ -47,50 +48,6 @@ export const SubsetCodes = ({subset}) => {
         "Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia",
         "Zimbabwe"];
 
-    const listItems = [
-        { title: 'Arbeid', children:
-                [
-                    { title: 'A dfg' },
-                    { title: 'B xfdggfh' },
-                    { title: 'C xc' },
-                    { title: 'D dfgs' },
-                    { title: 'E salølæsødlfæsød' },
-                ]
-        },
-        { title: 'Yrke', children:
-                [
-                    { title: '1 dfg' },
-                    { title: '2 xfdggfh' },
-                    { title: '3 xc' },
-                    { title: '4 dfgs' },
-                    { title: '5 salølæsødlfæsød' },
-                    { title: '6 Zzzsødlfæsød' },
-                ],
-            expanded: true
-        },
-        { title: 'Commune', children:
-                [
-                    { title: 'I dfg' },
-                    { title: 'II xfdggfh' },
-                    { title: 'III xczzpppsk' },
-                    { title: 'IV dfgs 1233' },
-                    { title: 'V salæsød' },
-                    { title: 'VI salølæsø' },
-                    { title: 'VII aalokdk' },
-                    { title: 'VIII domdomd', children:
-                            [
-                                { title: 'A dfg' },
-                                { title: 'B xfdggfh' },
-                                { title: 'C xc' },
-                                { title: 'D dfgs' },
-                                { title: 'E salølæsødlfæsød' },
-                            ]},
-                    { title: 'IX Pjfklsvnnn' },
-                    { title: 'X AKOKO' },
-                ]
-        },
-    ];
-
     return (
         <div className="page">
             <h3>Choose codes</h3>
@@ -98,34 +55,13 @@ export const SubsetCodes = ({subset}) => {
                     setChosen={ (item) => setChosen(item) }
                     placeholder="Country"/>
             <h3>Search results</h3>
-            {chosen.length < 1
-                ? <p>Nothing to show</p>
-                : <List1 items={subset.draft.codes} />}
-            <h3>List demo</h3>
-                <List listitems={listItems} />
-                <button onClick={() => console.log("current state", listItems)}>Show data</button>
+            { (subset.draft
+                && subset.draft.codes
+                && subset.draft.codes.length > 0)
+                    ? <List listitems={subset.draft.codes} />
+                    : <p>Nothing to show</p>}
+                <button onClick={() => console.log("current codes", subset.draft.codes)}
+                >Show codes</button>
         </div>
     );
-};
-
-
-export const List1 = ({items = []}) => {
-
-    return (<ul>
-            {items.map((item, i) =>
-                <ListItem key={i}
-                          title={item.title}
-                          children={item.children}
-                          hidden={item.hidden}/>)}
-        </ul>
-    )
-};
-
-export const ListItem = ({title = "Title", children = [], hidden = true}) => {
-    return (
-        <li>
-            <h4>{title}</h4>
-            {!hidden && <List items={children} />}
-        </li>
-    )
 };
