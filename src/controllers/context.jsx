@@ -34,7 +34,7 @@ export const ContextProvider = ({ children }) => {
 
     const subset = useSubset({
         ownerId: "Default ownerId",
-        names: "Default name",
+        names: "Subset for ...",
         description: "Default desc",
         codes: []
     });

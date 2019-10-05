@@ -7,7 +7,7 @@ export const SubsetMetadata = ({subset}) => {
             <br/><br/>
 
             <label htmlFor="name" style={{display:"block"}}>Name</label>
-                <input type="text" name="name" value={subset.draft.names}
+                <input type="text" id="name" value={subset.draft.names}
                    onChange={(e) => { subset.dispatch({
                        action: "names",
                        data: e.target.value });
@@ -22,7 +22,7 @@ export const SubsetMetadata = ({subset}) => {
             <br/><br/>
 
             <label htmlFor="owner" style={{display:"block"}}>Owner</label>
-                <input type="text" name="owner" value={subset.draft.ownerId}
+                <input type="text" id="owner" value={subset.draft.ownerId}
                    onChange={(e) => {subset.dispatch({
                        action: "ownerId",
                        data: e.target.value });
@@ -46,13 +46,13 @@ export const SubsetMetadata = ({subset}) => {
             <br/><br/>
 
             <label htmlFor="description" style={{display:"block"}}>Description</label>
-            <input type="textarea" name="description"
+            <input type="textarea" id="description"
                    value={subset.draft.description}
                    onChange={(e) => { subset.dispatch({
                        action: "description",
                        data: e.target.value });
                    }}/>
-            <select name="language">
+            <select id="language">
                 <option value="nb" selected={true}>Bokmål</option>
                 <option value="nn">Nynorsk</option>
                 <option value="en">English</option>
