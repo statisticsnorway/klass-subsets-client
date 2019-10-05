@@ -5,7 +5,7 @@ export const SubsetMetadata = ({subset}) => {
 
     return (
         <>
-            <br/><br/>
+            <br/>
 
             <NameFieldset names={subset.draft.names}
                           languages={subset.languages}
@@ -13,7 +13,7 @@ export const SubsetMetadata = ({subset}) => {
                           handle={(name) => subset.dispatch({action: "name_update", data: name })}
             />
 
-            <br/><br/>
+            <br/>
 
             <fieldset>
                 <label htmlFor="owner" style={{display:"block"}}>Owner</label>
@@ -24,7 +24,7 @@ export const SubsetMetadata = ({subset}) => {
                    }}/>
             </fieldset>
 
-            <br/><br/>
+            <br/>
 
             <fieldset>
             <label style={{display:"block"}}>Valid period</label>
