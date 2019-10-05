@@ -15,7 +15,7 @@ export const List = ({listitems = [],
     return (
         <ul className="list">
             {items.map((item, i) =>
-                <ListItem key={i} item={item} controls={controls} setItems={()=> setItems([...items])} />)}
+                <ListItem key={i} item={item} controls={controls} setItems={() => setItems([...items])} />)}
         </ul>
     )
 };
@@ -24,7 +24,9 @@ export const ListItem = ({controls, item, setItems}) => {
 
     function filterControls(property) {
         return Object.keys(controls).reduce((p, c) => {
-            if (controls[c][property]) p[c] = controls[c];
+            if (controls[c][property]) {
+                p[c] = controls[c];
+            }
             return p;
         }, {})
     }
@@ -33,18 +35,18 @@ export const ListItem = ({controls, item, setItems}) => {
         <li>
             <Controls
                 item={item}
-                setItems={(i)=> setItems(i)}
+                setItems={(i) => setItems(i)}
                 controls={filterControls("before")}
             />
             <span>{item.title}</span>
             <Controls
                 item={item}
-                setItems={(i)=> setItems(i)}
+                setItems={(i) => setItems(i)}
                 controls={filterControls("after")}
             />
             {item.expanded && <List listitems={item.children} controls={controls} />}
         </li>
-    )
+    );
 };
 
 export const Controls = ({item, setItems, controls}) => {
