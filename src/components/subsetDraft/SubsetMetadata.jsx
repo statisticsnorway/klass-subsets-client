@@ -1,4 +1,5 @@
 import React from "react";
+import "../../css/form.css";
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -6,7 +7,11 @@ export const SubsetMetadata = ({subset}) => {
         <>
             <br/><br/>
 
-            <NameFieldset names="Uttrekk for ..."/>
+            <NameFieldset names={subset.draft.names}
+                          languages={subset.languages}
+                          addName={() => subset.dispatch({action: "name_add"})}
+                          handle={(name) => subset.dispatch({action: "name_update", data: name })}
+            />
 
             <br/><br/>
 
@@ -71,22 +76,31 @@ export const SubsetMetadata = ({subset}) => {
     );
 };
 
-export const NameFieldset = ({names = "Uttrekk for ...",
+export const NameFieldset = ({names = [{name: "Uttrekk for ..."}],
                              handle = (data) => console.log(data),
+                             addName = () => console.log("+"),
                              languages = []}) => {
+
     return (
         <fieldset>
             <label htmlFor="name" style={{display: "block"}}>Name</label>
-            <input type="text" id="name" value={names}
+            {names.map((name, index) => (
+                <div key={index}>
+                <input type="text" id="name" value={name.name}
                    onChange={(e) => {
                        //subset.dispatch({action: "names", data: e.target.value});
-                       handle(e);
+                       handle(name.name = e.target.value);
                    }}/>
-            <LanguageSelect languages={[
-               {value: "nb", option: "Norsk bokmål"},
-               {value: "no", option: "Nynorks"},
-               {value: "en", option: "English"}]} />
-            <button style={{margin: "20px"}}>+</button>
+                <LanguageSelect languages={languages} />
+                    {index === names.length-1 &&
+                    <button style={{margin: "0 20px 0 20px"}}
+                            onClick={() => {
+                                addName();
+                            }}
+                    >+</button>}
+                </div>
+                ))
+            }
         </fieldset>
     );
 };

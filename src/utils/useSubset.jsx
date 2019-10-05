@@ -7,8 +7,11 @@ export const useSubset = (init) => {
             case "create": {
                 return data;
             }
-            case "names": {
-                return  {...state, names: data};
+            case "name_update": {
+                return  {...state};
+            }
+            case "name_add": {
+                return  {...state, names: [...state.names, data]};
             }
             case "description": {
                 return  {...state, description: data};
