@@ -17,7 +17,7 @@ export const List = ({listitems = [],
             {items.map((item, i) =>
                 <ListItem key={i} item={item} controls={controls} setItems={() => setItems([...items])} />)}
         </ul>
-    )
+    );
 };
 
 export const ListItem = ({controls, item, setItems}) => {
@@ -28,7 +28,7 @@ export const ListItem = ({controls, item, setItems}) => {
                 p[c] = controls[c];
             }
             return p;
-        }, {})
+        }, {});
     }
 
     return (
@@ -68,5 +68,5 @@ export const Controls = ({item, setItems, controls}) => {
                        controls.include.callback(item);
                    }} />
             }
-    </span>)
+    </span>);
 };
