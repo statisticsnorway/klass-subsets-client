@@ -36,8 +36,7 @@ export const ContextProvider = ({ children }) => {
         ownerId: "Default ownerId",
         names: "Default name",
         description: "Default desc",
-        codes: [
-        ]
+        codes: []
     });
 
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
