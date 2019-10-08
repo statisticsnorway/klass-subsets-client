@@ -37,8 +37,8 @@ export const SubsetMetadata = ({subset}) => {
 
             <fieldset>
             <label>Subject
-            <select style={{margin: "10px"}}>
-                <option value="Economics" selected={true}>Economics</option>
+            <select style={{margin: "10px"}} value="Economics" onChange={(e) => console.log(e.target.value)}>
+                <option value="Economics">Economics</option>
                 <option value="Work">Work</option>
             </select>
             </label>
@@ -107,13 +107,14 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
 export const LanguageSelect = ({languages = defaultLanguages,
                                 handle = (e) => console.log(e.target.value)}) => {
 
+    const selected = languages.find(lang => lang.selected)
+                  || languages.find(lang => lang.default);
     return (
-        <select name="language" onChange={(e) => handle(e)}>
+        <select name="language"
+                value={selected && selected.abbr}
+                onChange={(e) => handle(e)}>
             {languages.map((lang, i) => (
-            <option key={i} value={lang.abbr}
-                    defaultValue={lang.default}
-                    selected={lang.selected}
-                    disabled={lang.disabled}>{lang.full}</option>
+            <option key={i} value={lang.abbr} disabled={lang.disabled}>{lang.full}</option>
                 ))}
         </select>
     );
