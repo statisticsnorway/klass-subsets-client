@@ -3,6 +3,11 @@ import {clone} from "../utils/arrays";
 
 export function setSelected(abbr = "") {
     const languages = clone(defaultLanguages);
-    languages.find(l => l.abbr === abbr).selected = true;
+    const lang = languages.find(l => l.abbr === abbr);
+    lang && (lang.selected = true);
     return languages;
+}
+
+export function nextDefaultLanguage() {
+    return {name: "Subset for...", lang: "en"};
 }
