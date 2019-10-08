@@ -8,7 +8,9 @@ export function setSelected(abbr = "") {
     return languages;
 }
 
-
+export function availableLanguages() {
+    return clone(defaultLanguages);
+}
 
 export function nextDefaultName(names) {
     const name = names.length < 1

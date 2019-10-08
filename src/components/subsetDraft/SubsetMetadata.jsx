@@ -1,7 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import "../../css/form.css";
-import {setSelected} from "../../utils/languages";
-import {languages as defaultLanguages} from "../../controllers/defaults";
+import {setSelected, availableLanguages} from "../../utils/languages";
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -54,7 +53,7 @@ export const SubsetMetadata = ({subset}) => {
                        action: "description",
                        data: e.target.value });
                    }}/>
-            <LanguageSelect languages={setSelected("en")}/>
+            <LanguageSelect languages={availableLanguages()} selected={"en"}/>
             <button style={{margin: "20px"}}>+</button>
             </fieldset>
 
@@ -76,6 +75,8 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
                              handle = (data) => console.log(data),
                              addName = () => console.log("+")}) => {
 
+    const [ languages, setLanguages ] = useState(availableLanguages());
+
     return (
         <fieldset>
             <label htmlFor="name" style={{display: "block"}}
@@ -90,12 +91,16 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
                        handle(name.name = e.target.value);
                    }}/>
 
-                   <LanguageSelect languages={setSelected(name.lang)}
-                                    handle={(e) => name.lang = e.target.value}/>
+                   <LanguageSelect languages={languages}
+                                   selected={name.lang}
+                                   handle={(e) => name.lang = e.target.value}/>
 
                    {index === names.length-1 &&
                     <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => {addName();}}
+                            onClick={() => {
+                                addName();
+                                setLanguages([...languages, languages.find(lang => lang.abbr === name.lang).disabled = true]);
+                            }}
                     >+</button>}
                 </div>
                 ))
@@ -104,14 +109,13 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
     );
 };
 
-export const LanguageSelect = ({languages = defaultLanguages,
+export const LanguageSelect = ({languages = availableLanguages(),
+                                selected = false,
                                 handle = (e) => console.log(e.target.value)}) => {
 
-    const selected = languages.find(lang => lang.selected)
-                  || languages.find(lang => lang.default);
     return (
         <select name="language"
-                value={selected && selected.abbr}
+                value={selected || languages.find(lang => lang.default)}
                 onChange={(e) => handle(e)}>
             {languages.map((lang, i) => (
             <option key={i} value={lang.abbr} disabled={lang.disabled}>{lang.full}</option>
