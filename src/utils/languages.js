@@ -8,6 +8,11 @@ export function setSelected(abbr = "") {
     return languages;
 }
 
-export function nextDefaultLanguage() {
-    return {name: "Subset for...", lang: "en"};
+
+
+export function nextDefaultName(names) {
+    const name = names.length < 1
+        ? {name: "Uttrekk for...", lang: "nb"}
+        : {name: "Subset for...", lang: "en"};
+    return name;
 }

@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { nextDefaultLanguage } from "./languages";
+import { nextDefaultName } from "./languages";
 
 export const useSubset = (init) => {
 
@@ -12,7 +12,7 @@ export const useSubset = (init) => {
                 return  {...state};
             }
             case "name_add": {
-                const name = nextDefaultLanguage(data);
+                const name = nextDefaultName(state.names);
                 return  {...state, names: [...state.names, name]};
             }
             case "description": {

@@ -1,6 +1,7 @@
 import React from "react";
 import "../../css/form.css";
 import {setSelected} from "../../utils/languages";
+import {languages as defaultLanguages} from "../../controllers/defaults";
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -89,7 +90,8 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
                        handle(name.name = e.target.value);
                    }}/>
 
-                   <LanguageSelect languages={setSelected(name.lang)} />
+                   <LanguageSelect languages={setSelected(name.lang)}
+                                    handle={(e) => name.lang = e.target.value}/>
 
                    {index === names.length-1 &&
                     <button style={{margin: "0 20px 0 20px"}}
@@ -102,9 +104,11 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
     );
 };
 
-export const LanguageSelect = ({languages = []}) => {
+export const LanguageSelect = ({languages = defaultLanguages,
+                                handle = (e) => console.log(e.target.value)}) => {
+
     return (
-        <select name="language">
+        <select name="language" onChange={(e) => handle(e)}>
             {languages.map((lang, i) => (
             <option key={i} value={lang.abbr}
                     defaultValue={lang.default}
