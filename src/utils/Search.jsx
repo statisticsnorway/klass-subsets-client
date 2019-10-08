@@ -8,12 +8,12 @@ export const Search = ({items = [],
 
     const dom = useRef(null);
 
-    const [value, setValue] = useState("");
+    const [searchInput, setSearchInput] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [active, setActive] = useState(-1);
 
     const handleInput = (e) => {
-        setValue(e.target.value);
+        setSearchInput(e.target.value);
         e.target.value === ""
             ? setSuggestions([])
             : setSuggestions(items.filter(i =>
@@ -33,8 +33,8 @@ export const Search = ({items = [],
             }
             case keys.ENTER: {
                 e.preventDefault();
-                console.log("Chosen by ENTER", suggestions[active], value);
-                handleChoice(active === -1 ? value : suggestions[active]);
+                console.log("Chosen by ENTER", suggestions[active], searchInput);
+                handleChoice(active === -1 ? searchInput : suggestions[active]);
                 break;
             }
             default: break;
@@ -43,7 +43,7 @@ export const Search = ({items = [],
 
     function handleChoice(choice) {
         setSuggestions([]);
-        setValue(choice);
+        setSearchInput(choice);
         dom.current.focus();
         setActive(-1);
 
@@ -70,7 +70,7 @@ export const Search = ({items = [],
         <>
             <div className="autocomplete" style={{width:"300px"}}>
                 <input type="search" name="countrySearch" ref={dom}
-                       placeholder={placeholder} value={value} onChange={handleInput}
+                       placeholder={placeholder} value={searchInput} onChange={handleInput}
                        onKeyDown={keyHandler} />
                 <div id="autocomplete-list" className="autocomplete-items">
                     {suggestions.map((suggestion, i) => (
@@ -81,13 +81,13 @@ export const Search = ({items = [],
                                  setActive(i);
                                  handleChoice(suggestion);
                              }}>
-                            {highlight(suggestion,value)}
+                            {highlight(suggestion,searchInput)}
                         </div>))}
                 </div>
             </div>
             <button onClick={() => {
-                console.log("Chosen by search button", value);
-                handleChoice(value)
+                console.log("Chosen by search button", searchInput);
+                handleChoice(searchInput)
             }}>Search</button>
         </>
     );

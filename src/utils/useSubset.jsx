@@ -19,6 +19,9 @@ export const useSubset = (init) => {
             case "codes": {
                 return  {...state, codes: data};
             }
+            case "codes_add": {
+                return  {...state, codes: [...state.codes, data]};
+            }
             case "reset": {
                 return init;
             }

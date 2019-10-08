@@ -38,7 +38,7 @@ export const Error = ({error, remove}) => {
             <button
                 style={{color: "red", background: "none", border: "none", fontWeight: "600"}}
                 onClick={remove}
-            >x
+            >⌧
             </button>
         </div>
     );

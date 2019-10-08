@@ -1,12 +1,24 @@
 
 import React, {useState, useEffect} from "react";
-import {Search} from "../../utils/Search"
+import {Search} from "../../utils/Search";
+import {List} from "../../utils/list";
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
     const [chosen, setChosen] = useState("");
-    useEffect(() => {console.log({ newState: chosen })},[chosen]);
+    useEffect(() => console.log({ newState: chosen }),[chosen]);
+    useEffect(() => {
+        if (chosen) {
+            subset.dispatch({action: "codes_add", data:
+                { title: chosen, children:
+                    [
+                        { title: 'A' },
+                        { title: 'B' }
+                    ]}
+            });
+        }
+    },[chosen]);
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
         "Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh",
@@ -42,8 +54,14 @@ export const SubsetCodes = ({subset}) => {
             <Search items={countries}
                     setChosen={ (item) => setChosen(item) }
                     placeholder="Country"/>
+            <h3>Search results</h3>
+            { (subset.draft
+                && subset.draft.codes
+                && subset.draft.codes.length > 0)
+                    ? <List listitems={subset.draft.codes} />
+                    : <p>Nothing to show</p>}
+                <button onClick={() => console.log("current codes", subset.draft.codes)}
+                >Show codes</button>
         </div>
     );
 };
-
-
