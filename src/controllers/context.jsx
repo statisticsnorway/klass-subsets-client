@@ -35,17 +35,10 @@ export const ContextProvider = ({ children }) => {
     const subset = useSubset({
         ownerId: "Default ownerId",
         names: [
-            {name:"Uttrekk for ..."},
-            {name:"Subset for ..."},
-           // {name:"Extrakst for ..."}
+                {name:"Uttrekk for ...", lang: "nb"},
             ],
         description: "Default desc",
-        codes: [],
-        languages: [
-            {value: "nb", option: "Norsk bokmål"},
-            {value: "no", option: "Nynorks"},
-            {value: "en", option: "English"}
-            ]
+        codes: []
     });
 
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);

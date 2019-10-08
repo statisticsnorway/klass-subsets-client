@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/form.css";
+import {setSelected} from "../../utils/languages";
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -8,7 +9,6 @@ export const SubsetMetadata = ({subset}) => {
             <br/>
 
             <NameFieldset names={subset.draft.names}
-                          languages={subset.languages}
                           addName={() => subset.dispatch({action: "name_add"})}
                           handle={(name) => subset.dispatch({action: "name_update", data: name })}
             />
@@ -39,7 +39,6 @@ export const SubsetMetadata = ({subset}) => {
             <select style={{margin: "10px"}}>
                 <option value="Economics" selected={true}>Economics</option>
                 <option value="Work">Work</option>
-                <option value="Work" >Economics</option>
             </select>
             </label>
             </fieldset>
@@ -54,11 +53,7 @@ export const SubsetMetadata = ({subset}) => {
                        action: "description",
                        data: e.target.value });
                    }}/>
-            <select id="language">
-                <option value="nb" selected={true}>Bokmål</option>
-                <option value="nn">Nynorsk</option>
-                <option value="en">English</option>
-            </select>
+            <LanguageSelect languages={setSelected("en")}/>
             <button style={{margin: "20px"}}>+</button>
             </fieldset>
 
@@ -76,27 +71,29 @@ export const SubsetMetadata = ({subset}) => {
     );
 };
 
-export const NameFieldset = ({names = [{name: "Uttrekk for ..."}],
+export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
                              handle = (data) => console.log(data),
-                             addName = () => console.log("+"),
-                             languages = []}) => {
+                             addName = () => console.log("+")}) => {
 
     return (
         <fieldset>
-            <label htmlFor="name" style={{display: "block"}}>Name</label>
+            <label htmlFor="name" style={{display: "block"}}
+            >Name</label>
+
             {names.map((name, index) => (
                 <div key={index}>
-                <input type="text" id="name" value={name.name}
+
+                    <input type="text" id="name" value={name.name}
                    onChange={(e) => {
                        //subset.dispatch({action: "names", data: e.target.value});
                        handle(name.name = e.target.value);
                    }}/>
-                <LanguageSelect languages={languages} />
-                    {index === names.length-1 &&
+
+                   <LanguageSelect languages={setSelected(name.lang)} />
+
+                   {index === names.length-1 &&
                     <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => {
-                                addName();
-                            }}
+                            onClick={() => {addName();}}
                     >+</button>}
                 </div>
                 ))
@@ -108,9 +105,12 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ..."}],
 export const LanguageSelect = ({languages = []}) => {
     return (
         <select name="language">
-            <option value="nb" defaultValue>Bokmål</option>
-            <option value="nn">Nynorsk</option>
-            <option value="en">English</option>
+            {languages.map((lang, i) => (
+            <option key={i} value={lang.abbr}
+                    defaultValue={lang.default}
+                    selected={lang.selected}
+                    disabled={lang.disabled}>{lang.full}</option>
+                ))}
         </select>
     );
 };
