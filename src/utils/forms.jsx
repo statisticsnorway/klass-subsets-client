@@ -1,7 +1,7 @@
 import {availableLanguages, disableUsed} from "./languages";
 import React from "react";
 
-export const TextLanguageFieldset = ({title, items = [],
+export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          handle = (data) => console.log(data),
                                          add = () => console.log("+"),
                                          remove = (index) => console.log("-", index)}) => {
@@ -15,9 +15,10 @@ export const TextLanguageFieldset = ({title, items = [],
             >{title}</label>
 
             {items.map((item, index) => (
-                <div key={index}>
+                <div className="text-language" key={index}>
 
-                    <input type="text" id="name" value={item.text}
+                    <textarea cols={size.cols} rows={size.rows}
+                           value={item.text}
                            onChange={(e) => handle(item.text = e.target.value)}/>
 
                     <LanguageSelect languages={languages}

@@ -3,18 +3,13 @@ import "../../css/form.css";
 import {TextLanguageFieldset} from "../../utils/forms";
 
 export const SubsetMetadata = ({subset}) => {
-
     return (
         <>
-            <br/>
-
             <TextLanguageFieldset title="Names" items={subset.draft.names}
                                   add={() => subset.dispatch({action: "name_add"})}
                                   remove={(index) => subset.dispatch({action: "name_remove", data: index})}
                                   handle={() => subset.dispatch({action: "update"})}
-            />
-
-            <br/>
+                                  size={{cols: 40, rows: 1}}/>
 
             <fieldset>
                 <label htmlFor="owner" style={{display:"block"}}>Owner</label>
@@ -25,34 +20,26 @@ export const SubsetMetadata = ({subset}) => {
                    }}/>
             </fieldset>
 
-            <br/>
-
             <fieldset>
-            <label style={{display:"block"}}>Valid period</label>
-            <label>From:<input type="date"/></label>
-            <label>To:<input type="date"/></label>
+                <label style={{display:"block"}}>Valid period</label>
+                <label>From:<input type="date"/></label>
+                <label>To:<input type="date"/></label>
             </fieldset>
 
-            <br/>
-
             <fieldset>
-            <label>Subject
-            <select style={{margin: "10px"}} value="Economics" onChange={(e) => console.log(e.target.value)}>
-                <option value="Economics">Economics</option>
-                <option value="Work">Work</option>
-            </select>
-            </label>
+                <label>Subject
+                <select style={{margin: "10px"}} value="Economics" onChange={(e) => console.log(e.target.value)}>
+                    <option value="Economics">Economics</option>
+                    <option value="Work">Work</option>
+                </select>
+                </label>
             </fieldset>
-
-            <br/>
 
             <TextLanguageFieldset title="Description" items={subset.draft.descriptions}
                                   add={() => subset.dispatch({action: "description_add"})}
                                   remove={(index) => subset.dispatch({action: "description_remove", data: index})}
                                   handle={() => subset.dispatch({action: "update"})}
-            />
-
-            <br/>
+                                  size = {{cols: 40, rows: 4}}/>
 
             <label><input type="checkbox"/>Subscribe for changes</label>
 

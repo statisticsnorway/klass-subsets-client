@@ -9,7 +9,6 @@ export const List = ({listitems = [],
                      }) => {
     console.log("reload List");
     const [items, setItems] = useState(listitems);
-    useEffect(() => console.log({ list: items }),[items]);
     useEffect(() => setItems(listitems),[listitems]);
 
     return (
