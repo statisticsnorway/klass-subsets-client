@@ -14,10 +14,9 @@ export const SubsetMetadata = ({subset}) => {
             <fieldset>
                 <label htmlFor="owner" style={{display:"block"}}>Owner</label>
                 <input type="text" id="owner" value={subset.draft.ownerId}
-                   onChange={(e) => {subset.dispatch({
+                   onChange={(e) => subset.dispatch({
                        action: "ownerId",
-                       data: e.target.value });
-                   }}/>
+                       data: e.target.value })}/>
             </fieldset>
 
             <fieldset>
@@ -34,7 +33,11 @@ export const SubsetMetadata = ({subset}) => {
 
             <fieldset>
                 <label>Subject
-                <select style={{margin: "10px"}} value="Economics" onChange={(e) => console.log(e.target.value)}>
+                <select style={{margin: "10px"}}
+                        value={subset.draft.subject}
+                        onChange={(e) => subset.dispatch({
+                            action: "subject",
+                            data: e.target.value })}>
                     <option value="Economics">Economics</option>
                     <option value="Work">Work</option>
                 </select>

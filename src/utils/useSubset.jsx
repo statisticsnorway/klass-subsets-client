@@ -40,9 +40,11 @@ export const useSubset = (init) => {
                 return {...state,
                     descriptions: state.descriptions.filter((item, index) => index !== data)};
             }
-
             case "ownerId": {
                 return  {...state, ownerId: data};
+            }
+            case "subject": {
+                return  {...state, subject: data};
             }
             case "codes": {
                 return  {...state, codes: data};
