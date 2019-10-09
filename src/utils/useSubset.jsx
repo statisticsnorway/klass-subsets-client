@@ -52,6 +52,12 @@ export const useSubset = (init) => {
             case "codes_add": {
                 return  {...state, codes: [...state.codes, data]};
             }
+            case "remove_empty": {
+                return {...state,
+                    names: state.names.filter(item => item.text && item.text.length > 0),
+                    descriptions: state.descriptions.filter(item => item.text && item.text.length > 0)
+                };
+            }
             case "reset": {
                 return init;
             }

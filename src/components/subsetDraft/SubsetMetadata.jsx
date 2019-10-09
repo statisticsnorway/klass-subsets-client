@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "../../css/form.css";
 import {TextLanguageFieldset} from "../../utils/forms";
 
 export const SubsetMetadata = ({subset}) => {
+
+    useEffect(() => {return () => subset.dispatch({action: "remove_empty"})}, []);
+
     return (
         <>
             <TextLanguageFieldset title="Names" items={subset.draft.names}
