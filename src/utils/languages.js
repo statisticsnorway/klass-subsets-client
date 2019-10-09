@@ -10,9 +10,9 @@ export function nextDefaultName(names) {
     const used = names.map(name => name.lang);
     const unused = languages.find(lang => !used.includes(lang.abbr));
     return names.length < 1
-        ? {name: "Uttrekk for...", lang: languages.find(lang => lang.default).abbr}
+        ? {name: "", lang: languages.find(lang => lang.default).abbr}
         : names.length < languages.length ?
-            {name: "Subset for...", lang: unused.abbr}
+            {name: "", lang: unused.abbr}
             : null;
 }
 

@@ -58,6 +58,12 @@ export const SubsetMetadata = ({subset}) => {
             <button style={{margin: "20px"}}>+</button>
             </fieldset>
 
+            <NameFieldset names={subset.draft.descriptions}
+                          addName={() => subset.dispatch({action: "description_add"})}
+                          removeName={(index) => subset.dispatch({action: "description_remove", data: index})}
+                          handle={() => subset.dispatch({action: "update"})}
+            />
+
             <br/>
 
             <label><input type="checkbox"/>Subscribe for changes</label>
@@ -97,7 +103,7 @@ export const NameFieldset = ({names = [],
 
                     {index === names.length-1 && index < languages.length-1 &&
                     <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => {addName();}}
+                            onClick={() => addName()}
                     >+</button>}
 
                     {index > 0 &&
