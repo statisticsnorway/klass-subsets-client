@@ -6,14 +6,12 @@ export function availableLanguages() {
 }
 
 export function nextDefaultName(items) {
-    const languages = availableLanguages();
+    if (items.length < 1) {
+        return {text: "", lang: availableLanguages().find(lang => lang.default).abbr};
+    }
     const used = items.map(item => item.lang);
-    const unused = languages.find(lang => !used.includes(lang.abbr));
-    return items.length < 1
-        ? {text: "", lang: languages.find(lang => lang.default).abbr}
-        : items.length < languages.length ?
-            {text: "", lang: unused.abbr}
-            : null;
+    const unused = availableLanguages().find(lang => !used.includes(lang.abbr));
+    return unused ? {text: "", lang: unused.abbr} : null;
 }
 
 export function disableUsed(languages, used) {
