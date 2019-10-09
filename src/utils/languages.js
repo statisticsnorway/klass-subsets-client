@@ -8,13 +8,16 @@ export function availableLanguages() {
 export function nextDefaultName(names) {
     const languages = availableLanguages();
     const used = names.map(name => name.lang);
-    console.log("used includes nb?", used.includes("nb"));
     const unused = languages.find(lang => !used.includes(lang.abbr));
-    console.log("used", used);
-    console.log("unused", unused);
     return names.length < 1
         ? {name: "Uttrekk for...", lang: languages.find(lang => lang.default).abbr}
         : names.length < languages.length ?
             {name: "Subset for...", lang: unused.abbr}
             : null;
+}
+
+export function disableUsed(languages, used) {
+    return languages.forEach((lang) => used.includes(lang.abbr)
+        ? lang.disabled = true
+        : lang.disabled = false);
 }

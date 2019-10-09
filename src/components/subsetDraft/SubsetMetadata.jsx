@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import "../../css/form.css";
-import {availableLanguages} from "../../utils/languages";
+import {availableLanguages, disableUsed} from "../../utils/languages";
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -11,7 +11,7 @@ export const SubsetMetadata = ({subset}) => {
             <NameFieldset names={subset.draft.names}
                           addName={() => subset.dispatch({action: "name_add"})}
                           removeName={(index) => subset.dispatch({action: "name_remove", data: index})}
-                          handle={(name) => subset.dispatch({action: "name_update", data: name })}
+                          handle={() => subset.dispatch({action: "update"})}
             />
 
             <br/>
@@ -77,13 +77,8 @@ export const NameFieldset = ({names = [],
                              addName = () => console.log("+"),
                              removeName = (index) => console.log("-", index)}) => {
 
-    const [ languages, setLanguages ] = useState(availableLanguages());
-
-    useEffect(() => {
-        const used = names.map(name => name.lang);
-        languages.forEach((lang) => used.includes(lang.abbr) ? lang.disabled = true : lang.disabled = false);
-        setLanguages([...languages]);
-    },[names]);
+    const languages = availableLanguages();
+    disableUsed(languages, names.map(name => name.lang));
 
     return (
         <fieldset>
@@ -100,15 +95,15 @@ export const NameFieldset = ({names = [],
                                    selected={name.lang}
                                    onChange={(e) => handle(name.lang = e.target.value)}/>
 
-                    {index > 0 &&
-                    <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => {removeName(index);}}
-                    >-</button>}
-
                     {index === names.length-1 && index < languages.length-1 &&
                     <button style={{margin: "0 20px 0 20px"}}
                             onClick={() => {addName();}}
                     >+</button>}
+
+                    {index > 0 &&
+                    <button style={{margin: "0 20px 0 20px"}}
+                            onClick={() => {removeName(index);}}
+                    >-</button>}
 
                 </div>
                 ))
