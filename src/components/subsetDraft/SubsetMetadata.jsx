@@ -8,10 +8,10 @@ export const SubsetMetadata = ({subset}) => {
         <>
             <br/>
 
-            <NameFieldset names={subset.draft.names}
-                          addName={() => subset.dispatch({action: "name_add"})}
-                          removeName={(index) => subset.dispatch({action: "name_remove", data: index})}
-                          handle={() => subset.dispatch({action: "update"})}
+            <TextLanguageFieldset title="Names" items={subset.draft.names}
+                                  add={() => subset.dispatch({action: "name_add"})}
+                                  remove={(index) => subset.dispatch({action: "name_remove", data: index})}
+                                  handle={() => subset.dispatch({action: "update"})}
             />
 
             <br/>
@@ -46,22 +46,10 @@ export const SubsetMetadata = ({subset}) => {
 
             <br/>
 
-            <fieldset>
-            <label htmlFor="description" style={{display:"block"}}>Description</label>
-            <input type="textarea" id="description"
-                   value={subset.draft.description}
-                   onChange={(e) => { subset.dispatch({
-                       action: "description",
-                       data: e.target.value });
-                   }}/>
-            <LanguageSelect languages={availableLanguages()} selected={"en"}/>
-            <button style={{margin: "20px"}}>+</button>
-            </fieldset>
-
-            <NameFieldset names={subset.draft.descriptions}
-                          addName={() => subset.dispatch({action: "description_add"})}
-                          removeName={(index) => subset.dispatch({action: "description_remove", data: index})}
-                          handle={() => subset.dispatch({action: "update"})}
+            <TextLanguageFieldset title="Description" items={subset.draft.descriptions}
+                                  add={() => subset.dispatch({action: "description_add"})}
+                                  remove={(index) => subset.dispatch({action: "description_remove", data: index})}
+                                  handle={() => subset.dispatch({action: "update"})}
             />
 
             <br/>
@@ -78,37 +66,37 @@ export const SubsetMetadata = ({subset}) => {
     );
 };
 
-export const NameFieldset = ({names = [],
+export const TextLanguageFieldset = ({title, items = [],
                              handle = (data) => console.log(data),
-                             addName = () => console.log("+"),
-                             removeName = (index) => console.log("-", index)}) => {
+                             add = () => console.log("+"),
+                             remove = (index) => console.log("-", index)}) => {
 
     const languages = availableLanguages();
-    disableUsed(languages, names.map(name => name.lang));
+    disableUsed(languages, items.map(name => name.lang));
 
     return (
         <fieldset>
             <label htmlFor="name" style={{display: "block"}}
-            >Name</label>
+            >{title}</label>
 
-            {names.map((name, index) => (
+            {items.map((item, index) => (
                 <div key={index}>
 
-                    <input type="text" id="name" value={name.name}
-                           onChange={(e) => handle(name.name = e.target.value)}/>
+                    <input type="text" id="name" value={item.text}
+                           onChange={(e) => handle(item.text = e.target.value)}/>
 
                     <LanguageSelect languages={languages}
-                                   selected={name.lang}
-                                   onChange={(e) => handle(name.lang = e.target.value)}/>
+                                   selected={item.lang}
+                                   onChange={(e) => handle(item.lang = e.target.value)}/>
 
-                    {index === names.length-1 && index < languages.length-1 &&
+                    {index === items.length-1 && index < languages.length-1 &&
                     <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => addName()}
+                            onClick={() => add()}
                     >+</button>}
 
                     {index > 0 &&
                     <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => {removeName(index);}}
+                            onClick={() => {remove(index);}}
                     >-</button>}
 
                 </div>

@@ -19,7 +19,7 @@ export const useSubset = (init) => {
                     : {...state, names: [...state.names, name]};
             }
             case "name_remove": {
-                return {...state, names: state.names.filter((name, index) => index !== data)};
+                return {...state, names: state.names.filter((item, index) => index !== data)};
             }
 
             case "description": {
@@ -32,7 +32,8 @@ export const useSubset = (init) => {
                     : {...state, descriptions: [...state.descriptions, description]};
             }
             case "description_remove": {
-                return {...state, descriptions: state.descriptions.filter((name, index) => index !== data)};
+                return {...state,
+                    descriptions: state.descriptions.filter((item, index) => index !== data)};
             }
 
             case "ownerId": {

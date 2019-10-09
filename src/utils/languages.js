@@ -5,14 +5,14 @@ export function availableLanguages() {
     return clone(defaultLanguages);
 }
 
-export function nextDefaultName(names) {
+export function nextDefaultName(items) {
     const languages = availableLanguages();
-    const used = names.map(name => name.lang);
+    const used = items.map(name => name.lang);
     const unused = languages.find(lang => !used.includes(lang.abbr));
-    return names.length < 1
-        ? {name: "", lang: languages.find(lang => lang.default).abbr}
-        : names.length < languages.length ?
-            {name: "", lang: unused.abbr}
+    return items.length < 1
+        ? {text: "", lang: languages.find(lang => lang.default).abbr}
+        : items.length < languages.length ?
+            {text: "", lang: unused.abbr}
             : null;
 }
 
