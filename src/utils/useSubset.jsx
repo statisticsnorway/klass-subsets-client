@@ -13,7 +13,12 @@ export const useSubset = (init) => {
             }
             case "name_add": {
                 const name = nextDefaultName(state.names);
-                return  {...state, names: [...state.names, name]};
+                return  name === null
+                    ? {...state}
+                    : {...state, names: [...state.names, name]};
+            }
+            case "name_remove": {
+                return {...state, names: state.names.filter((name, index) => index !== data)};
             }
             case "description": {
                 return  {...state, description: data};

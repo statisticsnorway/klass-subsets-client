@@ -1,20 +1,20 @@
 import {languages as defaultLanguages} from "../controllers/defaults";
 import {clone} from "../utils/arrays";
 
-export function setSelected(abbr = "") {
-    const languages = clone(defaultLanguages);
-    const lang = languages.find(l => l.abbr === abbr);
-    lang && (lang.selected = true);
-    return languages;
-}
-
 export function availableLanguages() {
     return clone(defaultLanguages);
 }
 
 export function nextDefaultName(names) {
-    const name = names.length < 1
-        ? {name: "Uttrekk for...", lang: "nb"}
-        : {name: "Subset for...", lang: "en"};
-    return name;
+    const languages = availableLanguages();
+    const used = names.map(name => name.lang);
+    console.log("used includes nb?", used.includes("nb"));
+    const unused = languages.find(lang => !used.includes(lang.abbr));
+    console.log("used", used);
+    console.log("unused", unused);
+    return names.length < 1
+        ? {name: "Uttrekk for...", lang: languages.find(lang => lang.default).abbr}
+        : names.length < languages.length ?
+            {name: "Subset for...", lang: unused.abbr}
+            : null;
 }

@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../../css/form.css";
-import {setSelected, availableLanguages} from "../../utils/languages";
+import {availableLanguages} from "../../utils/languages";
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -10,6 +10,7 @@ export const SubsetMetadata = ({subset}) => {
 
             <NameFieldset names={subset.draft.names}
                           addName={() => subset.dispatch({action: "name_add"})}
+                          removeName={(index) => subset.dispatch({action: "name_remove", data: index})}
                           handle={(name) => subset.dispatch({action: "name_update", data: name })}
             />
 
@@ -71,11 +72,18 @@ export const SubsetMetadata = ({subset}) => {
     );
 };
 
-export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
+export const NameFieldset = ({names = [],
                              handle = (data) => console.log(data),
-                             addName = () => console.log("+")}) => {
+                             addName = () => console.log("+"),
+                             removeName = (index) => console.log("-", index)}) => {
 
     const [ languages, setLanguages ] = useState(availableLanguages());
+
+    useEffect(() => {
+        const used = names.map(name => name.lang);
+        languages.forEach((lang) => used.includes(lang.abbr) ? lang.disabled = true : lang.disabled = false);
+        setLanguages([...languages]);
+    },[names]);
 
     return (
         <fieldset>
@@ -86,22 +94,22 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
                 <div key={index}>
 
                     <input type="text" id="name" value={name.name}
-                   onChange={(e) => {
-                       //subset.dispatch({action: "names", data: e.target.value});
-                       handle(name.name = e.target.value);
-                   }}/>
+                           onChange={(e) => handle(name.name = e.target.value)}/>
 
-                   <LanguageSelect languages={languages}
+                    <LanguageSelect languages={languages}
                                    selected={name.lang}
-                                   handle={(e) => name.lang = e.target.value}/>
+                                   onChange={(e) => handle(name.lang = e.target.value)}/>
 
-                   {index === names.length-1 &&
+                    {index > 0 &&
                     <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => {
-                                addName();
-                                setLanguages([...languages, languages.find(lang => lang.abbr === name.lang).disabled = true]);
-                            }}
+                            onClick={() => {removeName(index);}}
+                    >-</button>}
+
+                    {index === names.length-1 && index < languages.length-1 &&
+                    <button style={{margin: "0 20px 0 20px"}}
+                            onClick={() => {addName();}}
                     >+</button>}
+
                 </div>
                 ))
             }
@@ -111,12 +119,12 @@ export const NameFieldset = ({names = [{name: "Uttrekk for ...", lang: "nb"}],
 
 export const LanguageSelect = ({languages = availableLanguages(),
                                 selected = false,
-                                handle = (e) => console.log(e.target.value)}) => {
+                                onChange = (e) => console.log(e.target.value)}) => {
 
     return (
         <select name="language"
                 value={selected || languages.find(lang => lang.default)}
-                onChange={(e) => handle(e)}>
+                onChange={(e) => onChange(e)}>
             {languages.map((lang, i) => (
             <option key={i} value={lang.abbr} disabled={lang.disabled}>{lang.full}</option>
                 ))}
