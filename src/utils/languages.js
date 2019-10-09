@@ -7,7 +7,7 @@ export function availableLanguages() {
 
 export function nextDefaultName(items) {
     const languages = availableLanguages();
-    const used = items.map(name => name.lang);
+    const used = items.map(item => item.lang);
     const unused = languages.find(lang => !used.includes(lang.abbr));
     return items.length < 1
         ? {text: "", lang: languages.find(lang => lang.default).abbr}
@@ -17,7 +17,5 @@ export function nextDefaultName(items) {
 }
 
 export function disableUsed(languages, used) {
-    return languages.forEach((lang) => used.includes(lang.abbr)
-        ? lang.disabled = true
-        : lang.disabled = false);
+    return languages.forEach((lang) => lang.disabled = used.includes(lang.abbr));
 }

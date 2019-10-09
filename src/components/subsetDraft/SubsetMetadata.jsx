@@ -1,6 +1,6 @@
 import React from "react";
 import "../../css/form.css";
-import {availableLanguages, disableUsed} from "../../utils/languages";
+import {TextLanguageFieldset} from "../../utils/forms";
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -63,60 +63,5 @@ export const SubsetMetadata = ({subset}) => {
 
             <br/><br/>
         </>
-    );
-};
-
-export const TextLanguageFieldset = ({title, items = [],
-                             handle = (data) => console.log(data),
-                             add = () => console.log("+"),
-                             remove = (index) => console.log("-", index)}) => {
-
-    const languages = availableLanguages();
-    disableUsed(languages, items.map(name => name.lang));
-
-    return (
-        <fieldset>
-            <label htmlFor="name" style={{display: "block"}}
-            >{title}</label>
-
-            {items.map((item, index) => (
-                <div key={index}>
-
-                    <input type="text" id="name" value={item.text}
-                           onChange={(e) => handle(item.text = e.target.value)}/>
-
-                    <LanguageSelect languages={languages}
-                                   selected={item.lang}
-                                   onChange={(e) => handle(item.lang = e.target.value)}/>
-
-                    {index === items.length-1 && index < languages.length-1 &&
-                    <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => add()}
-                    >+</button>}
-
-                    {index > 0 &&
-                    <button style={{margin: "0 20px 0 20px"}}
-                            onClick={() => {remove(index);}}
-                    >-</button>}
-
-                </div>
-                ))
-            }
-        </fieldset>
-    );
-};
-
-export const LanguageSelect = ({languages = availableLanguages(),
-                                selected = false,
-                                onChange = (e) => console.log(e.target.value)}) => {
-
-    return (
-        <select name="language"
-                value={selected || languages.find(lang => lang.default)}
-                onChange={(e) => onChange(e)}>
-            {languages.map((lang, i) => (
-            <option key={i} value={lang.abbr} disabled={lang.disabled}>{lang.full}</option>
-                ))}
-        </select>
     );
 };
