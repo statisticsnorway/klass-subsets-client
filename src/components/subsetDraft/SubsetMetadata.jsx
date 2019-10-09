@@ -22,8 +22,14 @@ export const SubsetMetadata = ({subset}) => {
 
             <fieldset>
                 <label style={{display:"block"}}>Valid period</label>
-                <label>From:<input type="date"/></label>
-                <label>To:<input type="date"/></label>
+                <label>From:<input type="date"
+                                   value={subset.draft.valid.from}
+                                   onChange={(e) => subset.dispatch(
+                                       {action: "from", data: e.target.value})} /></label>
+                <label>To:<input type="date"
+                                 value={subset.draft.valid.to}
+                                 onChange={(e) => subset.dispatch(
+                                     {action: "to", data: e.target.value})} /></label>
             </fieldset>
 
             <fieldset>

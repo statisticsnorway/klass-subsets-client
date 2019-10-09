@@ -35,6 +35,10 @@ export const ContextProvider = ({ children }) => {
     const subset = useSubset({
         ownerId: "Default ownerId",
         names: [{ text: "Uttrekk for ...", lang: "nb" }],
+        valid: {
+            from: "2010-10-10",
+            to:"2011-11-11"
+        },
         descriptions: [{ text: "Beskrivelse", lang: "nb" }],
         codes: []
     });
