@@ -23,6 +23,7 @@ export const SubsetMetadata = ({subset}) => {
             <fieldset>
                 <label style={{display:"block"}}>Valid period</label>
                 <label>From:<input type="date"
+                                   data-date="" data-date-format="dd mm yyyy"
                                    value={subset.draft.valid.from}
                                    onChange={(e) => subset.dispatch(
                                        {action: "from", data: e.target.value})} /></label>
