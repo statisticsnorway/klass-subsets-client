@@ -21,10 +21,12 @@ export const useSubset = (init) => {
                 return {...state, names: state.names.filter((item, index) => index !== data)};
             }
             case "from": {
+                // FIXME: restrictions
                 state.valid.from = data;
                 return {...state};
             }
             case "to": {
+                // FIXME: restrictions
                 state.valid.to = data;
                 return {...state};
             }
@@ -52,7 +54,11 @@ export const useSubset = (init) => {
                 return init;
             }
             case "empty": {
-                return { names: [], descriptions: [], ownerId: "", codes: [] };
+                return { names: [],
+                    descriptions: [],
+                    valid: { from: "" },
+                    ownerId: "",
+                    codes: [] };
             }
             default:
                 return state;

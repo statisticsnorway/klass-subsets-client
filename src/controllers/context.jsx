@@ -32,13 +32,13 @@ export const ContextProvider = ({ children }) => {
             []
     );
 
+    const today = new Date();
+    const todayString = `${today.getFullYear()}-${today.getMonth() > 10 ? today.getMonth() : "0"+today.getMonth()}-${today.getDay() > 10 ? today.getDay() : "0"+today.getDay()}`;
+
     const subset = useSubset({
         ownerId: "Default ownerId",
         names: [{ text: "Uttrekk for ...", lang: "nb" }],
-        valid: {
-            from: "2010-10-10",
-            to:"2011-11-11"
-        },
+        valid: { from: todayString },
         descriptions: [{ text: "Beskrivelse", lang: "nb" }],
         codes: []
     });
