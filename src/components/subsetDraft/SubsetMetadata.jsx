@@ -4,7 +4,7 @@ import {TextLanguageFieldset} from "../../utils/forms";
 
 export const SubsetMetadata = ({subset}) => {
 
-    useEffect(() => {return () => subset.dispatch({action: "remove_empty"})}, []);
+    useEffect(() => {return () => {subset.dispatch({action: "remove_empty"})};}, []);
 
     return (
         <>
