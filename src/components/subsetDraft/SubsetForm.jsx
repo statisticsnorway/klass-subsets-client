@@ -22,11 +22,16 @@ export default function SubsetForm() {
 }
 
 export const SubsetPreview = ({subset}) => {
+    function unlinkParent(item) {
+        item.children.forEach(child => delete child.parent);
+    }
+    subset && subset.draft && subset.draft.codes && subset.draft.codes.forEach(code => unlinkParent(code));
+
     return (
         <>
             <h3>Subset preview</h3>
             <pre>{JSON.stringify(subset.draft, null, 4)}</pre>
-            <button onClick={() => {console.log("Publish subset: ", subset.draft);}}>Publish</button>
+            <button onClick={() => console.log("Publish subset: ", subset.draft)}>Publish</button>
             <br/><br/>
         </>
     );

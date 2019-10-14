@@ -1,72 +1,93 @@
-import React, {useState, useEffect} from "react";
+import React, {useReducer, useEffect} from "react";
 import "../css/list.css";
 
 export const List = ({listitems = [],
-                         controls = {
-                             expand: {before: true},
-                             include: {after: true,
-                                 callback: (i) => console.log("include", i.title)}}
-                     }) => {
-    console.log("reload List");
-    const [items, setItems] = useState(listitems);
-    useEffect(() => console.log({ list: items }),[items]);
-    useEffect(() => setItems(listitems),[listitems]);
+                         controls = [
+                             {name: "expand", order: -1},
+                             {name: "include", order: 1, callback: (i) => console.log("include", i.title)}
+                         ]}) => {
 
+    function includeAll(item, value) {
+        item.checked = value || !item.checked;
+        // check parent -> check all children
+        item.checked && item.children && item.children.forEach(child => includeAll(child, true));
+        // uncheck parent: if all children are checked -> uncheck everybody
+        !item.checked && item.children && !item.children.find(child => !child.checked) && item.children.forEach(child => includeAll(child, false));
+    }
+
+    function listReducer(state, {action, data = {}}) {
+        switch (action) {
+            case "update": {
+                return [...data];
+            }
+            case "toggle_expand": {
+                data.expanded = !data.expanded;
+                return [...state];
+            }
+            case "toggle_include": {
+                includeAll(data);
+                return [...state];
+            }
+            default:
+                return state;
+        }}
+
+    function linkParent(item) {
+        item.children.forEach(child => child.parent = item);
+    }
+    listitems.forEach(item => linkParent(item));
+    const [items, dispatch] = useReducer(listReducer, listitems);
+    useEffect(() => console.log({ list: items }),[items]);
+    useEffect(() => dispatch({action: "update", data: listitems}),[listitems]);
+
+    return (
+        <ListItems items={items} controls={controls} dispatch={(o) => dispatch(o)} />
+    )
+};
+
+export const ListItems = ({controls, items, dispatch}) => {
     return (
         <ul className="list">
             {items.map((item, i) =>
-                <ListItem key={i} item={item} controls={controls} setItems={() => setItems([...items])} />)}
+                <ListItem key={i} item={item} controls={controls} dispatch={dispatch} />)}
         </ul>
-    );
+    )
 };
 
-export const ListItem = ({controls, item, setItems}) => {
-
-    function filterControls(property) {
-        return Object.keys(controls).reduce((p, c) => {
-            if (controls[c][property]) {
-                p[c] = controls[c];
-            }
-            return p;
-        }, {});
-    }
-
+export const ListItem = ({controls, item, dispatch}) => {
     return (
         <li>
             <Controls
                 item={item}
-                setItems={(i) => setItems(i)}
-                controls={filterControls("before")}
+                dispatch={dispatch}
+                controls={controls.filter(control => control.order < 0)}
             />
             <span>{item.title}</span>
             <Controls
                 item={item}
-                setItems={(i) => setItems(i)}
-                controls={filterControls("after")}
+                dispatch={dispatch}
+                controls={controls.filter(control => control.order > 0)}
             />
-            {item.expanded && <List listitems={item.children} controls={controls} />}
+            {item.expanded && <ListItems items={item.children} controls={controls} dispatch={dispatch} />}
         </li>
-    );
+    )
 };
 
-export const Controls = ({item, setItems, controls}) => {
+export const Controls = ({item, dispatch, controls}) => {
     return (
         <span>
-            {controls.expand && item.children && item.children.length > 0 &&
-            <button onClick={() => {
-                item.expanded = !item.expanded;
-                setItems();}}>
-                {item.expanded ? "ᐃ" : "ᐁ"}
+            {controls.find(c => c.name === "expand") && item.children && item.children.length > 0 &&
+            <button onClick={() => dispatch({action: "toggle_expand", data: item})}
+            >{item.expanded ? "ᐃ" : "ᐁ"}
             </button>
             }
 
-            {controls.include &&
+            {controls.find(c => c.name === "include") &&
             <input type="checkbox" name="include" checked={item.checked}
                    onChange={() => {
-                       item.checked = !item.checked;
-                       setItems();
-                       controls.include.callback(item);
+                       dispatch({action: "toggle_include", data: item});
+                       controls.find(c => c.name === "include").callback(item);
                    }} />
             }
-    </span>);
+    </span>)
 };
