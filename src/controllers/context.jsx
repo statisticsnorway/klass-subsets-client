@@ -34,10 +34,11 @@ export const ContextProvider = ({ children }) => {
 
     const subset = useSubset({
         ownerId: "Default ownerId",
-        names: "Default name",
-        description: "Default desc",
-        codes: [
-        ]
+        names: [{ text: "Uttrekk for ...", lang: "nb" }],
+        valid: { from: new Date().toISOString().substr(0, 10) },
+        subject: "Work",
+        descriptions: [{ text: "Beskrivelse", lang: "nb" }],
+        codes: []
     });
 
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
