@@ -49,8 +49,10 @@ export const useSubset = (init) => {
             case "codes": {
                 return  {...state, codes: data};
             }
-            case "codes_add": {
-                return  {...state, codes: [...data.concat(state.codes)]};
+            case "codes_add_checked": {
+                const checked = data.filter(item => item.checked
+                    || item.children.find(child => child.checked));
+                return  {...state, codes: [...checked, ...state.codes]};
             }
             case "remove_empty": {
                 return {...state,

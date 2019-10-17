@@ -11,7 +11,7 @@ export const SubsetCodes = ({subset}) => {
 
     useEffect(() => console.log({ draft: subset.draft.codes }),[subset]);
     useEffect(() => {
-        searchResult.length > 0 && subset.dispatch({action: "codes_add", data: searchResult});
+        searchResult.length > 0 && subset.dispatch({action: "codes_add_checked", data: searchResult});
         setSearchResult(chosen
             ? [{ title: chosen, children:
                     [
@@ -54,18 +54,18 @@ export const SubsetCodes = ({subset}) => {
             <h3>Choose codes</h3>
             <Search items={countries}
                     setChosen={(item) => setChosen(item)}
-                    placeholder="Country"/>
+                    placeholder="Country" />
 
             <h3>Search results</h3>
             {searchResult.length > 0
-                ? <List listitems={searchResult}/>
+                ? <List listitems={searchResult} />
                 : <p>Nothing to show</p>}
 
             <h3>Chosen classification codes</h3>
             {(subset.draft
                 && subset.draft.codes
                 && subset.draft.codes.length > 0)
-                ? <List listitems={subset.draft.codes}/>
+                ? <List listitems={subset.draft.codes} />
                 : <p>No codes in the subset draft</p>}
             <button onClick={() => console.log("current codes", subset.draft.codes)}
             >Show codes
