@@ -33,9 +33,10 @@ export const List = ({listitems = [],
         }}
 
     function linkParent(item) {
-        item.children.forEach(child => child.parent = item);
+        item && item.children && item.children.forEach(child => child.parent = item);
     }
-    listitems.forEach(item => linkParent(item));
+
+    listitems.length > 0 && listitems.forEach(item => linkParent(item));
     const [items, dispatch] = useReducer(listReducer, listitems);
     useEffect(() => console.log({ list: items }),[items]);
     useEffect(() => dispatch({action: "update", data: listitems}),[listitems]);

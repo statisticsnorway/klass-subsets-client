@@ -50,7 +50,7 @@ export const useSubset = (init) => {
                 return  {...state, codes: data};
             }
             case "codes_add": {
-                return  {...state, codes: [...state.codes, data]};
+                return  {...state, codes: [...data.concat(state.codes)]};
             }
             case "remove_empty": {
                 return {...state,

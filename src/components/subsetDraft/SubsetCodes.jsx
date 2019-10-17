@@ -7,17 +7,18 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
     const [chosen, setChosen] = useState("");
-    useEffect(() => console.log({ newState: chosen }),[chosen]);
+    const [searchResult, setSearchResult] = useState([]);
+
+    useEffect(() => console.log({ draft: subset.draft.codes }),[subset]);
     useEffect(() => {
-        if (chosen) {
-            subset.dispatch({action: "codes_add", data:
-                { title: chosen, children:
+        searchResult.length > 0 && subset.dispatch({action: "codes_add", data: searchResult});
+        setSearchResult(chosen
+            ? [{ title: chosen, children:
                     [
                         { title: 'A' },
                         { title: 'B' }
-                    ]}
-            });
-        }
+                    ]}]
+            : []);
     },[chosen]);
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
@@ -52,16 +53,23 @@ export const SubsetCodes = ({subset}) => {
         <div className="page">
             <h3>Choose codes</h3>
             <Search items={countries}
-                    setChosen={ (item) => setChosen(item) }
+                    setChosen={(item) => setChosen(item)}
                     placeholder="Country"/>
+
             <h3>Search results</h3>
-            { (subset.draft
+            {searchResult.length > 0
+                ? <List listitems={searchResult}/>
+                : <p>Nothing to show</p>}
+
+            <h3>Chosen classification codes</h3>
+            {(subset.draft
                 && subset.draft.codes
                 && subset.draft.codes.length > 0)
-                    ? <List listitems={subset.draft.codes} />
-                    : <p>Nothing to show</p>}
-                <button onClick={() => console.log("current codes", subset.draft.codes)}
-                >Show codes</button>
+                ? <List listitems={subset.draft.codes}/>
+                : <p>No codes in the subset draft</p>}
+            <button onClick={() => console.log("current codes", subset.draft.codes)}
+            >Show codes
+            </button>
         </div>
     );
 };

@@ -47,7 +47,7 @@ export const Search = ({items = [],
         dom.current.focus();
         setActive(-1);
 
-        choice.length > 0 && setChosen(choice);
+        setChosen(choice);
     }
 
     function highlight(origin, substring) {
