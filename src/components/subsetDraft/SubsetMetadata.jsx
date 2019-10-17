@@ -21,6 +21,18 @@ export const SubsetMetadata = ({subset}) => {
                        action: "ownerId",
                        data: e.target.value })}/>
             </fieldset>
+            <fieldset>
+                <label>Owner
+                    <select style={{margin: "10px"}}
+                            value={subset.draft.ownerId}
+                            onChange={(e) => subset.dispatch({
+                                action: "ownerId",
+                                data: e.target.value })}>
+                        <option value="ssb">SSB</option>
+                        <option value="nav">NAV</option>
+                    </select>
+                </label>
+            </fieldset>
 
             <fieldset>
                 <label style={{display:"block"}}>Valid period</label>

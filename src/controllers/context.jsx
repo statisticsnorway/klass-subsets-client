@@ -33,7 +33,7 @@ export const ContextProvider = ({ children }) => {
     );
 
     const subset = useSubset({
-        ownerId: "Default ownerId",
+        ownerId: "ssb",
         names: [{ text: "Uttrekk for ...", lang: "nb" }],
         valid: { from: new Date().toISOString().substr(0, 10) },
         subject: "Work",
