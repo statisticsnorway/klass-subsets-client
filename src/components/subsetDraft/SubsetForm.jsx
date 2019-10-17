@@ -4,6 +4,7 @@ import {AppContext} from "../../controllers/context";
 import {Navigation, Step} from "../../utils/navigation";
 import {SubsetReorder} from "./SubsetReorder";
 import {SubsetCodes} from "./SubsetCodes";
+import {SubsetMetadata} from "./SubsetMetadata";
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
@@ -37,37 +38,3 @@ export const SubsetPreview = ({subset}) => {
     );
 };
 
-export const SubsetMetadata = ({subset}) => {
-
-    return (
-        <>
-            <h3>Norwegian name</h3>
-            <input type="text" value={subset.draft.names}
-                   onChange={(e) => { subset.dispatch({
-                       action: "names",
-                       data: e.target.value });
-                   }}/>
-
-            <h3>Norwegian description</h3>
-            <input type="text" value={subset.draft.description}
-                   onChange={(e) => { subset.dispatch({
-                       action: "description",
-                       data: e.target.value });
-                   }}/>
-
-            <h3>Owner</h3>
-            <input type="text" value={subset.draft.ownerId}
-                   onChange={(e) => {subset.dispatch({
-                       action: "ownerId",
-                       data: e.target.value });
-                   }}/>
-
-            <br/><br/>
-
-            <button onClick={() => {subset.dispatch({action: "empty"});}}>Empty</button>
-            <button onClick={() => {subset.dispatch({action: "reset"});}}>Reset</button>
-
-            <br/><br/>
-        </>
-    );
-};

@@ -1,4 +1,5 @@
-import { useReducer } from 'react'
+import { useReducer } from "react";
+import { nextDefaultName } from "./languages";
 
 export const useSubset = (init) => {
 
@@ -7,14 +8,43 @@ export const useSubset = (init) => {
             case "create": {
                 return data;
             }
-            case "names": {
-                return  {...state, names: data};
+            case "update": {
+                return  {...state};
             }
-            case "description": {
-                return  {...state, description: data};
+            case "name_add": {
+                const name = nextDefaultName(state.names);
+                return  name === null
+                    ? {...state}
+                    : {...state, names: [...state.names, name]};
+            }
+            case "name_remove": {
+                return {...state, names: state.names.filter((item, index) => index !== data)};
+            }
+            case "from": {
+                // FIXME: restrictions
+                state.valid.from = data;
+                return {...state};
+            }
+            case "to": {
+                // FIXME: restrictions
+                state.valid.to = data;
+                return {...state};
+            }
+            case "description_add": {
+                const description = nextDefaultName(state.descriptions);
+                return  description === null
+                    ? {...state}
+                    : {...state, descriptions: [...state.descriptions, description]};
+            }
+            case "description_remove": {
+                return {...state,
+                    descriptions: state.descriptions.filter((item, index) => index !== data)};
             }
             case "ownerId": {
                 return  {...state, ownerId: data};
+            }
+            case "subject": {
+                return  {...state, subject: data};
             }
             case "codes": {
                 return  {...state, codes: data};
@@ -22,11 +52,21 @@ export const useSubset = (init) => {
             case "codes_add": {
                 return  {...state, codes: [...state.codes, data]};
             }
+            case "remove_empty": {
+                return {...state,
+                    names: state.names.filter(item => item.text && item.text.length > 0),
+                    descriptions: state.descriptions.filter(item => item.text && item.text.length > 0)
+                };
+            }
             case "reset": {
                 return init;
             }
             case "empty": {
-                return { names: "", description: "", ownerId: "", codes: [] };
+                return { names: [],
+                    descriptions: [],
+                    valid: { from: "" },
+                    ownerId: "",
+                    codes: [] };
             }
             default:
                 return state;
