@@ -58,7 +58,7 @@ export const SubsetCodes = ({subset}) => {
 
             <h3>Search results</h3>
             {searchResult.length > 0
-                ? <List listitems={searchResult} />
+                ? <List listitems={searchResult} onBlur={() => console.log("blur")}/>
                 : <p>Nothing to show</p>}
 
             <h3>Chosen classification codes</h3>
