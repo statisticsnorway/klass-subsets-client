@@ -49,9 +49,10 @@ export const useSubset = (init) => {
             case "codes": {
                 return  {...state, codes: data};
             }
-            case "codes_add_checked": {
-                const checked = data.filter(item => item.checked
-                    || item.children.find(child => child.checked));
+            case "codes_prepend_checked": {
+                // FIXME: two levels only, should be recursive in depth
+                const checked = data.filter(item => !state.codes.includes(item) && (item.checked
+                    || item.children.find(child => child.checked)));
                 return  {...state, codes: [...checked, ...state.codes]};
             }
             case "remove_empty": {

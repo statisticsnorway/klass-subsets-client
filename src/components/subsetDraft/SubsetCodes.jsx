@@ -6,20 +6,24 @@ import {List, useList} from "../../utils/list";
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
+    // FIXME: search result must be an array
     const [chosen, setChosen] = useState("");
     const searchResult = useList([]);
     const codes = useList(subset.draft.codes);
 
     useEffect(() => codes.update(subset.draft.codes),[subset]);
     useEffect(() => {
-        searchResult.items.length > 0 && subset.dispatch({action: "codes_add_checked", data: searchResult.items});
-        searchResult.dispatch({action: "update", data: chosen
+        searchResult.items.length > 0 && subset.dispatch({action: "codes_prepend_checked", data: searchResult.items});
+        const already = codes.items.find(item => item.title === chosen);
+        const result = already ? [already] : chosen
             ? [{ title: chosen, children:
                     [
                         { title: 'A' },
                         { title: 'B' }
                     ]}]
-            : []});
+            : [];
+        searchResult.update(result);
+        codes.remove(chosen);
     },[chosen]);
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",

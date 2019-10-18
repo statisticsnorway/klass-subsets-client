@@ -83,10 +83,17 @@ export const useList = (list) => {
         dispatch({ action: "update", data: data });
     }
 
+    function remove(title) {
+        dispatch({action: "remove", data: title});
+    }
+
     function listReducer(state, {action, data = {}}) {
         switch (action) {
             case "update": {
                 return [...data];
+            }
+            case "remove": {
+                return state.filter(item => item.title !== data);
             }
             case "toggle_expand": {
                 data.expanded = !data.expanded;
@@ -102,5 +109,5 @@ export const useList = (list) => {
 
     const [items, dispatch] = useReducer(listReducer, list);
 
-    return {items, dispatch, update};
+    return {items, dispatch, update, remove};
 };
