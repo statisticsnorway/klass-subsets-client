@@ -7,13 +7,13 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
     const [chosen, setChosen] = useState("");
-    const [searchResult, setSearchResult] = useList([]);
-    const [codes, setCodes] = useList(subset.draft.codes);
+    const searchResult = useList([]);
+    const codes = useList(subset.draft.codes);
 
-    useEffect(() => setCodes({ action: "update", data: subset.draft.codes }),[subset]);
+    useEffect(() => codes.dispatch({ action: "update", data: subset.draft.codes }),[subset]);
     useEffect(() => {
-        searchResult.length > 0 && subset.dispatch({action: "codes_add_checked", data: searchResult});
-        setSearchResult({action: "update", data: chosen
+        searchResult.items.length > 0 && subset.dispatch({action: "codes_add_checked", data: searchResult.items});
+        searchResult.dispatch({action: "update", data: chosen
             ? [{ title: chosen, children:
                     [
                         { title: 'A' },
@@ -58,13 +58,13 @@ export const SubsetCodes = ({subset}) => {
                     placeholder="Country" />
 
             <h3>Search results</h3>
-            {searchResult.length > 0
-                ? <List items={searchResult} dispatch={(o) => setSearchResult(o)} />
+            {searchResult.items.length > 0
+                ? <List list={searchResult} />
                 : <p>Nothing to show</p>}
 
             <h3>Chosen classification codes</h3>
-            {codes && codes.length > 0
-                ? <List items={codes} dispatch={(o) => setCodes(o)} />
+            {codes && codes.items.length > 0
+                ? <List list={codes} />
                 : <p>No codes in the subset draft</p>}
             <button onClick={() => console.log("current codes", subset.draft.codes)}
             >Show codes

@@ -1,13 +1,13 @@
 import React, {useReducer} from "react";
 import "../css/list.css";
 
-export const List = ({items = [], dispatch,
+export const List = ({list,
                          controls = [
                              {name: "expand", order: -1},
                              {name: "include", order: 1, callback: (i) => console.log("include", i.title)}
                          ]}) => {
 
-    return (<ListItems items={items} controls={controls} dispatch={(o) => dispatch(o)} />)
+    return (<ListItems items={list.items} controls={controls} dispatch={(o) => list.dispatch(o)} />)
 };
 
 export const ListItems = ({controls, items, dispatch}) => {
@@ -92,5 +92,5 @@ export const useList = (list) => {
 
     const [items, dispatch] = useReducer(listReducer, list);
 
-    return [items, dispatch];
+    return {items, dispatch};
 };
