@@ -69,9 +69,22 @@ function linkParent(item) {
     item && item.children && item.children.forEach(child => child.parent = item);
 }
 
+function unlinkParent(item) {
+    item.children.forEach(child => delete child.parent);
+}
+
 export const useList = (list) => {
 
+    // FIXME: it causes traverse feil because of the circular structure to JSON. use Proxy or array.find() instead
     list.length > 0 && list.forEach(item => linkParent(item));
+
+    function update(data) {
+        dispatch({ action: "update", data: data });
+    }
+
+    function getItems() {
+        return items.forEach(code => unlinkParent(code));
+    }
 
     function listReducer(state, {action, data = {}}) {
         switch (action) {
@@ -92,5 +105,5 @@ export const useList = (list) => {
 
     const [items, dispatch] = useReducer(listReducer, list);
 
-    return {items, dispatch};
+    return {items, dispatch, update, getItems};
 };

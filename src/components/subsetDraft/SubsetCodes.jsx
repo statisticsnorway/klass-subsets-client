@@ -10,7 +10,7 @@ export const SubsetCodes = ({subset}) => {
     const searchResult = useList([]);
     const codes = useList(subset.draft.codes);
 
-    useEffect(() => codes.dispatch({ action: "update", data: subset.draft.codes }),[subset]);
+    useEffect(() => codes.update(subset.draft.codes),[subset]);
     useEffect(() => {
         searchResult.items.length > 0 && subset.dispatch({action: "codes_add_checked", data: searchResult.items});
         searchResult.dispatch({action: "update", data: chosen
