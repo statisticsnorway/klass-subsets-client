@@ -1,19 +1,13 @@
-import React, {useReducer, useEffect} from "react";
+import React, {useReducer} from "react";
 import "../css/list.css";
 
-export const List = ({listitems = [],
+export const List = ({items = [], dispatch,
                          controls = [
                              {name: "expand", order: -1},
                              {name: "include", order: 1, callback: (i) => console.log("include", i.title)}
                          ]}) => {
 
-    const {items, dispatch} = useList(listitems);
-    useEffect(() => console.log({ list: items }),[items]);
-    useEffect(() => dispatch({action: "update", data: listitems}),[listitems]);
-
-    return (
-        <ListItems items={items} controls={controls} dispatch={(o) => dispatch(o)} />
-    )
+    return (<ListItems items={items} controls={controls} dispatch={(o) => dispatch(o)} />)
 };
 
 export const ListItems = ({controls, items, dispatch}) => {
@@ -75,9 +69,9 @@ function linkParent(item) {
     item && item.children && item.children.forEach(child => child.parent = item);
 }
 
-export const useList = (listitems) => {
+export const useList = (list) => {
 
-    listitems.length > 0 && listitems.forEach(item => linkParent(item));
+    list.length > 0 && list.forEach(item => linkParent(item));
 
     function listReducer(state, {action, data = {}}) {
         switch (action) {
@@ -96,7 +90,7 @@ export const useList = (listitems) => {
                 return state;
         }}
 
-    const [items, dispatch] = useReducer(listReducer, listitems);
+    const [items, dispatch] = useReducer(listReducer, list);
 
-    return {items, dispatch};
+    return [items, dispatch];
 };

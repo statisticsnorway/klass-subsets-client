@@ -1,24 +1,25 @@
 
 import React, {useState, useEffect} from "react";
 import {Search} from "../../utils/Search";
-import {List} from "../../utils/list";
+import {List, useList} from "../../utils/list";
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
     const [chosen, setChosen] = useState("");
-    const [searchResult, setSearchResult] = useState([]);
+    const [searchResult, setSearchResult] = useList([]);
+    const [codes, setCodes] = useList(subset.draft.codes);
 
-    useEffect(() => console.log({ draft: subset.draft.codes }),[subset]);
+    useEffect(() => setCodes({ action: "update", data: subset.draft.codes }),[subset]);
     useEffect(() => {
         searchResult.length > 0 && subset.dispatch({action: "codes_add_checked", data: searchResult});
-        setSearchResult(chosen
+        setSearchResult({action: "update", data: chosen
             ? [{ title: chosen, children:
                     [
                         { title: 'A' },
                         { title: 'B' }
                     ]}]
-            : []);
+            : []});
     },[chosen]);
 
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
@@ -58,14 +59,12 @@ export const SubsetCodes = ({subset}) => {
 
             <h3>Search results</h3>
             {searchResult.length > 0
-                ? <List listitems={searchResult} onBlur={() => console.log("blur")}/>
+                ? <List items={searchResult} dispatch={(o) => setSearchResult(o)} />
                 : <p>Nothing to show</p>}
 
             <h3>Chosen classification codes</h3>
-            {(subset.draft
-                && subset.draft.codes
-                && subset.draft.codes.length > 0)
-                ? <List listitems={subset.draft.codes} />
+            {codes && codes.length > 0
+                ? <List items={codes} dispatch={(o) => setCodes(o)} />
                 : <p>No codes in the subset draft</p>}
             <button onClick={() => console.log("current codes", subset.draft.codes)}
             >Show codes
