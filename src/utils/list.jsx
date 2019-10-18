@@ -1,13 +1,14 @@
 import React, {useReducer} from "react";
 import "../css/list.css";
 
-export const List = ({list,
-                         controls = [
+export const List = ({list, controls = [
                              {name: "expand", order: -1},
                              {name: "include", order: 1, callback: (i) => console.log("include", i.title)}
                          ]}) => {
 
-    return (<ListItems items={list.items} controls={controls} dispatch={(o) => list.dispatch(o)} />)
+    return (<ListItems items={list.items}
+                       controls={controls}
+                       dispatch={(o) => list.dispatch(o)} />)
 };
 
 export const ListItems = ({controls, items, dispatch}) => {
@@ -75,7 +76,7 @@ function unlinkParent(item) {
 
 export const useList = (list) => {
 
-    // FIXME: it causes traverse feil because of the circular structure to JSON. use Proxy or array.find() instead
+    // FIXME: it causes traverse fail because of the circular structure to JSON. use Proxy or array.find() instead
     list.length > 0 && list.forEach(item => linkParent(item));
 
     function update(data) {
