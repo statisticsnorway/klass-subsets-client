@@ -83,10 +83,6 @@ export const useList = (list) => {
         dispatch({ action: "update", data: data });
     }
 
-    function getItems() {
-        return items.forEach(code => unlinkParent(code));
-    }
-
     function listReducer(state, {action, data = {}}) {
         switch (action) {
             case "update": {
@@ -106,5 +102,5 @@ export const useList = (list) => {
 
     const [items, dispatch] = useReducer(listReducer, list);
 
-    return {items, dispatch, update, getItems};
+    return {items, dispatch, update};
 };
