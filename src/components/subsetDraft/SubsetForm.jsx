@@ -5,6 +5,7 @@ import {Navigation, Step} from "../../utils/navigation";
 import {SubsetReorder} from "./SubsetReorder";
 import {SubsetCodes} from "./SubsetCodes";
 import {SubsetMetadata} from "./SubsetMetadata";
+import {unlinkParent} from "../../utils/list";
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
@@ -24,9 +25,6 @@ export default function SubsetForm() {
 
 export const SubsetPreview = ({subset}) => {
 
-    function unlinkParent(item) {
-        item.children.forEach(child => delete child.parent);
-    }
     // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
     subset && subset.draft && subset.draft.codes && subset.draft.codes.forEach(code => unlinkParent(code));
 

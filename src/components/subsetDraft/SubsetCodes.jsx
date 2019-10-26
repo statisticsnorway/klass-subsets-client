@@ -7,20 +7,28 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
     // FIXME: search result must be an array
-    const [chosen, setChosen] = useState("");
+    const [chosen, setChosen] = useState([]);
     const searchResult = useList([]);
     const codes = useList(subset.draft.codes);
 
     useEffect(() => codes.update(subset.draft.codes),[subset]);
     useEffect(() => {
         searchResult.items.length > 0 && subset.dispatch({action: "codes_prepend_checked", data: searchResult.items});
-        const already = codes.items.find(item => item.title === chosen);
-        const result = already ? [already] : chosen
-            ? [{ title: chosen, children:
-                    [
-                        { title: 'A' },
-                        { title: 'B' }
-                    ]}]
+
+        const result = chosen
+            ? chosen.map(item => {
+
+                    let already = codes.items.find(code => code.title === item);
+                    return already ? already : {
+                        title: item,
+                        children:
+                            [
+                                {title: `${item} A`},
+                                {title: `${item} B`}
+                            ]
+                    }
+                }
+            )
             : [];
         searchResult.update(result);
         codes.remove(chosen);

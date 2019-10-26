@@ -14,11 +14,13 @@ export const Search = ({items = [],
 
     const handleInput = (e) => {
         setSearchInput(e.target.value);
-        e.target.value === ""
-            ? setSuggestions([])
-            : setSuggestions(items.filter(i =>
-            i.toLowerCase().search(e.target.value.toLowerCase()) > -1));
+        setSuggestions(searchBy(e.target.value, items));
     };
+
+    function searchBy(input, resource) {
+        return input === "" ? []
+            : resource.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1);
+    }
 
     function keyHandler(e) {
         const keys = { DOWN: 40, UP: 38, ENTER: 13 };
@@ -42,12 +44,13 @@ export const Search = ({items = [],
     }
 
     function handleChoice(choice) {
+        console.log("handleChoice", choice);
         setSuggestions([]);
         setSearchInput(choice);
         dom.current.focus();
         setActive(-1);
 
-        setChosen(choice);
+        setChosen(searchBy(choice, items));
     }
 
     function highlight(origin, substring) {

@@ -1,45 +1,28 @@
-import React, {useState} from "react";
-import SortableTree from "react-sortable-tree";
-import FileExplorerTheme from "react-sortable-tree-theme-minimal";
+import React from "react";
 import {flatten} from "../../utils/arrays";
-
-export const SubsetReorder1 = ({subset}) => {
-    return (
-        <>
-            <h3>Subset reorder</h3>
-            <button onClick={() => {console.log("Reorder subset: ", subset.draft);}}>Show codes</button>
-            <div style={{ height: 800 }}>
-                <SortableTree
-                treeData={subset.draft.codes}
-                onChange={ treeData => { subset.dispatch({action: "codes", data: treeData}) }}
-                theme={FileExplorerTheme}
-            />
-            </div>
-            <br/><br/>
-        </>
-    );
-};
+import {List, useList, unlinkParent} from "../../utils/list";
 
 export const SubsetReorder = ({subset}) => {
 
-    const [ordered, reorder] = useState(flatten(subset.draft.codes.map(code => code.children)));
+    subset && subset.draft && subset.draft.codes && subset.draft.codes.forEach(code => unlinkParent(code));
 
-    ordered.forEach((item, i) => item.order = i);
+    const codes = useList(
+        flatten(subset.draft.codes
+        // FIXME: fix flatten util instead of sorting!
+        .sort((a,b) => (b.rank - a.rank))
+        .map(code => {
+        console.log("map", code);
+        return code.children
+    })));
 
     return (
         <>
             <h3>Subset reorder</h3>
-            <button onClick={() => {console.log("Reorder subset: ", subset.draft);}}>Show codes</button>
+            <button onClick={() => console.log("Reorder subset: ", subset.draft)}>Show codes</button>
 
-            {ordered
-                ? ordered
-                    .sort((a,b) => (a.order - b.order))
-                    .map((item, i) => <div key={i}>
-                        <span>{item.order}</span>
-                        <span>{item.title}</span>
-                    </div>)
+            {codes
+                ? <List list={codes} />
                 : <p>No items to sort</p>}
-
             <br/><br/>
         </>
     );
