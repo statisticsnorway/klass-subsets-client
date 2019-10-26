@@ -13,14 +13,7 @@ export const SubsetMetadata = ({subset}) => {
                                   remove={(index) => subset.dispatch({action: "name_remove", data: index})}
                                   handle={() => subset.dispatch({action: "update"})}
                                   size={{cols: 40, rows: 1}}/>
-
-            <fieldset>
-                <label htmlFor="owner" style={{display:"block"}}>Owner</label>
-                <input type="text" id="owner" value={subset.draft.ownerId}
-                   onChange={(e) => subset.dispatch({
-                       action: "ownerId",
-                       data: e.target.value })}/>
-            </fieldset>
+                                  
             <fieldset>
                 <label>Owner
                     <select style={{margin: "10px"}}
