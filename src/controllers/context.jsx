@@ -1,6 +1,7 @@
 import React, {createContext, useEffect} from "react";
 import { useSubset } from "../utils/useSubset";
 import { useErrorRegister } from "../utils/useErrorRegister";
+import { useGet } from "./klass-api";
 
 /** Context Principles
  *
@@ -33,7 +34,7 @@ export const ContextProvider = ({ children }) => {
     );
 
     const subset = useSubset({
-        ownerId: "ssb",
+        ownerId: "",
         names: [{ text: "Uttrekk for ...", lang: "nb" }],
         valid: { from: new Date().toISOString().substr(0, 10) },
         subject: "Work",
@@ -43,8 +44,10 @@ export const ContextProvider = ({ children }) => {
 
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
+    const [ssbsections] = useGet("ssbsections.json");
+
     return (
-        <AppContext.Provider value={{subset, errorRegister}}>
+        <AppContext.Provider value={{subset, errorRegister, ssbsections}}>
             {children}
         </AppContext.Provider>
     );

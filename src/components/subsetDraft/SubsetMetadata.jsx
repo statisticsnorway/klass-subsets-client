@@ -1,8 +1,11 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useContext} from "react";
 import "../../css/form.css";
 import {TextLanguageFieldset} from "../../utils/forms";
+import {AppContext} from "../../controllers/context";
 
 export const SubsetMetadata = ({subset}) => {
+
+    const {ssbsections} = useContext(AppContext);
 
     useEffect(() => {return () => subset.dispatch({action: "remove_empty"});}, []);
 
@@ -21,8 +24,15 @@ export const SubsetMetadata = ({subset}) => {
                             onChange={(e) => subset.dispatch({
                                 action: "ownerId",
                                 data: e.target.value })}>
-                        <option value="ssb">SSB</option>
-                        <option value="nav">NAV</option>
+                        {ssbsections
+                            && subset.draft.ownerId.length > 0
+                            && !ssbsections._embedded.ssbSections.find(s => s.name === subset.draft.ownerId)
+                            && (<option disabled value={subset.draft.ownerId}>{subset.draft.ownerId} (outdated)</option>)
+                        }
+                        {ssbsections
+                            && ssbsections._embedded.ssbSections
+                            .map((section, i) => (<option key={i} value={section.name}>{section.name}</option>))
+                        }
                     </select>
                 </label>
             </fieldset>
