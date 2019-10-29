@@ -13,7 +13,7 @@ export const SubsetMetadata = ({subset}) => {
                                   remove={(index) => subset.dispatch({action: "name_remove", data: index})}
                                   handle={() => subset.dispatch({action: "update"})}
                                   size={{cols: 40, rows: 1}}/>
-                                  
+
             <fieldset>
                 <label>Owner
                     <select style={{margin: "10px"}}
