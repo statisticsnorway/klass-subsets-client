@@ -5,7 +5,7 @@ import {AppContext} from "../../controllers/context";
 
 export const SubsetMetadata = ({subset}) => {
 
-    const {ssbsections} = useContext(AppContext);
+    const {ssbsections, classificationfamilies} = useContext(AppContext);
 
     useEffect(() => {return () => subset.dispatch({action: "remove_empty"});}, []);
 
@@ -56,8 +56,15 @@ export const SubsetMetadata = ({subset}) => {
                         onChange={(e) => subset.dispatch({
                             action: "subject",
                             data: e.target.value })}>
-                    <option value="Economics">Economics</option>
-                    <option value="Work">Work</option>
+                    {classificationfamilies
+                    && subset.draft.subject.length > 0
+                    && !classificationfamilies._embedded.classificationFamilies.find(s => s.name === subset.draft.subject)
+                    && (<option disabled value={subset.draft.subject}>{subset.draft.subject} (outdated)</option>)
+                    }
+                    {classificationfamilies
+                    && classificationfamilies._embedded.classificationFamilies
+                        .map((family, i) => (<option key={i} value={family.name}>{family.name}</option>))
+                    }
                 </select>
                 </label>
             </fieldset>

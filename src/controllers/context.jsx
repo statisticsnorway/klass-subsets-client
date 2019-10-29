@@ -45,9 +45,10 @@ export const ContextProvider = ({ children }) => {
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
     const [ssbsections] = useGet("ssbsections.json");
+    const [classificationfamilies] = useGet("classificationfamilies.json");
 
     return (
-        <AppContext.Provider value={{subset, errorRegister, ssbsections}}>
+        <AppContext.Provider value={{subset, errorRegister, ssbsections, classificationfamilies}}>
             {children}
         </AppContext.Provider>
     );
