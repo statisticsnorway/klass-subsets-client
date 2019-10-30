@@ -81,7 +81,7 @@ function include(item) {
     console.log("include", item.title);
     item.checked = true;
     // check parent -> check all children
-    item.children && item.children.filter(i => !i.checked) .forEach(child => include(child));
+    item.children && item.children.filter(i => !i.checked).forEach(child => include(child));
     // if all children now checked -> check the parent
     item.parent && !item.parent.children.find(i => !i.checked) && include(item.parent);
 }

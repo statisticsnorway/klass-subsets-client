@@ -1,7 +1,8 @@
 
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Search} from "../../utils/Search";
 import {List, useList} from "../../utils/list";
+import {AppContext} from "../../controllers/context";
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
@@ -34,6 +35,9 @@ export const SubsetCodes = ({subset}) => {
         codes.remove(chosen);
     },[chosen]);
 
+    const {classifications} = useContext(AppContext);
+    useEffect(() => console.log({classifications: classifications}),[classifications]);
+
     const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
         "Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh",
         "Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina",
@@ -65,7 +69,9 @@ export const SubsetCodes = ({subset}) => {
     return (
         <div className="page">
             <h3>Choose codes</h3>
-            <Search items={countries}
+            <Search items={classifications
+                ? classifications._embedded.classifications.map(i => i.name)
+                : []}
                     setChosen={(item) => setChosen(item)}
                     placeholder="Country" />
 

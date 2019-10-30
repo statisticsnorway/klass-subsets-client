@@ -42,4 +42,3 @@ export function useGet(url = null) {
 
     return [data, isLoading, error, setPath];
 }
-
