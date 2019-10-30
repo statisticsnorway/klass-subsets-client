@@ -56,13 +56,13 @@ export const SubsetMetadata = ({subset}) => {
                         onChange={(e) => subset.dispatch({
                             action: "subject",
                             data: e.target.value })}>
-                    {classificationfamilies
-                    && subset.draft.subject.length > 0
-                    && !classificationfamilies._embedded.classificationFamilies.find(s => s.name === subset.draft.subject)
-                    && (<option disabled value={subset.draft.subject}>{subset.draft.subject} (outdated)</option>)
+                    {classificationfamilies && subset.draft.subject.length > 0
+                        && !classificationfamilies._embedded.classificationFamilies
+                            .find(s => s.name === subset.draft.subject)
+                        && (<option disabled value={subset.draft.subject}>{subset.draft.subject} (outdated)</option>)
                     }
                     {classificationfamilies
-                    && classificationfamilies._embedded.classificationFamilies
+                        && classificationfamilies._embedded.classificationFamilies
                         .map((family, i) => (<option key={i} value={family.name}>{family.name}</option>))
                     }
                 </select>
