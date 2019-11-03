@@ -13,6 +13,9 @@ export const SubsetCodes = ({subset}) => {
     const searchResult = useList([]);
     const codes = useList(subset.draft.codes);
 
+    const [searchFrom, setSearchFrom] = useState(subset.draft.valid.from);
+    const [searchTo, setSearchTo] = useState(subset.draft.valid.to);
+
     useEffect(() => codes.update(subset.draft.codes),[subset]);
     useEffect(() => {
         searchResult.items.length > 0 && subset.dispatch({
@@ -27,7 +30,7 @@ export const SubsetCodes = ({subset}) => {
                     if (already) return already;
                     else {
                         const x = {title: item.name, children: []};
-                        fetch(`${item._links.self.href}/codesAt.json?date=2019-11-01`)
+                        fetch(`${item._links.self.href}/codesAt.json?date=${searchFrom}`)
                             .then(response => response.json())
                             .then(data => x.children = convertToList(data.codes))
                             .catch(e => console.log(e));
@@ -58,12 +61,21 @@ export const SubsetCodes = ({subset}) => {
     return (
         <div className="page">
             <h3>Choose codes</h3>
-            <Search resource={classifications ? classifications._embedded.classifications : []}
+            <fieldset>
+                <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setChosen(item)}
                     placeholder="Country"
                     searchBy = {(input, resource) =>
                         input === "" ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
-            />
+                />
+                <label style={{display:"block"}}>Valid period</label>
+                <label>From:<input type="date"
+                                   value={searchFrom}
+                                   onChange={(e) => setSearchFrom(e.target.value)} /></label>
+                <label>To:<input type="date"
+                                 value={searchTo}
+                                 onChange={(e) => setSearchTo(e.target.value)} /></label>
+            </fieldset>
 
             <h3>Search results</h3>
             {searchResult.items.length > 0
