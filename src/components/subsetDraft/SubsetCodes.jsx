@@ -24,13 +24,14 @@ export const SubsetCodes = ({subset}) => {
             ? chosen.map(item => {
 
                     let already = codes.items.find(code => code.title === item.name);
-                    return already ? already : {
-                        title: item.name,
-                        children:
-                            [
-                                {title: `${item.name} A`},
-                                {title: `${item.name} B`}
-                            ]
+                    if (already) return already;
+                    else {
+                        const x = {title: item.name, children: []};
+                        fetch(`${item._links.self.href}/codesAt.json?date=2019-11-01`)
+                            .then(response => response.json())
+                            .then(result => x.children = result.codes.map(i => ({title: `${i.code} - ${i.name}`})))
+                            .catch(e => console.log(e));
+                        return x;
                     }
                 }
             )
