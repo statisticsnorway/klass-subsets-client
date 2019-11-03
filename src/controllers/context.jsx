@@ -46,7 +46,7 @@ export const ContextProvider = ({ children }) => {
 
     const [ssbsections] = useGet("ssbsections.json");
     const [classificationfamilies] = useGet("classificationfamilies.json");
-    const [classifications] = useGet("classifications.json");
+    const [classifications] = useGet("classifications.json?includeCodelists=true&page=0&size=1000");
 
     return (
         <AppContext.Provider value={{subset, errorRegister, ssbsections, classificationfamilies, classifications}}>
