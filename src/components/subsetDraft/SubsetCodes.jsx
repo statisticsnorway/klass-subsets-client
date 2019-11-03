@@ -29,7 +29,7 @@ export const SubsetCodes = ({subset}) => {
                         const x = {title: item.name, children: []};
                         fetch(`${item._links.self.href}/codesAt.json?date=2019-11-01`)
                             .then(response => response.json())
-                            .then(result => x.children = result.codes.map(i => ({title: `${i.code} - ${i.name}`})))
+                            .then(data => x.children = convertToList(data.codes))
                             .catch(e => console.log(e));
                         return x;
                     }
@@ -39,6 +39,18 @@ export const SubsetCodes = ({subset}) => {
         searchResult.update(result);
         codes.remove(chosen.map(i => i.name));
     },[chosen]);
+
+    function convertToList(array) {
+        array.forEach(i => i.title = `${i.code} - ${i.name}`);
+        const children = array.filter(i => i.parentCode === null);
+        children.forEach(parent => findChildren(array, parent));
+        return children;
+    }
+
+    function findChildren(array, parent) {
+        parent.children = array.filter(i => i.parentCode === parent.code);
+        parent.children.forEach(child => findChildren(array, child));
+    }
 
     const {classifications} = useContext(AppContext);
     useEffect(() => console.log({classifications: classifications}),[classifications]);
@@ -50,7 +62,7 @@ export const SubsetCodes = ({subset}) => {
                     setChosen={(item) => setChosen(item)}
                     placeholder="Country"
                     searchBy = {(input, resource) =>
-            input === "" ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
+                        input === "" ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
             />
 
             <h3>Search results</h3>
