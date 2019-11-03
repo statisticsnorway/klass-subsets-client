@@ -1,9 +1,12 @@
 import React, {useState, useRef} from "react";
 import "../css/autosuggest.css";
 
-export const Search = ({items = [],
+export const Search = ({resource = [],
                            setChosen = (item) => console.log("chosen item:", item),
-                           placeholder = "Search"}) => {
+                           placeholder = "Search",
+                           searchBy = (input, resource) =>
+                               input === "" ? [] : resource.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
+                       }) => {
     // inspired: https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
     const dom = useRef(null);
@@ -14,13 +17,8 @@ export const Search = ({items = [],
 
     const handleInput = (e) => {
         setSearchInput(e.target.value);
-        setSuggestions(searchBy(e.target.value, items));
+        setSuggestions(searchBy(e.target.value, resource));
     };
-
-    function searchBy(input, resource) {
-        return input === "" ? []
-            : resource.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1);
-    }
 
     function keyHandler(e) {
         const keys = { DOWN: 40, UP: 38, ENTER: 13 };
@@ -36,7 +34,7 @@ export const Search = ({items = [],
             case keys.ENTER: {
                 e.preventDefault();
                 console.log("Chosen by ENTER", suggestions[active], searchInput);
-                handleChoice(active === -1 ? searchInput : suggestions[active]);
+                handleChoice(active === -1 ? searchInput : suggestions[active].name);
                 break;
             }
             default: break;
@@ -50,7 +48,7 @@ export const Search = ({items = [],
         dom.current.focus();
         setActive(-1);
 
-        setChosen(searchBy(choice, items));
+        setChosen(searchBy(choice, resource));
     }
 
     function highlight(origin, substring) {
@@ -82,9 +80,9 @@ export const Search = ({items = [],
                                  e.preventDefault();
                                  console.log("Chosen by click", suggestion);
                                  setActive(i);
-                                 handleChoice(suggestion);
+                                 handleChoice(suggestion.name);
                              }}>
-                            {highlight(suggestion,searchInput)}
+                            {highlight(suggestion.name, searchInput)}
                         </div>))}
                 </div>
             </div>
