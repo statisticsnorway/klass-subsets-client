@@ -102,7 +102,11 @@ function linkParent(item) {
 }
 export function unlinkParent(item) {
     console.log("unlink parent");
-    item.children.forEach(child => delete child.parent);
+    if (!item) return;
+    item.children.forEach(child => {
+        delete child.parent;
+        unlinkParent(child);
+    });
 }
 
 export function rank(item) {

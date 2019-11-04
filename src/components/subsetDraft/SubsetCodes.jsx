@@ -64,7 +64,7 @@ export const SubsetCodes = ({subset}) => {
             <fieldset>
                 <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setChosen(item)}
-                    placeholder="Country"
+                    placeholder="Classification"
                     searchBy = {(input, resource) =>
                         input === "" ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
                 />
