@@ -1,9 +1,12 @@
 import React, {useReducer} from "react";
 import "../css/list.css";
 
+// TODO: show more data on item component (info block, date, etc?)
 export const List = ({list, controls = [
         {name: "expand", order: -1},
         {name: "include", order: 1, callback: (i) => console.log("include", i.title)},
+    // TODO: extra checkbox to show, that one or multiple items in the lower levels are selected.
+    // deactivated if alle or none are selected.
         {name: "draggable"},
         {name: "rank", order: 2}
     ]
@@ -77,8 +80,8 @@ export const Controls = ({item, dispatch, controls}) => {
     </span>)
 };
 
+// TODO: confusing names include/checked -> choose one
 function include(item) {
-    console.log("include", item.title);
     item.checked = true;
     // check parent -> check all children
     item.children && item.children.filter(i => !i.checked).forEach(child => include(child));
@@ -87,7 +90,6 @@ function include(item) {
 }
 
 function exclude(item) {
-    console.log("exclude", item.title);
     item.checked =false;
     // uncheck child -> uncheck parent
     item.parent && exclude(item.parent);
@@ -97,11 +99,12 @@ function exclude(item) {
 }
 
 function linkParent(item) {
-    console.log("link parent");
     item && item.children && item.children.forEach(child => child.parent = item);
 }
+
+// FIXME: unefficient linking and unlinking on each update -> solution: use Proxy
+// FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
 export function unlinkParent(item) {
-    console.log("unlink parent");
     if (!item) return;
     item.children.forEach(child => {
         delete child.parent;
@@ -115,6 +118,9 @@ export function rank(item) {
     item.children && item.children.forEach(child => rank(child));
 }
 
+// FIXME: multiple items (group) dragged and dropped on the start or
+//  the end of list fight for the first or the last place -> blink
+// Solution: define the order for each item in the group!
 function rerank(list) {
     list.forEach((item, i) => item.rank = i + 1);
 }
@@ -161,6 +167,7 @@ export const useList = (list) => {
                 && reorder(data.item.parent ? data.item.parent.children : state);
                 return [...state];
             }
+            // FIXME: slow on hundreds of items
             case "dragOver": {
                 state.filter(item => item.dragged)
                     .forEach(item => item.rank = data.rank);

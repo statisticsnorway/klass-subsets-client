@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {klassApiServiceEndpoint} from "../config.js";
 
-
+// TODO: error handling using global and privte error handlers
 export function useGet(url = null) {
     const [path, setPath] = useState(url);
     const [data, setData] = useState(null);
@@ -15,8 +15,7 @@ export function useGet(url = null) {
 
             try {
                 const response = await fetch(`${klassApiServiceEndpoint}${path}`);
-                console.log(response.status);
-                let json = await response.json();
+                const json = await response.json();
                 setData(json);
                 setIsLoading(false);
             }

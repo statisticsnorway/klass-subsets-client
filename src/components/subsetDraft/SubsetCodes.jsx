@@ -17,6 +17,9 @@ export const SubsetCodes = ({subset}) => {
     const [searchTo, setSearchTo] = useState(subset.draft.valid.to);
 
     useEffect(() => codes.update(subset.draft.codes),[subset]);
+
+    // FIXME: make the list item update (show expandable control) whe the codes arrived from klass-api
+    // Solution: useEffect should depend on searchResult ?
     useEffect(() => {
         searchResult.items.length > 0 && subset.dispatch({
             action: "codes_prepend_checked",
@@ -58,6 +61,7 @@ export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
     useEffect(() => console.log({classifications: classifications}),[classifications]);
 
+    // FIXME: use valid to date in the search!
     return (
         <div className="page">
             <h3>Choose codes</h3>
@@ -83,6 +87,9 @@ export const SubsetCodes = ({subset}) => {
                 : <p>Nothing to show</p>}
 
             <h3>Chosen classification codes</h3>
+            {// FIXME: remove unselected classifications! when? prompt? extra button?
+             // TODO: show more data on item component (info block, date, etc?)
+            }
             {codes && codes.items.length > 0
                 ? <List list={codes} />
                 : <p>No codes in the subset draft</p>}

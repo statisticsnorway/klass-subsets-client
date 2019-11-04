@@ -27,12 +27,15 @@ import { useGet } from "./klass-api";
 
 export const AppContext = createContext({});
 
+// TODO: backup the context in session storage every 1 min?
+// TODO: remove draft from session storage after successful submitting to the server
 export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister(
         /* FIXME: for visible test purposes. Remove before release! */
             []
     );
 
+    // TODO: better defaults
     const subset = useSubset({
         ownerId: "",
         names: [{ text: "Uttrekk for ...", lang: "nb" }],
@@ -46,6 +49,7 @@ export const ContextProvider = ({ children }) => {
 
     const [ssbsections] = useGet("ssbsections.json");
     const [classificationfamilies] = useGet("classificationfamilies.json");
+    // TODO: more flexible url building based on first response?
     const [classifications] = useGet("classifications.json?includeCodelists=true&page=0&size=1000");
 
     return (

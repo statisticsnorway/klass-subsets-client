@@ -23,6 +23,7 @@ export default function SubsetForm() {
     );
 }
 
+// TODO: better preview (human pleasant)
 export const SubsetPreview = ({subset}) => {
 
     // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
@@ -32,7 +33,8 @@ export const SubsetPreview = ({subset}) => {
         <>
             <h3>Subset preview</h3>
             <pre>{JSON.stringify(subset.draft, null, 4)}</pre>
-            <button onClick={() => console.log("Publish subset: ", subset.draft)}>Publish</button>
+            <button onClick={() =>
+                console.log("Publish subset: ", subset.draft)}>Publish</button>
             <br/><br/>
         </>
     );

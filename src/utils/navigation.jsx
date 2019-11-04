@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 
+// TODO: add api to navigate to particular steps from inside og the form.
+// For instance from the last (preview) page.
 export function Navigation({children}) {
     const [step, setStep] = useState(0);
 
@@ -37,6 +39,8 @@ export const PrevNext = ({min, max, handleClick}) => {
         handleClick((state) => (state-1));
     };
 
+    // TODO: place buttons on the same place on the each step page -> on the side, not bottom
+    // It should be possible to click forward and backward without scrolling
     return (
         <>
             <button disabled={min} onClick={ prev }>Previous</button>
