@@ -30,7 +30,7 @@ export const SubsetCodes = ({subset}) => {
             ? chosen.map(item => {
 
                     let already = codes.items.find(code => code.title === item.name);
-                    if (already) return already;
+                    if (already) {return already;}
                     else {
                         const x = {title: item.name, children: []};
                         fetch(`${item._links.self.href}/codesAt.json?date=${searchFrom}`)
@@ -59,7 +59,6 @@ export const SubsetCodes = ({subset}) => {
     }
 
     const {classifications} = useContext(AppContext);
-    useEffect(() => console.log({classifications: classifications}),[classifications]);
 
     // FIXME: use valid to date in the search!
     return (

@@ -4,10 +4,9 @@ import "../css/autosuggest.css";
 export const Search = ({resource = [],
                            setChosen = (item) => console.log("chosen item:", item),
                            placeholder = "Search",
-                           searchBy = (input, resource) =>
-                               input === "" ? [] : resource.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
+                           searchBy = (input, source) =>
+                               input === "" ? [] : source.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
                        }) => {
-    // inspired: https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
     const dom = useRef(null);
 
@@ -33,7 +32,6 @@ export const Search = ({resource = [],
             }
             case keys.ENTER: {
                 e.preventDefault();
-                console.log("Chosen by ENTER", suggestions[active], searchInput);
                 handleChoice(active === -1 ? searchInput : suggestions[active].name);
                 break;
             }
@@ -42,7 +40,6 @@ export const Search = ({resource = [],
     }
 
     function handleChoice(choice) {
-        console.log("handleChoice", choice);
         setSuggestions([]);
         setSearchInput(choice);
         dom.current.focus();
@@ -78,7 +75,6 @@ export const Search = ({resource = [],
                         <div key={i} className={i===active ? "autocomplete-active" : "autocomplete"}
                              onClick={(e) => {
                                  e.preventDefault();
-                                 console.log("Chosen by click", suggestion);
                                  setActive(i);
                                  handleChoice(suggestion.name);
                              }}>
@@ -86,10 +82,7 @@ export const Search = ({resource = [],
                         </div>))}
                 </div>
             </div>
-            <button onClick={() => {
-                console.log("Chosen by search button", searchInput);
-                handleChoice(searchInput)
-            }}>Search</button>
+            <button onClick={() => handleChoice(searchInput)}>Search</button>
         </>
     );
 };

@@ -66,7 +66,7 @@ export const Controls = ({item, dispatch, controls}) => {
             {controls.find(c => c.name === "include") &&
             <input type="checkbox" name="include" checked={item.checked}
                    onChange={() => {
-                       dispatch({action: "toggle_include", data: {item: item, checked: !item.checked }});
+                       dispatch({action: "toggle_include", data: {item, checked: !item.checked }});
                        controls.find(c => c.name === "include").callback(item);
                    }} />
             }
@@ -74,10 +74,10 @@ export const Controls = ({item, dispatch, controls}) => {
             <input type="number" name="rank" style={{width: "4em"}} value={item.rank}
                 // FIXME do not returns a number on the 3d level, but text -> list becomes non-sortable!!!
                    onChange={(e) => {
-                       dispatch({action: "rank", data: {item: item, rank: e.target.value}});
+                       dispatch({action: "rank", data: {item, rank: e.target.value}});
                    }} />
             }
-    </span>)
+    </span>);
 };
 
 // TODO: confusing names include/checked -> choose one
@@ -105,7 +105,7 @@ function linkParent(item) {
 // FIXME: unefficient linking and unlinking on each update -> solution: use Proxy
 // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
 export function unlinkParent(item) {
-    if (!item) return;
+    if (!item) {return;}
     item.children.forEach(child => {
         delete child.parent;
         unlinkParent(child);
@@ -138,7 +138,7 @@ export const useList = (list) => {
     reorder(list);
 
     function update(data) {
-        dispatch({ action: "update", data: data });
+        dispatch({ action: "update", data });
     }
 
     function remove(titles) {
