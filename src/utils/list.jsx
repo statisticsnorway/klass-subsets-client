@@ -51,7 +51,7 @@ export const ListItem = ({controls, item, dispatch}) => {
             />
             {item.expanded && <ListItems items={item.children} controls={controls} dispatch={dispatch} />}
         </li>
-    )
+    );
 };
 
 export const Controls = ({item, dispatch, controls}) => {
@@ -138,7 +138,7 @@ export const useList = (list) => {
     reorder(list);
 
     function update(data) {
-        dispatch({ action: "update", data });
+        dispatch({action: "update", data});
     }
 
     function remove(titles) {
