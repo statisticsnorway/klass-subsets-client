@@ -23,7 +23,7 @@ export const ListItems = ({controls, items, dispatch}) => {
             {items.map((item, i) =>
                 <ListItem key={i} item={item} controls={controls} dispatch={dispatch} />)}
         </ul>
-    )
+    );
 };
 
 export const ListItem = ({controls, item, dispatch}) => {

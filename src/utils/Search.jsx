@@ -32,7 +32,7 @@ export const Search = ({resource = [],
             }
             case keys.ENTER: {
                 e.preventDefault();
-                handleChoice(active === -1 ? searchInput : suggestions[active].name);
+                handleChoice(active === -1 ? searchInput : suggestions[parseInt(active)].name);
                 break;
             }
             default: break;
