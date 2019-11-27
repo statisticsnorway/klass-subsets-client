@@ -1,6 +1,7 @@
 import React, {createContext, useEffect} from "react";
 import { useSubset } from "../utils/useSubset";
 import { useErrorRegister } from "../utils/useErrorRegister";
+import { useGet } from "./klass-api";
 
 /** Context Principles
  *
@@ -26,14 +27,17 @@ import { useErrorRegister } from "../utils/useErrorRegister";
 
 export const AppContext = createContext({});
 
+// TODO: backup the context in session storage every 1 min?
+// TODO: remove draft from session storage after successful submitting to the server
 export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister(
         /* FIXME: for visible test purposes. Remove before release! */
             []
     );
 
+    // TODO: better defaults
     const subset = useSubset({
-        ownerId: "Default ownerId",
+        ownerId: "",
         names: [{ text: "Uttrekk for ...", lang: "nb" }],
         valid: { from: new Date().toISOString().substr(0, 10) },
         subject: "Work",
@@ -43,8 +47,13 @@ export const ContextProvider = ({ children }) => {
 
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
+    const [ssbsections] = useGet("ssbsections.json");
+    const [classificationfamilies] = useGet("classificationfamilies.json");
+    // TODO: more flexible url building based on first response?
+    const [classifications] = useGet("classifications.json?includeCodelists=true&page=0&size=1000");
+
     return (
-        <AppContext.Provider value={{subset, errorRegister}}>
+        <AppContext.Provider value={{subset, errorRegister, ssbsections, classificationfamilies, classifications}}>
             {children}
         </AppContext.Provider>
     );

@@ -1,67 +1,100 @@
 
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Search} from "../../utils/Search";
-import {List} from "../../utils/list";
+import {List, useList} from "../../utils/list";
+import {AppContext} from "../../controllers/context";
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
-    const [chosen, setChosen] = useState("");
-    useEffect(() => console.log({ newState: chosen }),[chosen]);
+    // FIXME: fails on "(" input and in result string
+
+    const [chosen, setChosen] = useState([]);
+    const searchResult = useList([]);
+    const codes = useList(subset.draft.codes);
+
+    const [searchFrom, setSearchFrom] = useState(subset.draft.valid.from);
+    const [searchTo, setSearchTo] = useState(subset.draft.valid.to);
+
+    useEffect(() => codes.update(subset.draft.codes),[subset]);
+
+    // FIXME: make the list item update (show expandable control) whe the codes arrived from klass-api
+    // Solution: useEffect should depend on searchResult ?
     useEffect(() => {
-        if (chosen) {
-            subset.dispatch({action: "codes_add", data:
-                { title: chosen, children:
-                    [
-                        { title: 'A' },
-                        { title: 'B' }
-                    ]}
-            });
-        }
+        searchResult.items.length > 0 && subset.dispatch({
+            action: "codes_prepend_checked",
+            data: searchResult.items
+        });
+
+        const result = chosen
+            ? chosen.map(item => {
+
+                    let already = codes.items.find(code => code.title === item.name);
+                    if (already) {return already;}
+                    else {
+                        const x = {title: item.name, children: []};
+                        fetch(`${item._links.self.href}/codesAt.json?date=${searchFrom}`)
+                            .then(response => response.json())
+                            .then(data => x.children = convertToList(data.codes))
+                            .catch(e => console.log(e));
+                        return x;
+                    }
+                }
+            )
+            : [];
+        searchResult.update(result);
+        codes.remove(chosen.map(i => i.name));
     },[chosen]);
 
-    const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda",
-        "Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh",
-        "Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina",
-        "Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia",
-        "Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China",
-        "Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus",
-        "Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador",
-        "Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland",
-        "France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar",
-        "Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti",
-        "Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man",
-        "Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait",
-        "Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
-        "Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands",
-        "Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat",
-        "Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles",
-        "New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan",
-        "Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal",
-        "Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa",
-        "San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone",
-        "Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan",
-        "Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland",
-        "Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo",
-        "Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu",
-        "Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay",
-        "Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia",
-        "Zimbabwe"];
+    function convertToList(array) {
+        array.forEach(i => i.title = `${i.code} - ${i.name}`);
+        const children = array.filter(i => i.parentCode === null);
+        children.forEach(parent => findChildren(array, parent));
+        return children;
+    }
 
+    function findChildren(array, parent) {
+        parent.children = array.filter(i => i.parentCode === parent.code);
+        parent.children.forEach(child => findChildren(array, child));
+    }
+
+    const {classifications} = useContext(AppContext);
+
+    // FIXME: use valid to date in the search!
     return (
         <div className="page">
             <h3>Choose codes</h3>
-            <Search items={countries}
-                    setChosen={ (item) => setChosen(item) }
-                    placeholder="Country"/>
+            <fieldset>
+                <Search resource={classifications ? classifications._embedded.classifications : []}
+                    setChosen={(item) => setChosen(item)}
+                    placeholder="Classification"
+                    searchBy = {(input, resource) =>
+                        input === "" ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
+                />
+                <label style={{display:"block"}}>Valid period</label>
+                <label>From:<input type="date"
+                                   value={searchFrom}
+                                   onChange={(e) => setSearchFrom(e.target.value)} /></label>
+                <label>To:<input type="date"
+                                 value={searchTo}
+                                 onChange={(e) => setSearchTo(e.target.value)} /></label>
+            </fieldset>
+
             <h3>Search results</h3>
-            { (subset.draft
-                && subset.draft.codes
-                && subset.draft.codes.length > 0)
-                    ? <List listitems={subset.draft.codes} />
-                    : <p>Nothing to show</p>}
-                <button onClick={() => console.log("current codes", subset.draft.codes)}
-                >Show codes</button>
+            {searchResult.items.length > 0
+                ? <List list={searchResult} />
+                : <p>Nothing to show</p>}
+
+            <h3>Chosen classification codes</h3>
+            {// FIXME: remove unselected classifications! when? prompt? extra button?
+             // TODO: show more data on item component (info block, date, etc?)
+            }
+            {codes && codes.items.length > 0
+                ? <List list={codes} />
+                : <p>No codes in the subset draft</p>}
+            <button onClick={() => console.log("current codes", subset.draft.codes)}
+            >Show codes
+            </button>
         </div>
     );
 };

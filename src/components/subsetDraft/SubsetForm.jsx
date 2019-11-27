@@ -5,6 +5,7 @@ import {Navigation, Step} from "../../utils/navigation";
 import {SubsetReorder} from "./SubsetReorder";
 import {SubsetCodes} from "./SubsetCodes";
 import {SubsetMetadata} from "./SubsetMetadata";
+import {unlinkParent} from "../../utils/list";
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
@@ -22,12 +23,18 @@ export default function SubsetForm() {
     );
 }
 
+// TODO: better preview (human pleasant)
 export const SubsetPreview = ({subset}) => {
+
+    // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
+    subset && subset.draft && subset.draft.codes && subset.draft.codes.forEach(code => unlinkParent(code));
+
     return (
         <>
             <h3>Subset preview</h3>
             <pre>{JSON.stringify(subset.draft, null, 4)}</pre>
-            <button onClick={() => {console.log("Publish subset: ", subset.draft);}}>Publish</button>
+            <button onClick={() =>
+                console.log("Publish subset: ", subset.draft)}>Publish</button>
             <br/><br/>
         </>
     );
