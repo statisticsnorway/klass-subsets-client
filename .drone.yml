@@ -6,3 +6,4 @@ steps:
     image: node
     commands:
       - yarn
+      - yarn test
