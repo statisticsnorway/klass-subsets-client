@@ -2,9 +2,33 @@ kind: pipeline
 name: klass-subsets-web
 
 steps:
-  - name: build
-    image: node
+  - name: install
+    image: node:current-alpine
     commands:
-      - yarn
-      - yarn test
+      - yarn install
+    when:
+      event:
+        - pull_request
+        - push
 
+  - name: test
+    image: node:current-alpine
+    commands:
+      - yarn test
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
+
+  - name: build
+    image: node:current-alpine
+    commands:
+      - yarn build
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
