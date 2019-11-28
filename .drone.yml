@@ -25,7 +25,7 @@ steps:
   - name: build
     image: node:current-alpine
     commands:
-      - yarn run build
+      - CI=false yarn run build
     when:
       event:
         - pull_request
@@ -33,7 +33,3 @@ steps:
     depends_on:
       - install
 
-trigger:
-  ref:
-  - refs/heads/development
-  - refs/pull/*/head
