@@ -25,7 +25,7 @@ steps:
   - name: build
     image: node:current-alpine
     commands:
-      - CI=true yarn build
+      - yarn build
     when:
       event:
         - pull_request
