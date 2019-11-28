@@ -1,5 +1,5 @@
 kind: pipeline
-name: default
+name: klass-subsets-web
 
 steps:
   - name: build
@@ -7,4 +7,4 @@ steps:
     commands:
       - yarn
       - yarn test
-      - yarn build
+
