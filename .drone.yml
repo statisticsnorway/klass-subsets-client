@@ -21,3 +21,14 @@ steps:
         - push
     depends_on:
       - install
+
+  - name: build
+    image: node:current-alpine
+    commands:
+      - CI=true yarn build
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
