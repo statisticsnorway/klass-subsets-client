@@ -32,3 +32,8 @@ steps:
         - push
     depends_on:
       - install
+
+trigger:
+  ref:
+  - refs/heads/development
+  - refs/pull/*/head
