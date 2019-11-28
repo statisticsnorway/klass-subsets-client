@@ -14,7 +14,7 @@ steps:
   - name: test
     image: node:current-alpine
     commands:
-      - CI=true yarn coverage
+      - yarn coverage
     when:
       event:
         - pull_request
