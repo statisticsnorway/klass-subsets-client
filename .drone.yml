@@ -38,7 +38,7 @@ steps:
     settings:
       repo: prod-bip/klass-subsets-web
       registry: eu.gcr.io
-      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
+      tags: ""delopment-${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
       json_key:
         from_secret: gcr_credentials
     when:
