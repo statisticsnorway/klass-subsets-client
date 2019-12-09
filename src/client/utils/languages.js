@@ -1,5 +1,5 @@
 import {languages as defaultLanguages} from "../controllers/defaults";
-import {clone} from "../utils/arrays";
+import {clone} from "./arrays";
 
 export function availableLanguages() {
     return clone(defaultLanguages);
