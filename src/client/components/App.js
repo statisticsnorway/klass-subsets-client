@@ -16,7 +16,7 @@ export default function App() {
                         <div className="App-name">
                             <Link to="/">
                                 <img src={logo} className="App-logo" alt="SSB logo"/>
-                                Klass uttrekk admin v0.1 without serviceWorker
+                                Klass uttrekk admin v0.1.1 new structure
                             </Link>
                         </div>
                     </header>

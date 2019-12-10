@@ -1,12 +1,29 @@
 {
   "name": "klass-subsets-web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
+  "@comment dependencies": [
+    "typescript: peer dependency react-scripts@3.3.0, tsutils@3.17.1",
+    "node-sass:  peer dependency sass-loader@8.0.0",
+    "sass:       peer dependency sass-loader@8.0.0",
+    "fibers:     peer dependency sass-loader@8.0.0",
+    "",
+    "To decide if this peer dependencies are stil needed, ",
+    "remove them from dependensies and run 'npm install' or 'yarn install. ",
+    "NPM will notify if any peer dependencies are required."
+  ],
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fibers": "^4.0.2",
+    "node-sass": "^4.13.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.2.0"
+    "react-scripts": "^3.3.0",
+    "sass": "^1.23.7",
+    "typescript": "^3.7.3"
   },
   "scripts": {
     "start": "react-scripts start",
