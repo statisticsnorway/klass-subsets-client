@@ -2,15 +2,6 @@ Classification subsets web application
 Statistics Norway
 2019
 
-# Docker
-Testing klass-subsets-web under Apache httpd 2.4
-```shell
-docker build -t klass-subsets-web .
-docker run -dit -p 80:80 klass-subsets-web
-curl --head localhost
-docker stop $(docker ps -aq)
-```
-
 # Installation guide for local environment
 
 ## Required software 
@@ -25,7 +16,7 @@ Download and install a modern browser of your choice.<br>
 Recommend to use Chrome, the most secure browser today.
 
 ## Source code (development branch)
-`$ git clone https://<git-username>@git.vegvesen.no/scm/brut/tunnels-web.git`
+this repo
 
 ## Start local server
 Install dependencies for the project (production build):
