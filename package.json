@@ -1,8 +1,9 @@
 {
   "name": "klass-subsets-web",
   "version": "0.1.1",
-  "private": true,
+  "description": "Classification subsets web application\r Statistics Norway\r 2019",
   "@comment dependencies": [
+    "PEER DEPENDENCIES",
     "typescript: peer dependency react-scripts@3.3.0, tsutils@3.17.1",
     "node-sass:  peer dependency sass-loader@8.0.0",
     "sass:       peer dependency sass-loader@8.0.0",
@@ -18,6 +19,7 @@
     "express": "^4.17.1",
     "fibers": "^4.0.2",
     "node-sass": "^4.13.0",
+    "path": "^0.12.7",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
@@ -26,10 +28,12 @@
     "typescript": "^3.7.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "webpack",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "scr/server/server",
+    "dev": "webpack-dev-server --open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,5 +49,30 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "main": "server.js",
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/register": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/statisticsnorway/klass-subsets-web.git"
+  },
+  "keywords": [
+    "klass",
+    "subsets",
+    "web"
+  ],
+  "bugs": {
+    "url": "https://github.com/statisticsnorway/klass-subsets-web/issues"
+  },
+  "homepage": "https://github.com/statisticsnorway/klass-subsets-web#readme"
 }

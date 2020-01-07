@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../images/SSB_logo.png";
+import logo from "../images/SSBlogo.png";
 import "../css/App.css";
 import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
 import {ContextProvider} from "../controllers/context";
