@@ -13,9 +13,6 @@
     "NPM will notify if any peer dependencies are required."
   ],
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
     "fibers": "^4.0.2",
     "node-sass": "^4.13.0",
     "react": "^16.9.0",
