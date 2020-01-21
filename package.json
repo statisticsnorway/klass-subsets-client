@@ -13,6 +13,7 @@
     "NPM will notify if any peer dependencies are required."
   ],
   "dependencies": {
+    "@statisticsnorway/ssb-component-library": "^2.0.0",
     "fibers": "^4.0.2",
     "node-sass": "^4.13.0",
     "react": "^16.9.0",
