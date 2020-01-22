@@ -2,6 +2,7 @@ import React, {useEffect, useContext} from "react";
 import "../../css/form.css";
 import {TextLanguageFieldset} from "../../utils/forms";
 import {AppContext} from "../../controllers/context";
+import { Button } from '@statisticsnorway/ssb-component-library';
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -79,8 +80,8 @@ export const SubsetMetadata = ({subset}) => {
 
             <br/><br/>
 
-            <button onClick={() => {subset.dispatch({action: "empty"});}}>Empty</button>
-            <button onClick={() => {subset.dispatch({action: "reset"});}}>Reset</button>
+            <Button onClick={() => {subset.dispatch({action: "empty"});}}>Empty</Button>
+            <Button onClick={() => {subset.dispatch({action: "reset"});}}>Reset</Button>
 
             <br/><br/>
         </>

@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
+import { Button } from '@statisticsnorway/ssb-component-library';
 
 // TODO: add api to navigate to particular steps from inside og the form.
 // For instance from the last (preview) page.
@@ -43,8 +44,8 @@ export const PrevNext = ({min, max, handleClick}) => {
     // It should be possible to click forward and backward without scrolling
     return (
         <>
-            <button disabled={min} onClick={ prev }>Previous</button>
-            <button disabled={max} onClick={ next }>Next</button>
+            <Button primary disabled={min} onClick={ prev }>Previous</Button>
+            <Button primary disabled={max} onClick={ next }>Next</Button>
         </>
     );
 };
