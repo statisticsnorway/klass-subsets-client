@@ -1,12 +1,12 @@
 import React from "react";
 import logo from "../images/SsbLogo.svg";
 import "../css/App.css";
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Link, useLocation} from "react-router-dom";
 import {ContextProvider} from "../controllers/context";
 import WelcomePage from "./WelcomePage";
 import Errors from "./Errors";
 import SubsetForm from "./subsetDraft/SubsetForm";
-import { Header, Divider, Tabs, Link as DesignedLink } from '@statisticsnorway/ssb-component-library';
+import { Header, Divider, Tabs, Title, Text } from '@statisticsnorway/ssb-component-library';
 
 
 export default function App() {
@@ -15,18 +15,18 @@ export default function App() {
             <Router>
                 <div className="App">
                     <Header>
-{/* TODO: implement in version 2
 
                         <div className="global-links" style={{ float: 'right', marginBottom: '12px', marginTop: '10px'  }}>
-                            <Link href=" ">top-item 3</Link>
-                            <Link href=" ">top-item 2</Link>
-                            <Link href=" ">top-item 1</Link>
+                            <Link href=" ">English</Link>
+                            <Link href=" ">Login</Link>
                         </div>
-*/}
+
                         <div className="top-row flex-row justify-space-between flex-wrap" style={{ width: '100%' }}>
                             <Link to="/">
                                 <img src={logo} className="App-logo" alt="SSB-logo"/>
-                                Klass uttrekk admin v0.1.1 styled
+                                <Title>Klass uttrekk
+                                <Text> | v0.1.2 styled</Text>
+                                </Title>
                             </Link>
 {/* TODO: implement in version 2
 
@@ -37,9 +37,10 @@ export default function App() {
 */}
                         </div>
                         <div className="header-content" style={{ marginBottom: '20px', marginTop: '14px' }}>
-                            <Tabs items={[
+                            <Tabs activeOnInit='/'
+                                  items={[
                                 { title: 'Home', path: '/' },
-                                { title: 'Create Subset', path: 'category2/' },
+                                { title: 'Create Subset', path: '/create' },
                                 { title: 'Feedback', path: 'category3/' },
                             ]} />
                             <Divider />
