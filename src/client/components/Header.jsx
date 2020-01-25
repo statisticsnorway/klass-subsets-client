@@ -1,10 +1,11 @@
 import logo from "../images/SsbLogo.svg";
 import React from "react";
-import { Link, useHistory} from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import {Header as SsbHeader, Link as SsbLink, Divider, Tabs, Title, Text} from "@statisticsnorway/ssb-component-library";
 
 export default function Header() {
     let history = useHistory();
+    let location = useLocation();
 
     return (
         <SsbHeader>
@@ -32,7 +33,7 @@ export default function Header() {
             </div>
 
             <div className="header-content" style={{marginBottom: '20px', marginTop: '14px'}}>
-                <Tabs activeOnInit='/' onClick={(path) => history.push(path)}
+                <Tabs activeOnInit={location.pathname} onClick={(path) => history.push(path)}
                       items={[
                           {title: 'Search Subsets', path: '/'},
                           {title: 'Create Subset', path: '/create'},
