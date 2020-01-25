@@ -1,7 +1,7 @@
-import logo from "../images/SsbLogo.svg";
-import React from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import {Header as SsbHeader, Link as SsbLink, Divider, Tabs, Title, Text} from "@statisticsnorway/ssb-component-library";
+import logo from '../images/SsbLogo.svg';
+import React from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import {Header as SsbHeader, Link as SsbLink, Divider, Tabs, Title, Text} from '@statisticsnorway/ssb-component-library';
 
 export default function Header() {
     let history = useHistory();
@@ -9,30 +9,28 @@ export default function Header() {
 
     return (
         <SsbHeader>
-
-            <div className="global-links" style={{float: 'right', marginBottom: '12px', marginTop: '10px'}}>
-                <SsbLink href=" ">English</SsbLink>
+            <div className='global-links' style={{float: 'right', marginBottom: '12px', marginTop: '10px'}}>
+                <SsbLink href=' '>English</SsbLink>
                 {/* TODO: implement in version 2
-                            <Link href=" ">Bokmål</Link>
-                            <Link href=" ">Nynorsk</Link>
-                            <Link href=" ">Login</Link> */}
+                            <Link href=' '>Bokmål</Link>
+                            <Link href=' '>Nynorsk</Link>
+                            <Link href=' '>Login</Link> */}
             </div>
 
-            <div className="top-row flex-row justify-space-between flex-wrap" style={{width: '100%'}}>
-                <Link to="/">
-                    <img src={logo} className="App-logo" alt="SSB-logo"/>
+            <div className='top-row flex-row justify-space-between flex-wrap' style={{width: '100%'}}>
+                <Link to='/'>
+                    <img src={logo} className='App-logo' alt='SSB-logo'/>
                     <Title>Klass uttrekk <Text> | v0.1.2 styled</Text>
                     </Title>
                 </Link>
 
                 {/* TODO: implement in version 2
-                           <div className="searchfield" style={{ width: '285px', alignSelf: 'flex-end' }}>
-                                <Input ariaLabel="Input field Search" searchField placeholder="Search text" />
-                            </div>
-*/}
+                           <div className='searchfield' style={{ width: '285px', alignSelf: 'flex-end' }}>
+                                <Input ariaLabel='Input field Search' searchField placeholder='Search text' />
+                            </div>*/}
             </div>
 
-            <div className="header-content" style={{marginBottom: '20px', marginTop: '14px'}}>
+            <div className='header-content' style={{marginBottom: '20px', marginTop: '14px'}}>
                 <Tabs activeOnInit={location.pathname} onClick={(path) => history.push(path)}
                       items={[
                           {title: 'Search Subsets', path: '/'},

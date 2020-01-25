@@ -1,16 +1,16 @@
-import React, {useState, useRef} from "react";
-import "../css/autosuggest.css";
+import React, {useState, useRef} from 'react';
+import '../css/autosuggest.css';
 
 export const Search = ({resource = [],
-                           setChosen = (item) => console.log("chosen item:", item),
-                           placeholder = "Search",
+                           setChosen = (item) => console.log('chosen item:', item),
+                           placeholder = 'Search',
                            searchBy = (input, source) =>
-                               input === "" ? [] : source.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
+                               input === '' ? [] : source.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
                        }) => {
 
     const dom = useRef(null);
 
-    const [searchInput, setSearchInput] = useState("");
+    const [searchInput, setSearchInput] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [active, setActive] = useState(-1);
 
@@ -52,7 +52,7 @@ export const Search = ({resource = [],
         const i = origin.toLowerCase().search(substring.toLowerCase());
         return  <>
             <span>{origin.substr(0, i)}</span>
-            <span style={{color:"red"}}>{origin.substr(i, substring.length)}</span>
+            <span style={{color:'red'}}>{origin.substr(i, substring.length)}</span>
             <span>{origin.substr(i+substring.length, origin.length)}</span>
         </>;
     }
@@ -66,13 +66,13 @@ export const Search = ({resource = [],
 
     return (
         <>
-            <div className="autocomplete" style={{width:"300px"}}>
-                <input type="search" name="countrySearch" ref={dom}
+            <div className='autocomplete' style={{width:'300px'}}>
+                <input type='search' name='countrySearch' ref={dom}
                        placeholder={placeholder} value={searchInput} onChange={handleInput}
                        onKeyDown={keyHandler} />
-                <div id="autocomplete-list" className="autocomplete-items">
+                <div id='autocomplete-list' className='autocomplete-items'>
                     {suggestions.map((suggestion, i) => (
-                        <div key={i} className={i===active ? "autocomplete-active" : "autocomplete"}
+                        <div key={i} className={i===active ? 'autocomplete-active' : 'autocomplete'}
                              onClick={(e) => {
                                  e.preventDefault();
                                  setActive(i);

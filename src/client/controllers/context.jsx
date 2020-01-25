@@ -1,7 +1,7 @@
-import React, {createContext, useEffect} from "react";
-import { useSubset } from "../utils/useSubset";
-import { useErrorRegister } from "../utils/useErrorRegister";
-import { useGet } from "./klass-api";
+import React, {createContext, useEffect} from 'react';
+import { useSubset } from '../utils/useSubset';
+import { useErrorRegister } from '../utils/useErrorRegister';
+import { useGet } from './klass-api';
 
 /** Context Principles
  *
@@ -37,20 +37,20 @@ export const ContextProvider = ({ children }) => {
 
     // TODO: better defaults
     const subset = useSubset({
-        ownerId: "",
-        names: [{ text: "Uttrekk for ...", lang: "nb" }],
+        ownerId: '',
+        names: [{ text: 'Uttrekk for ...', lang: 'nb' }],
         valid: { from: new Date().toISOString().substr(0, 10) },
-        subject: "Work",
-        descriptions: [{ text: "Beskrivelse", lang: "nb" }],
+        subject: 'Work',
+        descriptions: [{ text: 'Beskrivelse', lang: 'nb' }],
         codes: []
     });
 
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
-    const [ssbsections] = useGet("ssbsections.json");
-    const [classificationfamilies] = useGet("classificationfamilies.json");
+    const [ssbsections] = useGet('ssbsections.json');
+    const [classificationfamilies] = useGet('classificationfamilies.json');
     // TODO: more flexible url building based on first response?
-    const [classifications] = useGet("classifications.json?includeCodelists=true&page=0&size=1000");
+    const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
 
     return (
         <AppContext.Provider value={{subset, errorRegister, ssbsections, classificationfamilies, classifications}}>

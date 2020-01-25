@@ -1,16 +1,16 @@
-import { useReducer } from "react";
+import { useReducer } from 'react';
 
 export const useErrorRegister = (init) => {
 
     function subsetReducer(state, {action, data}) {
         switch (action) {
-            case "add": {
+            case 'add': {
                 return [...state, data];
             }
-            case "remove": {
+            case 'remove': {
                 return state.filter((item, index) => index !== data);
             }
-            case "empty": {
+            case 'empty': {
                 return [];
             }
             default:

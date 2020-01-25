@@ -1,14 +1,14 @@
-import React, {useReducer} from "react";
-import "../css/list.css";
+import React, {useReducer} from 'react';
+import '../css/list.css';
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list, controls = [
-        {name: "expand", order: -1},
-        {name: "include", order: 1, callback: (i) => console.log("include", i.title)},
+        {name: 'expand', order: -1},
+        {name: 'include', order: 1, callback: (i) => console.log('include', i.title)},
     // TODO: extra checkbox to show, that one or multiple items in the lower levels are selected.
     // deactivated if alle or none are selected.
-        {name: "draggable"},
-        {name: "rank", order: 2}
+        {name: 'draggable'},
+        {name: 'rank', order: 2}
     ]
                      }) => {
 
@@ -19,7 +19,7 @@ export const List = ({list, controls = [
 
 export const ListItems = ({controls, items, dispatch}) => {
     return (
-        <ul className="list">
+        <ul className='list'>
             {items.map((item, i) =>
                 <ListItem key={i} item={item} controls={controls} dispatch={dispatch} />)}
         </ul>
@@ -28,11 +28,11 @@ export const ListItems = ({controls, items, dispatch}) => {
 
 export const ListItem = ({controls, item, dispatch}) => {
     return (
-        <li style={{background: item.dragged ? "lightblue" : "white"}}
-            className="drag" draggable={!!controls.find(c => c.name === "draggable") }
-            onDragOver={() => dispatch({action: "dragOver", data: item})}
-            onDragStart={() => dispatch({action: "dragged", data: item})}
-            onDragEnd={() => dispatch({action: "dropped", data: item})}
+        <li style={{background: item.dragged ? 'lightblue' : 'white'}}
+            className='drag' draggable={!!controls.find(c => c.name === 'draggable') }
+            onDragOver={() => dispatch({action: 'dragOver', data: item})}
+            onDragStart={() => dispatch({action: 'dragged', data: item})}
+            onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
             <Controls
                 item={item}
@@ -40,8 +40,8 @@ export const ListItem = ({controls, item, dispatch}) => {
                 controls={controls.filter(control => control.order < 0)}
             />
 
-            <span className="content"
-                  onClick={() => dispatch({action: "toggle_dragged", data: item})}
+            <span className='content'
+                  onClick={() => dispatch({action: 'toggle_dragged', data: item})}
             >{item.title}</span>
 
             <Controls
@@ -57,24 +57,24 @@ export const ListItem = ({controls, item, dispatch}) => {
 export const Controls = ({item, dispatch, controls}) => {
     return (
         <span>
-            {controls.find(c => c.name === "expand") && item.children && item.children.length > 0 &&
-            <button onClick={() => dispatch({action: "toggle_expand", data: item})}
+            {controls.find(c => c.name === 'expand') && item.children && item.children.length > 0 &&
+            <button onClick={() => dispatch({action: 'toggle_expand', data: item})}
             >{item.expanded ? <span >&#9652;</span> : <span>&#9662;</span>}
             </button>
             }
 
-            {controls.find(c => c.name === "include") &&
-            <input type="checkbox" name="include" checked={item.checked}
+            {controls.find(c => c.name === 'include') &&
+            <input type='checkbox' name='include' checked={item.checked}
                    onChange={() => {
-                       dispatch({action: "toggle_include", data: {item, checked: !item.checked }});
-                       controls.find(c => c.name === "include").callback(item);
+                       dispatch({action: 'toggle_include', data: {item, checked: !item.checked }});
+                       controls.find(c => c.name === 'include').callback(item);
                    }} />
             }
-            {controls.find(c => c.name === "rank") &&
-            <input type="number" name="rank" style={{width: "4em"}} value={item.rank}
+            {controls.find(c => c.name === 'rank') &&
+            <input type='number' name='rank' style={{width: '4em'}} value={item.rank}
                 // FIXME do not returns a number on the 3d level, but text -> list becomes non-sortable!!!
                    onChange={(e) => {
-                       dispatch({action: "rank", data: {item, rank: e.target.value}});
+                       dispatch({action: 'rank', data: {item, rank: e.target.value}});
                    }} />
             }
     </span>);
@@ -138,52 +138,52 @@ export const useList = (list) => {
     reorder(list);
 
     function update(data) {
-        dispatch({action: "update", data});
+        dispatch({action: 'update', data});
     }
 
     function remove(titles) {
-        dispatch({action: "remove", data: titles});
+        dispatch({action: 'remove', data: titles});
     }
 
     function listReducer(state, {action, data = {}}) {
         switch (action) {
-            case "update": {
+            case 'update': {
                 return [...data];
             }
-            case "remove": {
+            case 'remove': {
                 return state.filter(item => !data.includes(item.title));
             }
-            case "toggle_expand": {
+            case 'toggle_expand': {
                 data.expanded = !data.expanded;
                 return [...state];
             }
-            case "toggle_include": {
+            case 'toggle_include': {
                 data.checked ? include(data.item) : exclude(data.item);
                 return [...state];
             }
-            case "rank": {
+            case 'rank': {
                 data.item.rank = data.rank;
-                data.rank !== "" && data.rank !== "-"
+                data.rank !== '' && data.rank !== '-'
                 && reorder(data.item.parent ? data.item.parent.children : state);
                 return [...state];
             }
             // FIXME: slow on hundreds of items
-            case "dragOver": {
+            case 'dragOver': {
                 state.filter(item => item.dragged)
                     .forEach(item => item.rank = data.rank);
                 reorder(state);
                 return [...state];
             }
             // TODO: item_dragged and item_toggle_dragged are same?
-            case "dragged": {
+            case 'dragged': {
                 data.dragged = true;
                 return [...state];
             }
-            case "toggle_dragged": {
+            case 'toggle_dragged': {
                 data.dragged = !data.dragged;
                 return [...state];
             }
-            case "dropped": {
+            case 'dropped': {
                 state.filter(item => item.dragged)
                     .forEach(item => item.dragged = false);
                 return [...state];

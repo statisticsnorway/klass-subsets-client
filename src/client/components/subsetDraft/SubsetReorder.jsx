@@ -1,6 +1,6 @@
-import React from "react";
-import {flatten} from "../../utils/arrays";
-import {List, useList, unlinkParent} from "../../utils/list";
+import React from 'react';
+import {flatten} from '../../utils/arrays';
+import {List, useList, unlinkParent} from '../../utils/list';
 
 export const SubsetReorder = ({subset}) => {
 
@@ -19,7 +19,7 @@ export const SubsetReorder = ({subset}) => {
     return (
         <>
             <h3>Subset reorder</h3>
-            <button onClick={() => console.log("Reorder subset: ", subset.draft)}>Show codes</button>
+            <button onClick={() => console.log('Reorder subset: ', subset.draft)}>Show codes</button>
 
             {codes
                 ? <List list={codes} />

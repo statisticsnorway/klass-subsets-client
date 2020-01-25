@@ -1,13 +1,13 @@
 
-import React, {useState, useEffect, useContext} from "react";
-import {Search} from "../../utils/Search";
-import {List, useList} from "../../utils/list";
-import {AppContext} from "../../controllers/context";
+import React, {useState, useEffect, useContext} from 'react';
+import {Search} from '../../utils/Search';
+import {List, useList} from '../../utils/list';
+import {AppContext} from '../../controllers/context';
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
 
-    // FIXME: fails on "(" input and in result string
+    // FIXME: fails on '(' input and in result string
 
     const [chosen, setChosen] = useState([]);
     const searchResult = useList([]);
@@ -22,7 +22,7 @@ export const SubsetCodes = ({subset}) => {
     // Solution: useEffect should depend on searchResult ?
     useEffect(() => {
         searchResult.items.length > 0 && subset.dispatch({
-            action: "codes_prepend_checked",
+            action: 'codes_prepend_checked',
             data: searchResult.items
         });
 
@@ -62,20 +62,20 @@ export const SubsetCodes = ({subset}) => {
 
     // FIXME: use valid to date in the search!
     return (
-        <div className="page">
+        <div className='page'>
             <h3>Choose codes</h3>
             <fieldset>
                 <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setChosen(item)}
-                    placeholder="Classification"
+                    placeholder='Classification'
                     searchBy = {(input, resource) =>
-                        input === "" ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
+                        input === '' ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
                 />
-                <label style={{display:"block"}}>Valid period</label>
-                <label>From:<input type="date"
+                <label style={{display:'block'}}>Valid period</label>
+                <label>From:<input type='date'
                                    value={searchFrom}
                                    onChange={(e) => setSearchFrom(e.target.value)} /></label>
-                <label>To:<input type="date"
+                <label>To:<input type='date'
                                  value={searchTo}
                                  onChange={(e) => setSearchTo(e.target.value)} /></label>
             </fieldset>
@@ -92,7 +92,7 @@ export const SubsetCodes = ({subset}) => {
             {codes && codes.items.length > 0
                 ? <List list={codes} />
                 : <p>No codes in the subset draft</p>}
-            <button onClick={() => console.log("current codes", subset.draft.codes)}
+            <button onClick={() => console.log('current codes', subset.draft.codes)}
             >Show codes
             </button>
         </div>

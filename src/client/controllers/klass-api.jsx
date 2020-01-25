@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {klassApiServiceEndpoint} from "../config.js";
+import {klassApiServiceEndpoint} from '../config.js';
 
 // TODO: error handling using global and private error handlers
 export function useGet(url = null) {
@@ -23,8 +23,8 @@ export function useGet(url = null) {
                 setError({
                     timestamp: Date.now(),
                     status: e.status,
-                    error: "Fetch error",
-                    message: "Error during fetching the subset",
+                    error: 'Fetch error',
+                    message: 'Error during fetching the subset',
                     path
                 });
                 setIsLoading(false);
