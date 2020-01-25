@@ -1,5 +1,5 @@
-import React from 'react';
-import '../css/pages.css';
+import React from "react";
+import "../../css/pages.css";
 import { Link } from "react-router-dom";
 import { Button } from "@statisticsnorway/ssb-component-library";
 
@@ -16,7 +16,6 @@ export default function WelcomePage() {
                 rel="noopener noreferrer"
             >GitHub repository</a>
             </p>
-            <Link to="/create"><Button primary>New subset</Button></Link>
         </div>
     );
 }

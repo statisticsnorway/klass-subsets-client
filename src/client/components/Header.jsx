@@ -1,7 +1,7 @@
 import logo from "../images/SsbLogo.svg";
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
-import {Header as SsbHeader, Divider, Tabs, Title, Text} from "@statisticsnorway/ssb-component-library";
+import { Link, useHistory} from "react-router-dom";
+import {Header as SsbHeader, Link as SsbLink, Divider, Tabs, Title, Text} from "@statisticsnorway/ssb-component-library";
 
 export default function Header() {
     let history = useHistory();
@@ -9,14 +9,14 @@ export default function Header() {
     return (
         <SsbHeader>
 
-{/* TODO: implement in version 2
-                        <div className="global-links" style={{ float: 'right', marginBottom: '12px', marginTop: '10px'  }}>
-                            <Link href=" ">English</Link>
+            <div className="global-links" style={{float: 'right', marginBottom: '12px', marginTop: '10px'}}>
+                <SsbLink href=" ">English</SsbLink>
+                {/* TODO: implement in version 2
                             <Link href=" ">Bokmål</Link>
                             <Link href=" ">Nynorsk</Link>
-                            <Link href=" ">Login</Link>
-                        </div>
-*/}
+                            <Link href=" ">Login</Link> */}
+            </div>
+
             <div className="top-row flex-row justify-space-between flex-wrap" style={{width: '100%'}}>
                 <Link to="/">
                     <img src={logo} className="App-logo" alt="SSB-logo"/>
@@ -24,7 +24,7 @@ export default function Header() {
                     </Title>
                 </Link>
 
-{/* TODO: implement in version 2
+                {/* TODO: implement in version 2
                            <div className="searchfield" style={{ width: '285px', alignSelf: 'flex-end' }}>
                                 <Input ariaLabel="Input field Search" searchField placeholder="Search text" />
                             </div>
@@ -34,8 +34,9 @@ export default function Header() {
             <div className="header-content" style={{marginBottom: '20px', marginTop: '14px'}}>
                 <Tabs activeOnInit='/' onClick={(path) => history.push(path)}
                       items={[
-                          {title: 'Home', path: '/'},
+                          {title: 'Search Subsets', path: '/'},
                           {title: 'Create Subset', path: '/create'},
+                          {title: 'About', path: '/about'},
                           {title: 'Feedback', path: '/feedback'},
                           {title: 'Changelog', path: '/changelog'},
                       ]}/>

@@ -2,8 +2,9 @@ import React from "react";
 import "../css/App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { ContextProvider } from "../controllers/context";
-import WelcomePage from "./WelcomePage";
 import Header from "./Header";
+import WelcomePage from "./pages/WelcomePage";
+import SearchSubsetsPage from "./pages/SearchSubsetsPage";
 import Errors from "./Errors";
 import SubsetForm from "./subsetDraft/SubsetForm";
 
@@ -15,8 +16,9 @@ export default function App() {
                     <Header/>
                     <Errors/>
                     <Switch>
-                        <Route path="/" exact component={WelcomePage}/>
+                        <Route path="/" exact component={SearchSubsetsPage}/>
                         <Route path="/create" component={SubsetForm}/>
+                        <Route path="/about" exact component={WelcomePage}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </div>
