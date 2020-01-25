@@ -13,7 +13,8 @@ export const SubsetReorder = ({subset}) => {
         // FIXME: fix flatten util instead of sorting!
             // .sort((a,b) => (a.rank - b.rank))
         .sort((a,b) => (b.rank - a.rank))
-        .map(code => (code.children.filter(i => i.checked)))));
+        .map(code => (code.children.filter(i => i.checked))))
+    );
 
     // TODO: show more data on item component (info block, date, etc?)
     return (

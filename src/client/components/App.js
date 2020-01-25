@@ -25,7 +25,7 @@ export default function App() {
             </Router>
         </ContextProvider>
     );
-}
+};
 
 export function NoMatch({location}) {
     return (

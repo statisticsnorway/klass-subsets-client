@@ -42,5 +42,5 @@ export default function Header() {
                 <Divider/>
             </div>
         </SsbHeader>
-    )
-}
+    );
+};

@@ -7,6 +7,7 @@ import {SubsetCodes} from './SubsetCodes';
 import {SubsetMetadata} from './SubsetMetadata';
 import {unlinkParent} from '../../utils/list';
 import { Button } from '@statisticsnorway/ssb-component-library';
+import {Subset} from "../Subset";
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
@@ -33,7 +34,7 @@ export const SubsetPreview = ({subset}) => {
     return (
         <>
             <h3>Subset preview</h3>
-            <pre>{JSON.stringify(subset.draft, null, 4)}</pre>
+            <Subset subset={subset.draft}/>
             <Button onClick={() =>
                 console.log('Publish subset: ', subset.draft)}>Publish</Button>
             <br/><br/>
