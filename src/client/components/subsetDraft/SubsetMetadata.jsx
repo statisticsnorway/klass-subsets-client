@@ -2,7 +2,7 @@ import React, {useEffect, useContext} from "react";
 import "../../css/form.css";
 import {TextLanguageFieldset} from "../../utils/forms";
 import {AppContext} from "../../controllers/context";
-import { Button } from '@statisticsnorway/ssb-component-library';
+import { Button } from "@statisticsnorway/ssb-component-library";
 
 export const SubsetMetadata = ({subset}) => {
 

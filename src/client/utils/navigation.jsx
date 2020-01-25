@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Button } from '@statisticsnorway/ssb-component-library';
+import { Button } from "@statisticsnorway/ssb-component-library";
 
 // TODO: add api to navigate to particular steps from inside og the form.
 // For instance from the last (preview) page.

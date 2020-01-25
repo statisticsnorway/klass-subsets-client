@@ -6,7 +6,7 @@ import {SubsetReorder} from "./SubsetReorder";
 import {SubsetCodes} from "./SubsetCodes";
 import {SubsetMetadata} from "./SubsetMetadata";
 import {unlinkParent} from "../../utils/list";
-import { Button } from '@statisticsnorway/ssb-component-library';
+import { Button } from "@statisticsnorway/ssb-component-library";
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/pages.css';
 import { Link } from "react-router-dom";
-import { Button } from '@statisticsnorway/ssb-component-library';
+import { Button } from "@statisticsnorway/ssb-component-library";
 
 export default function WelcomePage() {
     return (
