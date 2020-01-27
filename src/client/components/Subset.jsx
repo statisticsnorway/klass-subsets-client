@@ -18,7 +18,9 @@ export const Subset = ({subset}) => {
             { codes.map( code => (
                 <Code code={code}/>
             ))}
-            <pre>{JSON.stringify(subset, null, 4)}</pre>
+            <Accordion header='Raw JSON'>
+                <pre>{JSON.stringify(subset, null, 4)}</pre>
+            </Accordion>
         </>
     );
 };
