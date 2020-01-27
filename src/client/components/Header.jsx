@@ -43,4 +43,4 @@ export default function Header() {
             </div>
         </SsbHeader>
     );
-};
+}

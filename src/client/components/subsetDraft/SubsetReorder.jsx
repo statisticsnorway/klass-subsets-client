@@ -20,8 +20,6 @@ export const SubsetReorder = ({subset}) => {
     return (
         <>
             <h3>Subset reorder</h3>
-            <button onClick={() => console.log('Reorder subset: ', subset.draft)}>Show codes</button>
-
             {codes
                 ? <List list={codes} />
                 : <p>No items to sort</p>}

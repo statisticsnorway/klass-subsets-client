@@ -27,7 +27,7 @@ export default function Errors() {
             </button>
         </>
     );
-};
+}
 
 export const Error = ({error, remove}) => {
     return (
