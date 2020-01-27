@@ -1,28 +1,29 @@
-import React, {useEffect, useContext} from "react";
-import "../../css/form.css";
-import {TextLanguageFieldset} from "../../utils/forms";
-import {AppContext} from "../../controllers/context";
+import React, {useEffect, useContext} from 'react';
+import '../../css/form.css';
+import {TextLanguageFieldset} from '../../utils/forms';
+import {AppContext} from '../../controllers/context';
+import { Button } from '@statisticsnorway/ssb-component-library';
 
 export const SubsetMetadata = ({subset}) => {
 
     const {ssbsections, classificationfamilies} = useContext(AppContext);
 
-    useEffect(() => {return () => subset.dispatch({action: "remove_empty"});}, []);
+    useEffect(() => {return () => subset.dispatch({action: 'remove_empty'});}, []);
 
     return (
         <>
-            <TextLanguageFieldset title="Names" items={subset.draft.names}
-                                  add={() => subset.dispatch({action: "name_add"})}
-                                  remove={(index) => subset.dispatch({action: "name_remove", data: index})}
-                                  handle={() => subset.dispatch({action: "update"})}
+            <TextLanguageFieldset title='Names' items={subset.draft.names}
+                                  add={() => subset.dispatch({action: 'name_add'})}
+                                  remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
+                                  handle={() => subset.dispatch({action: 'update'})}
                                   size={{cols: 40, rows: 1}}/>
 
             <fieldset>
                 <label>Owner
-                    <select style={{margin: "10px"}}
+                    <select style={{margin: '10px'}}
                             value={subset.draft.ownerId}
                             onChange={(e) => subset.dispatch({
-                                action: "ownerId",
+                                action: 'ownerId',
                                 data: e.target.value })}>
                         {ssbsections
                             && subset.draft.ownerId.length > 0
@@ -38,23 +39,23 @@ export const SubsetMetadata = ({subset}) => {
             </fieldset>
 
             <fieldset>
-                <label style={{display:"block"}}>Valid period</label>
-                <label>From:<input type="date"
+                <label style={{display:'block'}}>Valid period</label>
+                <label>From:<input type='date'
                                    value={subset.draft.valid.from}
                                    onChange={(e) => subset.dispatch(
-                                       {action: "from", data: e.target.value})} /></label>
-                <label>To:<input type="date"
+                                       {action: 'from', data: e.target.value})} /></label>
+                <label>To:<input type='date'
                                  value={subset.draft.valid.to}
                                  onChange={(e) => subset.dispatch(
-                                     {action: "to", data: e.target.value})} /></label>
+                                     {action: 'to', data: e.target.value})} /></label>
             </fieldset>
 
             <fieldset>
                 <label>Subject
-                <select style={{margin: "10px"}}
+                <select style={{margin: '10px'}}
                         value={subset.draft.subject}
                         onChange={(e) => subset.dispatch({
-                            action: "subject",
+                            action: 'subject',
                             data: e.target.value })}>
                     {classificationfamilies && subset.draft.subject.length > 0
                         && !classificationfamilies._embedded.classificationFamilies
@@ -69,18 +70,18 @@ export const SubsetMetadata = ({subset}) => {
                 </label>
             </fieldset>
 
-            <TextLanguageFieldset title="Description" items={subset.draft.descriptions}
-                                  add={() => subset.dispatch({action: "description_add"})}
-                                  remove={(index) => subset.dispatch({action: "description_remove", data: index})}
-                                  handle={() => subset.dispatch({action: "update"})}
+            <TextLanguageFieldset title='Description' items={subset.draft.descriptions}
+                                  add={() => subset.dispatch({action: 'description_add'})}
+                                  remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
+                                  handle={() => subset.dispatch({action: 'update'})}
                                   size = {{cols: 40, rows: 4}}/>
 
-            <label><input type="checkbox"/>Subscribe for changes</label>
+            <label><input type='checkbox'/>Subscribe for changes</label>
 
             <br/><br/>
 
-            <button onClick={() => {subset.dispatch({action: "empty"});}}>Empty</button>
-            <button onClick={() => {subset.dispatch({action: "reset"});}}>Reset</button>
+            <Button onClick={() => {subset.dispatch({action: 'empty'});}}>Empty</Button>
+            <Button onClick={() => {subset.dispatch({action: 'reset'});}}>Reset</Button>
 
             <br/><br/>
         </>

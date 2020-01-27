@@ -1,29 +1,24 @@
-import React from "react";
-import logo from "../images/SSB_logo.png";
-import "../css/App.css";
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
-import {ContextProvider} from "../controllers/context";
-import WelcomePage from "./WelcomePage";
-import Errors from "./Errors";
-import SubsetForm from "./subsetDraft/SubsetForm";
+import React from 'react';
+import '../css/App.css';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { ContextProvider } from '../controllers/context';
+import Header from './Header';
+import WelcomePage from './pages/WelcomePage';
+import SearchSubsetsPage from './pages/SearchSubsetsPage';
+import Errors from './Errors';
+import SubsetForm from './subsetDraft/SubsetForm';
 
 export default function App() {
     return (
         <ContextProvider>
             <Router>
-                <div className="App">
-                    <header className="App-header">
-                        <div className="App-name">
-                            <Link to="/">
-                                <img src={logo} className="App-logo" alt="SSB logo"/>
-                                Klass uttrekk admin v0.1.1 new structure
-                            </Link>
-                        </div>
-                    </header>
+                <div className='App'>
+                    <Header/>
                     <Errors/>
                     <Switch>
-                        <Route path="/" exact component={WelcomePage}/>
-                        <Route path="/create" component={SubsetForm}/>
+                        <Route path='/' exact component={SearchSubsetsPage}/>
+                        <Route path='/create' component={SubsetForm}/>
+                        <Route path='/about' exact component={WelcomePage}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </div>
@@ -34,9 +29,9 @@ export default function App() {
 
 export function NoMatch({location}) {
     return (
-        <div className="page">
+        <div className='page'>
             <h3>No match for <code>{location.pathname}</code>.</h3>
-            <p>Back to <Link to="/">home page</Link></p>
+            <p>Back to <Link to='/'>home page</Link></p>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 {
   "name": "klass-subsets-web",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "@comment dependencies": [
     "typescript: peer dependency react-scripts@3.3.0, tsutils@3.17.1",
@@ -13,11 +13,12 @@
     "NPM will notify if any peer dependencies are required."
   ],
   "dependencies": {
+    "@statisticsnorway/ssb-component-library": "^2.0.0",
     "fibers": "^4.0.2",
-    "node-sass": "^4.13.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.1",
+    "node-sass": "^4.13.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
     "sass": "^1.23.7",
     "typescript": "^3.7.3"

@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import {AppContext} from "../controllers/context";
+import React, {useContext} from 'react';
+import {AppContext} from '../controllers/context';
 
 export default function Errors() {
     const {errorRegister} = useContext(AppContext);
@@ -10,17 +10,17 @@ export default function Errors() {
         <>
             { errorRegister.errors.map((error, index) => (
                 <Error key={index} error={error}
-                       remove={(e) => errorRegister.dispatch({action: "remove", data: index})}/>
+                       remove={(e) => errorRegister.dispatch({action: 'remove', data: index})}/>
             ))}
             { errorRegister.errors.length > 1 &&
-                <button onClick={() => errorRegister.dispatch({action: "empty"})}
+                <button onClick={() => errorRegister.dispatch({action: 'empty'})}
                 >Dismiss all</button>
             }
 
             {/* FIXME: for visible test purposes. Remove before release! */}
-            <button onClick={(e) => errorRegister.dispatch({action: "add", data: {
-                    status: "199",
-                    message: "Plus button works",
+            <button onClick={(e) => errorRegister.dispatch({action: 'add', data: {
+                    status: '199',
+                    message: 'Plus button works',
                     source: e.target
                 }})}
             >+
@@ -32,11 +32,11 @@ export default function Errors() {
 export const Error = ({error, remove}) => {
     return (
         <div>
-            <span style={{color: "red"}}>
+            <span style={{color: 'red'}}>
                 {`${error.status}: ${error.message}. Source: ${error.source}`}
             </span>
             <button
-                style={{color: "red", background: "none", border: "none", fontWeight: "600"}}
+                style={{color: 'red', background: 'none', border: 'none', fontWeight: '600'}}
                 onClick={remove}
             >⌧
             </button>
