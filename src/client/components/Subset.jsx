@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {flatten} from '../utils/arrays';
 import { Accordion, Title } from '@statisticsnorway/ssb-component-library';
 
@@ -23,23 +23,14 @@ export const Subset = ({subset}) => {
     );
 };
 
-/*"code": "1",
-    "parentCode": null,
-    "level": "1",
-    "name": "Bilførere",
-    "shortName": "",
-    "presentationName": "",
-    "title": "1 - Bilførere",
-    "children": [],
-    "checked": true,
-    "rank": 26*/
 export const Code = ({code}) => {
     return (
         <Accordion header={code.name} subHeader={code.code || 'Code'}>
-            <p><strong>Short name:</strong> {code.shortName}</p>
-            <p><strong>Classification:</strong> {code.classification}</p>
-            <p><strong>Parent code:</strong> {code.parentCode}</p>
+            <p><strong>Short name:</strong> {code.shortName || '-'}</p>
+            <p><strong>Classification:</strong> {code.classification || '-'}</p>
             <p><strong>Level:</strong> {code.level}</p>
+            {code.parentCode && <p><strong>Parent code:</strong>code.parentCode</p>}
+            <p><strong>Note:</strong> {code.note || '-'}</p>
         </Accordion>
     );
 };
