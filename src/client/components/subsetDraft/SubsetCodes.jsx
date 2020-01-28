@@ -18,7 +18,7 @@ export const SubsetCodes = ({subset}) => {
 
     useEffect(() => codes.update(subset.draft.codes),[subset]);
 
-    // FIXME: make the list item update (show expandable control) whe the codes arrived from klass-api
+    // FIXME: make the list item update (show expandable control) when the codes arrived from klass-api
     // Solution: useEffect should depend on searchResult ?
     useEffect(() => {
         searchResult.items.length > 0 && subset.dispatch({

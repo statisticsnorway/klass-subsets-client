@@ -12,15 +12,14 @@ export const SubsetReorder = ({subset}) => {
         // FIXME: Flatten in depth?
         // FIXME: fix flatten util instead of sorting!
             // .sort((a,b) => (a.rank - b.rank))
-        .sort((a,b) => (b.rank - a.rank))
+        .sort((a, b) => (b.rank - a.rank))
         .map(code => (code.children.filter(i => i.checked))))
     );
 
     // TODO: show more data on item component (info block, date, etc?)
-    return (
-        <>
+    return (<>
             <h3>Subset reorder</h3>
-            {codes
+            {codes && codes.length > 0
                 ? <List list={codes} />
                 : <p>No items to sort</p>}
             <br/><br/>

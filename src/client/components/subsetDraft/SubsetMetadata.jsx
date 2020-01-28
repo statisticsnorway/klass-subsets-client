@@ -76,9 +76,10 @@ export const SubsetMetadata = ({subset}) => {
                                   handle={() => subset.dispatch({action: 'update'})}
                                   size = {{cols: 40, rows: 4}}/>
 
-            <label><input type='checkbox'/>Subscribe for changes</label>
 
-            <br/><br/>
+{/* TODO: implement in next version
+            <label><input type='checkbox'/>Subscribe for changes</label>
+*/}
 
             <Button onClick={() => {subset.dispatch({action: 'empty'});}}>Empty</Button>
             <Button onClick={() => {subset.dispatch({action: 'reset'});}}>Reset</Button>
