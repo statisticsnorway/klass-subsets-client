@@ -9,7 +9,7 @@ export const Subset = ({subset}) => {
             // FIXME: Flatten in depth?
             // FIXME: fix flatten util instead of sorting!
             // .sort((a,b) => (a.rank - b.rank))
-            .sort((a,b) => (b.rank - a.rank))
+            .sort((a, b) => (b.rank - a.rank))
             .map(code => (code.children.filter(i => i.checked))));
     return (
         <>

@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect, useContext} from 'react';
 import {Search} from '../../utils/Search';
 import {List, useList} from '../../utils/list';
@@ -13,12 +12,9 @@ export const SubsetCodes = ({subset}) => {
     const searchResult = useList([]);
     const codes = useList(subset.draft.codes);
 
-    const [searchFrom, setSearchFrom] = useState(subset.draft.valid.from);
-    const [searchTo, setSearchTo] = useState(subset.draft.valid.to);
-
     useEffect(() => codes.update(subset.draft.codes),[subset]);
 
-    // FIXME: make the list item update (show expandable control) whe the codes arrived from klass-api
+    // FIXME: make the list item update (show expandable control) when the codes arrived from klass-api
     // Solution: useEffect should depend on searchResult ?
     useEffect(() => {
         searchResult.items.length > 0 && subset.dispatch({
@@ -33,7 +29,7 @@ export const SubsetCodes = ({subset}) => {
                     if (already) {return already;}
                     else {
                         const x = {title: item.name, children: []};
-                        fetch(`${item._links.self.href}/codesAt.json?date=${searchFrom}`)
+                        fetch(`${item._links.self.href}/codesAt.json?date=${subset.draft.valid.from}`)
                             .then(response => response.json())
                             .then(data => x.children = convertToList(data.codes))
                             .catch(e => console.log(e));
@@ -61,26 +57,18 @@ export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
 
     // FIXME: use valid to date in the search!
-    return (
-        <div className='page'>
+    return (<>
             <h3>Choose codes</h3>
-            <fieldset>
-                <Search resource={classifications ? classifications._embedded.classifications : []}
+            <p style={{color:"grey", fontSize:"11px"}}>
+                All search results will be restricted by validity period {subset.draft.valid.from}-{subset.draft.valid.to} set in metadata.
+            </p>
+            <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setChosen(item)}
                     placeholder='Classification'
                     searchBy = {(input, resource) =>
                         input === '' ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
-                />
-                <label style={{display:'block'}}>Valid period</label>
-                <label>From:<input type='date'
-                                   value={searchFrom}
-                                   onChange={(e) => setSearchFrom(e.target.value)} /></label>
-                <label>To:<input type='date'
-                                 value={searchTo}
-                                 onChange={(e) => setSearchTo(e.target.value)} /></label>
-            </fieldset>
+            />
 
-            <h3>Search results</h3>
             {searchResult.items.length > 0
                 ? <List list={searchResult} />
                 : <p>Nothing to show</p>}
@@ -92,9 +80,6 @@ export const SubsetCodes = ({subset}) => {
             {codes && codes.items.length > 0
                 ? <List list={codes} />
                 : <p>No codes in the subset draft</p>}
-            <button onClick={() => console.log('current codes', subset.draft.codes)}
-            >Show codes
-            </button>
-        </div>
+    </>
     );
 };

@@ -6,7 +6,7 @@ export const List = ({list, controls = [
         {name: 'expand', order: -1},
         {name: 'include', order: 1, callback: (i) => console.log('include', i.title)},
     // TODO: extra checkbox to show, that one or multiple items in the lower levels are selected.
-    // deactivated if alle or none are selected.
+    // deactivated if all or none are selected.
         {name: 'draggable'},
         {name: 'rank', order: 2}
     ]
