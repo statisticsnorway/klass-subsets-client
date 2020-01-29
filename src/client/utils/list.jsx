@@ -66,8 +66,9 @@ export const Controls = ({item, dispatch, controls}) => {
             {controls.find(c => c.name === 'include') &&
             <input type='checkbox' name='include' checked={item.checked}
                    onChange={() => {
-                       dispatch({action: 'toggle_include', data: {item, checked: !item.checked }});
+                       item.checked = !item.checked;
                        controls.find(c => c.name === 'include').callback(item);
+                       dispatch({action: 'toggle_include', data: {item, checked: item.checked }});
                    }} />
             }
             {controls.find(c => c.name === 'rank') &&
@@ -102,7 +103,7 @@ function linkParent(item) {
     item && item.children && item.children.forEach(child => child.parent = item);
 }
 
-// FIXME: unefficient linking and unlinking on each update -> solution: use Proxy
+// FIXME: inefficient linking and unlinking on each update -> solution: use Proxy
 // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
 export function unlinkParent(item) {
     if (!item) {return;}

@@ -24,43 +24,40 @@ export const SubsetCodes = ({subset}) => {
 
         const result = searchValues
             ? searchValues.map(item => {
-
                     let already = codes.items.find(code => code.title === item.name);
                     if (already) {return already;}
                     else {
-                        const x = {title: item.name, children: []};
-                        fetch(`${item._links.self.href}/codesAt.json?date=${subset.draft.valid.from}`)
-                            .then(response => response.json())
-                            .then(data => x.children = convertToList(data.codes))
-                            .catch(e => console.log(e));
-                        return x;
+                        item.title = item.name;
+                        item.children = [];
+                        return item;
                     }
-                }
-            )
+                })
             : [];
         searchResult.update(result);
         codes.remove(searchValues.map(i => i.name));
     },[searchValues]);
 
-    function convertToList(array) {
+    useEffect(() => {
+        codes.items.map(item => {
+                fetch(`${item._links.self.href}/codesAt.json?date=${subset.draft.valid.from}`)
+                    .then(response => response.json())
+                    .then(data => item.children = addTitle(data.codes))
+                    .catch(e => console.log(e));
+            }
+        )
+    }, [codes]);
+
+    function addTitle(array) {
         array.forEach(i => i.title = `${i.code} - ${i.name}`);
-        const children = array.filter(i => i.parentCode === null);
-        children.forEach(parent => findChildren(array, parent));
-        return children;
+        return array;
     }
-
-    function findChildren(array, parent) {
-        parent.children = array.filter(i => i.parentCode === parent.code);
-        parent.children.forEach(child => findChildren(array, child));
-    }
-
     const {classifications} = useContext(AppContext);
 
     // FIXME: use valid to date in the search!
     return (<>
             <h3>Choose codes</h3>
-            <p style={{color:"grey", fontSize:"11px"}}>
-                All search results will be restricted by validity period {subset.draft.valid.from}-{subset.draft.valid.to} set in metadata.
+            <p style={{color:'grey', fontSize:'11px'}}>
+                All search results will be restricted by validity period {subset.draft.valid.from}-{subset.draft.valid.to || 'today'} set in metadata.
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
@@ -70,19 +67,20 @@ export const SubsetCodes = ({subset}) => {
             />
 
             {searchResult.items.length > 0
-                ? <List
-                    list={searchResult}
-                    controls={ [{
-                        name: 'include',
-                        order: 1,
-                        callback: (i) => {
-                            console.log("clicked", i);
-                            subset.dispatch({
-                                action: 'codes_prepend_checked',
-                                data: [i, i]
-                            });
-                         }
-                    }]} />
+                ? <ul className='list'>
+                    {searchResult.items.map((item) =>
+                        <li>
+                            <span className='content'>{item.title}</span>
+                            <input type='checkbox' name='include' checked={item.checked}
+                                   onChange={() => {
+                                       item.checked = !item.checked;
+                                       subset.dispatch({
+                                           action: 'codes_prepend_checked', data: [item]
+                                       })
+                                   }}/>
+                        </li>)
+                    }
+                </ul>
                 : <p>Nothing is found</p>
             }
 
