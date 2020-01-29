@@ -12,6 +12,7 @@ export const SubsetMetadata = ({subset}) => {
 
     return (
         <>
+            <h3>Metadata</h3>
             <TextLanguageFieldset title='Names' items={subset.draft.names}
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
@@ -81,10 +82,11 @@ export const SubsetMetadata = ({subset}) => {
             <label><input type='checkbox'/>Subscribe for changes</label>
 */}
 
-            <Button onClick={() => {subset.dispatch({action: 'empty'});}}>Empty</Button>
+            {/* TODO: implement in next version if ordered
+            /* move to each fieldset (?)
+                <Button onClick={() => {subset.dispatch({action: 'empty'});}}>Empty</Button>
             <Button onClick={() => {subset.dispatch({action: 'reset'});}}>Reset</Button>
-
-            <br/><br/>
+*/}
         </>
     );
 };
