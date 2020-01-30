@@ -9,7 +9,7 @@ export default function Header() {
 
     return (
         <SsbHeader>
-            <div className='global-links' style={{float: 'right', marginBottom: '12px', marginTop: '10px'}}>
+            <div className='global-links' style={{float: 'right', paddingTop: '30px'}}>
                 <SsbLink href=' '>English</SsbLink>
                 {/* TODO: implement in version 2
                             <Link href=' '>Bokmål</Link>
@@ -19,8 +19,9 @@ export default function Header() {
 
             <div className='top-row flex-row justify-space-between flex-wrap' style={{width: '100%'}}>
                 <Link to='/'>
-                    <img src={logo} className='App-logo' alt='SSB-logo'/>
-                    <Title>Klass uttrekk <Text> | v0.1.2 styled</Text>
+                    <Title size={2}>
+                        <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
+                        Klass uttrekk <Text> | v0.1.2 styled</Text>
                     </Title>
                 </Link>
 
@@ -30,14 +31,12 @@ export default function Header() {
                             </div>*/}
             </div>
 
-            <div className='header-content' style={{marginBottom: '20px', marginTop: '14px'}}>
+            <div className='header-content' style={{marginBottom: '20px'}}>
                 <Tabs activeOnInit={location.pathname} onClick={(path) => history.push(path)}
                       items={[
                           {title: 'Search Subsets', path: '/'},
                           {title: 'Create Subset', path: '/create'},
                           {title: 'About', path: '/about'},
-                          {title: 'Feedback', path: '/feedback'},
-                          {title: 'Changelog', path: '/changelog'},
                       ]}/>
                 <Divider/>
             </div>
