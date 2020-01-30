@@ -1,5 +1,5 @@
-import {availableLanguages, disableUsed} from "./languages";
-import React from "react";
+import {availableLanguages, disableUsed} from './languages';
+import React from 'react';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          handle = (data) => console.log(data),

@@ -4,5 +4,8 @@ export const languages = [
     {abbr: 'en', full: 'English'}
 ];
 
-// TODO: defaults for subset names in different languages
+export const subsetDraft = {
+    namePrefix: 'Uttrekk for '
+};
+
 // TODO: defaults for subset description in different languages
