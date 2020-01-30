@@ -3,8 +3,8 @@ import React from 'react';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          handle = (data) => console.log(data),
-                                         add = () => console.log("+"),
-                                         remove = (index) => console.log("-", index)}) => {
+                                         add = () => console.log('+'),
+                                         remove = (index) => console.log('-', index)}) => {
 
     const languages = availableLanguages();
     disableUsed(languages, items.map(name => name.lang));
@@ -26,19 +26,19 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                     onChange={(e) => handle(item.lang = e.target.value)}/>
 
                     {index === items.length-1 && index < languages.length-1 &&
-                    <button style={{margin: "0 20px 0 20px"}}
+                    <button style={{margin: '0 20px 0 20px'}}
                             onClick={() => add()}
                     >+</button>}
 
                     {index > 0 &&
-                    <button style={{margin: "0 20px 0 20px"}}
+                    <button style={{margin: '0 20px 0 20px'}}
                             onClick={() => {remove(index);}}
                     >-</button>}
 
                 </div>))
             }
             {items.length === 0 &&
-            <button style={{margin: "0 20px 0 20px"}}
+            <button style={{margin: '0 20px 0 20px'}}
                     onClick={() => add()}
             >+</button>}
         </fieldset>
@@ -50,7 +50,7 @@ export const LanguageSelect = ({languages = availableLanguages(),
                                    onChange = (e) => console.log(e.target.value)}) => {
 
     return (
-        <select name="language"
+        <select name='language'
                 value={selected || languages.find(lang => lang.default)}
                 onChange={(e) => onChange(e)}>
             {languages.map((lang, i) => (
