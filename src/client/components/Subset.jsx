@@ -11,13 +11,20 @@ export const Subset = ({subset}) => {
             // .sort((a,b) => (a.rank - b.rank))
             .sort((a, b) => (b.rank - a.rank))
             .map(code => (code.children.filter(i => i.checked))));
+
+    // FIXME: show title to selected language, not just first in the name array.
+    // TODO: show subset in other languages - switch button for language?
+
     return (
         <>
-            <Title size={2}>{subset.names[0].text}</Title>
+            <Title size={2}>{
+                subset.names.length > 0 && subset.names[0].text
+                ? subset.names[0].text
+                    : 'Subset has got no title yet'
+            }</Title>
             <p>{subset.descriptions[0].text}</p>
-            { codes.map( code => (
-                <Code code={code}/>
-            ))}
+            { codes.map( code => (<Code code={code}/>)) }
+
             <Accordion header='Raw JSON'>
                 <pre>{JSON.stringify(subset, null, 4)}</pre>
             </Accordion>

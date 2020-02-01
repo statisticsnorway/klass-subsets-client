@@ -6,7 +6,7 @@ import {SubsetReorder} from './SubsetReorder';
 import {SubsetCodes} from './SubsetCodes2';
 import {SubsetMetadata} from './SubsetMetadata';
 import {unlinkParent} from '../../utils/list';
-import { Button } from '@statisticsnorway/ssb-component-library';
+import { Button, Title } from '@statisticsnorway/ssb-component-library';
 import {Subset} from "../Subset";
 
 export default function SubsetForm() {
@@ -14,7 +14,7 @@ export default function SubsetForm() {
 
     return (
         <div className='page'>
-            <h2>Create new subset</h2>
+            <Title>Create new subset</Title>
             <Navigation>
                 <Step label={'Metadata'}><SubsetMetadata subset={subset} /></Step>
                 <Step label={'Choose codes'}><SubsetCodes subset={subset} /></Step>

@@ -2,7 +2,6 @@ import React, {createContext, useEffect} from 'react';
 import { useSubset } from '../utils/useSubset';
 import { useErrorRegister } from '../utils/useErrorRegister';
 import { useGet } from './klass-api';
-import {subsetDraft} from './defaults';
 
 /** Context Principles
  *
