@@ -2,7 +2,7 @@ import {availableLanguages, disableUsed} from './languages';
 import React from 'react';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
-                                         prefix,
+                                         prefix = '',
                                          handle = (data) => console.log(data),
                                          add = () => console.log('+'),
                                          remove = (index) => console.log('-', index)}) => {
@@ -12,23 +12,26 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
 
     return (
         <fieldset>
-            <label htmlFor="name" style={{display: "block"}}
+            <label htmlFor='name' style={{display: 'block'}}
             >{title}</label>
 
             {items.map((item, index) => (
-                <div className="text-language" key={index}>
-                    { prefix && <textarea readOnly
-                        cols={prefix.cols} rows={prefix.rows}
-                        value={prefix.text}
-                        style={{color: 'gray', resize: 'none'}}
-                    />}
+                <div className='text-language' key={index}>
                     <textarea cols={size.cols} rows={size.rows}
-                           value={item.temp || item.text}
-                           onChange={(e) => handle(
-                               item.temp
-                                   ? item.temp = e.target.value
-                                   : item.text = e.target.value
-                           )}/>
+                              value={item.text || prefix}
+                              onChange={(e) => handle(item.text = e.target.value)}
+                              onKeyPress={(e) => {
+                                  e.which !== 0 && e.target.selectionStart < prefix.length && e.preventDefault();
+                              }}
+                              onKeyDown={(e) => {
+                                  ((e.which === 8 && e.target.selectionStart <= prefix.length)
+                                      || (e.which === 46 && e.target.selectionStart < prefix.length))
+                                      && e.preventDefault();
+                                  }
+                              }
+                              onCut={(e) => e.target.selectionStart < prefix.length && e.preventDefault()}
+                              onPaste={(e) => e.target.selectionStart < prefix.length && e.preventDefault()}
+                    />
 
                     <LanguageSelect languages={languages}
                                     selected={item.lang}

@@ -13,7 +13,7 @@ export const Subset = ({subset}) => {
             .map(code => (code.children.filter(i => i.checked))));
     return (
         <>
-            <Title size={2}>{subset.names[0].text()}</Title>
+            <Title size={2}>{subset.names[0].text}</Title>
             <p>{subset.descriptions[0].text}</p>
             { codes.map( code => (
                 <Code code={code}/>

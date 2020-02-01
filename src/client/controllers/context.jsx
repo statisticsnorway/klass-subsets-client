@@ -39,7 +39,7 @@ export const ContextProvider = ({ children }) => {
     // TODO: better defaults
     const subset = useSubset({
         ownerId: '',
-        names: [{ lang: 'nb', temp: ' ', text: () => {return this.temp;} }],
+        names: [{ lang: 'nb', text: '' }],
         valid: { from: new Date().toISOString().substr(0, 10) },
         subject: 'Work',
         descriptions: [{ text: 'Beskrivelse', lang: 'nb' }],

@@ -17,8 +17,8 @@ export const SubsetMetadata = ({subset}) => {
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size={{cols: 55, rows: 1}}
-                                  prefix={{cols: 9, rows: 1, text: subsetDraft.namePrefix}}
+                                  size={{cols: 68, rows: 1}}
+                                  prefix={subsetDraft.namePrefix}
             />
 
             <fieldset>
