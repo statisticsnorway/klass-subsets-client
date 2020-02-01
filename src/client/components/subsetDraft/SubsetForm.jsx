@@ -19,7 +19,7 @@ export default function SubsetForm() {
                 <Step label={'Metadata'}><SubsetMetadata subset={subset} /></Step>
                 <Step label={'Choose codes'}><SubsetCodes subset={subset} /></Step>
                 <Step label={'Reorder codes'}><SubsetReorder subset={subset} /></Step>
-                <Step label={'Preview'}><SubsetPreview subset={subset} /></Step>
+                <Step label={'Review and publish'}><SubsetPreview subset={subset} /></Step>
             </Navigation>
         </div>
     );
@@ -33,7 +33,7 @@ export const SubsetPreview = ({subset}) => {
 
     return (
         <>
-            <h3>Subset preview</h3>
+            <Title size={3}>Review and publish</Title>
             <Subset subset={subset.draft}/>
             <Button onClick={() =>
                 console.log('Publish subset: ', subset.draft)}>Publish</Button>

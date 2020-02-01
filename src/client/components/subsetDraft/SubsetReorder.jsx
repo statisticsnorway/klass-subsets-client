@@ -1,6 +1,7 @@
 import React from 'react';
 import {flatten} from '../../utils/arrays';
 import {List, useList, unlinkParent} from '../../utils/list';
+import { Title } from '@statisticsnorway/ssb-component-library';
 
 export const SubsetReorder = ({subset}) => {
 
@@ -18,7 +19,7 @@ export const SubsetReorder = ({subset}) => {
 
     // TODO: show more data on item component (info block, date, etc?)
     return (<>
-            <h3>Subset reorder</h3>
+            <Title size={3}>Subset reorder</Title>
             {codes && codes.length > 0
                 ? <List list={codes} />
                 : <p>No items to sort</p>}

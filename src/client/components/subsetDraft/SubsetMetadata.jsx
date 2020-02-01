@@ -3,6 +3,7 @@ import '../../css/form.css';
 import {TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
 import {subsetDraft} from '../../controllers/defaults';
+import { Title } from '@statisticsnorway/ssb-component-library';
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -12,7 +13,7 @@ export const SubsetMetadata = ({subset}) => {
 
     return (
         <>
-            <h3>Metadata</h3>
+            <Title size={3}>Metadata</Title>
             <TextLanguageFieldset title='Names' items={subset.draft.names}
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
