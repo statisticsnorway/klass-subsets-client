@@ -7,7 +7,7 @@ export function availableLanguages() {
 
 export function nextDefaultName(items) {
     if (items.length < 1) {
-        return {text: subsetDraft.namePrefix, lang: availableLanguages().find(lang => lang.default).abbr};
+        return {text: '', lang: availableLanguages().find(lang => lang.default).abbr};
     }
     const used = items.map(item => item.lang);
     const unused = availableLanguages().find(lang => !used.includes(lang.abbr));

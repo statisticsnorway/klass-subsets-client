@@ -2,7 +2,7 @@ import React, {useEffect, useContext} from 'react';
 import '../../css/form.css';
 import {TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
-import { Button } from '@statisticsnorway/ssb-component-library';
+import {subsetDraft} from '../../controllers/defaults';
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -17,7 +17,9 @@ export const SubsetMetadata = ({subset}) => {
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size={{cols: 40, rows: 1}}/>
+                                  size={{cols: 55, rows: 1}}
+                                  prefix={{cols: 9, rows: 1, text: subsetDraft.namePrefix}}
+            />
 
             <fieldset>
                 <label>Owner
@@ -75,7 +77,7 @@ export const SubsetMetadata = ({subset}) => {
                                   add={() => subset.dispatch({action: 'description_add'})}
                                   remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size = {{cols: 40, rows: 4}}/>
+                                  size = {{cols: 68, rows: 4}}/>
 
 
 {/* TODO: implement in next version

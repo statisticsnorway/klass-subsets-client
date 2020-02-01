@@ -2,6 +2,7 @@ import {availableLanguages, disableUsed} from './languages';
 import React from 'react';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
+                                         prefix,
                                          handle = (data) => console.log(data),
                                          add = () => console.log('+'),
                                          remove = (index) => console.log('-', index)}) => {
@@ -16,10 +17,18 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
 
             {items.map((item, index) => (
                 <div className="text-language" key={index}>
-
+                    { prefix && <textarea readOnly
+                        cols={prefix.cols} rows={prefix.rows}
+                        value={prefix.text}
+                        style={{color: 'gray', resize: 'none'}}
+                    />}
                     <textarea cols={size.cols} rows={size.rows}
-                           value={item.text}
-                           onChange={(e) => handle(item.text = e.target.value)}/>
+                           value={item.temp || item.text}
+                           onChange={(e) => handle(
+                               item.temp
+                                   ? item.temp = e.target.value
+                                   : item.text = e.target.value
+                           )}/>
 
                     <LanguageSelect languages={languages}
                                     selected={item.lang}
