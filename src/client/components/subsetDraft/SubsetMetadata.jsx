@@ -2,8 +2,9 @@ import React, {useEffect, useContext} from 'react';
 import '../../css/form.css';
 import {TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
-import {subsetDraft} from '../../controllers/defaults';
+import {subsetDraft, languages} from '../../controllers/defaults';
 import { Title } from '@statisticsnorway/ssb-component-library';
+import DatePicker from 'react-date-picker';
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -44,14 +45,24 @@ export const SubsetMetadata = ({subset}) => {
 
             <fieldset>
                 <label style={{display:'block'}}>Valid period</label>
-                <label>From:<input type='date'
-                                   value={subset.draft.valid.from}
-                                   onChange={(e) => subset.dispatch(
-                                       {action: 'from', data: e.target.value})} /></label>
-                <label>To:<input type='date'
-                                 value={subset.draft.valid.to}
-                                 onChange={(e) => subset.dispatch(
-                                     {action: 'to', data: e.target.value})} /></label>
+                <label>From:
+                    <DatePicker value={subset.draft.valid.from}
+                                onChange={(date) => subset.dispatch({action: 'from', data: date})}
+                                clearIcon={null}
+                                format='dd.MM.y'
+                                locale={languages.find(i=> i.default).IETF}
+                                className='datepicker'
+                    />
+                </label>
+                <label>To:
+                    <DatePicker value={subset.draft.valid.to}
+                                onChange={(date) => subset.dispatch({action: 'to', data: date})}
+                                clearIcon={null}
+                                format='dd.MM.y'
+                                locale={languages.find(i=> i.default).IETF}
+                                className='datepicker'
+                    />
+                </label>
             </fieldset>
 
             <fieldset>

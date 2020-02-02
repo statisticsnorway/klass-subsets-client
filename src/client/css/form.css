@@ -18,3 +18,16 @@ fieldset {
     max-width: 650px;
 }
 
+.datepicker {
+    background-color: #f1f1f1;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    border: 1px solid transparent !important;
+    padding: 5px;
+    margin: 10px;
+}
+
+.react-date-picker__wrapper {
+    border: 1px solid transparent !important;
+    padding: 0 10px 5px 10px !important;
+}

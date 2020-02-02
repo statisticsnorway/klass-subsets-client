@@ -19,10 +19,12 @@ export const Subset = ({subset}) => {
         <>
             <Title size={2}>{
                 subset.names.length > 0 && subset.names[0].text
-                ? subset.names[0].text
+                    ? subset.names[0].text
                     : 'Subset has got no title yet'
             }</Title>
-            <p>{subset.descriptions[0].text}</p>
+            <p>{subset.descriptions.length > 0 && subset.descriptions[0].text
+                    ? subset.descriptions[0].text
+                    : 'No description'}</p>
             { codes.map( code => (<Code code={code}/>)) }
 
             <Accordion header='Raw JSON'>

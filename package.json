@@ -17,6 +17,7 @@
     "fibers": "^4.0.2",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
+    "react-date-picker": "^7.10.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
