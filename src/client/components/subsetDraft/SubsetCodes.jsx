@@ -61,7 +61,7 @@ export const SubsetCodes = ({subset}) => {
     return (<>
             <Title size={3}>Choose codes</Title>
             <p style={{color:"grey", fontSize:"11px"}}>
-                All search results will be restricted by validity period {subset.draft.valid.from}-{subset.draft.valid.to} set in metadata.
+                All search results will be restricted by validity period set in metadata {subset.draft.valid.from}-{subset.draft.valid.to}
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
@@ -80,7 +80,7 @@ export const SubsetCodes = ({subset}) => {
                             console.log("clicked", i);
                             subset.dispatch({
                                 action: 'codes_prepend_checked',
-                                data: [i, i]
+                                data: [i]
                             });
                          }
                     }]} />

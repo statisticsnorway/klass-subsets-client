@@ -2,11 +2,10 @@ import React, {useState, useEffect, useContext} from 'react';
 import {Search} from '../../utils/Search';
 import {List, useList} from '../../utils/list';
 import {AppContext} from '../../controllers/context';
-import { Title } from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
-
     // FIXME: fails on '(' input and in result string
 
     const [searchValues, setSearchValues] = useState([]);
@@ -58,7 +57,7 @@ export const SubsetCodes = ({subset}) => {
     return (<>
             <Title size={3}>Choose codes</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
-                All search results will be restricted by validity period {subset.draft.valid.from}-{subset.draft.valid.to || 'today'} set in metadata.
+                All search results will be restricted by validity period set in metadata {subset.draft.valid.from}-{subset.draft.valid.to}
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}

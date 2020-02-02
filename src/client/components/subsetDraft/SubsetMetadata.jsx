@@ -72,6 +72,7 @@ export const SubsetMetadata = ({subset}) => {
                         onChange={(e) => subset.dispatch({
                             action: 'subject',
                             data: e.target.value })}>
+                        <option value='' disabled>Select a subject...</option>
                     {classificationfamilies && subset.draft.subject.length > 0
                         && !classificationfamilies._embedded.classificationFamilies
                             .find(s => s.name === subset.draft.subject)
@@ -89,7 +90,8 @@ export const SubsetMetadata = ({subset}) => {
                                   add={() => subset.dispatch({action: 'description_add'})}
                                   remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size = {{cols: 68, rows: 4}}/>
+                                  size = {{cols: 68, rows: 4}}
+            />
 
 
 {/* TODO: implement in next version
