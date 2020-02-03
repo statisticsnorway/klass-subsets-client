@@ -24,12 +24,14 @@ export const SubsetMetadata = ({subset}) => {
             />
 
             <fieldset>
+                {/* TODO: set automatically when logged inn */}
                 <label>Owner
                     <select style={{margin: '10px'}}
                             value={subset.draft.ownerId}
                             onChange={(e) => subset.dispatch({
                                 action: 'ownerId',
                                 data: e.target.value })}>
+                        <option value='' disabled>Select a responsible department...</option>
                         {ssbsections
                             && subset.draft.ownerId.length > 0
                             && !ssbsections._embedded.ssbSections.find(s => s.name === subset.draft.ownerId)

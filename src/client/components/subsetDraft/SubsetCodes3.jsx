@@ -27,7 +27,6 @@ export const SubsetCodes = ({subset}) => {
     }
 
     useEffect(() => {
-        console.log('map found');
         const result = searchValues
             ? searchValues.map(item => complete(item))
             : [];
@@ -41,7 +40,7 @@ export const SubsetCodes = ({subset}) => {
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
-                    placeholder='Classification'
+                    placeholder='Type classification name'
                     searchBy = {(input, resource) =>
                         input === '' ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
             />
