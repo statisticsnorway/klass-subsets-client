@@ -3,7 +3,7 @@ import '../../css/pages.css';
 import {AppContext} from '../../controllers/context';
 import {Navigation, Step} from '../../utils/navigation';
 import {SubsetReorder} from './SubsetReorder';
-import {SubsetCodes} from './SubsetCodes2';
+import {SubsetCodes} from './SubsetCodes3';
 import {SubsetMetadata} from './SubsetMetadata';
 import {unlinkParent} from '../../utils/list';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
