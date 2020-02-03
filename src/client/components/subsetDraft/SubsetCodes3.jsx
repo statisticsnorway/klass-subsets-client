@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {Search} from '../../utils/Search';
 import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
-import { PlusSquare, Trash2, Info, List as ListIcon } from 'react-feather';
+import { PlusSquare, Trash2, Info, List as ListIcon, AlertTriangle as Alert } from 'react-feather';
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
@@ -20,10 +20,22 @@ export const SubsetCodes = ({subset}) => {
             return already;
         } else {
             item.title = item.name;
-            item.children = [];
             item.included = false;
+            fetchCodes(item);
             return item;
         }
+    }
+
+    // FIXME: update state when done!
+    function fetchCodes(classification) {
+        console.log('fetching codes');
+        fetch(`${classification._links.self.href}/codesAt.json?date=2002-02-02`)
+            .then(response => response.json())
+            .then(data => classification.children = data.codes)
+            .catch(e => {
+                console.log(e);
+                classification.error = e.message;
+            });
     }
 
     useEffect(() => {
@@ -32,7 +44,7 @@ export const SubsetCodes = ({subset}) => {
             : [];
         setSearchResult(result);
     }, [searchValues]);
-    
+
     {/* TODO: tooltips for classification icons */}
     return (<>
             <Title size={3}>Choose codes</Title>
@@ -51,6 +63,7 @@ export const SubsetCodes = ({subset}) => {
                     {searchResult.map((item, i) =>
                         <li key={i}  style={{padding: '5px', display: 'flex'}}>
                             <div style={{width: '400px'}}>{item.title}</div>
+                            <button><Alert color={item.error ? 'orange' : 'transparent' }/></button>
                             <button
                                 onClick={() => {
                                 item.included = !item.included;
@@ -58,13 +71,15 @@ export const SubsetCodes = ({subset}) => {
                                 else setCodes(codes.filter(i => i !== item));
                                 setSearchResult([...searchResult]);
                                 }}>
-                                <PlusSquare color={item.included ? 'gray' : 'green'}/>
+                                <PlusSquare color={item.included ? '#C3DCDC' : '#1A9D49'}/>
                             </button>
-                            <button onClick={() => console.log('info', item)}><Info/></button>
-                            <button onClick={() => console.log('codes', item)}><ListIcon/></button>
+                            <button onClick={() => console.log('codes', item.children)}>
+                                <ListIcon color={item.children ? '#3396D2' : '#C3DCDC'}/>
+                            </button>
+                            <button onClick={() => console.log('info', item)}><Info color='#62919A'/></button>
                             <button onClick={() => {
                                 setSearchResult(searchResult.filter(i => i !== item));}}>
-                                <Trash2 color='red'/>
+                                <Trash2 color='#ED5935'/>
                             </button>
                         </li>)
                     }
@@ -81,6 +96,7 @@ export const SubsetCodes = ({subset}) => {
                     {codes.map((item, i) =>
                         <li key={i} style={{padding: '5px', display: 'flex'}}>
                             <div style={{width: '400px'}}>{item.name}</div>
+                            <button><Alert color={item.error ? 'orange' : 'transparent' }/></button>
                             <button
                                 onClick={() => {
                                     item.included = !item.included;
@@ -88,16 +104,18 @@ export const SubsetCodes = ({subset}) => {
                                     else setCodes(codes.filter(i => i !== item));
                                     setSearchResult([...searchResult]);
                                 }}>
-                                <PlusSquare color={item.included ? 'gray' : 'green'}/>
+                                <PlusSquare color={item.included ? '#C3DCDC' : '#1A9D49'}/>
                             </button>
-                            <button onClick={() => console.log('info', item)}><Info/></button>
-                            <button onClick={() => console.log('codes', item)}><ListIcon/></button>
+                            <button onClick={() => console.log('codes', item.children)}>
+                                <ListIcon color={item.children ? '#3396D2' : '#C3DCDC'}/>
+                            </button>
+                            <button onClick={() => console.log('info', item)}><Info color='#62919A'/></button>
                             <button onClick={() => {
                                 item.included = !item.included;
                                 setCodes(codes.filter(i => i !== item));
                                 setSearchResult([...searchResult]);
                             }}>
-                                <Trash2 color='red'/>
+                                <Trash2 color='#ED5935'/>
                             </button>
                         </li>)
             }
