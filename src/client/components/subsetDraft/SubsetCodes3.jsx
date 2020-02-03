@@ -27,11 +27,20 @@ export const SubsetCodes = ({subset}) => {
     }
 
     // FIXME: update state when done!
+    // FIXME: parse the date !!!
+    // FIXME: if both dates are set use proper service (codesFromTo) !!!
+    // FIXME: proper error message
     function fetchCodes(classification) {
         console.log('fetching codes');
-        fetch(`${classification._links.self.href}/codesAt.json?date=2002-02-02`)
-            .then(response => response.json())
-            .then(data => classification.children = data.codes)
+        let url = subset.draft.valid.from !== null
+            ? `${classification._links.self.href}/codesAt.json?date=1990-02-02`
+            : `${classification._links.self.href}/codesAt.json?date=null`;
+        fetch(url)
+            .then(response => response.json(url))
+            .then(data => {
+                classification.children = data.codes;
+                classification.error = null;
+            })
             .catch(e => {
                 console.log(e);
                 classification.error = e.message;
@@ -49,7 +58,7 @@ export const SubsetCodes = ({subset}) => {
     return (<>
             <Title size={3}>Choose codes</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
-                All search results will be restricted by validity period set in metadata {subset.draft.valid.from}-{subset.draft.valid.to}
+                All search results will be restricted by validity period set in metadata {JSON.stringify(subset.draft.valid.from)}-{JSON.stringify(subset.draft.valid.to)}
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
@@ -61,28 +70,66 @@ export const SubsetCodes = ({subset}) => {
             {searchResult.length > 0
                 ? <ul className='list'>
                     {searchResult.map((item, i) =>
-                        <li key={i}  style={{padding: '5px', display: 'flex'}}>
-                            <div style={{width: '400px'}}>{item.title}</div>
-                            <button><Alert color={item.error ? 'orange' : 'transparent' }/></button>
-                            <button
-                                onClick={() => {
-                                item.included = !item.included;
-                                if (item.included) setCodes(codes.concat(item));
-                                else setCodes(codes.filter(i => i !== item));
-                                setSearchResult([...searchResult]);
+                        <li key={i} style={{padding: '5px', width: '600px'}}>
+                            <div style={{display: 'flex'}}>
+                                <div style={{width: '400px'}}>{item.title}</div>
+
+                                <button onClick={() => {
+                                    item.showAlert = !item.showAlert;
+                                    item.showCodes = false;
+                                    setSearchResult([...searchResult]);
                                 }}>
-                                <PlusSquare color={item.included ? '#C3DCDC' : '#1A9D49'}/>
-                            </button>
-                            <button onClick={() => console.log('codes', item.children)}>
-                                <ListIcon color={item.children ? '#3396D2' : '#C3DCDC'}/>
-                            </button>
-                            <button onClick={() => console.log('info', item)}><Info color='#62919A'/></button>
-                            <button onClick={() => {
-                                setSearchResult(searchResult.filter(i => i !== item));}}>
-                                <Trash2 color='#ED5935'/>
-                            </button>
-                        </li>)
-                    }
+                                    <Alert color={item.error ? 'orange' : 'transparent'}/>
+                                </button>
+
+                                <button
+                                    onClick={() => {
+                                        item.included = !item.included;
+                                        item.showAlert = false;
+                                        item.showCodes = false;
+                                        if (item.included) setCodes(codes.concat(item));
+                                        else setCodes(codes.filter(i => i !== item));
+                                        setSearchResult([...searchResult]);
+                                    }}>
+                                    <PlusSquare color={item.included ? '#C3DCDC' : '#1A9D49'}/>
+                                </button>
+
+                                <button onClick={() => {
+                                    item.showCodes = !item.showCodes;
+                                    item.showAlert = false;
+                                    setSearchResult([...searchResult]);
+                                }}>
+                                    <ListIcon color={item.children ? '#3396D2' : '#C3DCDC'}/>
+                                </button>
+
+                                <button onClick={() => console.log('info', item)}><Info color='#62919A'/></button>
+
+                                <button onClick={() => {
+                                    setSearchResult(searchResult.filter(i => i !== item));
+                                }}>
+                                    <Trash2 color='#ED5935'/>
+                                </button>
+                            </div>
+
+                            {item.showAlert && <div style={{
+                                fontSize: '11px',
+                                backgroundColor: 'orange',
+                                padding: '5px',
+                                opacity: '0.8',
+                                width: '600px'
+                            }}>{item.error}</div>}
+
+                            {item.showCodes && <div style={{
+                                fontSize: '11px',
+                                backgroundColor: '#3396D2',
+                                padding: '5px',
+                                opacity: '0.8',
+                                width: '600px'
+                            }}>{item.children && item.children.map((code, i) =>
+                                <p key={i}>{code.code} {code.name}</p>
+                            ) }</div>}
+                        </li>
+                    )}
                 </ul>
                 : <p>Nothing is found</p>
             }
@@ -94,19 +141,31 @@ export const SubsetCodes = ({subset}) => {
             {codes && codes.length > 0
                 ? <ul className='list'>
                     {codes.map((item, i) =>
-                        <li key={i} style={{padding: '5px', display: 'flex'}}>
-                            <div style={{width: '400px'}}>{item.name}</div>
-                            <button><Alert color={item.error ? 'orange' : 'transparent' }/></button>
-                            <button
+                        <li key={i} style={{padding: '5px', width: '600px'}}>
+                            <div style={{display: 'flex'}}>
+                                <div style={{width: '400px'}}>{item.title}</div>
+                            <button onClick={() => {
+                                item.showAlert = !item.showAlert;
+                                item.showCodes = false;
+                                setSearchResult([...searchResult]);
+                            }}>
+                                <Alert color={item.error ? 'orange' : 'transparent'}/>
+                            </button>                            <button
                                 onClick={() => {
                                     item.included = !item.included;
+                                    item.showAlert = false;
+                                    item.showCodes = false;
                                     if (item.included) setCodes(codes.concat(item));
                                     else setCodes(codes.filter(i => i !== item));
                                     setSearchResult([...searchResult]);
                                 }}>
                                 <PlusSquare color={item.included ? '#C3DCDC' : '#1A9D49'}/>
                             </button>
-                            <button onClick={() => console.log('codes', item.children)}>
+                                <button onClick={() => {
+                                    item.showCodes = !item.showCodes;
+                                    item.showAlert = false;
+                                    setSearchResult([...searchResult]);
+                                }}>
                                 <ListIcon color={item.children ? '#3396D2' : '#C3DCDC'}/>
                             </button>
                             <button onClick={() => console.log('info', item)}><Info color='#62919A'/></button>
@@ -117,6 +176,27 @@ export const SubsetCodes = ({subset}) => {
                             }}>
                                 <Trash2 color='#ED5935'/>
                             </button>
+                            </div>
+                            {item.showAlert && <div style={{
+                                fontSize: '11px',
+                                backgroundColor: 'orange',
+                                padding: '5px',
+                                opacity: '0.8',
+                                width: '600px'
+                            }}>{item.error}</div>}
+
+                            {item.showCodes && <div style={{
+                                fontSize: '11px',
+                                backgroundColor: '#3396D2',
+                                padding: '5px',
+                                opacity: '0.8',
+                                width: '600px'
+                            }}>{item.children && item.children.map((code, i) =>
+                                <p key={i}>
+                                    <input type='checkbox' name='include' checked={code.checked}
+                                           onChange={() => code.checked = !code.checked }
+                                /> {code.code} {code.name}</p>
+                            ) }</div>}
                         </li>)
             }
                 </ul>
