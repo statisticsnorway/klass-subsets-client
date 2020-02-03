@@ -32,7 +32,8 @@ export const SubsetCodes = ({subset}) => {
             : [];
         setSearchResult(result);
     }, [searchValues]);
-
+    
+    {/* TODO: tooltips for classification icons */}
     return (<>
             <Title size={3}>Choose codes</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
