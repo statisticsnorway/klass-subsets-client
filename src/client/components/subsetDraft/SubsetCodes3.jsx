@@ -55,9 +55,9 @@ export const SubsetCodes = ({subset}) => {
         setSearchResult(result);
     }, [searchValues]);
 
-    {/* TODO: tooltips for classification icons */}
+    /* TODO: tooltips for classification icons */
     return (<>
-            <Title size={3}>Choose codes</Title>
+            <Title size={3}>Choose classifications and code lists</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
                 All search results will be restricted by validity period set in metadata {JSON.stringify(subset.draft.valid.from)}-{JSON.stringify(subset.draft.valid.to)}
             </p>
@@ -86,7 +86,7 @@ export const SubsetCodes = ({subset}) => {
                 : <p>Nothing is found</p>
             }
 
-            <h3>Selected classification codes</h3>
+            <Title size={3}>Choose codes</Title>
             {/* TODO: show more data on item component (info block, date, etc?) */}
             {codes && codes.length > 0
                 ? <ul className='list'>

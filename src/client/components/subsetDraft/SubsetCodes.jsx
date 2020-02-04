@@ -59,7 +59,7 @@ export const SubsetCodes = ({subset}) => {
 
     // FIXME: use valid to date in the search!
     return (<>
-            <Title size={3}>Choose codes</Title>
+            <Title size={3}>Choose classifications and code lists</Title>
             <p style={{color:"grey", fontSize:"11px"}}>
                 All search results will be restricted by validity period set in metadata {subset.draft.valid.from}-{subset.draft.valid.to}
             </p>
@@ -87,7 +87,7 @@ export const SubsetCodes = ({subset}) => {
                 : <p>Nothing is found</p>
             }
 
-            <h3>Chosen classification codes</h3>
+            <Title size={3}>Choose codes</Title>
             {// FIXME: remove unselected classifications! when? prompt? extra button?
              // TODO: show more data on item component (info block, date, etc?)
             }

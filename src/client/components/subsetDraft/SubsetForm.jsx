@@ -14,7 +14,6 @@ export default function SubsetForm() {
 
     return (
         <div className='page'>
-            <Title>Create new subset</Title>
             <Navigation>
                 <Step label={'Metadata'}><SubsetMetadata subset={subset} /></Step>
                 <Step label={'Choose codes'}><SubsetCodes subset={subset} /></Step>

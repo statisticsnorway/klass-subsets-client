@@ -92,7 +92,7 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
 
             {item.showAlert && <div style={{
                 fontSize: '11px',
-                backgroundColor: 'orange',
+                backgroundColor: 'AntiqueWhite',
                 padding: '5px',
                 opacity: '0.8',
                 width: '600px'
@@ -100,7 +100,7 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
 
             {item.showCodes && <div style={{
                 fontSize: '11px',
-                backgroundColor: '#3396D2',
+                backgroundColor: 'AliceBlue',
                 padding: '5px',
                 opacity: '0.8',
                 width: '600px'
