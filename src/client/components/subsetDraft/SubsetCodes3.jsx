@@ -2,8 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {Search} from '../../utils/Search';
 import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
-import { PlusSquare, Trash2, Info, List as ListIcon, AlertTriangle as Alert } from 'react-feather';
-import {Classification} from "../Subset";
+import {Classification} from './Classification';
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
@@ -13,10 +12,9 @@ export const SubsetCodes = ({subset}) => {
 
     const [searchValues, setSearchValues] = useState([]); // list of classifications
     const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
-    const [codes, setCodes] = useState(subset.draft.codes); // list of classifications with codes included into the subset
 
     function complete(item) {
-        let already = codes.find(code => code.title === item.name);
+        let already = subset.draft.codes.find(code => code.title === item.name);
         if (already) {
             return already;
         } else {
@@ -27,7 +25,6 @@ export const SubsetCodes = ({subset}) => {
         }
     }
 
-    // FIXME: update state when done!
     // FIXME: parse the date !!!
     // FIXME: if both dates are set use proper service (codesFromTo) !!!
     // FIXME: proper error message
@@ -37,14 +34,21 @@ export const SubsetCodes = ({subset}) => {
             ? `${classification._links.self.href}/codesAt.json?date=1990-02-02`
             : `${classification._links.self.href}/codesAt.json?date=null`;
         fetch(url)
-            .then(response => response.json(url))
+            .then(response => {
+                response.json(url);
+                if (response.code >= 300) {
+                    classification.errors.concat(response.code);
+                }
+            })
             .then(data => {
                 classification.children = data.codes;
                 classification.error = null;
+                subset.dispatch({action: 'codes', data: subset.draft.codes});
             })
             .catch(e => {
                 console.log(e);
-                classification.error = e.message;
+                classification.errors.concat(e.message);
+                subset.dispatch({action: 'codes', data: subset.draft.codes});
             });
     }
 
@@ -75,8 +79,8 @@ export const SubsetCodes = ({subset}) => {
                             <Classification item={item}
                                             update={() => setSearchResult([...searchResult])}
                                             add={() => {
-                                                if (item.included) setCodes(codes.concat(item));
-                                                else setCodes(codes.filter(i => i !== item));
+                                                if (item.included) subset.dispatch({action: 'codes', data: subset.draft.codes.concat(item)});
+                                                else subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
                                             }}
                                             remove={() => setSearchResult(searchResult.filter(i => i !== item))}
                         />
@@ -88,18 +92,18 @@ export const SubsetCodes = ({subset}) => {
 
             <Title size={3}>Choose codes</Title>
             {/* TODO: show more data on item component (info block, date, etc?) */}
-            {codes && codes.length > 0
+            {subset.draft.codes && subset.draft.codes.length > 0
                 ? <ul className='list'>
-                    {codes.map((item, i) =>
+                    {subset.draft.codes.map((item, i) =>
                         <li key={i} style={{padding: '5px', width: '600px'}}>
                             <Classification item={item}
                                             update={() => setSearchResult([...searchResult])}
                                             add={() => {
-                                                if (item.included) setCodes(codes.concat(item));
-                                                else setCodes(codes.filter(i => i !== item));
+                                                if (item.included) subset.dispatch({action: 'codes', data: subset.draft.codes.concat(item)});
+                                                else subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
                                             }}
                                             remove={() => {
-                                                setCodes(codes.filter(i => i !== item));
+                                                subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
                                                 setSearchResult([...searchResult]);
                                             }}
                                             checkbox />
