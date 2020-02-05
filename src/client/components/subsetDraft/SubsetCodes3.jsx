@@ -34,12 +34,7 @@ export const SubsetCodes = ({subset}) => {
             ? `${classification._links.self.href}/codesAt.json?date=1990-02-02`
             : `${classification._links.self.href}/codesAt.json?date=null`;
         fetch(url)
-            .then(response => {
-                response.json(url);
-                if (response.code >= 300) {
-                    classification.errors.concat(response.code);
-                }
-            })
+            .then(response => response.json(url))
             .then(data => {
                 classification.children = data.codes;
                 classification.error = null;
@@ -47,11 +42,12 @@ export const SubsetCodes = ({subset}) => {
             })
             .catch(e => {
                 console.log(e);
-                classification.errors.concat(e.message);
+                classification.error = e.message;
                 subset.dispatch({action: 'codes', data: subset.draft.codes});
             });
     }
 
+    // FIXME make fetch in background !!!
     useEffect(() => {
         const result = searchValues
             ? searchValues.map(item => complete(item))
