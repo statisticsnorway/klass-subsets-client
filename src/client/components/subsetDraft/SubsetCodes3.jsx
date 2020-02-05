@@ -30,9 +30,10 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: proper error message
     function fetchCodes(classification) {
         console.log('fetching codes');
-        let url = subset.draft.valid.from !== null
+        const url = `${classification._links.self.href}/codesAt.json?date=1990-02-02`;
+        /*let url = subset.draft.valid.from !== null
             ? `${classification._links.self.href}/codesAt.json?date=1990-02-02`
-            : `${classification._links.self.href}/codesAt.json?date=null`;
+            : `${classification._links.self.href}/codesAt.json?date=null`;*/
         fetch(url)
             .then(response => response.json(url))
             .then(data => {

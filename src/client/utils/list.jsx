@@ -127,7 +127,7 @@ function rerank(list) {
 }
 
 export function reorder(list) {
-    list.sort((a,b) => (a.rank - b.rank - 1));
+    list && list.length > 0 && list.sort((a,b) => (a.rank - b.rank - 1));
     rerank(list);
 }
 
