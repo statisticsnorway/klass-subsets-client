@@ -107,7 +107,7 @@ function linkParent(item) {
 // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
 export function unlinkParent(item) {
     if (!item) {return;}
-    item.children.forEach(child => {
+    item.children && item.children.forEach(child => {
         delete child.parent;
         unlinkParent(child);
     });

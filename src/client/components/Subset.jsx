@@ -1,6 +1,6 @@
 import React from 'react';
 import {flatten} from '../utils/arrays';
-import { Accordion, Title } from '@statisticsnorway/ssb-component-library';
+import { Accordion, Title, Text } from '@statisticsnorway/ssb-component-library';
 
 export const Subset = ({subset}) => {
     subset.codes.forEach(i => i.children.forEach(j => j.classification = i.title));
@@ -15,10 +15,15 @@ export const Subset = ({subset}) => {
                     ? subset.names[0].text
                     : 'Subset has got no title yet'
             }</Title>
-            <p>{subset.descriptions.length > 0 && subset.descriptions[0].text
+            <Text>{subset.descriptions.length > 0 && subset.descriptions[0].text
                     ? subset.descriptions[0].text
-                    : 'No description'}</p>
-            { subset.codes.map( code => (<Code code={code}/>)) }
+                    : 'No description'}</Text>
+
+            <Title size={3}>Codes: </Title>
+            {subset.codes.map(classification =>
+                (classification.children && classification.children.map(code => (
+                    <Code code={code}/>)))
+            )}
 
             <Accordion header='Raw JSON'>
                 <pre>{JSON.stringify(subset, null, 4)}</pre>
@@ -28,6 +33,7 @@ export const Subset = ({subset}) => {
 };
 
 export const Code = ({code}) => {
+    console.log('code', code);
     return (
         <Accordion header={code.name} subHeader={code.code || 'Code'}>
             <p><strong>Short name:</strong> {code.shortName || '-'}</p>
