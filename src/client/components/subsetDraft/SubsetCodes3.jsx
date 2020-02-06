@@ -32,7 +32,17 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: if both dates are set use proper service (codesFromTo) !!!
     // FIXME: proper error message
     function fetchCodes(classification) {
-        const url = `${classification._links.self.href}/codesAt.json?date=${from}`;
+        if (!from && !to) {
+            classification.error = "No validity period or date is set";
+            subset.dispatch({action: 'codes', data: subset.draft.codes});
+            return;
+        }
+        let url = '';
+        if (from && to) {
+            url =`${classification._links.self.href}/codes.json?from=${from},to=${to}`
+        } else {
+            url = `${classification._links.self.href}/codesAt.json?date=${from || to}`;
+        }
         console.log('fetching codes', url);
         fetch(url)
             .then(response => response.json(url))
