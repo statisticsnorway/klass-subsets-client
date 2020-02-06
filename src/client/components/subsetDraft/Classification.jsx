@@ -1,19 +1,22 @@
 
-import React from 'react';
+import React, {useState} from 'react';
 import { PlusSquare, Trash2, Info, List as ListIcon, AlertTriangle as Alert } from 'react-feather';
 
 export const Classification = ({item, update, add, remove, checkbox=false}) => {
+    const [expander, setExpander] = useState({
+        showAlert: false,
+        showCodes: false
+    });
     return (
         <>
             <div style={{display: 'flex'}}>
                 <div style={{width: '400px'}}>{item.title}</div>
 
                 <button onClick={() => {
-                    if (item.error) {
-                        item.showAlert = !item.showAlert;
-                        item.showCodes = false;
-                        update();
-                    }
+                    item.error && setExpander({
+                        showAlert: !expander.showAlert,
+                        showCodes: false
+                    })
                 }}>
                     <Alert color={item.error ? 'orange' : 'transparent'}/>
                 </button>
@@ -22,9 +25,11 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
                     onClick={() => {
                         // TODO tooltip 'cannot be added due to lack of codes for this code list'
                         if (item.children && item.children.length > 0) {
+                            setExpander({
+                                showAlert: false,
+                                showCodes: false
+                            });
                             item.included = !item.included;
-                            item.showAlert = false;
-                            item.showCodes = false;
                             add();
                             update();
                         }
@@ -34,27 +39,32 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
                 </button>
 
                 <button onClick={() => {
-                    item.showCodes = !item.showCodes;
-                    item.showAlert = false;
-                    update();
+                    setExpander({
+                        showAlert: false,
+                        showCodes: !expander.showCodes
+                    });
                 }}>
                     <ListIcon color={item.children && item.children.length > 0
                         ? '#3396D2' : '#C3DCDC'}/>
                 </button>
 
-                <button onClick={() => console.log('info', item)}><Info color='#62919A'/></button>
+                <button onClick={() => console.log('info', item)}>
+                    <Info color='#62919A'/>
+                </button>
 
                 <button onClick={() => {
+                    setExpander({
+                        showAlert: false,
+                        showCodes: false
+                    });
                     item.included = false;
-                    item.showCodes = false;
-                    item.showAlert = false;
                     remove();
                 }}>
                     <Trash2 color='#ED5935'/>
                 </button>
             </div>
 
-            {item.showAlert && <div style={{
+            {expander.showAlert && <div style={{
                 fontSize: '11px',
                 backgroundColor: 'AntiqueWhite',
                 padding: '5px',
@@ -62,7 +72,7 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
                 width: '600px'
             }}>{item.error}</div>}
 
-            {item.showCodes && <div style={{
+            {expander.showCodes && <div style={{
                 fontSize: '11px',
                 backgroundColor: 'AliceBlue',
                 padding: '5px',
@@ -75,7 +85,7 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
                             {checkbox && <input type='checkbox' name='include'
                                                 checked={code.checked}
                                                 onChange={() => code.checked = !code.checked }/> }
-                            {code.code} {code.name}
+                            <strong>{code.code}</strong> {code.name}
                         </p>)
                     : <p>No codes found for this validity period</p>
             }</div>}
