@@ -2,7 +2,9 @@ import React, {useEffect, useContext} from 'react';
 import '../../css/form.css';
 import {TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
-import { Button } from '@statisticsnorway/ssb-component-library';
+import {subsetDraft, languages} from '../../controllers/defaults';
+import { Title } from '@statisticsnorway/ssb-component-library';
+import DatePicker from 'react-date-picker';
 
 export const SubsetMetadata = ({subset}) => {
 
@@ -12,20 +14,24 @@ export const SubsetMetadata = ({subset}) => {
 
     return (
         <>
-            <h3>Metadata</h3>
+            <Title size={3}>Metadata</Title>
             <TextLanguageFieldset title='Names' items={subset.draft.names}
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size={{cols: 40, rows: 1}}/>
+                                  size={{cols: 68, rows: 1}}
+                                  prefix={subsetDraft.namePrefix}
+            />
 
             <fieldset>
+                {/* TODO: set automatically when logged inn */}
                 <label>Owner
                     <select style={{margin: '10px'}}
                             value={subset.draft.ownerId}
                             onChange={(e) => subset.dispatch({
                                 action: 'ownerId',
                                 data: e.target.value })}>
+                        <option value='' disabled>Select a responsible department...</option>
                         {ssbsections
                             && subset.draft.ownerId.length > 0
                             && !ssbsections._embedded.ssbSections.find(s => s.name === subset.draft.ownerId)
@@ -41,14 +47,24 @@ export const SubsetMetadata = ({subset}) => {
 
             <fieldset>
                 <label style={{display:'block'}}>Valid period</label>
-                <label>From:<input type='date'
-                                   value={subset.draft.valid.from}
-                                   onChange={(e) => subset.dispatch(
-                                       {action: 'from', data: e.target.value})} /></label>
-                <label>To:<input type='date'
-                                 value={subset.draft.valid.to}
-                                 onChange={(e) => subset.dispatch(
-                                     {action: 'to', data: e.target.value})} /></label>
+                <label>From:
+                    <DatePicker value={subset.draft.valid.from}
+                                onChange={(date) => subset.dispatch({action: 'from', data: date})}
+                                clearIcon={null}
+                                format='dd.MM.y'
+                                locale={languages.find(i=> i.default).IETF}
+                                className='datepicker'
+                    />
+                </label>
+                <label>To:
+                    <DatePicker value={subset.draft.valid.to}
+                                onChange={(date) => subset.dispatch({action: 'to', data: date})}
+                                clearIcon={null}
+                                format='dd.MM.y'
+                                locale={languages.find(i=> i.default).IETF}
+                                className='datepicker'
+                    />
+                </label>
             </fieldset>
 
             <fieldset>
@@ -58,6 +74,7 @@ export const SubsetMetadata = ({subset}) => {
                         onChange={(e) => subset.dispatch({
                             action: 'subject',
                             data: e.target.value })}>
+                        <option value='' disabled>Select a subject...</option>
                     {classificationfamilies && subset.draft.subject.length > 0
                         && !classificationfamilies._embedded.classificationFamilies
                             .find(s => s.name === subset.draft.subject)
@@ -75,7 +92,8 @@ export const SubsetMetadata = ({subset}) => {
                                   add={() => subset.dispatch({action: 'description_add'})}
                                   remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size = {{cols: 40, rows: 4}}/>
+                                  size = {{cols: 68, rows: 4}}
+            />
 
 
 {/* TODO: implement in next version

@@ -3,7 +3,7 @@ import '../css/autosuggest.css';
 
 export const Search = ({resource = [],
                            setChosen = (item) => console.log('chosen item:', item),
-                           placeholder = 'Search',
+                           placeholder = 'Type classification name',
                            searchBy = (input, source) =>
                                input === '' ? [] : source.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
                        }) => {

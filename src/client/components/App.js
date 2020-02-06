@@ -5,22 +5,27 @@ import { ContextProvider } from '../controllers/context';
 import Header from './Header';
 import WelcomePage from './pages/WelcomePage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
-import Errors from './Errors';
+// import Errors from './Errors';
 import SubsetForm from './subsetDraft/SubsetForm';
 
 export default function App() {
     return (
         <ContextProvider>
             <Router>
-                <div className='App'>
+                <div className='app'>
                     <Header/>
+                <div className='app-content'>
+{/* FIXME use it!
+    TODO: style it!
                     <Errors/>
+*/}
                     <Switch>
                         <Route path='/' exact component={SearchSubsetsPage}/>
                         <Route path='/create' component={SubsetForm}/>
                         <Route path='/about' exact component={WelcomePage}/>
                         <Route component={NoMatch}/>
                     </Switch>
+                </div>
                 </div>
             </Router>
         </ContextProvider>

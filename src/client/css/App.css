@@ -27,3 +27,17 @@
   padding-right: 30px;
 }
 
+.app {
+  color: #162327;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+.app-content {
+  display: grid;
+  grid-template-columns: minmax(320px, 1200px);
+  justify-content: center;
+  margin: 0 8px;
+  position: relative;
+}

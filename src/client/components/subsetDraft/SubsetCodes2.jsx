@@ -2,11 +2,10 @@ import React, {useState, useEffect, useContext} from 'react';
 import {Search} from '../../utils/Search';
 import {List, useList} from '../../utils/list';
 import {AppContext} from '../../controllers/context';
-import { Title } from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
-
     // FIXME: fails on '(' input and in result string
 
     const [searchValues, setSearchValues] = useState([]);
@@ -25,42 +24,39 @@ export const SubsetCodes = ({subset}) => {
 
         const result = searchValues
             ? searchValues.map(item => {
-
                     let already = codes.items.find(code => code.title === item.name);
                     if (already) {return already;}
                     else {
-                        const x = {title: item.name, children: []};
-                        fetch(`${item._links.self.href}/codesAt.json?date=${subset.draft.valid.from}`)
-                            .then(response => response.json())
-                            .then(data => x.children = convertToList(data.codes))
-                            .catch(e => console.log(e));
-                        return x;
+                        item.title = item.name;
+                        item.children = [];
+                        return item;
                     }
-                }
-            )
+                })
             : [];
         searchResult.update(result);
         codes.remove(searchValues.map(i => i.name));
     },[searchValues]);
 
-    function convertToList(array) {
+    useEffect(() => {
+        codes.items.map(item => {
+                fetch(`${item._links.self.href}/codesAt.json?date=${subset.draft.valid.from}`)
+                    .then(response => response.json())
+                    .then(data => item.children = addTitle(data.codes))
+                    .catch(e => console.log(e));
+            }
+        )
+    }, [codes]);
+
+    function addTitle(array) {
         array.forEach(i => i.title = `${i.code} - ${i.name}`);
-        const children = array.filter(i => i.parentCode === null);
-        children.forEach(parent => findChildren(array, parent));
-        return children;
+        return array;
     }
-
-    function findChildren(array, parent) {
-        parent.children = array.filter(i => i.parentCode === parent.code);
-        parent.children.forEach(child => findChildren(array, child));
-    }
-
     const {classifications} = useContext(AppContext);
 
     // FIXME: use valid to date in the search!
     return (<>
             <Title size={3}>Choose classifications and code lists</Title>
-            <p style={{color:"grey", fontSize:"11px"}}>
+            <p style={{color:'grey', fontSize:'11px'}}>
                 All search results will be restricted by validity period set in metadata {subset.draft.valid.from}-{subset.draft.valid.to}
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
@@ -71,19 +67,20 @@ export const SubsetCodes = ({subset}) => {
             />
 
             {searchResult.items.length > 0
-                ? <List
-                    list={searchResult}
-                    controls={ [{
-                        name: 'include',
-                        order: 1,
-                        callback: (i) => {
-                            console.log("clicked", i);
-                            subset.dispatch({
-                                action: 'codes_prepend_checked',
-                                data: [i]
-                            });
-                         }
-                    }]} />
+                ? <ul className='list'>
+                    {searchResult.items.map((item) =>
+                        <li>
+                            <span className='content'>{item.title}</span>
+                            <input type='checkbox' name='include' checked={item.checked}
+                                   onChange={() => {
+                                       item.checked = !item.checked;
+                                       subset.dispatch({
+                                           action: 'codes_prepend_checked', data: [item]
+                                       })
+                                   }}/>
+                        </li>)
+                    }
+                </ul>
                 : <p>Nothing is found</p>
             }
 
