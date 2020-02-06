@@ -33,7 +33,6 @@ export const Subset = ({subset}) => {
 };
 
 export const Code = ({code}) => {
-    console.log('code', code);
     return (
         <Accordion header={code.name} subHeader={code.code || 'Code'}>
             <p><strong>Short name:</strong> {code.shortName || '-'}</p>
