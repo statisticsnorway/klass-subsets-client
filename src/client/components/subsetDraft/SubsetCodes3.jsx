@@ -39,7 +39,7 @@ export const SubsetCodes = ({subset}) => {
         }
         let url = '';
         if (from && to) {
-            url =`${classification._links.self.href}/codes.json?from=${from},to=${to}`
+            url = `${classification._links.self.href}/codes.json?from=${from},to=${to}`
         } else {
             url = `${classification._links.self.href}/codesAt.json?date=${from || to}`;
         }
