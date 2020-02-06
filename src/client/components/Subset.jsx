@@ -1,5 +1,4 @@
 import React from 'react';
-import {flatten} from '../utils/arrays';
 import { Accordion, Title, Text } from '@statisticsnorway/ssb-component-library';
 
 export const Subset = ({subset}) => {

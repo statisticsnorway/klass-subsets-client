@@ -70,39 +70,42 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         {expander.showAlert && <div style={{
             fontSize: '11px',
             backgroundColor: 'AntiqueWhite',
-            padding: '5px',
+            padding: '15px',
             opacity: '0.8',
             width: '600px'
-        }}>{item.error}</div>}
+        }}><Text>{item.error}</Text></div>}
 
         {expander.showCodes && <div style={{
             fontSize: '11px',
             backgroundColor: 'AliceBlue',
-            padding: '5px',
+            padding: '15px',
             opacity: '0.8',
             width: '600px'
-        }}>{
-            !(item.children && item.children.length > 0)
-                ? <p>No codes found for this validity period</p>
-                : item.children.map((code, i) =>
-                    !checkbox
-                        ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
-                        : <div className="ssb-checkbox">
-                            <input id={`${code.code}-${i}`}
-                                   type='checkbox' name='include'
-                                   checked={code.checked}
-                                   value={code.code}
-                                   onChange={() => {
-                                       code.checked = !code.checked;
-                                       update();
-                                   }}/>
-                            <label className='checkbox-label'
-                                   htmlFor={`${code.code}-${i}`}>
-                                <Text><strong>{code.code}</strong> {code.name}</Text>
-                            </label>
-                        </div>
-                )
-            }
+        }}>
+            <div className="ssb-checkbox-group">
+                <div className="checkbox-group-header">Codes</div>
+                {!(item.children && item.children.length > 0)
+                    ? <p><Text>No codes found for this validity period</Text></p>
+                    : item.children.map((code, i) =>
+                        !checkbox
+                            ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
+                            : <div className="ssb-checkbox">
+                                <input id={`${code.code}-${i}`}
+                                       type='checkbox' name='include'
+                                       checked={code.checked}
+                                       value={code.code}
+                                       onChange={() => {
+                                           code.checked = !code.checked;
+                                           update();
+                                       }}/>
+                                <label className='checkbox-label'
+                                       htmlFor={`${code.code}-${i}`}>
+                                    <Text><strong>{code.code}</strong> {code.name}</Text>
+                                </label>
+                            </div>
+                    )
+                }
+            </div>
             </div>
         }
         </>
