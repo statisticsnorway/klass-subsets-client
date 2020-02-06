@@ -1,99 +1,128 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {Search} from '../../utils/Search';
-import {List, useList} from '../../utils/list';
 import {AppContext} from '../../controllers/context';
-import { Title } from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
+import {Classification} from './Classification';
 
 export const SubsetCodes = ({subset}) => {
     // FIXME: sanitize input
-
     // FIXME: fails on '(' input and in result string
-
-    const [searchValues, setSearchValues] = useState([]);
-    const searchResult = useList([]);
-    const codes = useList(subset.draft.codes);
-
-    useEffect(() => codes.update(subset.draft.codes),[subset]);
-
-    // FIXME: make the list item update (show expandable control) when the codes arrived from klass-api
-    // Solution: useEffect should depend on searchResult ?
-    useEffect(() => {
-        searchResult.items.length > 0 && subset.dispatch({
-            action: 'codes_prepend_checked',
-            data: searchResult.items
-        });
-
-        const result = searchValues
-            ? searchValues.map(item => {
-
-                    let already = codes.items.find(code => code.title === item.name);
-                    if (already) {return already;}
-                    else {
-                        const x = {title: item.name, children: []};
-                        fetch(`${item._links.self.href}/codesAt.json?date=${subset.draft.valid.from}`)
-                            .then(response => response.json())
-                            .then(data => x.children = convertToList(data.codes))
-                            .catch(e => console.log(e));
-                        return x;
-                    }
-                }
-            )
-            : [];
-        searchResult.update(result);
-        codes.remove(searchValues.map(i => i.name));
-    },[searchValues]);
-
-    function convertToList(array) {
-        array.forEach(i => i.title = `${i.code} - ${i.name}`);
-        const children = array.filter(i => i.parentCode === null);
-        children.forEach(parent => findChildren(array, parent));
-        return children;
-    }
-
-    function findChildren(array, parent) {
-        parent.children = array.filter(i => i.parentCode === parent.code);
-        parent.children.forEach(child => findChildren(array, child));
-    }
 
     const {classifications} = useContext(AppContext);
 
-    // FIXME: use valid to date in the search!
+    const [searchValues, setSearchValues] = useState([]); // list of classifications
+    const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
+
+    const from = subset.draft.valid.from && subset.draft.valid.from.toISOString().substr(0, 10);
+    const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
+
+    function complete(item) {
+        let already = subset.draft.codes.find(code => code.title === item.name);
+        if (already) {
+            return already;
+        } else {
+            item.title = item.name;
+            item.included = false;
+            fetchCodes(item);
+            return item;
+        }
+    }
+
+    // FIXME: parse the date !!!
+    // FIXME: if both dates are set use proper service (codesFromTo) !!!
+    // FIXME: proper error message
+    function fetchCodes(classification) {
+        if (!from && !to) {
+            classification.error = "No validity period or date is set";
+            subset.dispatch({action: 'codes', data: subset.draft.codes});
+            return;
+        }
+        let url = '';
+        if (from && to) {
+            url = `${classification._links.self.href}/codes.json?from=${from},to=${to}`
+        } else {
+            url = `${classification._links.self.href}/codesAt.json?date=${from || to}`;
+        }
+        console.log('fetching codes', url);
+        fetch(url)
+            .then(response => response.json(url))
+            .then(data => {
+                classification.children = data.codes;
+                classification.error = null;
+                subset.dispatch({action: 'codes', data: subset.draft.codes});
+            })
+            .catch(e => {
+                console.log(e);
+                classification.error = e.message;
+                subset.dispatch({action: 'codes', data: subset.draft.codes});
+            });
+    }
+
+    // FIXME make fetch in background !!!
+    useEffect(() => {
+        const result = searchValues
+            ? searchValues.map(item => complete(item))
+            : [];
+        setSearchResult(result);
+    }, [searchValues]);
+
+    /* TODO: tooltips for classification icons */
     return (<>
             <Title size={3}>Choose classifications and code lists</Title>
-            <p style={{color:"grey", fontSize:"11px"}}>
-                All search results will be restricted by validity period set in metadata {subset.draft.valid.from}-{subset.draft.valid.to}
+            <p style={{color:'grey', fontSize:'11px'}}>
+                All search results will be restricted by validity period set in metadata{
+                from && to
+                    ? `: from ${from} to ${to}.`
+                    : from || to ? `: at ${from || to}.`
+                    : '. Period is not set.'
+            }
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
-                    placeholder='Classification'
+                    placeholder='Type classification name'
                     searchBy = {(input, resource) =>
                         input === '' ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
             />
 
-            {searchResult.items.length > 0
-                ? <List
-                    list={searchResult}
-                    controls={ [{
-                        name: 'include',
-                        order: 1,
-                        callback: (i) => {
-                            console.log("clicked", i);
-                            subset.dispatch({
-                                action: 'codes_prepend_checked',
-                                data: [i]
-                            });
-                         }
-                    }]} />
+            {searchResult.length > 0
+                ? <ul className='list'>
+                    {searchResult.map((item, index) =>
+                        <li key={index} style={{padding: '5px', width: '600px'}}>
+                            <Classification item={item}
+                                            update={() => setSearchResult([...searchResult])}
+                                            add={() => {
+                                                if (item.included) subset.dispatch({action: 'codes', data: subset.draft.codes.concat(item)});
+                                                else subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
+                                            }}
+                                            remove={() => setSearchResult(searchResult.filter(i => i !== item))}
+                        />
+                        </li>
+                    )}
+                </ul>
                 : <p>Nothing is found</p>
             }
 
             <Title size={3}>Choose codes</Title>
-            {// FIXME: remove unselected classifications! when? prompt? extra button?
-             // TODO: show more data on item component (info block, date, etc?)
-            }
-            {codes && codes.items.length > 0
-                ? <List list={codes} />
+            {/* TODO: show more data on item component (info block, date, etc?) */}
+            {subset.draft.codes && subset.draft.codes.length > 0
+                ? <ul className='list'>
+                    {subset.draft.codes.map((item, index) =>
+                        <li key={index} style={{padding: '5px', width: '600px'}}>
+                            <Classification item={item}
+                                            update={() => setSearchResult([...searchResult])}
+                                            add={() => {
+                                                if (item.included) subset.dispatch({action: 'codes', data: subset.draft.codes.concat(item)});
+                                                else subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
+                                            }}
+                                            remove={() => {
+                                                subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
+                                                setSearchResult([...searchResult]);
+                                            }}
+                                            checkbox />
+                        </li>)}
+                </ul>
                 : <p>No codes in the subset draft</p>}
-    </>
+        </>
     );
 };
+
