@@ -84,7 +84,10 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
                         <p key={i}>
                             {checkbox && <input type='checkbox' name='include'
                                                 checked={code.checked}
-                                                onChange={() => code.checked = !code.checked }/> }
+                                                onChange={() => {
+                                                    code.checked = !code.checked;
+                                                    update();
+                                                } }/> }
                             <strong>{code.code}</strong> {code.name}
                         </p>)
                     : <p>No codes found for this validity period</p>
