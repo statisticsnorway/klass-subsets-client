@@ -14,7 +14,7 @@ export const List = ({list, controls = [
     ]
                      }) => {
 
-    return (<ListItems items={list.items}
+    return (<ListItems items={list.items.filter(i => i.checked)}
                        controls={controls}
                        dispatch={(o) => list.dispatch(o)}/>)
 };
