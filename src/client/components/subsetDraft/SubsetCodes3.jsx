@@ -29,7 +29,7 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: if both dates are set use proper service (codesFromTo) !!!
     // FIXME: proper error message
     function fetchCodes(classification) {
-        const url = `${classification._links.self.href}/codesAt.json?date=2000-02-02`;
+        const url = `${classification._links.self.href}/codesAt.json?date=${JSON.stringify(subset.draft.valid.from).substr(1, 10)}`;
         console.log('fetching codes', url);
         /*let url = subset.draft.valid.from !== null
             ? `${classification._links.self.href}/codesAt.json?date=1990-02-02`
@@ -60,7 +60,7 @@ export const SubsetCodes = ({subset}) => {
     return (<>
             <Title size={3}>Choose classifications and code lists</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
-                All search results will be restricted by validity period set in metadata {JSON.stringify(subset.draft.valid.from)}-{JSON.stringify(subset.draft.valid.to)}
+                All search results will be restricted by validity period set in metadata {JSON.stringify(subset.draft.valid.from).substr(1, 10)}-{JSON.stringify(subset.draft.valid.to).substr(1, 10)}
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
