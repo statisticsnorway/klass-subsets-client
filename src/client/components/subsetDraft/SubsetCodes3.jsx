@@ -29,8 +29,8 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: if both dates are set use proper service (codesFromTo) !!!
     // FIXME: proper error message
     function fetchCodes(classification) {
-        console.log('fetching codes');
-        const url = `${classification._links.self.href}/codesAt.json?date=1990-02-02`;
+        const url = `${classification._links.self.href}/codesAt.json?date=2000-02-02`;
+        console.log('fetching codes', url);
         /*let url = subset.draft.valid.from !== null
             ? `${classification._links.self.href}/codesAt.json?date=1990-02-02`
             : `${classification._links.self.href}/codesAt.json?date=null`;*/
@@ -71,8 +71,8 @@ export const SubsetCodes = ({subset}) => {
 
             {searchResult.length > 0
                 ? <ul className='list'>
-                    {searchResult.map((item, i) =>
-                        <li key={i} style={{padding: '5px', width: '600px'}}>
+                    {searchResult.map((item, index) =>
+                        <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={item}
                                             update={() => setSearchResult([...searchResult])}
                                             add={() => {
@@ -91,8 +91,8 @@ export const SubsetCodes = ({subset}) => {
             {/* TODO: show more data on item component (info block, date, etc?) */}
             {subset.draft.codes && subset.draft.codes.length > 0
                 ? <ul className='list'>
-                    {subset.draft.codes.map((item, i) =>
-                        <li key={i} style={{padding: '5px', width: '600px'}}>
+                    {subset.draft.codes.map((item, index) =>
+                        <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={item}
                                             update={() => setSearchResult([...searchResult])}
                                             add={() => {
