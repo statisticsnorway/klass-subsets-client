@@ -19,7 +19,7 @@ export const SubsetMetadata = ({subset}) => {
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size={{cols: 68, rows: 1}}
+                                  size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
             />
 
@@ -92,7 +92,7 @@ export const SubsetMetadata = ({subset}) => {
                                   add={() => subset.dispatch({action: 'description_add'})}
                                   remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
-                                  size = {{cols: 68, rows: 4}}
+                                  size = {{cols: 65, rows: 4}}
             />
 
 
