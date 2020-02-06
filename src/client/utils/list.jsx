@@ -1,14 +1,16 @@
 import React, {useReducer} from 'react';
 import '../css/list.css';
+import {Trash2} from 'react-feather';
+
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list, controls = [
         {name: 'expand', order: -1},
-        {name: 'include', order: 1, callback: (i) => console.log('include', i.title)},
+        {name: 'include', order: 2, callback: (i) => console.log('include', i.title)},
     // TODO: extra checkbox to show, that one or multiple items in the lower levels are selected.
     // deactivated if all or none are selected.
         {name: 'draggable'},
-        {name: 'rank', order: 2}
+        {name: 'rank', order: 1}
     ]
                      }) => {
 
@@ -34,15 +36,17 @@ export const ListItem = ({controls, item, dispatch}) => {
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
+            <div style={{display: 'flex'}}>
+
             <Controls
                 item={item}
                 dispatch={dispatch}
                 controls={controls.filter(control => control.order < 0)}
             />
 
-            <span className='content'
+            <div style={{width: '400px'}} className='content'
                   onClick={() => dispatch({action: 'toggle_dragged', data: item})}
-            >{item.title}</span>
+            >{item.title}</div>
 
             <Controls
                 item={item}
@@ -50,6 +54,8 @@ export const ListItem = ({controls, item, dispatch}) => {
                 controls={controls.filter(control => control.order > 0)}
             />
             {item.expanded && <ListItems items={item.children} controls={controls} dispatch={dispatch} />}
+
+            </div>
         </li>
     );
 };
@@ -63,14 +69,6 @@ export const Controls = ({item, dispatch, controls}) => {
             </button>
             }
 
-            {controls.find(c => c.name === 'include') &&
-            <input type='checkbox' name='include' checked={item.checked}
-                   onChange={() => {
-                       item.checked = !item.checked;
-                       controls.find(c => c.name === 'include').callback(item);
-                       dispatch({action: 'toggle_include', data: {item, checked: item.checked }});
-                   }} />
-            }
             {controls.find(c => c.name === 'rank') &&
             <input type='number' name='rank' style={{width: '4em'}} value={item.rank}
                 // FIXME do not returns a number on the 3d level, but text -> list becomes non-sortable!!!
@@ -78,6 +76,17 @@ export const Controls = ({item, dispatch, controls}) => {
                        dispatch({action: 'rank', data: {item, rank: e.target.value}});
                    }} />
             }
+
+            {controls.find(c => c.name === 'include') &&
+            <button onClick={() => {
+                item.checked = !item.checked;
+                controls.find(c => c.name === 'include').callback(item);
+                dispatch({action: 'toggle_include', data: {item, checked: item.checked }});
+            }}>
+                <Trash2 color='#ED5935'/>
+                </button>
+            }
+
     </span>);
 };
 

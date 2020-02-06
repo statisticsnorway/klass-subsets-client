@@ -9,9 +9,11 @@ export const Classification = ({item, update, add, remove, checkbox=false}) => {
                 <div style={{width: '400px'}}>{item.title}</div>
 
                 <button onClick={() => {
-                    item.showAlert = !item.showAlert;
-                    item.showCodes = false;
-                    update();
+                    if (item.error) {
+                        item.showAlert = !item.showAlert;
+                        item.showCodes = false;
+                        update();
+                    }
                 }}>
                     <Alert color={item.error ? 'orange' : 'transparent'}/>
                 </button>
