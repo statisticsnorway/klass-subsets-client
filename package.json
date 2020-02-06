@@ -1,6 +1,6 @@
 {
   "name": "klass-subsets-web",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "@comment dependencies": [
     "typescript: peer dependency react-scripts@3.3.0, tsutils@3.17.1",

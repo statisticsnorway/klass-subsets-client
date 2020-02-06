@@ -13,6 +13,9 @@ export const SubsetCodes = ({subset}) => {
     const [searchValues, setSearchValues] = useState([]); // list of classifications
     const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
 
+    const from = subset.draft.valid.from && subset.draft.valid.from.toISOString().substr(0, 10);
+    const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
+
     function complete(item) {
         let already = subset.draft.codes.find(code => code.title === item.name);
         if (already) {
@@ -29,11 +32,18 @@ export const SubsetCodes = ({subset}) => {
     // FIXME: if both dates are set use proper service (codesFromTo) !!!
     // FIXME: proper error message
     function fetchCodes(classification) {
-        const url = `${classification._links.self.href}/codesAt.json?date=2000-02-02`;
+        if (!from && !to) {
+            classification.error = "No validity period or date is set";
+            subset.dispatch({action: 'codes', data: subset.draft.codes});
+            return;
+        }
+        let url = '';
+        if (from && to) {
+            url = `${classification._links.self.href}/codes.json?from=${from},to=${to}`
+        } else {
+            url = `${classification._links.self.href}/codesAt.json?date=${from || to}`;
+        }
         console.log('fetching codes', url);
-        /*let url = subset.draft.valid.from !== null
-            ? `${classification._links.self.href}/codesAt.json?date=1990-02-02`
-            : `${classification._links.self.href}/codesAt.json?date=null`;*/
         fetch(url)
             .then(response => response.json(url))
             .then(data => {
@@ -60,7 +70,12 @@ export const SubsetCodes = ({subset}) => {
     return (<>
             <Title size={3}>Choose classifications and code lists</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
-                All search results will be restricted by validity period set in metadata {JSON.stringify(subset.draft.valid.from)}-{JSON.stringify(subset.draft.valid.to)}
+                All search results will be restricted by validity period set in metadata{
+                from && to
+                    ? `: from ${from} to ${to}.`
+                    : from || to ? `: at ${from || to}.`
+                    : '. Period is not set.'
+            }
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
