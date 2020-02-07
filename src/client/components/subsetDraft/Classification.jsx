@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
-    PlusSquare, MinusSquare, XSquare, Trash2, Info, List as ListIcon,
+    PlusSquare, MinusSquare, XSquare, Trash2, Info,
+    List as ListIcon,
     AlertTriangle as Alert
 } from 'react-feather';
 import { Text } from '@statisticsnorway/ssb-component-library';
@@ -36,7 +37,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         <div style={{display: 'flex'}}>
             <div style={{width: '400px'}}>{item.name}</div>
 
-            <button onClick={() => {item.error && setExpander(toggle.alert())}}>
+            <button onClick={() => item.error && setExpander(toggle.alert())}>
                 <Alert color={item.error ? 'orange' : 'transparent'}/>
             </button>
 
@@ -47,7 +48,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                     item.included = !item.included;
                     add();
                     update();
-                } else {setExpander(toggle.cannot())}}}>
+                } else {setExpander(toggle.cannot());}}}>
                 {!item.included && (item.codes && item.codes.length > 0) && <PlusSquare color='#1A9D49'/>}
                 {item.included && <MinusSquare color='#B6E8B8'/>}
                 {(!item.codes || item.codes.length < 1) && <XSquare color='#9272FC' />}
@@ -96,7 +97,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">Codes</div>
                 {!item.codes || item.codes.length < 1
-                    ? <p><Text>No codes found for this validity period</Text></p>
+                    ? <Text>No codes found for this validity period</Text>
                     : item.codes.map((code, i) =>
                         !checkbox
                             ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
@@ -117,8 +118,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                     )
                 }
             </div>
-            </div>
-        }
-        </>
-    )
+        </div>}
+
+    </>)
 };
