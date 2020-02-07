@@ -120,5 +120,5 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             </div>
         </div>}
 
-    </>)
+    </>);
 };
