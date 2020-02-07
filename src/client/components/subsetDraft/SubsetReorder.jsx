@@ -14,13 +14,13 @@ export const SubsetReorder = ({subset}) => {
         // FIXME: fix flatten util instead of sorting!
             // .sort((a,b) => (a.rank - b.rank))
         .sort((a, b) => (b.rank - a.rank))
-        .map(code => (code.children.filter(i => i.checked))))
+        .map(code => (code.children.filter(i => i.included))))
     );*/
 
     const allCodes = [];
     subset.draft.codes.map(classification => allCodes.push(...classification.children));
     allCodes.forEach(i => (i.title = `${i.code} ${i.name}`));
-    const codes = useList(allCodes.filter(i => i.checked));
+    const codes = useList(allCodes.filter(i => i.included));
 
     console.log(subset.draft.codes);
     console.log(allCodes);

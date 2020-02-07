@@ -10,6 +10,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         showAlert: false,
         showCodes: false
     });
+
     return (
         <>
         <div style={{display: 'flex'}}>
@@ -92,10 +93,10 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                             : <div className="ssb-checkbox">
                                 <input id={`${code.code}-${i}`}
                                        type='checkbox' name='include'
-                                       checked={code.checked}
+                                       checked={code.included}
                                        value={code.code}
                                        onChange={() => {
-                                           code.checked = !code.checked;
+                                           code.included = !code.included;
                                            update();
                                        }}/>
                                 <label className='checkbox-label'
