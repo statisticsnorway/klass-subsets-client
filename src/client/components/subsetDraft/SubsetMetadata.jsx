@@ -70,7 +70,7 @@ export const SubsetMetadata = ({subset}) => {
                                 onChange={(date) => subset.dispatch({action: 'to', data: date})}
                                 clearIcon={null}
                                 format='dd.MM.y'
-                                locale={languages.find(i=> i.default).IETF}
+                                locale={languages.find(i => i.default).IETF}
                                 className='datepicker'
                     />
                 </label>

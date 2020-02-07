@@ -16,7 +16,7 @@ export const List = ({list, controls = [
 
     return (<ListItems items={list.items.filter(i => i.included)}
                        controls={controls}
-                       dispatch={(o) => list.dispatch(o)}/>)
+                       dispatch={(o) => list.dispatch(o)}/>);
 };
 
 export const ListItems = ({controls, items, dispatch}) => {
