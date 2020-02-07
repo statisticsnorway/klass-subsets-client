@@ -2,7 +2,8 @@ import React from 'react';
 import { Accordion, Title, Text } from '@statisticsnorway/ssb-component-library';
 
 export const Subset = ({subset}) => {
-    subset.codes.forEach(i => i.children.forEach(j => j.classification = i.title));
+    subset.classifications.forEach(classification => classification.codes
+            .forEach(code => code.classification = classification.name));
 
     // FIXME: show title to selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
@@ -19,8 +20,8 @@ export const Subset = ({subset}) => {
                     : 'No description'}</Text>
 
             <Title size={3}>Codes: </Title>
-            {subset.codes.map(classification =>
-                (classification.children && classification.children.map(code => (
+            {subset.classifications.map(classification =>
+                (classification.codes && classification.codes.map(code => (
                     <Code code={code}/>)))
             )}
 

@@ -1,53 +1,61 @@
 import React, {useState} from 'react';
 import {
-    PlusSquare, Trash2, Info, List as ListIcon,
+    PlusSquare, MinusSquare, XSquare, Trash2, Info,
+    List as ListIcon,
     AlertTriangle as Alert
 } from 'react-feather';
 import { Text } from '@statisticsnorway/ssb-component-library';
 
 export const Classification = ({item, update, add, remove, checkbox = false}) => {
-    const [expander, setExpander] = useState({
-        showAlert: false,
-        showCodes: false
-    });
+    const toggle = {
+        closeAll: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: false
+        }),
+        alert: () => ({
+            showAlert: !expander.showAlert,
+            showCodes: false,
+            showCannot: false
+        }),
+        codes: () => ({
+            showAlert: false,
+            showCodes: !expander.showCodes,
+            showCannot: false
+        }),
+        cannot: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: !expander.showCannot
+        })
+    };
+
+    const [expander, setExpander] = useState(toggle.closeAll());
+
     return (
         <>
         <div style={{display: 'flex'}}>
-            <div style={{width: '400px'}}>{item.title}</div>
+            <div style={{width: '400px'}}>{item.name}</div>
 
-            <button onClick={() => {
-                item.error && setExpander({
-                    showAlert: !expander.showAlert,
-                    showCodes: false
-                })
-            }}>
+            <button onClick={() => item.error && setExpander(toggle.alert())}>
                 <Alert color={item.error ? 'orange' : 'transparent'}/>
             </button>
 
-            <button
-                onClick={() => {
-                    // TODO tooltip 'cannot be added due to lack of codes for this code list'
-                    if (item.children && item.children.length > 0) {
-                        setExpander({
-                            showAlert: false,
-                            showCodes: false
-                        });
-                        item.included = !item.included;
-                        add();
-                        update();
-                    }
-                }}>
-                <PlusSquare color={item.included || !(item.children && item.children.length > 0)
-                    ? '#C3DCDC' : '#1A9D49'}/>
+            {/*TODO: (test case) remove empty classification from draft.classification*/}
+            <button onClick={() => {
+                if (item.included || (item.codes && item.codes.length > 0)) {
+                    setExpander(toggle.closeAll());
+                    item.included = !item.included;
+                    add();
+                    update();
+                } else {setExpander(toggle.cannot());}}}>
+                {!item.included && (item.codes && item.codes.length > 0) && <PlusSquare color='#1A9D49'/>}
+                {item.included && <MinusSquare color='#B6E8B8'/>}
+                {(!item.codes || item.codes.length < 1) && <XSquare color='#9272FC' />}
             </button>
 
-            <button onClick={() => {
-                setExpander({
-                    showAlert: false,
-                    showCodes: !expander.showCodes
-                });
-            }}>
-                <ListIcon color={item.children && item.children.length > 0
+            <button onClick={() => setExpander(toggle.codes())}>
+                <ListIcon color={item.codes && item.codes.length > 0
                     ? '#3396D2' : '#C3DCDC'}/>
             </button>
 
@@ -56,13 +64,9 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             </button>
 
             <button onClick={() => {
-                setExpander({
-                    showAlert: false,
-                    showCodes: false
-                });
-                item.included = false;
+                setExpander(toggle.closeAll());
                 remove();
-            }}>
+                }}>
                 <Trash2 color='#ED5935'/>
             </button>
         </div>
@@ -75,6 +79,14 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             width: '600px'
         }}><Text>{item.error}</Text></div>}
 
+        {expander.showCannot && <div style={{
+                fontSize: '11px',
+                backgroundColor: '#ece6fe',
+                padding: '15px',
+                opacity: '0.8',
+                width: '600px'
+        }}><Text>Code list cannot be added to the subset due to lack of codes</Text></div>}
+
         {expander.showCodes && <div style={{
             fontSize: '11px',
             backgroundColor: 'AliceBlue',
@@ -84,18 +96,18 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         }}>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">Codes</div>
-                {!(item.children && item.children.length > 0)
-                    ? <p><Text>No codes found for this validity period</Text></p>
-                    : item.children.map((code, i) =>
+                {!item.codes || item.codes.length < 1
+                    ? <Text>No codes found for this validity period</Text>
+                    : item.codes.map((code, i) =>
                         !checkbox
                             ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
                             : <div className="ssb-checkbox">
                                 <input id={`${code.code}-${i}`}
                                        type='checkbox' name='include'
-                                       checked={code.checked}
+                                       checked={code.included}
                                        value={code.code}
                                        onChange={() => {
-                                           code.checked = !code.checked;
+                                           code.included = !code.included;
                                            update();
                                        }}/>
                                 <label className='checkbox-label'
@@ -106,8 +118,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                     )
                 }
             </div>
-            </div>
-        }
-        </>
-    )
+        </div>}
+
+    </>);
 };

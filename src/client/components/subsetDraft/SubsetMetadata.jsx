@@ -6,6 +6,15 @@ import {subsetDraft, languages} from '../../controllers/defaults';
 import { Title } from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
 
+/*
+ *  TODO: select components (2) from the ssb-component-library
+ *  TODO: textarea styled as input text in the ssb-component-library
+ *  FIXME: buttons Next-Previous have to be aligned properly
+ *  FIXME: make empty names and descriptions do not disappear at all
+ *  TODO: remove fieldsets? or just its boarder: none
+ *  FIXME: sanitize input
+ */
+
 export const SubsetMetadata = ({subset}) => {
 
     const {ssbsections, classificationfamilies} = useContext(AppContext);

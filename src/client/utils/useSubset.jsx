@@ -46,14 +46,14 @@ export const useSubset = (init) => {
             case 'subject': {
                 return  {...state, subject: data};
             }
-            case 'codes': {
-                return  {...state, codes: data};
+            case 'classifications': {
+                return  {...state, classifications: data};
             }
-            case 'codes_prepend_checked': {
+            case 'classifications_prepend_included': {
                 // FIXME: two levels only, should be recursive in depth
-                 const checked = data.filter(item => !state.codes.includes(item) && (item.checked
-                    || item.children.find(child => child.checked)));
-                return  {...state, codes: [...checked, ...state.codes]};
+                 const included = data.filter(item => !state.classifications.includes(item) && (item.included
+                    || item.codes.find(code => code.included)));
+                return  {...state, classifications: [...included, ...state.classifications]};
             }
             case 'remove_empty': {
                 return {...state,
@@ -69,7 +69,7 @@ export const useSubset = (init) => {
                     descriptions: [],
                     valid: { from: '' },
                     ownerId: '',
-                    codes: [] };
+                    classifications: [] };
             }
             default:
                 return state;

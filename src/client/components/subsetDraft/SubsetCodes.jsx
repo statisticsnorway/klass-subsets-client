@@ -4,10 +4,16 @@ import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
 
-export const SubsetCodes = ({subset}) => {
-    // FIXME: sanitize input
-    // FIXME: fails on '(' input and in result string
 
+/*
+ *  TODO: search input style with ssb-component-library
+ *  TODO: (test) mock for service
+ *  FIXME: sanitize input
+ *  FIXME: fails on '(' input and in result string
+ *  FIXME: notes for codes !
+ */
+
+export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
 
     const [searchValues, setSearchValues] = useState([]); // list of classifications
@@ -17,44 +23,38 @@ export const SubsetCodes = ({subset}) => {
     const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
 
     function complete(item) {
-        let already = subset.draft.codes.find(code => code.title === item.name);
+        let already = subset.draft.classifications.find(classification => classification.name === item.name);
         if (already) {
             return already;
         } else {
-            item.title = item.name;
             item.included = false;
             fetchCodes(item);
             return item;
         }
     }
 
-    // FIXME: parse the date !!!
-    // FIXME: if both dates are set use proper service (codesFromTo) !!!
-    // FIXME: proper error message
+    // TODO move to Classification
+    // TODO use fallback and loader
     function fetchCodes(classification) {
         if (!from && !to) {
             classification.error = "No validity period or date is set";
-            subset.dispatch({action: 'codes', data: subset.draft.codes});
+            subset.dispatch({action: 'classifications', data: subset.draft.classifications});
             return;
         }
-        let url = '';
-        if (from && to) {
-            url = `${classification._links.self.href}/codes.json?from=${from},to=${to}`
-        } else {
-            url = `${classification._links.self.href}/codesAt.json?date=${from || to}`;
-        }
-        console.log('fetching codes', url);
+        let url = from && to
+            ? `${classification._links.self.href}/codes.json?from=${from},to=${to}`
+            : `${classification._links.self.href}/codesAt.json?date=${from || to}`;
+
         fetch(url)
             .then(response => response.json(url))
             .then(data => {
-                classification.children = data.codes;
+                classification.codes = data.codes;
                 classification.error = null;
-                subset.dispatch({action: 'codes', data: subset.draft.codes});
+                subset.dispatch({action: 'classifications', data: subset.draft.classifications});
             })
             .catch(e => {
-                console.log(e);
                 classification.error = e.message;
-                subset.dispatch({action: 'codes', data: subset.draft.codes});
+                subset.dispatch({action: 'classifications', data: subset.draft.classifications});
             });
     }
 
@@ -81,47 +81,59 @@ export const SubsetCodes = ({subset}) => {
                     setChosen={(item) => setSearchValues(item)}
                     placeholder='Type classification name'
                     searchBy = {(input, resource) =>
-                        input === '' ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
+                        input === '' ? [] : resource
+                            .filter(i => i.name.toLowerCase()
+                            .search(input.toLowerCase()) > -1)}
             />
 
-            {searchResult.length > 0
-                ? <ul className='list'>
-                    {searchResult.map((item, index) =>
+            {searchResult.length < 1 ? <p>Nothing is found</p>
+                : <ul className='list'>{searchResult.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={item}
+                            <Classification item={classification}
                                             update={() => setSearchResult([...searchResult])}
-                                            add={() => {
-                                                if (item.included) subset.dispatch({action: 'codes', data: subset.draft.codes.concat(item)});
-                                                else subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
-                                            }}
-                                            remove={() => setSearchResult(searchResult.filter(i => i !== item))}
-                        />
-                        </li>
-                    )}
+                                            remove={() => setSearchResult(searchResult.filter(i => i !== classification))}
+                                            add={() => classification.included
+                                                ? subset.dispatch({
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.concat(classification)})
+                                                : subset.dispatch({
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.filter(i => i !== classification)})
+                                            }
+                        /></li>)}
                 </ul>
-                : <p>Nothing is found</p>
             }
 
-            <Title size={3}>Choose codes</Title>
+            <Title size={3}>Choose codes from classifications</Title>
+
             {/* TODO: show more data on item component (info block, date, etc?) */}
-            {subset.draft.codes && subset.draft.codes.length > 0
-                ? <ul className='list'>
-                    {subset.draft.codes.map((item, index) =>
+            {/* TODO: select all , invert selection , unselect all */}
+
+            { !subset.draft.classifications || subset.draft.classifications.length < 1
+                ? <p>No classifications in the subset draft</p>
+                : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={item}
+                            <Classification item={classification} checkbox
                                             update={() => setSearchResult([...searchResult])}
-                                            add={() => {
-                                                if (item.included) subset.dispatch({action: 'codes', data: subset.draft.codes.concat(item)});
-                                                else subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
-                                            }}
+                                            add={() =>
+                                                classification.included
+                                                ? subset.dispatch({
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.concat(classification)})
+                                                : subset.dispatch({
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.filter(i => i !== classification)})
+                                            }
                                             remove={() => {
-                                                subset.dispatch({action: 'codes', data: subset.draft.codes.filter(i => i !== item)});
+                                                classification.included = false;
+                                                subset.dispatch({
+                                                    action: 'classifications',
+                                                    data: subset.draft.classifications.filter(i => i !== classification)});
                                                 setSearchResult([...searchResult]);
-                                            }}
-                                            checkbox />
+                                            }}/>
                         </li>)}
                 </ul>
-                : <p>No codes in the subset draft</p>}
+            }
         </>
     );
 };

@@ -14,7 +14,7 @@ export const List = ({list, controls = [
     ]
                      }) => {
 
-    return (<ListItems items={list.items.filter(i => i.checked)}
+    return (<ListItems items={list.items.filter(i => i.included)}
                        controls={controls}
                        dispatch={(o) => list.dispatch(o)}/>)
 };
@@ -79,9 +79,9 @@ export const Controls = ({item, dispatch, controls}) => {
 
             {controls.find(c => c.name === 'include') &&
             <button onClick={() => {
-                item.checked = !item.checked;
+                item.included = !item.included;
                 controls.find(c => c.name === 'include').callback(item);
-                dispatch({action: 'toggle_include', data: {item, checked: item.checked }});
+                dispatch({action: 'toggle_include', data: {item, included: item.included }});
             }}>
                 <Trash2 color='#ED5935'/>
                 </button>
@@ -90,21 +90,20 @@ export const Controls = ({item, dispatch, controls}) => {
     </span>);
 };
 
-// TODO: confusing names include/checked -> choose one
 function include(item) {
-    item.checked = true;
+    item.included = true;
     // check parent -> check all children
-    item.children && item.children.filter(i => !i.checked).forEach(child => include(child));
-    // if all children now checked -> check the parent
-    item.parent && !item.parent.children.find(i => !i.checked) && include(item.parent);
+    item.children && item.children.filter(i => !i.included).forEach(child => include(child));
+    // if all children now included -> check the parent
+    item.parent && !item.parent.children.find(i => !i.included) && include(item.parent);
 }
 
 function exclude(item) {
-    item.checked =false;
+    item.included =false;
     // uncheck child -> uncheck parent
     item.parent && exclude(item.parent);
-    // uncheck parent: if all children are checked -> uncheck everybody
-    item.children && !item.children.find(child => !child.checked)
+    // uncheck parent: if all children are included -> uncheck everybody
+    item.children && !item.children.find(child => !child.included)
     && item.children.forEach(child => exclude(child));
 }
 
@@ -124,7 +123,7 @@ export function unlinkParent(item) {
 
 export function rank(item) {
     if (!item) {return;}
-    item.rank = item.rank ? item.rank : 0;
+    item.rank = item.rank || 0;
     item.children && item.children.forEach(child => rank(child));
 }
 
@@ -136,7 +135,7 @@ function rerank(list) {
 }
 
 export function reorder(list) {
-    list && list.length > 0 && list.sort((a,b) => (a.rank - b.rank - 1));
+    list && list.length > 0 && list.sort((a,b) => (b.rank - a.rank));
     rerank(list);
 }
 
@@ -168,7 +167,7 @@ export const useList = (list) => {
                 return [...state];
             }
             case 'toggle_include': {
-                data.checked ? include(data.item) : exclude(data.item);
+                data.included ? include(data.item) : exclude(data.item);
                 return [...state];
             }
             case 'rank': {

@@ -34,9 +34,9 @@ export default function Header() {
             <div className='header-content' style={{marginBottom: '20px'}}>
                 <Tabs activeOnInit={location.pathname} onClick={(path) => history.push(path)}
                       items={[
-                          {title: 'Search Subsets', path: '/'},
-                          {title: 'Create Subset', path: '/create'},
-                          {title: 'About', path: '/about'},
+                          {title: 'Search subsets', path: '/'},
+                          {title: 'Create subset', path: '/create'},
+                          {title: 'Feedback', path: '/about'},
                       ]}/>
                 <Divider/>
             </div>

@@ -28,7 +28,7 @@ export default function SubsetForm() {
 export const SubsetPreview = ({subset}) => {
 
     // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
-    subset && subset.draft && subset.draft.codes && subset.draft.codes.forEach(code => unlinkParent(code));
+    subset && subset.draft && subset.draft.classifications && subset.draft.classifications.forEach(code => unlinkParent(code));
 
     return (
         <>
