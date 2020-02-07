@@ -102,7 +102,21 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                 <div className="checkbox-group-header">Codes</div>
                 {!check.hasCodes()
                     ? <Text>No codes found for this validity period</Text>
-                    : item.codes.map((code, i) =>
+                    : <>
+                        {checkbox && <div style={{padding: '5px'}}>
+                            <button onClick={() => {
+                                item.codes.forEach(code => code.included = true);
+                                update();
+                                }}>All
+                            </button>
+                            <button onClick={() => {
+                                item.codes.forEach(code => code.included = !code.included);
+                                update();
+                                }}>Invert
+                             </button>
+                        </div>}
+
+                        {item.codes.map((code, i) =>
                         !checkbox
                             ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
                             : <div className="ssb-checkbox">
@@ -118,7 +132,8 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                                        htmlFor={`${code.code}-${i}`}>
                                     <Text><strong>{code.code}</strong> {code.name}</Text>
                                 </label>
-                            </div>)
+                            </div>)}
+                    </>
                 }
             </div>
         </div>}
