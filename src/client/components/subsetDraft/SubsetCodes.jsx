@@ -107,7 +107,6 @@ export const SubsetCodes = ({subset}) => {
             <Title size={3}>Choose codes from classifications</Title>
 
             {/* TODO: show more data on item component (info block, date, etc?) */}
-            {/* TODO: select all , invert selection , unselect all */}
 
             { !subset.draft.classifications || subset.draft.classifications.length < 1
                 ? <p>No classifications in the subset draft</p>

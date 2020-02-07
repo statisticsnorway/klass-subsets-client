@@ -32,6 +32,11 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
 
     const [expander, setExpander] = useState(toggle.closeAll());
 
+    const check = {
+        hasCodes: () => (item.codes && item.codes.length > 0),
+        includible: () => (!item.included && item.codes && item.codes.length > 0)
+    };
+
     return (
         <>
         <div style={{display: 'flex'}}>
@@ -43,20 +48,19 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
 
             {/*TODO: (test case) remove empty classification from draft.classification*/}
             <button onClick={() => {
-                if (item.included || (item.codes && item.codes.length > 0)) {
+                if (item.included || check.hasCodes()) {
                     setExpander(toggle.closeAll());
                     item.included = !item.included;
                     add();
                     update();
                 } else {setExpander(toggle.cannot());}}}>
-                {!item.included && (item.codes && item.codes.length > 0) && <PlusSquare color='#1A9D49'/>}
+                {check.includible() && <PlusSquare color='#1A9D49'/>}
                 {item.included && <MinusSquare color='#B6E8B8'/>}
-                {(!item.codes || item.codes.length < 1) && <XSquare color='#9272FC' />}
+                {!item.included && !check.hasCodes() && <XSquare color='#9272FC' />}
             </button>
 
             <button onClick={() => setExpander(toggle.codes())}>
-                <ListIcon color={item.codes && item.codes.length > 0
-                    ? '#3396D2' : '#C3DCDC'}/>
+                <ListIcon color={check.hasCodes() ? '#3396D2' : '#C3DCDC'}/>
             </button>
 
             <button onClick={() => console.log('info', item)}>
@@ -96,9 +100,23 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         }}>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">Codes</div>
-                {!item.codes || item.codes.length < 1
+                {!check.hasCodes()
                     ? <Text>No codes found for this validity period</Text>
-                    : item.codes.map((code, i) =>
+                    : <>
+                        {checkbox && <div style={{padding: '5px'}}>
+                            <button onClick={() => {
+                                item.codes.forEach(code => code.included = true);
+                                update();
+                                }}>All
+                            </button>
+                            <button onClick={() => {
+                                item.codes.forEach(code => code.included = !code.included);
+                                update();
+                                }}>Invert
+                             </button>
+                        </div>}
+
+                        {item.codes.map((code, i) =>
                         !checkbox
                             ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
                             : <div className="ssb-checkbox">
@@ -114,8 +132,8 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                                        htmlFor={`${code.code}-${i}`}>
                                     <Text><strong>{code.code}</strong> {code.name}</Text>
                                 </label>
-                            </div>
-                    )
+                            </div>)}
+                    </>
                 }
             </div>
         </div>}
