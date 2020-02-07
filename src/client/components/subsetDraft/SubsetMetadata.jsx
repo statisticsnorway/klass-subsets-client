@@ -111,7 +111,6 @@ export const SubsetMetadata = ({subset}) => {
 
             {/* TODO: implement in next version if ordered
             /* move to each fieldset (?)
-                <Button onClick={() => {subset.dispatch({action: 'empty'});}}>Empty</Button>
             <Button onClick={() => {subset.dispatch({action: 'reset'});}}>Reset</Button>
 */}
         </>

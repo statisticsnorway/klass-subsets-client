@@ -118,8 +118,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                                        htmlFor={`${code.code}-${i}`}>
                                     <Text><strong>{code.code}</strong> {code.name}</Text>
                                 </label>
-                            </div>
-                    )
+                            </div>)
                 }
             </div>
         </div>}

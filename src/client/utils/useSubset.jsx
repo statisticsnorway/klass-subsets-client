@@ -5,9 +5,6 @@ export const useSubset = (init) => {
 
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
-            case 'create': {
-                return data;
-            }
             case 'update': {
                 return  {...state};
             }
@@ -63,13 +60,6 @@ export const useSubset = (init) => {
             }
             case 'reset': {
                 return init;
-            }
-            case 'empty': {
-                return { names: [],
-                    descriptions: [],
-                    valid: { from: '' },
-                    ownerId: '',
-                    classifications: [] };
             }
             default:
                 return state;
