@@ -6,55 +6,54 @@ import {
 import { Text } from '@statisticsnorway/ssb-component-library';
 
 export const Classification = ({item, update, add, remove, checkbox = false}) => {
-    const [expander, setExpander] = useState({
-        showAlert: false,
-        showCodes: false,
-        showCannot: false
-    });
+    const toggle = {
+        closeAll: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: false
+        }),
+        alert: () => ({
+            showAlert: !expander.showAlert,
+            showCodes: false,
+            showCannot: false
+        }),
+        codes: () => ({
+            showAlert: false,
+            showCodes: !expander.showCodes,
+            showCannot: false
+        }),
+        cannot: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: !expander.showCannot
+        })
+    };
+
+    const [expander, setExpander] = useState(toggle.closeAll());
 
     return (
         <>
         <div style={{display: 'flex'}}>
             <div style={{width: '400px'}}>{item.name}</div>
 
-            <button onClick={() => {
-                item.error && setExpander({
-                    showAlert: !expander.showAlert,
-                    showCodes: false,
-                    showCannot: false
-                })}}>
+            <button onClick={() => {item.error && setExpander(toggle.alert())}}>
                 <Alert color={item.error ? 'orange' : 'transparent'}/>
             </button>
 
             {/*TODO: (test case) remove empty classification from draft.classification*/}
             <button onClick={() => {
                 if (item.included || (item.codes && item.codes.length > 0)) {
-                        setExpander({
-                            showAlert: false,
-                            showCodes: false,
-                            showCannot: false
-                        });
-                        item.included = !item.included;
-                        add();
-                        update();
-                } else {
-                    setExpander({
-                        showCannot: !expander.showCannot,
-                        showCodes: false,
-                        showAlert: false
-                    })
-                }}}>
+                    setExpander(toggle.closeAll());
+                    item.included = !item.included;
+                    add();
+                    update();
+                } else {setExpander(toggle.cannot())}}}>
                 {!item.included && (item.codes && item.codes.length > 0) && <PlusSquare color='#1A9D49'/>}
                 {item.included && <MinusSquare color='#B6E8B8'/>}
                 {(!item.codes || item.codes.length < 1) && <XSquare color='#9272FC' />}
             </button>
 
-            <button onClick={() => {
-                setExpander({
-                    showAlert: false,
-                    showCannot: false,
-                    showCodes: !expander.showCodes
-                });}}>
+            <button onClick={() => setExpander(toggle.codes())}>
                 <ListIcon color={item.codes && item.codes.length > 0
                     ? '#3396D2' : '#C3DCDC'}/>
             </button>
@@ -64,11 +63,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             </button>
 
             <button onClick={() => {
-                setExpander({
-                    showAlert: false,
-                    showCodes: false,
-                    showCannot: false
-                });
+                setExpander(toggle.closeAll());
                 remove();
                 }}>
                 <Trash2 color='#ED5935'/>
