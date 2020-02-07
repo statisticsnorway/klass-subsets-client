@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {
-    PlusSquare, Trash2, Info, List as ListIcon,
+    PlusSquare, MinusSquare, XSquare, Trash2, Info, List as ListIcon,
     AlertTriangle as Alert
 } from 'react-feather';
 import { Text } from '@statisticsnorway/ssb-component-library';
@@ -8,7 +8,8 @@ import { Text } from '@statisticsnorway/ssb-component-library';
 export const Classification = ({item, update, add, remove, checkbox = false}) => {
     const [expander, setExpander] = useState({
         showAlert: false,
-        showCodes: false
+        showCodes: false,
+        showCannot: false
     });
 
     return (
@@ -19,34 +20,41 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             <button onClick={() => {
                 item.error && setExpander({
                     showAlert: !expander.showAlert,
-                    showCodes: false
-                })
-            }}>
+                    showCodes: false,
+                    showCannot: false
+                })}}>
                 <Alert color={item.error ? 'orange' : 'transparent'}/>
             </button>
 
+            {/*TODO: (test case) remove empty classification from draft.classification*/}
             <button onClick={() => {
-                    // TODO tooltip 'cannot be added due to lack of codes for this code list'
-                    if (item.codes && item.codes.length > 0) {
+                if (item.included || (item.codes && item.codes.length > 0)) {
                         setExpander({
                             showAlert: false,
-                            showCodes: false
+                            showCodes: false,
+                            showCannot: false
                         });
                         item.included = !item.included;
                         add();
                         update();
-                    }
-                }}>
-                <PlusSquare color={item.included || !(item.codes && item.codes.length > 0)
-                    ? '#C3DCDC' : '#1A9D49'}/>
+                } else {
+                    setExpander({
+                        showCannot: !expander.showCannot,
+                        showCodes: false,
+                        showAlert: false
+                    })
+                }}}>
+                {!item.included && (item.codes && item.codes.length > 0) && <PlusSquare color='#1A9D49'/>}
+                {item.included && <MinusSquare color='#B6E8B8'/>}
+                {(!item.codes || item.codes.length < 1) && <XSquare color='#9272FC' />}
             </button>
 
             <button onClick={() => {
                 setExpander({
                     showAlert: false,
+                    showCannot: false,
                     showCodes: !expander.showCodes
-                });
-            }}>
+                });}}>
                 <ListIcon color={item.codes && item.codes.length > 0
                     ? '#3396D2' : '#C3DCDC'}/>
             </button>
@@ -58,11 +66,11 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             <button onClick={() => {
                 setExpander({
                     showAlert: false,
-                    showCodes: false
+                    showCodes: false,
+                    showCannot: false
                 });
-                item.included = false;
                 remove();
-            }}>
+                }}>
                 <Trash2 color='#ED5935'/>
             </button>
         </div>
@@ -74,6 +82,14 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             opacity: '0.8',
             width: '600px'
         }}><Text>{item.error}</Text></div>}
+
+        {expander.showCannot && <div style={{
+                fontSize: '11px',
+                backgroundColor: '#ece6fe',
+                padding: '15px',
+                opacity: '0.8',
+                width: '600px'
+        }}><Text>Code list cannot be added to the subset due to lack of codes</Text></div>}
 
         {expander.showCodes && <div style={{
             fontSize: '11px',

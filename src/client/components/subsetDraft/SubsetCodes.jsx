@@ -81,7 +81,9 @@ export const SubsetCodes = ({subset}) => {
                     setChosen={(item) => setSearchValues(item)}
                     placeholder='Type classification name'
                     searchBy = {(input, resource) =>
-                        input === '' ? [] : resource.filter(i => i.name.toLowerCase().search(input.toLowerCase()) > -1)}
+                        input === '' ? [] : resource
+                            .filter(i => i.name.toLowerCase()
+                            .search(input.toLowerCase()) > -1)}
             />
 
             {searchResult.length < 1 ? <p>Nothing is found</p>
@@ -90,12 +92,14 @@ export const SubsetCodes = ({subset}) => {
                             <Classification item={classification}
                                             update={() => setSearchResult([...searchResult])}
                                             remove={() => setSearchResult(searchResult.filter(i => i !== classification))}
-                                            add={() => {classification.included
+                                            add={() => classification.included
                                                 ? subset.dispatch({
-                                                        action: 'classifications', data: subset.draft.classifications.concat(classification)})
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.concat(classification)})
                                                 : subset.dispatch({
-                                                        action: 'classifications', data: subset.draft.classifications.filter(i => i !== classification)})
-                                            }}
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.filter(i => i !== classification)})
+                                            }
                         /></li>)}
                 </ul>
             }
@@ -111,16 +115,20 @@ export const SubsetCodes = ({subset}) => {
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification} checkbox
                                             update={() => setSearchResult([...searchResult])}
-                                            add={() => {
+                                            add={() =>
                                                 classification.included
                                                 ? subset.dispatch({
-                                                        action: 'classifications', data: subset.draft.classifications.concat(classification)})
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.concat(classification)})
                                                 : subset.dispatch({
-                                                        action: 'classifications', data: subset.draft.classifications.filter(i => i !== classification)})
-                                            }}
+                                                        action: 'classifications',
+                                                        data: subset.draft.classifications.filter(i => i !== classification)})
+                                            }
                                             remove={() => {
+                                                classification.included = false;
                                                 subset.dispatch({
-                                                    action: 'classifications', data: subset.draft.classifications.filter(i => i !== classification)});
+                                                    action: 'classifications',
+                                                    data: subset.draft.classifications.filter(i => i !== classification)});
                                                 setSearchResult([...searchResult]);
                                             }}/>
                         </li>)}

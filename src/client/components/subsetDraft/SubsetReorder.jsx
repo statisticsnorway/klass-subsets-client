@@ -8,9 +8,6 @@ export const SubsetReorder = ({subset}) => {
     allCodes.forEach(i => (i.title = `${i.code} ${i.name}`));
     const codes = useList(allCodes.filter(i => i.included));
 
-    console.log(subset.draft.classifications);
-    console.log(allCodes);
-    console.log(codes);
     // TODO: show more data on item component (info block, date, etc?)
     return (<>
             <Title size={3}>Subset reorder</Title>
@@ -18,6 +15,5 @@ export const SubsetReorder = ({subset}) => {
                 ? <List list={codes}/>
                 : <p>No items to sort</p>}
             <br/><br/>
-        </>
-    );
+     </>);
 };
