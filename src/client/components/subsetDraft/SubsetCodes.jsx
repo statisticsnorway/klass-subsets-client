@@ -23,7 +23,7 @@ export const SubsetCodes = ({subset}) => {
     const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
 
     function complete(item) {
-        let already = subset.draft.codes.find(code => code.title === item.name);
+        let already = subset.draft.classifications.find(code => code.title === item.name);
         if (already) {
             return already;
         } else {
@@ -39,7 +39,7 @@ export const SubsetCodes = ({subset}) => {
     function fetchCodes(classification) {
         if (!from && !to) {
             classification.error = "No validity period or date is set";
-            subset.dispatch({action: 'codes', data: subset.draft.codes});
+            subset.dispatch({action: 'classifications', data: subset.draft.classifications});
             return;
         }
         let url = from && to
@@ -51,11 +51,11 @@ export const SubsetCodes = ({subset}) => {
             .then(data => {
                 classification.children = data.codes;
                 classification.error = null;
-                subset.dispatch({action: 'codes', data: subset.draft.codes});
+                subset.dispatch({action: 'classifications', data: subset.draft.classifications});
             })
             .catch(e => {
                 classification.error = e.message;
-                subset.dispatch({action: 'codes', data: subset.draft.codes});
+                subset.dispatch({action: 'classifications', data: subset.draft.classifications});
             });
     }
 
@@ -93,33 +93,35 @@ export const SubsetCodes = ({subset}) => {
                                             remove={() => setSearchResult(searchResult.filter(i => i !== classification))}
                                             add={() => {classification.included
                                                 ? subset.dispatch({
-                                                        action: 'codes', data: subset.draft.codes.concat(classification)})
+                                                        action: 'classifications', data: subset.draft.classifications.concat(classification)})
                                                 : subset.dispatch({
-                                                        action: 'codes', data: subset.draft.codes.filter(i => i !== classification)})
+                                                        action: 'classifications', data: subset.draft.classifications.filter(i => i !== classification)})
                                             }}
                         /></li>)}
                 </ul>
             }
 
-            <Title size={3}>Choose codes</Title>
+            <Title size={3}>Choose codes from classifications</Title>
 
             {/* TODO: show more data on item component (info block, date, etc?) */}
-            { !subset.draft.codes || subset.draft.codes.length < 1
-                ? <p>No codes in the subset draft</p>
-                : <ul className='list'>{subset.draft.codes.map((classification, index) =>
+            {/* TODO: select all , invert selection , unselect all */}
+
+            { !subset.draft.classifications || subset.draft.classifications.length < 1
+                ? <p>No classifications in the subset draft</p>
+                : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification} checkbox
                                             update={() => setSearchResult([...searchResult])}
                                             add={() => {
                                                 classification.included
                                                 ? subset.dispatch({
-                                                        action: 'codes', data: subset.draft.codes.concat(classification)})
+                                                        action: 'classifications', data: subset.draft.classifications.concat(classification)})
                                                 : subset.dispatch({
-                                                        action: 'codes', data: subset.draft.codes.filter(i => i !== classification)})
+                                                        action: 'classifications', data: subset.draft.classifications.filter(i => i !== classification)})
                                             }}
                                             remove={() => {
                                                 subset.dispatch({
-                                                    action: 'codes', data: subset.draft.codes.filter(i => i !== classification)});
+                                                    action: 'classifications', data: subset.draft.classifications.filter(i => i !== classification)});
                                                 setSearchResult([...searchResult]);
                                             }}/>
                         </li>)}

@@ -25,8 +25,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                 <Alert color={item.error ? 'orange' : 'transparent'}/>
             </button>
 
-            <button
-                onClick={() => {
+            <button onClick={() => {
                     // TODO tooltip 'cannot be added due to lack of codes for this code list'
                     if (item.children && item.children.length > 0) {
                         setExpander({
