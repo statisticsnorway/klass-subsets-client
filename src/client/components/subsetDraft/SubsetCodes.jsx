@@ -23,11 +23,10 @@ export const SubsetCodes = ({subset}) => {
     const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
 
     function complete(item) {
-        let already = subset.draft.classifications.find(code => code.title === item.name);
+        let already = subset.draft.classifications.find(classification => classification.name === item.name);
         if (already) {
             return already;
         } else {
-            item.title = item.name;
             item.included = false;
             fetchCodes(item);
             return item;
@@ -49,7 +48,7 @@ export const SubsetCodes = ({subset}) => {
         fetch(url)
             .then(response => response.json(url))
             .then(data => {
-                classification.children = data.codes;
+                classification.codes = data.codes;
                 classification.error = null;
                 subset.dispatch({action: 'classifications', data: subset.draft.classifications});
             })

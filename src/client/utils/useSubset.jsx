@@ -52,7 +52,7 @@ export const useSubset = (init) => {
             case 'classifications_prepend_included': {
                 // FIXME: two levels only, should be recursive in depth
                  const included = data.filter(item => !state.classifications.includes(item) && (item.included
-                    || item.children.find(child => child.included)));
+                    || item.codes.find(code => code.included)));
                 return  {...state, classifications: [...included, ...state.classifications]};
             }
             case 'remove_empty': {

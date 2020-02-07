@@ -14,7 +14,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
     return (
         <>
         <div style={{display: 'flex'}}>
-            <div style={{width: '400px'}}>{item.title}</div>
+            <div style={{width: '400px'}}>{item.name}</div>
 
             <button onClick={() => {
                 item.error && setExpander({
@@ -27,7 +27,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
 
             <button onClick={() => {
                     // TODO tooltip 'cannot be added due to lack of codes for this code list'
-                    if (item.children && item.children.length > 0) {
+                    if (item.codes && item.codes.length > 0) {
                         setExpander({
                             showAlert: false,
                             showCodes: false
@@ -37,7 +37,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                         update();
                     }
                 }}>
-                <PlusSquare color={item.included || !(item.children && item.children.length > 0)
+                <PlusSquare color={item.included || !(item.codes && item.codes.length > 0)
                     ? '#C3DCDC' : '#1A9D49'}/>
             </button>
 
@@ -47,7 +47,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                     showCodes: !expander.showCodes
                 });
             }}>
-                <ListIcon color={item.children && item.children.length > 0
+                <ListIcon color={item.codes && item.codes.length > 0
                     ? '#3396D2' : '#C3DCDC'}/>
             </button>
 
@@ -84,9 +84,9 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         }}>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">Codes</div>
-                {!item.children || item.children.length < 1
+                {!item.codes || item.codes.length < 1
                     ? <p><Text>No codes found for this validity period</Text></p>
-                    : item.children.map((code, i) =>
+                    : item.codes.map((code, i) =>
                         !checkbox
                             ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
                             : <div className="ssb-checkbox">
