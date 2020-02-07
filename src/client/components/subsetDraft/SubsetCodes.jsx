@@ -4,10 +4,16 @@ import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
 
-export const SubsetCodes = ({subset}) => {
-    // FIXME: sanitize input
-    // FIXME: fails on '(' input and in result string
 
+/*
+ *  TODO: search input style with ssb-component-library
+ *  TODO: (test) mock for service
+ *  FIXME: sanitize input
+ *  FIXME: fails on '(' input and in result string
+ *  FIXME: notes for codes !
+ */
+
+export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
 
     const [searchValues, setSearchValues] = useState([]); // list of classifications
@@ -28,7 +34,7 @@ export const SubsetCodes = ({subset}) => {
         }
     }
 
-    // TODO move to Classification.sx
+    // TODO move to Classification
     // TODO use fallback and loader
     function fetchCodes(classification) {
         if (!from && !to) {

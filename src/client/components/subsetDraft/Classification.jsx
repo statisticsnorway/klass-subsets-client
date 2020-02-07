@@ -85,7 +85,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         }}>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">Codes</div>
-                {!(item.children && item.children.length > 0)
+                {!item.children || item.children.length < 1
                     ? <p><Text>No codes found for this validity period</Text></p>
                     : item.children.map((code, i) =>
                         !checkbox
