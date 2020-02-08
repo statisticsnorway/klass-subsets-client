@@ -1,9 +1,9 @@
 import React, {useEffect, useContext} from 'react';
 import '../../css/form.css';
-import {TextLanguageFieldset} from '../../utils/forms';
+import {TextLanguageFieldset, Dropdown} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
 import {subsetDraft, languages} from '../../controllers/defaults';
-import { Title } from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
 
 /*
@@ -32,27 +32,15 @@ export const SubsetMetadata = ({subset}) => {
                                   prefix={subsetDraft.namePrefix}
             />
 
-            <fieldset>
                 {/* TODO: set automatically when logged inn */}
-                <label>Owner
-                    <select style={{margin: '10px'}}
-                            value={subset.draft.ownerId}
-                            onChange={(e) => subset.dispatch({
-                                action: 'ownerId',
-                                data: e.target.value })}>
-                        <option value='' disabled>Select a responsible department...</option>
-                        {ssbsections
-                            && subset.draft.ownerId.length > 0
-                            && !ssbsections._embedded.ssbSections.find(s => s.name === subset.draft.ownerId)
-                            && (<option disabled value={subset.draft.ownerId}>{subset.draft.ownerId} (outdated)</option>)
-                        }
-                        {ssbsections
-                            && ssbsections._embedded.ssbSections
-                            .map((section, i) => (<option key={i} value={section.name}>{section.name}</option>))
-                        }
-                    </select>
-                </label>
-            </fieldset>
+            <Dropdown label='Owner'
+                      options={ssbsections ? ssbsections._embedded.ssbSections : []}
+                      placeholder='Select a responsible department...'
+                      selected={subset.draft.ownerId}
+                      onSelect={(item) => subset.dispatch({
+                          action: 'ownerId',
+                          data: item })}
+            />
 
             <fieldset>
                 <label style={{display:'block'}}>Valid period</label>
@@ -76,26 +64,14 @@ export const SubsetMetadata = ({subset}) => {
                 </label>
             </fieldset>
 
-            <fieldset>
-                <label>Subject
-                <select style={{margin: '10px'}}
-                        value={subset.draft.subject}
-                        onChange={(e) => subset.dispatch({
-                            action: 'subject',
-                            data: e.target.value })}>
-                        <option value='' disabled>Select a subject...</option>
-                    {classificationfamilies && subset.draft.subject.length > 0
-                        && !classificationfamilies._embedded.classificationFamilies
-                            .find(s => s.name === subset.draft.subject)
-                        && (<option disabled value={subset.draft.subject}>{subset.draft.subject} (outdated)</option>)
-                    }
-                    {classificationfamilies
-                        && classificationfamilies._embedded.classificationFamilies
-                        .map((family, i) => (<option key={i} value={family.name}>{family.name}</option>))
-                    }
-                </select>
-                </label>
-            </fieldset>
+            <Dropdown label='Subject'
+                      options={classificationfamilies ? classificationfamilies._embedded.classificationFamilies : []}
+                      placeholder='Select a classification family...'
+                      selected={subset.draft.subject}
+                      onSelect={(item) => subset.dispatch({
+                          action: 'subject',
+                          data: item })}
+            />
 
             <TextLanguageFieldset title='Description' items={subset.draft.descriptions}
                                   add={() => subset.dispatch({action: 'description_add'})}
