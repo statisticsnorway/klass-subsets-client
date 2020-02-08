@@ -33,8 +33,8 @@ export const SubsetMetadata = ({subset}) => {
             />
 
                 {/* TODO: set automatically when logged inn */}
-
-            <Dropdown options={ssbsections ? ssbsections._embedded.ssbSections : []}
+            <Dropdown label='Owner'
+                      options={ssbsections ? ssbsections._embedded.ssbSections : []}
                       placeholder='Select a responsible department...'
                       selected={subset.draft.ownerId}
                       onSelect={(item) => subset.dispatch({
@@ -64,26 +64,14 @@ export const SubsetMetadata = ({subset}) => {
                 </label>
             </fieldset>
 
-            <fieldset>
-                <label>Subject
-                <select style={{margin: '10px'}}
-                        value={subset.draft.subject}
-                        onChange={(e) => subset.dispatch({
-                            action: 'subject',
-                            data: e.target.value })}>
-                        <option value='' disabled>Select a subject...</option>
-                    {classificationfamilies && subset.draft.subject.length > 0
-                        && !classificationfamilies._embedded.classificationFamilies
-                            .find(s => s.name === subset.draft.subject)
-                        && (<option disabled value={subset.draft.subject}>{subset.draft.subject} (outdated)</option>)
-                    }
-                    {classificationfamilies
-                        && classificationfamilies._embedded.classificationFamilies
-                        .map((family, i) => (<option key={i} value={family.name}>{family.name}</option>))
-                    }
-                </select>
-                </label>
-            </fieldset>
+            <Dropdown label='Subject'
+                      options={classificationfamilies ? classificationfamilies._embedded.classificationFamilies : []}
+                      placeholder='Select a classification family...'
+                      selected={subset.draft.subject}
+                      onSelect={(item) => subset.dispatch({
+                          action: 'subject',
+                          data: item })}
+            />
 
             <TextLanguageFieldset title='Description' items={subset.draft.descriptions}
                                   add={() => subset.dispatch({action: 'description_add'})}

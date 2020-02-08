@@ -72,13 +72,14 @@ export const LanguageSelect = ({languages = availableLanguages(),
     );
 };
 
-export const Dropdown = ({options = [], placeholder= 'Select', selected='', onSelect}) => {
+export const Dropdown = ({label='Select', options = [], placeholder= 'Select', selected='', onSelect}) => {
     return (
         <div className='ssb-dropdown'>
-            <label>Owner
+            <label>{label}
                 <select className='dropdown-interactive-area'
                         id='ssb_sections'
                         style={{
+                            width: '570px',
                             border: '2px solid #00824D',
                             padding: '8px 16px',
                             margin: '10px'
