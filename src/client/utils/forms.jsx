@@ -71,3 +71,30 @@ export const LanguageSelect = ({languages = availableLanguages(),
         </select>
     );
 };
+
+export const Dropdown = ({options = [], placeholder= 'Select', selected='', onSelect}) => {
+    return (
+        <div className='ssb-dropdown'>
+            <label>Owner
+                <select className='dropdown-interactive-area'
+                        id='ssb_sections'
+                        style={{
+                            border: '2px solid #00824D',
+                            padding: '8px 16px',
+                            margin: '10px'
+                        }}
+                        value={selected}
+                        onChange={(e) => onSelect(e.target.value)}
+                >
+                    <option value='' hidden>{placeholder}</option>
+                    {selected.length > 0 && !options.find(s => s.name === selected)
+                        && (<option key='outdated' disabled value={selected}>{selected} (outdated)</option>)
+                    }
+                    {options.map((section, i) => (
+                        <option key={i} value={section.name}>{section.name}</option>
+                    ))}
+                </select>
+            </label>
+        </div>
+    );
+};
