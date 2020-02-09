@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
-import {
-    PlusSquare, MinusSquare, XSquare, Trash2, Info,
-    List as ListIcon,
-    AlertTriangle as Alert
-} from 'react-feather';
+import {PlusSquare, MinusSquare, XSquare, Trash2, Info,
+    List as ListIcon, AlertTriangle as Alert} from 'react-feather';
 import { Text } from '@statisticsnorway/ssb-component-library';
 
 export const Classification = ({item, update, add, remove, checkbox = false}) => {

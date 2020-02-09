@@ -3,7 +3,7 @@ import '../../css/form.css';
 import {TextLanguageFieldset, Dropdown} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
 import {subsetDraft, languages} from '../../controllers/defaults';
-import {Title, Input} from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
 
 /*
