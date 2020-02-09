@@ -1,5 +1,6 @@
 import {availableLanguages, disableUsed} from './languages';
 import React from 'react';
+import {TextArea} from '@statisticsnorway/ssb-component-library';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
@@ -11,13 +12,14 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
     disableUsed(languages, items.map(name => name.lang));
 
     return (
-        <fieldset>
-            <label htmlFor='name' style={{display: 'block'}}
+        <div className='ssb-text-area' style={{width: '55%'}}>
+            <label htmlFor={title} style={{display: 'block'}}
             >{title}</label>
 
             {items.map((item, index) => (
                 <div className='text-language' key={index}>
                     <textarea cols={size.cols} rows={size.rows}
+                              id={title}
                               value={item.text || prefix}
                               onChange={(e) => handle(item.text = e.target.value)}
                               onKeyPress={(e) => {
@@ -29,8 +31,10 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                       && e.preventDefault();
                                   }
                               }
-                              onCut={(e) => e.target.selectionStart < prefix.length && e.preventDefault()}
-                              onPaste={(e) => e.target.selectionStart < prefix.length && e.preventDefault()}
+                              onCut={(e) =>
+                                  e.target.selectionStart < prefix.length && e.preventDefault()}
+                              onPaste={(e) =>
+                                  e.target.selectionStart < prefix.length && e.preventDefault()}
                     />
 
                     <LanguageSelect languages={languages}
@@ -53,7 +57,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
             <button style={{margin: '0 20px 0 20px'}}
                     onClick={() => add()}
             >+</button>}
-        </fieldset>
+        </div>
     );
 };
 
@@ -74,28 +78,27 @@ export const LanguageSelect = ({languages = availableLanguages(),
 
 export const Dropdown = ({label='Select', options = [], placeholder= 'Select', selected='', onSelect}) => {
     return (
-        <div className='ssb-dropdown'>
-            <label>{label}
-                <select className='dropdown-interactive-area'
-                        id='ssb_sections'
-                        style={{
-                            width: '570px',
-                            border: '2px solid #00824D',
-                            padding: '8px 16px',
-                            margin: '10px'
-                        }}
-                        value={selected}
-                        onChange={(e) => onSelect(e.target.value)}
-                >
-                    <option value='' hidden>{placeholder}</option>
-                    {selected.length > 0 && !options.find(s => s.name === selected)
-                        && (<option key='outdated' disabled value={selected}>{selected} (outdated)</option>)
-                    }
-                    {options.map((section, i) => (
-                        <option key={i} value={section.name}>{section.name}</option>
-                    ))}
-                </select>
-            </label>
+        <div className='ssb-dropdown' style={{padding: '15px 0'}}>
+            <label htmlFor='ssb_sections' style={{fontSize: '16px'}}>{label}</label>
+            <select className='dropdown-interactive-area focused'
+                    id='ssb_sections'
+                    style={{
+                        width: '600px',
+                        border: '1px solid black',
+                        padding: '10px',
+                        fontSize: '16px',
+                    }}
+                    value={selected}
+                    onChange={(e) => onSelect(e.target.value)}
+            >
+                <option value='' hidden>{placeholder}</option>
+                {selected.length > 0 && !options.find(s => s.name === selected)
+                && (<option key='outdated' disabled value={selected}>{selected} (outdated)</option>)
+                }
+                {options.map((section, i) => (
+                    <option key={i} value={section.name}>{section.name}</option>
+                ))}
+            </select>
         </div>
     );
 };

@@ -32,7 +32,35 @@ export const SubsetMetadata = ({subset}) => {
                                   prefix={subsetDraft.namePrefix}
             />
 
-                {/* TODO: set automatically when logged inn */}
+            <section style={{padding: '15px 0 5px 0'}}>
+                <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
+                    <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
+                           htmlFor="from_date">Valid from: </label>
+                    <DatePicker id='from_date' style={{display: 'block'}}
+                                value={subset.draft.valid.to}
+                                onChange={(date) => subset.dispatch({action: 'to', data: date})}
+                                clearIcon={null}
+                                format='dd.MM.y'
+                                locale={languages.find(i => i.default).IETF}
+                                className='datepicker'/>
+                </div>
+
+                <div style={{float: 'left'}}>
+                    <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
+                           htmlFor="to_date">Valid to: </label>
+                    <DatePicker id='to_date' style={{display: 'block'}}
+                                value={subset.draft.valid.from}
+                                onChange={(date) => subset.dispatch({action: 'from', data: date})}
+                                clearIcon={null}
+                                format='dd.MM.y'
+                                locale={languages.find(i => i.default).IETF}
+                                className='datepicker'/>
+                </div>
+                <br style={{clear: 'both'}}/>
+            </section>
+
+
+            {/* TODO: set automatically when logged inn */}
             <Dropdown label='Owner'
                       options={ssbsections ? ssbsections._embedded.ssbSections : []}
                       placeholder='Select a responsible department...'
@@ -41,28 +69,6 @@ export const SubsetMetadata = ({subset}) => {
                           action: 'ownerId',
                           data: item })}
             />
-
-            <fieldset>
-                <label style={{display:'block'}}>Valid period</label>
-                <label>From:
-                    <DatePicker value={subset.draft.valid.from}
-                                onChange={(date) => subset.dispatch({action: 'from', data: date})}
-                                clearIcon={null}
-                                format='dd.MM.y'
-                                locale={languages.find(i=> i.default).IETF}
-                                className='datepicker'
-                    />
-                </label>
-                <label>To:
-                    <DatePicker value={subset.draft.valid.to}
-                                onChange={(date) => subset.dispatch({action: 'to', data: date})}
-                                clearIcon={null}
-                                format='dd.MM.y'
-                                locale={languages.find(i => i.default).IETF}
-                                className='datepicker'
-                    />
-                </label>
-            </fieldset>
 
             <Dropdown label='Subject'
                       options={classificationfamilies ? classificationfamilies._embedded.classificationFamilies : []}
