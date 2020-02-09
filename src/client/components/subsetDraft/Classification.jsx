@@ -1,38 +1,54 @@
 import React, {useState} from 'react';
 import {PlusSquare, MinusSquare, XSquare, Trash2, Info,
     List as ListIcon, AlertTriangle as Alert} from 'react-feather';
-import { Text } from '@statisticsnorway/ssb-component-library';
+import {Text, Paragraph} from '@statisticsnorway/ssb-component-library';
+import {useGet} from '../../controllers/klass-api';
 
 export const Classification = ({item, update, add, remove, checkbox = false}) => {
-    const toggle = {
-        closeAll: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: false
-        }),
-        alert: () => ({
-            showAlert: !expander.showAlert,
-            showCodes: false,
-            showCannot: false
-        }),
-        codes: () => ({
-            showAlert: false,
-            showCodes: !expander.showCodes,
-            showCannot: false
-        }),
-        cannot: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: !expander.showCannot
-        })
-    };
 
-    const [expander, setExpander] = useState(toggle.closeAll());
+    const id = item._links.self.href.split("/").pop();
 
     const check = {
         hasCodes: () => (item.codes && item.codes.length > 0),
         includible: () => (!item.included && item.codes && item.codes.length > 0)
     };
+
+    const toggle = {
+        closeAll: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: false,
+            showInfo: false
+        }),
+        alert: () => ({
+            showAlert: !expander.showAlert,
+            showCodes: false,
+            showCannot: false,
+            showInfo: false
+        }),
+        codes: () => ({
+            showAlert: false,
+            showCodes: !expander.showCodes,
+            showCannot: false,
+            showInfo: false
+        }),
+        cannot: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: !expander.showCannot,
+            showInfo: false
+        }),
+        info: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: false,
+            showInfo: !expander.showInfo
+        })
+    };
+
+    const [expander, setExpander] = useState(toggle.closeAll());
+
+    const [info] = useGet(`/classifications/${id}`);
 
     return (
         <>
@@ -60,8 +76,8 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                 <ListIcon color={check.hasCodes() ? '#3396D2' : '#C3DCDC'}/>
             </button>
 
-            <button onClick={() => console.log('info', item)}>
-                <Info color='#62919A'/>
+            <button onClick={() => setExpander(toggle.info())}>
+                <Info color={info ? '#62919A': '#C3DCDC'}/>
             </button>
 
             <button onClick={() => {
@@ -73,26 +89,20 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         </div>
 
         {expander.showAlert && <div style={{
-            fontSize: '11px',
             backgroundColor: 'AntiqueWhite',
             padding: '15px',
-            opacity: '0.8',
             width: '600px'
         }}><Text>{item.error}</Text></div>}
 
         {expander.showCannot && <div style={{
-                fontSize: '11px',
                 backgroundColor: '#ece6fe',
                 padding: '15px',
-                opacity: '0.8',
                 width: '600px'
         }}><Text>Code list cannot be added to the subset due to lack of codes</Text></div>}
 
         {expander.showCodes && <div style={{
-            fontSize: '11px',
             backgroundColor: 'AliceBlue',
             padding: '15px',
-            opacity: '0.8',
             width: '600px'
         }}>
             <div className="ssb-checkbox-group">
@@ -115,7 +125,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
 
                         {item.codes.map((code, i) =>
                         !checkbox
-                            ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
+                            ? <Paragraph><strong>{code.code}</strong> {code.name}</Paragraph>
                             : <div className="ssb-checkbox">
                                 <input id={`${code.code}-${i}`}
                                        type='checkbox' name='include'
@@ -135,5 +145,151 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             </div>
         </div>}
 
+            {expander.showInfo && <div style={{
+                backgroundColor: '#eff4f5',
+                padding: '15px',
+                width: '600px'
+            }}>
+                {`ìd=${id} ${JSON.stringify(info)}`}
+            </div>}
     </>);
 };
+/*
+
+{
+    "name"
+:
+    "Standard for gruppering av hjelpe- og omsorgstiltak i barnevernet", "classificationType"
+:
+    "Klassifikasjon", "lastModified"
+:
+    "2016-10-07T12:05:23.000+0000", "description"
+:
+    "For barn som har mottatt barnvernstiltak i statistikkåret registrerer en hvilke tiltak dette er (1-28) og om tiltakene er hjelpe- eller omsorgstiltak. Omsorgstiltak er gjeldende når barneverntjenesten har overtatt omsorgen for barnet via fylkesnemnda.", "primaryLanguage"
+:
+    "nb", "copyrighted"
+:
+    false, "includeShortName"
+:
+    false, "includeNotes"
+:
+    true, "contactPerson"
+:
+    {
+        "name"
+    :
+        "Dyrhaug, Tone", "email"
+    :
+        "Tone.Dyrhaug@ssb.no", "phone"
+    :
+        "40902420"
+    }
+,
+    "owningSection"
+:
+    "330 - Seksjon for helse-, omsorg og sosialstatistikk ", "statisticalUnits"
+:
+    ["Person"], "versions"
+:
+    [{
+        "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2013",
+        "validFrom": "2013-01-01",
+        "lastModified": "2016-10-07T12:05:23.000+0000",
+        "published": ["nb", "en"],
+        "_links": {"self": {"href": "https://data.ssb.no/api/klass/v1/versions/15"}}
+    }, {
+        "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2007",
+        "validFrom": "2007-01-01",
+        "validTo": "2013-01-01",
+        "lastModified": "2016-10-07T12:05:23.000+0000",
+        "published": ["nb", "nn", "en"],
+        "_links": {"self": {"href": "https://data.ssb.no/api/klass/v1/versions/16"}}
+    }, {
+        "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2002",
+        "validFrom": "2002-01-01",
+        "validTo": "2007-01-01",
+        "lastModified": "2016-10-07T12:05:23.000+0000",
+        "published": ["nb", "nn", "en"],
+        "_links": {"self": {"href": "https://data.ssb.no/api/klass/v1/versions/17"}}
+    }], "_links"
+:
+    {
+        "self"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3"
+        }
+    ,
+        "codes"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3/codes{?from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
+        :
+            true
+        }
+    ,
+        "codesAt"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3/codesAt{?date=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
+        :
+            true
+        }
+    ,
+        "variant"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3/variant{?variantName,from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
+        :
+            true
+        }
+    ,
+        "variantAt"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3/variantAt{?variantName,date=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
+        :
+            true
+        }
+    ,
+        "corresponds"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3/corresponds{?targetClassificationId,from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator}", "templated"
+        :
+            true
+        }
+    ,
+        "correspondsAt"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3/correspondsAt{?targetClassificationId,date=<yyyy-MM-dd>,csvSeparator}", "templated"
+        :
+            true
+        }
+    ,
+        "changes"
+    :
+        {
+            "href"
+        :
+            "https://data.ssb.no/api/klass/v1/classifications/3/changes{?from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator}", "templated"
+        :
+            true
+        }
+    }
+}*/

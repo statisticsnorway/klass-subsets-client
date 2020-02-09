@@ -11,7 +11,7 @@ export function nextDefaultName(items) {
     }
     const used = items.map(item => item.lang);
     const unused = availableLanguages().find(lang => !used.includes(lang.abbr));
-    return unused ? {text: subsetDraft.namePrefix, lang: unused.abbr} : null;
+    return unused ? {text: '', lang: unused.abbr} : null;
 }
 
 export function disableUsed(languages, used) {

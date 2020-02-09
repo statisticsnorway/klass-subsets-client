@@ -38,10 +38,10 @@ export const ContextProvider = ({ children }) => {
     // TODO: better defaults
     const draft = {
         ownerId: '',
-        names: [{ lang: 'nb', text: '' }],
+        names: [],
         valid: { from: null, to: null },
         subject: '',
-        descriptions: [{ text: '', lang: 'nb' }],
+        descriptions: [],
         classifications: []
     };
     const subset = useSubset(draft);
@@ -50,7 +50,7 @@ export const ContextProvider = ({ children }) => {
 
     const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
-    // TODO: more flexible url building based on first response?
+    // FIXME: more flexible url building based on first response?
     const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
 
     return (

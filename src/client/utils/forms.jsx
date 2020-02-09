@@ -1,6 +1,6 @@
 import {availableLanguages, disableUsed} from './languages';
 import React from 'react';
-import {TextArea} from '@statisticsnorway/ssb-component-library';
+import {PlusSquare, Trash2} from 'react-feather';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
@@ -17,7 +17,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
             >{title}</label>
 
             {items.map((item, index) => (
-                <div className='text-language' key={index}>
+                <div key={index}>
                     <textarea cols={size.cols} rows={size.rows}
                               id={title}
                               value={item.text || prefix}
@@ -42,14 +42,12 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                     onChange={(e) => handle(item.lang = e.target.value)}/>
 
                     {index === items.length-1 && index < languages.length-1 &&
-                    <button style={{margin: '0 20px 0 20px'}}
-                            onClick={() => add()}
-                    >+</button>}
+                    <button onClick={() => add()}
+                    ><PlusSquare color='#1A9D49'/></button>}
 
                     {index > 0 &&
-                    <button style={{margin: '0 20px 0 20px'}}
-                            onClick={() => {remove(index);}}
-                    >-</button>}
+                    <button onClick={() => {remove(index);}}
+                    ><Trash2 color='#ED5935'/></button>}
 
                 </div>))
             }
@@ -66,7 +64,7 @@ export const LanguageSelect = ({languages = availableLanguages(),
                                    onChange = (e) => console.log(e.target.value)}) => {
 
     return (
-        <select name='language'
+        <select name='language' style={{padding: '3px'}}
                 value={selected || languages.find(lang => lang.default)}
                 onChange={(e) => onChange(e)}>
             {languages.map((lang, i) => (
