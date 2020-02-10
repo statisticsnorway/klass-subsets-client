@@ -1,38 +1,54 @@
 import React, {useState} from 'react';
 import {PlusSquare, MinusSquare, XSquare, Trash2, Info,
     List as ListIcon, AlertTriangle as Alert} from 'react-feather';
-import { Text } from '@statisticsnorway/ssb-component-library';
+import {Text, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
+import {useGet} from '../../controllers/klass-api';
 
 export const Classification = ({item, update, add, remove, checkbox = false}) => {
-    const toggle = {
-        closeAll: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: false
-        }),
-        alert: () => ({
-            showAlert: !expander.showAlert,
-            showCodes: false,
-            showCannot: false
-        }),
-        codes: () => ({
-            showAlert: false,
-            showCodes: !expander.showCodes,
-            showCannot: false
-        }),
-        cannot: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: !expander.showCannot
-        })
-    };
 
-    const [expander, setExpander] = useState(toggle.closeAll());
+    const id = item._links.self.href.split("/").pop();
 
     const check = {
         hasCodes: () => (item.codes && item.codes.length > 0),
         includible: () => (!item.included && item.codes && item.codes.length > 0)
     };
+
+    const toggle = {
+        closeAll: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: false,
+            showInfo: false
+        }),
+        alert: () => ({
+            showAlert: !expander.showAlert,
+            showCodes: false,
+            showCannot: false,
+            showInfo: false
+        }),
+        codes: () => ({
+            showAlert: false,
+            showCodes: !expander.showCodes,
+            showCannot: false,
+            showInfo: false
+        }),
+        cannot: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: !expander.showCannot,
+            showInfo: false
+        }),
+        info: () => ({
+            showAlert: false,
+            showCodes: false,
+            showCannot: false,
+            showInfo: !expander.showInfo
+        })
+    };
+
+    const [expander, setExpander] = useState(toggle.closeAll());
+
+    const [info] = useGet(`/classifications/${id}`);
 
     return (
         <>
@@ -60,8 +76,8 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                 <ListIcon color={check.hasCodes() ? '#3396D2' : '#C3DCDC'}/>
             </button>
 
-            <button onClick={() => console.log('info', item)}>
-                <Info color='#62919A'/>
+            <button onClick={() => setExpander(toggle.info())}>
+                <Info color={info ? '#62919A': '#C3DCDC'}/>
             </button>
 
             <button onClick={() => {
@@ -73,26 +89,20 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
         </div>
 
         {expander.showAlert && <div style={{
-            fontSize: '11px',
             backgroundColor: 'AntiqueWhite',
             padding: '15px',
-            opacity: '0.8',
             width: '600px'
         }}><Text>{item.error}</Text></div>}
 
         {expander.showCannot && <div style={{
-                fontSize: '11px',
                 backgroundColor: '#ece6fe',
                 padding: '15px',
-                opacity: '0.8',
                 width: '600px'
         }}><Text>Code list cannot be added to the subset due to lack of codes</Text></div>}
 
         {expander.showCodes && <div style={{
-            fontSize: '11px',
             backgroundColor: 'AliceBlue',
             padding: '15px',
-            opacity: '0.8',
             width: '600px'
         }}>
             <div className="ssb-checkbox-group">
@@ -115,7 +125,7 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
 
                         {item.codes.map((code, i) =>
                         !checkbox
-                            ? <p><Text><strong>{code.code}</strong> {code.name}</Text></p>
+                            ? <Paragraph><strong>{code.code}</strong> {code.name}</Paragraph>
                             : <div className="ssb-checkbox">
                                 <input id={`${code.code}-${i}`}
                                        type='checkbox' name='include'
@@ -135,5 +145,26 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             </div>
         </div>}
 
+            {expander.showInfo && <div style={{
+                backgroundColor: '#eff4f5',
+                padding: '15px',
+                width: '600px'
+            }}><Title size={4}>Code list info</Title>
+                <Paragraph><strong>Id:</strong> {id}</Paragraph>
+                <table style={{border: 'none'}}>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Version</th>
+                    </tr>
+                    {info.versions.map(version => (
+                    <tr>
+                        <td>{version.validFrom || '...'}</td>
+                        <td>{version.validTo || '...'}</td>
+                        <td>{version.name}</td>
+                    </tr>
+                ))}</table>
+                <Paragraph><strong>Description:</strong> {info.description || '-'}</Paragraph>
+            </div>}
     </>);
 };

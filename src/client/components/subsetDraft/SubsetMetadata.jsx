@@ -17,9 +17,9 @@ import DatePicker from 'react-date-picker';
 
 export const SubsetMetadata = ({subset}) => {
 
+    subset.draft.names && subset.draft.names.length < 1 && subset.dispatch({action: 'name_add'});
+    subset.draft.descriptions && subset.draft.descriptions.length < 1 && subset.dispatch({action: 'description_add'});
     const {ssbsections, classificationfamilies} = useContext(AppContext);
-
-    useEffect(() => {return () => subset.dispatch({action: 'remove_empty'});}, []);
 
     return (
         <>

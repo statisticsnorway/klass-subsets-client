@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import '../../css/pages.css';
 import {AppContext} from '../../controllers/context';
 import {Navigation, Step} from '../../utils/navigation';
@@ -29,6 +29,10 @@ export const SubsetPreview = ({subset}) => {
 
     // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
     subset && subset.draft && subset.draft.classifications && subset.draft.classifications.forEach(code => unlinkParent(code));
+
+
+    useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
+
 
     return (
         <>

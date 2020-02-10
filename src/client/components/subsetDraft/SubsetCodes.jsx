@@ -6,7 +6,6 @@ import {Classification} from './Classification';
 
 
 /*
- *  TODO: search input style with ssb-component-library
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
  *  FIXME: fails on '(' input and in result string
