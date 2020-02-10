@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {PlusSquare, MinusSquare, XSquare, Trash2, Info,
     List as ListIcon, AlertTriangle as Alert} from 'react-feather';
-import {Text, Paragraph} from '@statisticsnorway/ssb-component-library';
+import {Text, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 
 export const Classification = ({item, update, add, remove, checkbox = false}) => {
@@ -149,147 +149,22 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
                 backgroundColor: '#eff4f5',
                 padding: '15px',
                 width: '600px'
-            }}>
-                {`ìd=${id} ${JSON.stringify(info)}`}
+            }}><Title size={4}>Code list info</Title>
+                <Paragraph><strong>Id:</strong> {id}</Paragraph>
+                <table style={{border: 'none'}}>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Version</th>
+                    </tr>
+                    {info.versions.map(version => (
+                    <tr>
+                        <td>{version.validFrom || '...'}</td>
+                        <td>{version.validTo || '...'}</td>
+                        <td>{version.name}</td>
+                    </tr>
+                ))}</table>
+                <Paragraph><strong>Description:</strong> {info.description || '-'}</Paragraph>
             </div>}
     </>);
 };
-/*
-
-{
-    "name"
-:
-    "Standard for gruppering av hjelpe- og omsorgstiltak i barnevernet", "classificationType"
-:
-    "Klassifikasjon", "lastModified"
-:
-    "2016-10-07T12:05:23.000+0000", "description"
-:
-    "For barn som har mottatt barnvernstiltak i statistikkåret registrerer en hvilke tiltak dette er (1-28) og om tiltakene er hjelpe- eller omsorgstiltak. Omsorgstiltak er gjeldende når barneverntjenesten har overtatt omsorgen for barnet via fylkesnemnda.", "primaryLanguage"
-:
-    "nb", "copyrighted"
-:
-    false, "includeShortName"
-:
-    false, "includeNotes"
-:
-    true, "contactPerson"
-:
-    {
-        "name"
-    :
-        "Dyrhaug, Tone", "email"
-    :
-        "Tone.Dyrhaug@ssb.no", "phone"
-    :
-        "40902420"
-    }
-,
-    "owningSection"
-:
-    "330 - Seksjon for helse-, omsorg og sosialstatistikk ", "statisticalUnits"
-:
-    ["Person"], "versions"
-:
-    [{
-        "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2013",
-        "validFrom": "2013-01-01",
-        "lastModified": "2016-10-07T12:05:23.000+0000",
-        "published": ["nb", "en"],
-        "_links": {"self": {"href": "https://data.ssb.no/api/klass/v1/versions/15"}}
-    }, {
-        "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2007",
-        "validFrom": "2007-01-01",
-        "validTo": "2013-01-01",
-        "lastModified": "2016-10-07T12:05:23.000+0000",
-        "published": ["nb", "nn", "en"],
-        "_links": {"self": {"href": "https://data.ssb.no/api/klass/v1/versions/16"}}
-    }, {
-        "name": "Gruppering av hjelpe- og omsorgstiltak i barnevernet 2002",
-        "validFrom": "2002-01-01",
-        "validTo": "2007-01-01",
-        "lastModified": "2016-10-07T12:05:23.000+0000",
-        "published": ["nb", "nn", "en"],
-        "_links": {"self": {"href": "https://data.ssb.no/api/klass/v1/versions/17"}}
-    }], "_links"
-:
-    {
-        "self"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3"
-        }
-    ,
-        "codes"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3/codes{?from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
-        :
-            true
-        }
-    ,
-        "codesAt"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3/codesAt{?date=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
-        :
-            true
-        }
-    ,
-        "variant"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3/variant{?variantName,from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
-        :
-            true
-        }
-    ,
-        "variantAt"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3/variantAt{?variantName,date=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}", "templated"
-        :
-            true
-        }
-    ,
-        "corresponds"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3/corresponds{?targetClassificationId,from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator}", "templated"
-        :
-            true
-        }
-    ,
-        "correspondsAt"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3/correspondsAt{?targetClassificationId,date=<yyyy-MM-dd>,csvSeparator}", "templated"
-        :
-            true
-        }
-    ,
-        "changes"
-    :
-        {
-            "href"
-        :
-            "https://data.ssb.no/api/klass/v1/classifications/3/changes{?from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator}", "templated"
-        :
-            true
-        }
-    }
-}*/
