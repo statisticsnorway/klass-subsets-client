@@ -2,11 +2,17 @@ import React from 'react';
 import { Accordion, Title, Text } from '@statisticsnorway/ssb-component-library';
 
 export const Subset = ({subset}) => {
+    // set classification name to each code
     subset.classifications.forEach(classification => classification.codes
             .forEach(code => code.classification = classification.name));
 
     // FIXME: show title to selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
+
+
+    const allCodes = [];
+    subset.classifications.map(classification => allCodes.push(...classification.codes));
+    allCodes.forEach(i => (i.title = `${i.code} ${i.name}`));
 
     return (
         <>
@@ -20,10 +26,10 @@ export const Subset = ({subset}) => {
                     : 'No description'}</Text>
 
             <Title size={3}>Codes: </Title>
-            {subset.classifications.map(classification =>
-                (classification.codes && classification.codes.map(code => (
-                    <Code code={code}/>)))
-            )}
+            {allCodes.filter(i => i.included)
+                .sort((a,b) => (b.rank - a.rank))
+                .map((code, i) => (
+                    <Code key={i} code={code}/>))}
 
             <Accordion header='Raw JSON'>
                 <pre>{JSON.stringify(subset, null, 4)}</pre>
