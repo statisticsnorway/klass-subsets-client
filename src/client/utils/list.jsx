@@ -15,20 +15,18 @@ export const List = ({list}) => {
 
 export const ListItem = ({item, dispatch}) => {
     return (
-        <li style={{background: item.dragged ? '#ECFEED' : 'white'}}
+        <li style={{background: item.dragged ? '#ECFEED' : 'white', display: 'flex'}}
             draggable={true}
             onDragOver={() => dispatch({action: 'dragOver', data: item})}
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
-            <div style={{display: 'flex'}}>
-                <div style={{width: '400px'}} className='content'
-                     onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
-                    {item.title}
-                </div>
-
-                <Controls item={item} dispatch={dispatch}/>
+            <div style={{width: '400px'}} className='content'
+                 onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
+                {item.title}
             </div>
+
+            <Controls item={item} dispatch={dispatch}/>
         </li>
     );
 };
