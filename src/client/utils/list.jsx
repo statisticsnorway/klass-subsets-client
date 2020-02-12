@@ -5,16 +5,10 @@ import {Trash2} from 'react-feather';
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
-
-    return (<ListItems items={list.items.filter(i => i.included)}
-                       dispatch={(o) => list.dispatch(o)}/>);
-};
-
-export const ListItems = ({items, dispatch}) => {
     return (
         <ul className='list'>
-            {items.map((item, i) =>
-                <ListItem key={i} item={item} dispatch={dispatch} />)}
+            {list.items.filter(i => i.included).map((item, i) =>
+                <ListItem key={i} item={item} dispatch={(o) => list.dispatch(o)} />)}
         </ul>
     );
 };
