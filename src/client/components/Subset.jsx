@@ -27,7 +27,7 @@ export const Subset = ({subset}) => {
 
             <Title size={3}>Codes: </Title>
             {allCodes.filter(i => i.included)
-                .sort((a,b) => (b.rank - a.rank))
+                .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
                     <Code key={i} code={code}/>))}
 
