@@ -37,8 +37,8 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="from_date">Valid from: </label>
                     <DatePicker id='from_date' style={{display: 'block'}}
-                                value={subset.draft.valid.to}
-                                onChange={(date) => subset.dispatch({action: 'to', data: date})}
+                                value={subset.draft.valid.from}
+                                onChange={(date) => subset.dispatch({action: 'from', data: date})}
                                 clearIcon={null}
                                 format='dd.MM.y'
                                 locale={languages.find(i => i.default).IETF}
@@ -49,8 +49,8 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="to_date">Valid to: </label>
                     <DatePicker id='to_date' style={{display: 'block'}}
-                                value={subset.draft.valid.from}
-                                onChange={(date) => subset.dispatch({action: 'from', data: date})}
+                                value={subset.draft.valid.to}
+                                onChange={(date) => subset.dispatch({action: 'to', data: date})}
                                 clearIcon={null}
                                 format='dd.MM.y'
                                 locale={languages.find(i => i.default).IETF}
