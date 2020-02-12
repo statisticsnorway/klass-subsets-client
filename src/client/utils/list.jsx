@@ -43,34 +43,23 @@ export const ListItem = ({item, dispatch}) => {
 export const Controls = ({item, dispatch}) => {
     return (
         <span>
-            <input type='number' name='rank' style={{width: '4em'}} value={item.rank}
-                // FIXME do not returns a number on the 3d level, but text -> list becomes non-sortable!!!
+            <input type='number' name='rank' style={{width: '4em'}}
+                   value={item.rank}
                    onChange={(e) => {
                        dispatch({action: 'rank', data: {item, rank: e.target.value}});
                    }} />
 
             <button onClick={() => {
-                item.included = !item.included;
-                dispatch({action: 'toggle_include', data: {item, included: item.included }});
+                dispatch({action: 'exclude', data: {item}});
             }}>
                 <Trash2 color='#ED5935'/>
                 </button>
     </span>);
 };
 
-function include(item) {
-    item.included = true;
-
-}
-
-function exclude(item) {
-    item.included =false;
-}
-
 export function rank(item) {
     if (!item) {return;}
     item.rank = item.rank || 0;
-    item.children && item.children.forEach(child => rank(child));
 }
 
 // FIXME: multiple items (group) dragged and dropped on the start or
@@ -90,30 +79,18 @@ export const useList = (list) => {
     list.length > 0 && list.forEach((item) => rank(item));
     reorder(list);
 
-    function update(data) {
-        dispatch({action: 'update', data});
-    }
-
-    function remove(titles) {
-        dispatch({action: 'remove', data: titles});
-    }
-
     function listReducer(state, {action, data = {}}) {
         switch (action) {
             case 'update': {
                 return [...data];
             }
-            case 'remove': {
-                return state.filter(item => !data.includes(item.title));
-            }
-            case 'toggle_include': {
-                data.included ? include(data.item) : exclude(data.item);
+            case 'exclude': {
+                data.item.included = false;
                 return [...state];
             }
             case 'rank': {
                 data.item.rank = data.rank;
-                data.rank !== '' && data.rank !== '-'
-                && reorder(state);
+                data.rank !== '' && data.rank !== '-' && reorder(state);
                 return [...state];
             }
             // FIXME: slow on hundreds of items
@@ -143,5 +120,5 @@ export const useList = (list) => {
 
     const [items, dispatch] = useReducer(listReducer, list);
 
-    return {items, dispatch, update, remove};
+    return {items, dispatch};
 };
