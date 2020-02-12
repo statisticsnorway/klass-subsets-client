@@ -21,7 +21,7 @@ export default function Header() {
                 <Link to='/'>
                     <Title size={2}>
                         <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
-                        Klass uttrekk <Text> | v0.1.4 more styling</Text>
+                        Klass uttrekk <Text> | v0.1.5 bugfix: correct ordering</Text>
                     </Title>
                 </Link>
 
