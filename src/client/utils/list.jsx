@@ -21,20 +21,19 @@ export const ListItems = ({items, dispatch}) => {
 
 export const ListItem = ({item, dispatch}) => {
     return (
-        <li style={{background: item.dragged ? 'lightblue' : 'white'}}
-            className='drag' draggable={true}
+        <li style={{background: item.dragged ? '#ECFEED' : 'white'}}
+            draggable={true}
             onDragOver={() => dispatch({action: 'dragOver', data: item})}
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
             <div style={{display: 'flex'}}>
+                <div style={{width: '400px'}} className='content'
+                     onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
+                    {item.title}
+                </div>
 
-            <div style={{width: '400px'}} className='content'
-                  onClick={() => dispatch({action: 'toggle_dragged', data: item})}
-            >{item.title}</div>
-
-            <Controls item={item} dispatch={dispatch}/>
-
+                <Controls item={item} dispatch={dispatch}/>
             </div>
         </li>
     );
@@ -49,18 +48,11 @@ export const Controls = ({item, dispatch}) => {
                        dispatch({action: 'rank', data: {item, rank: e.target.value}});
                    }} />
 
-            <button onClick={() => {
-                dispatch({action: 'exclude', data: {item}});
-            }}>
+            <button onClick={() => {dispatch({action: 'exclude', data: {item}});}}>
                 <Trash2 color='#ED5935'/>
-                </button>
+            </button>
     </span>);
 };
-
-export function rank(item) {
-    if (!item) {return;}
-    item.rank = item.rank || 0;
-}
 
 // FIXME: multiple items (group) dragged and dropped on the start or
 //  the end of list fight for the first or the last place -> blink
@@ -74,9 +66,13 @@ export function reorder(list) {
     rerank(list);
 }
 
-export const useList = (list) => {
+export const useList = (list = []) => {
 
-    list.length > 0 && list.forEach((item) => rank(item));
+    // in case there be mix of ranked an unranked elements,
+    // unranked will appear on top
+    list && list.forEach((item) =>
+        item && (item.rank = item.rank || 0)
+    );
     reorder(list);
 
     function listReducer(state, {action, data = {}}) {
