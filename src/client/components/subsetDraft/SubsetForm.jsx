@@ -5,7 +5,6 @@ import {Navigation, Step} from '../../utils/navigation';
 import {SubsetReorder} from './SubsetReorder';
 import {SubsetCodes} from './SubsetCodes';
 import {SubsetMetadata} from './SubsetMetadata';
-import {unlinkParent} from '../../utils/list';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
 import {Subset} from '../Subset';
 
@@ -26,9 +25,6 @@ export default function SubsetForm() {
 
 // TODO: better preview (human pleasant)
 export const SubsetPreview = ({subset}) => {
-
-    // FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
-    subset && subset.draft && subset.draft.classifications && subset.draft.classifications.forEach(code => unlinkParent(code));
 
     useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
 

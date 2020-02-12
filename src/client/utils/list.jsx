@@ -19,7 +19,7 @@ export const ListItems = ({items, dispatch}) => {
     );
 };
 
-export const ListItem = ({controls, item, dispatch}) => {
+export const ListItem = ({item, dispatch}) => {
     return (
         <li style={{background: item.dragged ? 'lightblue' : 'white'}}
             className='drag' draggable={true}
@@ -67,20 +67,6 @@ function exclude(item) {
     item.included =false;
 }
 
-function linkParent(item) {
-    item && item.children && item.children.forEach(child => child.parent = item);
-}
-
-// FIXME: inefficient linking and unlinking on each update -> solution: use Proxy
-// FIXME: it's workaround for parent circular structure to JSON. use Proxy or array.find() instead in List
-export function unlinkParent(item) {
-    if (!item) {return;}
-    item.children && item.children.forEach(child => {
-        delete child.parent;
-        unlinkParent(child);
-    });
-}
-
 export function rank(item) {
     if (!item) {return;}
     item.rank = item.rank || 0;
@@ -101,8 +87,6 @@ export function reorder(list) {
 
 export const useList = (list) => {
 
-    // FIXME: it causes traverse fail because of the circular structure to JSON. use Proxy or array.find() instead
-    list.length > 0 && list.forEach(item => linkParent(item));
     list.length > 0 && list.forEach((item) => rank(item));
     reorder(list);
 
@@ -129,7 +113,7 @@ export const useList = (list) => {
             case 'rank': {
                 data.item.rank = data.rank;
                 data.rank !== '' && data.rank !== '-'
-                && reorder(data.item.parent ? data.item.parent.children : state);
+                && reorder(state);
                 return [...state];
             }
             // FIXME: slow on hundreds of items
