@@ -39,7 +39,7 @@ export const ContextProvider = ({ children }) => {
     const draft = {
         ownerId: '',
         names: [],
-        valid: { from: null, to: null },
+        valid: { from: new Date(), to: null },
         subject: '',
         descriptions: [],
         classifications: []

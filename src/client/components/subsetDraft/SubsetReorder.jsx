@@ -1,5 +1,5 @@
 import React from 'react';
-import {List, useList} from '../../utils/list2';
+import {List, useList} from '../../utils/list';
 import {Title} from '@statisticsnorway/ssb-component-library';
 
 export const SubsetReorder = ({subset}) => {

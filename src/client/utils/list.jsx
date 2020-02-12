@@ -4,26 +4,17 @@ import {Trash2} from 'react-feather';
 
 
 // TODO: show more data on item component (info block, date, etc?)
-export const List = ({list, controls = [
-        {name: 'expand', order: -1},
-        {name: 'include', order: 2, callback: (i) => console.log('include', i.title)},
-    // TODO: extra checkbox to show, that one or multiple items in the lower levels are selected.
-    // deactivated if all or none are selected.
-        {name: 'draggable'},
-        {name: 'rank', order: 1}
-    ]
-                     }) => {
+export const List = ({list}) => {
 
     return (<ListItems items={list.items.filter(i => i.included)}
-                       controls={controls}
                        dispatch={(o) => list.dispatch(o)}/>);
 };
 
-export const ListItems = ({controls, items, dispatch}) => {
+export const ListItems = ({items, dispatch}) => {
     return (
         <ul className='list'>
             {items.map((item, i) =>
-                <ListItem key={i} item={item} controls={controls} dispatch={dispatch} />)}
+                <ListItem key={i} item={item} dispatch={dispatch} />)}
         </ul>
     );
 };
@@ -31,80 +22,49 @@ export const ListItems = ({controls, items, dispatch}) => {
 export const ListItem = ({controls, item, dispatch}) => {
     return (
         <li style={{background: item.dragged ? 'lightblue' : 'white'}}
-            className='drag' draggable={!!controls.find(c => c.name === 'draggable') }
+            className='drag' draggable={true}
             onDragOver={() => dispatch({action: 'dragOver', data: item})}
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
             <div style={{display: 'flex'}}>
 
-            <Controls
-                item={item}
-                dispatch={dispatch}
-                controls={controls.filter(control => control.order < 0)}
-            />
-
             <div style={{width: '400px'}} className='content'
                   onClick={() => dispatch({action: 'toggle_dragged', data: item})}
             >{item.title}</div>
 
-            <Controls
-                item={item}
-                dispatch={dispatch}
-                controls={controls.filter(control => control.order > 0)}
-            />
-            {item.expanded && <ListItems items={item.children} controls={controls} dispatch={dispatch} />}
+            <Controls item={item} dispatch={dispatch}/>
 
             </div>
         </li>
     );
 };
 
-export const Controls = ({item, dispatch, controls}) => {
+export const Controls = ({item, dispatch}) => {
     return (
         <span>
-            {controls.find(c => c.name === 'expand') && item.children && item.children.length > 0 &&
-            <button onClick={() => dispatch({action: 'toggle_expand', data: item})}
-            >{item.expanded ? <span >&#9652;</span> : <span>&#9662;</span>}
-            </button>
-            }
-
-            {controls.find(c => c.name === 'rank') &&
             <input type='number' name='rank' style={{width: '4em'}} value={item.rank}
                 // FIXME do not returns a number on the 3d level, but text -> list becomes non-sortable!!!
                    onChange={(e) => {
                        dispatch({action: 'rank', data: {item, rank: e.target.value}});
                    }} />
-            }
 
-            {controls.find(c => c.name === 'include') &&
             <button onClick={() => {
                 item.included = !item.included;
-                controls.find(c => c.name === 'include').callback(item);
                 dispatch({action: 'toggle_include', data: {item, included: item.included }});
             }}>
                 <Trash2 color='#ED5935'/>
                 </button>
-            }
-
     </span>);
 };
 
 function include(item) {
     item.included = true;
-    // check parent -> check all children
-    item.children && item.children.filter(i => !i.included).forEach(child => include(child));
-    // if all children now included -> check the parent
-    item.parent && !item.parent.children.find(i => !i.included) && include(item.parent);
+
 }
 
 function exclude(item) {
     item.included =false;
-    // uncheck child -> uncheck parent
-    item.parent && exclude(item.parent);
-    // uncheck parent: if all children are included -> uncheck everybody
-    item.children && !item.children.find(child => !child.included)
-    && item.children.forEach(child => exclude(child));
 }
 
 function linkParent(item) {
@@ -161,10 +121,6 @@ export const useList = (list) => {
             }
             case 'remove': {
                 return state.filter(item => !data.includes(item.title));
-            }
-            case 'toggle_expand': {
-                data.expanded = !data.expanded;
-                return [...state];
             }
             case 'toggle_include': {
                 data.included ? include(data.item) : exclude(data.item);
