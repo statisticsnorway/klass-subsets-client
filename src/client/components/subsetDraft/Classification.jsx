@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {PlusSquare, MinusSquare, XSquare, Trash2, Info,
-    List as ListIcon, AlertTriangle as Alert} from 'react-feather';
-import {Text, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
+import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare, Trash2, XSquare} from 'react-feather';
+import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 
 export const Classification = ({item = {}, update, add, remove, checkbox = false, from, to}) => {
@@ -48,17 +47,18 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
 
     const [expander, setExpander] = useState(toggle.closeAll());
 
+    // TODO use fallback and loader
+    // FIXME show errors
     const [info] = useGet(`/classifications/${id}`);
 
+    // TODO use fallback and loader
+    // FIXME show errors
     let url = from && to
         ? `/classifications/${id}/codes.json?from=${from},to=${to}`
         : `/classifications/${id}/codesAt.json?date=${from || to}`;
     const [codes] = useGet(item.codes ? null : url);
     useEffect(() => {
-        if (codes) {
-            console.log('useeffect codes', url, codes);
-            item.codes = codes.codes;
-        }
+        if (codes) item.codes = codes.codes;
     }, [codes]);
 
     return (
