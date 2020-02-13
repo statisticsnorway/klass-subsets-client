@@ -74,6 +74,7 @@ export const useList = (list = []) => {
             }
             case 'exclude': {
                 data.item.included = false;
+                delete data.item.rank;
                 return [...state];
             }
             case 'rank': {
