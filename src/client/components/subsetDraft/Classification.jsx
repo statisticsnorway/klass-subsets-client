@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PlusSquare, MinusSquare, XSquare, Trash2, Info,
     List as ListIcon, AlertTriangle as Alert} from 'react-feather';
 import {Text, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 
-export const Classification = ({item, update, add, remove, checkbox = false}) => {
+export const Classification = ({item = {}, update, add, remove, checkbox = false, from, to}) => {
 
     const id = item._links.self.href.split("/").pop();
 
@@ -49,6 +49,17 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
     const [expander, setExpander] = useState(toggle.closeAll());
 
     const [info] = useGet(`/classifications/${id}`);
+
+    let url = from && to
+        ? `/classifications/${id}/codes.json?from=${from},to=${to}`
+        : `/classifications/${id}/codesAt.json?date=${from || to}`;
+    const [codes] = useGet(item.codes ? null : url);
+    useEffect(() => {
+        if (codes) {
+            console.log('useeffect codes', url, codes);
+            item.codes = codes.codes;
+        }
+    }, [codes]);
 
     return (
         <>
@@ -152,11 +163,11 @@ export const Classification = ({item, update, add, remove, checkbox = false}) =>
             }}><Title size={4}>Code list info</Title>
                 <Paragraph><strong>Id:</strong> {id}</Paragraph>
                 <table style={{border: 'none'}}>
-                    <tr>
+                    <thead>
                         <th>From</th>
                         <th>To</th>
                         <th>Version</th>
-                    </tr>
+                    </thead>
                     {info.versions.map(version => (
                     <tr>
                         <td>{version.validFrom || '...'}</td>

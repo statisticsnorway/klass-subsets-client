@@ -27,7 +27,7 @@ export const SubsetCodes = ({subset}) => {
             return already;
         } else {
             item.included = false;
-            fetchCodes(item);
+          //  fetchCodes(item);
             return item;
         }
     }
@@ -89,6 +89,7 @@ export const SubsetCodes = ({subset}) => {
                 : <ul className='list'>{searchResult.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
+                                            to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                                             remove={() => setSearchResult(searchResult.filter(i => i !== classification))}
                                             add={() => classification.included
@@ -112,6 +113,7 @@ export const SubsetCodes = ({subset}) => {
                 : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification} checkbox
+                                            to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                                             add={() =>
                                                 classification.included

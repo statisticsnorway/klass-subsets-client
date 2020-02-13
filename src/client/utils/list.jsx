@@ -15,7 +15,7 @@ export const List = ({list}) => {
 
 export const ListItem = ({item, dispatch}) => {
     return (
-        <li style={{background: item.dragged ? '#ECFEED' : 'white', display: 'flex'}}
+        <li style={{background: item.dragged ? '#B6E8B8' : 'white', display: 'flex'}}
             draggable={true}
             onDragOver={() => dispatch({action: 'dragOver', data: item})}
             onDragStart={() => dispatch({action: 'dragged', data: item})}
