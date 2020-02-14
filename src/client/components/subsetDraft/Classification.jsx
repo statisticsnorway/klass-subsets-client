@@ -158,21 +158,12 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                         </div>
 
                         {item.codes.map((code, i) =>
-                            <div className="ssb-checkbox">
-                                <input id={`${code.code}-${i}`}
-                                       type='checkbox' name='include'
-                                       checked={code.included}
-                                       value={code.code}
-                                       onChange={() => {
-                                           code.included = !code.included;
-                                           item.included = code.included ? true : item.included;
-                                           update();
-                                       }}/>
-                                <label className='checkbox-label'
-                                       htmlFor={`${code.code}-${i}`}>
-                                    <Text><strong>{code.code}</strong> {code.name}</Text>
-                                </label>
-                            </div>)}
+                            <CodeInfo key={i} code={code} onChange={() => {
+                                code.included = !code.included;
+                                item.included = code.included ? true : item.included;
+                                update();
+                            }} />)
+                        }
                     </>
                 }
             </div>
@@ -181,6 +172,23 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
         {/* TODO limit the height and scroll*/}
         {expander.showInfo && <ClassificationInfo id={item.id} info={info}/>}
     </>);
+};
+
+export const CodeInfo = ({key, code, onChange}) => {
+
+    return (
+        <div className="ssb-checkbox">
+            <input id={`${code.code}-${key}`}
+                   type='checkbox' name='include'
+                   checked={code.included}
+                   value={code.code}
+                   onChange={onChange}/>
+            <label className='checkbox-label'
+                   htmlFor={`${code.code}-${key}`}>
+                <Text><strong>{code.code}</strong> {code.name}</Text>
+            </label>
+        </div>
+    );
 };
 
 export const ClassificationInfo = ({id, info}) => {
