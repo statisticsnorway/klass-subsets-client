@@ -5,7 +5,7 @@ import {useGet} from '../../controllers/klass-api';
 
 export const Classification = ({item = {}, update, add, remove, checkbox = false, from, to}) => {
 
-    const id = item._links.self.href.split("/").pop();
+    item.id = item._links.self.href.split("/").pop();
 
     const check = {
         hasCodes: () => (item.codes && item.codes.length > 0),
@@ -56,7 +56,7 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
 
     // TODO use fallback and loader
     // FIXME show errors
-    const [info] = useGet(`/classifications/${id}`);
+    const [info] = useGet(`/classifications/${item.id}`);
     useEffect(() => {
         if (info && info.versions && info.versions.length > 0) {
             let versionId = info.versions[0]._links.self.href.split("/").pop();
@@ -67,8 +67,8 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
     // TODO use fallback and loader
     // FIXME show errors
     let url = from && to
-        ? `/classifications/${id}/codes.json?from=${from},to=${to}`
-        : `/classifications/${id}/codesAt.json?date=${from || to}`;
+        ? `/classifications/${item.id}/codes.json?from=${from},to=${to}`
+        : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
     const [codes] = useGet(item.codes ? null : url);
     useEffect(() => {
         if (codes) item.codes = codes.codes;
@@ -171,7 +171,14 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
         </div>}
 
         {/* TODO limit the height and scroll*/}
-        {expander.showInfo && <div style={{
+        {expander.showInfo && <ClassificationInfo id={item.id} info={info}/>}
+    </>);
+};
+
+export const ClassificationInfo = ({id, info}) => {
+
+    return (
+        <div style={{
             backgroundColor: '#eff4f5',
             padding: '15px',
             width: '600px'
@@ -179,18 +186,18 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
             <Paragraph><strong>Id:</strong> {id}</Paragraph>
             <table style={{border: 'none'}}>
                 <thead>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Version</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Version</th>
                 </thead>
-            {info.versions.map(version => (
-                <tr>
-                    <td>{version.validFrom || '...'}</td>
-                    <td>{version.validTo || '...'}</td>
-                    <td>{version.name}</td>
-                </tr>
-            ))}</table>
+                {info.versions.map(version => (
+                    <tr>
+                        <td>{version.validFrom || '...'}</td>
+                        <td>{version.validTo || '...'}</td>
+                        <td style={{width: '65%'}}>{version.name}</td>
+                    </tr>
+                ))}</table>
             <Paragraph><strong>Description:</strong> {info.description || '-'}</Paragraph>
-            </div>}
-    </>);
+        </div>
+    );
 };
