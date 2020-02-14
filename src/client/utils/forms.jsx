@@ -38,24 +38,23 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                   e.target.selectionStart < prefix.length && e.preventDefault()}
                     />
 
-                        <LanguageSelect languages={languages}
-                                        selected={item.lang}
-                                        onChange={(e) => handle(item.lang = e.target.value)}
+                    <LanguageSelect languages={languages}
+                                    selected={item.lang}
+                                    onChange={(e) => handle(item.lang = e.target.value)}
+                    />
 
-                        />
-
-                        <button disabled={!(index === items.length-1 && index < languages.length-1)}
+                    <button disabled={!(index === items.length - 1 && index < languages.length - 1)}
                             style={{background: 'none', border: 'none'}}
                             onClick={() => add()}>
-                            <PlusSquare color={(index === items.length-1 && index < languages.length-1)
-                                ? '#1A9D49' : '#C3DCDC'}/>
-                        </button>
+                        <PlusSquare color={(index === items.length - 1 && index < languages.length - 1)
+                            ? '#1A9D49' : '#C3DCDC'}/>
+                    </button>
 
-                        <button disabled={!(index > 0)}
+                    <button disabled={!(index > 0)}
                             style={{background: 'none', border: 'none'}}
                             onClick={() => remove(index)}>
-                            <Trash2 color={index > 0 ? '#ED5935': '#C3DCDC'}/>
-                        </button>
+                        <Trash2 color={index > 0 ? '#ED5935' : '#C3DCDC'}/>
+                    </button>
                 </div>))
             }
             {items.length === 0 &&
@@ -66,8 +65,8 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
 };
 
 export const LanguageSelect = ({languages = availableLanguages(),
-                                   selected = false,
-                                   onChange = (e) => console.log(e.target.value)}) => {
+                                selected = false,
+                                onChange = (e) => console.log(e.target.value)}) => {
 
     return (
         <select name='language' style={{padding: '2px', margin: '5px', position: 'relative', top: '-6px'}}

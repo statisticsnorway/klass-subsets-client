@@ -52,7 +52,13 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     // FIXME show errors
     const [version, isLoading, error, setVersionPath] = useGet();
     useEffect(() => {
-        if (version) console.log({version});
+        if (version && item) {
+            let origin = item.versions.find(v => v._links.self.href = version._links.self.href);
+            console.log({origin});
+            if (origin) {
+                origin.classificationItems = version.classificationItems;
+            }
+        }
     }, [version]);
 
     // TODO use fallback and loader
@@ -60,8 +66,11 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     const [info] = useGet(`/classifications/${item.id}`);
     useEffect(() => {
         if (info && info.versions && info.versions.length > 0) {
-            let versionId = info.versions[0]._links.self.href.split("/").pop();
-            setVersionPath(`/versions/${versionId}`);
+            item.versions = info.versions;
+            item.versions.forEach(v => {
+                let id = v._links.self.href.split("/").pop();
+                setVersionPath(`/versions/${id}`);
+            });
         }
     }, [info]);
 
@@ -104,10 +113,8 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                 <Info color={info ? '#62919A': '#C3DCDC'}/>
             </button>
 
-            <button onClick={() => {
-                setExpander(toggle.closeAll());
-                remove();
-                }}>
+            <button onClick={() => {setExpander(toggle.closeAll());
+                remove();}}>
                 <Trash2 color='#ED5935'/>
             </button>
         </div>
@@ -154,7 +161,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                             </div>
 
                             {item.codes.map((code, i) =>
-                                <CodeInfo key={i} code={code} onChange={() => {
+                                <CodeInfo key={i} id={item.id} code={code} onChange={() => {
                                     code.included = !code.included;
                                     item.included = code.included ? true : item.included;
                                     update();
@@ -170,17 +177,17 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     </>);
 };
 
-export const CodeInfo = ({key, code, onChange}) => {
+export const CodeInfo = ({id, code, onChange}) => {
 
     return (
         <div className="ssb-checkbox">
-            <input id={`${code.code}-${key}`}
+            <input id={`${code.code}-${id}`}
                    type='checkbox' name='include'
                    checked={code.included}
                    value={code.code}
                    onChange={onChange}/>
             <label className='checkbox-label'
-                   htmlFor={`${code.code}-${key}`}>
+                   htmlFor={`${code.code}-${id}`}>
                 <Text><strong>{code.code}</strong> {code.name}</Text>
             </label>
         </div>

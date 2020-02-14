@@ -59,7 +59,6 @@ export const SubsetMetadata = ({subset}) => {
                 <br style={{clear: 'both'}}/>
             </section>
 
-
             {/* TODO: set automatically when logged inn */}
             <Dropdown label='Owner'
                       options={ssbsections ? ssbsections._embedded.ssbSections : []}
@@ -85,7 +84,6 @@ export const SubsetMetadata = ({subset}) => {
                                   handle={() => subset.dispatch({action: 'update'})}
                                   size = {{cols: 65, rows: 4}}
             />
-
 
 {/* TODO: implement in next version
             <label><input type='checkbox'/>Subscribe for changes</label>
