@@ -15,11 +15,11 @@ import {Classification} from './Classification';
 export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
 
-    const [searchValues, setSearchValues] = useState([]); // list of classification names
-    const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
-
     const from = subset.draft.valid.from && subset.draft.valid.from.toISOString().substr(0, 10);
     const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
+
+    const [searchValues, setSearchValues] = useState([]); // list of classification names
+    const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
 
     useEffect(() => {
         const result = searchValues
@@ -27,6 +27,16 @@ export const SubsetCodes = ({subset}) => {
             : [];
         setSearchResult(result);
     }, [searchValues]);
+
+    useEffect(() => {
+        console.log('useeffect searchresult updated');
+        subset.dispatch({
+            action: 'classifications_prepend_included',
+            data: searchResult.filter(r => r.included)});
+        subset.dispatch({
+            action: 'classifications_remove_excluded'
+        })
+    }, [searchResult]);
 
     /* TODO: tooltips for classification icons */
     return (<>
@@ -56,14 +66,6 @@ export const SubsetCodes = ({subset}) => {
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                                             remove={() => setSearchResult(searchResult.filter(i => i !== classification))}
-                                            add={() => classification.included
-                                                ? subset.dispatch({
-                                                        action: 'classifications',
-                                                        data: subset.draft.classifications.concat(classification)})
-                                                : subset.dispatch({
-                                                        action: 'classifications',
-                                                        data: subset.draft.classifications.filter(i => i !== classification)})
-                                            }
                         /></li>)}
                 </ul>
             }
@@ -77,20 +79,8 @@ export const SubsetCodes = ({subset}) => {
                             <Classification item={classification} checkbox
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
-                                            add={() =>
-                                                classification.included
-                                                ? subset.dispatch({
-                                                        action: 'classifications',
-                                                        data: subset.draft.classifications.concat(classification)})
-                                                : subset.dispatch({
-                                                        action: 'classifications',
-                                                        data: subset.draft.classifications.filter(i => i !== classification)})
-                                            }
                                             remove={() => {
                                                 classification.included = false;
-                                                subset.dispatch({
-                                                    action: 'classifications',
-                                                    data: subset.draft.classifications.filter(i => i !== classification)});
                                                 setSearchResult([...searchResult]);
                                             }}/>
                         </li>)}

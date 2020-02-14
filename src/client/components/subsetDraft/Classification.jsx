@@ -3,7 +3,7 @@ import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare,
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 
-export const Classification = ({item = {}, update, add, remove, checkbox = false, from, to}) => {
+export const Classification = ({item = {}, update, remove, checkbox = false, from, to}) => {
 
     item.id = item._links.self.href.split("/").pop();
 
@@ -88,7 +88,6 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
                 if (item.included || check.hasCodes()) {
                     setExpander(toggle.closeAll());
                     item.included = !item.included;
-                    add();
                     update();
                 } else {setExpander(toggle.cannot());}}}>
                 {check.includible() && <PlusSquare color='#1A9D49'/>}
