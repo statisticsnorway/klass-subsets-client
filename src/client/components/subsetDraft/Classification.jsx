@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare, Trash2, XSquare} from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
+import '../../css/form.css';
 
 export const Classification = ({item = {}, update, remove, from, to}) => {
 
@@ -111,61 +112,56 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
             </button>
         </div>
 
-        {expander.showAlert && <div style={{
-            backgroundColor: 'AntiqueWhite',
-            padding: '15px',
-            width: '600px'
-        }}><Text>{item.error}</Text></div>}
+        {expander.showAlert &&
+            <div style={{backgroundColor: 'AntiqueWhite'}}
+                 className='panel'><Text>{item.error}</Text>
+            </div>}
 
-        {expander.showCannot && <div style={{
-                backgroundColor: '#ece6fe',
-                padding: '15px',
-                width: '600px'
-        }}><Text>Code list cannot be added to the subset due to lack of codes</Text></div>}
+        {expander.showCannot &&
+            <div style={{backgroundColor: '#ece6fe'}}
+                 className='panel'><Text>Code list cannot be added to the subset due to lack of codes</Text>
+            </div>}
 
         {/* TODO limit the height and scroll*/}
-        {expander.showCodes && <div style={{
-            backgroundColor: 'AliceBlue',
-            padding: '15px',
-            width: '600px'
-        }}>
-            <div className="ssb-checkbox-group">
-                <div className="checkbox-group-header">Codes {
-                    from && to
-                    ? `from ${from} to ${to}:`
-                    : from || to ? `at ${from || to}:`
-                    : '(no period set)'
-                }</div>
-                {!check.hasCodes()
-                    ? <Text>No codes found for this validity period</Text>
-                    : <>
-                        <div style={{padding: '5px'}}>
-                            <button onClick={() => {
-                                item.codes.forEach(code => code.included = true);
-                                update();
-                                }}>All
-                            </button>
-                            <button onClick={() => {
-                                item.codes.forEach(code => code.included = false);
-                                update();
-                                }}>None
-                            </button>
-                            <button onClick={() => {
-                                item.codes.forEach(code => code.included = !code.included);
-                                update();
-                                }}>Invert
-                             </button>
-                        </div>
+        {expander.showCodes &&
+            <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
+                <div className="ssb-checkbox-group">
+                    <div className="checkbox-group-header">Codes {
+                        from && to
+                        ? `from ${from} to ${to}:`
+                        : from || to ? `at ${from || to}:`
+                        : '(no period set)'
+                    }</div>
+                    {!check.hasCodes()
+                        ? <Text>No codes found for this validity period</Text>
+                        : <>
+                            <div style={{padding: '5px'}}>
+                                <button onClick={() => {
+                                    item.codes.forEach(code => code.included = true);
+                                    update();
+                                    }}>All
+                                </button>
+                                <button onClick={() => {
+                                    item.codes.forEach(code => code.included = false);
+                                    update();
+                                    }}>None
+                                </button>
+                                <button onClick={() => {
+                                    item.codes.forEach(code => code.included = !code.included);
+                                    update();
+                                    }}>Invert
+                                 </button>
+                            </div>
 
-                        {item.codes.map((code, i) =>
-                            <CodeInfo key={i} code={code} onChange={() => {
-                                code.included = !code.included;
-                                item.included = code.included ? true : item.included;
-                                update();
-                            }} />)
-                        }
-                    </>
-                }
+                            {item.codes.map((code, i) =>
+                                <CodeInfo key={i} code={code} onChange={() => {
+                                    code.included = !code.included;
+                                    item.included = code.included ? true : item.included;
+                                    update();
+                                }} />)
+                            }
+                        </>
+                    }
             </div>
         </div>}
 
@@ -194,11 +190,9 @@ export const CodeInfo = ({key, code, onChange}) => {
 export const ClassificationInfo = ({id, info}) => {
 
     return (
-        <div style={{
-            backgroundColor: '#eff4f5',
-            padding: '15px',
-            width: '600px'
-        }}><Title size={4}>Code list info</Title>
+        <div style={{backgroundColor: '#eff4f5'}}
+             className='panel'>
+            <Title size={4}>Code list info</Title>
             <Paragraph><strong>Id:</strong> {id}</Paragraph>
             <table style={{border: 'none'}}>
                 <thead>
