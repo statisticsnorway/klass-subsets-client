@@ -130,51 +130,62 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
             </div>}
 
         {/* TODO limit the height and scroll*/}
-        {expander.showCodes &&
-            <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
-                <div className="ssb-checkbox-group">
-                    <div className="checkbox-group-header">Codes {
-                        from && to
-                        ? `from ${from} to ${to}:`
-                        : from || to ? `at ${from || to}:`
-                        : '(no period set)'
-                    }</div>
-                    {!check.hasCodes()
-                        ? <Text>No codes found for this validity period</Text>
-                        : <>
-                            <div style={{padding: '5px'}}>
-                                <button onClick={() => {
-                                    item.codes.forEach(code => code.included = true);
-                                    update();
-                                    }}>All
-                                </button>
-                                <button onClick={() => {
-                                    item.codes.forEach(code => code.included = false);
-                                    update();
-                                    }}>None
-                                </button>
-                                <button onClick={() => {
-                                    item.codes.forEach(code => code.included = !code.included);
-                                    update();
-                                    }}>Invert
-                                 </button>
-                            </div>
-
-                            {item.codes.map((code, i) =>
-                                <CodeInfo key={i} id={item.id} code={code} onChange={() => {
-                                    code.included = !code.included;
-                                    item.included = code.included ? true : item.included;
-                                    update();
-                                }} />)
-                            }
-                        </>
-                    }
-            </div>
-        </div>}
+        {expander.showCodes && <Codes from={from} to={to} id={item.id}
+                                      codes={item.codes} hasCodes={check.hasCodes}
+                                      include={(o) => {
+                                          item.included = o ? true : item.included;
+                                          update();
+                                      }} />
+            }
 
         {/* TODO limit the height and scroll*/}
         {expander.showInfo && <ClassificationInfo id={item.id} info={info}/>}
     </>);
+};
+
+export const Codes = ({from, to, codes=[], id, include, hasCodes}) => {
+
+    return (
+        <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
+            <div className="ssb-checkbox-group">
+                <div className="checkbox-group-header">Codes {
+                    from && to
+                        ? `from ${from} to ${to}:`
+                        : from || to ? `at ${from || to}:`
+                        : '(no period set)'
+                }</div>
+                {!hasCodes()
+                    ? <Text>No codes found for this validity period</Text>
+                    : <>
+                        <div style={{padding: '5px'}}>
+                            <button onClick={() => {
+                                codes.forEach(code => code.included = true);
+                                include(true);
+                            }}>All
+                            </button>
+                            <button onClick={() => {
+                                codes.forEach(code => code.included = false);
+                                include(false);
+                            }}>None
+                            </button>
+                            <button onClick={() => {
+                                codes.forEach(code => code.included = !code.included);
+                                include(!!codes.find(c => c.included));
+                            }}>Invert
+                            </button>
+                        </div>
+
+                        {codes.map((code, i) =>
+                            <CodeInfo key={i} id={id} code={code} onChange={() => {
+                                code.included = !code.included;
+                                include(code.included);
+                            }} />)
+                        }
+                    </>
+                }
+            </div>
+        </div>
+    );
 };
 
 export const CodeInfo = ({id, code, onChange}) => {
