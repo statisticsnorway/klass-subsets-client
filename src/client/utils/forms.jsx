@@ -19,6 +19,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
             {items.map((item, index) => (
                 <div key={index} style={{padding: '0 0 15px 0'}}>
                     <textarea cols={size.cols} rows={size.rows}
+                              style={{height: `${size.rows * 44}px`}}
                               id={title}
                               value={item.text || prefix}
                               onChange={(e) => handle(item.text = e.target.value)}
