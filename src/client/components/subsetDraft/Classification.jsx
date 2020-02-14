@@ -49,7 +49,20 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
 
     // TODO use fallback and loader
     // FIXME show errors
+    const [version, isLoading, error, setVersionPath] = useGet();
+    useEffect(() => {
+        if (version) console.log({version});
+    }, [version]);
+
+    // TODO use fallback and loader
+    // FIXME show errors
     const [info] = useGet(`/classifications/${id}`);
+    useEffect(() => {
+        if (info && info.versions && info.versions.length > 0) {
+            let versionId = info.versions[0]._links.self.href.split("/").pop();
+            setVersionPath(`/versions/${versionId}`);
+        }
+    }, [info]);
 
     // TODO use fallback and loader
     // FIXME show errors
@@ -111,6 +124,7 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
                 width: '600px'
         }}><Text>Code list cannot be added to the subset due to lack of codes</Text></div>}
 
+        {/* TODO limit the height and scroll*/}
         {expander.showCodes && <div style={{
             backgroundColor: 'AliceBlue',
             padding: '15px',
@@ -156,26 +170,27 @@ export const Classification = ({item = {}, update, add, remove, checkbox = false
             </div>
         </div>}
 
-            {expander.showInfo && <div style={{
-                backgroundColor: '#eff4f5',
-                padding: '15px',
-                width: '600px'
-            }}><Title size={4}>Code list info</Title>
-                <Paragraph><strong>Id:</strong> {id}</Paragraph>
-                <table style={{border: 'none'}}>
-                    <thead>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Version</th>
-                    </thead>
-                    {info.versions.map(version => (
-                    <tr>
-                        <td>{version.validFrom || '...'}</td>
-                        <td>{version.validTo || '...'}</td>
-                        <td>{version.name}</td>
-                    </tr>
-                ))}</table>
-                <Paragraph><strong>Description:</strong> {info.description || '-'}</Paragraph>
+        {/* TODO limit the height and scroll*/}
+        {expander.showInfo && <div style={{
+            backgroundColor: '#eff4f5',
+            padding: '15px',
+            width: '600px'
+        }}><Title size={4}>Code list info</Title>
+            <Paragraph><strong>Id:</strong> {id}</Paragraph>
+            <table style={{border: 'none'}}>
+                <thead>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Version</th>
+                </thead>
+            {info.versions.map(version => (
+                <tr>
+                    <td>{version.validFrom || '...'}</td>
+                    <td>{version.validTo || '...'}</td>
+                    <td>{version.name}</td>
+                </tr>
+            ))}</table>
+            <Paragraph><strong>Description:</strong> {info.description || '-'}</Paragraph>
             </div>}
     </>);
 };
