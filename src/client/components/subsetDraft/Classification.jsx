@@ -3,7 +3,7 @@ import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare,
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 
-export const Classification = ({item = {}, update, remove, checkbox = false, from, to}) => {
+export const Classification = ({item = {}, update, remove, from, to}) => {
 
     item.id = item._links.self.href.split("/").pop();
 
@@ -134,7 +134,7 @@ export const Classification = ({item = {}, update, remove, checkbox = false, fro
                 {!check.hasCodes()
                     ? <Text>No codes found for this validity period</Text>
                     : <>
-                        {checkbox && <div style={{padding: '5px'}}>
+                        <div style={{padding: '5px'}}>
                             <button onClick={() => {
                                 item.codes.forEach(code => code.included = true);
                                 update();
@@ -145,18 +145,17 @@ export const Classification = ({item = {}, update, remove, checkbox = false, fro
                                 update();
                                 }}>Invert
                              </button>
-                        </div>}
+                        </div>
 
                         {item.codes.map((code, i) =>
-                        !checkbox
-                            ? <Paragraph><strong>{code.code}</strong> {code.name}</Paragraph>
-                            : <div className="ssb-checkbox">
+                            <div className="ssb-checkbox">
                                 <input id={`${code.code}-${i}`}
                                        type='checkbox' name='include'
                                        checked={code.included}
                                        value={code.code}
                                        onChange={() => {
                                            code.included = !code.included;
+                                           item.included = code.included ? true : item.included;
                                            update();
                                        }}/>
                                 <label className='checkbox-label'

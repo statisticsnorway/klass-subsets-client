@@ -29,7 +29,6 @@ export const SubsetCodes = ({subset}) => {
     }, [searchValues]);
 
     useEffect(() => {
-        console.log('useeffect searchresult updated');
         subset.dispatch({
             action: 'classifications_prepend_included',
             data: searchResult.filter(r => r.included)});
@@ -76,7 +75,7 @@ export const SubsetCodes = ({subset}) => {
                 ? <p>No classifications in the subset draft</p>
                 : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={classification} checkbox
+                            <Classification item={classification}
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                                             remove={() => {
