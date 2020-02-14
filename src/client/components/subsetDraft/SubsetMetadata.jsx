@@ -1,8 +1,8 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useContext} from 'react';
 import '../../css/form.css';
-import {TextLanguageFieldset, Dropdown} from '../../utils/forms';
+import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
-import {subsetDraft, languages} from '../../controllers/defaults';
+import {languages, subsetDraft} from '../../controllers/defaults';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
 
@@ -32,7 +32,7 @@ export const SubsetMetadata = ({subset}) => {
                                   prefix={subsetDraft.namePrefix}
             />
 
-            <section style={{padding: '15px 0 5px 0'}}>
+            <section style={{margin: '5px 0 5px 0'}}>
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="from_date">Valid from: </label>
