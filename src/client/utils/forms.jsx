@@ -37,20 +37,24 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                   e.target.selectionStart < prefix.length && e.preventDefault()}
                     />
 
-                    <LanguageSelect languages={languages}
-                                    selected={item.lang}
-                                    onChange={(e) => handle(item.lang = e.target.value)}/>
+                        <LanguageSelect languages={languages}
+                                        selected={item.lang}
+                                        onChange={(e) => handle(item.lang = e.target.value)}
 
-                    {index === items.length-1 && index < languages.length-1 &&
-                    <button style={{background: 'none', border: 'none'}}
-                        onClick={() => add()}
-                    ><PlusSquare color='#1A9D49'/></button>}
+                        />
 
-                    {index > 0 &&
-                    <button style={{background: 'none', border: 'none'}}
-                        onClick={() => {remove(index);}}
-                    ><Trash2 color='#ED5935'/></button>}
+                        <button disabled={!(index === items.length-1 && index < languages.length-1)}
+                            style={{background: 'none', border: 'none'}}
+                            onClick={() => add()}>
+                            <PlusSquare color={(index === items.length-1 && index < languages.length-1)
+                                ? '#1A9D49' : '#C3DCDC'}/>
+                        </button>
 
+                        <button disabled={!(index > 0)}
+                            style={{background: 'none', border: 'none'}}
+                            onClick={() => remove(index)}>
+                            <Trash2 color={index > 0 ? '#ED5935': '#C3DCDC'}/>
+                        </button>
                 </div>))
             }
             {items.length === 0 &&
@@ -65,7 +69,7 @@ export const LanguageSelect = ({languages = availableLanguages(),
                                    onChange = (e) => console.log(e.target.value)}) => {
 
     return (
-        <select name='language' style={{padding: '3px', margin: '5px'}}
+        <select name='language' style={{padding: '2px', margin: '5px', position: 'relative', top: '-6px'}}
                 value={selected || languages.find(lang => lang.default)}
                 onChange={(e) => onChange(e)}>
             {languages.map((lang, i) => (
