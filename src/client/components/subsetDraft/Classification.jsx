@@ -130,7 +130,12 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
             width: '600px'
         }}>
             <div className="ssb-checkbox-group">
-                <div className="checkbox-group-header">Codes</div>
+                <div className="checkbox-group-header">Codes {
+                    from && to
+                    ? `from ${from} to ${to}:`
+                    : from || to ? `at ${from || to}:`
+                    : '(no period set)'
+                }</div>
                 {!check.hasCodes()
                     ? <Text>No codes found for this validity period</Text>
                     : <>
