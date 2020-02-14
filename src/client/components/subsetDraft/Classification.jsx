@@ -146,6 +146,11 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                                 }}>All
                             </button>
                             <button onClick={() => {
+                                item.codes.forEach(code => code.included = false);
+                                update();
+                                }}>None
+                            </button>
+                            <button onClick={() => {
                                 item.codes.forEach(code => code.included = !code.included);
                                 update();
                                 }}>Invert
