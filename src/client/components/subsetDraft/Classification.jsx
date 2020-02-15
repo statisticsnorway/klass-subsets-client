@@ -4,9 +4,12 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/form.css';
 
+/*
+ * TODO: Use links delivered by API, do not parse - less coupling
+ */
 export const Classification = ({item = {}, update, remove, from, to}) => {
 
-    item.id = item._links.self.href.split("/").pop();
+    item.id = item._links.self.href.split('/').pop();
 
     const check = {
         hasCodes: () => (item.codes && item.codes.length > 0),
@@ -52,11 +55,25 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     // FIXME show errors
     const [version, isLoading, error, setVersionPath] = useGet();
     useEffect(() => {
-        if (version && item) {
+        if (version && item && item.versions) {
             let origin = item.versions.find(v => v._links.self.href = version._links.self.href);
-            console.log({origin});
             if (origin) {
                 origin.classificationItems = version.classificationItems;
+                origin.classificationItems.map(ci => {
+                    if (ci.notes) {
+                        let code = item.codes.find(code => code.code === ci.code);
+                        if (code) {
+                            code.notes = code.notes || [];
+                            code.notes.push({
+                                note: ci.notes,
+                                versionName: version.name,
+                                validFrom: version.validFrom,
+                                validTo: version.validTo
+                            });
+                            console.log({notes: code.notes});
+                        }
+                    }
+                })
             }
         }
     }, [version]);
@@ -68,8 +85,8 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
         if (info && info.versions && info.versions.length > 0) {
             item.versions = info.versions;
             item.versions.forEach(v => {
-                let id = v._links.self.href.split("/").pop();
-                setVersionPath(`/versions/${id}`);
+                v.id = v._links.self.href.split('/').pop();
+                setVersionPath(`/versions/${v.id}`);
             });
         }
     }, [info]);
@@ -131,7 +148,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
 
         {/* TODO limit the height and scroll*/}
         {expander.showCodes && <Codes from={from} to={to} id={item.id}
-                                      codes={item.codes} hasCodes={check.hasCodes}
+                                      codes={item.codes}
                                       include={(o) => {
                                           item.included = o ? true : item.included;
                                           update();
@@ -143,7 +160,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     </>);
 };
 
-export const Codes = ({from, to, codes=[], id, include, hasCodes}) => {
+export const Codes = ({from, to, codes=[], id, include}) => {
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
@@ -154,7 +171,7 @@ export const Codes = ({from, to, codes=[], id, include, hasCodes}) => {
                         : from || to ? `at ${from || to}:`
                         : '(no period set)'
                 }</div>
-                {!hasCodes()
+                {!codes || codes.length < 1
                     ? <Text>No codes found for this validity period</Text>
                     : <>
                         <div style={{padding: '5px'}}>
@@ -176,10 +193,12 @@ export const Codes = ({from, to, codes=[], id, include, hasCodes}) => {
                         </div>
 
                         {codes.map((code, i) =>
-                            <CodeInfo key={i} id={id} code={code} onChange={() => {
-                                code.included = !code.included;
-                                include(code.included);
-                            }} />)
+                            <CodeInfo key={i} id={id} item={code}
+                                      onChange={() => {
+                                           code.included = !code.included;
+                                           include(code.included);
+                                      }}
+                            />)
                         }
                     </>
                 }
@@ -188,20 +207,50 @@ export const Codes = ({from, to, codes=[], id, include, hasCodes}) => {
     );
 };
 
-export const CodeInfo = ({id, code, onChange}) => {
+export const CodeInfo = ({id, item, onChange}) => {
+
+    const [showNotes, setShowNotes] = useState(false);
 
     return (
-        <div className="ssb-checkbox">
-            <input id={`${code.code}-${id}`}
-                   type='checkbox' name='include'
-                   checked={code.included}
-                   value={code.code}
-                   onChange={onChange}/>
-            <label className='checkbox-label'
-                   htmlFor={`${code.code}-${id}`}>
-                <Text><strong>{code.code}</strong> {code.name}</Text>
-            </label>
-        </div>
+        <>
+            <div className="ssb-checkbox">
+                <input id={`${item.code}-${id}`}
+                       type='checkbox' name='include'
+                       checked={item.included}
+                       value={item.code}
+                       onChange={onChange}/>
+                <label className='checkbox-label'
+                       htmlFor={`${item.code}-${id}`}>
+                    <Text><strong>{item.code}</strong> {item.name}</Text>
+                </label>
+            </div>
+            <button onClick={() => {
+                setShowNotes(!showNotes);
+            }}>Notes
+            </button>
+            {showNotes && <div>
+                {item.notes
+                    ? (<table style={{border: 'none'}}>
+                        <thead>
+                            <th>Note</th>
+                            <th>Version</th>
+                            <th>From</th>
+                            <th>To</th>
+                        </thead>
+                        {item.notes.map(note => (
+                                <tr>
+                                    <td style={{width: '65%'}}>{note.note}</td>
+                                    <td>{note.versionName}</td>
+                                    <td>{note.validFrom || '...'}</td>
+                                    <td>{note.validTo || '...'}</td>
+                                </tr>
+                            ))}
+
+                        </table>)
+                    : <p>Notes are not found.</p>}
+                </div>
+            }
+        </>
     );
 };
 
