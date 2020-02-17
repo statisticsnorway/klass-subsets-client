@@ -47,11 +47,9 @@ export const Code = ({code}) => {
             {code.parentCode && <p><strong>Parent code:</strong> {code.parentCode}</p>}
             <p><strong>Notes: </strong>
                 {!code.notes
-                ? <Text>Notes are not found.</Text>
+                ? <Text>-</Text>
                 : code.notes.map(note => (
-                <div style={{
-                    padding: '10px 50px 20px 50px'
-                }}>
+                <div style={{padding: '5px 25px 10px 25px'}}>
                     <Paragraph style={{width: '65%'}}>{note.note}</Paragraph>
                     <Text small><strong>«{note.versionName}»</strong> (valid: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                 </div>))}
