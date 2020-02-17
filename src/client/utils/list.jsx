@@ -54,7 +54,7 @@ function rerank(list) {
 }
 
 export function reorder(list) {
-    list && list.length > 0 && list.sort((a,b) => (a.rank - b.rank));
+    list && list.length > 0 && list.sort((a,b) => (a.rank - b.rank -1));
     rerank(list);
 }
 
@@ -62,8 +62,8 @@ export const useList = (list = []) => {
 
     // in case there be mix of ranked an unranked elements,
     // unranked will appear on top
-    list && list.forEach((item) =>
-        item && (item.rank = item.rank || 0)
+    list && list.forEach((item, i) =>
+        item && (item.rank = item.rank || i)
     );
     reorder(list);
 
