@@ -59,9 +59,9 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
             let origin = item.versions.find(v => v._links.self.href = version._links.self.href);
             if (origin) {
                 origin.classificationItems = version.classificationItems;
-                origin.classificationItems.map(ci => {
+                origin.classificationItems.forEach(ci => {
                     if (ci.notes) {
-                        let code = item.codes.find(code => code.code === ci.code);
+                        let code = item.codes.find(c => c.code === ci.code);
                         if (code) {
                             code.notes = code.notes || [];
                             code.notes.push({
@@ -70,7 +70,6 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                                 validFrom: version.validFrom,
                                 validTo: version.validTo
                             });
-                            console.log({notes: code.notes});
                         }
                     }
                 })
@@ -232,25 +231,16 @@ export const CodeInfo = ({id, item, onChange}) => {
             </div>
 
             {showNotes && <div>
-                {item.notes
-                    ? (<table style={{border: 'none'}}>
-                        <thead>
-                            <th>Note</th>
-                            <th>Version</th>
-                            <th>From</th>
-                            <th>To</th>
-                        </thead>
-                        {item.notes.map(note => (
-                                <tr>
-                                    <td style={{width: '65%'}}>{note.note}</td>
-                                    <td>{note.versionName}</td>
-                                    <td>{note.validFrom || '...'}</td>
-                                    <td>{note.validTo || '...'}</td>
-                                </tr>
-                            ))}
-
-                        </table>)
-                    : <p>Notes are not found.</p>}
+                {!item.notes
+                    ? <Text>Notes are not found.</Text>
+                    : item.notes.map(note => (
+                        <div style={{
+                            padding: '10px 50px 20px 50px'
+                        }}>
+                            <Title size={4}>Notes</Title>
+                            <Paragraph style={{width: '65%'}}>{note.note}</Paragraph>
+                            <Text small><strong>«{note.versionName}»</strong> (valid: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                        </div>))}
                 </div>
             }
         </>
