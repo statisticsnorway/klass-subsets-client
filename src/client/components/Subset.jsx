@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Title, Text } from '@statisticsnorway/ssb-component-library';
+import {Accordion, Title, Text, Paragraph} from '@statisticsnorway/ssb-component-library';
 
 export const Subset = ({subset}) => {
     // set classification name to each code
@@ -44,8 +44,18 @@ export const Code = ({code}) => {
             <p><strong>Short name:</strong> {code.shortName || '-'}</p>
             <p><strong>Classification:</strong> {code.classification || '-'}</p>
             <p><strong>Level:</strong> {code.level}</p>
-            {code.parentCode && <p><strong>Parent code:</strong>code.parentCode</p>}
-            <p><strong>Note:</strong> {code.note || '-'}</p>
+            {code.parentCode && <p><strong>Parent code:</strong> {code.parentCode}</p>}
+            <p><strong>Notes: </strong>
+                {!code.notes
+                ? <Text>Notes are not found.</Text>
+                : code.notes.map(note => (
+                <div style={{
+                    padding: '10px 50px 20px 50px'
+                }}>
+                    <Paragraph style={{width: '65%'}}>{note.note}</Paragraph>
+                    <Text small><strong>«{note.versionName}»</strong> (valid: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                </div>))}
+            </p>
         </Accordion>
     );
 };
