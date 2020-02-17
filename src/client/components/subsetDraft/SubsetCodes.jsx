@@ -64,7 +64,6 @@ export const SubsetCodes = ({subset}) => {
                             <Classification item={classification}
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
-                                            remove={() => setSearchResult(searchResult.filter(i => i !== classification))}
                         /></li>)}
                 </ul>
             }

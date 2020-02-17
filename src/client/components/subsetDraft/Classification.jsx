@@ -129,10 +129,14 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                 <Info color={info ? '#62919A': '#C3DCDC'}/>
             </button>
 
-            <button onClick={() => {setExpander(toggle.closeAll());
-                remove();}}>
-                <Trash2 color='#ED5935'/>
-            </button>
+            {remove &&
+                <button onClick={() => {
+                    setExpander(toggle.closeAll());
+                    remove();
+                }}>
+                    <Trash2 color='#ED5935'/>
+                </button>
+            }
         </div>
 
         {expander.showAlert &&
