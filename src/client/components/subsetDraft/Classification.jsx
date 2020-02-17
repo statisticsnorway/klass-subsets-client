@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare, Trash2, XSquare} from 'react-feather';
+import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare, Trash2, XSquare, MoreHorizontal} from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/form.css';
@@ -213,6 +213,7 @@ export const CodeInfo = ({id, item, onChange}) => {
 
     return (
         <>
+            <div style={{display: 'flex'}}>
             <div className="ssb-checkbox">
                 <input id={`${item.code}-${id}`}
                        type='checkbox' name='include'
@@ -226,8 +227,10 @@ export const CodeInfo = ({id, item, onChange}) => {
             </div>
             <button onClick={() => {
                 setShowNotes(!showNotes);
-            }}>Notes
+            }}><MoreHorizontal color={item.notes ? '#62919A': '#C3DCDC' }/>
             </button>
+            </div>
+
             {showNotes && <div>
                 {item.notes
                     ? (<table style={{border: 'none'}}>
