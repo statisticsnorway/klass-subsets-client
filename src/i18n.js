@@ -6,13 +6,19 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
     en: {
         translation: {
-            'Welcome to React': 'Welcome to React and react-i18next',
+            'Feedback': 'Feedback',
             'Search subsets': 'Search published subsets'
         }
     },
     no: {
         translation: {
-            'Welcome to React': 'Welkommen til React og react-i18next',
+            'Feedback': 'Tilbakemeldinger',
+            'Search subsets': 'Søke uttrekk'
+        }
+    },
+    nn: {
+        translation: {
+            'Feedback': 'Tilbakemeldingar',
             'Search subsets': 'Søke uttrekk'
         }
     }
@@ -22,7 +28,7 @@ i18n
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({
         resources,
-        lng: "en",
+        lng: 'no',
 
         keySeparator: false, // we do not use keys in form messages.welcome
 

@@ -9,8 +9,7 @@ export default function WelcomePage() {
 
     return (
         <div className='page'>
-            <Title size={2}>Feedback</Title>
-            <h1>{t('Welcome to React')}</h1>
+            <Title size={2}>{t('Feedback')}</Title>
 
             <Text><p>The application is under development.</p>
             <p>You can report an issue or suggest an improvement here <a

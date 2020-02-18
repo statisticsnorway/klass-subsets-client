@@ -17,8 +17,13 @@ export default function Header() {
             <div className='global-links' style={{float: 'right', paddingTop: '30px'}}>
                 <button onClick={() => i18n.changeLanguage('no')}
                         style={{background: 'none', border: 'none'}}>
-                        <span className="ssb-link link-text">
+                        <span className='ssb-link'>
                             Bokmål</span>
+                </button>
+                <button onClick={() => i18n.changeLanguage('nn')}
+                        style={{background: 'none', border: 'none'}}>
+                        <span className="ssb-link">
+                            Nynorsk</span>
                 </button>
                 <button onClick={() => i18n.changeLanguage('en')}
                         style={{background: 'none', border: 'none'}}>
@@ -26,7 +31,6 @@ export default function Header() {
                             English</span>
                 </button>
                 {/* TODO: implement in version 2
-                            <Link href=' '>Nynorsk</Link>
                             <Link href=' '>Login</Link> */}
             </div>
 
