@@ -1,26 +1,20 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import english from './en.json';
+import bokmaal from './no.json';
+import nynorsk from './nn.json';
 
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
     en: {
-        translation: {
-            'Feedback': 'Feedback',
-            'Search subsets': 'Search published subsets'
-        }
+        translation: english
     },
     no: {
-        translation: {
-            'Feedback': 'Tilbakemeldinger',
-            'Search subsets': 'Søke uttrekk'
-        }
+        translation: bokmaal
     },
     nn: {
-        translation: {
-            'Feedback': 'Tilbakemeldingar',
-            'Search subsets': 'Søke uttrekk'
-        }
+        translation: nynorsk
     }
 };
 
@@ -29,6 +23,7 @@ i18n
     .init({
         resources,
         lng: 'no',
+        fallbackLng: 'en',
 
         keySeparator: false, // we do not use keys in form messages.welcome
 

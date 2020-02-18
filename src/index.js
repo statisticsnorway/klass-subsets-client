@@ -4,7 +4,7 @@ import './css/index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import '@statisticsnorway/ssb-component-library/src/main.scss';
-import './i18n';
+import './internationalization/i18n';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
