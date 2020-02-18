@@ -1,18 +1,31 @@
 import logo from '../images/SsbLogo.svg';
 import React from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import {Header as SsbHeader, Link as SsbLink, Divider, Tabs, Title, Text} from '@statisticsnorway/ssb-component-library';
+import {Header as SsbHeader, Divider, Tabs, Title, Text} from '@statisticsnorway/ssb-component-library';
+import {useTranslation} from 'react-i18next';
+
 
 export default function Header() {
     let history = useHistory();
     let location = useLocation();
 
+    const { t, i18n } = useTranslation();
+
+
     return (
         <SsbHeader>
             <div className='global-links' style={{float: 'right', paddingTop: '30px'}}>
-                <SsbLink href=' '>English</SsbLink>
+                <button onClick={() => i18n.changeLanguage('no')}
+                        style={{background: 'none', border: 'none'}}>
+                        <span className="ssb-link link-text">
+                            Bokmål</span>
+                </button>
+                <button onClick={() => i18n.changeLanguage('en')}
+                        style={{background: 'none', border: 'none'}}>
+                        <span className="ssb-link">
+                            English</span>
+                </button>
                 {/* TODO: implement in version 2
-                            <Link href=' '>Bokmål</Link>
                             <Link href=' '>Nynorsk</Link>
                             <Link href=' '>Login</Link> */}
             </div>

@@ -6,12 +6,14 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
     en: {
         translation: {
-            'Welcome to React': 'Welcome to React and react-i18next'
+            'Welcome to React': 'Welcome to React and react-i18next',
+            'Search subsets': 'Search published subsets'
         }
     },
     no: {
         translation: {
-            'Welcome to React': 'Welkommen til React og react-i18next'
+            'Welcome to React': 'Welkommen til React og react-i18next',
+            'Search subsets': 'Søke uttrekk'
         }
     }
 };
