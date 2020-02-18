@@ -42,10 +42,6 @@ export default function Header() {
                     </Title>
                 </Link>
 
-                {/* TODO: implement in version 2
-                           <div className='searchfield' style={{ width: '285px', alignSelf: 'flex-end' }}>
-                                <Input ariaLabel='Input field Search' searchField placeholder='Search text' />
-                            </div>*/}
             </div>
 
             <div className='header-content' style={{marginBottom: '20px'}}>
