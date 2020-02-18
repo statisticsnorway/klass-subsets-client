@@ -1,11 +1,19 @@
 import React from 'react';
 import '../../css/pages.css';
-import {Title, Text} from "@statisticsnorway/ssb-component-library";
+import {Title, Text} from '@statisticsnorway/ssb-component-library';
+import {useTranslation} from 'react-i18next';
 
 export default function WelcomePage() {
+
+    const { t, i18n } = useTranslation();
+
     return (
         <div className='page'>
             <Title size={2}>Feedback</Title>
+            <h1>{t('Welcome to React')}</h1>
+            <button onClick={() => i18n.changeLanguage('no')}>NO</button>
+            <button onClick={() => i18n.changeLanguage('en')}>EN</button>
+
             <Text><p>The application is under development.</p>
             <p>You can report an issue or suggest an improvement here <a
                 className='App-link'

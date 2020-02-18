@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare, Trash2, XSquare, MoreHorizontal} from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
-import '../../css/form.css';
+import '../../css/panel.css';
 
 /*
  * TODO: Use links delivered by API, do not parse - less coupling
