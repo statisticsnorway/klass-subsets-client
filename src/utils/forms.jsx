@@ -50,7 +50,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                             ? '#1A9D49' : '#C3DCDC'}/>
                     </button>
 
-                    <button disabled={!(index > 0)}
+                    <button disabled={index === 0}
                             style={{background: 'none', border: 'none'}}
                             onClick={() => remove(index)}>
                         <Trash2 color={index > 0 ? '#ED5935' : '#C3DCDC'}/>

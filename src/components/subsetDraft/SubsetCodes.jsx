@@ -3,6 +3,7 @@ import {Search} from '../../utils/Search';
 import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
+import {useTranslation} from "react-i18next";
 
 
 /*
@@ -14,6 +15,7 @@ import {Classification} from './Classification';
 
 export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
+    const { t } = useTranslation();
 
     const from = subset.draft.valid.from && subset.draft.valid.from.toISOString().substr(0, 10);
     const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
@@ -41,7 +43,7 @@ export const SubsetCodes = ({subset}) => {
     return (<>
             <Title size={3}>Choose classifications and code lists</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
-                All search results will be restricted by validity period set in metadata{
+                {t('All search results will be restricted by validity period set in metadata')}{
                 from && to
                     ? `: from ${from} to ${to}.`
                     : from || to ? `: at ${from || to}.`

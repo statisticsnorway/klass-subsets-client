@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import { Button } from '@statisticsnorway/ssb-component-library';
+import {Button} from '@statisticsnorway/ssb-component-library';
 import '../css/tooltip.css';
+import {useTranslation} from "react-i18next";
 
 // TODO: add api to navigate to particular steps from inside og the form.
 // For instance from the last (preview) page.
@@ -19,7 +20,7 @@ export const Step = ({children}) => {
     return <>{children}</>;
 };
 
-export const ProgressBar = ({steps, handleClick, aktiveStep}) => {
+export const ProgressBar = ({steps, handleClick, activeStep}) => {
     return (
         <div style={{textAlign: 'center', width: '60%'}}>
             {steps.map((step, index) => (
@@ -28,7 +29,7 @@ export const ProgressBar = ({steps, handleClick, aktiveStep}) => {
                         onClick={ () => handleClick(index) }
                         style={{
                             borderRadius: '50%',
-                            background: aktiveStep === index ? '#B6E8B8' : '#C3DCDC',
+                            background: activeStep === index ? '#B6E8B8' : '#C3DCDC',
                             border: 'none',
                             color: 'transparent',
                             textAlign: 'center',
@@ -46,6 +47,7 @@ export const ProgressBar = ({steps, handleClick, aktiveStep}) => {
 };
 
 export const PrevNext = ({min, max, handleClick}) => {
+    const { t } = useTranslation();
 
     const next = () => {
         handleClick((state) => (state+1));
@@ -59,8 +61,8 @@ export const PrevNext = ({min, max, handleClick}) => {
     // It should be possible to click forward and backward without scrolling
     return (
         <>
-            <Button primary disabled={min} onClick={ prev }>Previous</Button>
-            <Button primary disabled={max} onClick={ next }>Next</Button>
+            <Button primary disabled={min} onClick={ prev }>{t('Previous')}</Button>
+            <Button primary disabled={max} onClick={ next }>{t('Next')}</Button>
         </>
     );
 };

@@ -7,17 +7,19 @@ import {SubsetCodes} from './SubsetCodes';
 import {SubsetMetadata} from './SubsetMetadata';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
 import {Subset} from '../Subset';
+import {useTranslation} from "react-i18next";
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
+    const { t } = useTranslation();
 
     return (
         <div className='page'>
             <Navigation>
-                <Step label={'Metadata'}><SubsetMetadata subset={subset} /></Step>
-                <Step label={'Choose codes'}><SubsetCodes subset={subset} /></Step>
-                <Step label={'Reorder codes'}><SubsetReorder subset={subset} /></Step>
-                <Step label={'Review and publish'}><SubsetPreview subset={subset} /></Step>
+                <Step label={t('Metadata')}><SubsetMetadata subset={subset} /></Step>
+                <Step label={t('Choose codes')}><SubsetCodes subset={subset} /></Step>
+                <Step label={t('Reorder codes')}><SubsetReorder subset={subset} /></Step>
+                <Step label={t('Review and publish')}><SubsetPreview subset={subset} /></Step>
             </Navigation>
         </div>
     );
@@ -25,12 +27,13 @@ export default function SubsetForm() {
 
 // TODO: better preview (human pleasant)
 export const SubsetPreview = ({subset}) => {
+    const { t } = useTranslation();
 
     useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
 
     return (
         <>
-            <Title size={3}>Review and publish</Title>
+            <Title size={3}>{t('Review and publish')}</Title>
             <Subset subset={subset.draft}/>
             <Button onClick={() =>
                 console.log('Publish subset: ', subset.draft)}>Publish</Button>

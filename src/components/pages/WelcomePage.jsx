@@ -1,11 +1,11 @@
 import React from 'react';
 import '../../css/pages.css';
-import {Title, Text} from '@statisticsnorway/ssb-component-library';
+import {Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 
 export default function WelcomePage() {
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <div className='page'>

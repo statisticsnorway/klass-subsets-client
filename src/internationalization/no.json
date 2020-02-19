@@ -6,5 +6,26 @@
   "Search results": "Søkeresultater",
 
   "Create subset": "Lage uttrekk",
+  "Previous": "Forrige",
+  "Next": "Neste",
+
+  "Metadata": "Metadata",
+  "Names": "Navn",
+  "Valid from": "Gyldig fra og meg",
+  "Valid to": "Gyldig til og med",
+  "Owner": "Seksjon",
+  "Select a responsible department...": "Velg ansvarlig SSB-seksjon...",
+  "Subject": "Tema",
+  "Select a classification family...": "Velg tema...",
+  "Description": "Beskrivelse",
+
+  "Choose codes": "Velge koder",
+  "Choose classifications and code lists": "Velg klassifikasjoner og kodelister",
+  "All search results will be restricted by validity period set in metadata": "Alle søkeresultater er begrenset med gyldighetsperiode satt i metadata",
+
+  "Reorder codes": "Koderekkefølge",
+
+  "Review and publish": "Sjekke og publisere",
+
   "Feedback": "Tilbakemeldinger"
 }

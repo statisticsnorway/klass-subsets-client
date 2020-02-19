@@ -5,6 +5,7 @@ import {AppContext} from '../../controllers/context';
 import {languages, subsetDraft} from '../../controllers/defaults';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
+import {useTranslation} from "react-i18next";
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -20,11 +21,12 @@ export const SubsetMetadata = ({subset}) => {
     subset.draft.names && subset.draft.names.length < 1 && subset.dispatch({action: 'name_add'});
     subset.draft.descriptions && subset.draft.descriptions.length < 1 && subset.dispatch({action: 'description_add'});
     const {ssbsections, classificationfamilies} = useContext(AppContext);
+    const { t } = useTranslation();
 
     return (
         <>
-            <Title size={3}>Metadata</Title>
-            <TextLanguageFieldset title='Names' items={subset.draft.names}
+            <Title size={3}>{t('Metadata')}</Title>
+            <TextLanguageFieldset title={t('Names')} items={subset.draft.names}
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
@@ -35,7 +37,7 @@ export const SubsetMetadata = ({subset}) => {
             <section style={{margin: '5px 0 5px 0'}}>
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor="from_date">Valid from: </label>
+                           htmlFor="from_date">{t('Valid from')}: </label>
                     <DatePicker id='from_date' style={{display: 'block'}}
                                 value={subset.draft.valid.from}
                                 onChange={(date) => subset.dispatch({action: 'from', data: date})}
@@ -47,7 +49,7 @@ export const SubsetMetadata = ({subset}) => {
 
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor="to_date">Valid to: </label>
+                           htmlFor="to_date">{t('Valid to')}: </label>
                     <DatePicker id='to_date' style={{display: 'block'}}
                                 value={subset.draft.valid.to}
                                 onChange={(date) => subset.dispatch({action: 'to', data: date})}
@@ -60,25 +62,26 @@ export const SubsetMetadata = ({subset}) => {
             </section>
 
             {/* TODO: set automatically when logged inn */}
-            <Dropdown label='Owner'
+            <Dropdown label={t('Owner')}
                       options={ssbsections ? ssbsections._embedded.ssbSections : []}
-                      placeholder='Select a responsible department...'
+                      placeholder={t('Select a responsible department...')}
                       selected={subset.draft.ownerId}
                       onSelect={(item) => subset.dispatch({
                           action: 'ownerId',
                           data: item })}
             />
 
-            <Dropdown label='Subject'
+            <Dropdown label={t('Subject')}
                       options={classificationfamilies ? classificationfamilies._embedded.classificationFamilies : []}
-                      placeholder='Select a classification family...'
+                      placeholder={t('Select a classification family...')}
                       selected={subset.draft.subject}
                       onSelect={(item) => subset.dispatch({
                           action: 'subject',
                           data: item })}
             />
 
-            <TextLanguageFieldset title='Description' items={subset.draft.descriptions}
+            {/* FIXME: limit text size*/}
+            <TextLanguageFieldset title={t('Description')} items={subset.draft.descriptions}
                                   add={() => subset.dispatch({action: 'description_add'})}
                                   remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}

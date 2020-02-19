@@ -6,5 +6,26 @@
   "Search results": "Search results",
 
   "Create subset": "Create subset",
+  "Previous": "Previous",
+  "Next": "Next",
+
+  "Metadata": "Metadata",
+  "Names": "Names",
+  "Valid from": "Valid from",
+  "Valid to": "Valid to",
+  "Owner": "Owner",
+  "Select a responsible department...": "Select a responsible department...",
+  "Subject": "Subject",
+  "Select a classification family...": "Select a classification family...",
+  "Description": "Description",
+
+  "Choose codes": "Choose codes",
+  "Choose classifications and code lists": "Choose classifications and code lists",
+  "All search results will be restricted by validity period set in metadata": "All search results will be restricted by validity period set in metadata",
+
+  "Reorder codes": "Reorder codes",
+
+  "Review and publish": "Review and publish",
+
   "Feedback": "Feedback"
 }
