@@ -45,14 +45,14 @@ export const SubsetCodes = ({subset}) => {
             <p style={{color:'grey', fontSize:'11px'}}>
                 {t('All search results will be restricted by validity period set in metadata')}{
                 from && to
-                    ? `: from ${from} to ${to}.`
-                    : from || to ? `: at ${from || to}.`
-                    : '. Period is not set.'
+                    ? `: ${t('from to', { from: from, to: to })}.`
+                    : from || to ? `: ${t('at', { date: from || to})}.`
+                    : `. ${t('Period is not set')}.`
             }
             </p>
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
-                    placeholder='Type classification name'
+                    placeholder={t('Type classification name')}
                     searchBy = {(input, resource) =>
                         input === '' ? [] : resource
                             .filter(i => i.name.toLowerCase()
@@ -60,7 +60,7 @@ export const SubsetCodes = ({subset}) => {
             />
 
             { searchResult.length < 1
-                ? <p>Nothing is found</p>
+                ? <p>{t('Nothing is found')}</p>
                 : <ul className='list'>{searchResult.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
@@ -70,10 +70,10 @@ export const SubsetCodes = ({subset}) => {
                 </ul>
             }
 
-            <Title size={3}>Choose codes from classifications</Title>
+            <Title size={3}>{t('Choose codes from classifications')}</Title>
 
             { !subset.draft.classifications || subset.draft.classifications.length < 1
-                ? <p>No classifications in the subset draft</p>
+                ? <p>{t('No classifications in the subset draft')}</p>
                 : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
