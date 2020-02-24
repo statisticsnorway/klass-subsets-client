@@ -12,6 +12,8 @@ export const Subset = ({subset}) => {
     // FIXME: show title to selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
 
+    const from = subset.valid.from && subset.valid.from.toISOString().substr(0, 10);
+    const to = subset.valid.to && subset.valid.to.toISOString().substr(0, 10);
 
     const allCodes = [];
     subset.classifications.map(classification => allCodes.push(...classification.codes));
@@ -24,9 +26,17 @@ export const Subset = ({subset}) => {
                     ? subset.names[0].text
                     : t('Subset has got no title yet')
             }</Title>
-            <Text>{subset.descriptions.length > 0 && subset.descriptions[0].text
-                    ? subset.descriptions[0].text
-                    : t('No description')}</Text>
+            <Paragraph>{t('Validity period')}{
+                from && to
+                ? `: ${t('from to', { from: from, to: to })}.`
+                : from || to ? `: ${t('at', { date: from || to})}.`
+                : `: ${t('Period is not set').toLocaleLowerCase()}.`}
+            </Paragraph>
+            
+            <Paragraph>{subset.descriptions.length > 0 && subset.descriptions[0].text
+                ? subset.descriptions[0].text
+                : t('No description')}
+            </Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
             {allCodes.filter(i => i.included)
