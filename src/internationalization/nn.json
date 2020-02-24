@@ -22,6 +22,29 @@
   "Choose codes": "Velge koder",
   "Choose classifications and code lists": "Velg klassifikasjoner og kodelister",
   "All search results will be restricted by validity period set in metadata": "Alle søkeresultater er begrenset med gyldighetsperiode satt i metadata",
+  "from to": "f.o.m {{from}} t.o.m {{to}}",
+  "at": "på {{date}}",
+  "Period is not set": "Periode er ikke satt",
+  "Type classification name": "Tast inn klassifikasjonsnavn",
+  "Nothing is found": "Ingening funnet",
+  "Choose codes from classifications": "Velge koder i kodelister",
+  "No classifications in the subset draft": "Ingen kodelister i uttrekket",
+
+  "Classifications": "Klassifikasjoner",
+  "Code list cannot be added to the subset due to lack of codes": "Kodeliste uten koder kan ikke bli lagt til i uttrekket",
+  "From": "Fra",
+  "To": "Til",
+  "Version": "Versjon",
+  "Code list info": "Kodelisteopplysninger",
+
+  "Codes": "Koder",
+  "No codes found for this validity period": "Ingen koder er funnet for gyldighetsperioden",
+  "All": "Alle",
+  "None": "Ingen",
+  "Invert": "Inverter",
+
+  "Notes": "Notater",
+  "Valid": "Gyldig",
 
   "Reorder codes": "Koderekkefølge",
 

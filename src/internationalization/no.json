@@ -30,6 +30,22 @@
   "Choose codes from classifications": "Velge koder i kodelister",
   "No classifications in the subset draft": "Ingen kodelister i uttrekket",
 
+  "Classifications": "Klassifikasjoner",
+  "Code list cannot be added to the subset due to lack of codes": "Kodeliste uten koder kan ikke bli lagt til i uttrekket",
+  "From": "Fra",
+  "To": "Til",
+  "Version": "Versjon",
+  "Code list info": "Kodelisteopplysninger",
+
+  "Codes": "Koder",
+  "No codes found for this validity period": "Ingen koder er funnet for gyldighetsperioden",
+  "All": "Alle",
+  "None": "Ingen",
+  "Invert": "Inverter",
+
+  "Notes": "Notater",
+  "Valid": "Gyldig",
+
   "Reorder codes": "Koderekkefølge",
 
   "Review and publish": "Sjekke og publisere",

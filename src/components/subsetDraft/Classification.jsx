@@ -3,11 +3,13 @@ import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare,
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
+import {useTranslation} from 'react-i18next';
 
 /*
  * TODO: Use links delivered by API, do not parse - less coupling
  */
 export const Classification = ({item = {}, update, remove, from, to}) => {
+    const { t } = useTranslation();
 
     item.id = item._links.self.href.split('/').pop();
 
@@ -146,7 +148,8 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
 
         {expander.showCannot &&
             <div style={{backgroundColor: '#ece6fe'}}
-                 className='panel'><Text>Code list cannot be added to the subset due to lack of codes</Text>
+                 className='panel'>
+                <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
 
         {/* TODO limit the height and scroll*/}
@@ -164,34 +167,35 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
 };
 
 export const Codes = ({from, to, codes=[], id, include}) => {
+    const { t } = useTranslation();
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
             <div className="ssb-checkbox-group">
-                <div className="checkbox-group-header">Codes {
-                    from && to
-                        ? `from ${from} to ${to}:`
-                        : from || to ? `at ${from || to}:`
-                        : '(no period set)'
+                <div className="checkbox-group-header">{t('Codes')}
+                    {from && to
+                    ? ` ${t('from to', { from: from, to: to })}:`
+                    : from || to ? ` ${t('at', { date: from || to})}:`
+                    : ` (${t('Period is not set').toLocaleLowerCase()})`
                 }</div>
                 {!codes || codes.length < 1
-                    ? <Text>No codes found for this validity period</Text>
+                    ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
                             <button onClick={() => {
                                 codes.forEach(code => code.included = true);
                                 include(true);
-                            }}>All
+                            }}>{t('All')}
                             </button>
                             <button onClick={() => {
                                 codes.forEach(code => code.included = false);
                                 include(false);
-                            }}>None
+                            }}>{t('None')}
                             </button>
                             <button onClick={() => {
                                 codes.forEach(code => code.included = !code.included);
                                 include(!!codes.find(c => c.included));
-                            }}>Invert
+                            }}>{t('Invert')}
                             </button>
                         </div>
 
@@ -211,6 +215,7 @@ export const Codes = ({from, to, codes=[], id, include}) => {
 };
 
 export const CodeInfo = ({id, item, onChange}) => {
+    const { t } = useTranslation();
 
     const [showNotes, setShowNotes] = useState(false);
 
@@ -241,9 +246,9 @@ export const CodeInfo = ({id, item, onChange}) => {
                         <div style={{
                             padding: '10px 50px 20px 50px'
                         }}>
-                            <Title size={4}>Notes</Title>
+                            <Title size={4}>{t('Notes')}</Title>
                             <Paragraph style={{width: '65%'}}>{note.note}</Paragraph>
-                            <Text small><strong>«{note.versionName}»</strong> (valid: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                            <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))}
                 </div>
             }
@@ -252,17 +257,18 @@ export const CodeInfo = ({id, item, onChange}) => {
 };
 
 export const ClassificationInfo = ({id, info}) => {
+    const { t } = useTranslation();
 
     return (
         <div style={{backgroundColor: '#eff4f5'}}
              className='panel'>
-            <Title size={4}>Code list info</Title>
+            <Title size={4}>{t('Code list info')}</Title>
             <Paragraph><strong>Id:</strong> {id}</Paragraph>
             <table style={{border: 'none'}}>
                 <thead>
-                <th>From</th>
-                <th>To</th>
-                <th>Version</th>
+                <th>{t('From')}</th>
+                <th>{t('To')}</th>
+                <th>{t('Version')}</th>
                 </thead>
                 {info.versions.map(version => (
                     <tr>
@@ -271,7 +277,7 @@ export const ClassificationInfo = ({id, info}) => {
                         <td style={{width: '65%'}}>{version.name}</td>
                     </tr>
                 ))}</table>
-            <Paragraph><strong>Description:</strong> {info.description || '-'}</Paragraph>
+            <Paragraph><strong>{t('Description')}:</strong> {info.description || '-'}</Paragraph>
         </div>
     );
 };

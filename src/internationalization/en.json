@@ -30,6 +30,22 @@
   "Choose codes from classifications": "Choose codes from classifications",
   "No classifications in the subset draft": "No classifications in the subset draft",
 
+  "Classifications": "Classifications",
+  "Code list cannot be added to the subset due to lack of codes": "Code list cannot be added to the subset due to lack of codes",
+  "From": "From",
+  "To": "To",
+  "Version": "Version",
+  "Code list info": "Code list info",
+
+  "Codes": "Codes",
+  "No codes found for this validity period": "No codes found for this validity period",
+  "All": "All",
+  "None": "None",
+  "Invert": "Invert",
+
+  "Notes": "Notes",
+  "Valid": "Valid",
+
   "Reorder codes": "Reorder codes",
 
   "Review and publish": "Review and publish",
