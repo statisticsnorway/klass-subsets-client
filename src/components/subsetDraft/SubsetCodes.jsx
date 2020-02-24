@@ -36,7 +36,7 @@ export const SubsetCodes = ({subset}) => {
             data: searchResult.filter(r => r.included)});
         subset.dispatch({
             action: 'classifications_remove_excluded'
-        })
+        });
     }, [searchResult]);
 
     /* TODO: tooltips for classification icons */
@@ -45,7 +45,7 @@ export const SubsetCodes = ({subset}) => {
             <p style={{color:'grey', fontSize:'11px'}}>
                 {t('All search results will be restricted by validity period set in metadata')}{
                 from && to
-                    ? `: ${t('from to', { from: from, to: to })}.`
+                    ? `: ${t('from to', { from, to })}.`
                     : from || to ? `: ${t('at', { date: from || to})}.`
                     : `. ${t('Period is not set')}.`
             }

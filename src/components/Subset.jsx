@@ -28,11 +28,11 @@ export const Subset = ({subset}) => {
             }</Title>
             <Paragraph>{t('Validity period')}{
                 from && to
-                ? `: ${t('from to', { from: from, to: to })}.`
+                ? `: ${t('from to', { from, to })}.`
                 : from || to ? `: ${t('at', { date: from || to})}.`
                 : `: ${t('Period is not set').toLocaleLowerCase()}.`}
             </Paragraph>
-            
+
             <Paragraph>{subset.descriptions.length > 0 && subset.descriptions[0].text
                 ? subset.descriptions[0].text
                 : t('No description')}

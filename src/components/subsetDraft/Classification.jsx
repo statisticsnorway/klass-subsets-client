@@ -74,7 +74,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                             });
                         }
                     }
-                })
+                });
             }
         }
     }, [version]);
@@ -99,7 +99,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
         : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
     const [codes] = useGet(item.codes ? null : url);
     useEffect(() => {
-        if (codes) item.codes = codes.codes;
+        if (codes) {item.codes = codes.codes;}
     }, [codes]);
 
     return (
@@ -174,7 +174,7 @@ export const Codes = ({from, to, codes=[], id, include}) => {
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">{t('Codes')}
                     {from && to
-                    ? ` ${t('from to', { from: from, to: to })}:`
+                    ? ` ${t('from to', { from, to })}:`
                     : from || to ? ` ${t('at', { date: from || to})}:`
                     : ` (${t('Period is not set').toLocaleLowerCase()})`
                 }</div>
