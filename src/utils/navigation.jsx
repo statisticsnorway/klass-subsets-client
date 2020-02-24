@@ -9,7 +9,7 @@ export function Navigation({children}) {
     const [step, setStep] = useState(0);
 
     return (<>
-            <ProgressBar steps={children} handleClick={setStep} aktiveStep={step} />
+            <ProgressBar steps={children} handleClick={setStep} activeStep={step} />
             <div>{children[step]}</div>
             <PrevNext min={step===0} max={step===children.length-1} handleClick={setStep} />
         </>
@@ -29,7 +29,7 @@ export const ProgressBar = ({steps, handleClick, activeStep}) => {
                         onClick={ () => handleClick(index) }
                         style={{
                             borderRadius: '50%',
-                            background: activeStep === index ? '#B6E8B8' : '#C3DCDC',
+                            background: activeStep === index ? '#62919A' : '#C3DCDC',
                             border: 'none',
                             color: 'transparent',
                             textAlign: 'center',
