@@ -46,7 +46,7 @@
   "Code": "Kode",
   "Short name": "Kort navn",
   "Level": "Nivå",
-  "Parent code": "Parent code",
+  "Parent code": "Kode på høyere nivå",
 
   "Notes": "Notater",
   "Valid": "Gyldig",
