@@ -24,7 +24,7 @@ export function useGet(url = null) {
                     timestamp: Date.now(),
                     status: e.status,
                     error: 'Fetch error',
-                    message: 'Error during fetching the subset',
+                    message: `Error during fetching: ${e.message}`,
                     path
                 });
                 setIsLoading(false);
@@ -34,7 +34,8 @@ export function useGet(url = null) {
         if (path) {
             setError(null);
             setIsLoading(true);
-            setTimeout(fetchData, 1000);
+            //setTimeout(fetchData, 1000);
+            fetchData();
         }
 
     }, [path]);

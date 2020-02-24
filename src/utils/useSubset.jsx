@@ -1,7 +1,14 @@
-import { useReducer } from 'react';
-import { nextDefaultName } from './languages';
+import {useReducer} from 'react';
+import {nextDefaultName} from './languages';
 
-export const useSubset = (init) => {
+export const useSubset = (init =  {
+    ownerId: '',
+    names: [],
+    valid: { from: null, to: null },
+    subject: '',
+    descriptions: [],
+    classifications: []}
+    ) => {
 
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
@@ -47,10 +54,12 @@ export const useSubset = (init) => {
                 return  {...state, classifications: data};
             }
             case 'classifications_prepend_included': {
-                // FIXME: two levels only, should be recursive in depth
                  const included = data.filter(item => !state.classifications.includes(item) && (item.included
                     || item.codes.find(code => code.included)));
                 return  {...state, classifications: [...included, ...state.classifications]};
+            }
+            case 'classifications_remove_excluded': {
+                return  {...state, classifications: state.classifications.filter(c => c.included)};
             }
             case 'remove_empty': {
                 return {...state,

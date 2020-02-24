@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './client/css/index.css';
-import App from './client/components/App';
-import * as serviceWorker from './client/serviceWorker';
+import './css/index.css';
+import App from './components/App';
+import * as serviceWorker from './serviceWorker';
 import '@statisticsnorway/ssb-component-library/src/main.scss';
+import './internationalization/i18n';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

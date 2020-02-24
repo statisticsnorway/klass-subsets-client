@@ -1,0 +1,65 @@
+{
+  "Klass uttrekk": "Classification Subsets",
+
+  "Search subsets": "Search subsets",
+  "Subset title": "Subset title",
+  "Search results": "Search results",
+
+  "Create subset": "Create subset",
+  "Previous": "Previous",
+  "Next": "Next",
+
+  "Metadata": "Metadata",
+  "Names": "Names",
+  "Valid from": "Valid from",
+  "Valid to": "Valid to",
+  "Owner": "Owner",
+  "Select a responsible department...": "Select a responsible department...",
+  "Subject": "Subject",
+  "Select a classification family...": "Select a classification family...",
+  "Description": "Description",
+
+  "Choose codes": "Choose codes",
+  "Choose classifications and code lists": "Choose classifications and code lists",
+  "All search results will be restricted by validity period set in metadata": "All search results will be restricted by validity period set in metadata",
+  "from to": "from {{from}} to {{to}}",
+  "at": "at {{date}}",
+  "Period is not set": "Period is not set",
+  "Type classification name": "Type classification name",
+  "Nothing is found": "Nothing is found",
+  "Choose codes from classifications": "Choose codes from classifications",
+  "No classifications in the subset draft": "No classifications in the subset draft",
+
+  "Classification": "Classification",
+  "Code list cannot be added to the subset due to lack of codes": "Code list cannot be added to the subset due to lack of codes",
+  "From": "From",
+  "To": "To",
+  "Version": "Version",
+  "Code list info": "Code list info",
+
+  "Codes": "Codes",
+  "No codes found for this validity period": "No codes found for this validity period",
+  "All": "All",
+  "None": "None",
+  "Invert": "Invert",
+
+  "Code": "Code",
+  "Short name": "Short name",
+  "Level": "Level",
+  "Parent code": "Parent code",
+
+  "Notes": "Notes",
+  "Valid": "Valid",
+
+  "Reorder codes": "Reorder codes",
+  "No items to sort": "No items to sort",
+
+  "Review and publish": "Review and publish",
+  "Publish": "Publish",
+  "Subset has got no title yet": "Subset has got no title yet",
+  "Validity period": "Validity period",
+  "No description": "No description",
+  "Raw JSON": "Raw JSON",
+
+  "Feedback": "Feedback"
+}

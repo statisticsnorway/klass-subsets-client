@@ -1,0 +1,65 @@
+{
+  "Klass uttrekk": "Klass uttrekk",
+
+  "Search subsets": "Søke uttrekk",
+  "Subset title": "Uttrekksnavn",
+  "Search results": "Søkeresultater",
+
+  "Create subset": "Lage uttrekk",
+  "Previous": "Forrige",
+  "Next": "Neste",
+
+  "Metadata": "Metadata",
+  "Names": "Navn",
+  "Valid from": "Gyldig fra og meg",
+  "Valid to": "Gyldig til og med",
+  "Owner": "Seksjon",
+  "Select a responsible department...": "Velg ansvarlig SSB-seksjon...",
+  "Subject": "Tema",
+  "Select a classification family...": "Velg tema...",
+  "Description": "Beskrivelse",
+
+  "Choose codes": "Velge koder",
+  "Choose classifications and code lists": "Velg klassifikasjoner og kodelister",
+  "All search results will be restricted by validity period set in metadata": "Alle søkeresultater er begrenset med gyldighetsperiode satt i metadata",
+  "from to": "f.o.m {{from}} t.o.m {{to}}",
+  "at": "på {{date}}",
+  "Period is not set": "Periode er ikke satt",
+  "Type classification name": "Tast inn klassifikasjonsnavn",
+  "Nothing is found": "Ingening funnet",
+  "Choose codes from classifications": "Velge koder i kodelister",
+  "No classifications in the subset draft": "Ingen kodelister i uttrekket",
+
+  "Classification": "Klassifikasjon",
+  "Code list cannot be added to the subset due to lack of codes": "Kodeliste uten koder kan ikke bli lagt til i uttrekket",
+  "From": "Fra",
+  "To": "Til",
+  "Version": "Versjon",
+  "Code list info": "Kodelisteopplysninger",
+
+  "Codes": "Koder",
+  "No codes found for this validity period": "Ingen koder er funnet for gyldighetsperioden",
+  "All": "Alle",
+  "None": "Ingen",
+  "Invert": "Inverter",
+
+  "Code": "Kode",
+  "Short name": "Kort navn",
+  "Level": "Nivå",
+  "Parent code": "Kode på høyere nivå",
+
+  "Notes": "Notater",
+  "Valid": "Gyldig",
+
+  "Reorder codes": "Koderekkefølge",
+  "No items to sort": "Ingen koder",
+
+  "Review and publish": "Sjekke og publisere",
+  "Publish": "Publisere",
+  "Subset has got no title yet": "Ingen navn oppgitt",
+  "Validity period": "Gyldighetsperiode",
+  "No description": "Ingen beskriverlse",
+  "Raw JSON": "Rå JSON",
+
+  "Feedback": "Tilbakemeldingar"
+}

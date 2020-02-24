@@ -1,11 +1,16 @@
 import React from 'react';
 import '../../css/pages.css';
-import {Title, Text} from "@statisticsnorway/ssb-component-library";
+import {Text, Title} from '@statisticsnorway/ssb-component-library';
+import {useTranslation} from 'react-i18next';
 
 export default function WelcomePage() {
+
+    const { t } = useTranslation();
+
     return (
         <div className='page'>
-            <Title size={2}>Feedback</Title>
+            <Title size={2}>{t('Feedback')}</Title>
+
             <Text><p>The application is under development.</p>
             <p>You can report an issue or suggest an improvement here <a
                 className='App-link'

@@ -17,8 +17,9 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
             >{title}</label>
 
             {items.map((item, index) => (
-                <div key={index}>
+                <div key={index} style={{padding: '0 0 15px 0'}}>
                     <textarea cols={size.cols} rows={size.rows}
+                              style={{height: `${size.rows * 44}px`}}
                               id={title}
                               value={item.text || prefix}
                               onChange={(e) => handle(item.text = e.target.value)}
@@ -39,32 +40,36 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
 
                     <LanguageSelect languages={languages}
                                     selected={item.lang}
-                                    onChange={(e) => handle(item.lang = e.target.value)}/>
+                                    onChange={(e) => handle(item.lang = e.target.value)}
+                    />
 
-                    {index === items.length-1 && index < languages.length-1 &&
-                    <button onClick={() => add()}
-                    ><PlusSquare color='#1A9D49'/></button>}
+                    <button disabled={!(index === items.length - 1 && index < languages.length - 1)}
+                            style={{background: 'none', border: 'none'}}
+                            onClick={() => add()}>
+                        <PlusSquare color={(index === items.length - 1 && index < languages.length - 1)
+                            ? '#1A9D49' : '#C3DCDC'}/>
+                    </button>
 
-                    {index > 0 &&
-                    <button onClick={() => {remove(index);}}
-                    ><Trash2 color='#ED5935'/></button>}
-
+                    <button disabled={index === 0}
+                            style={{background: 'none', border: 'none'}}
+                            onClick={() => remove(index)}>
+                        <Trash2 color={index > 0 ? '#ED5935' : '#C3DCDC'}/>
+                    </button>
                 </div>))
             }
             {items.length === 0 &&
-            <button style={{margin: '0 20px 0 20px'}}
-                    onClick={() => add()}
-            >+</button>}
+            <button onClick={() => add()}
+            ><PlusSquare color='#1A9D49'/></button>}
         </div>
     );
 };
 
 export const LanguageSelect = ({languages = availableLanguages(),
-                                   selected = false,
-                                   onChange = (e) => console.log(e.target.value)}) => {
+                                selected = false,
+                                onChange = (e) => console.log(e.target.value)}) => {
 
     return (
-        <select name='language' style={{padding: '3px'}}
+        <select name='language' style={{padding: '2px', margin: '5px', position: 'relative', top: '-6px'}}
                 value={selected || languages.find(lang => lang.default)}
                 onChange={(e) => onChange(e)}>
             {languages.map((lang, i) => (
