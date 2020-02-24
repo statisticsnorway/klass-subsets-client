@@ -30,7 +30,7 @@
   "Choose codes from classifications": "Velge koder i kodelister",
   "No classifications in the subset draft": "Ingen kodelister i uttrekket",
 
-  "Classifications": "Klassifikasjoner",
+  "Classification": "Klassifikasjon",
   "Code list cannot be added to the subset due to lack of codes": "Kodeliste uten koder kan ikke bli lagt til i uttrekket",
   "From": "Fra",
   "To": "Til",
@@ -43,6 +43,11 @@
   "None": "Ingen",
   "Invert": "Inverter",
 
+  "Code": "Kode",
+  "Short name": "Kort navn",
+  "Level": "Nivå",
+  "Parent code": "Parent code",
+
   "Notes": "Notater",
   "Valid": "Gyldig",
 
@@ -50,6 +55,10 @@
   "No items to sort": "Ingen koder",
 
   "Review and publish": "Sjekke og publisere",
+  "Publish": "Publisere",
+  "Subset has got no title yet": "Ingen navn oppgitt",
+  "No description": "Ingen beskriverlse",
+  "Raw JSON": "Rå JSON",
 
   "Feedback": "Tilbakemeldinger"
 }

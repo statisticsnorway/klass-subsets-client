@@ -30,7 +30,7 @@
   "Choose codes from classifications": "Choose codes from classifications",
   "No classifications in the subset draft": "No classifications in the subset draft",
 
-  "Classifications": "Classifications",
+  "Classification": "Classification",
   "Code list cannot be added to the subset due to lack of codes": "Code list cannot be added to the subset due to lack of codes",
   "From": "From",
   "To": "To",
@@ -43,6 +43,11 @@
   "None": "None",
   "Invert": "Invert",
 
+  "Code": "Code",
+  "Short name": "Short name",
+  "Level": "Level",
+  "Parent code": "Parent code",
+
   "Notes": "Notes",
   "Valid": "Valid",
 
@@ -50,6 +55,10 @@
   "No items to sort": "No items to sort",
 
   "Review and publish": "Review and publish",
+  "Publish": "Publish",
+  "Subset has got no title yet": "Subset has got no title yet",
+  "No description": "No description",
+  "Raw JSON": "Raw JSON",
 
   "Feedback": "Feedback"
 }

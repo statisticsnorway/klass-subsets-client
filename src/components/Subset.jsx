@@ -1,7 +1,10 @@
 import React from 'react';
 import {Accordion, Title, Text, Paragraph} from '@statisticsnorway/ssb-component-library';
+import {useTranslation} from 'react-i18next';
 
 export const Subset = ({subset}) => {
+    const { t } = useTranslation();
+
     // set classification name to each code
     subset.classifications.forEach(classification => classification.codes
             .forEach(code => code.classification = classification.name));
@@ -19,19 +22,19 @@ export const Subset = ({subset}) => {
             <Title size={2}>{
                 subset.names.length > 0 && subset.names[0].text
                     ? subset.names[0].text
-                    : 'Subset has got no title yet'
+                    : t('Subset has got no title yet')
             }</Title>
             <Text>{subset.descriptions.length > 0 && subset.descriptions[0].text
                     ? subset.descriptions[0].text
-                    : 'No description'}</Text>
+                    : t('No description')}</Text>
 
-            <Title size={3}>Codes: </Title>
+            <Title size={3}>{t('Codes')}: </Title>
             {allCodes.filter(i => i.included)
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
                     <Code key={i} code={code}/>))}
 
-            <Accordion header='Raw JSON'>
+            <Accordion header={t('Raw JSON')}>
                 <pre>{JSON.stringify(subset, null, 4)}</pre>
             </Accordion>
         </>
@@ -39,19 +42,21 @@ export const Subset = ({subset}) => {
 };
 
 export const Code = ({code}) => {
+    const { t } = useTranslation();
+
     return (
-        <Accordion header={code.name} subHeader={code.code || 'Code'}>
-            <p><strong>Short name:</strong> {code.shortName || '-'}</p>
-            <p><strong>Classification:</strong> {code.classification || '-'}</p>
-            <p><strong>Level:</strong> {code.level}</p>
-            {code.parentCode && <p><strong>Parent code:</strong> {code.parentCode}</p>}
-            <p><strong>Notes: </strong>
+        <Accordion header={code.name} subHeader={code.code || t('Code')}>
+            <p><strong>{t('Short name')}:</strong> {code.shortName || '-'}</p>
+            <p><strong>{t('Classification')}:</strong> {code.classification || '-'}</p>
+            <p><strong>{t('Level')}:</strong> {code.level}</p>
+            {code.parentCode && <p><strong>{t('Parent code')}:</strong> {code.parentCode}</p>}
+            <p><strong>{t('Notes')}: </strong>
                 {!code.notes
                 ? <Text>-</Text>
                 : code.notes.map(note => (
                 <div style={{padding: '5px 25px 10px 25px'}}>
                     <Paragraph style={{width: '65%'}}>{note.note}</Paragraph>
-                    <Text small><strong>«{note.versionName}»</strong> (valid: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                    <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                 </div>))}
             </p>
         </Accordion>

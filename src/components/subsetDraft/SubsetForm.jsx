@@ -36,7 +36,7 @@ export const SubsetPreview = ({subset}) => {
             <Title size={3}>{t('Review and publish')}</Title>
             <Subset subset={subset.draft}/>
             <Button onClick={() =>
-                console.log('Publish subset: ', subset.draft)}>Publish</Button>
+                console.log('Publish subset: ', subset.draft)}>{t('Publish')}</Button>
             <br/><br/>
         </>
     );
