@@ -41,7 +41,7 @@ export const SubsetCodes = ({subset}) => {
 
     /* TODO: tooltips for classification icons */
     return (<>
-            <Title size={3}>Choose classifications and code lists</Title>
+            <Title size={3}>{t('Choose classifications and code lists')}</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
                 {t('All search results will be restricted by validity period set in metadata')}{
                 from && to

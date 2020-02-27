@@ -1,5 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {AlertTriangle as Alert, Info, List as ListIcon, MinusSquare, PlusSquare, Trash2, XSquare, MoreHorizontal} from 'react-feather';
+import {
+    AlertTriangle as Alert,
+    Info,
+    List as ListIcon,
+    MinusSquare,
+    MoreHorizontal,
+    PlusSquare,
+    Trash2,
+    XSquare
+} from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
@@ -95,7 +104,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     // TODO use fallback and loader
     // FIXME show errors
     let url = from && to
-        ? `/classifications/${item.id}/codes.json?from=${from},to=${to}`
+        ? `/classifications/${item.id}/codes.json?from=${from}&to=${to}`
         : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
     const [codes] = useGet(item.codes ? null : url);
     useEffect(() => {
@@ -241,7 +250,7 @@ export const CodeInfo = ({id, item, onChange}) => {
 
             {showNotes && <div>
                 {!item.notes
-                    ? <Text>Notes are not found.</Text>
+                    ? <Text>{t('Notes are not found.')}</Text>
                     : item.notes.map(note => (
                         <div style={{
                             padding: '10px 50px 20px 50px'

@@ -1,7 +1,7 @@
 import logo from '../images/SsbLogo.svg';
 import React from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import {Header as SsbHeader, Divider, Tabs, Title, Text} from '@statisticsnorway/ssb-component-library';
+import {Link, useHistory, useLocation} from 'react-router-dom';
+import {Divider, Header as SsbHeader, Tabs, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 
 
@@ -38,7 +38,7 @@ export default function Header() {
                 <Link to='/'>
                     <Title size={2}>
                         <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
-                        {t('Klass uttrekk')} <Text> | v0.1.7 oversatt til norsk</Text>
+                        {t('Klass uttrekk')} <Text> | v0.1.8 fixed Klass API call for /codes</Text>
                     </Title>
                 </Link>
 
