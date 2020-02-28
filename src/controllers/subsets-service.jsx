@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
-import {subSetsServiceEndpoint} from "../config.js";
-
+import {subSetsServiceEndpoint} from '../config.js';
 
 export function useGet(url = null) {
     const [path, setPath] = useState(url);
