@@ -16,7 +16,7 @@ Download and install a modern browser of your choice.<br>
 Recommend to use Chrome, the most secure browser today.
 
 ## Source code (development branch)
-this repo
+This repo
 
 ## Start local server
 Install dependencies for the project (production build):
