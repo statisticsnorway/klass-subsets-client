@@ -36,7 +36,7 @@ steps:
   - name: publish-docker
     image: plugins/gcr
     settings:
-      repo: prod-bip/subsets-client
+      repo: prod-bip/klass/subsets-client
       registry: eu.gcr.io
       tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
       json_key:
