@@ -98,7 +98,6 @@ export function usePut() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                 });
-                console.log(response.status);
                 setData(response.status === 200 ? payload : response.status);
                 setIsLoading(false);
             }

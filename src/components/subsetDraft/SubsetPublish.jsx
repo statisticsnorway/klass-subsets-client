@@ -13,11 +13,9 @@ export const SubsetPublish = ({subset}) => {
 
     const [data, setPayload, isLoading, error] = usePost();
     useEffect(() => {
-        console.log('GET subset: ', data);
         data !== null && alert(`Publishing succeeded: ${JSON.stringify(data)}`);
     }, [data]);
     useEffect(() => {
-        console.log('Failed publishing: ', error);
         error !== null && alert(`Publishing failed: ${JSON.stringify(error)}`);
     }, [error]);
 
@@ -26,10 +24,7 @@ export const SubsetPublish = ({subset}) => {
             <Title size={3}>{t('Review and publish')}</Title>
             <Subset subset={data || subset.draft}/>
             <Button disabled={data !== null}
-                onClick={() => {
-                    console.log('POST subset: ', subset.draft);
-                    setPayload(subset.draft);
-            }}>{t('Publish')}</Button>
+                onClick={() => setPayload(subset.draft)}>{t('Publish')}</Button>
             {isLoading && 'Loading...'}
             <br/><br/>
         </>
