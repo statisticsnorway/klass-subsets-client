@@ -1,5 +1,5 @@
 import React from 'react';
-import {Accordion, Title, Text, Paragraph} from '@statisticsnorway/ssb-component-library';
+import {Accordion, Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 
 export const Subset = ({subset}) => {
@@ -26,6 +26,7 @@ export const Subset = ({subset}) => {
                     ? subset.names[0].text
                     : t('Subset has got no title yet')
             }</Title>
+            {<Paragraph>ID: {subset.id || '-'}</Paragraph>}
             <Paragraph>{t('Validity period')}{
                 from && to
                 ? `: ${t('from to', { from, to })}.`

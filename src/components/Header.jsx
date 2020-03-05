@@ -38,7 +38,7 @@ export default function Header() {
                 <Link to='/'>
                     <Title size={2}>
                         <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
-                        {t('Klass uttrekk')} <Text> | v0.1.8 fixed Klass API call for /codes</Text>
+                        {t('Klass uttrekk')} <Text> | v0.1.9 subset-service integration</Text>
                     </Title>
                 </Link>
 
