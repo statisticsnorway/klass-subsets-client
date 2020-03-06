@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/App.css';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import { ContextProvider } from '../controllers/context';
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import {ContextProvider} from '../controllers/context';
 import Header from './Header';
 import WelcomePage from './pages/WelcomePage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
@@ -21,7 +21,7 @@ export default function App() {
 */}
                     <Switch>
                         <Route path='/' exact component={SearchSubsetsPage}/>
-                        <Route path='/create' component={SubsetForm}/>
+                        <Route path='/auth' component={SubsetForm}/>
                         <Route path='/about' exact component={WelcomePage}/>
                         <Route component={NoMatch}/>
                     </Switch>

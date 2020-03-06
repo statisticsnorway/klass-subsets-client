@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {subSetsServiceEndpoint} from '../config.js';
+import {subSetsServiceEndpoint, subSetsServiceEndpointAUTH} from '../config.js';
 
 export function useGet(url = null) {
     const [path, setPath] = useState(url);
@@ -55,7 +55,7 @@ export function usePost() {
             setData(null);
 
             try {
-                const response = await fetch(`${subSetsServiceEndpoint}${path}`, {
+                const response = await fetch(`${subSetsServiceEndpointAUTH}${path}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
