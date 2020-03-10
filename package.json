@@ -1,6 +1,6 @@
 {
   "name": "klass-subsets-web",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "@comment dependencies": [
     "typescript: peer dependency react-scripts@3.3.0, tsutils@3.17.1",
@@ -18,12 +18,12 @@
     "fibers": "^4.0.2",
     "i18next": "^19.1.0",
     "node-sass": "^4.13.1",
-    "react": "^16.12.0",
+    "react": "^16.13.0",
     "react-date-picker": "^7.10.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.13.0",
     "react-i18next": "^11.3.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^3.4.0",
     "sass": "^1.23.7",
     "typescript": "^3.7.3"
   },

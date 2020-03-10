@@ -93,7 +93,7 @@ export function usePut() {
             setData(null);
 
             try {
-                const response = await fetch(`${subSetsServiceEndpoint}${path}`, {
+                const response = await fetch(`${subSetsServiceEndpointAUTH}${path}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
