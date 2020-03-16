@@ -48,7 +48,7 @@ export default function Header() {
                 <Tabs activeOnInit={location.pathname} onClick={(path) => history.push(path)}
                       items={[
                           {title: t('Search subsets'), path: '/'},
-                          {title: t('Create subset'), path: '/auth/'},
+                          {title: t('Create subset'), path: '/create'},
                           {title: t('Feedback'), path: '/about'},
                       ]}/>
                 <Divider/>

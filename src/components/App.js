@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/App.css';
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
 import {ContextProvider} from '../controllers/context';
 import Header from './Header';
 import WelcomePage from './pages/WelcomePage';
@@ -11,7 +11,7 @@ import SubsetForm from './subsetDraft/SubsetForm';
 export default function App() {
     return (
         <ContextProvider>
-            <Router>
+            <BrowserRouter>
                 <div className='app'>
                     <Header/>
                 <div className='app-content'>
@@ -21,13 +21,14 @@ export default function App() {
 */}
                     <Switch>
                         <Route path='/' exact component={SearchSubsetsPage}/>
-                        <Route path='/auth/' component={SubsetForm}/>
+                        <Redirect from='/create' to='/auth/create' />
+                        <Route path='/auth/create' component={SubsetForm}/>
                         <Route path='/about' exact component={WelcomePage}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </div>
                 </div>
-            </Router>
+            </BrowserRouter>
         </ContextProvider>
     );
 }
