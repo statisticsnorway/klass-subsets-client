@@ -21,7 +21,7 @@ export default function App() {
 */}
                     <Switch>
                         <Route path='/' exact component={SearchSubsetsPage}/>
-                        <Redirect from='/create' to='/auth/create' />
+                        <Redirect push from='/create' to='/auth/create' />
                         <Route path='/auth/create' component={SubsetForm}/>
                         <Route path='/about' exact component={WelcomePage}/>
                         <Route component={NoMatch}/>
