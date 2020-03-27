@@ -11,7 +11,7 @@ import SubsetForm from './subsetDraft/SubsetForm';
 export default function App() {
     return (
         <ContextProvider>
-            <BrowserRouter>
+            <BrowserRouter forceRefresh={true}>
                 <div className='app'>
                     <Header/>
                 <div className='app-content'>
