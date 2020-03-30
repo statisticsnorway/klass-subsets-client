@@ -11,6 +11,11 @@ import SubsetForm from './subsetDraft/SubsetForm';
 export default function App() {
     return (
         <ContextProvider>
+            {/** TODO: find a better solution?
+             * enabled 'forceRefresh' just to make
+             * application redirect through the backend
+             * for protected routes (like '/create').
+            */}
             <BrowserRouter forceRefresh={true}>
                 <div className='app'>
                     <Header/>
