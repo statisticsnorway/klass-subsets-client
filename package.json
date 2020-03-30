@@ -1,5 +1,5 @@
 {
-  "name": "klass-subsets-web",
+  "name": "klass-subsets-webclient",
   "version": "0.2.1",
   "private": true,
   "@comment dependencies": [
