@@ -9,6 +9,7 @@ export function useGet(url = null) {
 
     useEffect(() => {
         const fetchData = async () => {
+
             setError(null);
             setIsLoading(true);
 
@@ -16,6 +17,7 @@ export function useGet(url = null) {
                 const response = await fetch(`${subSetsServiceEndpoint}${path}`);
                 let json = await response.json();
                 setData(json);
+                setIsLoading(false);
             }
             catch (e) {
                 setError({
@@ -25,11 +27,11 @@ export function useGet(url = null) {
                     message: `Error during fetching: ${e.message}`,
                     path
                 });
+                setIsLoading(false);
             }
-            setIsLoading(false);
         };
 
-        if (path) {
+        if (path !== null) {
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);

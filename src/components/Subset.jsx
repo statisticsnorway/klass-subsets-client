@@ -1,5 +1,5 @@
 import React from 'react';
-import {Accordion, Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
+import {Accordion, Paragraph, Text, Title, Link as SsbLink} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 
 export const Subset = ({subset}) => {
@@ -72,4 +72,31 @@ export const Code = ({code}) => {
             </p>
         </Accordion>
     );
+};
+
+// FIXME: translate placeholders
+// TODO: smart language choice
+export const SubsetBanner = ({subset}) => {
+    return (
+        <div style={{fontSize: 'calc(10px + 0.5vmin)', lineHeight: '50%'}}>
+            <SsbLink href={`/subsets/${subset.id}`} linkType='profiled'>
+                {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
+            </SsbLink>
+            <p>id: <strong>{subset?.id || 'N/A'}  </strong>
+               version: <strong>{subset?.version || 'N/A'}  </strong>
+               updated: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
+               status: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
+            </p>
+            <p>{subset?.description?.find(
+                description => description.languageCode === 'nb')?.languageText || 'no description'}</p>
+        </div>
+    )
+};
+
+export const Subsets = ({items}) => {
+    return (
+        <>{items && items.length > 0 &&
+            items.map((subset, i) => (<SubsetBanner key={i} subset={subset} />))}
+        </>
+    )
 };
