@@ -65,9 +65,9 @@ export const SubsetMetadata = ({subset}) => {
             <Dropdown label={t('Owner')}
                       options={ssbsections ? ssbsections._embedded.ssbSections : []}
                       placeholder={t('Select a responsible department...')}
-                      selected={subset.draft.ownerId}
+                      selected={subset.draft.createdBy}
                       onSelect={(item) => subset.dispatch({
-                          action: 'ownerId',
+                          action: 'createdBy',
                           data: item })}
             />
 

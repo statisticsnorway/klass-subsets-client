@@ -16,7 +16,7 @@ export const SubsetPage = () => {
         <div className='page'>
             {!subset
                 ? <p>{t('Subset with id does not exist', {id})}.</p>
-                : <div style={{lineHeight: '50%'}}>
+                : <div>
                     <Title size={3}>
                         {subset.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
                     </Title>
@@ -28,11 +28,18 @@ export const SubsetPage = () => {
                     <Paragraph style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset.description?.find(
                         desc => desc.languageCode === 'nb')?.languageText || t('No description')}
                     </Paragraph>
+
+                    <Paragraph>{t('Owner')}: {subset.createdBy || '-'}</Paragraph>
+
+                    <Title size={3}>{t('Codes')}: </Title>
                     {
                         subset.codes
                             .sort((a,b) => a.rank - b.rank)
                             .map((code, i) => <p key={i}>{code.rank}. {code.urn}</p>)
                     }
+                    <Accordion header={t('Raw JSON')}>
+                        <pre>{JSON.stringify(subset, null, 4)}</pre>
+                    </Accordion>
                 </div>
             }
         </div>
@@ -67,8 +74,9 @@ export const SubsetPreview = ({subset}) => {
                 : `: ${t('Period is not set').toLocaleLowerCase()}.`}
             </Paragraph>
 
-            <Paragraph>{subset.description[0]?.languageText || t('No description')}
-            </Paragraph>
+            <Paragraph>{subset.description[0]?.languageText || t('No description')}</Paragraph>
+
+            <Paragraph>{t('Owner')}: {subset.createdBy || '-'}</Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
             {allCodes.filter(i => i.included)
