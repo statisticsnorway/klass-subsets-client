@@ -41,7 +41,7 @@ export const ContextProvider = ({ children }) => {
         name: [],
         valid: { from: null, to: null },
         subject: '',
-        descriptions: [],
+        description: [],
         classifications: []
     };
     const subset = useSubset(draft);

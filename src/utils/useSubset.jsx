@@ -6,7 +6,7 @@ export const useSubset = (init =  {
     name: [],
     valid: { from: null, to: null },
     subject: '',
-    descriptions: [],
+    description: [],
     classifications: []}
     ) => {
 
@@ -35,14 +35,14 @@ export const useSubset = (init =  {
                 return {...state};
             }
             case 'description_add': {
-                const description = nextDefaultName(state.descriptions);
+                const description = nextDefaultName(state.description);
                 return  description === null
                     ? {...state}
-                    : {...state, descriptions: [...state.descriptions, description]};
+                    : {...state, description: [...state.description, description]};
             }
             case 'description_remove': {
                 return {...state,
-                    descriptions: state.descriptions.filter((item, index) => index !== data)};
+                    description: state.description.filter((item, index) => index !== data)};
             }
             case 'ownerId': {
                 return  {...state, ownerId: data};
@@ -63,8 +63,8 @@ export const useSubset = (init =  {
             }
             case 'remove_empty': {
                 return {...state,
-                    name: state.name.filter(item => item.languageText && item.languageText.length > 0),
-                    descriptions: state.descriptions.filter(item => item.languageText && item.languageText.length > 0)
+                    name: state.name.filter(item => item.languageText?.length > 0),
+                    description: state.description.filter(item => item.languageText?.length > 0)
                 };
             }
             case 'reset': {

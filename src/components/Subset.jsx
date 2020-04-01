@@ -67,7 +67,7 @@ export const SubsetPreview = ({subset}) => {
                 : `: ${t('Period is not set').toLocaleLowerCase()}.`}
             </Paragraph>
 
-            <Paragraph>{subset.descriptions[0]?.languageText || t('No description')}
+            <Paragraph>{subset.description[0]?.languageText || t('No description')}
             </Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
