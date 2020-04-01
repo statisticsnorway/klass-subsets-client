@@ -36,15 +36,7 @@ export const ContextProvider = ({ children }) => {
     );
 
     // TODO: better defaults
-    const draft = {
-        createdBy: '',
-        name: [],
-        valid: { from: null, to: null },
-        subject: '',
-        description: [],
-        classifications: []
-    };
-    const subset = useSubset(draft);
+    const subset = useSubset();
 
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 

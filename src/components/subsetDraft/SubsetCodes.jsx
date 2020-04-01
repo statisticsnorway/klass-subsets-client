@@ -17,8 +17,8 @@ export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
     const { t } = useTranslation();
 
-    const from = subset.draft.valid.from && subset.draft.valid.from.toISOString().substr(0, 10);
-    const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
+    const from = subset.draft.validFrom?.toISOString().substr(0, 10);
+    const to = subset.draft.validUntil?.toISOString().substr(0, 10);
 
     const [searchValues, setSearchValues] = useState([]); // list of classification names
     const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found

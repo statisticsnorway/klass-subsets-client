@@ -29,7 +29,9 @@ export const SubsetPage = () => {
                         desc => desc.languageCode === 'nb')?.languageText || t('No description')}
                     </Paragraph>
 
-                    <Paragraph>{t('Owner')}: {subset.createdBy || '-'}</Paragraph>
+                    <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
+                    <Paragraph><strong>{t('Valid from')}:</strong> {subset.validFrom || '-'}</Paragraph>
+                    <Paragraph><strong>{t('Valid to')}:</strong> {subset.validUntil || '-'}</Paragraph>
 
                     <Title size={3}>{t('Codes')}: </Title>
                     {
@@ -56,8 +58,8 @@ export const SubsetPreview = ({subset}) => {
     // FIXME: show title in selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
 
-    const from = subset.valid.from && subset.valid.from.toISOString().substr(0, 10);
-    const to = subset.valid.to && subset.valid.to.toISOString().substr(0, 10);
+    const from = subset.validFrom?.toISOString().substr(0, 10);
+    const to = subset.validUntil?.toISOString().substr(0, 10);
 
     const allCodes = [];
     subset.classifications.map(classification => allCodes.push(...classification.codes));
@@ -120,13 +122,13 @@ export const SubsetBanner = ({subset}) => {
     // TODO: smart language choice
     return (
         <div style={{lineHeight: '50%'}}>
-            <SsbLink href={`/subsets/${subset.id}`} linkType='profiled'>
+            <SsbLink href={`/subsets/${subset?.id}`} linkType='profiled'>
                 {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || t('No name')}
             </SsbLink>
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || 'N/A'}  </strong>
-                {t('Version')}: <strong>{subset?.version || 'N/A'}  </strong>
-                {t('Updated')}: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
-                {t('Status')}: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || '-'}  </strong>
+                {t('Version')}: <strong>{subset?.version || '-'}  </strong>
+                {t('Updated')}: <strong>{subset?.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{subset?.administrativeStatus || '-'}  </strong>
             </p>
             <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
                 description => description.languageCode === 'nb')?.languageText || t('No description')}

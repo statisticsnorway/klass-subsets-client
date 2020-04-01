@@ -4,7 +4,8 @@ import {nextDefaultName} from './languages';
 export const useSubset = (init =  {
     createdBy: '',
     name: [],
-    valid: { from: null, to: null },
+    validFrom: null,
+    validUntil: null,
     subject: '',
     description: [],
     classifications: []}
@@ -26,12 +27,12 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
-                state.valid.from = data;
+                state.validFrom = data;
                 return {...state};
             }
             case 'to': {
                 // FIXME: restrictions
-                state.valid.to = data;
+                state.validUntil = data;
                 return {...state};
             }
             case 'description_add': {
