@@ -1,8 +1,36 @@
 import React from 'react';
 import {Accordion, Paragraph, Text, Title, Link as SsbLink} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
+import {useParams} from 'react-router-dom';
+import {useGet} from '../controllers/subsets-service';
 
-export const Subset = ({subset}) => {
+export const SubsetPage = () => {
+    let { id } = useParams();
+    const [subset] = useGet(id);
+
+    return(
+        <div className='page'>
+            {subset
+                ? <div style={{lineHeight: '50%'}}>
+                    <Title size={3}>
+                        {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
+                    </Title>
+                    <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>id: <strong>{subset?.id || 'N/A'}  </strong>
+                        version: <strong>{subset?.version || 'N/A'}  </strong>
+                        updated: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
+                        status: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
+                    </p>
+                    <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
+                        description => description.languageCode === 'nb')?.languageText || 'no description'}
+                    </p>
+                </div>
+                : <p>Subset with id {id} does not exist.</p>
+            }
+        </div>
+    )
+};
+
+export const SubsetPreview = ({subset}) => {
     const { t } = useTranslation();
 
     // set classification name to each code
@@ -78,17 +106,18 @@ export const Code = ({code}) => {
 // TODO: smart language choice
 export const SubsetBanner = ({subset}) => {
     return (
-        <div style={{fontSize: 'calc(10px + 0.5vmin)', lineHeight: '50%'}}>
+        <div style={{lineHeight: '50%'}}>
             <SsbLink href={`/subsets/${subset.id}`} linkType='profiled'>
                 {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
             </SsbLink>
-            <p>id: <strong>{subset?.id || 'N/A'}  </strong>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>id: <strong>{subset?.id || 'N/A'}  </strong>
                version: <strong>{subset?.version || 'N/A'}  </strong>
                updated: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
                status: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
             </p>
-            <p>{subset?.description?.find(
-                description => description.languageCode === 'nb')?.languageText || 'no description'}</p>
+            <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
+                description => description.languageCode === 'nb')?.languageText || 'no description'}
+            </p>
         </div>
     )
 };

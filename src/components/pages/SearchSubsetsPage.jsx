@@ -21,7 +21,7 @@ export default function SearchSubsetsPage() {
             <h3>{t('Search results')}</h3>
             {!subsets
                 ? <p>Loading...</p>
-                : <Subsets items={subsets} />}
+                : <Subsets items={subsets.sort((a,b) => (a.lastUpdatedDate - b.lastUpdatedDate))} />}
         </div>
     );
 }

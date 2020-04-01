@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import '../../css/pages.css';
 import {useTranslation} from 'react-i18next';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
-import {Subset} from '../Subset';
+import {SubsetPreview} from '../Subset';
 import {usePost} from '../../controllers/subsets-service';
 
 // TODO: better preview (human pleasant)
@@ -22,7 +22,7 @@ export const SubsetPublish = ({subset}) => {
     return (
         <>
             <Title size={3}>{t('Review and publish')}</Title>
-            <Subset subset={data || subset.draft}/>
+            <SubsetPreview subset={data || subset.draft}/>
             <Button disabled={data !== null}
                 onClick={() => setPayload(subset.draft)}>{t('Publish')}</Button>
             {isLoading && 'Loading...'}

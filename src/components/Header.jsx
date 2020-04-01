@@ -36,9 +36,9 @@ export default function Header() {
 
             <div className='top-row flex-row justify-space-between flex-wrap' style={{width: '100%'}}>
                 <Link to='/'>
-                    <Title size={2}>
+                    <Title size={3}>
                         <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
-                        {t('Klass uttrekk')} <Text> | v{process.env.REACT_APP_VERSION} adopted ClassificationSubsets schema</Text>
+                        {t('Klass uttrekk')} <Text small> | v{process.env.REACT_APP_VERSION} adopted ClassificationSubsets schema</Text>
                     </Title>
                 </Link>
 

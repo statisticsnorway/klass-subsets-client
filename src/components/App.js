@@ -7,6 +7,7 @@ import WelcomePage from './pages/WelcomePage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
 // import Errors from './Errors';
 import SubsetForm from './subsetDraft/SubsetForm';
+import {SubsetPage} from './Subset';
 
 export default function App() {
     return (
@@ -29,6 +30,7 @@ export default function App() {
                         <Redirect push from='/create' to='/auth/create' />
                         <Route path='/auth/create' component={SubsetForm}/>
                         <Route path='/about' exact component={WelcomePage}/>
+                        <Route path='/subsets/:id' exact component={SubsetPage}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </div>
