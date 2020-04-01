@@ -10,23 +10,30 @@ export const SubsetPage = () => {
     let { id } = useParams();
     const [subset] = useGet(id);
 
+    // FIXME: translate placeholders
+    // TODO: smart language choice
     return(
         <div className='page'>
-            {subset
-                ? <div style={{lineHeight: '50%'}}>
+            {!subset
+                ? <p>{t('Subset with id does not exist', {id})}.</p>
+                : <div style={{lineHeight: '50%'}}>
                     <Title size={3}>
-                        {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
+                        {subset.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
                     </Title>
-                    <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || 'N/A'}  </strong>
-                        {t('Version')}: <strong>{subset?.version || 'N/A'}  </strong>
-                        {t('Updated')}: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
-                        {t('Status')}: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
+                    <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || '-'}  </strong>
+                        {t('Version')}: <strong>{subset.version || '-'}  </strong>
+                        {t('Updated')}: <strong>{subset.lastUpdatedDate || '-'}  </strong>
+                        {t('Status')}: <strong>{subset.administrativeStatus || '-'}  </strong>
                     </p>
-                    <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
-                        description => description.languageCode === 'nb')?.languageText || t('No description')}
-                    </p>
+                    <Paragraph style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset.description?.find(
+                        desc => desc.languageCode === 'nb')?.languageText || t('No description')}
+                    </Paragraph>
+                    {
+                        subset.codes
+                            .sort((a,b) => a.rank - b.rank)
+                            .map((code, i) => <p key={i}>{code.rank}. {code.urn}</p>)
+                    }
                 </div>
-                : <p>{t('Subset with id does not exist', {id})}.</p>
             }
         </div>
     )
@@ -39,7 +46,7 @@ export const SubsetPreview = ({subset}) => {
     subset.classifications.forEach(classification => classification.codes
             .forEach(code => code.classification = classification.name));
 
-    // FIXME: show title to selected language, not just first in the name array.
+    // FIXME: show title in selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
 
     const from = subset.valid.from && subset.valid.from.toISOString().substr(0, 10);
@@ -104,11 +111,11 @@ export const Code = ({code}) => {
     );
 };
 
-// FIXME: translate placeholders
-// TODO: smart language choice
 export const SubsetBanner = ({subset}) => {
     const { t } = useTranslation();
 
+    // FIXME: translate placeholders
+    // TODO: smart language choice
     return (
         <div style={{lineHeight: '50%'}}>
             <SsbLink href={`/subsets/${subset.id}`} linkType='profiled'>
