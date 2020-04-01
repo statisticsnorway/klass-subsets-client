@@ -5,6 +5,8 @@ import {useParams} from 'react-router-dom';
 import {useGet} from '../controllers/subsets-service';
 
 export const SubsetPage = () => {
+    const { t } = useTranslation();
+
     let { id } = useParams();
     const [subset] = useGet(id);
 
@@ -15,16 +17,16 @@ export const SubsetPage = () => {
                     <Title size={3}>
                         {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
                     </Title>
-                    <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>id: <strong>{subset?.id || 'N/A'}  </strong>
-                        version: <strong>{subset?.version || 'N/A'}  </strong>
-                        updated: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
-                        status: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
+                    <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || 'N/A'}  </strong>
+                        {t('Version')}: <strong>{subset?.version || 'N/A'}  </strong>
+                        {t('Updated')}: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
+                        {t('Status')}: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
                     </p>
                     <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
-                        description => description.languageCode === 'nb')?.languageText || 'no description'}
+                        description => description.languageCode === 'nb')?.languageText || t('No description')}
                     </p>
                 </div>
-                : <p>Subset with id {id} does not exist.</p>
+                : <p>{t('Subset with id does not exist', {id})}.</p>
             }
         </div>
     )
@@ -105,18 +107,20 @@ export const Code = ({code}) => {
 // FIXME: translate placeholders
 // TODO: smart language choice
 export const SubsetBanner = ({subset}) => {
+    const { t } = useTranslation();
+
     return (
         <div style={{lineHeight: '50%'}}>
             <SsbLink href={`/subsets/${subset.id}`} linkType='profiled'>
-                {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || 'no title'}
+                {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || t('No name')}
             </SsbLink>
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>id: <strong>{subset?.id || 'N/A'}  </strong>
-               version: <strong>{subset?.version || 'N/A'}  </strong>
-               updated: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
-               status: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || 'N/A'}  </strong>
+                {t('Version')}: <strong>{subset?.version || 'N/A'}  </strong>
+                {t('Updated')}: <strong>{subset?.lastUpdatedDate || 'N/A'}  </strong>
+                {t('Status')}: <strong>{subset?.administrativeStatus || 'N/A'}  </strong>
             </p>
             <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
-                description => description.languageCode === 'nb')?.languageText || 'no description'}
+                description => description.languageCode === 'nb')?.languageText || t('No description')}
             </p>
         </div>
     )

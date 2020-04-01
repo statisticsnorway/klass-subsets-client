@@ -4,6 +4,10 @@
   "Search subsets": "Search subsets",
   "Subset title": "Subset title",
   "Search results": "Search results",
+  "Loading...": "Loading",
+  "No name": "No name",
+  "Updated": "Updated",
+  "Status": "Status",
 
   "Create subset": "Create subset",
   "Previous": "Previous",
@@ -62,5 +66,7 @@
   "No description": "No description",
   "Raw JSON": "Raw JSON",
 
-  "Feedback": "Feedback"
+  "Feedback": "Feedback",
+
+  "Subset with id does not exist": "Subset with id {{id}} does not exist"
 }

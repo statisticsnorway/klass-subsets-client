@@ -4,6 +4,10 @@
   "Search subsets": "Søke uttrekk",
   "Subset title": "Uttrekksnavn",
   "Search results": "Søkeresultater",
+  "Loading...": "Laster ned...",
+  "No name": "Intet navn",
+  "Updated": "Oppdatert",
+  "Status": "Status",
 
   "Create subset": "Lage uttrekk",
   "Previous": "Forrige",
@@ -62,5 +66,7 @@
   "No description": "Ingen beskriverlse",
   "Raw JSON": "Rå JSON",
 
-  "Feedback": "Tilbakemeldinger"
+  "Feedback": "Tilbakemeldinger",
+
+  "Subset with id does not exist": "Uttrekket med id {{id}} eksisterer ikke"
 }
