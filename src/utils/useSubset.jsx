@@ -3,7 +3,7 @@ import {nextDefaultName} from './languages';
 
 export const useSubset = (init =  {
     ownerId: '',
-    names: [],
+    name: [],
     valid: { from: null, to: null },
     subject: '',
     descriptions: [],
@@ -16,13 +16,13 @@ export const useSubset = (init =  {
                 return  {...state};
             }
             case 'name_add': {
-                const name = nextDefaultName(state.names);
+                const name = nextDefaultName(state.name);
                 return  name === null
                     ? {...state}
-                    : {...state, names: [...state.names, name]};
+                    : {...state, name: [...state.name, name]};
             }
             case 'name_remove': {
-                return {...state, names: state.names.filter((item, index) => index !== data)};
+                return {...state, name: state.name.filter((item, index) => index !== data)};
             }
             case 'from': {
                 // FIXME: restrictions
@@ -63,7 +63,7 @@ export const useSubset = (init =  {
             }
             case 'remove_empty': {
                 return {...state,
-                    names: state.names.filter(item => item.text && item.text.length > 0),
+                    name: state.name.filter(item => item.text && item.text.length > 0),
                     descriptions: state.descriptions.filter(item => item.text && item.text.length > 0)
                 };
             }

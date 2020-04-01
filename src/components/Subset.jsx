@@ -58,12 +58,8 @@ export const SubsetPreview = ({subset}) => {
 
     return (
         <>
-            <Title size={2}>{
-                subset.names.length > 0 && subset.names[0].text
-                    ? subset.names[0].text
-                    : t('Subset has got no title yet')
-            }</Title>
-            {<Paragraph>ID: {subset.id || '-'}</Paragraph>}
+            <Title size={2}>{subset.name[0]?.text || t('Subset has got no title yet')}</Title>
+            <Paragraph>ID: {subset.id || '-'}</Paragraph>
             <Paragraph>{t('Validity period')}{
                 from && to
                 ? `: ${t('from to', { from, to })}.`
@@ -71,9 +67,7 @@ export const SubsetPreview = ({subset}) => {
                 : `: ${t('Period is not set').toLocaleLowerCase()}.`}
             </Paragraph>
 
-            <Paragraph>{subset.descriptions.length > 0 && subset.descriptions[0].text
-                ? subset.descriptions[0].text
-                : t('No description')}
+            <Paragraph>{subset.descriptions[0]?.text || t('No description')}
             </Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>

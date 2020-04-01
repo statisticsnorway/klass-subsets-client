@@ -18,7 +18,7 @@ import {useTranslation} from "react-i18next";
 
 export const SubsetMetadata = ({subset}) => {
 
-    subset.draft.names && subset.draft.names.length < 1 && subset.dispatch({action: 'name_add'});
+    subset.draft.name && subset.draft.name.length < 1 && subset.dispatch({action: 'name_add'});
     subset.draft.descriptions && subset.draft.descriptions.length < 1 && subset.dispatch({action: 'description_add'});
     const {ssbsections, classificationfamilies} = useContext(AppContext);
     const { t } = useTranslation();
@@ -26,7 +26,7 @@ export const SubsetMetadata = ({subset}) => {
     return (
         <>
             <Title size={3}>{t('Metadata')}</Title>
-            <TextLanguageFieldset title={t('Names')} items={subset.draft.names}
+            <TextLanguageFieldset title={t('Names')} items={subset.draft.name}
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}

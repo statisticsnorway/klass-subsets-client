@@ -72,7 +72,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                 origin.classificationItems = version.classificationItems;
                 origin.classificationItems.forEach(ci => {
                     if (ci.notes) {
-                        let code = item.codes.find(c => c.code === ci.code);
+                        let code = item.codes?.find(c => c.code === ci.code);
                         if (code) {
                             code.notes = code.notes || [];
                             code.notes.push({

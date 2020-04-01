@@ -38,7 +38,7 @@ export const ContextProvider = ({ children }) => {
     // TODO: better defaults
     const draft = {
         ownerId: '',
-        names: [],
+        name: [],
         valid: { from: null, to: null },
         subject: '',
         descriptions: [],
