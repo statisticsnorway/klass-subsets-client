@@ -63,8 +63,8 @@ export const useSubset = (init =  {
             }
             case 'remove_empty': {
                 return {...state,
-                    name: state.name.filter(item => item.text && item.text.length > 0),
-                    descriptions: state.descriptions.filter(item => item.text && item.text.length > 0)
+                    name: state.name.filter(item => item.languageText && item.languageText.length > 0),
+                    descriptions: state.descriptions.filter(item => item.languageText && item.languageText.length > 0)
                 };
             }
             case 'reset': {

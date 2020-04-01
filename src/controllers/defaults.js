@@ -1,7 +1,7 @@
 export const languages = [
-    {abbr: 'nb', IETF: 'nb-NO', full: 'Norsk bokmål', default: true},
-    {abbr: 'nn', IETF: 'nn-NO', full: 'Nynorsk'},
-    {abbr: 'en', IETF: 'en-US', full: 'English'}
+    {languageCode: 'nb', IETF: 'nb-NO', full: 'Norsk bokmål', default: true},
+    {languageCode: 'nn', IETF: 'nn-NO', full: 'Nynorsk'},
+    {languageCode: 'en', IETF: 'en-US', full: 'English'}
 ];
 
 export const subsetDraft = {
