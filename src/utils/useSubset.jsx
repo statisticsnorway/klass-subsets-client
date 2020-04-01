@@ -2,7 +2,7 @@ import {useReducer} from 'react';
 import {nextDefaultName} from './languages';
 
 export const useSubset = (init =  {
-    ownerId: '',
+    createdBy: '',
     name: [],
     valid: { from: null, to: null },
     subject: '',
