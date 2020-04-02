@@ -4,10 +4,13 @@ import {useTranslation} from 'react-i18next';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
 import {SubsetPreview} from '../Subset';
 import {usePost} from '../../controllers/subsets-service';
+import {useHistory} from "react-router-dom";
 
 // TODO: better preview (human pleasant)
 export const SubsetPublish = ({subset}) => {
     const { t } = useTranslation();
+
+    let history = useHistory();
 
     useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
 
@@ -18,12 +21,11 @@ export const SubsetPublish = ({subset}) => {
             code.urn = `urn:klass-api:classifications:${classification.id}:code:${code.code}`
         })
     );
-
     const payload = preparePayload(subset.draft);
 
     const [data, setPayload, isLoading, error] = usePost();
     useEffect(() => {
-        data !== null && alert(`Publishing succeeded: ${JSON.stringify(data)}`);
+        data !== null && history.push(`/subsets/${data.id}`);
     }, [data]);
     useEffect(() => {
         error !== null && alert(`Publishing failed: ${JSON.stringify(error)}`);
@@ -32,7 +34,7 @@ export const SubsetPublish = ({subset}) => {
     return (
         <>
             <Title size={3}>{t('Review and publish')}</Title>
-            <SubsetPreview subset={data || payload}/>
+            <SubsetPreview subset={payload}/>
             <Button disabled={data !== null}
                 onClick={() => setPayload(payload)}>{t('Publish')}</Button>
             <br/><br/>

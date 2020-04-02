@@ -67,6 +67,13 @@
   "Raw JSON": "Raw JSON",
 
   "Feedback": "Feedback",
+  "The application is under development.": "The application is under development.",
+  "You can report an issue or suggest an improvement here": "You can report an issue or suggest an improvement here",
+  "Issues": "Issues",
+  "Source code": "Source code",
+  "You can find the source code on": "You can find the source code on",
+
+  "Changelog": "Changelog",
 
   "Subset with id does not exist": "Subset with id {{id}} does not exist"
 }
