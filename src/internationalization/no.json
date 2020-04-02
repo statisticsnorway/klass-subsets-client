@@ -67,6 +67,16 @@
   "Raw JSON": "Rå JSON",
 
   "Feedback": "Tilbakemeldinger",
+  "The application is under development.": "Applikasjonen er under utvikling.",
+  "You can report an issue or suggest an improvement here": "Du kan rapportere et problem eller foreslå en forbedring her",
+  "Issues": "Registrerte saker",
+  "Source code": "Kildekode",
+  "You can find the source code on": "Du finner kildekoden på",
+
+  "Changelog": "Endringslogg",
+  "Adopted ClassificationSubsets schema": "ClassificationSubsets-skjema tatt i bruk",
+  "and": "og",
+  "Authorisation and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
   "Subset with id does not exist": "Uttrekket med id {{id}} eksisterer ikke"
 }

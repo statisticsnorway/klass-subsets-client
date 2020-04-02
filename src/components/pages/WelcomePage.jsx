@@ -31,14 +31,14 @@ export default function WelcomePage() {
             <Title size={2}>{t('Changelog')}</Title>
 
             <Title size={4}>v0.2.2</Title>
-            <Paragraph>Adopted ClassificationSubsets schema</Paragraph>
-            <Paragraph>Changelog</Paragraph>
+            <Paragraph>{t('Adopted ClassificationSubsets schema')}</Paragraph>
+            <Paragraph>{t('Changelog')}</Paragraph>
 
             <Title size={4}>v0.2.1</Title>
-            <Paragraph>/be/subsets-service/ and react v16.13.0</Paragraph>
+            <Paragraph>/be/subsets-service/ {t('and')} React v16.13.0</Paragraph>
 
             <Title size={4}>v0.2.0</Title>
-            <Paragraph>Authorisation and subset-service integration</Paragraph>
+            <Paragraph>{t('Authorisation and subset-service integration')}</Paragraph>
         </div>
     );
 }
