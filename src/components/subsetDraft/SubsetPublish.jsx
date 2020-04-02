@@ -11,7 +11,7 @@ export const SubsetPublish = ({subset}) => {
 
     useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
 
-    // set classification name to each code
+    // set classification name and URN to each code
     subset.draft.classifications.forEach(classification => classification.codes
         .forEach(code => {
             code.classification = `${classification.id} - ${classification.name}`;
@@ -54,6 +54,6 @@ function preparePayload(draft) {
         validUntil: draft.validUntil,
         administrativeDetails: draft.administrativeDetails,
         description: draft.description,
-        codes: codes
+        codes
     }
 }
