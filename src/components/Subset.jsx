@@ -32,6 +32,9 @@ export const SubsetPage = () => {
                     <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
                     <Paragraph><strong>{t('Valid from')}:</strong> {subset.validFrom || '-'}</Paragraph>
                     <Paragraph><strong>{t('Valid to')}:</strong> {subset.validUntil || '-'}</Paragraph>
+                    <Paragraph><strong>{t('Subject')}:</strong> {subset.administrativeDetails
+                        .find(d => d.administrativeDetailType === 'ANNOTATION')
+                        .values[0] || '-'}</Paragraph>
 
                     <Title size={3}>{t('Codes')}: </Title>
                     {
@@ -68,8 +71,8 @@ export const SubsetPreview = ({subset}) => {
     return (
         <>
             <Title size={2}>{subset.name[0]?.languageText || t('Subset has got no title yet')}</Title>
-            <Paragraph>ID: {subset.id || '-'}</Paragraph>
-            <Paragraph>{t('Validity period')}{
+            <Paragraph><strong>ID:</strong> {subset.id || '-'}</Paragraph>
+            <Paragraph><strong>{t('Validity period')}</strong>{
                 from && to
                 ? `: ${t('from to', { from, to })}.`
                 : from || to ? `: ${t('at', { date: from || to})}.`
@@ -78,7 +81,10 @@ export const SubsetPreview = ({subset}) => {
 
             <Paragraph>{subset.description[0]?.languageText || t('No description')}</Paragraph>
 
-            <Paragraph>{t('Owner')}: {subset.createdBy || '-'}</Paragraph>
+            <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
+            <Paragraph><strong>{t('Subject')}:</strong> {subset.administrativeDetails
+                .find(d => d.administrativeDetailType === 'ANNOTATION')
+                .values[0] || '-'}</Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
             {allCodes.filter(i => i.included)

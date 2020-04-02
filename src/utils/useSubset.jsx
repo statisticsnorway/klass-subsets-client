@@ -6,7 +6,12 @@ export const useSubset = (init =  {
     name: [],
     validFrom: null,
     validUntil: null,
-    subject: '',
+    administrativeDetails: [
+        {
+            administrativeDetailType: "ANNOTATION",
+            values: []
+        }
+    ],
     description: [],
     classifications: []}
     ) => {
@@ -49,7 +54,10 @@ export const useSubset = (init =  {
                 return  {...state, createdBy: data};
             }
             case 'subject': {
-                return  {...state, subject: data};
+                state.administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ANNOTATION')
+                    .values[0] = data;
+                return  {...state};
             }
             case 'classifications': {
                 return  {...state, classifications: data};

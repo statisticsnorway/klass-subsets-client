@@ -25,7 +25,6 @@ export const SubsetPublish = ({subset}) => {
             <SubsetPreview subset={data || subset.draft}/>
             <Button disabled={data !== null}
                 onClick={() => setPayload(subset.draft)}>{t('Publish')}</Button>
-            {isLoading && 'Loading...'}
             <br/><br/>
         </>
     );

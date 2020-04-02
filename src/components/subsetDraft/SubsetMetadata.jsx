@@ -11,8 +11,6 @@ import {useTranslation} from "react-i18next";
  *  TODO: select components (2) from the ssb-component-library
  *  TODO: textarea styled as input text in the ssb-component-library
  *  FIXME: buttons Next-Previous have to be aligned properly
- *  FIXME: make empty names and descriptions do not disappear at all
- *  TODO: remove fieldsets? or just its boarder: none
  *  FIXME: sanitize input
  */
 
@@ -71,10 +69,13 @@ export const SubsetMetadata = ({subset}) => {
                           data: item })}
             />
 
+            {/* TODO: subject is stored in an array, it could be treated as tags ? */}
             <Dropdown label={t('Subject')}
-                      options={classificationfamilies ? classificationfamilies._embedded.classificationFamilies : []}
+                      options={classificationfamilies?._embedded.classificationFamilies || []}
                       placeholder={t('Select a classification family...')}
-                      selected={subset.draft.subject}
+                      selected={subset.draft.administrativeDetails
+                          .find(d => d.administrativeDetailType === 'ANNOTATION')
+                          .values[0] || ''}
                       onSelect={(item) => subset.dispatch({
                           action: 'subject',
                           data: item })}
