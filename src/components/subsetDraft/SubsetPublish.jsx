@@ -13,7 +13,11 @@ export const SubsetPublish = ({subset}) => {
 
     // set classification name to each code
     subset.draft.classifications.forEach(classification => classification.codes
-        .forEach(code => code.classification = classification.name));
+        .forEach(code => {
+            code.classification = `${classification.id} - ${classification.name}`;
+            code.urn = `urn:klass-api:classifications:${classification.id}:code:${code.code}`
+        })
+    );
 
     const payload = preparePayload(subset.draft);
 
@@ -39,7 +43,9 @@ export const SubsetPublish = ({subset}) => {
 function preparePayload(draft) {
     const codes = [];
     draft.classifications.map(classification =>
-        codes.push(...classification.codes.filter(c => c.included)));
+        codes.push(...classification.codes
+            .filter(c => c.included)
+        ));
 
     return {
         createdBy: draft.createdBy,
