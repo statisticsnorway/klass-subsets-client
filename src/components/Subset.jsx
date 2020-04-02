@@ -54,19 +54,11 @@ export const SubsetPage = () => {
 export const SubsetPreview = ({subset}) => {
     const { t } = useTranslation();
 
-    // set classification name to each code
-    subset.classifications.forEach(classification => classification.codes
-            .forEach(code => code.classification = classification.name));
-
     // FIXME: show title in selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
 
     const from = subset.validFrom?.toISOString().substr(0, 10);
     const to = subset.validUntil?.toISOString().substr(0, 10);
-
-    const allCodes = [];
-    subset.classifications.map(classification => allCodes.push(...classification.codes));
-    allCodes.forEach(i => (i.title = `${i.code} ${i.name}`));
 
     return (
         <>
@@ -82,12 +74,13 @@ export const SubsetPreview = ({subset}) => {
             <Paragraph>{subset.description[0]?.languageText || t('No description')}</Paragraph>
 
             <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
+
             <Paragraph><strong>{t('Subject')}:</strong> {subset.administrativeDetails
                 .find(d => d.administrativeDetailType === 'ANNOTATION')
                 .values[0] || '-'}</Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
-            {allCodes.filter(i => i.included)
+            {subset.codes
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
                     <Code key={i} code={code}/>))}
@@ -108,7 +101,7 @@ export const Code = ({code}) => {
             <p><strong>{t('Classification')}:</strong> {code.classification || '-'}</p>
             <p><strong>{t('Level')}:</strong> {code.level}</p>
             {code.parentCode && <p><strong>{t('Parent code')}:</strong> {code.parentCode}</p>}
-            <p><strong>{t('Notes')}: </strong>
+            <p><strong>{t('Notes')}: </strong></p>
                 {!code.notes
                 ? <Text>-</Text>
                 : code.notes.map(note => (
@@ -116,7 +109,6 @@ export const Code = ({code}) => {
                     <Paragraph style={{width: '65%'}}>{note.note}</Paragraph>
                     <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                 </div>))}
-            </p>
         </Accordion>
     );
 };

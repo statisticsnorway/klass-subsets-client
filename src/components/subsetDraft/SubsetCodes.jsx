@@ -10,7 +10,8 @@ import {useTranslation} from "react-i18next";
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
  *  FIXME: fails on '(' input and in result string
- *  FIXME: notes for codes !
+ *  FIXME: notes for codes: markup
+ *  FIXME: notes for codes: restrict period!
  */
 
 export const SubsetCodes = ({subset}) => {
