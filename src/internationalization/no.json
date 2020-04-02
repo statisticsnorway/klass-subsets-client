@@ -8,6 +8,9 @@
   "No name": "Intet navn",
   "Updated": "Oppdatert",
   "Status": "Status",
+  "Sort by": "Sorter etter",
+  "Last updated": "Sist oppdatert",
+  "Name": "Navn",
 
   "Create subset": "Lage uttrekk",
   "Previous": "Forrige",
@@ -71,7 +74,7 @@
   "You can report an issue or suggest an improvement here": "Du kan rapportere et problem eller foreslå en forbedring her",
   "Issues": "Registrerte saker",
   "Source code": "Kildekode",
-  "You can find the source code on": "Du finner kildekoden på",
+  "You can find the source code on": "Du finner kildekoden i",
 
   "Changelog": "Endringslogg",
   "Adopted ClassificationSubsets schema": "ClassificationSubsets-skjema tatt i bruk",

@@ -1,9 +1,16 @@
 {
-  "Klass uttrekk": "Klass uttrekk",
+  "Klass uttrekk": "Classification Subsets",
 
-  "Search subsets": "Søke uttrekk",
-  "Subset title": "Uttrekksnavn",
-  "Search results": "Søkeresultater",
+  "Search subsets": "Search subsets",
+  "Subset title": "Subset title",
+  "Search results": "Search results",
+  "Loading...": "Loading",
+  "No name": "No name",
+  "Updated": "Updated",
+  "Status": "Status",
+  "Sort by": "Sort by",
+  "Last updated": "Last updated",
+  "Name": "Navn",
 
   "Create subset": "Lage uttrekk",
   "Previous": "Forrige",
@@ -67,7 +74,7 @@
   "You can report an issue or suggest an improvement here": "Du kan rapportere et problem eller foreslå en forbedring her",
   "Issues": "Registrerte saker",
   "Source code": "Kildekode",
-  "You can find the source code on": "Du finner kildekoden på",
+  "You can find the source code on": "Du finner kildekoden i",
 
   "Changelog": "Endringslogg",
   "Adopted ClassificationSubsets schema": "ClassificationSubsets-skjema tatt i bruk",
