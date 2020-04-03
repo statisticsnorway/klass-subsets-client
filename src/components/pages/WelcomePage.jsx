@@ -34,6 +34,7 @@ export default function WelcomePage() {
             <Paragraph>{t('Adopted ClassificationSubsets schema')}</Paragraph>
             <Paragraph>{t('Changelog')}</Paragraph>
             <Paragraph>{t('Search subsets')}</Paragraph>
+            <Paragraph>{t('Moved config to the platform')}</Paragraph>
 
             <Title size={4}>v0.2.1</Title>
             <Paragraph>/be/subsets-service/ {t('and')} React v16.13.0</Paragraph>

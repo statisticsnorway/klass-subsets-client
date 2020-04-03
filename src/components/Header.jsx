@@ -38,7 +38,7 @@ export default function Header() {
                 <Link to='/'>
                     <Title size={3}>
                         <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
-                        {t('Klass uttrekk')} <Text small> | v{process.env.REACT_APP_VERSION} adopted ClassificationSubsets schema, <Link to='/about'>changelog</Link></Text>
+                        {t('Klass uttrekk')} <Text small> | v{process.env.REACT_APP_VERSION} <Link to='/about'>Changelog</Link></Text>
                     </Title>
                 </Link>
 

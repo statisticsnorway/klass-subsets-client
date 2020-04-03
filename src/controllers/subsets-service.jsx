@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
-import {subSetsServiceEndpoint, subSetsServiceEndpointAUTH} from '../config.js';
+
+const subSetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API_AUTH;
+const subSetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
 
 export function useGet(url = null) {
     const [path, setPath] = useState(url);

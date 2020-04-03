@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {klassApiServiceEndpoint} from '../config.js';
+const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
 // TODO: error handling using global and private error handlers
 export function useGet(url = null) {
