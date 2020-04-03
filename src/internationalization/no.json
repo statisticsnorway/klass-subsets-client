@@ -2,8 +2,14 @@
   "Klass uttrekk": "Klass uttrekk",
 
   "Search subsets": "Søke uttrekk",
-  "Subset title": "Uttrekksnavn",
+  "Subset name": "Uttrekksnavn",
   "Search results": "Søkeresultater",
+  "Loading...": "Laster ned...",
+  "No name": "Intet navn",
+  "Updated": "Oppdatert",
+  "Status": "Status",
+  "Sort by": "Sorter etter",
+  "Last updated": "Sist oppdatert",
 
   "Create subset": "Lage uttrekk",
   "Previous": "Forrige",
@@ -11,7 +17,7 @@
 
   "Metadata": "Metadata",
   "Names": "Navn",
-  "Valid from": "Gyldig fra og meg",
+  "Valid from": "Gyldig fra og med",
   "Valid to": "Gyldig til og med",
   "Owner": "Seksjon",
   "Select a responsible department...": "Velg ansvarlig SSB-seksjon...",
@@ -59,8 +65,20 @@
   "Publish": "Publisere",
   "Subset has got no title yet": "Intet navn oppgitt",
   "Validity period": "Gyldighetsperiode",
-  "No description": "Ingen beskriverlse",
+  "No description": "Ingen beskrivelse",
   "Raw JSON": "Rå JSON",
 
-  "Feedback": "Tilbakemeldinger"
+  "Feedback": "Tilbakemeldinger",
+  "The application is under development.": "Applikasjonen er under utvikling.",
+  "You can report an issue or suggest an improvement here": "Du kan rapportere et problem eller foreslå en forbedring her",
+  "Issues": "Registrerte saker",
+  "Source code": "Kildekode",
+  "You can find the source code on": "Du finner kildekoden i",
+
+  "Changelog": "Endringslogg",
+  "Adopted ClassificationSubsets schema": "ClassificationSubsets-skjema tatt i bruk",
+  "and": "og",
+  "Authorisation and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
+
+  "Subset with id does not exist": "Uttrekket med id {{id}} eksisterer ikke"
 }

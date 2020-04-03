@@ -1,9 +1,26 @@
 {
   "name": "klass-subsets-webclient",
-  "version": "0.2.1",
-  "private": true,
+  "version": "0.2.2",
+  "description": "A webclient application to communicate with Klass subsets service REST API in order to create and update classification subsets of codes.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/statisticsnorway/klass-subsets-client.git"
+  },
+  "keywords": [
+    "klass",
+    "subsets",
+    "client",
+    "react"
+  ],
+  "author": "SSB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/statisticsnorway/klass-subsets-client/issues"
+  },
   "@comment dependencies": [
     "typescript: peer dependency tsutils@3.17.1",
+    "sass:       peer dependency sass-loader@8.0.2",
+    "fibers:     peer dependency sass-loader@8.0.2",
     "",
     "To decide if this peer dependencies are stil needed, ",
     "remove them from dependensies and run 'npm install' or 'yarn install'. ",
@@ -12,6 +29,7 @@
   "dependencies": {
     "@statisticsnorway/ssb-component-library": "^2.0.5",
     "feather-icons": "^4.25.0",
+    "fibers": ">= 3.1.0",
     "i18next": "^19.1.0",
     "react": "^16.13.0",
     "react-date-picker": "^7.10.0",
@@ -19,6 +37,7 @@
     "react-i18next": "^11.3.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
+    "sass": "^1.3.0",
     "typescript": "^3.7.3"
   },
   "scripts": {

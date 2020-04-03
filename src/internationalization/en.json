@@ -2,8 +2,15 @@
   "Klass uttrekk": "Classification Subsets",
 
   "Search subsets": "Search subsets",
-  "Subset title": "Subset title",
+  "Subset name": "Subset name",
   "Search results": "Search results",
+  "Loading...": "Loading",
+  "No name": "No name",
+  "Updated": "Updated",
+  "Status": "Status",
+  "Sort by": "Sort by",
+  "Last updated": "Last updated",
+  "Name": "Name",
 
   "Create subset": "Create subset",
   "Previous": "Previous",
@@ -62,5 +69,17 @@
   "No description": "No description",
   "Raw JSON": "Raw JSON",
 
-  "Feedback": "Feedback"
+  "Feedback": "Feedback",
+  "The application is under development.": "The application is under development.",
+  "You can report an issue or suggest an improvement here": "You can report an issue or suggest an improvement here",
+  "Issues": "Issues",
+  "Source code": "Source code",
+  "You can find the source code on": "You can find the source code on",
+
+  "Changelog": "Changelog",
+  "Adopted ClassificationSubsets schema": "Adopted ClassificationSubsets schema",
+  "and": "and",
+  "Authorisation and subset-service integration": "Authorisation and subset-service integration",
+
+  "Subset with id does not exist": "Subset with id {{id}} does not exist"
 }

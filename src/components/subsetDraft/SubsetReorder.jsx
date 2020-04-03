@@ -7,9 +7,10 @@ export const SubsetReorder = ({subset}) => {
     const { t } = useTranslation();
 
     const allCodes = [];
-    subset.draft.classifications.map(classification => allCodes.push(...classification.codes));
+    subset.draft.classifications.map(classification =>
+        allCodes.push(...classification.codes.filter(i => i.included)));
     allCodes.forEach(i => (i.title = `${i.code} ${i.name}`));
-    const codes = useList(allCodes.filter(i => i.included));
+    const codes = useList(allCodes);
 
     // TODO: show more data on item component (info block, date, etc?)
     return (<>

@@ -2,11 +2,17 @@ import {useReducer} from 'react';
 import {nextDefaultName} from './languages';
 
 export const useSubset = (init =  {
-    ownerId: '',
-    names: [],
-    valid: { from: null, to: null },
-    subject: '',
-    descriptions: [],
+    createdBy: '',
+    name: [],
+    validFrom: null,
+    validUntil: null,
+    administrativeDetails: [
+        {
+            administrativeDetailType: "ANNOTATION",
+            values: []
+        }
+    ],
+    description: [],
     classifications: []}
     ) => {
 
@@ -16,39 +22,42 @@ export const useSubset = (init =  {
                 return  {...state};
             }
             case 'name_add': {
-                const name = nextDefaultName(state.names);
+                const name = nextDefaultName(state.name);
                 return  name === null
                     ? {...state}
-                    : {...state, names: [...state.names, name]};
+                    : {...state, name: [...state.name, name]};
             }
             case 'name_remove': {
-                return {...state, names: state.names.filter((item, index) => index !== data)};
+                return {...state, name: state.name.filter((item, index) => index !== data)};
             }
             case 'from': {
                 // FIXME: restrictions
-                state.valid.from = data;
+                state.validFrom = data;
                 return {...state};
             }
             case 'to': {
                 // FIXME: restrictions
-                state.valid.to = data;
+                state.validUntil = data;
                 return {...state};
             }
             case 'description_add': {
-                const description = nextDefaultName(state.descriptions);
+                const description = nextDefaultName(state.description);
                 return  description === null
                     ? {...state}
-                    : {...state, descriptions: [...state.descriptions, description]};
+                    : {...state, description: [...state.description, description]};
             }
             case 'description_remove': {
                 return {...state,
-                    descriptions: state.descriptions.filter((item, index) => index !== data)};
+                    description: state.description.filter((item, index) => index !== data)};
             }
-            case 'ownerId': {
-                return  {...state, ownerId: data};
+            case 'createdBy': {
+                return  {...state, createdBy: data};
             }
             case 'subject': {
-                return  {...state, subject: data};
+                state.administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ANNOTATION')
+                    .values[0] = data;
+                return  {...state};
             }
             case 'classifications': {
                 return  {...state, classifications: data};
@@ -63,8 +72,8 @@ export const useSubset = (init =  {
             }
             case 'remove_empty': {
                 return {...state,
-                    names: state.names.filter(item => item.text && item.text.length > 0),
-                    descriptions: state.descriptions.filter(item => item.text && item.text.length > 0)
+                    name: state.name.filter(item => item.languageText?.length > 0),
+                    description: state.description.filter(item => item.languageText?.length > 0)
                 };
             }
             case 'reset': {

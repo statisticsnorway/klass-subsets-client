@@ -9,7 +9,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                          remove = (index) => console.log('-', index)}) => {
 
     const languages = availableLanguages();
-    disableUsed(languages, items.map(name => name.lang));
+    disableUsed(languages, items.map(name => name.languageCode));
 
     return (
         <div className='ssb-text-area' style={{width: '55%'}}>
@@ -21,8 +21,8 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     <textarea cols={size.cols} rows={size.rows}
                               style={{height: `${size.rows * 44}px`}}
                               id={title}
-                              value={item.text || prefix}
-                              onChange={(e) => handle(item.text = e.target.value)}
+                              value={item.languageText || prefix}
+                              onChange={(e) => handle(item.languageText = e.target.value)}
                               onKeyPress={(e) => {
                                   e.which !== 0 && e.target.selectionStart < prefix.length && e.preventDefault();
                               }}
@@ -39,8 +39,8 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     />
 
                     <LanguageSelect languages={languages}
-                                    selected={item.lang}
-                                    onChange={(e) => handle(item.lang = e.target.value)}
+                                    selected={item.languageCode}
+                                    onChange={(e) => handle(item.languageCode = e.target.value)}
                     />
 
                     <button disabled={!(index === items.length - 1 && index < languages.length - 1)}
@@ -73,7 +73,7 @@ export const LanguageSelect = ({languages = availableLanguages(),
                 value={selected || languages.find(lang => lang.default)}
                 onChange={(e) => onChange(e)}>
             {languages.map((lang, i) => (
-                <option key={i} value={lang.abbr} disabled={lang.disabled}>{lang.full}</option>
+                <option key={i} value={lang.languageCode} disabled={lang.disabled}>{lang.full}</option>
             ))}
         </select>
     );

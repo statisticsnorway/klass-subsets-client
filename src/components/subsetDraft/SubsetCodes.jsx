@@ -10,15 +10,16 @@ import {useTranslation} from "react-i18next";
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
  *  FIXME: fails on '(' input and in result string
- *  FIXME: notes for codes !
+ *  FIXME: notes for codes: markup
+ *  FIXME: notes for codes: restrict period!
  */
 
 export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
     const { t } = useTranslation();
 
-    const from = subset.draft.valid.from && subset.draft.valid.from.toISOString().substr(0, 10);
-    const to = subset.draft.valid.to && subset.draft.valid.to.toISOString().substr(0, 10);
+    const from = subset.draft.validFrom?.toISOString().substr(0, 10);
+    const to = subset.draft.validUntil?.toISOString().substr(0, 10);
 
     const [searchValues, setSearchValues] = useState([]); // list of classification names
     const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
@@ -53,8 +54,7 @@ export const SubsetCodes = ({subset}) => {
             <Search resource={classifications ? classifications._embedded.classifications : []}
                     setChosen={(item) => setSearchValues(item)}
                     placeholder={t('Type classification name')}
-                    searchBy = {(input, resource) =>
-                        input === '' ? [] : resource
+                    searchBy = {(input, resource) => input === '' ? [] : resource
                             .filter(i => i.name.toLowerCase()
                             .search(input.toLowerCase()) > -1)}
             />

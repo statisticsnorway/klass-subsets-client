@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
-import {subSetsServiceEndpoint, subSetsServiceEndpointAUTH} from '../config.js';
+
+const subSetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API_AUTH;
+const subSetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
 
 export function useGet(url = null) {
     const [path, setPath] = useState(url);
@@ -9,6 +11,7 @@ export function useGet(url = null) {
 
     useEffect(() => {
         const fetchData = async () => {
+
             setError(null);
             setIsLoading(true);
 
@@ -16,6 +19,7 @@ export function useGet(url = null) {
                 const response = await fetch(`${subSetsServiceEndpoint}${path}`);
                 let json = await response.json();
                 setData(json);
+                setIsLoading(false);
             }
             catch (e) {
                 setError({
@@ -25,11 +29,11 @@ export function useGet(url = null) {
                     message: `Error during fetching: ${e.message}`,
                     path
                 });
+                setIsLoading(false);
             }
-            setIsLoading(false);
         };
 
-        if (path) {
+        if (path !== null) {
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);

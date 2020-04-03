@@ -7,13 +7,13 @@ export function availableLanguages() {
 
 export function nextDefaultName(items) {
     if (items.length < 1) {
-        return {text: '', lang: availableLanguages().find(lang => lang.default).abbr};
+        return {languageText: '', languageCode: availableLanguages().find(lang => lang.default).languageCode};
     }
-    const used = items.map(item => item.lang);
-    const unused = availableLanguages().find(lang => !used.includes(lang.abbr));
-    return unused ? {text: '', lang: unused.abbr} : null;
+    const used = items.map(item => item.languageCode);
+    const unused = availableLanguages().find(lang => !used.includes(lang.languageCode));
+    return unused ? {languageText: '', languageCode: unused.languageCode} : null;
 }
 
 export function disableUsed(languages, used) {
-    return languages.forEach((lang) => lang.disabled = used.includes(lang.abbr));
+    return languages.forEach((lang) => lang.disabled = used.includes(lang.languageCode));
 }

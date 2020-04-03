@@ -11,22 +11,20 @@ import {useTranslation} from "react-i18next";
  *  TODO: select components (2) from the ssb-component-library
  *  TODO: textarea styled as input text in the ssb-component-library
  *  FIXME: buttons Next-Previous have to be aligned properly
- *  FIXME: make empty names and descriptions do not disappear at all
- *  TODO: remove fieldsets? or just its boarder: none
  *  FIXME: sanitize input
  */
 
 export const SubsetMetadata = ({subset}) => {
 
-    subset.draft.names && subset.draft.names.length < 1 && subset.dispatch({action: 'name_add'});
-    subset.draft.descriptions && subset.draft.descriptions.length < 1 && subset.dispatch({action: 'description_add'});
+    subset.draft.name && subset.draft.name.length < 1 && subset.dispatch({action: 'name_add'});
+    subset.draft.description?.length < 1 && subset.dispatch({action: 'description_add'});
     const {ssbsections, classificationfamilies} = useContext(AppContext);
     const { t } = useTranslation();
 
     return (
         <>
             <Title size={3}>{t('Metadata')}</Title>
-            <TextLanguageFieldset title={t('Names')} items={subset.draft.names}
+            <TextLanguageFieldset title={t('Names')} items={subset.draft.name}
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
@@ -39,7 +37,7 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="from_date">{t('Valid from')}: </label>
                     <DatePicker id='from_date' style={{display: 'block'}}
-                                value={subset.draft.valid.from}
+                                value={subset.draft.validFrom}
                                 onChange={(date) => subset.dispatch({action: 'from', data: date})}
                                 clearIcon={null}
                                 format='dd.MM.y'
@@ -51,7 +49,7 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="to_date">{t('Valid to')}: </label>
                     <DatePicker id='to_date' style={{display: 'block'}}
-                                value={subset.draft.valid.to}
+                                value={subset.draft.validUntil}
                                 onChange={(date) => subset.dispatch({action: 'to', data: date})}
                                 clearIcon={null}
                                 format='dd.MM.y'
@@ -65,23 +63,26 @@ export const SubsetMetadata = ({subset}) => {
             <Dropdown label={t('Owner')}
                       options={ssbsections ? ssbsections._embedded.ssbSections : []}
                       placeholder={t('Select a responsible department...')}
-                      selected={subset.draft.ownerId}
+                      selected={subset.draft.createdBy}
                       onSelect={(item) => subset.dispatch({
-                          action: 'ownerId',
+                          action: 'createdBy',
                           data: item })}
             />
 
+            {/* TODO: subject is stored in an array, it could be treated as tags ? */}
             <Dropdown label={t('Subject')}
-                      options={classificationfamilies ? classificationfamilies._embedded.classificationFamilies : []}
+                      options={classificationfamilies?._embedded.classificationFamilies || []}
                       placeholder={t('Select a classification family...')}
-                      selected={subset.draft.subject}
+                      selected={subset.draft.administrativeDetails
+                          .find(d => d.administrativeDetailType === 'ANNOTATION')
+                          .values[0] || ''}
                       onSelect={(item) => subset.dispatch({
                           action: 'subject',
                           data: item })}
             />
 
             {/* FIXME: limit text size*/}
-            <TextLanguageFieldset title={t('Description')} items={subset.draft.descriptions}
+            <TextLanguageFieldset title={t('Description')} items={subset.draft.description}
                                   add={() => subset.dispatch({action: 'description_add'})}
                                   remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
                                   handle={() => subset.dispatch({action: 'update'})}
