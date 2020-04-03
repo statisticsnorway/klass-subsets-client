@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import '../../css/pages.css';
-import {Input, Dropdown} from '@statisticsnorway/ssb-component-library';
+import {Dropdown, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/subsets-service';
 import {Subsets} from '../Subset';
-import {Search} from "../../utils/Search";
+import {Search} from '../../utils/Search';
 
 export default function SearchSubsetsPage() {
 
     const { t } = useTranslation();
     const [subsets] = useGet('');
-    useEffect(() => setSearchValues(subsets), [subsets]);
+    const [searchResults, setSearchResults] = useState([]);
 
-    const [searchValues, setSearchValues] = useState([]);
+    useEffect(() => setSearchResults(subsets), [subsets]);
 
     return (
         <div className='page'>
-            <h3>{t('Search subsets')}</h3>
+            <Title size={2}>{t('Search subsets')}</Title>
 
             <Search resource={subsets || []}
-                    setChosen={(item) => setSearchValues(item)}
+                    setChosen={(item) => setSearchResults(item)}
                     placeholder={t('Subset name')}
                     searchBy = {(input, resource) => input === '' ? subsets : resource
                             .filter(i => i.name[0].languageText.toLowerCase()
@@ -37,11 +37,13 @@ export default function SearchSubsetsPage() {
                     { title: t('Valid to'), id: 'validto' },
                 ]}
             />
-            {!searchValues
-                ? <p>{t('Loading...')}</p>
-                : <Subsets items={searchValues
+
+            {!searchResults || searchResults.length === 0
+                ? <Paragraph>{t('Nothing is found')}</Paragraph>
+                : <Subsets items={searchResults
                     .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate ? 0
-                    : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />}
+                    : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />
+            }
         </div>
     );
 }
