@@ -33,6 +33,7 @@ export default function WelcomePage() {
             <Title size={4}>v0.2.2</Title>
             <Paragraph>{t('Adopted ClassificationSubsets schema')}</Paragraph>
             <Paragraph>{t('Changelog')}</Paragraph>
+            <Paragraph>{t('Search subsets')}</Paragraph>
 
             <Title size={4}>v0.2.1</Title>
             <Paragraph>/be/subsets-service/ {t('and')} React v16.13.0</Paragraph>
