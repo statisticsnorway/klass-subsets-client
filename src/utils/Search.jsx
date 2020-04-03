@@ -4,7 +4,8 @@ import {Search as SearchIcon} from 'react-feather';
 
 export const Search = ({resource = [],
                            setChosen = (item) => console.log('chosen item:', item),
-                           placeholder = 'Type classification name',
+                           placeholder = 'Type name',
+                            searchible = (item) => (item),
                            searchBy = (input, source) =>
                                input === '' ? [] : source.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
                        }) => {
@@ -33,7 +34,7 @@ export const Search = ({resource = [],
             }
             case keys.ENTER: {
                 e.preventDefault();
-                handleChoice(active === -1 ? searchInput : suggestions[parseInt(active)].name);
+                handleChoice(active === -1 ? searchInput : searchible(suggestions[parseInt(active)].name));
                 break;
             }
             default: break;
@@ -78,9 +79,9 @@ export const Search = ({resource = [],
                              onClick={(e) => {
                                  e.preventDefault();
                                  setActive(i);
-                                 handleChoice(suggestion.name);
+                                 handleChoice(searchible(suggestion.name));
                              }}>
-                            {highlight(suggestion.name, searchInput)}
+                            {highlight(searchible(suggestion.name), searchInput)}
                         </div>))}
                 </div>
                 <button className='icon-wrapper search-icon'

@@ -2,7 +2,7 @@
   "Klass uttrekk": "Klass uttrekk",
 
   "Search subsets": "Søke uttrekk",
-  "Subset title": "Uttrekksnavn",
+  "Subset name": "Uttrekksnavn",
   "Search results": "Søkeresultater",
   "Loading...": "Laster ned...",
   "No name": "Intet navn",
@@ -10,7 +10,6 @@
   "Status": "Status",
   "Sort by": "Sorter etter",
   "Last updated": "Sist oppdatert",
-  "Name": "Navn",
 
   "Create subset": "Lage uttrekk",
   "Previous": "Forrige",
