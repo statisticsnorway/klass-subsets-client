@@ -79,7 +79,7 @@
   "Changelog": "Changelog",
   "Adopted ClassificationSubsets schema": "Adopted ClassificationSubsets schema",
   "and": "and",
-  "Authorisation and subset-service integration": "Authorisation and subset-service integration",
+  "Authorization and subset-service integration": "Authorisation and subset-service integration",
 
   "Subset with id does not exist": "Subset with id {{id}} does not exist"
 }

@@ -78,7 +78,7 @@
   "Changelog": "Endringslogg",
   "Adopted ClassificationSubsets schema": "ClassificationSubsets-skjema tatt i bruk",
   "and": "og",
-  "Authorisation and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
+  "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
   "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}"
 }
