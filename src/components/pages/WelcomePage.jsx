@@ -41,7 +41,7 @@ export default function WelcomePage() {
             <Paragraph>/be/subsets-service/ {t('and')} React v16.13.0</Paragraph>
 
             <Title size={4}>v0.2.0</Title>
-            <Paragraph>{t('Authorisation and subset-service integration')}</Paragraph>
+            <Paragraph>{t('Authorization and subset-service integration')}</Paragraph>
         </div>
     );
 }
