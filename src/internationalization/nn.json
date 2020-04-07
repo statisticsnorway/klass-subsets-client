@@ -29,7 +29,7 @@
   "Choose classifications and code lists": "Velg kodeverk",
   "All search results will be restricted by validity period set in metadata": "Alle søkeresultater er gyldige innenfor gyldighetsperioden som er valgt for uttrekket",
   "from to": "f.o.m {{from}} t.o.m {{to}}",
-  "at": "på {{date}}",
+  "at": "{{date}}",
   "Period is not set": "Gyldighetsperiode er ikke valgt",
   "Type classification name": "Velg kodeverk",
   "Nothing is found": "Ingen kodeverk funnet",
@@ -41,7 +41,7 @@
   "From": "Fra",
   "To": "Til",
   "Version": "Versjon",
-  "Code list info": "Informasjon om kodeverk",
+  "Code list info": "Informasjon om kodeverket",
 
   "Codes": "Koder",
   "No codes found for this validity period": "Ingen koder er funnet for gyldighetsperioden",
@@ -52,7 +52,7 @@
   "Code": "Kode",
   "Short name": "Kortnavn",
   "Level": "Nivå",
-  "Parent code": "Kode på høyere nivå",
+  "Parent code": "Forelderkode",
 
   "Notes": "Kommentarer",
   "Valid": "Gyldig",
@@ -63,7 +63,7 @@
 
   "Review and publish": "Sjekk og publiser",
   "Publish": "Publiser",
-  "Subset has got no title yet": "Intet navn oppgitt",
+  "Subset has got no title yet": "Uttrekket har ikke noe navn",
   "Validity period": "Gyldighetsperiode",
   "No description": "Beskrivelse mangler",
   "Raw JSON": "JSON",
@@ -80,5 +80,5 @@
   "and": "og",
   "Authorisation and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
-  "Subset with id does not exist": "Uttrekket med id {{id}} eksisterer ikke"
+  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}"
 }

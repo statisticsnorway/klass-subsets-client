@@ -80,5 +80,5 @@
   "and": "og",
   "Authorisation and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
-  "Subset with id does not exist": "Uttrekket med id {{id}} eksisterer ikke"
+  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}"
 }
