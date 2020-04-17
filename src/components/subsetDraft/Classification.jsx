@@ -279,8 +279,8 @@ export const ClassificationInfo = ({id, info}) => {
                 <th>{t('To')}</th>
                 <th>{t('Version')}</th>
                 </thead>
-                {info.versions.map(version => (
-                    <tr>
+                {info.versions.map((version, i) => (
+                    <tr key={i}>
                         <td>{version.validFrom || '...'}</td>
                         <td>{version.validTo || '...'}</td>
                         <td style={{width: '65%'}}>{version.name}</td>
