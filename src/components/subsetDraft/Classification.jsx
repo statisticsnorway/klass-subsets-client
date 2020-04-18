@@ -228,6 +228,15 @@ export const CodeInfo = ({id, item, onChange}) => {
 
     const [showNotes, setShowNotes] = useState(false);
 
+    const replaceRefWithBold = (note) => {
+        const replaceRefRegex = /<ref>/gi;
+        const replaceSlashRefRegex = /<\/ref>/gi;
+      
+        const replaceRef = note.replace(replaceRefRegex, ' <b>');
+        
+        return replaceRef.replace(replaceSlashRefRegex, '</b> ');
+    }
+
     return (
         <>
             <div style={{display: 'flex'}}>
@@ -252,11 +261,11 @@ export const CodeInfo = ({id, item, onChange}) => {
                 {!item.notes
                     ? <Text>{t('Notes are not found.')}</Text>
                     : item.notes.map(note => (
-                        <div style={{
+                        <div key={note} style={{
                             padding: '10px 50px 20px 50px'
                         }}>
                             <Title size={4}>{t('Notes')}</Title>
-                            <Paragraph style={{width: '65%'}}>{note.note}</Paragraph>
+                            <div style={{width: '65%'}} className="ssb-paragraph" dangerouslySetInnerHTML={ {__html: replaceRefWithBold(note.note)} } />
                             <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))}
                 </div>
@@ -272,20 +281,19 @@ export const ClassificationInfo = ({id, info}) => {
         <div style={{backgroundColor: '#eff4f5'}}
              className='panel'>
             <Title size={4}>{t('Code list info')}</Title>
-            <Paragraph><strong>Id:</strong> {id}</Paragraph>
-            <table style={{border: 'none'}}>
-                <thead>
-                <th>{t('From')}</th>
-                <th>{t('To')}</th>
-                <th>{t('Version')}</th>
-                </thead>
+            <Paragraph><strong>Id:</strong> {id}</Paragraph>k
+                <tr>
+                <td>{t('From')}</td>
+                <td>{t('To')}</td>
+                <td>{t('Version')}</td>
+                </tr>
                 {info.versions.map(version => (
                     <tr>
                         <td>{version.validFrom || '...'}</td>
                         <td>{version.validTo || '...'}</td>
                         <td style={{width: '65%'}}>{version.name}</td>
                     </tr>
-                ))}</table>
+                ))}
             <Paragraph><strong>{t('Description')}:</strong> {info.description || '-'}</Paragraph>
         </div>
     );
