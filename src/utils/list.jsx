@@ -1,31 +1,44 @@
 import React, {useReducer} from 'react';
 import '../css/list.css';
 import {Trash2} from 'react-feather';
-
+import {Title} from '@statisticsnorway/ssb-component-library';
+import {useTranslation} from 'react-i18next';
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
+    const { t } = useTranslation();
     return (
-        <ul className='list'>
-            {list.items.filter(i => i.included).map((item, i) =>
-                <ListItem key={i} item={item} dispatch={(o) => list.dispatch(o)} />)}
-        </ul>
+        <>
+            <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
+                <h6 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h6>
+                <h6 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Name')}</h6>
+                <h6 style={{display: 'inline', position: 'absolute', right: '60px', marginBlockEnd: '0'}}>{t('Rank')}</h6>
+            </div>
+            <ul className='list' style={{paddingInlineStart: '0'}}>
+                {list.items.filter(i => i.included).map((item, i) =>
+                    <ListItem key={i} item={item} dispatch={(o) => list.dispatch(o)} />)}
+            </ul>
+        </>
     );
 };
 
 export const ListItem = ({item, dispatch}) => {
+    console.log(item)
     return (
-        <li style={{background: item.dragged ? '#B6E8B8' : 'white', display: 'flex'}}
+        <li style={{padding: '5px 0px 5px 8px', display: 'flex', 
+                    jusistyContent: 'space-between', maxWidth: '600px',
+                    background: item.dragged ? '#B6E8B8' : 'white'
+                }}
             draggable={true}
             onDragOver={() => dispatch({action: 'dragOver', data: item})}
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
-            <div style={{width: '400px'}} className='content'
+            <div style={{width: '65px', marginRight: '10px'}}>{item.code}</div>
+            <div style={{width: '100%', marginRight: '5px'}} className='content'
                  onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
-                {item.title}
+                {item.name}
             </div>
-
             <Controls item={item} dispatch={dispatch}/>
         </li>
     );
@@ -33,8 +46,8 @@ export const ListItem = ({item, dispatch}) => {
 
 export const Controls = ({item, dispatch}) => {
     return (
-        <span>
-            <input type='number' name='rank' style={{width: '4em'}}
+        <span style={{display: 'flex', height: '100%'}}>
+            <input type='number' name='rank' style={{textAlign: 'right', width: '35px', marginRight: '5px'}}
                    value={item.rank}
                    onChange={(e) => {
                        dispatch({action: 'rank', data: {item, rank: e.target.value}});
