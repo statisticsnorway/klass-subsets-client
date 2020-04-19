@@ -14,13 +14,12 @@ import {useTranslation} from 'react-i18next';
 
 export default function Footer() {
     const { t } = useTranslation();
-    console.log(t)
 
     return (
         <SsbFooter>
             <div className="top-row flex-row justify-space-between flex-wrap">
         <img src={ssbLogo} style={{filter: 'invert(100%)'}} alt="ssb-logo" />
-        <Button negative onClick={()=> window.scroll({ top: 0, behavior: 'smooth' })}> {t('Til Toppen')}
+        <Button negative onClick={()=> window.scroll({ top: 0, behavior: 'smooth' })}> {t('To Top')}
         </Button>
     </div>
 
