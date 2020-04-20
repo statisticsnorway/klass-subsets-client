@@ -14,6 +14,7 @@ import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
 import DOMPurify from 'dompurify';
+import { replaceRefWithHTMLAndSanitize } from '../../utils/helperFunktions';
 
 /*
  * TODO: Use links delivered by API, do not parse - less coupling
@@ -229,16 +230,6 @@ export const CodeInfo = ({id, item, onChange}) => {
 
     const [showNotes, setShowNotes] = useState(false);
 
-    const replaceRefWithBold = (note) => {
-        const replaceRefRegex = /<ref>/gi;
-        const replaceSlashRefRegex = /<\/ref>/gi;
-      
-        const replaceRef = note.replace(replaceRefRegex, ' <strong>');
-        const replaceSlashRef = replaceRef.replace(replaceSlashRefRegex, '</strong> ');
-
-        return DOMPurify.sanitize(replaceSlashRef);
-    };
-
     return (
         <>
             <div style={{display: 'flex'}}>
@@ -267,7 +258,7 @@ export const CodeInfo = ({id, item, onChange}) => {
                             padding: '10px 50px 20px 50px'
                         }}>
                             <Title size={4}>{t('Notes')}</Title>
-                            <div style={{width: '65%'}} className="ssb-paragraph" dangerouslySetInnerHTML={ {__html: replaceRefWithBold(note.note)} } />
+                            <div style={{width: '65%'}} className="ssb-paragraph" dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
                             <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))}
                 </div>
