@@ -13,7 +13,6 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
-import DOMPurify from 'dompurify';
 import { replaceRefWithHTMLAndSanitize } from '../../utils/helperFunktions';
 
 /*
@@ -278,9 +277,9 @@ export const ClassificationInfo = ({id, info}) => {
             <table>
                 <tbody>
                     <tr>
-                        <td>{t('From')}</td>
-                        <td>{t('To')}</td>
-                        <td>{t('Version')}</td>
+                        <th>{t('From')}</th>
+                        <th>{t('To')}</th>
+                        <th>{t('Version')}</th>
                     </tr>
                     {info.versions.map((version, i) => (
                         <tr key={i}>

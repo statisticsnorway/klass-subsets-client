@@ -1,5 +1,7 @@
 {
   "Klass uttrekk": "Klass uttrekk",
+  "To Top": "Til toppen",
+  "Site map": "Nettstedskart",
 
   "Search subsets": "Søk etter uttrekk",
   "Subset name": "Navn",
@@ -29,7 +31,7 @@
   "Choose classifications and code lists": "Velg kodeverk",
   "All search results will be restricted by validity period set in metadata": "Alle søkeresultater er gyldige innenfor gyldighetsperioden som er valgt for uttrekket",
   "from to": "f.o.m {{from}} t.o.m {{to}}",
-  "at": "på {{date}}",
+  "at": "{{date}}",
   "Period is not set": "Gyldighetsperiode er ikke valgt",
   "Type classification name": "Velg kodeverk",
   "Nothing is found": "Ingen kodeverk funnet",
@@ -41,7 +43,7 @@
   "From": "Fra",
   "To": "Til",
   "Version": "Versjon",
-  "Code list info": "Informasjon om kodeverk",
+  "Code list info": "Informasjon om kodeverket",
 
   "Codes": "Koder",
   "No codes found for this validity period": "Ingen koder er funnet for gyldighetsperioden",
@@ -52,7 +54,7 @@
   "Code": "Kode",
   "Short name": "Kortnavn",
   "Level": "Nivå",
-  "Parent code": "Kode på høyere nivå",
+  "Parent code": "Forelderkode",
 
   "Notes": "Kommentarer",
   "Valid": "Gyldig",
@@ -60,10 +62,12 @@
 
   "Reorder codes": "Endre rekkefølge på koder",
   "No items to sort": "Ingen koder",
+  "Rank": "Rekkefølge",
+  "Code name": "Kodetekst",
 
   "Review and publish": "Sjekk og publiser",
   "Publish": "Publiser",
-  "Subset has got no title yet": "Intet navn oppgitt",
+  "Subset has got no title yet": "Uttrekket har ikke noe navn",
   "Validity period": "Gyldighetsperiode",
   "No description": "Beskrivelse mangler",
   "Raw JSON": "JSON",
@@ -80,11 +84,5 @@
   "and": "og",
   "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
-  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
-
-  "To Top": "Til Toppen",
-  "Site map": "Nettstedskart",
-
-  "Rank": "Rekkefølge",
-  "Name": "Kodetekst"
+  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}"
 }
