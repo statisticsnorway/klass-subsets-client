@@ -12,7 +12,7 @@ export const List = ({list}) => {
             <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
                 <h6 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h6>
                 <h6 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Name')}</h6>
-                <h6 style={{display: 'inline', position: 'absolute', right: '60px', marginBlockEnd: '0'}}>{t('Rank')}</h6>
+                <h6 style={{display: 'inline', position: 'absolute', right: '45px', marginBlockEnd: '0'}}>{t('Rank')}</h6>
             </div>
             <ul className='list' style={{paddingInlineStart: '0'}}>
                 {list.items.filter(i => i.included).map((item, i) =>

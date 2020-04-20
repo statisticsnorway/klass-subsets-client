@@ -83,5 +83,8 @@
   "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
 
   "To Top": "Til Toppen",
-  "Site map": "Nettstedskart"
+  "Site map": "Nettstedskart",
+
+  "Rank": "Rekkefølge",
+  "Name": "Kodetekst"
 }
