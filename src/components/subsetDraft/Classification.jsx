@@ -236,7 +236,7 @@ export const CodeInfo = ({id, item, onChange}) => {
         const replaceRef = note.replace(replaceRefRegex, ' <strong>');
         const replaceSlashRef = replaceRef.replace(replaceSlashRefRegex, '</strong> ');
 
-        return DOMPurify.sanitize(replaceSlashRef)
+        return DOMPurify.sanitize(replaceSlashRef);
     };
 
     return (
@@ -284,18 +284,22 @@ export const ClassificationInfo = ({id, info}) => {
              className='panel'>
             <Title size={4}>{t('Code list info')}</Title>
             <Paragraph><strong>Id:</strong> {id}</Paragraph>
-                <tr>
-                <td>{t('From')}</td>
-                <td>{t('To')}</td>
-                <td>{t('Version')}</td>
-                </tr>
-                {info.versions.map(version => (
+            <table>
+                <tbody>
                     <tr>
-                        <td>{version.validFrom || '...'}</td>
-                        <td>{version.validTo || '...'}</td>
-                        <td style={{width: '65%'}}>{version.name}</td>
+                        <td>{t('From')}</td>
+                        <td>{t('To')}</td>
+                        <td>{t('Version')}</td>
                     </tr>
-                ))}
+                    {info.versions.map((version, i) => (
+                        <tr key={i}>
+                            <td>{version.validFrom || '...'}</td>
+                            <td>{version.validTo || '...'}</td>
+                            <td style={{width: '65%'}}>{version.name}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
             <Paragraph><strong>{t('Description')}:</strong> {info.description || '-'}</Paragraph>
         </div>
     );
