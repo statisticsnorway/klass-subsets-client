@@ -29,7 +29,10 @@ export default function WelcomePage() {
             >GitHub repository</a></Paragraph>
 
             <Title size={2}>{t('Changelog')}</Title>
-
+            <Title size={4}>v0.2.2</Title>
+            <Paragraph>{t('Footer implemented')}</Paragraph>
+            <Paragraph>{t('Overall styling fixes')}</Paragraph>
+            
             <Title size={4}>v0.2.2</Title>
             <Paragraph>{t('Adopted ClassificationSubsets schema')}</Paragraph>
             <Paragraph>{t('Changelog')}</Paragraph>
