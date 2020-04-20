@@ -232,10 +232,10 @@ export const CodeInfo = ({id, item, onChange}) => {
         const replaceRefRegex = /<ref>/gi;
         const replaceSlashRefRegex = /<\/ref>/gi;
       
-        const replaceRef = note.replace(replaceRefRegex, ' <b>');
+        const replaceRef = note.replace(replaceRefRegex, ' <strong>');
         
-        return replaceRef.replace(replaceSlashRefRegex, '</b> ');
-    }
+        return replaceRef.replace(replaceSlashRefRegex, '</strong> ');
+    };
 
     return (
         <>

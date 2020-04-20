@@ -23,7 +23,6 @@ export const List = ({list}) => {
 };
 
 export const ListItem = ({item, dispatch}) => {
-    console.log(item)
     return (
         <li style={{padding: '5px 0px 5px 8px', display: 'flex', 
                     jusistyContent: 'space-between', maxWidth: '600px',

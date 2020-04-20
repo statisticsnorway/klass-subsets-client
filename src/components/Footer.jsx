@@ -19,7 +19,7 @@ export default function Footer() {
         <SsbFooter>
             <div className="top-row flex-row justify-space-between flex-wrap">
         <img src={ssbLogo} style={{filter: 'invert(100%)'}} alt="ssb-logo" />
-        <Button negative onClick={()=> window.scroll({ top: 0, behavior: 'smooth' })}> {t('To Top')}
+        <Button negative onClick={() => window.scroll({ top: 0, behavior: 'smooth' })}> {t('To Top')}
         </Button>
     </div>
 
@@ -37,5 +37,5 @@ export default function Footer() {
         </div>
     </div>
         </SsbFooter>
-    )
+    );
 }

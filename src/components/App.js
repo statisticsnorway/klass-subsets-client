@@ -2,8 +2,8 @@ import React from 'react';
 import '../css/App.css';
 import {BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
 import {ContextProvider} from '../controllers/context';
-import Header from './Header'
-import Footer from './Footer'
+import Header from './Header';
+import Footer from './Footer';
 import WelcomePage from './pages/WelcomePage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
 // import Errors from './Errors';
