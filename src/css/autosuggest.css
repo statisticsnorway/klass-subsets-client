@@ -1,13 +1,14 @@
 .autocomplete-items {
     position: absolute;
     border: 1px solid #C3DCDC;
-    border-bottom: none;
     border-top: none;
     z-index: 99;
     /*position the autocomplete items to be the same width as the container:*/
     top: 100%;
     left: 0;
     right: 0;
+    overflow: overlay;
+    max-height: 250px;
 }
 .autocomplete-items div {
     padding: 10px;
