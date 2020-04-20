@@ -13,6 +13,7 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
+import DOMPurify from 'dompurify';
 
 /*
  * TODO: Use links delivered by API, do not parse - less coupling
@@ -233,8 +234,9 @@ export const CodeInfo = ({id, item, onChange}) => {
         const replaceSlashRefRegex = /<\/ref>/gi;
       
         const replaceRef = note.replace(replaceRefRegex, ' <strong>');
-        
-        return replaceRef.replace(replaceSlashRefRegex, '</strong> ');
+        const replaceSlashRef = replaceRef.replace(replaceSlashRefRegex, '</strong> ');
+
+        return DOMPurify.sanitize(replaceSlashRef)
     };
 
     return (
@@ -281,7 +283,7 @@ export const ClassificationInfo = ({id, info}) => {
         <div style={{backgroundColor: '#eff4f5'}}
              className='panel'>
             <Title size={4}>{t('Code list info')}</Title>
-            <Paragraph><strong>Id:</strong> {id}</Paragraph>k
+            <Paragraph><strong>Id:</strong> {id}</Paragraph>
                 <tr>
                 <td>{t('From')}</td>
                 <td>{t('To')}</td>
