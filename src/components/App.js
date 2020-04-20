@@ -3,6 +3,7 @@ import '../css/App.css';
 import {BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
 import {ContextProvider} from '../controllers/context';
 import Header from './Header';
+import Footer from './Footer';
 import WelcomePage from './pages/WelcomePage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
 // import Errors from './Errors';
@@ -34,6 +35,7 @@ export default function App() {
                         <Route component={NoMatch}/>
                     </Switch>
                 </div>
+                    <Footer/>
                 </div>
             </BrowserRouter>
         </ContextProvider>

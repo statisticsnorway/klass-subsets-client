@@ -80,5 +80,11 @@
   "and": "og",
   "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
-  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}"
+  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
+
+  "To Top": "Til Toppen",
+  "Site map": "Nettstedskart",
+
+  "Rank": "Rekkefølge",
+  "Name": "Kodetekst"
 }
