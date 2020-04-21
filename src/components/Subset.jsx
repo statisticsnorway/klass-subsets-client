@@ -3,7 +3,7 @@ import {Accordion, Paragraph, Text, Title, Link as SsbLink} from '@statisticsnor
 import {useTranslation} from 'react-i18next';
 import {useParams} from 'react-router-dom';
 import {useGet} from '../controllers/subsets-service';
-import { replaceRefWithHTMLAndSanitize } from '../utils/helperFunktions';
+import { replaceRefWithHTMLAndSanitize } from '../utils/strings';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
