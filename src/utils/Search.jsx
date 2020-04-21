@@ -42,7 +42,6 @@ export const Search = ({ resource = [],
     }
 
     function handleChoice(choice) {
-        console.log(choice)
         setSuggestions([]);
         setSearchInput(choice);
         dom.current.focus();
