@@ -13,7 +13,7 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
-import { replaceRefWithHTMLAndSanitize } from '../../utils/helperFunktions';
+import { replaceRefWithHTMLAndSanitize } from '../../utils/strings';
 
 /*
  * TODO: Use links delivered by API, do not parse - less coupling
@@ -76,12 +76,15 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                         let code = item.codes?.find(c => c.code === ci.code);
                         if (code) {
                             code.notes = code.notes || [];
-                            code.notes.push({
-                                note: ci.notes,
-                                versionName: version.name,
-                                validFrom: version.validFrom,
-                                validTo: version.validTo
-                            });
+                            const exists = code.notes.find(n => n.note.localeCompare(ci.notes) === 0);
+                            if (!exists) {
+                                code.notes.push({
+                                    note: ci.notes,
+                                    versionName: version.name,
+                                    validFrom: version.validFrom,
+                                    validTo: version.validTo
+                                });
+                            }
                         }
                     }
                 });
@@ -258,7 +261,7 @@ export const CodeInfo = ({id, item, onChange}) => {
                             padding: '10px 50px 20px 50px'
                         }}>
                             <Title size={4}>{t('Notes')}</Title>
-                            <div style={{width: '65%'}} className="ssb-paragraph" dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
+                            <div style={{width: '65%'}} className='ssb-paragraph' dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
                             <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))}
                 </div>
@@ -278,9 +281,9 @@ export const ClassificationInfo = ({id, info}) => {
             <table>
                 <tbody>
                     <tr>
-                        <td>{t('From')}</td>
-                        <td>{t('To')}</td>
-                        <td>{t('Version')}</td>
+                        <th>{t('From')}</th>
+                        <th>{t('To')}</th>
+                        <th>{t('Version')}</th>
                     </tr>
                     {info.versions.map((version, i) => (
                         <tr key={i}>

@@ -1,5 +1,7 @@
 {
   "Klass uttrekk": "Classification Subsets",
+  "To Top": "Scroll To Top",
+  "Site map": "Site map",
 
   "Search subsets": "Search subsets",
   "Subset name": "Subset name",
@@ -61,6 +63,8 @@
 
   "Reorder codes": "Reorder codes",
   "No items to sort": "No items to sort",
+  "Rank": "Rank",
+  "Code name": "Code name",
 
   "Review and publish": "Review and publish",
   "Publish": "Publish",
@@ -81,10 +85,5 @@
   "and": "and",
   "Authorization and subset-service integration": "Authorisation and subset-service integration",
 
-  "Subset with id does not exist": "Subset with id {{id}} does not exist",
-
-  "To Top": "Scroll To Top",
-  "Site map": "Site map",
- 
-  "Rank": "Rank"
+  "Subset with id does not exist": "Subset with id {{id}} does not exist"
 }
