@@ -85,5 +85,5 @@
   "and": "and",
   "Authorization and subset-service integration": "Authorisation and subset-service integration",
 
-  "Subset with id does not exist": "Subset with id {{id}} does not exist",
+  "Subset with id does not exist": "Subset with id {{id}} does not exist"
 }
