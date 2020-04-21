@@ -257,7 +257,7 @@ export const CodeInfo = ({id, item, onChange}) => {
                             padding: '10px 50px 20px 50px'
                         }}>
                             <Title size={4}>{t('Notes')}</Title>
-                            <div style={{width: '65%'}} className="ssb-paragraph" dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
+                            <div style={{width: '65%'}} className='ssb-paragraph' dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
                             <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))}
                 </div>

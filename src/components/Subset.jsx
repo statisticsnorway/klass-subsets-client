@@ -108,7 +108,7 @@ export const Code = ({code}) => {
                 ? <Text>-</Text>
                 : code.notes.map(note => (
                 <div style={{padding: '5px 25px 10px 25px'}}>
-                    <div style={{width: '65%'}} className="ssb-paragraph" dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
+                    <div style={{width: '65%'}} className='ssb-paragraph' dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
                     <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                 </div>))}
         </Accordion>
