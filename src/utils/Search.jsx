@@ -1,14 +1,14 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import '../css/autosuggest.css';
-import {Search as SearchIcon} from 'react-feather';
+import { Search as SearchIcon } from 'react-feather';
 
-export const Search = ({resource = [],
-                           setChosen = (item) => console.log('chosen item:', item),
-                           placeholder = 'Type name',
-                            searchible = (item) => (item),
-                           searchBy = (input, source) =>
-                               input === '' ? [] : source.filter(i => i.toLowerCase().search(input.toLowerCase()) > -1)
-                       }) => {
+export const Search = ({ resource = [],
+    setChosen = (item) => console.log('chosen item:', item),
+    placeholder = 'Type name',
+    searchible = (item) => (item),
+    searchBy = (input, source) => 
+        input === '' ? [] : source.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) > -1)
+}) => {
 
     const dom = useRef(null);
 
@@ -51,11 +51,11 @@ export const Search = ({resource = [],
     }
 
     function highlight(origin, substring) {
-        const i = origin.toLowerCase().search(substring.toLowerCase());
-        return  <>
+        const i = origin.toLowerCase().indexOf(substring.toLowerCase());
+        return <>
             <span>{origin.substr(0, i)}</span>
-            <span style={{backgroundColor:'#62919A'}}>{origin.substr(i, substring.length)}</span>
-            <span>{origin.substr(i+substring.length, origin.length)}</span>
+            <span style={{ backgroundColor: '#62919A' }}>{origin.substr(i, substring.length)}</span>
+            <span>{origin.substr(i + substring.length, origin.length)}</span>
         </>;
     }
 
@@ -63,29 +63,28 @@ export const Search = ({resource = [],
     // FIXME: scroll and limit amount of suggestion shown by screen size
     // FIXME: sanitize input !!!!
     // TODO: async fetch ?
-
     return (
         <div className="ssb-input ">
-            <div className="input-wrapper" style={{width: '100%'}}>
+            <div className="input-wrapper" style={{ width: '100%' }}>
                 <input type='search' className='with-icon'
-                       name='classificationSearch'
-                       ref={dom}
-                       placeholder={placeholder} value={searchInput} onChange={handleInput}
-                       onKeyDown={keyHandler}/>
+                    name='classificationSearch'
+                    ref={dom}
+                    placeholder={placeholder} value={searchInput} onChange={handleInput}
+                    onKeyDown={keyHandler} />
                 <div id='autocomplete-list' className='autocomplete-items'>
                     {suggestions.map((suggestion, i) => (
                         <div key={i}
-                             className={i === active ? 'autocomplete-active' : 'autocomplete'}
-                             onClick={(e) => {
-                                 e.preventDefault();
-                                 setActive(i);
-                                 handleChoice(searchible(suggestion.name));
-                             }}>
+                            className={i === active ? 'autocomplete-active' : 'autocomplete'}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActive(i);
+                                handleChoice(searchible(suggestion.name));
+                            }}>
                             {highlight(searchible(suggestion.name), searchInput)}
                         </div>))}
                 </div>
                 <button className='icon-wrapper search-icon'
-                        onClick={() => handleChoice(searchInput)}><SearchIcon/></button>
+                    onClick={() => handleChoice(searchInput)}><SearchIcon /></button>
             </div>
         </div>
     );
