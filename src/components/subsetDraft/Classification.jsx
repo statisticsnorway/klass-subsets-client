@@ -13,7 +13,7 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
-import { replaceRefWithHTMLAndSanitize } from '../../utils/helperFunktions';
+import { replaceRefWithHTMLAndSanitize } from '../../utils/strings';
 
 /*
  * TODO: Use links delivered by API, do not parse - less coupling
