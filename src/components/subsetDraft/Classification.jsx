@@ -76,12 +76,15 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                         let code = item.codes?.find(c => c.code === ci.code);
                         if (code) {
                             code.notes = code.notes || [];
-                            code.notes.push({
-                                note: ci.notes,
-                                versionName: version.name,
-                                validFrom: version.validFrom,
-                                validTo: version.validTo
-                            });
+                            const exists = code.notes.find(n => n.note.localeCompare(ci.notes) === 0);
+                            if (!exists) {
+                                code.notes.push({
+                                    note: ci.notes,
+                                    versionName: version.name,
+                                    validFrom: version.validFrom,
+                                    validTo: version.validTo
+                                });
+                            }
                         }
                     }
                 });
