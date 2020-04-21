@@ -1,5 +1,7 @@
 {
   "Klass uttrekk": "Klass uttrekk",
+  "To Top": "Til toppen",
+  "Site map": "Nettstedskart",
 
   "Search subsets": "Søk etter uttrekk",
   "Subset name": "Navn",
@@ -60,6 +62,8 @@
 
   "Reorder codes": "Endre rekkefølge på koder",
   "No items to sort": "Ingen koder",
+  "Rank": "Rekkefølge",
+  "Code name": "Kodetekst",
 
   "Review and publish": "Sjekk og publiser",
   "Publish": "Publiser",
@@ -80,10 +84,5 @@
   "and": "og",
   "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
-  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
-
-  "To Top": "Til Toppen",
-  "Site map": "Nettstedskart",
-
-  "Rank": "Rekkefølge"
+  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}"
 }
