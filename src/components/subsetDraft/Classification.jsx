@@ -13,7 +13,6 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
-import DOMPurify from 'dompurify';
 import { replaceRefWithHTMLAndSanitize } from '../../utils/helperFunktions';
 
 /*
@@ -93,6 +92,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     // TODO use fallback and loader
     // FIXME show errors
     const [info] = useGet(`/classifications/${item.id}`);
+
     useEffect(() => {
         if (info && info.versions && info.versions.length > 0) {
             item.versions = info.versions;

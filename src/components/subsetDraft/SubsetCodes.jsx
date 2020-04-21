@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 /*
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
- *  FIXME: fails on '(' input and in result string
+ *  FIXME: fails on 'j(' input and in result string
  *  FIXME: notes for codes: markup
  *  FIXME: notes for codes: restrict period!
  */
@@ -23,7 +23,7 @@ export const SubsetCodes = ({subset}) => {
 
     const [searchValues, setSearchValues] = useState([]); // list of classification names
     const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
-
+    
     useEffect(() => {
         const result = searchValues
             ? searchValues.map(v => subset.draft.classifications.find(c => c.name === v.name) || v)
@@ -56,7 +56,7 @@ export const SubsetCodes = ({subset}) => {
                     placeholder={t('Type classification name')}
                     searchBy = {(input, resource) => input === '' ? [] : resource
                             .filter(i => i.name.toLowerCase()
-                            .search(input.toLowerCase()) > -1)}
+                            .indexOf(input.toLowerCase()) > -1)}
             />
 
             { searchResult.length < 1

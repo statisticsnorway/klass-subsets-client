@@ -12,6 +12,7 @@ export default function SearchSubsetsPage() {
     const [subsets] = useGet('');
     const [searchResults, setSearchResults] = useState([]);
 
+
     useEffect(() => setSearchResults(subsets), [subsets]);
 
     return (
@@ -23,7 +24,7 @@ export default function SearchSubsetsPage() {
                     placeholder={t('Subset name')}
                     searchBy = {(input, resource) => input === '' ? subsets : resource
                             .filter(i => i.name[0].languageText.toLowerCase()
-                                .search(input.toLowerCase()) > -1)}
+                                .indexOf(input.toLowerCase()) > -1)}
                     searchible = {(item) => item[0].languageText}/>
 
             <h3>{t('Search results')}</h3>
