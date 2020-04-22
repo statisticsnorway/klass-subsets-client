@@ -95,6 +95,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     // TODO use fallback and loader
     // FIXME show errors
     const [info] = useGet(`/classifications/${item.id}`);
+
     useEffect(() => {
         if (info && info.versions && info.versions.length > 0) {
             item.versions = info.versions;
