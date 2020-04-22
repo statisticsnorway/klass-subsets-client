@@ -9,3 +9,11 @@ export const replaceRefWithHTMLAndSanitize = note => {
 
     return DOMPurify.sanitize(replaceSlashRef);
 };
+
+export const returnOffsetDate = date => {
+    if (!date) return '';
+    const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+    const offsetDate = new Date(date.getTime() - userTimezoneOffset);
+  
+    return offsetDate.toISOString().substr(0,10);
+};

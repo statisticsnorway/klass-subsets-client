@@ -32,6 +32,7 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
+                
                 state.validFrom = data;
                 return {...state};
             }

@@ -3,7 +3,7 @@ import {Accordion, Paragraph, Text, Title, Link as SsbLink} from '@statisticsnor
 import {useTranslation} from 'react-i18next';
 import {useParams} from 'react-router-dom';
 import {useGet} from '../controllers/subsets-service';
-import { replaceRefWithHTMLAndSanitize } from '../utils/strings';
+import { replaceRefWithHTMLAndSanitize, returnOffsetDate } from '../utils/strings';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
@@ -58,8 +58,8 @@ export const SubsetPreview = ({subset}) => {
     // FIXME: show title in selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
 
-    const from = subset.validFrom?.toISOString().substr(0, 10);
-    const to = subset.validUntil?.toISOString().substr(0, 10);
+    const from = returnOffsetDate(subset.validFrom);
+    const to = returnOffsetDate(subset.validUntil);
 
     return (
         <>

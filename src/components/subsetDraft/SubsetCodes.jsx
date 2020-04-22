@@ -3,8 +3,8 @@ import {Search} from '../../utils/Search';
 import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
-import {useTranslation} from "react-i18next";
-
+import {useTranslation} from 'react-i18next';
+import {returnOffsetDate} from '../../utils/strings'
 
 /*
  *  TODO: (test) mock for service
@@ -18,9 +18,9 @@ export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
     const { t } = useTranslation();
 
-    const from = subset.draft.validFrom?.toISOString().substr(0, 10);
-    const to = subset.draft.validUntil?.toISOString().substr(0, 10);
-
+    const from = returnOffsetDate(subset.draft.validFrom); 
+    const to = returnOffsetDate(subset.draft.validUntil); 
+    
     const [searchValues, setSearchValues] = useState([]); // list of classification names
     const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
     
