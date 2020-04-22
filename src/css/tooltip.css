@@ -1,3 +1,21 @@
+.rank-tooltip {
+    top: -800% !important;
+    left: 50% !important;
+    margin-left: -95px !important;
+    text-align: justify !important;
+    width: 170px !important;
+    padding: 10px !important;
+}
+
+.rank-tooltip::after {
+    bottom: -20px !important;
+    left: 50% !important;
+    margin-left: -10px !important; 
+    border-width: 10px !important;
+    border-color: #274247 transparent transparent transparent !important;
+}
+
+
 .tooltip {
     position: relative;
     display: inline-block;
