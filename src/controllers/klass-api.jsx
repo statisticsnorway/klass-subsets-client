@@ -42,3 +42,18 @@ export function useGet(url = null) {
 
     return [data, isLoading, error, setPath];
 }
+
+
+export function useCodelist(id = null) {
+    const [metadata, setMetadata] = useState({});
+
+    const [info, isLoadingInfo, errorInfo] = useGet(
+        !id || metadata.versions?.length > 0 ? null : `classifications/${id}`);
+    useEffect(() => {
+        if (info) {
+            setMetadata(info);
+        }
+    }, [info]);
+
+    return {metadata};
+}

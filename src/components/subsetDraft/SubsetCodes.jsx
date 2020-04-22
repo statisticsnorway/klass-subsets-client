@@ -2,15 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Search} from '../../utils/Search';
 import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
-import {Classification} from './Classification';
+import {Codelist} from './Codelist';
 import {useTranslation} from "react-i18next";
 
 
 /*
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
- *  FIXME: fails on 'j(' input and in result string
- *  FIXME: notes for codes: markup
  *  FIXME: notes for codes: restrict period!
  */
 
@@ -63,7 +61,7 @@ export const SubsetCodes = ({subset}) => {
                 ? <p>{t('Nothing is found')}</p>
                 : <ul className='list'>{searchResult.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={classification}
+                            <Codelist item={classification}
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                         /></li>)}
@@ -76,7 +74,7 @@ export const SubsetCodes = ({subset}) => {
                 ? <p>{t('No classifications in the subset draft')}</p>
                 : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={classification}
+                            <Codelist item={classification}
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                                             remove={() => {
