@@ -21,6 +21,7 @@ export const Step = ({children}) => {
 };
 
 export const ProgressBar = ({steps, handleClick, activeStep}) => {
+
     return (
         <div style={{textAlign: 'center', width: '60%'}}>
             {steps.map((step, index) => (
@@ -36,10 +37,11 @@ export const ProgressBar = ({steps, handleClick, activeStep}) => {
                             textDecoration: 'none',
                             display: 'inline-block',
                             padding: '1px 5px',
-                            margin: '0 30px 0 0'
+                            margin: '0 30px 0 0',
+                            ariaLabel: `notifications-label-${index}`
                         }}
                 >{index}
-                    <span className="tooltiptext">{step.props.label}</span>
+                    <span className="tooltiptext" role="tooltip" id={`notifications-label${index}`}>{step.props.label}</span>
                 </button>
             ))}
         </div>
