@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: ''
+labels: 'enhacement'
 assignees: ''
 
 ---
@@ -12,6 +12,9 @@ A clear and concise description of what the problem is. Ex. I'm always frustrate
 
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
+
+**Dependencies**
+Are there other issues to be resolved first?
 
 **Describe alternatives you've considered**
 A clear and concise description of any alternative solutions or features you've considered.
