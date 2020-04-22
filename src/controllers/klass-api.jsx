@@ -45,16 +45,59 @@ export function useGet(url = null) {
 
 export function useCodelist(id = null) {
     const [metadata, setMetadata] = useState({});
+    const [versions, setVersions] = useState([]);
+    // TODO: fetch and expose variants
+    const [variants, setVariants] = useState([]);
+    const [codesWithNotes, setCodesWithNotes] = useState([]);
 
     const [info, isLoadingInfo, errorInfo] = useGet(
         !id || metadata.versions?.length > 0 ? null : `classifications/${id}`);
-    useEffect(() => {
-        if (info) {
-            setMetadata(info);
-        }
-    }, [info]);
+    useEffect(() => { info && setMetadata(info) }, [info]);
 
-    return {metadata};
+    useEffect(() => setVersions(metadata.versions), [metadata]); // force update: all codes have to be fetch again
+
+    // FIXME handle errors
+    const [version, isLoadingVersion, errorVersion, setVersionPath] = useGet();
+    // Fetch codes for one of the version without codes (codes are undefined)
+    // If codes defined as empty array, the attempt to fetch the codes will not fire
+    // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
+    useEffect(() => {
+        if (versions) {
+            const missingCodes = versions.find(v => {
+                console.log({v});
+                return !v.codes;
+            });
+            console.log('missing codes', missingCodes);
+            if (missingCodes) {
+                // TODO: Use links delivered by API, do not parse - less coupling
+                const vid = missingCodes._links.self.href.split('/').pop();
+                setVersionPath(`/versions/${vid}`);
+            }
+        }
+    }, [versions, errorVersion, setVersionPath]);
+
+    useEffect(() => {
+        if (version?.classificationItems) {
+            setVersions(prevVersions => {
+                let index = prevVersions.findIndex(v => v._links.self.href === version._links.self.href);
+                console.log({index});
+                if (index >= 0 && index < prevVersions.length) {
+                    prevVersions[index].codes = [...version.classificationItems];
+                    console.log('right index, versions will be: ', [...prevVersions]);
+                    return [...prevVersions];
+                } else {
+                    console.log('no index');
+                    return [...prevVersions];
+                }
+            }); // force update
+        }
+    }, [version, setVersions]);
+
+    useEffect(() => console.log({metadata}), [metadata]);
+    useEffect(() => console.log({versions}), [versions]);
+    useEffect(() => console.log({version}), [version]);
+
+    return {metadata, versions};
 }
 
 export function useClassification(id = null) {
