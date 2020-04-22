@@ -2,6 +2,7 @@ import React, {useReducer} from 'react';
 import '../css/list.css';
 import {Trash2} from 'react-feather';
 import {useTranslation} from 'react-i18next';
+import '../css/tooltip.css';
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
@@ -11,7 +12,9 @@ export const List = ({list}) => {
             <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
                 <h6 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h6>
                 <h6 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h6>
-                <h6 style={{display: 'inline', position: 'absolute', right: '45px', marginBlockEnd: '0'}}>{t('Rank')}</h6>
+                <h6 className='rank-text-tooltip tooltip' style={{display: 'inline', position: 'absolute', ariaLabel: 'notifications-label-rank', right: '45px', marginBlockEnd: '0'}}>{t('Rank')}
+                <span className="rank-tooltip tooltiptext" role="tooltip" id='notifications-label-rank'>{t('Code rank tooltip')}</span>
+                </h6>
             </div>
             <ul className='list' style={{paddingInlineStart: '0'}}>
                 {list.items.filter(i => i.included).map((item, i) =>

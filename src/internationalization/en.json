@@ -85,5 +85,6 @@
   "and": "and",
   "Authorization and subset-service integration": "Authorisation and subset-service integration",
 
-  "Subset with id does not exist": "Subset with id {{id}} does not exist"
+  "Subset with id does not exist": "Subset with id {{id}} does not exist",
+  "Code rank tooltip": "The order of items can be changed by selecting items to move (select multiple if subsequent items are to be moved at once) and drag them to the correct position (drag and drop)."
 }

@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
@@ -25,6 +25,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Suggested solution**
 If you have an idea how to fix the bug, describe the solution here. Name files, classes, functions, libraries etc.
+
+**Dependencies**
+Are there other issues to be resolved first?
 
 **Desktop (please complete the following information):**
 -  OS: (e.g. iOS)
