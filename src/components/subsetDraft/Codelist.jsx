@@ -102,6 +102,17 @@ export const Codelist = ({item = {}, update, remove, from, to}) => {
             </button>
             }
         </div>
+            {expander.showAlert &&
+            <div style={{backgroundColor: 'AntiqueWhite'}}
+                 className='panel'><Text>{item.error}</Text>
+            </div>}
+
+            {expander.showCannot &&
+            <div style={{backgroundColor: '#ece6fe'}}
+                 className='panel'>
+                <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
+            </div>}
+
             {/* TODO limit the height and scroll*/}
             {expander.showInfo && <ClassificationInfo id={item.id} info={metadata}/>}
         </>
