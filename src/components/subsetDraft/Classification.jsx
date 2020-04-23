@@ -13,7 +13,7 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet, useClassification} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
-import { replaceRefWithHTMLAndSanitize } from '../../utils/strings';
+import {replaceRefWithHTMLAndSanitize} from '../../utils/strings';
 
 export const Classification = ({item = {}, update, remove, from, to}) => {
     const {t} = useTranslation();
@@ -29,7 +29,9 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
         : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
     const [codes] = useGet(item.codes ? null : url);
     useEffect(() => {
-        if (codes) {item.codes = codes.codes;}
+        if (codes) {
+            item.codes = codes.codes;
+        }
     }, [codes]);
 
     useEffect(() => {
@@ -149,16 +151,16 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     );
 };
 
-export const Codes = ({from, to, codes=[], id, include}) => {
-    const { t } = useTranslation();
+export const Codes = ({from, to, codes = [], id, include}) => {
+    const {t} = useTranslation();
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">{t('Codes')}
                     {from && to
-                        ? ` ${t('from to', { from, to })}:`
-                        : from || to ? ` ${t('at', { date: from || to})}:`
+                        ? ` ${t('from to', {from, to})}:`
+                        : from || to ? ` ${t('at', {date: from || to})}:`
                             : ` (${t('Period is not set').toLocaleLowerCase()})`
                     }</div>
                 {!codes || codes.length < 1
@@ -198,7 +200,7 @@ export const Codes = ({from, to, codes=[], id, include}) => {
 };
 
 export const CodeInfo = ({id, item, onChange}) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const [showNotes, setShowNotes] = useState(false);
 
@@ -218,7 +220,7 @@ export const CodeInfo = ({id, item, onChange}) => {
                 </div>
                 <button onClick={() => {
                     setShowNotes(!showNotes);
-                }}><MoreHorizontal color={item.notes ? '#62919A': '#C3DCDC' }/>
+                }}><MoreHorizontal color={item.notes ? '#62919A' : '#C3DCDC'}/>
                 </button>
             </div>
 
@@ -246,7 +248,7 @@ export const CodeInfo = ({id, item, onChange}) => {
 };
 
 export const CodelistInfo = ({id, info}) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <div style={{backgroundColor: '#eff4f5'}}
