@@ -180,108 +180,13 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     </>);
 };
 
-/*
-export class Codes extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: this.props.codes.slice(0, 1)
-        }
-        this.codes = props.codes;
-        this.from = props.from;
-        this.to = props.to;
-        this.id = props.id;
-        this.include = props.include;
-    }
-
-    componentDidMount() {
-        this.recursive();
-    }
-
-    recursive = () => {
-        setTimeout(() => {
-            let hasMore = this.state.items.length + 1 < this.props.codes.length;
-            this.setState( (prev, props) => ({
-                items: props.items.slice(0, prev.items.length + 1)
-            }));
-            if (hasMore) this.recursive();
-        }, 0);
-    }
-
-
-    render(){
-        let from = this.from;
-        let to = this.to;
-        let codes = this.codes;
-        let include = this.include;
-        let id = this.id;
-
-        const { t } = useTranslation();
-        const codesToLoadInitially = 35;
-
-        return (
-            <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
-                <div className="ssb-checkbox-group">
-                    <div className="checkbox-group-header">{t('Codes')}
-                        {from && to
-                            ? ` ${t('from to', { from, to })}:`
-                            : from || to ? ` ${t('at', { date: from || to})}:`
-                                : ` (${t('Period is not set').toLocaleLowerCase()})`
-                        }</div>
-                    {!codes || codes.length < 1
-                        ? <Text>{t('No codes found for this validity period')}</Text>
-                        : <>
-                            <div style={{padding: '5px'}}>
-                                <button onClick={() => {
-                                    codes.forEach(code => code.included = true);
-                                    include(true);
-                                }}>{t('All')}
-                                </button>
-                                <button onClick={() => {
-                                    codes.forEach(code => code.included = false);
-                                    include(false);
-                                }}>{t('None')}
-                                </button>
-                                <button onClick={() => {
-                                    codes.forEach(code => code.included = !code.included);
-                                    include(!!codes.find(c => c.included));
-                                }}>{t('Invert')}
-                                </button>
-                            </div>
-
-                            {codes.slice(0, codesToLoadInitially).map((code, i) =>
-                                <CodeInfo key={i} id={id} item={code}
-                                          onChange={() => {
-                                              code.included = !code.included;
-                                              include(code.included);
-                                          }}
-                                />)
-                            }
-                            {codes.slice(codesToLoadInitially, codes.length).map((code, i) =>
-                                <CodeInfo key={i} id={id} item={code}
-                                          onChange={() => {
-                                              code.included = !code.included;
-                                              include(code.included);
-                                          }}
-                                />)
-                            }
-                        </>
-                    }
-                </div>
-            </div>
-        );
-    }
-}
-*/
-
-
 export const Codes = ({from, to, codes=[], id, include}) => {
 
     const { t } = useTranslation();
 
-    var codesToLoad = 35; // This is how many codes we load on first render. The rest can wait.
+    const codesToLoad = 35; // This is how many codes we load on first render. The rest can wait.
 
+    // React state objects and setters
     const [sFrom, setFrom] = useState(from)
     const [sTo, setTo] = useState(to)
     const [sAllCodes, setAllCodes] = useState(codes)
