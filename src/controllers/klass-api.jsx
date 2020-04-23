@@ -52,9 +52,9 @@ export function useCodelist(id = null) {
 
     const [info, isLoadingInfo, errorInfo] = useGet(
         !id || metadata.versions?.length > 0 ? null : `classifications/${id}`);
-    useEffect(() => { info && setMetadata(info) }, [info]);
+    useEffect(() => { info && setMetadata(info) }, [info, setMetadata]);
 
-    useEffect(() => setVersions(metadata.versions), [metadata]); // force update: all codes have to be fetch again
+    useEffect(() => setVersions(metadata.versions), [metadata, setVersions]); // force update: all codes have to be fetch again
 
     // FIXME handle errors
     const [version, isLoadingVersion, errorVersion, setVersionPath] = useGet();
@@ -63,32 +63,27 @@ export function useCodelist(id = null) {
     // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
     useEffect(() => {
         if (versions) {
-            const missingCodes = versions.find(v => {
-                console.log({v});
-                return !v.codes;
-            });
-            console.log('missing codes', missingCodes);
-            if (missingCodes) {
+            const missesCodes = versions.find(v => !v.codes);
+            console.log('misses codes', missesCodes);
+            if (missesCodes) {
                 // TODO: Use links delivered by API, do not parse - less coupling
-                const vid = missingCodes._links.self.href.split('/').pop();
+                const vid = missesCodes._links.self.href.split('/').pop();
                 setVersionPath(`/versions/${vid}`);
             }
         }
     }, [versions, errorVersion, setVersionPath]);
 
     useEffect(() => {
+        // Assumed a version always has classificationItems returned, even it is an empty array.
+        // If a version arrived without classification items, something wrong has happened,
+        // the state will not be updated.
         if (version?.classificationItems) {
             setVersions(prevVersions => {
-                let index = prevVersions.findIndex(v => v._links.self.href === version._links.self.href);
-                console.log({index});
-                if (index >= 0 && index < prevVersions.length) {
-                    prevVersions[index].codes = [...version.classificationItems];
-                    console.log('right index, versions will be: ', [...prevVersions]);
-                    return [...prevVersions];
-                } else {
-                    console.log('no index');
-                    return [...prevVersions];
+                const exists = prevVersions.find(v => v._links.self.href === version._links.self.href);
+                if (exists) {
+                    exists.codes = [...version.classificationItems];
                 }
+                return [...prevVersions];
             }); // force update
         }
     }, [version, setVersions]);
@@ -98,99 +93,4 @@ export function useCodelist(id = null) {
     useEffect(() => console.log({version}), [version]);
 
     return {metadata, versions};
-}
-
-export function useClassification(id = null) {
-    const [metadata, setMetadata] = useState({});
-    const [versions, setVersions] = useState([]);
-    // TODO: fetch and expose variants
-    const [variants, setVariants] = useState([]);
-    const [codesWithNotes, setCodesWithNotes] = useState([]);
-
-    // FIXME handle errors
-    const [info, isLoadingInfo, errorInfo] = useGet(
-        !id || metadata.versions?.length > 0 ? null : `classifications/${id}`);
-    useEffect(() => info && setMetadata(info), [info]);
-    useEffect(() => setVersions(metadata.versions), [metadata]); // force update: all codes have to be fetch again
-
-
-    // FIXME handle errors
-    const [version, isLoadingVersion, errorVersion, setVersionPath] = useGet();
-    // Fetch codes for one of the version without codes (codes are undefined)
-    // If codes defined as empty array, the attempt to fetch the codes will not fire
-    // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
-    useEffect(() => {
-        if (versions?.length > 0) {
-            let missingCodes = versions.find(v => !v.codes);
-            if (missingCodes) {
-            // TODO: Use links delivered by API, do not parse - less coupling
-                id = missingCodes._links.self.href.split('/').pop();
-                setVersionPath(`/versions/${id}`);
-            }
-        }
-    }, [versions, errorVersion]);
-
-    useEffect(() => {
-        if (version) {
-            let index = versions.findIndex(v => v._links.self.href = version._links.self.href);
-            if (index >= 0 && index < versions.length) {
-                setVersions([...versions, versions[index].codes = [...version.classificationItems] || [] ]); // force update
-            }
-        }
-    }, [version]);
-
-    // TODO: analyse racing conditions:
-    // if several versions cause codes update at the same time,
-    // some data could be overwritten with outdated state
-    useEffect(() => {
-        if (version?.classificationItems?.length > 0) {
-            const extended = extendNotesWithVersionData(version);
-            setCodesWithNotes(mergeCodesByName(codesWithNotes, extended));
-        }
-    }, [version]);
-
-    function extendNotesWithVersionData(version) {
-        const versionData = {
-            versionName: version.name,
-            validFrom: version.validFrom,
-            validTo: version.validTo
-        };
-        const extendedClassificationItems = [...version.classificationItems];
-        extendedClassificationItems.forEach(item => item.note = {
-            note: item.notes,
-            ...versionData
-        });
-        return extendedClassificationItems;
-    }
-
-    function mergeCodesByName(codes = [], classificationItems = []) {
-        const merged = [...codes];
-
-        if (classificationItems) {
-            classificationItems.forEach(item => {
-                const exists = merged.find(c => c.code === item.code);
-                if (exists) {
-                    exists.notes = mergeNotesByVersionName(exists.notes, item.note);
-                } else {
-                    merged.push({...item})
-                }
-            });
-        }
-
-        return merged;
-    }
-
-    function mergeNotesByVersionName(notes = [], note = {}) {
-        const merged = [...notes];
-
-        if (note) {
-            const exists = notes.find(n => n.note.versionName === note?.versionName);
-            if (!exists) {
-                notes.push({...note});
-            }
-        }
-        return merged;
-    }
-
-    return {metadata, versions, variants, codesWithNotes}
 }
