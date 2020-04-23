@@ -26,7 +26,7 @@ export const SubsetMetadata = ({subset}) => {
 
         if(toOrFrom === 'from') isSameDate = subset.draft.validFrom?.getTime() === date.getTime()
         if(toOrFrom === 'to') isSameDate = subset.draft.validTo?.getTime() === date.getTime()
-        
+
         if(!isSameDate) subset.dispatch({action: 'classification_remove_all_codes'})
         subset.dispatch({action: toOrFrom, data: date})
     }
@@ -70,7 +70,7 @@ export const SubsetMetadata = ({subset}) => {
                 </div>
                 <br style={{clear: 'both'}}/>
 
-                {showWarning.length > 0 && <Dialog type='info' title='Endring av dato'>Hvis du endrer dato vill du miste koder i kodeverk</Dialog>}
+    <div className='change-date-warning-container'>{showWarning.length > 0 && <Dialog type='info' title={t('ChangeDateWarningHeader')}>{t('ChangDateWarningText')}</Dialog>}</div>
             </section>
 
             {/* TODO: set automatically when logged inn */}

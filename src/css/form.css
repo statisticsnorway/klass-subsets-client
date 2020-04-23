@@ -23,3 +23,7 @@ fieldset {
     border: 1px solid transparent !important;
     padding: 0 10px;
 }
+.change-date-warning-container {
+    width: 600px;
+    margin-top: 20px;
+}

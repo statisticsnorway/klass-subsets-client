@@ -84,5 +84,7 @@
   "and": "og",
   "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
-  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}"
+  "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
+  "ChangeDateWarningText": "Hvis du endrer dato vill du miste koder i kodeverk",
+  "ChangeDateWarningHeade": "Endring av dato"
 }
