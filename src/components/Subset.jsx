@@ -54,7 +54,6 @@ export const SubsetPage = () => {
 
 export const SubsetPreview = ({subset}) => {
     const { t } = useTranslation();
-    console.log(subset)
     // FIXME: show title in selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
 
@@ -95,7 +94,6 @@ export const SubsetPreview = ({subset}) => {
 
 export const Code = ({code}) => {
     const { t } = useTranslation();
-    console.log(code)
     return (
         <Accordion header={code.name} subHeader={code.code || t('Code')}>
             <p><strong>{t('Short name')}:</strong> {code.shortName || '-'}</p>
