@@ -171,12 +171,12 @@ export const Codes = ({from, to, codes = [], id, include}) => {
                 setRenderedCodes(sAllCodes);
             },0);
         }
-    }
+    };
 
     // useEffect is called after the component is mounted and updated
     useEffect(() => {
         loadRest(); // After component is mounted with initial small batch of codes, load the rest of the codes
-    })
+    });
 
 
     return (
