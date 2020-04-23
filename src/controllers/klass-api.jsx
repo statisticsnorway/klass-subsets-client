@@ -64,7 +64,6 @@ export function useCodelist(id = null) {
     useEffect(() => {
         if (versions) {
             const missesCodes = versions.find(v => !v.codes);
-            console.log('misses codes', missesCodes);
             if (missesCodes) {
                 // TODO: Use links delivered by API, do not parse - less coupling
                 const vid = missesCodes._links.self.href.split('/').pop();
@@ -75,8 +74,8 @@ export function useCodelist(id = null) {
 
     useEffect(() => {
         // Assumed a version always has classificationItems returned, even it is an empty array.
-        // If a version arrived without classification items, something wrong has happened,
-        // the state will not be updated.
+        // If a version arrived without classification items, its integrity was violated,
+        // data will not be processed.
         if (version?.classificationItems) {
             setVersions(prevVersions => {
                 const exists = prevVersions.find(v => v._links.self.href === version._links.self.href);
@@ -88,9 +87,67 @@ export function useCodelist(id = null) {
         }
     }, [version, setVersions]);
 
+    useEffect(() => {
+        // Assert a version always has classificationItems returned, even it is an empty array.
+        // If a version arrived without classification items, its integrity was violated,
+        // data will not be processed.
+        if (version?.classificationItems) {
+            const extended = extendNotesWithVersionData(version);
+            setCodesWithNotes( prevCodesWithNotes => {
+                return mergeCodesByName(prevCodesWithNotes, extended);
+            });
+        }
+    }, [version, setCodesWithNotes]);
+
+    function extendNotesWithVersionData(version) {
+        return version?.classificationItems?.map(item => {
+            if (item.notes) {
+                return {
+                    ...item,
+                    notes: [{
+                        note: item.notes,
+                        versionName: version.name,
+                        validFrom: version.validFrom,
+                        validTo: version.validTo
+                    }]
+                }
+            }
+            return {...item, notes: []};
+        });
+    }
+
+    function mergeCodesByName(codes = [], classificationItems = []) {
+        const merged = [...codes];
+
+        if (classificationItems) {
+            classificationItems.forEach(item => {
+                const exists = merged.find(c => c.code === item.code);
+                if (exists && item.code.notes) {
+                    exists.notes = mergeNotesByVersionName(exists.notes || [], item.code.notes);
+                } else {
+                    merged.push({...item});
+                }
+            });
+        }
+        return merged;
+    }
+
+    function mergeNotesByVersionName(notes = [], newNotes = []) {
+        console.log('mergeNotesByVersionName', {notes}, {newNotes});
+        if (newNotes) {
+            // Assert new notes is always an array of 1 element or empty
+            const exists = notes.find(n => n.versionName === newNotes[0].versionName);
+            if (!exists) {
+                return [...notes, newNotes[0]];
+            }
+        }
+        return notes;
+    }
+
     useEffect(() => console.log({metadata}), [metadata]);
     useEffect(() => console.log({versions}), [versions]);
     useEffect(() => console.log({version}), [version]);
+    useEffect(() => console.log({codesWithNotes}), [codesWithNotes]);
 
     return {metadata, versions};
 }
