@@ -187,12 +187,12 @@ export const Codes = ({from, to, codes=[], id, include}) => {
     const codesToLoad = 35; // This is how many codes we load on first render. The rest can wait.
 
     // React state objects and setters
-    const [sFrom, setFrom] = useState(from)
-    const [sTo, setTo] = useState(to)
-    const [sAllCodes, setAllCodes] = useState(codes)
+    const [sFrom, setFrom] = useState(from);
+    const [sTo, setTo] = useState(to);
+    const [sAllCodes, setAllCodes] = useState(codes);
     const [sRenderedCodes, setRenderedCodes] = useState(sAllCodes.slice(0, Math.min(codesToLoad, sAllCodes.length)));
-    const [sId, setId] = useState(id)
-    const [sInclude, setInclude] = useState(include)
+    const [sId, setId] = useState(id);
+    const [sInclude, setInclude] = useState(include);
 
     // Loads all codes, if they are not already loaded
     const loadRest = () => {
