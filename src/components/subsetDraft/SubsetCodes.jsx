@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Search} from '../../utils/Search';
 import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
-import {Codelist} from './Codelist';
+import {Classification} from './Classification';
 import {useTranslation} from "react-i18next";
 
 
@@ -61,7 +61,7 @@ export const SubsetCodes = ({subset}) => {
                 ? <p>{t('Nothing is found')}</p>
                 : <ul className='list'>{searchResult.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Codelist item={classification}
+                            <Classification item={classification}
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                         /></li>)}
@@ -74,7 +74,7 @@ export const SubsetCodes = ({subset}) => {
                 ? <p>{t('No classifications in the subset draft')}</p>
                 : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Codelist item={classification}
+                            <Classification item={classification}
                                             to={to} from={from}
                                             update={() => setSearchResult([...searchResult])}
                                             remove={() => {

@@ -43,7 +43,7 @@ export function useGet(url = null) {
     return [data, isLoading, error, setPath];
 }
 
-export function useCodelist(id = null) {
+export function useClassification(id = null) {
     const [metadata, setMetadata] = useState({});
     const [versions, setVersions] = useState([]);
     // TODO: fetch and expose variants
@@ -144,12 +144,12 @@ export function useCodelist(id = null) {
         return notes;
     }
 
-
+/*
     useEffect(() => console.log({metadata}), [metadata]);
     useEffect(() => console.log({versions}), [versions]);
     useEffect(() => console.log({version}), [version]);
     useEffect(() => console.log({codesWithNotes}), [codesWithNotes]);
-
+*/
 
     return {metadata, versions, codesWithNotes};
 }
