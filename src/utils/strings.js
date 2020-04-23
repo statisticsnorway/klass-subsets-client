@@ -11,7 +11,7 @@ export const replaceRefWithHTMLAndSanitize = note => {
 };
 
 export const returnOffsetDate = date => {
-    if (!date) return '';
+    if (!date) {return ''};
     const userTimezoneOffset = date.getTimezoneOffset() * 60000;
     const offsetDate = new Date(date.getTime() - userTimezoneOffset);
   
