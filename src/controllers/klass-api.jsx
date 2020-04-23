@@ -51,7 +51,7 @@ export function useClassification(id = null) {
     const [info] = useGet(
         !id || metadata.versions?.length > 0 ? null : `classifications/${id}`);
     useEffect(() => {
-        info && setMetadata(info)
+        info && setMetadata(info);
     }, [info, setMetadata]);
 
     useEffect(() => setVersions(metadata.versions), [metadata, setVersions]); // force update: all codes have to be fetch again
@@ -109,7 +109,7 @@ export function useClassification(id = null) {
                             validFrom: versionData.validFrom,
                             validTo: versionData.validTo
                         }]
-                    }
+                    };
                 }
                 return {...item, notes: []};
             });
@@ -132,7 +132,6 @@ export function useClassification(id = null) {
         }
 
         function mergeNotesByVersionName(notes = [], newNotes = []) {
-            console.log('mergeNotesByVersionName', {notes}, {newNotes});
             if (newNotes) {
                 // Assert new notes is always an array of 1 element or empty
                 const exists = notes.find(n => n.versionName === newNotes[0].versionName);
