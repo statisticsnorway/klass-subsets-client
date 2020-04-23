@@ -24,10 +24,10 @@ export const SubsetMetadata = ({subset}) => {
     const warnBeforeChangingDate = (date, toOrFrom) => {
         let isSameDate;
 
-        if(toOrFrom === 'from') {isSameDate = subset.draft.validFrom?.getTime() === date.getTime()};
-        if(toOrFrom === 'to') {isSameDate = subset.draft.validTo?.getTime() === date.getTime()};
+        if(toOrFrom === 'from') {isSameDate = subset.draft.validFrom?.getTime() === date.getTime();}
+        if(toOrFrom === 'to') {isSameDate = subset.draft.validTo?.getTime() === date.getTime();}
 
-        if(!isSameDate) {subset.dispatch({action: 'classification_remove_all_codes'})};
+        if(!isSameDate) {subset.dispatch({action: 'classification_remove_all_codes'});}
 
         subset.dispatch({action: toOrFrom, data: date});
     };

@@ -72,7 +72,7 @@ export const useSubset = (init =  {
             }
             case 'classification_remove_all_codes': {
                 state.classifications.forEach(code => code.codes?.forEach(codes => {
-                    if(codes.hasOwnProperty('included')) {delete codes.included};
+                    if(codes.hasOwnProperty('included')) {delete codes.included;}
                 }));
                 return {...state};
             }
