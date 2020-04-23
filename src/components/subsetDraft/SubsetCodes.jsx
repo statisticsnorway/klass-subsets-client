@@ -9,8 +9,6 @@ import {returnOffsetDate} from '../../utils/strings'
 /*
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
- *  FIXME: fails on '(' input and in result string
- *  FIXME: notes for codes: markup
  *  FIXME: notes for codes: restrict period!
  */
 

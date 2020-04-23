@@ -38,10 +38,9 @@ export default function Header() {
                 <Link to='/'>
                     <Title size={3}>
                         <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
-                        {t('Klass uttrekk')} <Text small> | v{process.env.REACT_APP_VERSION} <Link to='/about'>Changelog</Link></Text>
+                        {t('Klass uttrekk')} <Text small> | v{process.env.REACT_APP_VERSION} </Text>
                     </Title>
                 </Link>
-
             </div>
 
             <div className='header-content' style={{marginBottom: '20px'}}>
@@ -49,7 +48,7 @@ export default function Header() {
                       items={[
                           {title: t('Search subsets'), path: '/'},
                           {title: t('Create subset'), path: '/create'},
-                          {title: t('Feedback'), path: '/about'},
+                          {title: t('Changelog'), path: '/about'},
                       ]}/>
                 <Divider/>
             </div>

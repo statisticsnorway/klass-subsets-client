@@ -59,7 +59,7 @@
 
   "Notes": "Notes",
   "Valid": "Valid",
-  "Notes are not found.": "Notes are not found.",
+  "No notes found.": "No notes found.",
 
   "Reorder codes": "Reorder codes",
   "No items to sort": "No items to sort",
@@ -87,5 +87,6 @@
 
   "Subset with id does not exist": "Subset with id {{id}} does not exist",
   "ChangeDateWarningText": "Hvis du endrer dato vill du miste koder i kodeverk",
-  "ChangeDateWarningHeade": "Endring av dato"
+  "ChangeDateWarningHeader": "Endring av dato",
+  "Code rank tooltip": "The order of items can be changed by selecting items to move (select multiple if subsequent items are to be moved at once) and drag them to the correct position (drag and drop)."
 }

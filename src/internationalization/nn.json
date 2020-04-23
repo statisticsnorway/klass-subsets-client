@@ -58,7 +58,7 @@
 
   "Notes": "Kommentarer",
   "Valid": "Gyldig",
-  "Notes are not found.": "Ingen notater er funnet.",
+  "No notes found.": "Ingen notater er funnet.",
 
   "Reorder codes": "Endre rekkefølge på koder",
   "No items to sort": "Ingen koder",
@@ -86,5 +86,6 @@
 
   "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
   "ChangeDateWarningText": "Hvis du endrer dato vill du miste koder i kodeverk",
-  "ChangeDateWarningHeade": "Endring av dato"
+  "ChangeDateWarningHeader": "Endring av dato",
+  "Code rank tooltip": "Rekkefølgen på elementer kan endres ved å markere elementer som skal flyttes (markere flere hvis etterfølgende elementer skal flyttes samtidig), og dra dem til riktig posisjon (drag and drop)."
 }
