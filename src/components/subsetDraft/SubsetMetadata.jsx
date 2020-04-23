@@ -3,7 +3,7 @@ import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
 import {languages, subsetDraft} from '../../controllers/defaults';
-import {Title} from '@statisticsnorway/ssb-component-library';
+import {Title, Dialog} from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
 import {useTranslation} from "react-i18next";
 
@@ -21,6 +21,18 @@ export const SubsetMetadata = ({subset}) => {
     const {ssbsections, classificationfamilies} = useContext(AppContext);
     const { t } = useTranslation();
 
+    const warnBeforeChangingDate = (date, toOrFrom) => {
+        let isSameDate;
+
+        if(toOrFrom === 'from') isSameDate = subset.draft.validFrom?.getTime() === date.getTime()
+        if(toOrFrom === 'to') isSameDate = subset.draft.validTo?.getTime() === date.getTime()
+        
+        if(!isSameDate) subset.dispatch({action: 'classification_remove_all_codes'})
+        subset.dispatch({action: toOrFrom, data: date})
+    }
+
+    const showWarning = subset.draft.classifications
+
     return (
         <>
             <Title size={3}>{t('Metadata')}</Title>
@@ -31,32 +43,34 @@ export const SubsetMetadata = ({subset}) => {
                                   size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
             />
-
+            
             <section style={{margin: '5px 0 5px 0'}}>
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="from_date">{t('Valid from')}: </label>
                     <DatePicker id='from_date' style={{display: 'block'}}
                                 value={subset.draft.validFrom}
-                                onChange={(date) => subset.dispatch({action: 'from', data: date})}
+                                onChange={(date) => warnBeforeChangingDate(date, 'from') }
                                 clearIcon={null}
                                 format='dd.MM.y'
                                 locale={languages.find(i => i.default).IETF}
                                 className='datepicker'/>
                 </div>
-
+                
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="to_date">{t('Valid to')}: </label>
                     <DatePicker id='to_date' style={{display: 'block'}}
                                 value={subset.draft.validUntil}
-                                onChange={(date) => subset.dispatch({action: 'to', data: date})}
+                                onChange={(date) => warnBeforeChangingDate(date, 'to') }
                                 clearIcon={null}
                                 format='dd.MM.y'
                                 locale={languages.find(i => i.default).IETF}
                                 className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>
+
+                {showWarning.length > 0 && <Dialog type='info' title='Endring av dato'>Hvis du endrer dato vill du miste koder i kodeverk</Dialog>}
             </section>
 
             {/* TODO: set automatically when logged inn */}

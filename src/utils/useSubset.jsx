@@ -13,8 +13,8 @@ export const useSubset = (init =  {
         }
     ],
     description: [],
-    classifications: []}
-    ) => {
+    classifications: []
+    }) => {
 
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
@@ -32,8 +32,7 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
-                
-                state.validFrom = data;
+                state.validFrom = data
                 return {...state};
             }
             case 'to': {
@@ -70,6 +69,12 @@ export const useSubset = (init =  {
             }
             case 'classifications_remove_excluded': {
                 return  {...state, classifications: state.classifications.filter(c => c.included)};
+            }
+            case 'classification_remove_all_codes': {
+                state.classifications.forEach(code => code.codes?.forEach(codes => {
+                    if(codes.hasOwnProperty('included')) {delete codes.included}
+                }))
+                return {...state};
             }
             case 'remove_empty': {
                 return {...state,
