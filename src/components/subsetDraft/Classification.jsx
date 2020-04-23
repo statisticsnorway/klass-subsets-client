@@ -213,7 +213,7 @@ export const Codes = ({from, to, codes = [], id, include}) => {
                             <CodeInfo key={i} id={sId} item={code}
                                       onChange={() => {
                                           code.included = !code.included;
-                                          sInclude(code.included);
+                                          include(code.included);
                                       }}
                             />)
                         }
