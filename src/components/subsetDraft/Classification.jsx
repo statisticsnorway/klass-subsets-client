@@ -172,52 +172,173 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                                       include={(o) => {
                                           item.included = o ? true : item.included;
                                           update();
-                                      }} />
-            }
+                                      }}/>
+        }
 
         {/* TODO limit the height and scroll*/}
         {expander.showInfo && <ClassificationInfo id={item.id} info={info}/>}
     </>);
 };
 
+/*
+export class Codes extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: this.props.codes.slice(0, 1)
+        }
+        this.codes = props.codes;
+        this.from = props.from;
+        this.to = props.to;
+        this.id = props.id;
+        this.include = props.include;
+    }
+
+    componentDidMount() {
+        this.recursive();
+    }
+
+    recursive = () => {
+        setTimeout(() => {
+            let hasMore = this.state.items.length + 1 < this.props.codes.length;
+            this.setState( (prev, props) => ({
+                items: props.items.slice(0, prev.items.length + 1)
+            }));
+            if (hasMore) this.recursive();
+        }, 0);
+    }
+
+
+    render(){
+        let from = this.from;
+        let to = this.to;
+        let codes = this.codes;
+        let include = this.include;
+        let id = this.id;
+
+        const { t } = useTranslation();
+        const codesToLoadInitially = 35;
+
+        return (
+            <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
+                <div className="ssb-checkbox-group">
+                    <div className="checkbox-group-header">{t('Codes')}
+                        {from && to
+                            ? ` ${t('from to', { from, to })}:`
+                            : from || to ? ` ${t('at', { date: from || to})}:`
+                                : ` (${t('Period is not set').toLocaleLowerCase()})`
+                        }</div>
+                    {!codes || codes.length < 1
+                        ? <Text>{t('No codes found for this validity period')}</Text>
+                        : <>
+                            <div style={{padding: '5px'}}>
+                                <button onClick={() => {
+                                    codes.forEach(code => code.included = true);
+                                    include(true);
+                                }}>{t('All')}
+                                </button>
+                                <button onClick={() => {
+                                    codes.forEach(code => code.included = false);
+                                    include(false);
+                                }}>{t('None')}
+                                </button>
+                                <button onClick={() => {
+                                    codes.forEach(code => code.included = !code.included);
+                                    include(!!codes.find(c => c.included));
+                                }}>{t('Invert')}
+                                </button>
+                            </div>
+
+                            {codes.slice(0, codesToLoadInitially).map((code, i) =>
+                                <CodeInfo key={i} id={id} item={code}
+                                          onChange={() => {
+                                              code.included = !code.included;
+                                              include(code.included);
+                                          }}
+                                />)
+                            }
+                            {codes.slice(codesToLoadInitially, codes.length).map((code, i) =>
+                                <CodeInfo key={i} id={id} item={code}
+                                          onChange={() => {
+                                              code.included = !code.included;
+                                              include(code.included);
+                                          }}
+                                />)
+                            }
+                        </>
+                    }
+                </div>
+            </div>
+        );
+    }
+}
+*/
+
+
 export const Codes = ({from, to, codes=[], id, include}) => {
+
     const { t } = useTranslation();
+
+    var codesToLoad = 35; // This is how many codes we load on first render. The rest can wait.
+
+    const [sFrom, setFrom] = useState(from)
+    const [sTo, setTo] = useState(to)
+    const [sAllCodes, setAllCodes] = useState(codes)
+    const [sRenderedCodes, setRenderedCodes] = useState(sAllCodes.slice(0, Math.min(codesToLoad, sAllCodes.length)));
+    const [sId, setId] = useState(id)
+    const [sInclude, setInclude] = useState(include)
+
+    // Loads all codes, if they are not already loaded
+    const loadRest = () => {
+        if (sRenderedCodes.length < sAllCodes.length){
+            setTimeout(() => {
+                setRenderedCodes(sAllCodes);
+            },0);
+        }
+    }
+
+    // useEffect is called after the component is mounted and updated
+    useEffect(() => {
+        loadRest(); // After component is mounted with initial small batch of codes, load the rest of the codes
+    })
+
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">{t('Codes')}
-                    {from && to
-                    ? ` ${t('from to', { from, to })}:`
-                    : from || to ? ` ${t('at', { date: from || to})}:`
-                    : ` (${t('Period is not set').toLocaleLowerCase()})`
-                }</div>
-                {!codes || codes.length < 1
+                    {sFrom && sTo
+                        ? ` ${t('from to', { from: sFrom, to: sTo })}:`
+                        : sFrom || sTo ? ` ${t('at', { date: sFrom || sTo})}:`
+                            : ` (${t('Period is not set').toLocaleLowerCase()})`
+                    }</div>
+                {!sAllCodes || sAllCodes.length < 1
                     ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
                             <button onClick={() => {
-                                codes.forEach(code => code.included = true);
-                                include(true);
+                                sAllCodes.forEach(code => code.included = true);
+                                sInclude(true);
                             }}>{t('All')}
                             </button>
                             <button onClick={() => {
-                                codes.forEach(code => code.included = false);
-                                include(false);
+                                sAllCodes.forEach(code => code.included = false);
+                                sInclude(false);
                             }}>{t('None')}
                             </button>
                             <button onClick={() => {
-                                codes.forEach(code => code.included = !code.included);
-                                include(!!codes.find(c => c.included));
+                                sAllCodes.forEach(code => code.included = !code.included);
+                                sInclude(!!sAllCodes.find(c => c.included));
                             }}>{t('Invert')}
                             </button>
                         </div>
 
-                        {codes.map((code, i) =>
-                            <CodeInfo key={i} id={id} item={code}
+                        {sRenderedCodes.map((code, i) =>
+                            <CodeInfo key={i} id={sId} item={code}
                                       onChange={() => {
-                                           code.included = !code.included;
-                                           include(code.included);
+                                          code.included = !code.included;
+                                          sInclude(code.included);
                                       }}
                             />)
                         }
