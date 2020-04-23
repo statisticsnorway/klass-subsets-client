@@ -144,10 +144,12 @@ export function useCodelist(id = null) {
         return notes;
     }
 
+
     useEffect(() => console.log({metadata}), [metadata]);
     useEffect(() => console.log({versions}), [versions]);
     useEffect(() => console.log({version}), [version]);
     useEffect(() => console.log({codesWithNotes}), [codesWithNotes]);
 
-    return {metadata, versions};
+
+    return {metadata, versions, codesWithNotes};
 }

@@ -20,7 +20,7 @@ export const Codelist = ({item = {}, update, remove, from, to}) => {
 
     item.id = item._links.self.href.split('/').pop();
     // TODO use fallback and loader
-    const {metadata} = useCodelist(item.id);
+    const {metadata, codesWithNotes} = useCodelist(item.id);
 
     // TODO use fallback and loader
     // FIXME show errors
@@ -31,6 +31,14 @@ export const Codelist = ({item = {}, update, remove, from, to}) => {
     useEffect(() => {
         if (codes) {item.codes = codes.codes;}
     }, [codes]);
+
+    useEffect(() => {
+        if (codes && codesWithNotes) {
+            item.codes.forEach(code =>
+                code.notes = codesWithNotes.find(c => code.name === c.name)?.notes || []
+            );
+        }
+    }, [codes, codesWithNotes]);
 
     // TODO: outsource to useToggle()
     const toggle = {
@@ -214,10 +222,9 @@ export const CodeInfo = ({id, item, onChange}) => {
                 </button>
             </div>
 
-{/*            {showNotes &&
-            <div>
-                {!item.notes
-                    ? <Text>{t('Notes are not found.')}</Text>
+            {showNotes && <div>
+                {!item.notes || item.notes.length === 0
+                    ? <Text>{t('No notes found.')}</Text>
                     : item.notes.map(note => (
                         <div key={note} style={{
                             padding: '10px 50px 20px 50px'
@@ -226,13 +233,14 @@ export const CodeInfo = ({id, item, onChange}) => {
                             <div style={{width: '65%'}}
                                  className='ssb-paragraph'
                                  dangerouslySetInnerHTML={
-                                     {__html: replaceRefWithHTMLAndSanitize(note.note) }
+                                     {__html: replaceRefWithHTMLAndSanitize(note.note)}
                                  }
                             />
-                            <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                            <Text
+                                small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))}
-            </div>
-            }*/}
+                </div>
+            }
         </>
     );
 };
