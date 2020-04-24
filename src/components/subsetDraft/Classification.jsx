@@ -179,7 +179,7 @@ export const Codes = ({from, to, codes = [], id, include}) => {
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">{t('Codes')}
                     {from && to
-                        ? ` ${t('from to', { from: from, to: to })}:`
+                        ? ` ${t('from to', { from, to })}:`
                         : from || to ? ` ${t('at', { date: from || to})}:`
                             : ` (${t('Period is not set').toLocaleLowerCase()})`
                     }</div>
