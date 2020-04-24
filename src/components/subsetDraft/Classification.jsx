@@ -157,18 +157,13 @@ export const Codes = ({from, to, codes = [], id, include}) => {
     const codesToLoad = 35; // This is how many codes we load on first render. The rest can wait.
 
     // React state objects and setters
-    const [sFrom, setFrom] = useState(from);
-    const [sTo, setTo] = useState(to);
-    const [sAllCodes, setAllCodes] = useState(codes);
-    const [sRenderedCodes, setRenderedCodes] = useState(sAllCodes.slice(0, Math.min(codesToLoad, sAllCodes.length)));
-    const [sId, setId] = useState(id);
-    const [sInclude, setInclude] = useState(include);
+    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(codesToLoad, codes.length)));
 
     // Loads all codes, if they are not already loaded
     const loadRest = () => {
-        if (sRenderedCodes.length < sAllCodes.length){
+        if (renderedCodes.length < codes.length){
             setTimeout(() => {
-                setRenderedCodes(sAllCodes);
+                setRenderedCodes(codes);
             },0);
         }
     };
@@ -183,34 +178,34 @@ export const Codes = ({from, to, codes = [], id, include}) => {
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">{t('Codes')}
-                    {sFrom && sTo
-                        ? ` ${t('from to', { from: sFrom, to: sTo })}:`
-                        : sFrom || sTo ? ` ${t('at', { date: sFrom || sTo})}:`
+                    {from && to
+                        ? ` ${t('from to', { from: from, to: to })}:`
+                        : from || to ? ` ${t('at', { date: from || to})}:`
                             : ` (${t('Period is not set').toLocaleLowerCase()})`
                     }</div>
-                {!sAllCodes || sAllCodes.length < 1
+                {!codes || codes.length < 1
                     ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
                             <button onClick={() => {
-                                sAllCodes.forEach(code => code.included = true);
-                                sInclude(true);
+                                codes.forEach(code => code.included = true);
+                                include(true);
                             }}>{t('All')}
                             </button>
                             <button onClick={() => {
-                                sAllCodes.forEach(code => code.included = false);
-                                sInclude(false);
+                                codes.forEach(code => code.included = false);
+                                include(false);
                             }}>{t('None')}
                             </button>
                             <button onClick={() => {
-                                sAllCodes.forEach(code => code.included = !code.included);
-                                sInclude(!!sAllCodes.find(c => c.included));
+                                codes.forEach(code => code.included = !code.included);
+                                include(!!codes.find(c => c.included));
                             }}>{t('Invert')}
                             </button>
                         </div>
 
-                        {sRenderedCodes.map((code, i) =>
-                            <CodeInfo key={i} id={sId} item={code}
+                        {renderedCodes.map((code, i) =>
+                            <CodeInfo key={i} id={id} item={code}
                                       onChange={() => {
                                           code.included = !code.included;
                                           include(code.included);
