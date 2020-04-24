@@ -8,7 +8,7 @@ import WelcomePage from './pages/WelcomePage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
 // import Errors from './Errors';
 import SubsetForm from './subsetDraft/SubsetForm';
-import {SubsetPage} from './Subset';
+import {SubsetPage} from './pages/SubsetPage';
 
 export default function App() {
     return (

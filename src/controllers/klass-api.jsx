@@ -2,6 +2,24 @@ import {useState, useEffect} from 'react';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
+
+export const URN = {
+
+    toURL: (urn, from, to) => {
+
+        const codePattern = /urn:klass-api:classifications:[0-9]+:code:[0-9]+/i;
+
+        if (codePattern.test(urn) && (from || to)) {
+            const [,,service,id,,code] = urn.split(':');
+
+            return from && to
+                ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
+                : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`;
+        }
+        return null;
+    }
+};
+
 // TODO: error handling using global and private error handlers
 export function useGet(url = null) {
     const [path, setPath] = useState(url);
