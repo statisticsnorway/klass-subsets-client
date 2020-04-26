@@ -220,7 +220,7 @@ export const CodeInfo = ({id, item, onChange}) => {
                 </div>
                 <button onClick={() => {
                     setShowNotes(!showNotes);
-                }}><MoreHorizontal color={item.notes ? '#62919A' : '#C3DCDC'}/>
+                }}><MoreHorizontal color={item.notes?.length > 0 ? '#62919A' : '#C3DCDC'}/>
                 </button>
             </div>
 
