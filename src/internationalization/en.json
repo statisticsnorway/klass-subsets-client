@@ -86,7 +86,10 @@
   "Authorization and subset-service integration": "Authorisation and subset-service integration",
 
   "Subset with id does not exist": "Subset with id {{id}} does not exist",
-  "ChangeDateWarningText": "Hvis du endrer dato vill du miste koder i kodeverk",
-  "ChangeDateWarningHeader": "Endring av dato",
-  "Code rank tooltip": "The order of items can be changed by selecting items to move (select multiple if subsequent items are to be moved at once) and drag them to the correct position (drag and drop)."
+  "Code rank tooltip": "The order of items can be changed by selecting items to move (select multiple if subsequent items are to be moved at once) and drag them to the correct position (drag and drop).",
+  "Change date warning text": "Hvis du endrer dato vill du miste koder i kodeverk",
+  "Do not change date button": "Do not change date",
+  "Chang date button": "Change date",
+  "Change date warning header": "Endring av dato"
+
 }

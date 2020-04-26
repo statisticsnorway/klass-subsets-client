@@ -27,28 +27,6 @@ export const SubsetMetadata = ({ subset }) => {
 
     const { isShowing, dismiss, submit, handleDateChange } = useChangeDateModal();
     
-
-    let isSameDate = false;
-
-    const warnBeforeChangingDate = (date, toOrFrom) => {
-        console.log(subset.draft.validFrom)
-        
-        if (toOrFrom === "from") {
-            isSameDate = subset.draft.validFrom?.getTime() === date.getTime();
-        }
-        if (toOrFrom === "to") {
-            isSameDate = subset.draft.validTo?.getTime() === date.getTime();
-        }
-
-        if (!isSameDate) {
-            subset.dispatch({ action: "classification_remove_all_codes" });
-        }
-
-        subset.dispatch({ action: toOrFrom, data: date });
-    };
-
-    const showWarning = subset.draft.classifications;
-
     return (
         <>
             <Title size={3}>{t("Metadata")}</Title>
@@ -115,6 +93,7 @@ export const SubsetMetadata = ({ subset }) => {
                 <br style={{ clear: "both" }} />
 
                 <ChangeDateModal isShowing={isShowing} submit={submit} dismiss={dismiss}/>
+                
             </section>
 
             {/* TODO: set automatically when logged inn */}

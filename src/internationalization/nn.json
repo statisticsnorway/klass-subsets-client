@@ -85,7 +85,9 @@
   "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
   "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
-  "ChangeDateWarningText": "Hvis du endrer dato vill du miste koder i kodeverk",
-  "ChangeDateWarningHeader": "Endring av dato",
-  "Code rank tooltip": "Rekkefølgen på elementer kan endres ved å markere elementer som skal flyttes (markere flere hvis etterfølgende elementer skal flyttes samtidig), og dra dem til riktig posisjon (drag and drop)."
+  "Code rank tooltip": "Rekkefølgen på elementer kan endres ved å markere elementer som skal flyttes (markere flere hvis etterfølgende elementer skal flyttes samtidig), og dra dem til riktig posisjon (drag and drop).",
+  "Change date warning text": "Hvis du endrer dato vill du miste koder i kodeverk",
+  "Do not change date button": "Do not change date",
+  "Chang date button": "Change date",
+  "Change date warning header": "Endring av dato"
 }

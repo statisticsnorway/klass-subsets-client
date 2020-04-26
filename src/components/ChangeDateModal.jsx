@@ -1,25 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Title, Dialog, Button } from "@statisticsnorway/ssb-component-library";
+import { Dialog, Button } from "@statisticsnorway/ssb-component-library";
 import { useTranslation } from "react-i18next";
 import "../css/DateModal.css";
 
 
-const ChangeDateModal = ({isShowing, dismiss, submit}) =>{
-
+const ChangeDateModal = ({isShowing, dismiss, submit, modalText = {}}) =>{
+    const {t} = useTranslation();
 
     return( 
     isShowing ? ReactDOM.createPortal(
               <div className='date-modal-ovelay'>
                   <div className='date-modal'>
-                      <Dialog type='info' title='ChangeDateWarningHeader'>
-                          ChangDateWarningText
+                      <Dialog type='info' title={t('Change date warningHeader')}>
+                          {t('Change date warning text')}
                           <div className='date-modal-button-container'>
                               <Button type='reset' onClick={dismiss}>
-                                  Ikke endre dato
+                                  {t('Do not change date button')}
                               </Button>
                               <Button primary type='submit' onClick={submit}>
-                                  Enre dato
+                                  {t('Change date button')}
                               </Button>
                           </div>
                       </Dialog>

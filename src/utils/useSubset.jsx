@@ -32,7 +32,6 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
-                console.log("inside from")
                 const isSameDate = state.validFrom?.getTime() === data.getTime();
                 if(isSameDate) state.classifications.forEach(code => code.codes?.forEach(codes => {
                     if(codes.hasOwnProperty('included')) {delete codes.included;}
@@ -79,12 +78,6 @@ export const useSubset = (init =  {
             }
             case 'classifications_remove_excluded': {
                 return  {...state, classifications: state.classifications.filter(c => c.included)};
-            }
-            case 'classification_remove_all_codes': {
-                state.classifications.forEach(code => code.codes?.forEach(codes => {
-                    if(codes.hasOwnProperty('included')) {delete codes.included;}
-                }));
-                return {...state};
             }
             case 'remove_empty': {
                 return {...state,
