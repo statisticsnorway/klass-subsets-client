@@ -5,12 +5,12 @@ import { useTranslation } from "react-i18next";
 import "../css/DateModal.css";
 
 
-const ChangeDateModal = ({isShowing, dismiss, submit, modalText = {}}) =>{
+const ChangeDateModal = ({ isShowing, dismiss, submit }) =>{
     const {t} = useTranslation();
 
     return( 
     isShowing ? ReactDOM.createPortal(
-              <div className='date-modal-ovelay'>
+              <dialog className='date-modal-ovelay'>
                   <div className='date-modal'>
                       <Dialog type='info' title={t('Change date warningHeader')}>
                           {t('Change date warning text')}
@@ -24,7 +24,7 @@ const ChangeDateModal = ({isShowing, dismiss, submit, modalText = {}}) =>{
                           </div>
                       </Dialog>
                   </div>
-              </div>,
+              </dialog>,
               document.body
           ) : null 
     )

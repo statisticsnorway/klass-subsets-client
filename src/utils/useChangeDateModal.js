@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { useContext } from "react";
-import { AppContext } from "../controllers/context";
-import { useTranslation } from "react-i18next";
+import { useState, useContext } from 'react';
+import { AppContext } from '../controllers/context';
+import { useKeyPress } from './useKeyPress';
 
 const useChangeDateModal = () => {
     const [isShowing, setIsShowing] = useState(false);
@@ -9,7 +8,10 @@ const useChangeDateModal = () => {
 
     const [toOrFromDateString, setToOrFromDateString] = useState(null)
     const [chosenDate, setChosenDate] = useState('');
-
+     
+    useKeyPress('Escape', () => {
+        setIsShowing(false);  
+    })
     
     function dismiss() {
         setIsShowing(!isShowing);
