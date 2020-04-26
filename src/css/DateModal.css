@@ -1,0 +1,39 @@
+.date-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    width: 540px;
+}
+.date-modal-ovelay {
+    position: fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
+    background:rgba(255,255,255,0.5); 
+    z-index: 10;
+}
+.dialog-content {
+    width:100%;
+}
+.dialog-content .content .date-modal-button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/*  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;*/

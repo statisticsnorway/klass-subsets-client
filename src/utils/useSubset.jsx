@@ -1,4 +1,4 @@
-import {useReducer} from 'react';
+import {useReducer, useEffect} from 'react';
 import {nextDefaultName} from './languages';
 
 export const useSubset = (init =  {
@@ -32,11 +32,21 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
+                console.log("inside from")
+                const isSameDate = state.validFrom?.getTime() === data.getTime();
+                if(isSameDate) state.classifications.forEach(code => code.codes?.forEach(codes => {
+                    if(codes.hasOwnProperty('included')) {delete codes.included;}
+                }));
                 state.validFrom = data;
                 return {...state};
             }
             case 'to': {
                 // FIXME: restrictions
+                const isSameDate = state.validUtil?.getTime() === data.getTime();
+                if(isSameDate) state.classifications.forEach(code => code.codes?.forEach(codes => {
+                    if(codes.hasOwnProperty('included')) {delete codes.included;}
+                }));
+
                 state.validUntil = data;
                 return {...state};
             }
@@ -89,7 +99,7 @@ export const useSubset = (init =  {
                 return state;
         }
     }
-
+   
     const [draft, dispatch] = useReducer(subsetReducer, init);
 
     return {draft, dispatch};
