@@ -9,3 +9,14 @@ export const replaceRefWithHTMLAndSanitize = note => {
 
     return DOMPurify.sanitize(replaceSlashRef);
 };
+export const parseDataForDropDowns = dataToParse => {
+    const items = [];
+    dataToParse.forEach((item, index) => {
+        items.push({
+            title: item.name ? item.name : item.full,
+            id: item.languagecode ? item.languagecode : `${index}`,
+            disabled: item.disabled ? item.disabled : false
+        });
+    });
+    return items;
+};

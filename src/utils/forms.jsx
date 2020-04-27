@@ -1,6 +1,7 @@
 import {availableLanguages, disableUsed} from './languages';
 import React from 'react';
 import {PlusSquare, Trash2} from 'react-feather';
+import { Dropdown } from '@statisticsnorway/ssb-component-library';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
@@ -38,6 +39,8 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                   e.target.selectionStart < prefix.length && e.preventDefault()}
                     />
 
+                    {/* <Dropdown  */}
+                    
                     <LanguageSelect languages={languages}
                                     selected={item.languageCode}
                                     onChange={(e) => handle(item.languageCode = e.target.value)}
@@ -67,7 +70,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
 export const LanguageSelect = ({languages = availableLanguages(),
                                 selected = false,
                                 onChange = (e) => console.log(e.target.value)}) => {
-
+                                    console.log(languages)
     return (
         <select name='language' style={{padding: '2px', margin: '5px', position: 'relative', top: '-6px'}}
                 value={selected || languages.find(lang => lang.default)}
