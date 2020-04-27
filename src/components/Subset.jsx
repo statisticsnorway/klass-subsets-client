@@ -58,14 +58,8 @@ export const SubsetPreview = ({subset}) => {
     // FIXME: show title in selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
 
-    const from = subset.validFrom;
-    const to = subset.validUntil;
-    if (from instanceof Date){
-        from = subset.validFrom?.toISOString().substr(0, 10);
-    }
-    if (to instanceof Date){
-        to = subset.validUntil?.toISOString().substr(0, 10);
-    }
+    const from = subset.validFrom instanceof Date ? subset.validFrom?.toISOString().substr(0, 10) : subset.validFrom;
+    const to = subset.validUntil instanceof Date ? subset.validUntil?.toISOString().substr(0, 10) : subset.validUntil;
 
     return (
         <>
