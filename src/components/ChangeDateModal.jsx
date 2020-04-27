@@ -10,7 +10,7 @@ const ChangeDateModal = ({ isShowing, dismiss, submit }) => {
 
     return( 
     isShowing ? ReactDOM.createPortal(
-              <dialog className='date-modal-ovelay'>
+              <div className='date-modal-ovelay'>
                   <div className='date-modal'>
                       <Dialog type='info' title={t('Change date warningHeader')}>
                           {t('Change date warning text')}
@@ -24,7 +24,7 @@ const ChangeDateModal = ({ isShowing, dismiss, submit }) => {
                           </div>
                       </Dialog>
                   </div>
-              </dialog>,
+              </div>,
               document.body
           ) : null 
     );

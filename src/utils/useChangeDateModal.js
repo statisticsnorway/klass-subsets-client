@@ -29,10 +29,15 @@ const useChangeDateModal = () => {
     }
 
     function handleDateChange(date, toOrFrom) {
-        if(subset.draft.validFrom?.getTime() === date.getTime()){return;}
-       
         setToOrFromDateString(toOrFrom);
         setChosenDate(date);
+
+        if(subset.draft.validFrom?.getTime() === date.getTime()){
+            return;
+        }
+        if(subset.draft.validUntil?.getTime() === date.getTime()){
+            return;
+        }
         
         if(toOrFrom === 'from' && subset.draft.validFrom === null) {
             subset.dispatch({ action: 'from', data: date});
