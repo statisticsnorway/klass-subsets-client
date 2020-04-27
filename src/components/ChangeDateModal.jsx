@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import "../css/DateModal.css";
 
 
-const ChangeDateModal = ({ isShowing, dismiss, submit }) =>{
+const ChangeDateModal = ({ isShowing, dismiss, submit }) => {
     const {t} = useTranslation();
 
     return( 
@@ -27,7 +27,7 @@ const ChangeDateModal = ({ isShowing, dismiss, submit }) =>{
               </dialog>,
               document.body
           ) : null 
-    )
+    );
     
-}
+};
 export default ChangeDateModal;

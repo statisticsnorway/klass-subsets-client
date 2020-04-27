@@ -6,12 +6,12 @@ const useChangeDateModal = () => {
     const [isShowing, setIsShowing] = useState(false);
     const { subset } = useContext(AppContext);
 
-    const [toOrFromDateString, setToOrFromDateString] = useState(null)
+    const [toOrFromDateString, setToOrFromDateString] = useState(null);
     const [chosenDate, setChosenDate] = useState('');
      
     useKeyPress('Escape', () => {
         setIsShowing(false);  
-    })
+    });
     
     function dismiss() {
         setIsShowing(!isShowing);
@@ -29,9 +29,9 @@ const useChangeDateModal = () => {
     }
 
     function handleDateChange(date, toOrFrom) {
-        if(subset.draft.validFrom?.getTime() === date.getTime()) return;
+        if(subset.draft.validFrom?.getTime() === date.getTime()){return;}
        
-        setToOrFromDateString(toOrFrom)
+        setToOrFromDateString(toOrFrom);
         setChosenDate(date);
         
         if(toOrFrom === 'from' && subset.draft.validFrom === null) {
@@ -56,6 +56,6 @@ const useChangeDateModal = () => {
         submit,
         handleDateChange
     }
-}
+};
 
 export default useChangeDateModal;

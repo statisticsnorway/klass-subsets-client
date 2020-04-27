@@ -41,11 +41,10 @@ export const useSubset = (init =  {
             }
             case 'to': {
                 // FIXME: restrictions
-                const isSameDate = state.validUtil?.getTime() === data.getTime();
+                const isSameDate = state.validFrom?.getTime() === data.getTime();
                 if(isSameDate) state.classifications.forEach(code => code.codes?.forEach(codes => {
                     if(codes.hasOwnProperty('included')) {delete codes.included;}
                 }));
-
                 state.validUntil = data;
                 return {...state};
             }
