@@ -156,10 +156,8 @@ export const Codes = ({from, to, codes = [], id, include}) => {
 
     const codesToLoad = 35; // This is how many codes we load on first render. The rest can wait.
 
-    // React state objects and setters
     const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(codesToLoad, codes.length)));
 
-    // Loads all codes, if they are not already loaded
     const loadRest = () => {
         if (renderedCodes.length < codes.length){
             setTimeout(() => {
@@ -168,7 +166,6 @@ export const Codes = ({from, to, codes = [], id, include}) => {
         }
     };
 
-    // useEffect is called after the component is mounted and updated
     useEffect(() => {
         loadRest(); // After component is mounted with initial small batch of codes, load the rest of the codes
     });
