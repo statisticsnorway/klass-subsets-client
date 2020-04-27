@@ -38,7 +38,9 @@ export const SubsetMetadata = ({subset}) => {
                            htmlFor="from_date">{t('Valid from')}: </label>
                     <input type="date" id='from_date' style={{display: 'block'}}
                                 value={subset.draft.validFrom?.toISOString().substr(0, 10)}
-                                onChange={(e) => subset.dispatch({action: 'from', data: new Date(e.target.value.split("-")[0], e.target.value.split("-")[1], e.target.value.split("-")[2])})}
+                                onChange={(e) => {
+                                    const dateArr = e.target.value.split("-");
+                                    subset.dispatch({action: 'from', data: new Date(dateArr[0], dateArr[1], dateArr[2])});}}
                                 className='datepicker'/>
                 </div>
 
@@ -47,8 +49,10 @@ export const SubsetMetadata = ({subset}) => {
                            htmlFor="to_date">{t('Valid to')}: </label>
                     <input type="date" id='to_date' style={{display: 'block'}}
                                 value={subset.draft.validUntil?.toISOString().substr(0, 10)}
-                                onChange={(e) => subset.dispatch({action: 'to', data: new Date(e.target.value.split("-")[0], e.target.value.split("-")[1], e.target.value.split("-")[2])})}
-                                className='datepicker'/>
+                           onChange={(e) => {
+                               const dateArr = e.target.value.split("-");
+                               subset.dispatch({action: 'to', data: new Date(dateArr[0], dateArr[1], dateArr[2])});}}
+                           className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>
             </section>
