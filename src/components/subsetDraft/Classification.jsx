@@ -154,13 +154,30 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
 export const Codes = ({from, to, codes = [], id, include}) => {
     const {t} = useTranslation();
 
+    const codesToLoadFirstRender = 35;
+
+    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(codesToLoadFirstRender, codes.length)));
+
+    const loadRest = () => {
+        if (renderedCodes.length < codes.length){
+            setTimeout(() => {
+                setRenderedCodes(codes);
+            },0);
+        }
+    };
+
+    useEffect(() => {
+        loadRest();
+    });
+
+
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
             <div className="ssb-checkbox-group">
                 <div className="checkbox-group-header">{t('Codes')}
                     {from && to
-                        ? ` ${t('from to', {from, to})}:`
-                        : from || to ? ` ${t('at', {date: from || to})}:`
+                        ? ` ${t('from to', { from, to })}:`
+                        : from || to ? ` ${t('at', { date: from || to})}:`
                             : ` (${t('Period is not set').toLocaleLowerCase()})`
                     }</div>
                 {!codes || codes.length < 1
@@ -184,7 +201,7 @@ export const Codes = ({from, to, codes = [], id, include}) => {
                             </button>
                         </div>
 
-                        {codes.map((code, i) =>
+                        {renderedCodes.map((code, i) =>
                             <CodeInfo key={i} id={id} item={code}
                                       onChange={() => {
                                           code.included = !code.included;
