@@ -15,8 +15,7 @@ import {useTranslation} from "react-i18next";
 export const SubsetCodes = ({subset}) => {
     const {classifications} = useContext(AppContext);
     const { t } = useTranslation();
-
-
+    
     const from = subset.draft.validFrom instanceof Date ? subset.draft.validFrom.toISOString().substr(0, 10) : subset.draft.validFrom;
     const to = subset.draft.validUntil instanceof Date ? subset.draft.validUntil.toISOString().substr(0, 10) : subset.draft.validUntil;
 
