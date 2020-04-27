@@ -154,9 +154,9 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
 export const Codes = ({from, to, codes = [], id, include}) => {
     const {t} = useTranslation();
 
-    const codesToLoad = 35; // This is how many codes we load on first render. The rest can wait.
+    const codesToLoadFirstRender = 35;
 
-    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(codesToLoad, codes.length)));
+    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(codesToLoadFirstRender, codes.length)));
 
     const loadRest = () => {
         if (renderedCodes.length < codes.length){
@@ -167,7 +167,7 @@ export const Codes = ({from, to, codes = [], id, include}) => {
     };
 
     useEffect(() => {
-        loadRest(); // After component is mounted with initial small batch of codes, load the rest of the codes
+        loadRest();
     });
 
 
