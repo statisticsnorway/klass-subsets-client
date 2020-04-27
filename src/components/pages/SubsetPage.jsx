@@ -31,8 +31,8 @@ export const SubsetPage = () => {
                     </Paragraph>
 
                     <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
-                    <Paragraph><strong>{t('Valid from')}:</strong> {subset.validFrom || '-'}</Paragraph>
-                    <Paragraph><strong>{t('Valid to')}:</strong> {subset.validUntil || '-'}</Paragraph>
+                    <Paragraph><strong>{t('Valid from')}:</strong> {subset.validFrom.substr(0, 10) || '-'}</Paragraph>
+                    <Paragraph><strong>{t('Valid to')}:</strong> {subset.validUntil.substr(0, 10)  || '-'}</Paragraph>
                     <Paragraph><strong>{t('Subject')}:</strong> {subset.administrativeDetails
                         .find(d => d.administrativeDetailType === 'ANNOTATION')
                         .values[0] || '-'}</Paragraph>

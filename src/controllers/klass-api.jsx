@@ -61,6 +61,10 @@ export function useGet(url = null) {
     return [data, isLoading, error, setPath];
 }
 
+export function useCode(urn, from, to) {
+    const [code, setCode]
+}
+
 export function useClassification(id = null) {
     const [metadata, setMetadata] = useState({});
     const [versions, setVersions] = useState([]);
