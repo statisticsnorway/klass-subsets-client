@@ -37,8 +37,8 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="from_date">{t('Valid from')}: </label>
                     <input type="date" id='from_date' style={{display: 'block'}}
-                                value={subset.draft.validFrom}
-                                onChange={(e) => subset.dispatch({action: 'from', data: e.target.value})}
+                                value={subset.draft.validFrom?.toISOString().substr(0, 10)}
+                                onChange={(e) => subset.dispatch({action: 'from', data: new Date(e.target.value.split("-")[0], e.target.value.split("-")[1], e.target.value.split("-")[2])})}
                                 className='datepicker'/>
                 </div>
 
@@ -46,8 +46,8 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor="to_date">{t('Valid to')}: </label>
                     <input type="date" id='to_date' style={{display: 'block'}}
-                                value={subset.draft.validUntil}
-                                onChange={(e) => subset.dispatch({action: 'to', data: e.target.value})}
+                                value={subset.draft.validUntil?.toISOString().substr(0, 10)}
+                                onChange={(e) => subset.dispatch({action: 'to', data: new Date(e.target.value.split("-")[0], e.target.value.split("-")[1], e.target.value.split("-")[2])})}
                                 className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>
