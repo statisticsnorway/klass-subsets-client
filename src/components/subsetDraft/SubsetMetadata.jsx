@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import '../../css/form.css';
-import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
+import {Dropdow, TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
 import {languages, subsetDraft} from '../../controllers/defaults';
-import {Title} from '@statisticsnorway/ssb-component-library';
+import {Title, Dropdown} from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
 import {useTranslation} from "react-i18next";
 
@@ -58,9 +58,9 @@ export const SubsetMetadata = ({subset}) => {
                 </div>
                 <br style={{clear: 'both'}}/>
             </section>
-
+            <Dropdown />
             {/* TODO: set automatically when logged inn */}
-            <Dropdown label={t('Owner')}
+            <Dropdow label={t('Owner')}
                       options={ssbsections ? ssbsections._embedded.ssbSections : []}
                       placeholder={t('Select a responsible department...')}
                       selected={subset.draft.createdBy}
@@ -70,7 +70,7 @@ export const SubsetMetadata = ({subset}) => {
             />
 
             {/* TODO: subject is stored in an array, it could be treated as tags ? */}
-            <Dropdown label={t('Subject')}
+            <Dropdow label={t('Subject')}
                       options={classificationfamilies?._embedded.classificationFamilies || []}
                       placeholder={t('Select a classification family...')}
                       selected={subset.draft.administrativeDetails

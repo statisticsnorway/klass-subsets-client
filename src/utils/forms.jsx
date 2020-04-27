@@ -79,7 +79,7 @@ export const LanguageSelect = ({languages = availableLanguages(),
     );
 };
 
-export const Dropdown = ({label='Select', options = [], placeholder= 'Select', selected='', onSelect}) => {
+export const Dropdow = ({label='Select', options = [], placeholder= 'Select', selected='', onSelect}) => {
     return (
         <div className='ssb-dropdown' style={{padding: '15px 0'}}>
             <label htmlFor='ssb_sections' style={{fontSize: '16px'}}>{label}</label>

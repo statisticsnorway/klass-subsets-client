@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import '../../css/pages.css';
-import {Dropdown, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
+import {Dropdow, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/subsets-service';
 import {Subsets} from '../Subset';
@@ -28,7 +28,7 @@ export default function SearchSubsetsPage() {
                     searchible = {(item) => item[0].languageText}/>
 
             <h3>{t('Search results')}</h3>
-            <Dropdown
+            <Dropdow
                 header={t('Sort by')}
                 selectedItem={{ title: t('Last updated'), id: 'Last' }}
                 items={[
