@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../css/autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
 
@@ -58,6 +58,10 @@ export const Search = ({ resource = [],
             <span>{origin.substr(i + substring.length, origin.length)}</span>
         </>;
     }
+
+    useEffect(() => {
+        dom.current.focus();
+    });
 
     // TODO: convert divs to list items (li)
     // FIXME: scroll and limit amount of suggestion shown by screen size
