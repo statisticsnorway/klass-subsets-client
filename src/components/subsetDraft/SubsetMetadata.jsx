@@ -5,7 +5,7 @@ import {AppContext} from '../../controllers/context';
 import {languages, subsetDraft} from '../../controllers/defaults';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import DatePicker from 'react-date-picker';
-import {useTranslation} from "react-i18next";
+import {useTranslation} from 'react-i18next';
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -35,22 +35,22 @@ export const SubsetMetadata = ({subset}) => {
             <section style={{margin: '5px 0 5px 0'}}>
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor="from_date">{t('Valid from')}: </label>
-                    <input type="date" id='from_date' style={{display: 'block'}}
+                           htmlFor='from_date'>{t('Valid from')}: </label>
+                    <input type='date' id='from_date' style={{display: 'block'}}
                                 value={subset.draft.validFrom?.toISOString().substr(0, 10)}
                                 onChange={(e) => {
-                                    const dateArr = e.target.value.split("-");
+                                    const dateArr = e.target.value.split('-');
                                     subset.dispatch({action: 'from', data: new Date(dateArr[0], dateArr[1], dateArr[2])});}}
                                 className='datepicker'/>
                 </div>
 
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor="to_date">{t('Valid to')}: </label>
-                    <input type="date" id='to_date' style={{display: 'block'}}
+                           htmlFor='to_date'>{t('Valid to')}: </label>
+                    <input type='date' id='to_date' style={{display: 'block'}}
                                 value={subset.draft.validUntil?.toISOString().substr(0, 10)}
                            onChange={(e) => {
-                               const dateArr = e.target.value.split("-");
+                               const dateArr = e.target.value.split('-');
                                subset.dispatch({action: 'to', data: new Date(dateArr[0], dateArr[1], dateArr[2])});}}
                            className='datepicker'/>
                 </div>

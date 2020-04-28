@@ -3,7 +3,7 @@ import {Search} from '../../utils/Search';
 import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
-import {useTranslation} from "react-i18next";
+import {useTranslation} from 'react-i18next';
 
 
 /*
