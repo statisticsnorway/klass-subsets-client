@@ -1,10 +1,6 @@
 .tooltip {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted #274247;
-}
-.tooltip:focus {
-    outline: none;
 }
 
 .tooltip .tooltiptext {
