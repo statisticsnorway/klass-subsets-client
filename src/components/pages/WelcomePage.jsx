@@ -19,14 +19,6 @@ export default function WelcomePage() {
            >{t('Issues')}</a>
            </Paragraph>
 
-           <Title size={2}>{t('Source code')}</Title>
-           <Paragraph>{t('You can find the source code on')} <a
-               className='App-link'
-               href='https://github.com/statisticsnorway/klass-subsets-web'
-               target='_blank'
-               rel='noopener noreferrer'
-           >GitHub repository</a></Paragraph>
-
            <Title size={2}>{t('Changelog')}</Title>
            <Title size={4}>v0.2.4</Title>
            <Paragraph>{t('Better codes and notes fetching')}</Paragraph>
