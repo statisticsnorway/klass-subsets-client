@@ -12,8 +12,15 @@ export const List = ({list}) => {
             <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
                 <h6 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h6>
                 <h6 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h6>
-                <h6 className='rank-text-tooltip tooltip' style={{display: 'inline', position: 'absolute', ariaLabel: 'notifications-label-rank', right: '45px', marginBlockEnd: '0'}}>{t('Rank')}
-                <span className="rank-tooltip tooltiptext" role="tooltip" id='notifications-label-rank'>{t('Code rank tooltip')}</span>
+                <h6 className='rank-text-tooltip tooltip' style={{
+                    display: 'inline',
+                    position: 'absolute',
+                    ariaLabel: 'notifications-label-rank',
+                    right: '45px',
+                    marginBlockEnd: '0',
+                    borderBottom: '1px dotted #274247'
+                }}>{t('Rank')}
+                <span className="rank-tooltip tooltiptext"  role="tooltip" id='notifications-label-rank'>{t('Code rank tooltip')}</span>
                 </h6>
             </div>
             <ul className='list' style={{paddingInlineStart: '0'}}>
