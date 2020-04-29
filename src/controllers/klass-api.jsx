@@ -38,6 +38,8 @@ export function useGet(url = null) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let _mounted = true;
+
         const fetchData = async () => {
             setError(null);
             setIsLoading(true);
@@ -45,27 +47,31 @@ export function useGet(url = null) {
             try {
                 const response = await fetch(`${klassApiServiceEndpoint}${path}`);
                 const json = await response.json();
-                setData(json);
-                setIsLoading(false);
+                _mounted && setData(json);
+                _mounted && setIsLoading(false);
             } catch (e) {
-                setError({
+                _mounted && setError({
                     timestamp: Date.now(),
                     status: e.status,
                     error: 'Fetch error',
                     message: `Error during fetching: ${e.message}`,
                     path
                 });
-                setIsLoading(false);
+                _mounted && setIsLoading(false);
             }
         };
 
-        if (path) {
+        if (path && _mounted) {
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);
             fetchData();
         }
 
+        return () => {
+            _mounted = false;
+        }
+        
     }, [path]);
 
     return [data, isLoading, error, setPath];
@@ -96,8 +102,26 @@ export function useCode(origin) {
         })
     }, [targetCode]);
 
-    // TODO useClassification
-    // TODO useEffect to update the target code
+    const {metadata, codesWithNotes} = useClassification(classificationId);
+
+    useEffect(() => {
+        metadata?.name && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                classification: `${classificationId} - ${metadata.name}`
+            };
+        })
+    }, [metadata]);
+
+    useEffect(() => {
+        const exists = codesWithNotes.find(c => c.code === code);
+        codesWithNotes && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                ...exists
+            };
+        })
+    }, [codesWithNotes]);
 
     return codeData;
 }
