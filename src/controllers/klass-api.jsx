@@ -2,21 +2,31 @@ import {useState, useEffect} from 'react';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
-
 export const URN = {
 
     toURL: (urn, from, to) => {
 
-        const codePattern = /urn:klass-api:classifications:[0-9]+:code:[0-9]+/i;
+        // FIXME sanitize input - XSS is a threat!!!
+        // For now it accepts letters, digits, % & # _ - . , etc
+        // the code will be used to fetch data from the Klass API
+        const codePattern = /urn:klass-api:classifications:[0-9]+:code:[\w]+/i;
 
         if (codePattern.test(urn) && (from || to)) {
             const [,,service,id,,code] = urn.split(':');
 
-            return from && to
+            return {
+                code,
+                service,
+                classificationId: id,
+                path: from && to
+                    ? `/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
+                    : `/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`,
+                url: from && to
                 ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
-                : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`;
+                : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`
+            };
         }
-        return null;
+        return {};
     }
 };
 
@@ -61,8 +71,35 @@ export function useGet(url = null) {
     return [data, isLoading, error, setPath];
 }
 
-export function useCode(urn, from, to) {
-    const [code, setCode]
+export function useCode(origin) {
+    const {code, classificationId, path, url} = URN.toURL(
+        origin?.urn,
+        origin?.validFromInRequestedRange,
+        origin?.validToInRequestedRange);
+
+    const [codeData, setCodeData] = useState({
+        ...origin,
+        code,
+        classification: origin.classification || classificationId,
+        _links: {
+            self: {
+                href: url
+            }
+        }
+    });
+
+    // FIXME handle errors
+    const [targetCode] = useGet(code?.name ? null : path);
+    useEffect(() => {
+        targetCode && setCodeData(prevCodeData => {
+            return {...prevCodeData, ...targetCode.codes[0]};
+        })
+    }, [targetCode]);
+
+    // TODO useClassification
+    // TODO useEffect to update the target code
+
+    return codeData;
 }
 
 export function useClassification(id = null) {

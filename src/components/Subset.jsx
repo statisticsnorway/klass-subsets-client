@@ -35,7 +35,13 @@ export const SubsetPreview = ({subset}) => {
             {subset.codes
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
-                    <Code key={i} code={code}/>))}
+                    <Code key={i}
+                          origin={{
+                              ...code,
+                              validFromInRequestedRange: from,
+                              validToInRequestedRange: to
+                          }}
+                    />))}
 
             <Accordion header={t('Raw JSON')}>
                 <pre>{JSON.stringify(subset, null, 4)}</pre>

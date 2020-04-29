@@ -3,7 +3,7 @@ import {Accordion, Paragraph, Title} from '@statisticsnorway/ssb-component-libra
 import {useTranslation} from 'react-i18next';
 import {useParams} from 'react-router-dom';
 import {useGet} from '../../controllers/subsets-service';
-import {URN} from '../../controllers/klass-api';
+import {Code} from '../Code';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
@@ -42,12 +42,13 @@ export const SubsetPage = () => {
                         subset.codes
                             .sort((a,b) => a.rank - b.rank)
                             .map((code, i) =>
-                                <p key={i}>{code.rank}. {
-                                    URN.toURL(
-                                        code.urn,
-                                        subset.validFrom.substr(0, 10),
-                                        subset.validUntil.substr(0, 10))
-                                }</p>)
+                                <Code key={i}
+                                      origin={{
+                                          ...code,
+                                          validFromInRequestedRange: subset.validFrom?.substr(0, 10),
+                                          validToInRequestedRange: subset.validUntil?.substr(0, 10)
+                                      }}
+                                />)
                     }
                     <Accordion header={t('Raw JSON')}>
                         <pre>{JSON.stringify(subset, null, 4)}</pre>
