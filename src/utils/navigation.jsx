@@ -56,10 +56,12 @@ export const PrevNext = ({min, max, handleClick}) => {
 
     const next = () => {
         handleClick((state) => (state+1));
+        window.scrollTo(0, 0);
     };
 
     const prev = () => {
         handleClick((state) => (state-1));
+        window.scrollTo(0, 0);
     };
 
     // TODO: place buttons on the same place on the each step page -> on the side, not bottom
