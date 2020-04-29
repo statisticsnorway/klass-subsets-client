@@ -13,9 +13,9 @@ export const parseDataForDropDowns = dataToParse => {
     const items = [];
     dataToParse.forEach((item, index) => {
         items.push({
-            title: item.name ? item.name : item.full,
-            id: item.languagecode ? item.languagecode : `${index}`,
-            disabled: item.disabled ? item.disabled : false
+            title: item.name,
+            id: `${index}`,
+            disabled: item.disabled
         });
     });
     return items;

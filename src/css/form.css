@@ -1,8 +1,11 @@
 textarea {
-    border: 1px solid transparent;
+    border: 1px solid #162327;
     background-color: #f1f1f1;
     font-size: 16px;
     font-family: 'Open Sans', Arial, 'DejaVu Sans', sans-serif;
+    width: 100%;
+    max-width: 350px;
+    min-width: 150px;
 }
 
 fieldset {
@@ -22,4 +25,10 @@ fieldset {
 .react-date-picker__wrapper {
     border: 1px solid transparent !important;
     padding: 0 10px;
+}
+.addMarginBottom20 {
+    margin-bottom: 20px;
+}
+.restrictResizing {
+    resize: none;
 }

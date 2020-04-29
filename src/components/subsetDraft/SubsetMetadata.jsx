@@ -6,7 +6,7 @@ import { languages, subsetDraft } from "../../controllers/defaults";
 import { Title, Dropdown } from "@statisticsnorway/ssb-component-library";
 import DatePicker from "react-date-picker";
 import { useTranslation } from "react-i18next";
-import { parseDataForDropDowns } from '../../utils/strings'
+import { parseDataForDropDowns } from "../../utils/strings";
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -23,7 +23,7 @@ export const SubsetMetadata = ({ subset }) => {
         subset.dispatch({ action: "description_add" });
     const { ssbsections, classificationfamilies } = useContext(AppContext);
     const { t } = useTranslation();
-    
+
     return (
         <>
             <Title size={3}>{t("Metadata")}</Title>
@@ -39,15 +39,15 @@ export const SubsetMetadata = ({ subset }) => {
                 prefix={subsetDraft.namePrefix}
             />
 
-            <section style={{ margin: "5px 0 5px 0" }}>
+            <section className='addMarginBottom20'>
                 <div
                     style={{ float: "left", marginRight: "20px", padding: "0" }}
                 >
                     <label
                         style={{
                             display: "block",
-                            fontSize: "16px",
-                            fontFamily: "Roboto"
+                            fontSize: "14px",
+                            fontFamily: `Roboto, sans-serif`
                         }}
                         htmlFor='from_date'
                     >
@@ -71,8 +71,8 @@ export const SubsetMetadata = ({ subset }) => {
                     <label
                         style={{
                             display: "block",
-                            fontSize: "16px",
-                            fontFamily: "Roboto"
+                            fontSize: "14px",
+                            fontFamily: `Roboto, sans-serif`
                         }}
                         htmlFor='to_date'
                     >
@@ -93,55 +93,51 @@ export const SubsetMetadata = ({ subset }) => {
                 </div>
                 <br style={{ clear: "both" }} />
             </section>
-            {ssbsections && (
-                <Dropdown
-                    placeholder={t("Select a responsible department...")}
-                    header={t("Owner")}
-                    items={
-                        ssbsections
-                            ? parseDataForDropDowns(
-                                  ssbsections._embedded.ssbSections
-                              )
-                            : [{}]
-                    }
-                    selectedItem={subset.draft.createdBy}
-                    onSelect={item =>
-                        subset.dispatch({
-                            action: "createdBy",
-                            data: item
-                        })
-                    }
-                />
-            )}
-            {/* TODO: set automatically when logged inn */}
+            <section className='addMarginBottom20'>
+                {ssbsections && (
+                    <Dropdown
+                        className='addMarginBottom20'
+                        placeholder={t("Select a responsible department...")}
+                        header={t("Owner")}
+                        items={
+                            ssbsections
+                                ? parseDataForDropDowns(
+                                      ssbsections._embedded.ssbSections
+                                  )
+                                : [{}]
+                        }
+                        onSelect={item =>
+                            subset.dispatch({
+                                action: "createdBy",
+                                data: item
+                            })
+                        }
+                    />
+                )}
+                {/* TODO: set automatically when logged inn */}
 
-            {/* TODO: subject is stored in an array, it could be treated as tags ? */}
-            {classificationfamilies && (
-                <Dropdown
-                    placeholder={t("Select a classification family...")}
-                    header={t("Subject")}
-                    items={
-                        classificationfamilies
-                            ? parseDataForDropDowns(
-                                  classificationfamilies._embedded
-                                      .classificationFamilies
-                              )
-                            : [{}]
-                    }
-                    selectedItem={
-                        subset.draft.administrativeDetails.find(
-                            d => d.administrativeDetailType === "ANNOTATION"
-                        ).values[0] || ""
-                    }
-                    onSelect={item =>
-                        subset.dispatch({
-                            action: "createdBy",
-                            data: item
-                        })
-                    }
-                />
-            )}
-
+                {/* TODO: subject is stored in an array, it could be treated as tags ? */}
+                {classificationfamilies && (
+                    <Dropdown
+                        placeholder={t("Select a classification family...")}
+                        header={t("Subject")}
+                        items={
+                            classificationfamilies
+                                ? parseDataForDropDowns(
+                                      classificationfamilies._embedded
+                                          .classificationFamilies
+                                  )
+                                : [{}]
+                        }
+                        onSelect={item =>
+                            subset.dispatch({
+                                action: "subject",
+                                data: item
+                            })
+                        }
+                    />
+                )}
+            </section>
             {/* FIXME: limit text size*/}
             <TextLanguageFieldset
                 title={t("Description")}
