@@ -39,11 +39,7 @@ export const SubsetMetadata = ({ subset }) => {
             <section className='addMarginBottom20'>
                 <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
                     <label
-                        style={{
-                            display: 'block',
-                            fontSize: '14px',
-                            fontFamily: 'Roboto'
-                        }}
+                        className='date-picker-label'
                         htmlFor='from_date'>
                         {t('Valid from')}:{' '}
                     </label>
@@ -57,17 +53,13 @@ export const SubsetMetadata = ({ subset }) => {
                                 data: new Date(e.target.value)
                             });
                         }}
-                        className='datepicker'
+                        className='date-picker'
                     />
                 </div>
 
                 <div style={{ float: 'left'}}>
                     <label htmlFor='to_date'
-                        style={{
-                            display: 'block',
-                            fontSize: '14px',
-                            fontFamily: 'Roboto'
-                        }}>
+                        className='date-picker-label'>
                         {t('Valid to')}:{' '}
                     </label>
                     <input
@@ -79,7 +71,7 @@ export const SubsetMetadata = ({ subset }) => {
                                 action: 'to',
                                 data: new Date(e.target.value)});
                         }}
-                        className='datepicker'
+                        className='date-picker'
                     />
                 </div>
                 <br style={{clear: 'both'}}/>

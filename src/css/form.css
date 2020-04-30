@@ -14,7 +14,13 @@ fieldset {
     max-width: 650px;
 }
 
-.datepicker {
+.date-picker-label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.date-picker {
     font-size: 14px;
     border: 1px solid #162327;
     padding-left: 5px;
@@ -22,7 +28,7 @@ fieldset {
     display: block;
 }
 
-.datepicker:hover {
+.date-picker:hover {
     border: 1px solid #00824d;
 }
 
