@@ -99,7 +99,7 @@ export function useCode(origin) {
     useEffect(() => {
         targetCode && setCodeData(prevCodeData => {
             return {...prevCodeData, ...targetCode.codes[0]};
-        })
+        });
     }, [targetCode]);
 
     const {metadata, codesWithNotes} = useClassification(classificationId);
