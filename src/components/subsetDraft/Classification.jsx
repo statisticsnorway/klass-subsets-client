@@ -179,20 +179,20 @@ export const Codes = ({ from, to, codes = [], id, include }) => {
     });
 
     return (
-        <div style={{ backgroundColor: "AliceBlue" }} className='panel'>
+        <div style={{ backgroundColor: 'AliceBlue' }} className='panel'>
             <div className='ssb-checkbox-group'>
                 <div className='checkbox-group-header'>
-                    {t("Codes")}
+                    {t('Codes')}
                     {from && to
-                        ? ` ${t("from to", { from, to })}:`
+                        ? ` ${t('from to', { from, to })}:`
                         : from || to
-                        ? ` ${t("at", { date: from || to })}:`
-                        : ` (${t("Period is not set").toLocaleLowerCase()})`}
+                        ? ` ${t('at', { date: from || to })}:`
+                        : ` (${t('Period is not set').toLocaleLowerCase()})`}
                 </div>
                 {!codes || codes.length < 1
-                    ? (<Text>{t("No codes found for this validity period")}</Text>)
+                    ? (<Text>{t('No codes found for this validity period')}</Text>)
                     : (<>
-                        <div style={{ padding: "5px" }}>
+                        <div style={{ padding: '5px' }}>
                             <button onClick={() => {
                                 codes.forEach(code => code.included = true);
                                 include(true);
@@ -236,7 +236,7 @@ export const CodeInfo = ({ id, item, onChange }) => {
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div className="ssb-checkbox">
+                <div className='ssb-checkbox'>
                     <input id={`${item.code}-${id}`}
                            type='checkbox' name='include'
                            checked={item.included}
