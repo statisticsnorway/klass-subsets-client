@@ -111,7 +111,7 @@ export function useCode(origin) {
                 classification: `${classificationId} - ${metadata.name}`
             };
         })
-    }, [metadata]);
+    }, [metadata, classificationId]);
 
     useEffect(() => {
         const exists = codesWithNotes.find(c => c.code === code);
@@ -121,7 +121,7 @@ export function useCode(origin) {
                 ...exists
             };
         })
-    }, [codesWithNotes]);
+    }, [codesWithNotes, setCodeData, code]);
 
     return codeData;
 }
@@ -137,7 +137,9 @@ export function useClassification(id = null) {
         info && setMetadata(info);
     }, [info, setMetadata]);
 
-    useEffect(() => setVersions(metadata.versions), [metadata, setVersions]); // force update: all codes have to be fetch again
+    useEffect(() =>
+            setVersions(metadata.versions),
+        [metadata, setVersions]); // force update: all codes have to be fetch again
 
     // FIXME handle errors
     const [version, , errorVersion, setVersionPath] = useGet();
@@ -145,14 +147,12 @@ export function useClassification(id = null) {
     // If codes defined as empty array, the attempt to fetch the codes will not fire
     // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
     useEffect(() => {
-        if (versions) {
-            const missesCodes = versions.find(v => !v.codes);
+            const missesCodes = versions?.find(v => !v.codes);
             if (missesCodes) {
                 // TODO: Use links delivered by API, do not parse - less coupling
                 const vid = missesCodes._links.self.href.split('/').pop();
                 setVersionPath(`/versions/${vid}`);
             }
-        }
     }, [versions, errorVersion, setVersionPath]);
 
     useEffect(() => {
