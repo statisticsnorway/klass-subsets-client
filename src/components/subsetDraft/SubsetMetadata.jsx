@@ -23,7 +23,7 @@ export const SubsetMetadata = ({ subset }) => {
         subset.dispatch({ action: "description_add" });
     const { ssbsections, classificationfamilies } = useContext(AppContext);
     const { t } = useTranslation();
-  
+
     return (
         <>
             <Title size={3}>{t("Metadata")}</Title>
@@ -39,30 +39,36 @@ export const SubsetMetadata = ({ subset }) => {
                 prefix={subsetDraft.namePrefix}
             />
 
-            <section className='addMarginBottom20'>
+            <section
+                className='addMarginBottom20'
+                style={{ margin: "5px 0 5px 0" }}
+            >
                 <div
                     style={{ float: "left", marginRight: "20px", padding: "0" }}
                 >
                     <label
                         style={{
                             display: "block",
-                            fontSize: "14px",
-                            fontFamily: `Roboto, sans-serif`
+                            fontSize: "16px",
+                            fontFamily: "Roboto"
                         }}
                         htmlFor='from_date'
                     >
                         {t("Valid from")}:{" "}
                     </label>
-                    <DatePicker
+                    <input
+                        type='date'
                         id='from_date'
                         style={{ display: "block" }}
-                        value={subset.draft.validFrom}
-                        onChange={date =>
-                            subset.dispatch({ action: "from", data: date })
-                        }
-                        clearIcon={null}
-                        format='dd.MM.y'
-                        locale={languages.find(i => i.default).IETF}
+                        value={subset.draft.validFrom
+                            ?.toISOString()
+                            .substr(0, 10)}
+                        onChange={e => {
+                            subset.dispatch({
+                                action: "from",
+                                data: new Date(e.target.value)
+                            });
+                        }}
                         className='datepicker'
                     />
                 </div>
@@ -71,28 +77,32 @@ export const SubsetMetadata = ({ subset }) => {
                     <label
                         style={{
                             display: "block",
-                            fontSize: "14px",
-                            fontFamily: `Roboto, sans-serif`
+                            fontSize: "16px",
+                            fontFamily: "Roboto"
                         }}
                         htmlFor='to_date'
                     >
                         {t("Valid to")}:{" "}
                     </label>
-                    <DatePicker
+                    <input
+                        type='date'
                         id='to_date'
                         style={{ display: "block" }}
-                        value={subset.draft.validUntil}
-                        onChange={date =>
-                            subset.dispatch({ action: "to", data: date })
-                        }
-                        clearIcon={null}
-                        format='dd.MM.y'
-                        locale={languages.find(i => i.default).IETF}
+                        value={subset.draft.validUntil
+                            ?.toISOString()
+                            .substr(0, 10)}
+                        onChange={e => {
+                            subset.dispatch({
+                                action: "to",
+                                data: new Date(e.target.value)
+                            });
+                        }}
                         className='datepicker'
                     />
                 </div>
                 <br style={{ clear: "both" }} />
             </section>
+
             <section className='addMarginBottom20'>
                 {ssbsections && (
                     <Dropdown

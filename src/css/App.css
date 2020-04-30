@@ -1,43 +1,43 @@
 .App {
-  text-align: left;
+    text-align: left;
 }
 
 .App-logo {
-  height: 4vmin;
-  pointer-events: none;
+    height: 4vmin;
+    pointer-events: none;
 }
 
 .App-header {
-  background-color: lightgray;
-  max-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: left;
-  font-size: calc(10px + 2vmin);
-  color: black;
+    background-color: lightgray;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    font-size: calc(10px + 2vmin);
+    color: black;
 }
 
 .App-name {
-  padding: calc(10px + 2vmin);
-  font-family: Oswald, Calibri, Arial, "DejaVu Sans", sans-serif;
+    padding: calc(10px + 2vmin);
+    font-family: Oswald, Calibri, Arial, "DejaVu Sans", sans-serif;
 }
 
 .App-header img {
-  padding-right: 30px;
+    padding-right: 30px;
 }
 
 .app {
-  color: #162327;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  min-height: 100vh;
+    color: #162327;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
 }
 
 .app-content {
-  display: grid;
-  grid-template-columns: minmax(320px, 1200px);
-  justify-content: center;
-  margin: 0 8px;
-  position: relative;
+    display: grid;
+    grid-template-columns: minmax(320px, 1200px);
+    justify-content: center;
+    margin: 0 8px;
+    position: relative;
 }

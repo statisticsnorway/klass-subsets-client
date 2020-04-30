@@ -25,8 +25,8 @@ export const ProgressBar = ({steps, handleClick, activeStep}) => {
     return (
         <div style={{textAlign: 'center', width: '60%'}}>
             {steps.map((step, index) => (
-                <button key={index}
-                        className='tooltip'
+                <div className='tooltip'>
+                    <button key={index}
                         onClick={ () => handleClick(index) }
                         style={{
                             borderRadius: '50%',
@@ -40,9 +40,12 @@ export const ProgressBar = ({steps, handleClick, activeStep}) => {
                             margin: '0 30px 0 0',
                             ariaLabel: `notifications-label-${index}`
                         }}
-                >{index}
-                    <span className="tooltiptext" role="tooltip" id={`notifications-label${index}`}>{step.props.label}</span>
-                </button>
+                        >{index}
+                    </button>
+                    <span className="tooltiptext" style={{ borderBottom: '1px dotted #274247'}}
+                          role="tooltip"
+                          id={`notifications-label${index}`}>{step.props.label}</span>
+                </div>
             ))}
         </div>
     );
@@ -53,10 +56,12 @@ export const PrevNext = ({min, max, handleClick}) => {
 
     const next = () => {
         handleClick((state) => (state+1));
+        window.scrollTo(0, 0);
     };
 
     const prev = () => {
         handleClick((state) => (state-1));
+        window.scrollTo(0, 0);
     };
 
     // TODO: place buttons on the same place on the each step page -> on the side, not bottom

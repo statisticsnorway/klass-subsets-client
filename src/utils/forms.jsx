@@ -1,7 +1,7 @@
 import { availableLanguages, disableUsed } from "./languages";
 import React from "react";
 import { PlusSquare, Trash2 } from "react-feather";
-import '../css/langugeDropdown.css'; 
+import "../css/langugeDropdown.css";
 
 export const TextLanguageFieldset = ({
     title,
@@ -17,12 +17,23 @@ export const TextLanguageFieldset = ({
         languages,
         items.map(name => name.languageCode)
     );
-   
-    const turnOfResizableTextArea = title === 'Navn' ? 'restrictResizing'  : '';
-    
+
+    const turnOfResizableTextArea = title === "Navn" ? "restrictResizing" : "";
+
     return (
-        <div className='ssb-text-area addMarginBottom20' style={{ maxWidth: '350px', minWidth: '150px' }}>
-            <label id={`textarea-label-${title}`}htmlFor={title} style={{ display: "block", fontSize: '14px', marginBottom: '5px'}}>
+        <div
+            className='ssb-text-area addMarginBottom20'
+            style={{ maxWidth: "350px", minWidth: "150px" }}
+        >
+            <label
+                id={`textarea-label-${title}`}
+                htmlFor={title}
+                style={{
+                    display: "block",
+                    fontSize: "14px",
+                    marginBottom: "5px"
+                }}
+            >
                 {title}
             </label>
 
@@ -30,11 +41,17 @@ export const TextLanguageFieldset = ({
                 <div key={index} style={{ padding: "0 0 15px 0" }}>
                     <textarea
                         aria-labelledby={`textarea-label-${title}`}
-                        className={ turnOfResizableTextArea ? 'restrictResizing' : null }
+                        className={
+                            turnOfResizableTextArea ? "restrictResizing" : null
+                        }
                         type='text'
                         cols={size.cols}
                         rows={size.rows}
-                        style={{ display: 'block', width: '100%', height: `${size.rows * 44}px` }}
+                        style={{
+                            display: "block",
+                            width: "100%",
+                            height: `${size.rows * 44}px`
+                        }}
                         id={title}
                         value={item.languageText || prefix}
                         onChange={e =>
@@ -63,54 +80,69 @@ export const TextLanguageFieldset = ({
                     />
 
                     {/* É */}
-                    <div style={{display: 'inline-flex', flexDirection: 'row', marginTop: '10px'}}>  
-                    <LanguageSelect
-                        languages={languages}
-                        selected={item.languageCode}
-                        onChange={e =>
-                            handle((item.languageCode = e.target.value))
-                        }
-                    />
-                   
-                    <button
-                        aria-label='Add language'
-                        aria-disabled={
-                            !(
-                                index === items.length - 1 &&
-                                index < languages.length - 1
-                            )
-                        }
-                        disabled={
-                            !(
-                                index === items.length - 1 &&
-                                index < languages.length - 1
-                            )
-                        }
-                        style={{display: 'flex', alignItems:'center', background: "none", border: "none" }}
-                        onClick={() => add()}
+                    <div
+                        style={{
+                            display: "inline-flex",
+                            flexDirection: "row",
+                            marginTop: "10px"
+                        }}
                     >
-                        <PlusSquare
-                            color={
-                                index === items.length - 1 &&
-                                index < languages.length - 1
-                                    ? "#1A9D49"
-                                    : "#C3DCDC"
+                        <LanguageSelect
+                            languages={languages}
+                            selected={item.languageCode}
+                            onChange={e =>
+                                handle((item.languageCode = e.target.value))
                             }
                         />
-                    </button>
 
-                    <button
-                        aria-label='Remove language'
-                        aria-disabled={index === 0}
-                        disabled={index === 0}
-                        style={{ display: 'flex', alignItems:'center', background: "none", border: "none" }}
-                        onClick={() => remove(index)}
-                    >
-                        <Trash2 color={index > 0 ? "#ED5935" : "#C3DCDC"} />
-                    </button>
+                        <button
+                            aria-label='Add language'
+                            aria-disabled={
+                                !(
+                                    index === items.length - 1 &&
+                                    index < languages.length - 1
+                                )
+                            }
+                            disabled={
+                                !(
+                                    index === items.length - 1 &&
+                                    index < languages.length - 1
+                                )
+                            }
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "none",
+                                border: "none"
+                            }}
+                            onClick={() => add()}
+                        >
+                            <PlusSquare
+                                color={
+                                    index === items.length - 1 &&
+                                    index < languages.length - 1
+                                        ? "#1A9D49"
+                                        : "#C3DCDC"
+                                }
+                            />
+                        </button>
+
+                        <button
+                            aria-label='Remove language'
+                            aria-disabled={index === 0}
+                            disabled={index === 0}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "none",
+                                border: "none"
+                            }}
+                            onClick={() => remove(index)}
+                        >
+                            <Trash2 color={index > 0 ? "#ED5935" : "#C3DCDC"} />
+                        </button>
                     </div>
-                    </div>
-           
+                </div>
             ))}
             {items.length === 0 && (
                 <button aria-disabled='true' onClick={() => add()}>

@@ -1,4 +1,5 @@
 import {
+    GitHub,
     Facebook,
     Linkedin,
     Rss,
@@ -30,6 +31,7 @@ export default function Footer() {
             <Link href="https://www.ssb.no/nettstedskart" isExternal negative>{t('Site map')}</Link>
         </div>
         <div className="social-links">
+            <Link href="https://github.com/statisticsnorway/klass-subsets-client" isExternal negative icon={<GitHub size={24} />} />
             <Link href="https://www.facebook.com/statistisksentralbyra/" isExternal negative icon={<Facebook size={24} />} />
             <Link href="https://twitter.com/ssbnytt" isExternal negative icon={<Twitter size={24} />} />
             <Link href="https://www.linkedin.com/company/statistics-norway/" isExternal negative icon={<Linkedin size={24} />} />
