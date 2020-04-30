@@ -1,16 +1,16 @@
-import { availableLanguages, disableUsed } from "./languages";
-import React from "react";
-import { PlusSquare, Trash2 } from "react-feather";
-import "../css/langugeDropdown.css";
+import { availableLanguages, disableUsed } from './languages';
+import React from 'react';
+import { PlusSquare, Trash2 } from 'react-feather';
+import '../css/langugeDropdown.css';
 
 export const TextLanguageFieldset = ({
     title,
     items = [],
     size = { cols: 40, rows: 1 },
-    prefix = "",
+    prefix = '',
     handle = data => console.log(data),
-    add = () => console.log("+"),
-    remove = index => console.log("-", index)
+    add = () => console.log('+'),
+    remove = index => console.log('-', index)
 }) => {
     const languages = availableLanguages();
     disableUsed(
@@ -18,38 +18,38 @@ export const TextLanguageFieldset = ({
         items.map(name => name.languageCode)
     );
 
-    const turnOfResizableTextArea = title === "Navn" ? "restrictResizing" : "";
+    const turnOfResizableTextArea = title === 'Navn' ? 'restrictResizing' : '';
 
     return (
         <div
             className='ssb-text-area addMarginBottom20'
-            style={{ maxWidth: "350px", minWidth: "150px" }}
+            style={{ maxWidth: '350px', minWidth: '150px' }}
         >
             <label
                 id={`textarea-label-${title}`}
                 htmlFor={title}
                 style={{
-                    display: "block",
-                    fontSize: "14px",
-                    marginBottom: "5px"
+                    display: 'block',
+                    fontSize: '14px',
+                    marginBottom: '5px'
                 }}
             >
                 {title}
             </label>
 
             {items.map((item, index) => (
-                <div key={index} style={{ padding: "0 0 15px 0" }}>
+                <div key={index} style={{ padding: '0 0 15px 0' }}>
                     <textarea
                         aria-labelledby={`textarea-label-${title}`}
                         className={
-                            turnOfResizableTextArea ? "restrictResizing" : null
+                            turnOfResizableTextArea ? 'restrictResizing' : null
                         }
                         type='text'
                         cols={size.cols}
                         rows={size.rows}
                         style={{
-                            display: "block",
-                            width: "100%",
+                            display: 'block',
+                            width: '100%',
                             height: `${size.rows * 44}px`
                         }}
                         id={title}
@@ -82,9 +82,9 @@ export const TextLanguageFieldset = ({
                     {/* É */}
                     <div
                         style={{
-                            display: "inline-flex",
-                            flexDirection: "row",
-                            marginTop: "10px"
+                            display: 'inline-flex',
+                            flexDirection: 'row',
+                            marginTop: '10px'
                         }}
                     >
                         <LanguageSelect
@@ -110,10 +110,10 @@ export const TextLanguageFieldset = ({
                                 )
                             }
                             style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "none",
-                                border: "none"
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: 'none',
+                                border: 'none'
                             }}
                             onClick={() => add()}
                         >
@@ -121,8 +121,8 @@ export const TextLanguageFieldset = ({
                                 color={
                                     index === items.length - 1 &&
                                     index < languages.length - 1
-                                        ? "#1A9D49"
-                                        : "#C3DCDC"
+                                        ? '#1A9D49'
+                                        : '#C3DCDC'
                                 }
                             />
                         </button>
@@ -132,14 +132,14 @@ export const TextLanguageFieldset = ({
                             aria-disabled={index === 0}
                             disabled={index === 0}
                             style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "none",
-                                border: "none"
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: 'none',
+                                border: 'none'
                             }}
                             onClick={() => remove(index)}
                         >
-                            <Trash2 color={index > 0 ? "#ED5935" : "#C3DCDC"} />
+                            <Trash2 color={index > 0 ? '#ED5935' : '#C3DCDC'} />
                         </button>
                     </div>
                 </div>
