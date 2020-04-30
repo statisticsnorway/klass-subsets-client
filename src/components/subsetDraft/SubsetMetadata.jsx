@@ -36,12 +36,12 @@ export const SubsetMetadata = ({ subset }) => {
                 prefix={subsetDraft.namePrefix}
             />
 
-            <section className='addMarginBottom20' style={{ margin: '5px 0 5px 0' }}>
+            <section className='addMarginBottom20'>
                 <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
                     <label
                         style={{
                             display: 'block',
-                            fontSize: '16px',
+                            fontSize: '14px',
                             fontFamily: 'Roboto'
                         }}
                         htmlFor='from_date'>
@@ -65,7 +65,7 @@ export const SubsetMetadata = ({ subset }) => {
                     <label htmlFor='to_date'
                         style={{
                             display: 'block',
-                            fontSize: '16px',
+                            fontSize: '14px',
                             fontFamily: 'Roboto'
                         }}>
                         {t('Valid to')}:{' '}
