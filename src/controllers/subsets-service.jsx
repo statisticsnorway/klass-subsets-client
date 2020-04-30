@@ -10,6 +10,8 @@ export function useGet(url = null) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let _mounted = true;
+
         const fetchData = async () => {
 
             setError(null);
@@ -18,27 +20,31 @@ export function useGet(url = null) {
             try {
                 const response = await fetch(`${subSetsServiceEndpoint}${path}`);
                 let json = await response.json();
-                setData(json);
-                setIsLoading(false);
+                _mounted && setData(json);
+                _mounted && setIsLoading(false);
             }
             catch (e) {
                 setError({
                     timestamp: Date.now(),
                     status: e.status,
-                    error: "Fetch error",
+                    error: 'Fetch error',
                     message: `Error during fetching: ${e.message}`,
                     path
                 });
-                setIsLoading(false);
+                _mounted && setIsLoading(false);
             }
         };
 
-        if (path !== null) {
+        if (path !== null && _mounted) {
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);
             fetchData();
         }
+
+        return () => {
+            _mounted = false;
+        };
 
     }, [path]);
 
@@ -64,17 +70,17 @@ export function usePost() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                 });
-                let data = await response.json();
-                setData(data);
+                let json = await response.json();
+                setData(json);
                 setIsLoading(false);
             }
-            catch (error) {
+            catch (e) {
                 setError(true);
                 setIsLoading(false);
             }
         };
 
-        if(payload) {
+        if (payload) {
             fetchData();
         }
 
@@ -105,13 +111,13 @@ export function usePut() {
                 setData(response.status === 200 ? payload : response.status);
                 setIsLoading(false);
             }
-            catch (error) {
+            catch (e) {
                 setError(true);
                 setIsLoading(false);
             }
         };
 
-        if(payload) {
+        if (payload) {
             fetchData();
         }
 
