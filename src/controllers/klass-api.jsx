@@ -110,7 +110,7 @@ export function useCode(origin) {
                 ...prevCodeData,
                 classification: `${classificationId} - ${metadata.name}`
             };
-        })
+        });
     }, [metadata, classificationId]);
 
     useEffect(() => {
