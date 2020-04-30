@@ -56,5 +56,5 @@ export const SubsetPage = () => {
                 </div>
             }
         </div>
-    )
+    );
 };

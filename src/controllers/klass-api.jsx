@@ -70,7 +70,7 @@ export function useGet(url = null) {
 
         return () => {
             _mounted = false;
-        }
+        };
         
     }, [path]);
 
@@ -120,7 +120,7 @@ export function useCode(origin) {
                 ...prevCodeData,
                 ...exists
             };
-        })
+        });
     }, [codesWithNotes, setCodeData, code]);
 
     return codeData;

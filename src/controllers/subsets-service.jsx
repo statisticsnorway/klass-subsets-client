@@ -44,7 +44,7 @@ export function useGet(url = null) {
 
         return () => {
             _mounted = false;
-        }
+        };
 
     }, [path]);
 
@@ -70,11 +70,11 @@ export function usePost() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                 });
-                let data = await response.json();
-                setData(data);
+                let json = await response.json();
+                setData(json);
                 setIsLoading(false);
             }
-            catch (error) {
+            catch (e) {
                 setError(true);
                 setIsLoading(false);
             }
@@ -111,7 +111,7 @@ export function usePut() {
                 setData(response.status === 200 ? payload : response.status);
                 setIsLoading(false);
             }
-            catch (error) {
+            catch (e) {
                 setError(true);
                 setIsLoading(false);
             }
