@@ -23,7 +23,7 @@ export const SubsetMetadata = ({ subset }) => {
         subset.dispatch({ action: "description_add" });
     const { ssbsections, classificationfamilies } = useContext(AppContext);
     const { t } = useTranslation();
-
+  
     return (
         <>
             <Title size={3}>{t("Metadata")}</Title>
@@ -109,7 +109,7 @@ export const SubsetMetadata = ({ subset }) => {
                         onSelect={item =>
                             subset.dispatch({
                                 action: "createdBy",
-                                data: item
+                                data: item.title
                             })
                         }
                     />
@@ -132,7 +132,7 @@ export const SubsetMetadata = ({ subset }) => {
                         onSelect={item =>
                             subset.dispatch({
                                 action: "subject",
-                                data: item
+                                data: item.title
                             })
                         }
                     />
