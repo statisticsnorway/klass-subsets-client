@@ -50,7 +50,7 @@ export const SubsetMetadata = ({ subset }) => {
                     <input
                         type='date'
                         id='from_date'
-                        style={{ display: 'block' }}
+                        style={{ display: 'block', height: '44px' }}
                         value={ subset.draft.validFrom?.toISOString().substr(0, 10)}
                         onChange={e => { subset.dispatch({
                                 action: 'from',
@@ -61,7 +61,7 @@ export const SubsetMetadata = ({ subset }) => {
                     />
                 </div>
 
-                <div style={{ float: 'left' }}>
+                <div style={{ float: 'left'}}>
                     <label htmlFor='to_date'
                         style={{
                             display: 'block',
@@ -73,7 +73,7 @@ export const SubsetMetadata = ({ subset }) => {
                     <input
                         type='date'
                         id='to_date'
-                        style={{ display: 'block' }}
+                        style={{ display: 'block', height: '44px' }}
                         value={subset.draft.validUntil?.toISOString().substr(0, 10)}
                         onChange={e => {subset.dispatch({
                                 action: 'to',
