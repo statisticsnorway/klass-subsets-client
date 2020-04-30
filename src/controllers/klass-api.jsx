@@ -2,6 +2,34 @@ import {useState, useEffect} from 'react';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
+export const URN = {
+
+    toURL: (urn, from, to) => {
+
+        // FIXME sanitize input - XSS is a threat!!!
+        // For now it accepts letters, digits, % & # _ - . , etc
+        // the code will be used to fetch data from the Klass API
+        const codePattern = /urn:klass-api:classifications:[0-9]+:code:[\w]+/i;
+
+        if (codePattern.test(urn) && (from || to)) {
+            const [,,service,id,,code] = urn.split(':');
+
+            return {
+                code,
+                service,
+                classificationId: id,
+                path: from && to
+                    ? `/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
+                    : `/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`,
+                url: from && to
+                ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
+                : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`
+            };
+        }
+        return {};
+    }
+};
+
 // TODO: error handling using global and private error handlers
 export function useGet(url = null) {
     const [path, setPath] = useState(url);
@@ -10,6 +38,8 @@ export function useGet(url = null) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let _mounted = true;
+
         const fetchData = async () => {
             setError(null);
             setIsLoading(true);
@@ -17,30 +47,83 @@ export function useGet(url = null) {
             try {
                 const response = await fetch(`${klassApiServiceEndpoint}${path}`);
                 const json = await response.json();
-                setData(json);
-                setIsLoading(false);
+                _mounted && setData(json);
+                _mounted && setIsLoading(false);
             } catch (e) {
-                setError({
+                _mounted && setError({
                     timestamp: Date.now(),
                     status: e.status,
                     error: 'Fetch error',
                     message: `Error during fetching: ${e.message}`,
                     path
                 });
-                setIsLoading(false);
+                _mounted && setIsLoading(false);
             }
         };
 
-        if (path) {
+        if (path && _mounted) {
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);
             fetchData();
         }
 
+        return () => {
+            _mounted = false;
+        };
+        
     }, [path]);
 
     return [data, isLoading, error, setPath];
+}
+
+export function useCode(origin) {
+    const {code, classificationId, path, url} = URN.toURL(
+        origin?.urn,
+        origin?.validFromInRequestedRange,
+        origin?.validToInRequestedRange);
+
+    const [codeData, setCodeData] = useState({
+        ...origin,
+        code,
+        classification: origin.classification || classificationId,
+        _links: {
+            self: {
+                href: url
+            }
+        }
+    });
+
+    // FIXME handle errors
+    const [targetCode] = useGet(code?.name ? null : path);
+    useEffect(() => {
+        targetCode && setCodeData(prevCodeData => {
+            return {...prevCodeData, ...targetCode.codes[0]};
+        });
+    }, [targetCode]);
+
+    const {metadata, codesWithNotes} = useClassification(classificationId);
+
+    useEffect(() => {
+        metadata?.name && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                classification: `${classificationId} - ${metadata.name}`
+            };
+        });
+    }, [metadata, classificationId]);
+
+    useEffect(() => {
+        const exists = codesWithNotes.find(c => c.code === code);
+        codesWithNotes && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                ...exists
+            };
+        });
+    }, [codesWithNotes, setCodeData, code]);
+
+    return codeData;
 }
 
 export function useClassification(id = null) {
@@ -54,7 +137,9 @@ export function useClassification(id = null) {
         info && setMetadata(info);
     }, [info, setMetadata]);
 
-    useEffect(() => setVersions(metadata.versions), [metadata, setVersions]); // force update: all codes have to be fetch again
+    useEffect(() =>
+            setVersions(metadata.versions),
+        [metadata, setVersions]); // force update: all codes have to be fetch again
 
     // FIXME handle errors
     const [version, , errorVersion, setVersionPath] = useGet();
@@ -62,14 +147,12 @@ export function useClassification(id = null) {
     // If codes defined as empty array, the attempt to fetch the codes will not fire
     // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
     useEffect(() => {
-        if (versions) {
-            const missesCodes = versions.find(v => !v.codes);
+            const missesCodes = versions?.find(v => !v.codes);
             if (missesCodes) {
                 // TODO: Use links delivered by API, do not parse - less coupling
                 const vid = missesCodes._links.self.href.split('/').pop();
                 setVersionPath(`/versions/${vid}`);
             }
-        }
     }, [versions, errorVersion, setVersionPath]);
 
     useEffect(() => {

@@ -4,7 +4,6 @@ import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
 import {languages, subsetDraft} from '../../controllers/defaults';
 import {Title} from '@statisticsnorway/ssb-component-library';
-import DatePicker from 'react-date-picker';
 import {useTranslation} from 'react-i18next';
 
 /*
