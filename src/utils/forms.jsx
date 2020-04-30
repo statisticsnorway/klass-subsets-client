@@ -38,7 +38,7 @@ export const TextLanguageFieldset = ({
             </label>
 
             {items.map((item, index) => (
-                <div key={index} style={{ padding: '0 0 15px 0' }}>
+                <div key={index}>
                     <textarea
                         aria-labelledby={`textarea-label-${title}`}
                         className={
