@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
-import {languages, subsetDraft} from '../../controllers/defaults';
+import {subsetDraft} from '../../controllers/defaults';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 
@@ -22,7 +22,11 @@ export const SubsetMetadata = ({subset}) => {
 
     return (
         <>
-            <Title size={3}>{t('Metadata')}</Title>
+            <Title size={3}>{t('Metadata')}
+                <span style={{fontSize: '14px', color: '#ED5935'}}>
+                    {subset.administrativeStatus || 'Draft'}
+                </span>
+            </Title>
             <TextLanguageFieldset title={t('Names')} items={subset.draft.name}
                                   add={() => subset.dispatch({action: 'name_add'})}
                                   remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
