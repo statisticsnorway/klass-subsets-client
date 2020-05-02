@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../css/pages.css';
+//import '../../css/pages.css';
 import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 
@@ -7,7 +7,7 @@ export default function WelcomePage() {
    const {t} = useTranslation();
 
    return (
-       <div className='page'>
+       <>
            <Title size={2}>{t('Feedback')}</Title>
 
            <Paragraph>{t('The application is under development.')}</Paragraph>
@@ -50,6 +50,6 @@ export default function WelcomePage() {
 
            <Title size={4}>v0.2.0</Title>
                <Paragraph>{t('Authorization and subset-service integration')}</Paragraph>
-        </div>
+        </>
    );
 }

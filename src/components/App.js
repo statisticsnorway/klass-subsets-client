@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/App.css';
+//import '../css/App.css';
 import {BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
 import {ContextProvider} from '../controllers/context';
 import Header from './Header';
@@ -21,7 +21,7 @@ export default function App() {
             <BrowserRouter forceRefresh={true}>
                 <div className='app'>
                     <Header/>
-                <div className='app-content'>
+                <div className='page-container'>
 {/* FIXME use it!
     TODO: style it!
                     <Errors/>
@@ -44,7 +44,7 @@ export default function App() {
 
 export function NoMatch({location}) {
     return (
-        <div className='page'>
+        <div className='page-container'>
             <h3>No match for <code>{location.pathname}</code>.</h3>
             <p>Back to <Link to='/'>home page</Link></p>
         </div>

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import '../../css/pages.css';
+//import '../../css/pages.css';
 import {useTranslation} from 'react-i18next';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
 import {SubsetPreview} from '../Subset';

@@ -8,11 +8,12 @@ import {useTranslation} from "react-i18next";
 export function Navigation({children}) {
     const [step, setStep] = useState(0);
 
-    return (<>
+    return (
+        <div className='mb-40'>
             <ProgressBar steps={children} handleClick={setStep} activeStep={step} />
             <div>{children[step]}</div>
             <PrevNext min={step===0} max={step===children.length-1} handleClick={setStep} />
-        </>
+        </div>
     );
 }
 
@@ -23,7 +24,7 @@ export const Step = ({children}) => {
 export const ProgressBar = ({steps, handleClick, activeStep}) => {
 
     return (
-        <div style={{textAlign: 'center', width: '60%'}}>
+        <div className='navigation-bar'>
             {steps.map((step, index) => (
                 <div className='tooltip'>
                     <button key={index}

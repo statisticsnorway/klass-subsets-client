@@ -1,0 +1,15 @@
+@import '_master.scss';
+
+@function calc-row-width($value1, $value2) {
+    @return $value1 * $value2;
+}
+
+.page-container {
+    max-width: calc-row-width($Colom3, 2);
+    width: 100%;
+    margin: 0 auto;
+    &--fluid {
+        margin: 0;
+        max-width: 100%;
+    }
+}

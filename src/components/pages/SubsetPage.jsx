@@ -14,7 +14,7 @@ export const SubsetPage = () => {
     // FIXME: translate placeholders
     // TODO: smart language choice
     return(
-        <div className='page'>
+        <>
             {!subset
                 ? <p>{t('Subset with id does not exist', {id})}.</p>
                 : <div>
@@ -55,6 +55,6 @@ export const SubsetPage = () => {
                     </Accordion>
                 </div>
             }
-        </div>
+        </>
     );
 };
