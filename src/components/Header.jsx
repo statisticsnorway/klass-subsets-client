@@ -43,7 +43,7 @@ export default function Header() {
                 </Link>
             </div>
 
-            <div className='header-content' style={{marginBottom: '20px'}}>
+            <div className='header-content'>
                 <Tabs activeOnInit={location.pathname} onClick={(path) => history.push(path)}
                       items={[
                           {title: t('Search subsets'), path: '/'},

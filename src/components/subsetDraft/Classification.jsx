@@ -15,7 +15,6 @@ import {
     Title
 } from '@statisticsnorway/ssb-component-library';
 import { useGet, useClassification } from '../../controllers/klass-api';
-import '../../css/panel.css';
 import { useTranslation } from 'react-i18next';
 import { replaceRefWithHTMLAndSanitize } from '../../utils/strings';
 
@@ -89,9 +88,9 @@ export const Classification = ({ item = {}, update, remove, from, to }) => {
 
     return (
         <>
-            <div style={{ display: 'flex' }}>
-                <div style={{ width: '400px' }}>{item.name}</div>
-
+            <div className='classification'>
+                <Paragraph>{item.name}</Paragraph>
+                <div className='classification-buttons'>
                 <button onClick={() => item.error && setExpander(toggle.alert())}>
                     <Alert color={item.error ? 'orange' : 'transparent'}/>
                 </button>
@@ -129,6 +128,7 @@ export const Classification = ({ item = {}, update, remove, from, to }) => {
                         <Trash2 color='#ED5935' />
                     </button>
                 )}
+                </div>
             </div>
 
             {expander.showAlert &&
@@ -179,7 +179,7 @@ export const Codes = ({ from, to, codes = [], id, include }) => {
     });
 
     return (
-        <div style={{ backgroundColor: 'AliceBlue' }} className='panel'>
+        <div className='panel mb-40 mt-20'>
             <div className='ssb-checkbox-group'>
                 <div className='checkbox-group-header'>
                     {t('Codes')}
@@ -234,24 +234,23 @@ export const CodeInfo = ({ id, item, onChange }) => {
     const [showNotes, setShowNotes] = useState(false);
 
     return (
-        <>
-            <div style={{display: 'flex'}}>
-                <div className='ssb-checkbox'>
+        <div className='code-info'>
+                <div className='ssb-checkbox code-info-checkbox'>
                     <input id={`${item.code}-${id}`}
                            type='checkbox' name='include'
                            checked={item.included}
                            value={item.code}
-                           onChange={onChange}/>
+                           onChange={onChange}
+                           />
                     <label className='checkbox-label'
                            htmlFor={`${item.code}-${id}`}>
-                        <Text><strong>{item.code}</strong> {item.name}</Text>
                     </label>
-                </div>
-                <button onClick={() => {
+                    <Text className='mr-4'><strong className='mr-4'>{item.code}</strong>{item.name}</Text>
+                <button className='code-info-show-button' onClick={() => {
                     setShowNotes(!showNotes);
                 }}><MoreHorizontal color={item.notes?.length > 0 ? '#62919A' : '#C3DCDC'}/>
                 </button>
-            </div>
+                </div>
 
             {showNotes && <div>
                 {!item.notes || item.notes.length === 0
@@ -261,7 +260,7 @@ export const CodeInfo = ({ id, item, onChange }) => {
                             padding: '10px 50px 20px 50px'
                         }}>
                             <Title size={4}>{t('Notes')}</Title>
-                            <div style={{width: '65%'}}
+                            <div
                                  className='ssb-paragraph'
                                  dangerouslySetInnerHTML={
                                      {__html: replaceRefWithHTMLAndSanitize(note.note)}
@@ -273,7 +272,7 @@ export const CodeInfo = ({ id, item, onChange }) => {
                         </div>))}
             </div>
             }
-        </>
+        </div>
     );
 };
 
@@ -281,8 +280,7 @@ export const CodelistInfo = ({ id, info }) => {
     const { t } = useTranslation();
 
     return (
-        <div style={{backgroundColor: '#eff4f5'}}
-             className='panel'>
+        <div className='panel'>
             <Title size={4}>{t('Code list info')}</Title>
             <Paragraph><strong>Id:</strong> {id}</Paragraph>
             <table>

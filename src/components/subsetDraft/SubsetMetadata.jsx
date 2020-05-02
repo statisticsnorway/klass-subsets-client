@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import '../../css/form.css';
 import { TextLanguageFieldset } from '../../utils/forms';
 import { AppContext } from '../../controllers/context';
 import { subsetDraft } from '../../controllers/defaults';
@@ -22,8 +21,8 @@ export const SubsetMetadata = ({ subset }) => {
     const { t } = useTranslation();
 
     return (
-        <>
-            <Title size={3}>{t('Metadata')}</Title>
+        <div className='subset-metadata'>
+            <Title size={2}>{t('Metadata')}</Title>
             <TextLanguageFieldset
                 title={t('Names')}
                 items={subset.draft.name}
@@ -32,12 +31,11 @@ export const SubsetMetadata = ({ subset }) => {
                     subset.dispatch({ action: 'name_remove', data: index })
                 }
                 handle={() => subset.dispatch({ action: 'update' })}
-                size={{ cols: 65, rows: 1 }}
                 prefix={subsetDraft.namePrefix}
             />
 
-            <section className='addMarginBottom20'>
-                <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
+            <section className='subset-metadata-date-picker-row mb-40'>
+                <div>
                     <label
                         className='date-picker-label'
                         htmlFor='from_date'>
@@ -57,7 +55,7 @@ export const SubsetMetadata = ({ subset }) => {
                     />
                 </div>
 
-                <div style={{ float: 'left'}}>
+                <div>
                     <label htmlFor='to_date'
                         className='date-picker-label'>
                         {t('Valid to')}:{' '}
@@ -77,10 +75,10 @@ export const SubsetMetadata = ({ subset }) => {
                 <br style={{clear: 'both'}}/>
             </section>
 
-            <section className='addMarginBottom20'>
+            <section className='mb-40'>
                 {ssbsections && (
                     <Dropdown
-                        className='addMarginBottom20'
+                        className='mb-20'
                         placeholder={t('Select a responsible department...')}
                         header={t('Owner')}
                         items={ ssbsections
@@ -130,6 +128,6 @@ export const SubsetMetadata = ({ subset }) => {
             /* move to each fieldset (?)
             <Button onClick={() => {subset.dispatch({action: 'reset'});}}>Reset</Button>
 */}
-        </>
+        </div>
     );
 };

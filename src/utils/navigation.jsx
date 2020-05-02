@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Button} from '@statisticsnorway/ssb-component-library';
-import '../css/tooltip.css';
 import {useTranslation} from "react-i18next";
 
 // TODO: add api to navigate to particular steps from inside og the form.
@@ -9,9 +8,9 @@ export function Navigation({children}) {
     const [step, setStep] = useState(0);
 
     return (
-        <div className='mb-40'>
+        <div className='navigation-content mb-40'>
             <ProgressBar steps={children} handleClick={setStep} activeStep={step} />
-            <div>{children[step]}</div>
+            <div className='navigation-inner-content'>{children[step]}</div>
             <PrevNext min={step===0} max={step===children.length-1} handleClick={setStep} />
         </div>
     );
@@ -29,21 +28,14 @@ export const ProgressBar = ({steps, handleClick, activeStep}) => {
                 <div className='tooltip'>
                     <button key={index}
                         onClick={ () => handleClick(index) }
+                        className='navigation-bar-button'
                         style={{
-                            borderRadius: '50%',
                             background: activeStep === index ? '#62919A' : '#C3DCDC',
-                            border: 'none',
-                            color: 'transparent',
-                            textAlign: 'center',
-                            textDecoration: 'none',
-                            display: 'inline-block',
-                            padding: '1px 5px',
-                            margin: '0 30px 0 0',
                             ariaLabel: `notifications-label-${index}`
                         }}
                         >{index}
                     </button>
-                    <span className="tooltiptext" style={{ borderBottom: '1px dotted #274247'}}
+                    <span className="tooltiptext"
                           role="tooltip"
                           id={`notifications-label${index}`}>{step.props.label}</span>
                 </div>
@@ -68,14 +60,9 @@ export const PrevNext = ({min, max, handleClick}) => {
     // TODO: place buttons on the same place on the each step page -> on the side, not bottom
     // It should be possible to click forward and backward without scrolling
     return (
-        <div style={{margin: '5px 0 5px 0', width: '60%'}}>
-        <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
+        <div className='navigation-buttons mt-40'>
             <Button primary disabled={min} onClick={ prev }>{t('Previous')}</Button>
-        </div>
-            <div style={{float: 'right'}}>
             <Button primary disabled={max} onClick={ next }>{t('Next')}</Button>
-            </div>
-            <br style={{clear: 'both'}}/>
         </div>
     );
 };

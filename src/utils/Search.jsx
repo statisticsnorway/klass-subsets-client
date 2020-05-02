@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import '../css/autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
 
 export const Search = ({
@@ -70,8 +69,8 @@ export const Search = ({
     // FIXME: scroll and limit amount of suggestion shown by screen size
     // FIXME: sanitize input !!!!
     return (
-        <div className='ssb-input '>
-            <div className='input-wrapper' style={{ width: "100%" }}>
+        <div className='ssb-input search-input'>
+            <div className='input-wrapper'>
                 <input
                     type='search'
                     className='with-icon'

@@ -18,7 +18,7 @@ export default function SearchSubsetsPage() {
 
     return (
         <>
-            <section className='mb-40'>
+            <section className='search-subset-input mb-40 mt-40'>
                 <Title size={2}>{t("Search subsets")}</Title>
 
                 <Search
@@ -41,7 +41,7 @@ export default function SearchSubsetsPage() {
             <section>
                 <Title size={3}>{t("Search results")}</Title>
                 <Dropdown
-                    className='search-subset-dropdown'
+                    className='search-subset-dropdown mb-40'
                     header={t("Sort by")}
                     selectedItem={{ title: t("Last updated"), id: "Last" }}
                     items={[

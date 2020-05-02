@@ -1,0 +1,32 @@
+@import '_master.scss';
+
+.classification {
+    max-width: calc-row-width($Colom3, 2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & .classification-buttons {
+        position: relative;
+        top: 4px;
+        button:last-child {
+            padding-right: 0;
+        }
+    }
+}
+
+.code-info {
+       display: block;
+       & .code-info-checkbox {
+            width: 100%;
+            display: inline-flex;
+            align-items: flex-start;
+            position: relative;
+            & .checkbox-label {
+                top: 4px;
+            }
+            & .code-info-show-button {
+                position: absolute;
+                right: 0;
+            }
+       }
+}

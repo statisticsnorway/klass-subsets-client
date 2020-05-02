@@ -1,0 +1,32 @@
+@import '_master.scss';
+
+@function calc-row-width($value1, $value2) {
+    @return $value1 * $value2;
+}
+
+.subset-codes {
+    & .subset-codes-search-container {
+        & .subset-codes-list {
+            width: 100%;
+            list-style-type: none;
+            & button {
+                background: none;
+                border: none;
+            }
+            & .panel {
+                max-width: calc-row-width($Colom3, 2);
+                padding: 16px;
+                background-color: aliceblue;
+            }
+        }
+    }
+}
+
+.list button {
+    background: none;
+    border: none;
+}
+
+.list li {
+    list-style-type: none;
+}

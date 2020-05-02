@@ -1,0 +1,41 @@
+textarea {
+    border: 1px solid #162327;
+    background-color: #f1f1f1;
+    font-size: 16px;
+    font-family: "Open Sans", Arial, "DejaVu Sans", sans-serif;
+    width: 100%;
+    min-width: 150px;
+}
+
+fieldset {
+    border-color: #f1f1f1;
+    margin: 10px 0 10px 0;
+    max-width: 650px;
+}
+
+.date-picker-label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.date-picker {
+    font-size: 14px;
+    border: 1px solid #162327;
+    padding-left: 5px;
+    margin: 5px 0 0 0;
+    display: block;
+}
+
+.date-picker:hover {
+    border: 1px solid #00824d;
+}
+
+.react-date-picker__wrapper {
+    border: 1px solid transparent !important;
+    padding: 0 10px;
+}
+
+.restrictResizing {
+    resize: none;
+}

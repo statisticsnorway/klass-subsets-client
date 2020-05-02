@@ -15,7 +15,7 @@ export const SubsetPreview = ({ subset }) => {
     return (
         <div className='subset-preview'>
             <Title className='subset-preview-titles' size={2}>{subset.name[0]?.languageText || t('Subset has got no title yet')}</Title>
-            <Title className='subset-preview-titles' size={2}className='subset-id'><strong>ID:</strong> {subset.id || '-'}</Title>
+            <Title className='subset-preview-titles' size={2} className='subset-id'><strong>ID:</strong> {subset.id || '-'}</Title>
             <Title className='subset-preview-titles' size={2}><strong>{t('Validity period')}</strong>{
                 from && to
                 ? `: ${t('from to', { from, to })}.`

@@ -1,7 +1,6 @@
 import { availableLanguages, disableUsed } from './languages';
 import React from 'react';
 import { PlusSquare, Trash2 } from 'react-feather';
-import '../css/langugeDropdown.css';
 
 export const TextLanguageFieldset = ({
     title,
@@ -22,17 +21,12 @@ export const TextLanguageFieldset = ({
 
     return (
         <div
-            className='ssb-text-area addMarginBottom20'
-            style={{ maxWidth: '350px', minWidth: '150px' }}
+            className='ssb-text-area mb-40'
         >
             <label
+                className='ssb-text-area-label'
                 id={`textarea-label-${title}`}
                 htmlFor={title}
-                style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    marginBottom: '5px'
-                }}
             >
                 {title}
             </label>
@@ -80,13 +74,7 @@ export const TextLanguageFieldset = ({
                     />
 
                     {/* É */}
-                    <div
-                        style={{
-                            display: 'inline-flex',
-                            flexDirection: 'row',
-                            marginTop: '10px'
-                        }}
-                    >
+                    <div className='select-languge-container'>
                         <LanguageSelect
                             languages={languages}
                             selected={item.languageCode}
