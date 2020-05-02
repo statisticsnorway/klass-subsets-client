@@ -2,14 +2,13 @@ import React, {useReducer} from 'react';
 import '../css/list.css';
 import {Trash2} from 'react-feather';
 import {useTranslation} from 'react-i18next';
-import '../css/tooltip.css';
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
     const { t } = useTranslation();
     return (
         <>
-            <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
+            <div style={{display: 'relative', padding: '5px', position: 'relative'}}>
                 <h6 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h6>
                 <h6 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h6>
                 <h6 className='rank-text-tooltip tooltip' style={{

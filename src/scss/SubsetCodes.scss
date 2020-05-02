@@ -14,8 +14,8 @@
                 border: none;
             }
             & .panel {
-                max-width: calc-row-width($Colom3, 2);
-                padding: 16px;
+                max-width: $CurrentColomWidth;
+                padding: 12px;
                 background-color: aliceblue;
             }
         }

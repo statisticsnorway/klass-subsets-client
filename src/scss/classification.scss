@@ -1,7 +1,7 @@
 @import '_master.scss';
 
 .classification {
-    max-width: calc-row-width($Colom3, 2);
+    max-width: $CurrentColomWidth;
     display: flex;
     justify-content: space-between;
     align-items: center;
