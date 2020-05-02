@@ -1,0 +1,43 @@
+@import '_master.scss';
+@import '../css/App.css';
+@import '../css/index.css';
+
+@import './Header.scss';
+@import './Pages.scss';
+@import './Subset.scss';
+@import './Search.scss';
+
+@import '_master.scss';
+
+@function calc-row-width($value1, $value2) {
+    @return $value1 * $value2;
+}
+
+.app {
+    margin: 0 auto;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+.mb-40 {
+    margin-bottom: 40px;
+}
+.mt-20 {
+    margin-top: 20px;
+}
+.mb-40 {
+    margin-top: 40px;
+}
+.mw-100 {
+    max-width: 100%;
+}
+
+.navigation-bar {
+    position: absolute;
+    transform: translateY(-50%);
+    max-height: 204px;
+    height: 100%;
+    margin-top: $Gutter;
+    margin-bottom: $Gutter;
+}
