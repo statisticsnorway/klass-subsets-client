@@ -2,12 +2,15 @@ import React, { useState, useRef } from 'react';
 import '../css/autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
 
-export const Search = ({ resource = [],
-    setChosen = (item) => console.log('chosen item:', item),
+export const Search = ({
+    resource = [],
+    setChosen = item => console.log('chosen item:', item),
     placeholder = 'Type name',
-    searchible = (item) => (item),
-    searchBy = (input, source) => 
-        input === '' ? [] : source.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) > -1)
+    searchible = item => item,
+    searchBy = (input, source) =>
+        input === ''
+            ? []
+            : source.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) > -1)
 }) => {
 
     const dom = useRef(null);
@@ -16,7 +19,7 @@ export const Search = ({ resource = [],
     const [suggestions, setSuggestions] = useState([]);
     const [active, setActive] = useState(-1);
 
-    const handleInput = (e) => {
+    const handleInput = e => {
         setSearchInput(e.target.value);
         setSuggestions(searchBy(e.target.value, resource));
     };
@@ -34,10 +37,14 @@ export const Search = ({ resource = [],
             }
             case keys.ENTER: {
                 e.preventDefault();
-                handleChoice(active === -1 ? searchInput : searchible(suggestions[parseInt(active)].name));
+                handleChoice(active === -1
+                        ? searchInput
+                        : searchible(suggestions[parseInt(active)].name)
+                );
                 break;
             }
-            default: break;
+            default:
+                break;
         }
     }
 
@@ -62,29 +69,42 @@ export const Search = ({ resource = [],
     // TODO: convert divs to list items (li)
     // FIXME: scroll and limit amount of suggestion shown by screen size
     // FIXME: sanitize input !!!!
-    // TODO: async fetch ?
     return (
-        <div className="ssb-input ">
-            <div className="input-wrapper" style={{ width: '100%' }}>
-                <input type='search' className='with-icon'
+        <div className='ssb-input '>
+            <div className='input-wrapper' style={{ width: "100%" }}>
+                <input
+                    type='search'
+                    className='with-icon'
                     name='classificationSearch'
                     ref={dom}
-                    placeholder={placeholder} value={searchInput} onChange={handleInput}
-                    onKeyDown={keyHandler} />
+                    placeholder={placeholder}
+                    value={searchInput}
+                    onChange={handleInput}
+                    onKeyDown={keyHandler}
+                />
                 <div id='autocomplete-list' className='autocomplete-items'>
                     {suggestions.map((suggestion, i) => (
                         <div key={i}
                             className={i === active ? 'autocomplete-active' : 'autocomplete'}
-                            onClick={(e) => {
+                            onClick={e => {
                                 e.preventDefault();
                                 setActive(i);
                                 handleChoice(searchible(suggestion.name));
-                            }}>
-                            {highlight(searchible(suggestion.name), searchInput)}
-                        </div>))}
+                            }}
+                        >
+                            {highlight(
+                                searchible(suggestion.name),
+                                searchInput
+                            )}
+                        </div>
+                    ))}
                 </div>
-                <button className='icon-wrapper search-icon'
-                    onClick={() => handleChoice(searchInput)}><SearchIcon /></button>
+                <button
+                    className='icon-wrapper search-icon'
+                    onClick={() => handleChoice(searchInput)}
+                >
+                    <SearchIcon />
+                </button>
             </div>
         </div>
     );

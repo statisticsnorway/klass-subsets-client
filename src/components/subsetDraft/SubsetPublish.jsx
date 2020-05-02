@@ -1,24 +1,21 @@
 import React, {useEffect} from 'react';
-//import '../../css/pages.css';
 import {useTranslation} from 'react-i18next';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
 import {SubsetPreview} from '../Subset';
 import {usePost} from '../../controllers/subsets-service';
 import {useHistory} from "react-router-dom";
 
-// TODO: better preview (human pleasant)
-export const SubsetPublish = ({subset}) => {
+export const SubsetPublish = ({ subset }) => {
     const { t } = useTranslation();
-
     let history = useHistory();
 
-    useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
+    useEffect(() => subset.dispatch({ action: 'remove_empty' }), []);
 
     // set classification name and URN to each code
-    subset.draft.classifications.forEach(classification => classification.codes
-        .forEach(code => {
+    subset.draft.classifications.forEach(classification =>
+        classification.codes.forEach(code => {
             code.classification = `${classification.id} - ${classification.name}`;
-            code.urn = `urn:klass-api:classifications:${classification.id}:code:${code.code}`
+            code.urn = `urn:klass-api:classifications:${classification.id}:code:${code.code}`;
         })
     );
     const payload = preparePayload(subset.draft);
@@ -57,5 +54,5 @@ function preparePayload(draft) {
         administrativeDetails: draft.administrativeDetails,
         description: draft.description,
         codes
-    }
+    };
 }

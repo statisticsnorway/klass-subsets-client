@@ -3,7 +3,7 @@ import {Accordion, Paragraph, Title, Link as SsbLink} from '@statisticsnorway/ss
 import {useTranslation} from 'react-i18next';
 import {Code} from './Code';
 
-export const SubsetPreview = ({subset}) => {
+export const SubsetPreview = ({ subset }) => {
     const { t } = useTranslation();
 
     // FIXME: show title in selected language, not just first in the name array.
@@ -33,7 +33,7 @@ export const SubsetPreview = ({subset}) => {
 
             <Title size={3}>{t('Codes')}: </Title>
             {subset.codes
-                .sort((a,b) => (a.rank - b.rank))
+                .sort((a, b) => a.rank - b.rank)
                 .map((code, i) => (
                     <Code key={i}
                           origin={{
@@ -50,7 +50,7 @@ export const SubsetPreview = ({subset}) => {
     );
 };
 
-export const SubsetBanner = ({subset}) => {
+export const SubsetBanner = ({ subset }) => {
     const { t } = useTranslation();
 
     // FIXME: translate placeholders
@@ -69,13 +69,16 @@ export const SubsetBanner = ({subset}) => {
                 description => description.languageCode === 'nb')?.languageText || t('No description')}
             </Paragraph>
         </div>
-    )
+    );
 };
 
-export const Subsets = ({items}) => {
+export const Subsets = ({ items }) => {
     return (
-        <>{items?.length > 0 &&
-            items.map((subset, i) => (<SubsetBanner key={i} subset={subset} />))}
+        <>
+            {items?.length > 0 &&
+                items.map((subset, i) => (
+                    <SubsetBanner key={i} subset={subset} />
+                ))}
         </>
-    )
+    );
 };
