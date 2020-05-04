@@ -25,7 +25,10 @@ export const SubsetPublish = ({subset}) => {
 
     const [data, setPayload, isLoading, error] = usePost();
     useEffect(() => {
-        data !== null && history.push(`/subsets/${data.id}`);
+        if (data !== null) {
+            subset.dispatch({action: 'reset'});
+            history.push(`/subsets/${data.id}`);
+        }
     }, [data]);
     useEffect(() => {
         error !== null && alert(`Publishing failed: ${JSON.stringify(error)}`);
@@ -42,6 +45,7 @@ export const SubsetPublish = ({subset}) => {
     );
 };
 
+// TODO: move the logic to useSubset
 function preparePayload(draft) {
     const codes = [];
     draft.classifications.map(classification =>

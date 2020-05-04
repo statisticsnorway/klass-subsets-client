@@ -41,7 +41,7 @@ export const SubsetMetadata = ({subset}) => {
                     <input type='date' id='from_date' style={{display: 'block'}}
                                 value={subset.draft.validFrom?.substr(0, 10)}
                                 onChange={(e) => {
-                                    subset.dispatch({action: 'from', data: new Date(e.target.value)});}}
+                                    subset.dispatch({action: 'from', data: new Date(e.target.value).toISOString()});}}
                                 className='datepicker'/>
                 </div>
 
@@ -51,7 +51,7 @@ export const SubsetMetadata = ({subset}) => {
                     <input type='date' id='to_date' style={{display: 'block'}}
                                 value={subset.draft.validUntil?.substr(0, 10)}
                            onChange={(e) => {
-                               subset.dispatch({action: 'to', data: new Date(e.target.value)});}}
+                               subset.dispatch({action: 'to', data: new Date(e.target.value).toISOString()});}}
                            className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>

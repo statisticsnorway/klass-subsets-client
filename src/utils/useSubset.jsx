@@ -10,10 +10,17 @@ export const useSubset = (init =  {
         {
             administrativeDetailType: 'ANNOTATION',
             values: []
+        },
+        {
+            administrativeDetailType: 'ORIGIN',
+            values: []
         }
     ],
     description: [],
-    classifications: []}
+    administrativeStatus: 'DRAFT',
+    classifications: [],
+    codes: []
+}
     ) => {
 
     function subsetReducer(state, {action, data = {}}) {
@@ -80,6 +87,7 @@ export const useSubset = (init =  {
                 };
             }
             case 'reset': {
+                sessionStorage.removeItem('draft');
                 return init;
             }
             default:
@@ -87,7 +95,14 @@ export const useSubset = (init =  {
         }
     }
 
-    const [draft, dispatch] = useReducer(subsetReducer, init);
+    const [draft, dispatch] = useReducer(
+        subsetReducer,
+        JSON.parse(sessionStorage.getItem('draft')) || init
+    );
+
+    useEffect(() => {
+        sessionStorage.setItem('draft', JSON.stringify(draft));
+    }, [draft]);
 
     return {draft, dispatch};
 
