@@ -8,12 +8,18 @@ export const useSubset = (init =  {
     validUntil: null,
     administrativeDetails: [
         {
-            administrativeDetailType: "ANNOTATION",
+            administrativeDetailType: 'ANNOTATION',
+            values: []
+        },
+        {
+            administrativeDetailType: 'ORIGIN',
             values: []
         }
     ],
     description: [],
-    classifications: []}
+    administrativeStatus: 'DRAFT',
+    classifications: []
+}
     ) => {
 
     function subsetReducer(state, {action, data = {}}) {
