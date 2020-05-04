@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
 import {AppContext} from '../../controllers/context';
-import {languages, subsetDraft} from '../../controllers/defaults';
+import {subsetDraft} from '../../controllers/defaults';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 
@@ -36,9 +36,9 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='from_date'>{t('Valid from')}: </label>
                     <input type='date' id='from_date' style={{display: 'block'}}
-                                value={subset.draft.validFrom?.toISOString().substr(0, 10)}
+                                value={subset.draft.validFrom?.substr(0, 10)}
                                 onChange={(e) => {
-                                    subset.dispatch({action: 'from', data: new Date(e.target.value)});}}
+                                    subset.dispatch({action: 'from', data: new Date(e.target.value).toISOString()});}}
                                 className='datepicker'/>
                 </div>
 
@@ -46,9 +46,9 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='to_date'>{t('Valid to')}: </label>
                     <input type='date' id='to_date' style={{display: 'block'}}
-                                value={subset.draft.validUntil?.toISOString().substr(0, 10)}
+                                value={subset.draft.validUntil?.substr(0, 10)}
                            onChange={(e) => {
-                               subset.dispatch({action: 'to', data: new Date(e.target.value)});}}
+                               subset.dispatch({action: 'to', data: new Date(e.target.value).toISOString()});}}
                            className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>

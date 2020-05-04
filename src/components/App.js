@@ -18,7 +18,10 @@ export default function App() {
              * application redirect through the backend
              * for protected routes (like '/create').
             */}
+            {/** FIXME: restore this line before production
             <BrowserRouter forceRefresh={true}>
+             */}
+            <BrowserRouter>
                 <div className='app'>
                     <Header/>
                 <div className='app-content'>

@@ -1,4 +1,4 @@
-import {useReducer} from 'react';
+import {useReducer, useEffect} from 'react';
 import {nextDefaultName} from './languages';
 
 export const useSubset = (init =  {
@@ -18,7 +18,8 @@ export const useSubset = (init =  {
     ],
     description: [],
     administrativeStatus: 'DRAFT',
-    classifications: []
+    classifications: [],
+    codes: []
 }
     ) => {
 
@@ -83,6 +84,7 @@ export const useSubset = (init =  {
                 };
             }
             case 'reset': {
+                sessionStorage.removeItem('draft');
                 return init;
             }
             default:
@@ -90,7 +92,14 @@ export const useSubset = (init =  {
         }
     }
 
-    const [draft, dispatch] = useReducer(subsetReducer, init);
+    const [draft, dispatch] = useReducer(
+        subsetReducer,
+        JSON.parse(sessionStorage.getItem('draft')) || init
+    );
+
+    useEffect(() => {
+        sessionStorage.setItem('draft', JSON.stringify(draft));
+    }, [draft]);
 
     return {draft, dispatch};
 
