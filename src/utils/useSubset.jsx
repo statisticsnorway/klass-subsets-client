@@ -1,4 +1,4 @@
-import {useReducer} from 'react';
+import {useReducer, useEffect} from 'react';
 import {nextDefaultName} from './languages';
 
 export const useSubset = (init =  {
@@ -8,7 +8,7 @@ export const useSubset = (init =  {
     validUntil: null,
     administrativeDetails: [
         {
-            administrativeDetailType: "ANNOTATION",
+            administrativeDetailType: 'ANNOTATION',
             values: []
         }
     ],
@@ -18,6 +18,9 @@ export const useSubset = (init =  {
 
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
+            case 'edit': {
+                return  {...data};
+            }
             case 'update': {
                 return  {...state};
             }
