@@ -75,7 +75,7 @@ export function usePost() {
                 setIsLoading(false);
             }
             catch (e) {
-                setError(true);
+                setError(e);
                 setIsLoading(false);
             }
         };
@@ -112,7 +112,7 @@ export function usePut() {
                 setIsLoading(false);
             }
             catch (e) {
-                setError(true);
+                setError(e);
                 setIsLoading(false);
             }
         };
