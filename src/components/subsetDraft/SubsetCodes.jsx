@@ -25,7 +25,7 @@ export const SubsetCodes = ({subset}) => {
             .values.forEach(v => subset.dispatch({
                 action: 'classifications_prepend_included',
                 data: [{ urn: v, included: true }]
-            }))
+            }));
     }
 
     const [searchValues, setSearchValues] = useState([]); // list of classification names

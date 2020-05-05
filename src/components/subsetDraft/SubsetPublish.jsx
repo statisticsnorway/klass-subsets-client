@@ -53,7 +53,6 @@ function preparePayload(draft) {
         .values;
 
     draft.classifications.forEach(classification => {
-        console.log({classification});
         codes.push(...classification.codes.filter(c => c.included));
 
         const id = classification.id || classification._links.self.href.split('/').pop();
