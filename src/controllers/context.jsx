@@ -1,7 +1,6 @@
 import React, {createContext, useEffect} from 'react';
 import {useSubset} from '../utils/useSubset';
 import {useErrorRegister} from '../utils/useErrorRegister';
-import {useGet} from './klass-api';
 
 /** Context Principles
  *
@@ -15,13 +14,11 @@ import {useGet} from './klass-api';
  * - operational messages
  * - application messages
  * - subset draft
- * - last fetched subset
  * - form related data
  * - user info
  * - language settings
  * - search filters
  * - style preferences
- * - SSB sections
  *
  */
 
@@ -35,18 +32,11 @@ export const ContextProvider = ({ children }) => {
             []
     );
 
-    // TODO: better defaults
     const subset = useSubset();
-
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
-    const [ssbsections] = useGet('ssbsections.json');
-    const [classificationfamilies] = useGet('classificationfamilies.json');
-    // FIXME: more flexible url building based on first response?
-    const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
-
     return (
-        <AppContext.Provider value={{subset, errorRegister, ssbsections, classificationfamilies, classifications}}>
+        <AppContext.Provider value={{subset, errorRegister}}>
             {children}
         </AppContext.Provider>
     );

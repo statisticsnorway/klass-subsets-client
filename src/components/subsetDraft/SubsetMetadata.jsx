@@ -1,10 +1,10 @@
-import React, {useContext} from 'react';
+import React, {useEffect} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
-import {AppContext} from '../../controllers/context';
 import {subsetDraft} from '../../controllers/defaults';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
+import {useGet} from '../../controllers/klass-api';
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -14,22 +14,35 @@ import {useTranslation} from 'react-i18next';
 
 export const SubsetMetadata = ({subset}) => {
 
-    subset.draft.name && subset.draft.name.length < 1 && subset.dispatch({action: 'name_add'});
-    subset.draft.description?.length < 1 && subset.dispatch({action: 'description_add'});
-    const {ssbsections, classificationfamilies} = useContext(AppContext);
+    const {draft, dispatch} = subset;
     const { t } = useTranslation();
+    const [ssbsections] = useGet('ssbsections.json');
+    const [classificationfamilies] = useGet('classificationfamilies.json');
+
+    useEffect(() => {
+
+        draft.name?.length === 0
+            && dispatch({action: 'name_add'});
+
+        draft.description?.length === 0
+            && dispatch({action: 'description_add'});
+
+        return () => {
+            dispatch({action: 'remove_empty'});
+        }
+    }, []);
 
     return (
         <>
             <Title size={3}>{t('Metadata')}
                 <span style={{fontSize: '14px', color: '#ED5935'}}>
-                    {`  ${subset.administrativeStatus || 'Draft'}`}
+                    {`  ${draft.administrativeStatus || 'Draft'}`}
                 </span>
             </Title>
-            <TextLanguageFieldset title={t('Names')} items={subset.draft.name}
-                                  add={() => subset.dispatch({action: 'name_add'})}
-                                  remove={(index) => subset.dispatch({action: 'name_remove', data: index})}
-                                  handle={() => subset.dispatch({action: 'update'})}
+            <TextLanguageFieldset title={t('Names')} items={draft.name}
+                                  add={() => dispatch({action: 'name_add'})}
+                                  remove={(index) => dispatch({action: 'name_remove', data: index})}
+                                  handle={() => dispatch({action: 'update'})}
                                   size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
             />
@@ -39,9 +52,9 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='from_date'>{t('Valid from')}: </label>
                     <input type='date' id='from_date' style={{display: 'block'}}
-                                value={subset.draft.validFrom?.substr(0, 10)}
+                                value={draft.validFrom?.substr(0, 10)}
                                 onChange={(e) => {
-                                    subset.dispatch({action: 'from', data: new Date(e.target.value).toISOString()});}}
+                                    dispatch({action: 'from', data: new Date(e.target.value).toISOString()});}}
                                 className='datepicker'/>
                 </div>
 
@@ -49,9 +62,9 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='to_date'>{t('Valid to')}: </label>
                     <input type='date' id='to_date' style={{display: 'block'}}
-                                value={subset.draft.validUntil?.substr(0, 10)}
+                                value={draft.validUntil?.substr(0, 10)}
                            onChange={(e) => {
-                               subset.dispatch({action: 'to', data: new Date(e.target.value).toISOString()});}}
+                               dispatch({action: 'to', data: new Date(e.target.value).toISOString()});}}
                            className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>
@@ -61,8 +74,8 @@ export const SubsetMetadata = ({subset}) => {
             <Dropdown label={t('Owner')}
                       options={ssbsections ? ssbsections._embedded.ssbSections : []}
                       placeholder={t('Select a responsible department...')}
-                      selected={subset.draft.createdBy}
-                      onSelect={(item) => subset.dispatch({
+                      selected={draft.createdBy}
+                      onSelect={(item) => dispatch({
                           action: 'createdBy',
                           data: item })}
             />
@@ -71,19 +84,19 @@ export const SubsetMetadata = ({subset}) => {
             <Dropdown label={t('Subject')}
                       options={classificationfamilies?._embedded.classificationFamilies || []}
                       placeholder={t('Select a classification family...')}
-                      selected={subset.draft.administrativeDetails
+                      selected={draft.administrativeDetails
                           .find(d => d.administrativeDetailType === 'ANNOTATION')
                           .values[0] || ''}
-                      onSelect={(item) => subset.dispatch({
+                      onSelect={(item) => dispatch({
                           action: 'subject',
                           data: item })}
             />
 
             {/* FIXME: limit text size*/}
-            <TextLanguageFieldset title={t('Description')} items={subset.draft.description}
-                                  add={() => subset.dispatch({action: 'description_add'})}
-                                  remove={(index) => subset.dispatch({action: 'description_remove', data: index})}
-                                  handle={() => subset.dispatch({action: 'update'})}
+            <TextLanguageFieldset title={t('Description')} items={draft.description}
+                                  add={() => dispatch({action: 'description_add'})}
+                                  remove={(index) => dispatch({action: 'description_remove', data: index})}
+                                  handle={() => dispatch({action: 'update'})}
                                   size = {{cols: 65, rows: 4}}
             />
 

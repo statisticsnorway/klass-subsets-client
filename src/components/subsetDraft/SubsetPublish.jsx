@@ -12,8 +12,6 @@ export const SubsetPublish = ({subset}) => {
 
     let history = useHistory();
 
-    useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
-
     // set classification name and URN to each code
     subset.draft.classifications.forEach(classification => classification.codes
         .forEach(code => {
