@@ -10,7 +10,7 @@ import {
     XSquare
 } from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
-import {useGet, useClassification} from '../../controllers/klass-api';
+import {useGet, useClassification, URN} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
 import {replaceRefWithHTMLAndSanitize} from '../../utils/strings';
@@ -18,7 +18,9 @@ import {replaceRefWithHTMLAndSanitize} from '../../utils/strings';
 export const Classification = ({item = {}, update, remove, from, to}) => {
     const {t} = useTranslation();
 
-    item.id = item._links.self.href.split('/').pop();
+    const {classificationId} = URN.toURL(item?.urn);
+
+    item.id = classificationId || item._links?.self?.href?.split('/').pop();
     // TODO use fallback and loader
     const {metadata, codesWithNotes} = useClassification(item.id);
 
@@ -86,7 +88,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div style={{width: '400px'}}>{item.name}</div>
+                <div style={{width: '400px'}}>{item.name || metadata.name}</div>
 
                 <button onClick={() => item.error && setExpander(toggle.alert())}>
                     <Alert color={item.error ? 'orange' : 'transparent'}/>
@@ -173,8 +175,8 @@ export const Codes = ({from, to, codes = [], id, include}) => {
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
-            <div className="ssb-checkbox-group">
-                <div className="checkbox-group-header">{t('Codes')}
+            <div className='ssb-checkbox-group'>
+                <div className='checkbox-group-header'>{t('Codes')}
                     {from && to
                         ? ` ${t('from to', { from, to })}:`
                         : from || to ? ` ${t('at', { date: from || to})}:`
@@ -224,7 +226,7 @@ export const CodeInfo = ({id, item, onChange}) => {
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div className="ssb-checkbox">
+                <div className='ssb-checkbox'>
                     <input id={`${item.code}-${id}`}
                            type='checkbox' name='include'
                            checked={item.included}
