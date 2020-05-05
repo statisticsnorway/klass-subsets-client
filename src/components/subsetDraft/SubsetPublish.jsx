@@ -15,10 +15,10 @@ export const SubsetPublish = ({subset}) => {
     useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
 
     // set classification name and URN to each code
-    subset.draft.classifications.forEach(classification => classification.codes
+    subset.draft.classifications && subset.draft.classifications.forEach(classification => classification.codes
         .forEach(code => {
             code.classification = `${classification.id} - ${classification.name}`;
-            code.urn = `urn:klass-api:classifications:${classification.id}:code:${code.code}`
+            code.urn = code.urn || `urn:klass-api:classifications:${classification.id}:code:${code.code}`
         })
     );
     const payload = preparePayload(subset.draft);
@@ -48,12 +48,14 @@ export const SubsetPublish = ({subset}) => {
 // TODO: move the logic to useSubset
 function preparePayload(draft) {
     const codes = [];
+
     const origin = draft.administrativeDetails
         .find(d => d.administrativeDetailType === 'ORIGIN')
         .values;
 
-    draft.classifications.forEach(classification => {
-        console.log({classification});
+    // FIXME handle removing of classification or do origin = [] first
+
+    draft.classifications && draft.classifications.forEach(classification => {
         codes.push(...classification.codes.filter(c => c.included));
 
         const id = classification.id || classification._links.self.href.split('/').pop();
@@ -68,6 +70,6 @@ function preparePayload(draft) {
         validUntil: draft.validUntil,
         administrativeDetails: draft.administrativeDetails,
         description: draft.description,
-        codes
+        codes: draft.codes || codes
     }
 }

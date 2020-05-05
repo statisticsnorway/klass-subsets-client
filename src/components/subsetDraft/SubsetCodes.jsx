@@ -24,7 +24,11 @@ export const SubsetCodes = ({subset}) => {
             .find(d => d.administrativeDetailType === 'ORIGIN')
             .values.forEach(v => subset.dispatch({
                 action: 'classifications_prepend_included',
-                data: [{ urn: v, included: true }]
+                data: [{
+                    urn: v,
+                    included: true,
+                    codes: subset.draft.codes.filter(c => c.urn.startsWith(v)).map(c => ({...c, included: true})) || []
+                }]
             }))
     }
 

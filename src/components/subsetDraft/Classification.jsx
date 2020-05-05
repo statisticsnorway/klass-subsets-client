@@ -29,10 +29,17 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     const url = from && to
         ? `/classifications/${item.id}/codes.json?from=${from}&to=${to}`
         : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
-    const [codes] = useGet(item.codes ? null : url);
+    const [codes] = useGet(url);
     useEffect(() => {
+        console.log({codes});
         if (codes) {
-            item.codes = codes.codes;
+            const merged = codes.codes.map(c => {
+                const exists = item.codes.find(code => {
+                    return code.urn === `${item.urn}:code:${c.code}`;
+                });
+                return exists ? {...c, ...exists} : {...c}
+            });
+            item.codes = [...merged];
         }
     }, [codes]);
 
