@@ -19,6 +19,15 @@ export const SubsetCodes = ({subset}) => {
     const from = subset.draft.validFrom?.substr(0, 10);
     const to = subset.draft.validUntil?.substr(0, 10);
 
+    if (!subset.draft.classifications || subset.draft.classifications.length === 0) {
+        subset.draft.administrativeDetails
+            .find(d => d.administrativeDetailType === 'ORIGIN')
+            .values.forEach(v => subset.dispatch({
+                action: 'classifications_prepend_included',
+                data: { urn: v, included: true }
+            }))
+    }
+
     const [searchValues, setSearchValues] = useState([]); // list of classification names
     const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
     

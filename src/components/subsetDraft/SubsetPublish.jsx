@@ -48,10 +48,18 @@ export const SubsetPublish = ({subset}) => {
 // TODO: move the logic to useSubset
 function preparePayload(draft) {
     const codes = [];
-    draft.classifications.map(classification =>
-        codes.push(...classification.codes
-            .filter(c => c.included)
-        ));
+    const origin = draft.administrativeDetails
+        .find(d => d.administrativeDetailType === 'ORIGIN')
+        .values;
+
+    draft.classifications.forEach(classification => {
+        console.log({classification});
+        codes.push(...classification.codes.filter(c => c.included));
+
+        const id = classification.id || classification._links.self.href.split('/').pop();
+        const urn = `urn:klass-api:classifications:${id}`;
+        !origin.includes(urn) && origin.push(urn);
+    });
 
     return {
         createdBy: draft.createdBy,
