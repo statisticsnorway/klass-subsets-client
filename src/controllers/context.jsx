@@ -1,7 +1,6 @@
 import React, {createContext, useEffect} from 'react';
 import {useSubset} from '../utils/useSubset';
 import {useErrorRegister} from '../utils/useErrorRegister';
-import {useGet} from './klass-api';
 
 /** Context Principles
  *
@@ -33,16 +32,11 @@ export const ContextProvider = ({ children }) => {
             []
     );
 
-    // TODO: better defaults
     const subset = useSubset();
-
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
-    // FIXME: more flexible url building based on first response?
-    const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
-
     return (
-        <AppContext.Provider value={{subset, errorRegister, classifications}}>
+        <AppContext.Provider value={{subset, errorRegister}}>
             {children}
         </AppContext.Provider>
     );

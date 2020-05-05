@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Search} from '../../utils/Search';
-import {AppContext} from '../../controllers/context';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
 import {useTranslation} from 'react-i18next';
-
+import {useGet} from '../../controllers/klass-api';
 
 /*
  *  TODO: (test) mock for service
@@ -13,16 +12,21 @@ import {useTranslation} from 'react-i18next';
  */
 
 export const SubsetCodes = ({subset}) => {
-    const {classifications} = useContext(AppContext);
+
+    const {draft, dispatch} = subset;
+
+    // FIXME: more flexible url building based on first response?
+    const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
+
     const { t } = useTranslation();
     
-    const from = subset.draft.validFrom?.substr(0, 10);
-    const to = subset.draft.validUntil?.substr(0, 10);
+    const from = draft.validFrom?.substr(0, 10);
+    const to = draft.validUntil?.substr(0, 10);
 
-    if (!subset.draft.classifications || subset.draft.classifications.length === 0) {
-        subset.draft.administrativeDetails
+    if (!draft.classifications || draft.classifications.length === 0) {
+        draft.administrativeDetails
             .find(d => d.administrativeDetailType === 'ORIGIN')
-            .values.forEach(v => subset.dispatch({
+            .values.forEach(v => dispatch({
                 action: 'classifications_prepend_included',
                 data: [{ urn: v, included: true }]
             }));
@@ -33,16 +37,16 @@ export const SubsetCodes = ({subset}) => {
     
     useEffect(() => {
         const result = searchValues
-            ? searchValues.map(v => subset.draft.classifications.find(c => c.name === v.name) || v)
+            ? searchValues.map(v => draft.classifications.find(c => c.name === v.name) || v)
             : [];
         setSearchResult(result);
     }, [searchValues]);
 
     useEffect(() => {
-        subset.dispatch({
+        dispatch({
             action: 'classifications_prepend_included',
             data: searchResult.filter(r => r.included)});
-        subset.dispatch({
+        dispatch({
             action: 'classifications_remove_excluded'
         });
     }, [searchResult]);
@@ -79,9 +83,9 @@ export const SubsetCodes = ({subset}) => {
 
             <Title size={3}>{t('Choose codes from classifications')}</Title>
 
-            { !subset.draft.classifications || subset.draft.classifications.length < 1
+            { !draft.classifications || draft.classifications.length < 1
                 ? <p>{t('No classifications in the subset draft')}</p>
-                : <ul className='list'>{subset.draft.classifications.map((classification, index) =>
+                : <ul className='list'>{draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
                                             to={to} from={from}
