@@ -23,6 +23,12 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     item.id = classificationId || item._links?.self?.href?.split('/').pop();
     // TODO use fallback and loader
     const {metadata, codesWithNotes} = useClassification(item.id);
+    useEffect(() => {
+        if (metadata) {
+            // FIXME it is not stored in the AppContext. Should it be?
+            item.name = metadata.name;
+        }
+    }, [metadata]);
 
     // TODO use fallback and loader
     // FIXME show errors
@@ -34,7 +40,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
         console.log({codes});
         if (codes) {
             const merged = codes.codes.map(c => {
-                const exists = item.codes.find(code => {
+                const exists = item.codes?.find(code => {
                     return code.urn === `${item.urn}:code:${c.code}`;
                 });
                 return exists ? {...c, ...exists} : {...c}

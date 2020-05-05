@@ -26,6 +26,11 @@ export const useSubset = (init =  {
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
             case 'edit': {
+
+                // TODO: classifications
+                // TODO: validFromInRequestedRange, validToInRequestedRange
+                // TODO: ORIGIN
+
                 return  {...data};
             }
             case 'update': {

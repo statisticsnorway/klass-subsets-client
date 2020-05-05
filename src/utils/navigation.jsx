@@ -42,8 +42,8 @@ export const ProgressBar = ({steps, handleClick, activeStep}) => {
                         }}
                         >{index}
                     </button>
-                    <span className="tooltiptext" style={{ borderBottom: '1px dotted #274247'}}
-                          role="tooltip"
+                    <span className='tooltiptext' style={{ borderBottom: '1px dotted #274247'}}
+                          role='tooltip'
                           id={`notifications-label${index}`}>{step.props.label}</span>
                 </div>
             ))}

@@ -3,6 +3,7 @@ import '../css/list.css';
 import {Trash2} from 'react-feather';
 import {useTranslation} from 'react-i18next';
 import '../css/tooltip.css';
+import {useCode} from "../controllers/klass-api";
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
@@ -10,9 +11,9 @@ export const List = ({list}) => {
     return (
         <>
             <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
-                <h6 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h6>
-                <h6 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h6>
-                <h6 className='rank-text-tooltip tooltip' style={{
+                <h5 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h5>
+                <h5 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h5>
+                <h5 className='rank-text-tooltip tooltip' style={{
                     display: 'inline',
                     position: 'absolute',
                     ariaLabel: 'notifications-label-rank',
@@ -20,8 +21,12 @@ export const List = ({list}) => {
                     marginBlockEnd: '0',
                     borderBottom: '1px dotted #274247'
                 }}>{t('Rank')}
-                <span className="rank-tooltip tooltiptext"  role="tooltip" id='notifications-label-rank'>{t('Code rank tooltip')}</span>
-                </h6>
+                <span className='rank-tooltip tooltiptext'
+                      role='tooltip'
+                      id='notifications-label-rank'>
+                    {t('Code rank tooltip')}
+                </span>
+                </h5>
             </div>
             <ul className='list' style={{paddingInlineStart: '0'}}>
                 {list.items.filter(i => i.included).map((item, i) =>
@@ -32,6 +37,10 @@ export const List = ({list}) => {
 };
 
 export const ListItem = ({item, dispatch}) => {
+
+    // FIXME: does not work properly. Overwritten some where with undefined item
+    const codeData = useCode(item);
+
     return (
         <li style={{padding: '5px 0px 5px 8px', display: 'flex', 
                     jusistyContent: 'space-between', maxWidth: '600px',
@@ -42,10 +51,10 @@ export const ListItem = ({item, dispatch}) => {
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
-            <div style={{width: '65px', marginRight: '10px'}}>{item.code}</div>
+            <div style={{width: '65px', marginRight: '10px'}}>{item.code || codeData.code}</div>
             <div style={{width: '100%', marginRight: '5px'}} className='content'
                  onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
-                {item.name}
+                {item.name || codeData.name}
             </div>
             <Controls item={item} dispatch={dispatch}/>
         </li>
