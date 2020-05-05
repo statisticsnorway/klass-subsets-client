@@ -26,6 +26,33 @@ export const URN = {
                 : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`
             };
         }
+
+        const classificationPattern = /urn:klass-api:classifications:[0-9]+/i;
+
+        if (classificationPattern.test(urn)) {
+            const [,,service,id] = urn.split(':');
+
+            if (from || to) {
+                return {
+                    service,
+                    classificationId: id,
+                    path: from && to
+                        ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
+                        : `/${service}/${id}/codesAt.json?date=${from || to}`,
+                    url: from && to
+                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}`
+                        : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}`
+                };
+            } else {
+                return {
+                    service,
+                    classificationId: id,
+                    path: `/${service}/${id}`,
+                    url: `${klassApiServiceEndpoint}/${service}/${id}`
+                };
+            }
+        }
+
         return {};
     }
 };
