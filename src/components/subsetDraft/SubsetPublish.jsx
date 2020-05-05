@@ -15,10 +15,10 @@ export const SubsetPublish = ({subset}) => {
     useEffect(() => subset.dispatch({action: 'remove_empty'}), []);
 
     // set classification name and URN to each code
-    subset.draft.classifications && subset.draft.classifications.forEach(classification => classification.codes
+    subset.draft.classifications.forEach(classification => classification.codes
         .forEach(code => {
             code.classification = `${classification.id} - ${classification.name}`;
-            code.urn = code.urn || `urn:klass-api:classifications:${classification.id}:code:${code.code}`
+            code.urn = `urn:klass-api:classifications:${classification.id}:code:${code.code}`
         })
     );
     const payload = preparePayload(subset.draft);
@@ -70,6 +70,6 @@ function preparePayload(draft) {
         validUntil: draft.validUntil,
         administrativeDetails: draft.administrativeDetails,
         description: draft.description,
-        codes: draft.codes || codes
+        codes
     }
 }

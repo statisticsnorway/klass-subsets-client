@@ -29,7 +29,7 @@ export const SubsetCodes = ({subset}) => {
                     included: true,
                     codes: subset.draft.codes.filter(c => c.urn.startsWith(v)).map(c => ({...c, included: true})) || []
                 }]
-            }))
+            }));
     }
 
     const [searchValues, setSearchValues] = useState([]); // list of classification names
