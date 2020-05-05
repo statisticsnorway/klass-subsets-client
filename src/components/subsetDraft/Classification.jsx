@@ -88,7 +88,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div style={{width: '400px'}}>{item.name}</div>
+                <div style={{width: '400px'}}>{item.name || metadata.name}</div>
 
                 <button onClick={() => item.error && setExpander(toggle.alert())}>
                     <Alert color={item.error ? 'orange' : 'transparent'}/>

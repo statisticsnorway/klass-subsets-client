@@ -73,9 +73,11 @@ export const useSubset = (init =  {
                 return  {...state, classifications: data};
             }
             case 'classifications_prepend_included': {
-                 const included = data.filter(item => !state.classifications.includes(item) && (item.included
-                    || item.codes.find(code => code.included)));
-                return  {...state, classifications: [...included, ...state.classifications]};
+                 const included = data.filter(item => !state.classifications?.includes(item) && (item.included
+                    || item.codes?.find(code => code.included)));
+                return  state.classifications
+                    ? {...state, classifications: [...included, ...state.classifications]}
+                    : {...state, classifications: [...included]};
             }
             case 'classifications_remove_excluded': {
                 return  {...state, classifications: state.classifications.filter(c => c.included)};
