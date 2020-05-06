@@ -109,6 +109,7 @@ export const useSubset = (init =  {
                 };
             }
             case 'subject': {
+                // FIXME: mutable change
                 state.administrativeDetails
                     .find(d => d.administrativeDetailType === 'ANNOTATION')
                     .values[0] = data;
@@ -142,6 +143,8 @@ export const useSubset = (init =  {
         }
     }
 
+    // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
+    // Error: A cross-origin error was thrown. React doesn't have access to the actual error object in development.
     const [draft, dispatch] = useReducer(
         subsetReducer,
         JSON.parse(sessionStorage.getItem('draft')) || init
