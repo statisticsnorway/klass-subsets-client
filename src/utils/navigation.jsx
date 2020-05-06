@@ -25,8 +25,8 @@ export const ProgressBar = ({steps, handleClick, activeStep}) => {
     return (
         <div style={{textAlign: 'center', width: '60%'}}>
             {steps.map((step, index) => (
-                <div className='tooltip'>
-                    <button key={index}
+                <div key={index} className='tooltip'>
+                    <button 
                         onClick={ () => handleClick(index) }
                         style={{
                             borderRadius: '50%',
