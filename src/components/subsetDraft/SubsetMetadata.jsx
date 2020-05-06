@@ -29,7 +29,7 @@ export const SubsetMetadata = ({subset}) => {
 
         return () => {
             dispatch({action: 'remove_empty'});
-        }
+        };
     }, []);
 
     return (
