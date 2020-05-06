@@ -19,14 +19,16 @@ export const SubsetCodes = ({subset}) => {
     const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
 
     const { t } = useTranslation();
-    
+
     const from = draft.validFrom?.substr(0, 10);
     const to = draft.validUntil?.substr(0, 10);
 
-    if (!draft.classifications || draft.classifications.length === 0) {
-        draft.administrativeDetails
-            .find(d => d.administrativeDetailType === 'ORIGIN')
-            .values.forEach(v => dispatch({
+    useEffect(() => {
+
+        if (!draft.classifications || draft.classifications.length === 0) {
+            draft.administrativeDetails
+                .find(d => d.administrativeDetailType === 'ORIGIN')
+                .values.forEach(v => dispatch({
                 action: 'classifications_prepend_included',
                 data: [{
                     urn: v,
@@ -34,11 +36,11 @@ export const SubsetCodes = ({subset}) => {
                     codes: subset.draft.codes.filter(c => c.urn.startsWith(v)).map(c => ({...c, included: true})) || []
                 }]
             }));
-    }
+        }
+    }, []);
 
-    const [searchValues, setSearchValues] = useState([]); // list of classification names
-    const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
-    
+    const [searchValues, setSearchValues] = useState([]); // searchResult listens på Search
+
     useEffect(() => {
         const result = searchValues
             ? searchValues.map(v => draft.classifications.find(c => c.name === v.name) || v)
@@ -46,7 +48,14 @@ export const SubsetCodes = ({subset}) => {
         setSearchResult(result);
     }, [searchValues]);
 
+    const [searchResult, setSearchResult] = useState([]); // searchResult to interact with users
+
     useEffect(() => {
+
+        // FIXME: performance issue -- too slow
+        // REASON: this will run on each checkbox click.
+        // FIX: react differently, targeted to the individual classification
+
         dispatch({
             action: 'classifications_prepend_included',
             data: searchResult.filter(r => r.included)});

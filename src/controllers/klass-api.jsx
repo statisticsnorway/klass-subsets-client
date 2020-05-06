@@ -18,6 +18,7 @@ export const URN = {
                 code,
                 service,
                 classificationId: id,
+                classificationURN: `urn:klass-api:classifications:${id}`,
                 path: from && to
                     ? `/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
                     : `/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`,

@@ -1,5 +1,6 @@
 import {useReducer, useEffect} from 'react';
 import {nextDefaultName} from './languages';
+import {URN} from '../controllers/klass-api';
 
 export const useSubset = (init =  {
     createdBy: '',
@@ -18,19 +19,50 @@ export const useSubset = (init =  {
     ],
     description: [],
     administrativeStatus: 'DRAFT',
-    classifications: [],
-    codes: []
+    codes: [],
+    classifications: []
 }
     ) => {
+
+    function expandCode(source = {}, from = '', to = '') {
+            const {code, classificationId, classificationURN} = URN.toURL(source.urn, from, to);
+            return {
+                ...source,
+                code,
+                classificationId,
+                classificationURN,
+                validFromInRequestedRange: from,
+                validToInRequestedRange: to
+            }
+    }
+
+    function verifyOrigin(origin = [], codes = []) {
+        // TODO: if origin is not null, check if all values are valid URNs
+        if (codes?.length === 0) return {...origin};
+
+        const candidates = new Set(origin);
+        codes.forEach(c => candidates.add(c.classificationURN));
+        return candidates;
+    }
+
+    function extractClassifications(urns = [], codes = []) {
+        return urns.map(urn => ({
+                urn,
+                included: true,
+                codes: codes
+                    .filter(c => c.urn.startsWith(urn))
+                    .map(c => ({
+                        ...c,
+                        included: true})
+                    )
+                    || []
+            })
+        );
+    }
 
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
             case 'edit': {
-
-                // TODO: classifications
-                // TODO: validFromInRequestedRange, validToInRequestedRange
-                // TODO: ORIGIN
-
                 return  {...data};
             }
             case 'update': {
@@ -43,7 +75,10 @@ export const useSubset = (init =  {
                     : {...state, name: [...state.name, name]};
             }
             case 'name_remove': {
-                return {...state, name: state.name.filter((item, index) => index !== data)};
+                return {
+                    ...state,
+                    name: state.name.filter((item, index) => index !== data)
+                };
             }
             case 'from': {
                 // FIXME: restrictions
@@ -62,11 +97,16 @@ export const useSubset = (init =  {
                     : {...state, description: [...state.description, description]};
             }
             case 'description_remove': {
-                return {...state,
-                    description: state.description.filter((item, index) => index !== data)};
+                return {
+                    ...state,
+                    description: state.description.filter((item, index) => index !== data)
+                };
             }
             case 'createdBy': {
-                return  {...state, createdBy: data};
+                return  {
+                    ...state,
+                    createdBy: data
+                };
             }
             case 'subject': {
                 state.administrativeDetails

@@ -3,7 +3,7 @@ import '../css/list.css';
 import {Trash2} from 'react-feather';
 import {useTranslation} from 'react-i18next';
 import '../css/tooltip.css';
-import {useCode} from "../controllers/klass-api";
+import {useCode} from '../controllers/klass-api';
 
 // TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
@@ -29,7 +29,7 @@ export const List = ({list}) => {
                 </h5>
             </div>
             <ul className='list' style={{paddingInlineStart: '0'}}>
-                {list.items.filter(i => i.included).map((item, i) =>
+                {list.items.map((item, i) =>
                     <ListItem key={i} item={item} dispatch={(o) => list.dispatch(o)} />)}
             </ul>
         </>
