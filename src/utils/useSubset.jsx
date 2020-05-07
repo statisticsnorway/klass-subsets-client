@@ -79,7 +79,7 @@ export const useSubset = (init =  {
             case 'name_remove': {
                 return {
                     ...state,
-                    name: state.name.filter((item, index) => index !== data)
+                    name: state.name?.filter((item, index) => index !== data)
                 };
             }
             case 'from': {
@@ -114,7 +114,7 @@ export const useSubset = (init =  {
             case 'description_remove': {
                 return {
                     ...state,
-                    description: state.description.filter((item, index) => index !== data)
+                    description: state.description?.filter((item, index) => index !== data)
                 };
             }
             case 'classifications_from_origin': {
@@ -129,12 +129,36 @@ export const useSubset = (init =  {
             case 'classifications_prepend_included': {
                  const included = data.filter(item => !state.classifications?.includes(item) && (item.included
                     || item.codes?.find(code => code.included)));
+
                 return  state.classifications
                     ? {...state, classifications: [...included, ...state.classifications]}
                     : {...state, classifications: [...included]};
             }
             case 'classifications_remove_excluded': {
                 return  {...state, classifications: state.classifications.filter(c => c.included)};
+            }
+            case 'classifications_include': {
+                data.included = true;
+                return  {
+                    ...state,
+                    classifications: [data, ...state.classifications]};
+            }
+            case 'classifications_exclude': {
+                data.included = false;
+                data.codes.forEach(c => c.included = false);
+                return  {
+                    ...state,
+                    classifications: state.classifications.filter(c => c.included)};
+            }
+            case 'codes_include': {
+                console.log('codes_include', data.code);
+                data.code.included = true;
+                return  {...state};
+            }
+            case 'codes_exclude': {
+                console.log('codes_exclude', data.code);
+                data.code.included = false;
+                return  {...state};
             }
             case 'remove_empty': {
                 return {...state,
@@ -156,9 +180,11 @@ export const useSubset = (init =  {
     // FIX: try catch
     const [draft, dispatch] = useReducer(subsetReducer, initialize());
 
+    // FIXME: runs on every draft update, should run once the hook is initialized in the context
     function initialize() {
         const restored = JSON.parse(sessionStorage.getItem('draft'));
         if (restored) {
+            console.log({restored});
             const codes = restored.codes?.map(code => expandCode(
                 code,
                 restored.validFrom?.substr(0, 10),
@@ -166,19 +192,19 @@ export const useSubset = (init =  {
             ));
 
             const annotation =
-                restored.administrativeDetails.find(d => d.administrativeDetailType === 'ANNOTATION')
-                || init.administrativeDetails.find(d => d.administrativeDetailType === 'ANNOTATION');
+                restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
+                || init.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION');
 
             const origin =
-                restored.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN')
-                || init.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN');
+                restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN')
+                || init.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
 
             origin.values = verifyOrigin(origin.values, codes);
 
             restored.administrativeDetails = [ annotation, origin ]
         }
 
-        return {...restored} || init;
+        return {...init, ...restored} || init;
     }
 
     useEffect(() => {

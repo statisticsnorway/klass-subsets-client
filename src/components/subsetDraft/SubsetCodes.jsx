@@ -79,7 +79,26 @@ export const SubsetCodes = ({subset}) => {
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
                                             to={to} from={from}
-                                            update={() => setSearchResult([...searchResult])}
+                                            //update={() => setSearchResult([...searchResult])}
+                                            include={(data) => dispatch({
+                                                action: 'classifications_include',
+                                                data})
+                                            }
+                                            exclude={(data) => dispatch({
+                                                action: 'classifications_exclude',
+                                                data})
+                                            }
+                                            includeCode={(code) => dispatch({
+                                                action: 'codes_include',
+                                                data: {classification, code}})
+                                            }
+                                            excludeCode={(code) =>{
+                                                dispatch({
+                                                    action: 'codes_exclude',
+                                                    data: {classification, code}
+                                                });
+                                            }
+                                            }
                         /></li>)}
                 </ul>
             }
@@ -92,11 +111,20 @@ export const SubsetCodes = ({subset}) => {
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
                                             to={to} from={from}
-                                            update={() => setSearchResult([...searchResult])}
-                                            remove={() => {
-                                                classification.included = false;
-                                                setSearchResult([...searchResult]);
-                                            }}/>
+                                            exclude={(data) => dispatch({
+                                                action: 'classifications_exclude',
+                                                data})
+                                            }
+                                            includeCode={(code) => dispatch({
+                                                action: 'codes_include',
+                                                data: {classification, code}})
+                                            }
+                                            excludeCode={(code) => dispatch({
+                                                action: 'codes_exclude',
+                                                data: {classification, code}})
+                                            }
+                                            remove
+                            />
                         </li>)}
                 </ul>
             }

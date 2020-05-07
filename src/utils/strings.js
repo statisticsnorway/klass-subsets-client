@@ -1,6 +1,6 @@
 import DOMPurify from 'dompurify';
 
-export const replaceRefWithHTMLAndSanitize = note => {
+export const replaceRef = note => {
     const replaceRefRegex = /<ref>/gi;
     const replaceSlashRefRegex = /<\/ref>/gi;
   

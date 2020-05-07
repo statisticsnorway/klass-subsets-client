@@ -20,7 +20,6 @@ export const SubsetMetadata = ({subset}) => {
     const [classificationfamilies] = useGet('classificationfamilies.json');
 
     useEffect(() => {
-
         draft.name?.length === 0
             && dispatch({action: 'name_add'});
 

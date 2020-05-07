@@ -13,9 +13,9 @@ import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet, useClassification, URN} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
-import {replaceRefWithHTMLAndSanitize} from '../../utils/strings';
+import {replaceRef} from '../../utils/strings';
 
-export const Classification = ({item = {}, update, remove, from, to}) => {
+export const Classification = ({item = {}, include, exclude, includeCode, excludeCode, from, to, remove}) => {
     const {t} = useTranslation();
 
     const {id} = URN.toURL(item?.urn);
@@ -34,7 +34,10 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     // FIXME show errors
     const url = from && to
         ? `/classifications/${item.id}/codes.json?from=${from}&to=${to}`
-        : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
+        : `/classifications/${item.id}/codesAt.json?date=${
+                from || to 
+                || new Date().toISOString().substr(0, 10)
+    }`;
     const [codes] = useGet(url);
     useEffect(() => {
         if (codes) {
@@ -110,8 +113,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                 <button onClick={() => {
                     if (item.included || check.hasCodes()) {
                         setExpander(toggle.closeAll());
-                        item.included = !item.included;
-                        update();
+                        item.included ? exclude(item) : include(item);
                     } else {
                         setExpander(toggle.cannot());
                     }
@@ -132,7 +134,7 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
                 {remove &&
                 <button onClick={() => {
                     setExpander(toggle.closeAll());
-                    remove();
+                    exclude(item);
                 }}>
                     <Trash2 color='#ED5935'/>
                 </button>
@@ -153,10 +155,16 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
             {/* TODO limit the height and scroll*/}
             {expander.showCodes && <Codes from={from} to={to} id={item.id}
                                           codes={item.codes}
-                                          include={(o) => {
-                                              item.included = o ? true : item.included;
-                                              update();
-                                          }}/>
+                                          exclude={ () => exclude(item) }
+                                          include={ () => include(item) }
+                                          includeCode={includeCode}
+                                          excludeCode={excludeCode}
+                                          //{
+                                          //include={(o) => {
+                                              //item.included = o ? true : item.included;
+                                             // update();
+                                          //>}
+                />
             }
 
             {/* TODO limit the height and scroll*/}
@@ -165,25 +173,16 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
     );
 };
 
-export const Codes = ({from, to, codes = [], id, include}) => {
+export const Codes = ({from, to, codes = [], id, includeCode, excludeCode}) => {
     const {t} = useTranslation();
 
-    const codesToLoadFirstRender = 35;
-
-    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(codesToLoadFirstRender, codes.length)));
-
-    const loadRest = () => {
-        if (renderedCodes.length < codes.length){
-            setTimeout(() => {
-                setRenderedCodes(codes);
-            },0);
-        }
-    };
-
+    // FIXME: magic number 35
+    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(35, codes.length)));
     useEffect(() => {
-        loadRest();
+        if (renderedCodes?.length < codes.length){
+            setTimeout(() => setRenderedCodes(codes),0);
+        }
     });
-
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
@@ -198,29 +197,24 @@ export const Codes = ({from, to, codes = [], id, include}) => {
                     ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
-                            <button onClick={() => {
-                                codes.forEach(code => code.included = true);
-                                include(true);
-                            }}>{t('All')}
+                            <button onClick={() => codes.forEach(code => includeCode(code))}
+                                >{t('All')}
                             </button>
-                            <button onClick={() => {
-                                codes.forEach(code => code.included = false);
-                                include(false);
-                            }}>{t('None')}
+                            <button onClick={() => codes.forEach(code => excludeCode(code))}
+                                >{t('None')}
                             </button>
-                            <button onClick={() => {
-                                codes.forEach(code => code.included = !code.included);
-                                include(!!codes.find(c => c.included));
-                            }}>{t('Invert')}
+                            <button
+                                onClick={() => codes.forEach(code => code.included
+                                    ? excludeCode(code)
+                                    : includeCode(code))}
+                                >{t('Invert')}
                             </button>
                         </div>
 
                         {renderedCodes.map((code, i) =>
-                            <CodeInfo key={i} id={id} item={code}
-                                      onChange={() => {
-                                          code.included = !code.included;
-                                          include(code.included);
-                                      }}
+                            <CodeInfo key={i} id={id}
+                                      item={code}
+                                      onChange={(c) => c.included ? excludeCode(c) : includeCode(c)}
                             />)
                         }
                     </>
@@ -243,7 +237,7 @@ export const CodeInfo = ({id, item, onChange}) => {
                            type='checkbox' name='include'
                            checked={item.included}
                            value={item.code}
-                           onChange={onChange}/>
+                           onChange={ () => onChange(item)}/>
                     <label className='checkbox-label'
                            htmlFor={`${item.code}-${id}`}>
                         <Text><strong>{item.code}</strong> {item.name}</Text>
@@ -259,18 +253,15 @@ export const CodeInfo = ({id, item, onChange}) => {
                 {!item.notes || item.notes.length === 0
                     ? <Text>{t('No notes found.')}</Text>
                     : item.notes.map(note => (
-                        <div key={note} style={{
-                            padding: '10px 50px 20px 50px'
-                        }}>
+                        <div key={note} style={{padding: '10px 50px 20px 50px'}}>
                             <Title size={4}>{t('Notes')}</Title>
                             <div style={{width: '65%'}}
                                  className='ssb-paragraph'
-                                 dangerouslySetInnerHTML={
-                                     {__html: replaceRefWithHTMLAndSanitize(note.note)}
-                                 }
+                                 dangerouslySetInnerHTML={{__html: replaceRef(note.note)}}
                             />
-                            <Text
-                                small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                            <Text small>
+                                ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})
+                            </Text>
                         </div>))}
             </div>
             }
