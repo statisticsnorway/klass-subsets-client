@@ -79,7 +79,6 @@ export const SubsetCodes = ({subset}) => {
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
                                             to={to} from={from}
-                                            //update={() => setSearchResult([...searchResult])}
                                             include={(data) => dispatch({
                                                 action: 'classifications_include',
                                                 data})

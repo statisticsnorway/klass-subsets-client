@@ -109,20 +109,6 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
                     <Alert color={item.error ? 'orange' : 'transparent'}/>
                 </button>
 
-                {/*TODO: (test case) remove empty classification from draft.classification*/}
-                <button onClick={() => {
-                    if (item.included || check.hasCodes()) {
-                        setExpander(toggle.closeAll());
-                        item.included ? exclude(item) : include(item);
-                    } else {
-                        setExpander(toggle.cannot());
-                    }
-                }}>
-                    {check.includible() && <PlusSquare color='#1A9D49'/>}
-                    {item.included && <MinusSquare color='#B6E8B8'/>}
-                    {!item.included && !check.hasCodes() && <XSquare color='#9272FC'/>}
-                </button>
-
                 <button onClick={() => setExpander(toggle.codes())}>
                     <ListIcon color={check.hasCodes() ? '#3396D2' : '#C3DCDC'}/>
                 </button>
@@ -131,13 +117,27 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
                     <Info color={metadata ? '#62919A' : '#C3DCDC'}/>
                 </button>
 
-                {remove &&
-                <button onClick={() => {
-                    setExpander(toggle.closeAll());
-                    exclude(item);
-                }}>
-                    <Trash2 color='#ED5935'/>
-                </button>
+                {remove
+                    ?
+                    <button onClick={() => {
+                        setExpander(toggle.closeAll());
+                        exclude(item);
+                    }}>
+                        <Trash2 color='#ED5935'/>
+                    </button>
+                    :
+                    <button onClick={() => {
+                        if (item.included || check.hasCodes()) {
+                            setExpander(toggle.closeAll());
+                            item.included ? exclude(item) : include(item);
+                        } else {
+                            setExpander(toggle.cannot());
+                        }
+                    }}>
+                        {check.includible() && <PlusSquare color='#1A9D49'/>}
+                        {item.included && <MinusSquare color='#B6E8B8'/>}
+                        {!item.included && !check.hasCodes() && <XSquare color='#9272FC'/>}
+                    </button>
                 }
             </div>
 
