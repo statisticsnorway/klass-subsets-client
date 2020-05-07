@@ -18,9 +18,9 @@ import {replaceRefWithHTMLAndSanitize} from '../../utils/strings';
 export const Classification = ({item = {}, update, remove, from, to}) => {
     const {t} = useTranslation();
 
-    const {classificationId} = URN.toURL(item?.urn);
+    const {id} = URN.toURL(item?.urn);
 
-    item.id = classificationId || item._links?.self?.href?.split('/').pop();
+    item.id = id || item._links?.self?.href?.split('/').pop();
     // TODO use fallback and loader
     const {metadata, codesWithNotes} = useClassification(item.id);
     useEffect(() => {
@@ -37,7 +37,6 @@ export const Classification = ({item = {}, update, remove, from, to}) => {
         : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
     const [codes] = useGet(url);
     useEffect(() => {
-        console.log({codes});
         if (codes) {
             const merged = codes.codes.map(c => {
                 const exists = item.codes?.find(code => {

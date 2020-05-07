@@ -36,7 +36,7 @@ export const URN = {
             if (from || to) {
                 return {
                     service,
-                    classificationId: id,
+                    id,
                     path: from && to
                         ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
                         : `/${service}/${id}/codesAt.json?date=${from || to}`,
@@ -47,7 +47,7 @@ export const URN = {
             } else {
                 return {
                     service,
-                    classificationId: id,
+                    id,
                     path: `/${service}/${id}`,
                     url: `${klassApiServiceEndpoint}/${service}/${id}`
                 };

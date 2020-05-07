@@ -24,18 +24,8 @@ export const SubsetCodes = ({subset}) => {
     const to = draft.validUntil?.substr(0, 10);
 
     useEffect(() => {
-
         if (!draft.classifications || draft.classifications.length === 0) {
-            draft.administrativeDetails
-                .find(d => d.administrativeDetailType === 'ORIGIN')
-                .values.forEach(v => dispatch({
-                action: 'classifications_prepend_included',
-                data: [{
-                    urn: v,
-                    included: true,
-                    codes: subset.draft.codes.filter(c => c.urn.startsWith(v)).map(c => ({...c, included: true})) || []
-                }]
-            }));
+            dispatch({action: 'classifications_from_origin'});
         }
     }, []);
 
