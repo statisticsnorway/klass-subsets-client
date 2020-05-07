@@ -19,8 +19,8 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
     const {t} = useTranslation();
 
     const {id} = URN.toURL(item?.urn);
-
     item.id = id || item._links?.self?.href?.split('/').pop();
+
     // TODO use fallback and loader
     const {metadata, codesWithNotes} = useClassification(item.id);
     useEffect(() => {
@@ -41,6 +41,7 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
     const [codes] = useGet(url);
     useEffect(() => {
         if (codes) {
+            // FIXME it is not stored via the AppContext. Should it be?
             const merged = codes.codes.map(c => {
                 const exists = item.codes?.find(code => {
                     return code.urn === `${item.urn}:code:${c.code}`;
@@ -52,6 +53,7 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
     }, [codes]);
 
     useEffect(() => {
+        // FIXME do it on code level
         if (codes && codesWithNotes) {
             item.codes.forEach(code =>
                 code.notes = codesWithNotes.find(c => code.name === c.name)?.notes || []
@@ -96,8 +98,8 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
     const [expander, setExpander] = useState(toggle.closeAll());
 
     const check = {
-        hasCodes: () => (item.codes && item.codes.length > 0),
-        includible: () => (!item.included && item.codes && item.codes.length > 0)
+        hasCodes: () => (item.codes?.length > 0),
+        includible: () => (!item.included && item.codes?.length > 0)
     };
 
     return (
@@ -147,7 +149,7 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
             </div>}
 
             {expander.showCannot &&
-            <div style={{backgroundColor: '#ece6fe'}}
+            <div style={{backgroundColor: '#ECE6FE'}}
                  className='panel'>
                 <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
@@ -159,11 +161,6 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
                                           include={ () => include(item) }
                                           includeCode={includeCode}
                                           excludeCode={excludeCode}
-                                          //{
-                                          //include={(o) => {
-                                              //item.included = o ? true : item.included;
-                                             // update();
-                                          //>}
                 />
             }
 
@@ -243,9 +240,8 @@ export const CodeInfo = ({id, item, onChange}) => {
                         <Text><strong>{item.code}</strong> {item.name}</Text>
                     </label>
                 </div>
-                <button onClick={() => {
-                    setShowNotes(!showNotes);
-                }}><MoreHorizontal color={item.notes?.length > 0 ? '#62919A' : '#C3DCDC'}/>
+                <button onClick={() => setShowNotes(!showNotes)}>
+                    <MoreHorizontal color={item.notes?.length > 0 ? '#62919A' : '#C3DCDC'}/>
                 </button>
             </div>
 
