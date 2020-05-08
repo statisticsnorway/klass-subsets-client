@@ -29,16 +29,7 @@ export const SubsetCodes = ({subset}) => {
         }
     }, []);
 
-    const [searchValues, setSearchValues] = useState([]); // searchResult listens på Search
-
-    useEffect(() => {
-        const result = searchValues
-            ? searchValues.map(v => draft.classifications.find(c => c.name === v.name) || v)
-            : [];
-        setSearchResult(result);
-    }, [searchValues]);
-
-    const [searchResult, setSearchResult] = useState([]); // searchResult to interact with users
+    const [searchResult, setSearchResult] = useState([]);
 
     /* TODO: tooltips for classification icons */
     return (<>
@@ -51,10 +42,12 @@ export const SubsetCodes = ({subset}) => {
                     : `. ${t('Period is not set')}.`
             }
             </p>
-            <Search resource={classifications ? classifications._embedded.classifications : []}
-                    setChosen={(item) => setSearchValues(item)}
+            <Search resource={ classifications?._embedded?.classifications || []}
+                    setChosen={ items => setSearchResult(items
+                            ? items.map(v => draft.classifications.find(c => c.name === v.name) || v)
+                            : []) }
                     placeholder={t('Type classification name')}
-                    searchBy = {(input, resource) => input === '' ? [] : resource
+                    searchBy = { (input, resource) => input === '' ? [] : resource
                             .filter(i => i.name.toLowerCase()
                             .indexOf(input.toLowerCase()) > -1)}
             />
@@ -65,24 +58,23 @@ export const SubsetCodes = ({subset}) => {
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
                                             to={to} from={from}
-                                            include={(data) => dispatch({
+                                            include={ data => dispatch({
                                                 action: 'classifications_include',
                                                 data})
                                             }
-                                            exclude={(data) => dispatch({
+                                            exclude={ data => dispatch({
                                                 action: 'classifications_exclude',
                                                 data})
                                             }
-                                            includeCode={(code) => dispatch({
+                                            includeCode={ code => dispatch({
                                                 action: 'codes_include',
                                                 data: {classification, code}})
                                             }
-                                            excludeCode={(code) =>{
+                                            excludeCode={ code =>
                                                 dispatch({
                                                     action: 'codes_exclude',
                                                     data: {classification, code}
-                                                });
-                                            }
+                                                })
                                             }
                         /></li>)}
                 </ul>
@@ -92,19 +84,20 @@ export const SubsetCodes = ({subset}) => {
 
             { !draft.classifications || draft.classifications.length < 1
                 ? <p>{t('No classifications in the subset draft')}</p>
-                : <ul className='list'>{draft.classifications.map((classification, index) =>
+                : <ul className='list'>
+                    {draft.classifications.map((classification, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={classification}
                                             to={to} from={from}
-                                            exclude={(data) => dispatch({
+                                            exclude={ data => dispatch({
                                                 action: 'classifications_exclude',
                                                 data})
                                             }
-                                            includeCode={(code) => dispatch({
+                                            includeCode={ code => dispatch({
                                                 action: 'codes_include',
                                                 data: {classification, code}})
                                             }
-                                            excludeCode={(code) => dispatch({
+                                            excludeCode={ code => dispatch({
                                                 action: 'codes_exclude',
                                                 data: {classification, code}})
                                             }

@@ -160,14 +160,6 @@ export const useSubset = (init =  {
         }
     }
 
-    function includeCodelist(codelist, origin, codes) {
-        codelist = {};
-
-
-
-        return {codelist, origin, codes};
-    }
-
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
     // Error: A cross-origin error was thrown. React doesn't have access to the actual error object in development.
     // FIX: try catch
