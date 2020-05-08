@@ -84,19 +84,14 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
-                state.validFrom = data;
-                return {...state};
+                return {...state, validFrom: data};
             }
             case 'to': {
                 // FIXME: restrictions
-                state.validUntil = data;
-                return {...state};
+                return {...state, validUntil: data};
             }
             case 'createdBy': {
-                return  {
-                    ...state,
-                    createdBy: data
-                };
+                return  {...state, createdBy: data};
             }
             case 'subject': {
                 // FIXME: mutable change
@@ -158,6 +153,14 @@ export const useSubset = (init =  {
             default:
                 return state;
         }
+    }
+
+    function includeCodelist(codelist, origin, codes) {
+        codelist = {};
+
+
+
+        return {codelist, origin, codes};
     }
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
