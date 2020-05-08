@@ -55,8 +55,9 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
     useEffect(() => {
         // FIXME do it on code level
         if (codes && codesWithNotes) {
-            item.codes.forEach(code =>
-                code.notes = codesWithNotes.find(c => code.name === c.name)?.notes || []
+            item.codes = codes.codes.map(code => ({
+                ...code,
+                notes: codesWithNotes.find(c => code.name === c.name)?.notes || []})
             );
         }
     }, [codes, codesWithNotes]);
@@ -194,24 +195,18 @@ export const Codes = ({from, to, codes = [], id, includeCode, excludeCode}) => {
                     ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
-                            <button onClick={() => codes.forEach(code => includeCode(code))}
+                            <button onClick={() => includeCode(codes)}
                                 >{t('All')}
                             </button>
-                            <button onClick={() => codes.forEach(code => excludeCode(code))}
+                            <button onClick={() => excludeCode(codes)}
                                 >{t('None')}
-                            </button>
-                            <button
-                                onClick={() => codes.forEach(code => code.included
-                                    ? excludeCode(code)
-                                    : includeCode(code))}
-                                >{t('Invert')}
                             </button>
                         </div>
 
                         {renderedCodes.map((code, i) =>
                             <CodeInfo key={i} id={id}
                                       item={code}
-                                      onChange={(c) => c.included ? excludeCode(c) : includeCode(c)}
+                                      onChange={(c) => c.included ? excludeCode([c]) : includeCode([c])}
                             />)
                         }
                     </>

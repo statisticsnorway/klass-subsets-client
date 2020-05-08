@@ -112,6 +112,12 @@ export const useSubset = (init =  {
                     description: state.description?.filter((item, index) => index !== data)
                 };
             }
+            case 'remove_empty': {
+                return {...state,
+                    name: state.name.filter(item => item.languageText?.length > 0),
+                    description: state.description.filter(item => item.languageText?.length > 0)
+                };
+            }
             case 'classifications_from_origin': {
                 const classifications = extractClassifications(
                     state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values,
@@ -133,18 +139,12 @@ export const useSubset = (init =  {
             }
             case 'codes_include': {
                 data.classification.included = true;
-                data.code = {...data.code, included: true };
+                data.codes.forEach(c => c.included = true );
                 return  {...state};
             }
             case 'codes_exclude': {
-                data.code = {...data.code, included: false };
+                data.codes.forEach(c => c.included = false );
                 return  {...state};
-            }
-            case 'remove_empty': {
-                return {...state,
-                    name: state.name.filter(item => item.languageText?.length > 0),
-                    description: state.description.filter(item => item.languageText?.length > 0)
-                };
             }
             case 'reset': {
                 sessionStorage.removeItem('draft');
@@ -153,14 +153,6 @@ export const useSubset = (init =  {
             default:
                 return state;
         }
-    }
-
-    function includeCodelist(codelist, origin, codes) {
-        codelist = {};
-
-
-
-        return {codelist, origin, codes};
     }
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
