@@ -123,20 +123,6 @@ export const useSubset = (init =  {
                     state.codes);
                 return {...state, classifications};
             }
-/*            case 'classifications': {
-                return  {...state, classifications: data};
-            }*/
-            case 'classifications_prepend_included': {
-                 const included = data.filter(item => !state.classifications?.includes(item) && (item.included
-                    || item.codes?.find(code => code.included)));
-
-                return  state.classifications
-                    ? {...state, classifications: [...included, ...state.classifications]}
-                    : {...state, classifications: [...included]};
-            }
-            case 'classifications_remove_excluded': {
-                return  {...state, classifications: state.classifications.filter(c => c.included)};
-            }
             case 'classifications_include': {
                 data.included = true;
                 return  {
@@ -151,13 +137,12 @@ export const useSubset = (init =  {
                     classifications: state.classifications.filter(c => c.included)};
             }
             case 'codes_include': {
-                console.log('codes_include', data.code);
-                data.code.included = true;
+                data.classification.included = true;
+                data.code = {...data.code, included: true };
                 return  {...state};
             }
             case 'codes_exclude': {
-                console.log('codes_exclude', data.code);
-                data.code.included = false;
+                data.code = {...data.code, included: false };
                 return  {...state};
             }
             case 'remove_empty': {
@@ -173,6 +158,14 @@ export const useSubset = (init =  {
             default:
                 return state;
         }
+    }
+
+    function includeCodelist(codelist, origin, codes) {
+        codelist = {};
+
+
+
+        return {codelist, origin, codes};
     }
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:

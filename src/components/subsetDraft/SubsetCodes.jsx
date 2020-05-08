@@ -40,20 +40,6 @@ export const SubsetCodes = ({subset}) => {
 
     const [searchResult, setSearchResult] = useState([]); // searchResult to interact with users
 
-    useEffect(() => {
-
-        // FIXME: performance issue -- too slow
-        // REASON: this will run on each checkbox click.
-        // FIX: react differently, targeted to the individual classification
-
-        dispatch({
-            action: 'classifications_prepend_included',
-            data: searchResult.filter(r => r.included)});
-        dispatch({
-            action: 'classifications_remove_excluded'
-        });
-    }, [searchResult]);
-
     /* TODO: tooltips for classification icons */
     return (<>
             <Title size={3}>{t('Choose classifications and code lists')}</Title>
