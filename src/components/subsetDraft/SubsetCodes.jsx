@@ -66,13 +66,19 @@ export const SubsetCodes = ({subset}) => {
                                                 action: 'classifications_exclude',
                                                 data})
                                             }
-                                            includeCode={ codes => dispatch({
+                                            includeCodes={ codes => dispatch({
                                                 action: 'codes_include',
                                                 data: {classification, codes}})
                                             }
-                                            excludeCode={ codes =>
+                                            excludeCodes={ codes =>
                                                 dispatch({
                                                     action: 'codes_exclude',
+                                                    data: {classification, codes}
+                                                })
+                                            }
+                                            update={ codes =>
+                                                dispatch({
+                                                    action: 'classifications_codes_update',
                                                     data: {classification, codes}
                                                 })
                                             }
@@ -93,15 +99,21 @@ export const SubsetCodes = ({subset}) => {
                                                 action: 'classifications_exclude',
                                                 data})
                                             }
-                                            includeCode={ codes => dispatch({
+                                            includeCodes={ codes => dispatch({
                                                 action: 'codes_include',
                                                 data: {classification, codes}})
                                             }
-                                            excludeCode={ codes => dispatch({
+                                            excludeCodes={ codes => dispatch({
                                                 action: 'codes_exclude',
                                                 data: {classification, codes}})
                                             }
                                             remove
+                                            update={ codes =>
+                                                dispatch({
+                                                    action: 'classifications_codes_update',
+                                                    data: {classification, codes}
+                                                })
+                                            }
                             />
                         </li>)}
                 </ul>

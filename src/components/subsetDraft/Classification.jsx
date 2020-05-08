@@ -15,7 +15,11 @@ import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
 import {replaceRef} from '../../utils/strings';
 
-export const Classification = ({item = {}, include, exclude, includeCode, excludeCode, from, to, remove}) => {
+export const Classification = ({item = {}, include, exclude,
+                                   includeCodes, excludeCodes,
+                                   from, to,
+                                   remove,
+                                   update}) => {
     const {t} = useTranslation();
 
     const {id} = URN.toURL(item?.urn);
@@ -48,7 +52,8 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
                 });
                 return exists ? {...c, ...exists} : {...c}
             });
-            item.codes = [...merged];
+            console.log({merged});
+            update([...merged]);
         }
     }, [codes]);
 
@@ -160,8 +165,8 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
                                           codes={item.codes}
                                           exclude={ () => exclude(item) }
                                           include={ () => include(item) }
-                                          includeCode={includeCode}
-                                          excludeCode={excludeCode}
+                                          includeCodes={includeCodes}
+                                          excludeCodes={excludeCodes}
                 />
             }
 
@@ -171,7 +176,7 @@ export const Classification = ({item = {}, include, exclude, includeCode, exclud
     );
 };
 
-export const Codes = ({from, to, codes = [], id, includeCode, excludeCode}) => {
+export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes}) => {
     const {t} = useTranslation();
 
     // FIXME: magic number 35
@@ -195,10 +200,10 @@ export const Codes = ({from, to, codes = [], id, includeCode, excludeCode}) => {
                     ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
-                            <button onClick={() => includeCode(codes)}
+                            <button onClick={() => includeCodes(codes)}
                                 >{t('All')}
                             </button>
-                            <button onClick={() => excludeCode(codes)}
+                            <button onClick={() => excludeCodes(codes)}
                                 >{t('None')}
                             </button>
                         </div>
@@ -206,7 +211,7 @@ export const Codes = ({from, to, codes = [], id, includeCode, excludeCode}) => {
                         {renderedCodes.map((code, i) =>
                             <CodeInfo key={i} id={id}
                                       item={code}
-                                      onChange={(c) => c.included ? excludeCode([c]) : includeCode([c])}
+                                      onChange={(c) => c.included ? excludeCodes([c]) : includeCodes([c])}
                             />)
                         }
                     </>

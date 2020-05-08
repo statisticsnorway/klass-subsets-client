@@ -122,6 +122,7 @@ export const useSubset = (init =  {
                 const classifications = extractClassifications(
                     state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values,
                     state.codes);
+                console.log({classifications});
                 return {...state, classifications};
             }
             case 'classifications_include': {
@@ -140,7 +141,18 @@ export const useSubset = (init =  {
             case 'codes_include': {
                 data.classification.included = true;
                 data.codes.forEach(c => c.included = true );
+
+                if (!state.classifications.find(c => c.name === data.classification.name)) {
+                    state.classifications = [
+                        data.classification,
+                        ...state.classifications];
+                }
                 return  {...state};
+            }
+            case 'classifications_codes_update': {
+                console.log('classifications_codes_update', data.classification, data.codes);
+                data.classification.codes = data.codes;
+                return {...state};
             }
             case 'codes_exclude': {
                 data.codes.forEach(c => c.included = false );
@@ -170,6 +182,7 @@ export const useSubset = (init =  {
                 restored.validFrom?.substr(0, 10),
                 restored.validTo?.substr(0, 10)
             ));
+            console.log({codes});
 
             const annotation =
                 restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
@@ -180,6 +193,7 @@ export const useSubset = (init =  {
                 || init.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
 
             origin.values = verifyOrigin(origin.values, codes);
+            console.log({origin});
 
             restored.administrativeDetails = [ annotation, origin ]
         }
