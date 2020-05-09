@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Search} from '../../utils/Search';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
+import {URL} from '../../controllers/klass-api';
 
 /*
  *  TODO: (test) mock for service
@@ -22,12 +23,7 @@ export const SubsetCodes = ({subset}) => {
 
     const from = draft.validFrom?.substr(0, 10);
     const to = draft.validUntil?.substr(0, 10);
-
-    useEffect(() => {
-        if (!draft.classifications || draft.classifications.length === 0) {
-            dispatch({action: 'classifications_from_origin'});
-        }
-    }, []);
+    const origin = draft.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN')?.values;
 
     const [searchResult, setSearchResult] = useState([]);
 
@@ -43,77 +39,67 @@ export const SubsetCodes = ({subset}) => {
             }
             </p>
             <Search resource={ classifications?._embedded?.classifications || []}
-                    setChosen={ items => setSearchResult(items
-                            ? items.map(v => draft.classifications.find(c => c.name === v.name) || v)
-                            : []) }
+                    setChosen={ items => setSearchResult(items) }
                     placeholder={t('Type classification name')}
                     searchBy = { (input, resource) => input === '' ? [] : resource
                             .filter(i => i.name.toLowerCase()
                             .indexOf(input.toLowerCase()) > -1)}
             />
 
-            { searchResult.length < 1
+            { !searchResult && searchResult?.length === 0
                 ? <p>{t('Nothing is found')}</p>
-                : <ul className='list'>{searchResult.map((classification, index) =>
+                : <ul className='list'>
+                    {searchResult
+                    .map(c => (c.urn ? c : {...c, urn: URL.toURN(c._links?.self?.href).urn}))
+                    .map((c, index) => (
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={classification}
-                                            to={to} from={from}
-                                            include={ data => dispatch({
+                            <Classification item={c} from={from} to={to}
+                                            chosenCodes={draft.codes}
+                                            chosen={origin.includes(c.urn)}
+                                            include={ () => dispatch({
                                                 action: 'classifications_include',
-                                                data})
+                                                data: c.urn})
                                             }
-                                            exclude={ data => dispatch({
+                                            exclude={ () => dispatch({
                                                 action: 'classifications_exclude',
-                                                data})
+                                                data: c.urn})
                                             }
                                             includeCodes={ codes => dispatch({
                                                 action: 'codes_include',
-                                                data: {classification, codes}})
+                                                data: codes})
                                             }
-                                            excludeCodes={ codes =>
-                                                dispatch({
-                                                    action: 'codes_exclude',
-                                                    data: {classification, codes}
-                                                })
+                                            excludeCodes={ codes => dispatch({
+                                                action: 'codes_exclude',
+                                                data: codes})
                                             }
-                                            update={ codes =>
-                                                dispatch({
-                                                    action: 'classifications_codes_update',
-                                                    data: {classification, codes}
-                                                })
-                                            }
-                        /></li>)}
+                        /></li>))}
                 </ul>
             }
 
             <Title size={3}>{t('Choose codes from classifications')}</Title>
 
-            { !draft.classifications || draft.classifications.length < 1
+            { draft.codes?.length === 0 && origin?.length === 0
                 ? <p>{t('No classifications in the subset draft')}</p>
                 : <ul className='list'>
-                    {draft.classifications.map((classification, index) =>
+                    {origin.map((urn, index) =>
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={classification}
+                            <Classification item={{urn}}
                                             to={to} from={from}
-                                            exclude={ data => dispatch({
+                                            chosenCodes={draft.codes}
+                                            chosen={true}
+                                            exclude={ () => dispatch({
                                                 action: 'classifications_exclude',
-                                                data})
+                                                data: urn})
                                             }
                                             includeCodes={ codes => dispatch({
                                                 action: 'codes_include',
-                                                data: {classification, codes}})
+                                                data: codes})
                                             }
                                             excludeCodes={ codes => dispatch({
                                                 action: 'codes_exclude',
-                                                data: {classification, codes}})
+                                                data: codes})
                                             }
                                             remove
-                                            update={ codes =>
-                                                dispatch({
-                                                    action: 'classifications_codes_update',
-                                                    data: {classification, codes}
-                                                })
-                                            }
                             />
                         </li>)}
                 </ul>

@@ -170,7 +170,7 @@ export const useSubset = (init =  {
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
     // Error: A cross-origin error was thrown. React doesn't have access to the actual error object in development.
     // FIX: try catch
-    const [draft, dispatch] = useReducer(subsetReducer, initialize());
+    const [draft, dispatch] = useReducer(subsetReducer, init);
 
     // FIXME: runs on every draft update, should run once the hook is initialized in the context
     function initialize() {

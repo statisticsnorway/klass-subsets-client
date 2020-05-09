@@ -41,3 +41,7 @@
   margin: 0 8px;
   position: relative;
 }
+
+button {
+  cursor: pointer;
+}

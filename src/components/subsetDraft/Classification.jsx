@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     AlertTriangle as Alert,
     Info,
@@ -10,182 +10,112 @@ import {
     XSquare
 } from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
-import {useGet, useClassification, URN} from '../../controllers/klass-api';
+import {useGet, URN, useCode, useClassification} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
 import {replaceRef} from '../../utils/strings';
 
-export const Classification = ({item = {}, include, exclude,
-                                   includeCodes, excludeCodes,
-                                   from, to,
-                                   remove,
-                                   update}) => {
+export const Classification = ({item = {}, from, to,
+                                include, exclude, chosen, remove,
+                                includeCodes, excludeCodes, chosenCodes
+                                }) => {
     const {t} = useTranslation();
 
-    const {id} = URN.toURL(item?.urn);
-    item.id = id || item._links?.self?.href?.split('/').pop();
+    const {id, path, codesPath} = URN.toURL(item?.urn, from, to);
 
-    // TODO use fallback and loader
-    const {metadata, codesWithNotes} = useClassification(item.id);
-    useEffect(() => {
-        if (metadata) {
-            // FIXME it is not stored in the AppContext. Should it be?
-            item.name = metadata.name;
-        }
-    }, [metadata]);
+    // TODO use fallback, loader, error
+    const [metadata] = useGet(path);
 
-    // TODO use fallback and loader
-    // FIXME show errors
-    const url = from && to
-        ? `/classifications/${item.id}/codes.json?from=${from}&to=${to}`
-        : `/classifications/${item.id}/codesAt.json?date=${
-                from || to 
-                || new Date().toISOString().substr(0, 10)
-    }`;
-    const [codes] = useGet(url);
-    useEffect(() => {
-        if (codes) {
-            // FIXME it is not stored via the AppContext. Should it be?
-            const merged = codes.codes.map(c => {
-                const exists = item.codes?.find(code => {
-                    return code.urn === `${item.urn}:code:${c.code}`;
-                });
-                return exists ? {...c, ...exists} : {...c}
-            });
-            console.log({merged});
-            update([...merged]);
-        }
-    }, [codes]);
+    // TODO use fallback, loader, error
+    const [codes] = useGet(codesPath);
 
-    useEffect(() => {
-        // FIXME do it on code level
-        if (codes && codesWithNotes) {
-            item.codes = codes.codes.map(code => ({
-                ...code,
-                notes: codesWithNotes.find(c => code.name === c.name)?.notes || []})
-            );
-        }
-    }, [codes, codesWithNotes]);
-
-    // TODO: outsource to useToggle()
-    const toggle = {
-        closeAll: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: false,
-            showInfo: false
-        }),
-        alert: () => ({
-            showAlert: !expander.showAlert,
-            showCodes: false,
-            showCannot: false,
-            showInfo: false
-        }),
-        codes: () => ({
-            showAlert: false,
-            showCodes: !expander.showCodes,
-            showCannot: false,
-            showInfo: false
-        }),
-        cannot: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: !expander.showCannot,
-            showInfo: false
-        }),
-        info: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: false,
-            showInfo: !expander.showInfo
-        })
-    };
-
-    const [expander, setExpander] = useState(toggle.closeAll());
-
-    const check = {
-        hasCodes: () => (item.codes?.length > 0),
-        includible: () => (!item.included && item.codes?.length > 0)
-    };
+    const [show, setShow] = useState({none: true});
 
     return (
         <>
             <div style={{display: 'flex'}}>
                 <div style={{width: '400px'}}>{item.name || metadata.name}</div>
 
-                <button onClick={() => item.error && setExpander(toggle.alert())}>
+                <button onClick={() => item.error
+                    && setShow(prev => {return {alert: !prev.alert};})}>
                     <Alert color={item.error ? 'orange' : 'transparent'}/>
                 </button>
 
-                <button onClick={() => setExpander(toggle.codes())}>
-                    <ListIcon color={check.hasCodes() ? '#3396D2' : '#C3DCDC'}/>
+                <button onClick={() =>
+                    setShow(prev => {return {codes: !prev.codes};})}>
+                    <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'}/>
                 </button>
 
-                <button onClick={() => setExpander(toggle.info())}>
-                    <Info color={metadata ? '#62919A' : '#C3DCDC'}/>
+                <button onClick={() =>
+                    setShow(prev => {return {info: !prev.info};})}>
+                <Info color={metadata ? '#62919A' : '#C3DCDC'}/>
                 </button>
 
                 {remove
                     ?
                     <button onClick={() => {
-                        setExpander(toggle.closeAll());
-                        exclude(item);
+                        setShow({none: true});
+                        exclude(item.urn);
                     }}>
                         <Trash2 color='#ED5935'/>
                     </button>
                     :
                     <button onClick={() => {
-                        if (item.included || check.hasCodes()) {
-                            setExpander(toggle.closeAll());
-                            item.included ? exclude(item) : include(item);
+                        if (chosen || codes?.codes?.length > 0) {
+                            setShow({none: true});
+                            chosen ? exclude(item.urn) : include(item.urn);
                         } else {
-                            setExpander(toggle.cannot());
+                            setShow(prev => {return {cannot: !prev.cannot};});
                         }
                     }}>
-                        {check.includible() && <PlusSquare color='#1A9D49'/>}
-                        {item.included && <MinusSquare color='#B6E8B8'/>}
-                        {!item.included && !check.hasCodes() && <XSquare color='#9272FC'/>}
+                        {!chosen && codes?.codes?.length > 0 && <PlusSquare color='#1A9D49'/>}
+                        {chosen && <MinusSquare color='#B6E8B8'/>}
+                        {!chosen && codes?.codes?.length === 0 && <XSquare color='#9272FC'/>}
                     </button>
                 }
             </div>
 
-            {expander.showAlert &&
+            {/*TODO: where item.error comes from?*/}
+            {show.alert &&
             <div style={{backgroundColor: 'AntiqueWhite'}}
                  className='panel'><Text>{item.error}</Text>
             </div>}
 
-            {expander.showCannot &&
+            {show.cannot &&
             <div style={{backgroundColor: '#ECE6FE'}}
                  className='panel'>
                 <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
 
-            {/* TODO limit the height and scroll*/}
-            {expander.showCodes && <Codes from={from} to={to} id={item.id}
-                                          codes={item.codes}
-                                          exclude={ () => exclude(item) }
-                                          include={ () => include(item) }
-                                          includeCodes={includeCodes}
-                                          excludeCodes={excludeCodes}
-                />
+            {/* TODO limit the height and scroll */}
+            {show.codes
+                && <Codes from={from} to={to} id={id}
+                          codes={codes?.codes}
+                          chosenCodes={chosenCodes}
+                          includeCodes={includeCodes}
+                          excludeCodes={excludeCodes}/>
             }
 
-            {/* TODO limit the height and scroll*/}
-            {expander.showInfo && <CodelistInfo id={item.id} info={metadata}/>}
+            {/* TODO limit the height and scroll */}
+            {/* TODO sort versions by date */}
+            {show.info
+                && <CodelistInfo id={id} info={metadata}/>}
         </>
     );
 };
 
-export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes}) => {
+export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
     const {t} = useTranslation();
 
-    // FIXME: magic number 35
+/*    // FIXME: magic number 35
     const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(35, codes.length)));
     useEffect(() => {
         if (renderedCodes?.length < codes.length){
             setTimeout(() => setRenderedCodes(codes),0);
         }
-    });
+    });*/
+
+    const {codesWithNotes} = useClassification(id);
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
@@ -196,7 +126,7 @@ export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes}) =>
                         : from || to ? ` ${t('at', { date: from || to})}:`
                             : ` (${t('Period is not set').toLocaleLowerCase()})`
                     }</div>
-                {!codes || codes.length < 1
+                {!codes || codes.length === 0
                     ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
@@ -208,10 +138,21 @@ export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes}) =>
                             </button>
                         </div>
 
-                        {renderedCodes.map((code, i) =>
-                            <CodeInfo key={i} id={id}
-                                      item={code}
-                                      onChange={(c) => c.included ? excludeCodes([c]) : includeCodes([c])}
+                        {codes.map(code => ({
+                            ...code,
+                            classificationId: id,
+                            validFromInRequestedRange: from,
+                            validToInRequestedRange: to,
+                            urn: code.urn || `urn:klass-api:classifications:${id}:code:${code.code}`
+                        }))
+                            .map((code, i) =>
+                                <CodeInfo key={i}
+                                          item={code}
+                                          notes={codesWithNotes.find(c => c.code === code.code)?.notes}
+                                          chosen={chosenCodes.find(c => c.urn === code.urn)}
+                                          toggle={() => chosenCodes.find(c => c.urn === code.urn)
+                                              ? excludeCodes([code])
+                                              : includeCodes([code])}
                             />)
                         }
                     </>
@@ -221,7 +162,7 @@ export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes}) =>
     );
 };
 
-export const CodeInfo = ({id, item, onChange}) => {
+export const CodeInfo = ({item, notes = [], chosen, toggle}) => {
     const {t} = useTranslation();
 
     const [showNotes, setShowNotes] = useState(false);
@@ -230,25 +171,25 @@ export const CodeInfo = ({id, item, onChange}) => {
         <>
             <div style={{display: 'flex'}}>
                 <div className='ssb-checkbox'>
-                    <input id={`${item.code}-${id}`}
+                    <input id={item.urn}
                            type='checkbox' name='include'
-                           checked={item.included}
+                           checked={chosen}
                            value={item.code}
-                           onChange={ () => onChange(item)}/>
+                           onChange={() => toggle()}/>
                     <label className='checkbox-label'
-                           htmlFor={`${item.code}-${id}`}>
+                           htmlFor={item.urn}>
                         <Text><strong>{item.code}</strong> {item.name}</Text>
                     </label>
                 </div>
-                <button onClick={() => setShowNotes(!showNotes)}>
-                    <MoreHorizontal color={item.notes?.length > 0 ? '#62919A' : '#C3DCDC'}/>
+                <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
+                    <MoreHorizontal color={notes.length > 0 ? '#62919A' : '#C3DCDC'}/>
                 </button>
             </div>
 
             {showNotes && <div>
-                {!item.notes || item.notes.length === 0
+                {notes.length === 0
                     ? <Text>{t('No notes found.')}</Text>
-                    : item.notes.map(note => (
+                    : notes.map(note => (
                         <div key={note} style={{padding: '10px 50px 20px 50px'}}>
                             <Title size={4}>{t('Notes')}</Title>
                             <div style={{width: '65%'}}

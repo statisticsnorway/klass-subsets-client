@@ -5,13 +5,14 @@ const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 export const URN = {
 
     toURL: (urn, from, to) => {
+        const today = !(from || to) && new Date().toISOString().substr(0, 10);
 
         // FIXME sanitize input - XSS is a threat!!!
         // For now it accepts letters, digits, % & # _ - . , etc
         // the code will be used to fetch data from the Klass API
         const codePattern = /urn:klass-api:classifications:[0-9]+:code:[\w]+/i;
 
-        if (codePattern.test(urn) && (from || to)) {
+        if (codePattern.test(urn)) {
             const [,,service,id,,code] = urn.split(':');
 
             return {
@@ -21,37 +22,59 @@ export const URN = {
                 classificationURN: `urn:klass-api:classifications:${id}`,
                 path: from && to
                     ? `/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
-                    : `/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`,
+                    : `/${service}/${id}/codesAt.json?date=${ from || to || today }&selectCodes=${code}`,
                 url: from && to
                 ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
-                : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}&selectCodes=${code}`
+                : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ from || to || today }&selectCodes=${code}`
             };
         }
 
         const classificationPattern = /urn:klass-api:classifications:[0-9]+/i;
 
         if (classificationPattern.test(urn)) {
-            const [,,service,id] = urn.split(':');
+            const [, , service, id] = urn.split(':');
 
-            if (from || to) {
-                return {
-                    service,
-                    id,
-                    path: from && to
-                        ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
-                        : `/${service}/${id}/codesAt.json?date=${from || to}`,
-                    url: from && to
-                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}`
-                        : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to}`
-                };
-            } else {
-                return {
-                    service,
-                    id,
-                    path: `/${service}/${id}`,
-                    url: `${klassApiServiceEndpoint}/${service}/${id}`
-                };
-            }
+            return {
+                service,
+                id,
+                path: `/${service}/${id}`,
+                codesPath: from && to
+                    ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
+                    : `/${service}/${id}/codesAt.json?date=${from || to || today}`,
+                url: `${klassApiServiceEndpoint}/${service}/${id}`,
+                codesUrl: from && to
+                    ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}`
+                    : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to || today}`
+            };
+        }
+
+        return {};
+    }
+};
+
+export const URL = {
+
+    toURN: (url, from, to) => {
+        const today = !(from || to) && new Date().toISOString().substr(0, 10);
+
+        // FIXME sanitize input - XSS is a threat!!!
+        // For now it accepts letters, digits, % & # _ - . , etc
+        // the code will be used to fetch data from the Klass API
+        // verify service end point
+        const classificationPattern = /https:\/\/data.ssb.no\/api\/klass\/v1\/classifications\/[0-9]+/i;
+
+        if (classificationPattern.test(url)) {
+            const [protocol,, domen, api, klass, version, service, id] = url.split('/');
+
+            return {
+                service,
+                id,
+                urn: `urn:klass-api:classifications:${id}`,
+                path: `/${service}/${id}`,
+                codesPath: from && to
+                    ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
+                    : `/${service}/${id}/codesAt.json?date=${from || to || today}`
+            };
         }
 
         return {};
@@ -114,7 +137,7 @@ export function useCode(origin) {
     const [codeData, setCodeData] = useState({
         ...origin,
         code,
-        classification: origin.classification || classificationId,
+        classification: classificationId,
         _links: {
             self: {
                 href: url
@@ -125,7 +148,7 @@ export function useCode(origin) {
     // FIXME handle errors
     const [targetCode] = useGet(code?.name ? null : path);
     useEffect(() => {
-        targetCode && setCodeData(prevCodeData => {
+        targetCode?.codes?.length > 1 && setCodeData(prevCodeData => {
             return {...prevCodeData, ...targetCode.codes[0]};
         });
     }, [targetCode]);
