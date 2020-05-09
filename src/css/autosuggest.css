@@ -7,7 +7,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    overflow: overlay;
+    overflow: auto;
     max-height: 250px;
 }
 .autocomplete-items div {

@@ -1,4 +1,6 @@
 .panel {
     padding: 15px;
     width: 600px;
+    overflow: auto;
+    max-height: 450px;
 }

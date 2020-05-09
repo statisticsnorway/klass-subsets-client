@@ -10,7 +10,7 @@ import {
     XSquare
 } from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
-import {useGet, URN, useCode, useClassification} from '../../controllers/klass-api';
+import {useGet, URN, useClassification} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
 import {replaceRef} from '../../utils/strings';
@@ -87,7 +87,6 @@ export const Classification = ({item = {}, from, to,
                 <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
 
-            {/* TODO limit the height and scroll */}
             {show.codes
                 && <Codes from={from} to={to} id={id}
                           codes={codes?.codes}
@@ -96,7 +95,6 @@ export const Classification = ({item = {}, from, to,
                           excludeCodes={excludeCodes}/>
             }
 
-            {/* TODO limit the height and scroll */}
             {/* TODO sort versions by date */}
             {show.info
                 && <CodelistInfo id={id} info={metadata}/>}
@@ -107,13 +105,13 @@ export const Classification = ({item = {}, from, to,
 export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
     const {t} = useTranslation();
 
-/*    // FIXME: magic number 35
+    // FIXME: magic number 35
     const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(35, codes.length)));
     useEffect(() => {
         if (renderedCodes?.length < codes.length){
             setTimeout(() => setRenderedCodes(codes),0);
         }
-    });*/
+    });
 
     const {codesWithNotes} = useClassification(id);
 
