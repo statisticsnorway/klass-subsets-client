@@ -34,7 +34,7 @@ export const Classification = ({item = {}, from, to,
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div style={{width: '400px'}}>{item.name || metadata.name}</div>
+                <div style={{width: '400px'}}>{item?.name || metadata?.name}</div>
 
                 <button onClick={() => item.error
                     && setShow(prev => {return {alert: !prev.alert};})}>

@@ -57,11 +57,11 @@ export const SubsetCodes = ({subset}) => {
                                             chosenCodes={draft.codes}
                                             chosen={origin.includes(c.urn)}
                                             include={ () => dispatch({
-                                                action: 'classifications_include',
+                                                action: 'codelist_include',
                                                 data: c.urn})
                                             }
                                             exclude={ () => dispatch({
-                                                action: 'classifications_exclude',
+                                                action: 'codelist_exclude',
                                                 data: c.urn})
                                             }
                                             includeCodes={ codes => dispatch({
@@ -88,7 +88,7 @@ export const SubsetCodes = ({subset}) => {
                                             chosenCodes={draft.codes}
                                             chosen={true}
                                             exclude={ () => dispatch({
-                                                action: 'classifications_exclude',
+                                                action: 'codelist_exclude',
                                                 data: urn})
                                             }
                                             includeCodes={ codes => dispatch({

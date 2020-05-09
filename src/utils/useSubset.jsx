@@ -48,7 +48,7 @@ export const useSubset = (init =  {
     }
 
     function extractClassifications(urns = [], codes = []) {
-        return urns.map(urn => ({
+        /*return urns.map(urn => ({
                 urn,
                 included: true,
                 codes: codes
@@ -59,7 +59,7 @@ export const useSubset = (init =  {
                     )
                     || []
             })
-        );
+        );*/
     }
 
     function subsetReducer(state, {action, data = {}}) {
@@ -131,12 +131,14 @@ export const useSubset = (init =  {
                     ...state,
                     classifications: [data, ...state.classifications]};
             }
-            case 'classifications_exclude': {
-                data.included = false;
-                data.codes.forEach(c => c.included = false);
-                return  {
-                    ...state,
-                    classifications: state.classifications.filter(c => c.included)};
+            case 'codelist_exclude': {
+                const origin = state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values;
+                state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values =
+                    origin.filter(urn => urn !== data);
+
+                const codes = state.codes.filter(c => !c.urn.startsWith(data));
+
+                return  {...state, codes};
             }
             case 'codes_include': {
                 data.classification.included = true;
@@ -170,7 +172,7 @@ export const useSubset = (init =  {
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
     // Error: A cross-origin error was thrown. React doesn't have access to the actual error object in development.
     // FIX: try catch
-    const [draft, dispatch] = useReducer(subsetReducer, init);
+    const [draft, dispatch] = useReducer(subsetReducer, initialize());
 
     // FIXME: runs on every draft update, should run once the hook is initialized in the context
     function initialize() {
@@ -182,7 +184,6 @@ export const useSubset = (init =  {
                 restored.validFrom?.substr(0, 10),
                 restored.validTo?.substr(0, 10)
             ));
-            console.log({codes});
 
             const annotation =
                 restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
