@@ -95,7 +95,6 @@ export const Classification = ({item = {}, from, to,
                           excludeCodes={excludeCodes}/>
             }
 
-            {/* TODO sort versions by date */}
             {show.info
                 && <CodelistInfo id={id} info={metadata}/>}
         </>
@@ -105,6 +104,7 @@ export const Classification = ({item = {}, from, to,
 export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
     const {t} = useTranslation();
 
+    // DOCME
     // FIXME: magic number 35
     const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(35, codes.length)));
     useEffect(() => {
@@ -190,8 +190,10 @@ export const CodeInfo = ({item, notes = [], chosen, toggle}) => {
                     : notes.map(note => (
                         <div key={note} style={{padding: '10px 50px 20px 50px'}}>
                             <Title size={4}>{t('Notes')}</Title>
-                            <div style={{width: '65%'}}
-                                 className='ssb-paragraph'
+                            <div style={{fontSize: '14px'}}
+                                 className='ssb-paragraph small'
+                                // DOCME
+                                // FIXME: find another way
                                  dangerouslySetInnerHTML={{__html: replaceRef(note.note)}}
                             />
                             <Text small>
@@ -219,7 +221,9 @@ export const CodelistInfo = ({id, info}) => {
                     <th>{t('To')}</th>
                     <th>{t('Version')}</th>
                 </tr>
-                {info.versions.map((version, i) => (
+                {info.versions
+                    .sort((a, b) => (a.validFrom > b.validFrom ? -1 : 0))
+                    .map((version, i) => (
                     <tr key={i}>
                         <td>{version.validFrom || '...'}</td>
                         <td>{version.validTo || '...'}</td>

@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react';
 
+// DOCME
 const subSetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;
+// DOCME
 const subSetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
 
 export function useGet(url = null) {
