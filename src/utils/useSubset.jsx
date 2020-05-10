@@ -3,25 +3,24 @@ import {nextDefaultName} from './languages';
 import {URN} from '../controllers/klass-api';
 
 export const useSubset = (init =  {
-    createdBy: '',
-    name: [],
-    validFrom: null,
-    validUntil: null,
-    administrativeDetails: [
-        {
-            administrativeDetailType: 'ANNOTATION',
-            values: []
-        },
-        {
-            administrativeDetailType: 'ORIGIN',
-            values: []
-        }
-    ],
-    description: [],
-    administrativeStatus: 'DRAFT',
-    codes: [],
-    classifications: []
-}
+        createdBy: '',
+        name: [],
+        validFrom: null,
+        validUntil: null,
+        administrativeDetails: [
+            {
+                administrativeDetailType: 'ANNOTATION',
+                values: []
+            },
+            {
+                administrativeDetailType: 'ORIGIN',
+                values: []
+            }
+        ],
+        description: [],
+        administrativeStatus: 'DRAFT',
+        codes: []
+    }
     ) => {
 
     function expandCode(source = {}, from = '', to = '') {
@@ -43,23 +42,8 @@ export const useSubset = (init =  {
         if (codes?.length === 0) return [...origin];
 
         const updated = new Set(origin);
-        codes.forEach(c => updated.add(c.classificationURN));
+        codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
         return [...updated];
-    }
-
-    function extractClassifications(urns = [], codes = []) {
-        /*return urns.map(urn => ({
-                urn,
-                included: true,
-                codes: codes
-                    .filter(code => code.urn.startsWith(urn))
-                    .map(code => ({
-                        ...code,
-                        included: true})
-                    )
-                    || []
-            })
-        );*/
     }
 
     function subsetReducer(state, {action, data = {}}) {
@@ -118,18 +102,15 @@ export const useSubset = (init =  {
                     description: state.description.filter(item => item.languageText?.length > 0)
                 };
             }
-            case 'classifications_from_origin': {
-                const classifications = extractClassifications(
-                    state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values,
-                    state.codes);
-                console.log({classifications});
-                return {...state, classifications};
-            }
-            case 'classifications_include': {
-                data.included = true;
+            case 'codelist_include': {
+                const annotation = state.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION');
+                const origin = state.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
+
+                origin.values = origin.values.find(v => v === data) ? origin.values : [data, ...origin.values];
                 return  {
                     ...state,
-                    classifications: [data, ...state.classifications]};
+                    administrativeDetails: [annotation, origin]
+                };
             }
             case 'codelist_exclude': {
                 const origin = state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values;
@@ -151,11 +132,6 @@ export const useSubset = (init =  {
                 }
                 return  {...state};
             }
-            case 'classifications_codes_update': {
-                console.log('classifications_codes_update', data.classification, data.codes);
-                data.classification.codes = data.codes;
-                return {...state};
-            }
             case 'codes_exclude': {
                 data.codes.forEach(c => c.included = false );
                 return  {...state};
@@ -175,15 +151,11 @@ export const useSubset = (init =  {
     const [draft, dispatch] = useReducer(subsetReducer, initialize());
 
     // FIXME: runs on every draft update, should run once the hook is initialized in the context
+    // FIXME: discard on non-valid draft and return init
     function initialize() {
         const restored = JSON.parse(sessionStorage.getItem('draft'));
         if (restored) {
             console.log({restored});
-            const codes = restored.codes?.map(code => expandCode(
-                code,
-                restored.validFrom?.substr(0, 10),
-                restored.validTo?.substr(0, 10)
-            ));
 
             const annotation =
                 restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
@@ -193,12 +165,10 @@ export const useSubset = (init =  {
                 restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN')
                 || init.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
 
-            origin.values = verifyOrigin(origin.values, codes);
-            console.log({origin});
+            origin.values = verifyOrigin(origin.values, restored.codes);
 
             restored.administrativeDetails = [ annotation, origin ]
         }
-
         return {...init, ...restored} || init;
     }
 
@@ -207,5 +177,4 @@ export const useSubset = (init =  {
     }, [draft]);
 
     return {draft, dispatch};
-
 };

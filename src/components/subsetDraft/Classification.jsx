@@ -55,7 +55,7 @@ export const Classification = ({item = {}, from, to,
                     ?
                     <button onClick={() => {
                         setShow({none: true});
-                        exclude(item.urn);
+                        exclude();
                     }}>
                         <Trash2 color='#ED5935'/>
                     </button>
@@ -63,7 +63,7 @@ export const Classification = ({item = {}, from, to,
                     <button onClick={() => {
                         if (chosen || codes?.codes?.length > 0) {
                             setShow({none: true});
-                            chosen ? exclude(item.urn) : include(item.urn);
+                            chosen ? exclude() : include();
                         } else {
                             setShow(prev => {return {cannot: !prev.cannot};});
                         }

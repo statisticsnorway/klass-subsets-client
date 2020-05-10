@@ -81,9 +81,10 @@ export const SubsetCodes = ({subset}) => {
             { draft.codes?.length === 0 && origin?.length === 0
                 ? <p>{t('No classifications in the subset draft')}</p>
                 : <ul className='list'>
-                    {origin.map((urn, index) =>
-                        <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={{urn}}
+                    {origin
+                        .map((urn, index) =>
+                            <li key={urn+index} style={{padding: '5px', width: '600px'}}>
+                                <Classification item={{urn}}
                                             to={to} from={from}
                                             chosenCodes={draft.codes}
                                             chosen={true}
@@ -100,8 +101,8 @@ export const SubsetCodes = ({subset}) => {
                                                 data: codes})
                                             }
                                             remove
-                            />
-                        </li>)}
+                                />
+                            </li>)}
                 </ul>
             }
         </>
