@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Search} from '../../utils/Search';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
+import {URL} from '../../controllers/klass-api';
 
 /*
  *  TODO: (test) mock for service
@@ -19,37 +20,12 @@ export const SubsetCodes = ({subset}) => {
     const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
 
     const { t } = useTranslation();
-    
+
     const from = draft.validFrom?.substr(0, 10);
     const to = draft.validUntil?.substr(0, 10);
+    const origin = draft.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN')?.values;
 
-    if (!draft.classifications || draft.classifications.length === 0) {
-        draft.administrativeDetails
-            .find(d => d.administrativeDetailType === 'ORIGIN')
-            .values.forEach(v => dispatch({
-                action: 'classifications_prepend_included',
-                data: [{ urn: v, included: true }]
-            }));
-    }
-
-    const [searchValues, setSearchValues] = useState([]); // list of classification names
-    const [searchResult, setSearchResult] = useState([]); // list of classifications with codes found
-    
-    useEffect(() => {
-        const result = searchValues
-            ? searchValues.map(v => draft.classifications.find(c => c.name === v.name) || v)
-            : [];
-        setSearchResult(result);
-    }, [searchValues]);
-
-    useEffect(() => {
-        dispatch({
-            action: 'classifications_prepend_included',
-            data: searchResult.filter(r => r.included)});
-        dispatch({
-            action: 'classifications_remove_excluded'
-        });
-    }, [searchResult]);
+    const [searchResult, setSearchResult] = useState([]);
 
     /* TODO: tooltips for classification icons */
     return (<>
@@ -62,39 +38,70 @@ export const SubsetCodes = ({subset}) => {
                     : `. ${t('Period is not set')}.`
             }
             </p>
-            <Search resource={classifications ? classifications._embedded.classifications : []}
-                    setChosen={(item) => setSearchValues(item)}
+            <Search resource={ classifications?._embedded?.classifications || []}
+                    setChosen={ items => setSearchResult(items) }
                     placeholder={t('Type classification name')}
-                    searchBy = {(input, resource) => input === '' ? [] : resource
+                    searchBy = { (input, resource) => input === '' ? [] : resource
                             .filter(i => i.name.toLowerCase()
                             .indexOf(input.toLowerCase()) > -1)}
             />
 
-            { searchResult.length < 1
+            { !searchResult && searchResult?.length === 0
                 ? <p>{t('Nothing is found')}</p>
-                : <ul className='list'>{searchResult.map((classification, index) =>
+                : <ul className='list'>
+                    {searchResult
+                    .map(c => (c.urn ? c : {...c, urn: URL.toURN(c._links?.self?.href).urn}))
+                    .map((c, index) => (
                         <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={classification}
-                                            to={to} from={from}
-                                            update={() => setSearchResult([...searchResult])}
-                        /></li>)}
+                            <Classification item={c} from={from} to={to}
+                                            chosenCodes={draft.codes}
+                                            chosen={origin.includes(c.urn)}
+                                            include={ () => dispatch({
+                                                action: 'codelist_include',
+                                                data: c.urn})
+                                            }
+                                            exclude={ () => dispatch({
+                                                action: 'codelist_exclude',
+                                                data: c.urn})
+                                            }
+                                            includeCodes={ codes => dispatch({
+                                                action: 'codes_include',
+                                                data: codes})
+                                            }
+                                            excludeCodes={ codes => dispatch({
+                                                action: 'codes_exclude',
+                                                data: codes})
+                                            }
+                        /></li>))}
                 </ul>
             }
 
             <Title size={3}>{t('Choose codes from classifications')}</Title>
 
-            { !draft.classifications || draft.classifications.length < 1
+            { draft.codes?.length === 0 && origin?.length === 0
                 ? <p>{t('No classifications in the subset draft')}</p>
-                : <ul className='list'>{draft.classifications.map((classification, index) =>
-                        <li key={index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={classification}
+                : <ul className='list'>
+                    {origin
+                        .map((urn, index) =>
+                            <li key={index} style={{padding: '5px', width: '600px'}}>
+                                <Classification item={{urn}}
                                             to={to} from={from}
-                                            update={() => setSearchResult([...searchResult])}
-                                            remove={() => {
-                                                classification.included = false;
-                                                setSearchResult([...searchResult]);
-                                            }}/>
-                        </li>)}
+                                            chosenCodes={draft.codes}
+                                            chosen={true}
+                                            exclude={ () => dispatch({
+                                                action: 'codelist_exclude',
+                                                data: urn})
+                                            }
+                                            includeCodes={ codes => dispatch({
+                                                action: 'codes_include',
+                                                data: codes})
+                                            }
+                                            excludeCodes={ codes => dispatch({
+                                                action: 'codes_exclude',
+                                                data: codes})
+                                            }
+                                />
+                            </li>)}
                 </ul>
             }
         </>

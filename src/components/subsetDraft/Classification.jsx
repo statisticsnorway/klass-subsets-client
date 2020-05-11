@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     AlertTriangle as Alert,
     Info,
@@ -10,168 +10,118 @@ import {
     XSquare
 } from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
-import {useGet, useClassification, URN} from '../../controllers/klass-api';
+import {useGet, URN, useClassification} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
-import {replaceRefWithHTMLAndSanitize} from '../../utils/strings';
+import {replaceRef} from '../../utils/strings';
 
-export const Classification = ({item = {}, update, remove, from, to}) => {
+export const Classification = ({item = {}, from, to,
+                                include, exclude, chosen,
+                                includeCodes, excludeCodes, chosenCodes
+                                }) => {
     const {t} = useTranslation();
 
-    const {classificationId} = URN.toURL(item?.urn);
+    const {id, path, codesPath} = URN.toURL(item?.urn, from, to);
 
-    item.id = classificationId || item._links?.self?.href?.split('/').pop();
-    // TODO use fallback and loader
-    const {metadata, codesWithNotes} = useClassification(item.id);
+    // TODO use fallback, loader, error
+    const [metadata] = useGet(path);
 
-    // TODO use fallback and loader
-    // FIXME show errors
-    const url = from && to
-        ? `/classifications/${item.id}/codes.json?from=${from}&to=${to}`
-        : `/classifications/${item.id}/codesAt.json?date=${from || to}`;
-    const [codes] = useGet(item.codes ? null : url);
-    useEffect(() => {
-        if (codes) {
-            item.codes = codes.codes;
-        }
-    }, [codes]);
+    // TODO use fallback, loader, error
+    const [codes] = useGet(codesPath);
 
-    useEffect(() => {
-        if (codes && codesWithNotes) {
-            item.codes.forEach(code =>
-                code.notes = codesWithNotes.find(c => code.name === c.name)?.notes || []
-            );
-        }
-    }, [codes, codesWithNotes]);
-
-    // TODO: outsource to useToggle()
-    const toggle = {
-        closeAll: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: false,
-            showInfo: false
-        }),
-        alert: () => ({
-            showAlert: !expander.showAlert,
-            showCodes: false,
-            showCannot: false,
-            showInfo: false
-        }),
-        codes: () => ({
-            showAlert: false,
-            showCodes: !expander.showCodes,
-            showCannot: false,
-            showInfo: false
-        }),
-        cannot: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: !expander.showCannot,
-            showInfo: false
-        }),
-        info: () => ({
-            showAlert: false,
-            showCodes: false,
-            showCannot: false,
-            showInfo: !expander.showInfo
-        })
-    };
-
-    const [expander, setExpander] = useState(toggle.closeAll());
-
-    const check = {
-        hasCodes: () => (item.codes && item.codes.length > 0),
-        includible: () => (!item.included && item.codes && item.codes.length > 0)
-    };
+    const [show, setShow] = useState({none: true});
 
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div style={{width: '400px'}}>{item.name || metadata.name}</div>
+                <div style={{width: '400px'}}>{item?.name || metadata?.name}</div>
 
-                <button onClick={() => item.error && setExpander(toggle.alert())}>
+                <button onClick={() => item.error
+                    && setShow(prev => {return {alert: !prev.alert};})}>
                     <Alert color={item.error ? 'orange' : 'transparent'}/>
                 </button>
 
-                {/*TODO: (test case) remove empty classification from draft.classification*/}
-                <button onClick={() => {
-                    if (item.included || check.hasCodes()) {
-                        setExpander(toggle.closeAll());
-                        item.included = !item.included;
-                        update();
-                    } else {
-                        setExpander(toggle.cannot());
-                    }
-                }}>
-                    {check.includible() && <PlusSquare color='#1A9D49'/>}
-                    {item.included && <MinusSquare color='#B6E8B8'/>}
-                    {!item.included && !check.hasCodes() && <XSquare color='#9272FC'/>}
+                <button onClick={() =>
+                    setShow(prev => {return {codes: !prev.codes};})}>
+                    <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'}/>
                 </button>
 
-                <button onClick={() => setExpander(toggle.codes())}>
-                    <ListIcon color={check.hasCodes() ? '#3396D2' : '#C3DCDC'}/>
+                <button onClick={() =>
+                    setShow(prev => {return {info: !prev.info};})}>
+                <Info color={metadata ? '#62919A' : '#C3DCDC'}/>
                 </button>
 
-                <button onClick={() => setExpander(toggle.info())}>
-                    <Info color={metadata ? '#62919A' : '#C3DCDC'}/>
-                </button>
-
-                {remove &&
-                <button onClick={() => {
-                    setExpander(toggle.closeAll());
-                    remove();
-                }}>
-                    <Trash2 color='#ED5935'/>
-                </button>
+                {include
+                    ?
+                    <button onClick={() => {
+                        if (chosen || codes?.codes?.length > 0) {
+                            setShow({none: true});
+                            chosen ? exclude() : include();
+                        } else {
+                            setShow(prev => {return {cannot: !prev.cannot};});
+                        }
+                    }}>
+                        {!chosen && codes?.codes?.length > 0 && <PlusSquare color='#1A9D49'/>}
+                        {chosen && <MinusSquare color='#B6E8B8'/>}
+                        {!chosen && codes?.codes?.length === 0 && <XSquare color='#9272FC'/>}
+                    </button>
+                    :
+                    <button onClick={() => {
+                        setShow({none: true});
+                        exclude();
+                    }}>
+                        <Trash2 color='#ED5935'/>
+                    </button>
                 }
             </div>
 
-            {expander.showAlert &&
+            {/*TODO: where item.error comes from?*/}
+            {show.alert &&
             <div style={{backgroundColor: 'AntiqueWhite'}}
                  className='panel'><Text>{item.error}</Text>
             </div>}
 
-            {expander.showCannot &&
-            <div style={{backgroundColor: '#ece6fe'}}
+            {show.cannot &&
+            <div style={{backgroundColor: '#ECE6FE'}}
                  className='panel'>
                 <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
 
-            {/* TODO limit the height and scroll*/}
-            {expander.showCodes && <Codes from={from} to={to} id={item.id}
-                                          codes={item.codes}
-                                          include={(o) => {
-                                              item.included = o ? true : item.included;
-                                              update();
-                                          }}/>
+            {show.codes
+                && <Codes id={id}
+                          codes={codes?.codes.map(code => ({
+                              ...code,
+                              classificationId: id,
+                              validFromInRequestedRange: from,
+                              validToInRequestedRange: to,
+                              urn: code.urn || `urn:klass-api:classifications:${id}:code:${code.code}`
+                          }))}
+                          chosenCodes={chosenCodes}
+                          includeCodes={includeCodes}
+                          excludeCodes={excludeCodes}/>
             }
 
-            {/* TODO limit the height and scroll*/}
-            {expander.showInfo && <CodelistInfo id={item.id} info={metadata}/>}
+            {show.info
+                && <CodelistInfo id={id} info={metadata}/>}
         </>
     );
 };
 
-export const Codes = ({from, to, codes = [], id, include}) => {
+export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
     const {t} = useTranslation();
 
-    const codesToLoadFirstRender = 35;
-
-    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(codesToLoadFirstRender, codes.length)));
-
-    const loadRest = () => {
-        if (renderedCodes.length < codes.length){
-            setTimeout(() => {
-                setRenderedCodes(codes);
-            },0);
-        }
-    };
-
+    // DOCME
+    // FIXME: magic number 35
+    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(35, codes.length)));
     useEffect(() => {
-        loadRest();
+        if (renderedCodes?.length < codes.length){
+            setTimeout(() => setRenderedCodes(codes),0);
+        }
     });
+    const {codesWithNotes} = useClassification(id);
 
+    const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
+    const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
@@ -182,33 +132,26 @@ export const Codes = ({from, to, codes = [], id, include}) => {
                         : from || to ? ` ${t('at', { date: from || to})}:`
                             : ` (${t('Period is not set').toLocaleLowerCase()})`
                     }</div>
-                {!codes || codes.length < 1
+                {!codes || codes.length === 0
                     ? <Text>{t('No codes found for this validity period')}</Text>
                     : <>
                         <div style={{padding: '5px'}}>
-                            <button onClick={() => {
-                                codes.forEach(code => code.included = true);
-                                include(true);
-                            }}>{t('All')}
+                            <button onClick={() => includeCodes(codes)}
+                                >{t('All')}
                             </button>
-                            <button onClick={() => {
-                                codes.forEach(code => code.included = false);
-                                include(false);
-                            }}>{t('None')}
-                            </button>
-                            <button onClick={() => {
-                                codes.forEach(code => code.included = !code.included);
-                                include(!!codes.find(c => c.included));
-                            }}>{t('Invert')}
+                            <button onClick={() => excludeCodes(codes)}
+                                >{t('None')}
                             </button>
                         </div>
 
-                        {renderedCodes.map((code, i) =>
-                            <CodeInfo key={i} id={id} item={code}
-                                      onChange={() => {
-                                          code.included = !code.included;
-                                          include(code.included);
-                                      }}
+                        {codes.map(code =>
+                            <CodeInfo key={code.urn}
+                                      item={code}
+                                      notes={codesWithNotes.find(c => c.code === code.code)?.notes}
+                                      chosen={chosenCodes.find(c => c.urn === code.urn)}
+                                      toggle={() => chosenCodes.find(c => c.urn === code.urn)
+                                          ? excludeCodes([code])
+                                          : includeCodes([code])}
                             />)
                         }
                     </>
@@ -218,7 +161,7 @@ export const Codes = ({from, to, codes = [], id, include}) => {
     );
 };
 
-export const CodeInfo = ({id, item, onChange}) => {
+export const CodeInfo = ({item, notes = [], chosen, toggle}) => {
     const {t} = useTranslation();
 
     const [showNotes, setShowNotes] = useState(false);
@@ -227,38 +170,36 @@ export const CodeInfo = ({id, item, onChange}) => {
         <>
             <div style={{display: 'flex'}}>
                 <div className='ssb-checkbox'>
-                    <input id={`${item.code}-${id}`}
+                    <input id={item.urn}
                            type='checkbox' name='include'
-                           checked={item.included}
+                           checked={chosen}
                            value={item.code}
-                           onChange={onChange}/>
+                           onChange={() => toggle()}/>
                     <label className='checkbox-label'
-                           htmlFor={`${item.code}-${id}`}>
+                           htmlFor={item.urn}>
                         <Text><strong>{item.code}</strong> {item.name}</Text>
                     </label>
                 </div>
-                <button onClick={() => {
-                    setShowNotes(!showNotes);
-                }}><MoreHorizontal color={item.notes?.length > 0 ? '#62919A' : '#C3DCDC'}/>
+                <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
+                    <MoreHorizontal color={notes.length > 0 ? '#62919A' : '#C3DCDC'}/>
                 </button>
             </div>
 
             {showNotes && <div>
-                {!item.notes || item.notes.length === 0
+                {notes.length === 0
                     ? <Text>{t('No notes found.')}</Text>
-                    : item.notes.map(note => (
-                        <div key={note} style={{
-                            padding: '10px 50px 20px 50px'
-                        }}>
+                    : notes.map(note => (
+                        <div key={note} style={{padding: '10px 50px 20px 50px'}}>
                             <Title size={4}>{t('Notes')}</Title>
-                            <div style={{width: '65%'}}
-                                 className='ssb-paragraph'
-                                 dangerouslySetInnerHTML={
-                                     {__html: replaceRefWithHTMLAndSanitize(note.note)}
-                                 }
+                            <div style={{fontSize: '14px'}}
+                                 className='ssb-paragraph small'
+                                // DOCME
+                                // FIXME: find another way
+                                 dangerouslySetInnerHTML={{__html: replaceRef(note.note)}}
                             />
-                            <Text
-                                small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                            <Text small>
+                                ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})
+                            </Text>
                         </div>))}
             </div>
             }
@@ -281,7 +222,9 @@ export const CodelistInfo = ({id, info}) => {
                     <th>{t('To')}</th>
                     <th>{t('Version')}</th>
                 </tr>
-                {info.versions.map((version, i) => (
+                {info.versions
+                    .sort((a, b) => (a.validFrom > b.validFrom ? -1 : 0))
+                    .map((version, i) => (
                     <tr key={i}>
                         <td>{version.validFrom || '...'}</td>
                         <td>{version.validTo || '...'}</td>

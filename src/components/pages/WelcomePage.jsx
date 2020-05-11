@@ -2,6 +2,7 @@ import React from 'react';
 import '../../css/pages.css';
 import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
+import {Edit} from 'react-feather';
 
 export default function WelcomePage() {
    const {t} = useTranslation();
@@ -21,14 +22,28 @@ export default function WelcomePage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.3.0</Title>
+               <Paragraph>Draft editing feature. To test: choose a subset, click on <Edit
+                   style={{color: '#ED5935', margin: '0 10px'}}/> icon in the title.</Paragraph>
+               <Paragraph>Internal app structure adjusted to Classification Subset's GSIM schema.</Paragraph>
+               <Paragraph>Simplified code list search results rendering. Prepared to let subsets be a part of search results.</Paragraph>
+               <Paragraph>Data typed in input fields and code changes are backed up in session storage.</Paragraph>
+               <Paragraph>Classification ID column with content on "Reorder codes" form step.</Paragraph>
+               <Paragraph>Code list versions are sorted on "Choose codes" form step in code list info's panel.</Paragraph>
+               <Paragraph>Scroll bar when too many codes in a code list.</Paragraph>
+               <Paragraph>Removed "reverse" button from code's check list.</Paragraph>
+               <Paragraph>Rearranged code list control buttons on "Choose codes" form step.</Paragraph>
+               <Paragraph>Subset status label on "Metadata" form step.</Paragraph>
+               <Paragraph>Bug fixes.</Paragraph>
+
            <Title size={4}>v0.2.5</Title>
-               <Paragraph>{t('Standard javascript date picker')}</Paragraph>
-               <Paragraph>{t('Code info and notes on subset page')}</Paragraph>
-               <Paragraph>{t('Scroll to top when next or prev clicked')}</Paragraph>
-               <Paragraph>{t('Load large lists of codes faster')}</Paragraph>
+               <Paragraph>Standard javascript date picker.</Paragraph>
+               <Paragraph>Code info and notes on subset page.</Paragraph>
+               <Paragraph>Scroll to top when "next" or "previous" button is clicked.</Paragraph>
+               <Paragraph>Load large lists of codes faster.</Paragraph>
 
            <Title size={4}>v0.2.4</Title>
-                <Paragraph>{t('Better codes and notes fetching')}</Paragraph>
+                <Paragraph>Better codes and notes fetching</Paragraph>
 
            <Title size={4}>v0.2.3</Title>
                <Paragraph>{t('Parentheses in search field are allowed')}</Paragraph>

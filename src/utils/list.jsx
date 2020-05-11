@@ -3,16 +3,17 @@ import '../css/list.css';
 import {Trash2} from 'react-feather';
 import {useTranslation} from 'react-i18next';
 import '../css/tooltip.css';
+import {URN, useCode} from '../controllers/klass-api';
 
-// TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
     const { t } = useTranslation();
     return (
         <>
             <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
-                <h6 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h6>
-                <h6 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h6>
-                <h6 className='rank-text-tooltip tooltip' style={{
+                <h5 style={{display: 'inline-block', width: '100px', marginBlockEnd: '0'}}>{t('Code')}</h5>
+                <h5 style={{display: 'inline-block', width: '90px', marginBlockEnd: '0'}}>{t('Classification')}</h5>
+                <h5 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h5>
+                <h5 className='rank-text-tooltip tooltip' style={{
                     display: 'inline',
                     position: 'absolute',
                     ariaLabel: 'notifications-label-rank',
@@ -20,18 +21,25 @@ export const List = ({list}) => {
                     marginBlockEnd: '0',
                     borderBottom: '1px dotted #274247'
                 }}>{t('Rank')}
-                <span className="rank-tooltip tooltiptext"  role="tooltip" id='notifications-label-rank'>{t('Code rank tooltip')}</span>
-                </h6>
+                <span className='rank-tooltip tooltiptext'
+                      role='tooltip'
+                      id='notifications-label-rank'>
+                    {t('Code rank tooltip')}
+                </span>
+                </h5>
             </div>
             <ul className='list' style={{paddingInlineStart: '0'}}>
-                {list.items.filter(i => i.included).map((item, i) =>
-                    <ListItem key={i} item={item} dispatch={(o) => list.dispatch(o)} />)}
+                {list.items.map((item, i) =>
+                    <ListItem key={i} item={item} dispatch={list.dispatch} />)}
             </ul>
         </>
     );
 };
 
 export const ListItem = ({item, dispatch}) => {
+
+    const codeData = useCode(item.name ? null : item);
+
     return (
         <li style={{padding: '5px 0px 5px 8px', display: 'flex', 
                     jusistyContent: 'space-between', maxWidth: '600px',
@@ -42,10 +50,12 @@ export const ListItem = ({item, dispatch}) => {
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
-            <div style={{width: '65px', marginRight: '10px'}}>{item.code}</div>
-            <div style={{width: '100%', marginRight: '5px'}} className='content'
+            <div style={{width: '150px', marginRight: '10px'}}>{item.code || codeData.code}</div>
+            <div style={{width: '150px', marginRight: '10px'}}>{item.classificationId || URN.toURL(item?.urn).classificationId}</div>
+            <div style={{width: '100%', marginRight: '5px'}}
+                 className='content'
                  onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
-                {item.name}
+                {item.name || codeData.name}
             </div>
             <Controls item={item} dispatch={dispatch}/>
         </li>
@@ -57,11 +67,9 @@ export const Controls = ({item, dispatch}) => {
         <span style={{display: 'flex', height: '100%'}}>
             <input type='number' name='rank' style={{textAlign: 'right', width: '35px', marginRight: '5px'}}
                    value={item.rank}
-                   onChange={(e) => {
-                       dispatch({action: 'rank', data: {item, rank: e.target.value}});
-                   }} />
+                   onChange={(e) => dispatch({action: 'rank', data: {item, rank: e.target.value}})} />
 
-            <button onClick={() => {dispatch({action: 'exclude', data: {item}});}}>
+            <button onClick={() => dispatch({action: 'exclude', data: {item}})}>
                 <Trash2 color='#ED5935'/>
             </button>
     </span>);
@@ -94,9 +102,7 @@ export const useList = (list = []) => {
                 return [...data];
             }
             case 'exclude': {
-                data.item.included = false;
-                delete data.item.rank;
-                return [...state];
+                return [...state.filter(i => i.urn !== data.item.urn)];
             }
             case 'rank': {
                 data.item.rank = data.rank;

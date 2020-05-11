@@ -3,12 +3,14 @@ import '../css/autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
 
 export const Search = ({ resource = [],
-    setChosen = (item) => console.log('chosen item:', item),
+    setChosen = () => {},
     placeholder = 'Type name',
     searchible = (item) => (item),
     searchBy = (input, source) => 
-        input === '' ? [] : source.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) > -1)
-}) => {
+        input === ''
+            ? []
+            : source.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) > -1)
+    }) => {
 
     const dom = useRef(null);
 
@@ -22,19 +24,27 @@ export const Search = ({ resource = [],
     };
 
     function keyHandler(e) {
-        const keys = { DOWN: 40, UP: 38, ENTER: 13 };
+        const keys = {
+            DOWN: 40,
+            UP: 38,
+            ENTER: 13
+        };
         switch (e.keyCode) {
             case keys.DOWN: {
                 setActive((active + 1) % suggestions.length);
                 break;
             }
             case keys.UP: {
-                setActive(active - 1 < 0 ? suggestions.length - 1 : active - 1);
+                setActive(active - 1 < 0
+                    ? suggestions.length - 1
+                    : active - 1);
                 break;
             }
             case keys.ENTER: {
                 e.preventDefault();
-                handleChoice(active === -1 ? searchInput : searchible(suggestions[parseInt(active)].name));
+                handleChoice(active === -1
+                    ? searchInput
+                    : searchible(suggestions[parseInt(active)].name));
                 break;
             }
             default: break;

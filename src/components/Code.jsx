@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Accordion, Text} from '@statisticsnorway/ssb-component-library';
-import {replaceRefWithHTMLAndSanitize} from '../utils/strings';
+import {replaceRef} from '../utils/strings';
 import {useCode} from '../controllers/klass-api';
 
 export const Code = ({origin}) => {
@@ -23,7 +23,11 @@ export const Code = ({origin}) => {
                 ? <Text>-</Text>
                 : code.notes.map((note, i) => (
                     <div key={i} style={{padding: '5px 25px 10px 25px'}}>
-                        <div style={{width: '65%'}} className='ssb-paragraph' dangerouslySetInnerHTML={ {__html: replaceRefWithHTMLAndSanitize(note.note) } } />
+                        <div style={{width: '65%'}}
+                             className='ssb-paragraph'
+                            // DOCME
+                            // FIXME: find another way
+                             dangerouslySetInnerHTML={ {__html: replaceRef(note.note) } } />
                         <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
                     </div>))}
         </Accordion>

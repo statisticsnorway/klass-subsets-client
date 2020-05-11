@@ -20,7 +20,6 @@ export const SubsetMetadata = ({subset}) => {
     const [classificationfamilies] = useGet('classificationfamilies.json');
 
     useEffect(() => {
-
         draft.name?.length === 0
             && dispatch({action: 'name_add'});
 
@@ -34,7 +33,11 @@ export const SubsetMetadata = ({subset}) => {
 
     return (
         <>
-            <Title size={3}>{t('Metadata')}</Title>
+            <Title size={3}>{t('Metadata')}
+                <span style={{fontSize: '14px', color: '#ED5935'}}>
+                    {`  ${draft.administrativeStatus || 'Draft'}`}
+                </span>
+            </Title>
             <TextLanguageFieldset title={t('Names')} items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}
                                   remove={(index) => dispatch({action: 'name_remove', data: index})}
