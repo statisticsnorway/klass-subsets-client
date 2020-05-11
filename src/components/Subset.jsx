@@ -69,7 +69,7 @@ export const SubsetBanner = ({subset}) => {
                 description => description.languageCode === 'nb')?.languageText || t('No description')}
             </p>
         </div>
-    )
+    );
 };
 
 export const Subsets = ({items}) => {

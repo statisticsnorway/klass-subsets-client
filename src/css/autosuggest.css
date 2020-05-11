@@ -1,16 +1,17 @@
 .autocomplete-items {
   position: absolute;
-  border: 1px solid #C3DCDC;
+  border: 1px solid #c3dcdc;
   border-top: none;
   z-index: 99;
 
-  /*position the autocomplete items to be the same width as the container:*/
+  /* position the autocomplete items to be the same width as the container: */
   top: 100%;
   left: 0;
   right: 0;
   overflow: auto;
   max-height: 250px;
 }
+
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;
@@ -18,12 +19,14 @@
   border-bottom: 1px solid #c3dcdc;
   width: 95%;
 }
+
 .autocomplete-items div:hover {
-  /*when hovering an item:*/
+  /* when hovering an item: */
   background-color: #b6e8b8;
 }
+
 .autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
+  /* when navigating through the items using the arrow keys: */
   background-color: #00824d !important;
   color: white;
 }

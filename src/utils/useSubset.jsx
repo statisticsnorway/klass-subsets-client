@@ -28,7 +28,7 @@ export const useSubset = (init =  {
         // TODO: if origin values are not empty, check if all values are valid URNs
 
         if (codes?.length === 0) {
-            return [...origin]
+            return [...origin];
         }
 
         const updated = new Set(origin);
