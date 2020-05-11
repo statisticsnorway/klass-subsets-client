@@ -100,7 +100,10 @@ export const useSubset = (init =  {
                     administrativeDetails: [annotation, origin]
                 };
             }
+            // DOCME: if a codelist is chosen, but no codes are checked,
+            //  the code list remains in the subset until it explicitly excluded.
             case 'codelist_exclude': {
+                console.log('exclude codes', {data});
                 const origin = state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values;
                 state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values =
                     origin.filter(urn => urn !== data);

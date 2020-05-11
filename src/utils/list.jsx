@@ -30,7 +30,7 @@ export const List = ({list}) => {
             </div>
             <ul className='list' style={{paddingInlineStart: '0'}}>
                 {list.items.map((item, i) =>
-                    <ListItem key={i} item={item} dispatch={(o) => list.dispatch(o)} />)}
+                    <ListItem key={i} item={item} dispatch={list.dispatch} />)}
             </ul>
         </>
     );
@@ -38,8 +38,7 @@ export const List = ({list}) => {
 
 export const ListItem = ({item, dispatch}) => {
 
-    // FIXME: does not work properly. Overwritten some where with undefined item
-    const codeData = useCode(item);
+    const codeData = useCode(item.name ? null : item);
 
     return (
         <li style={{padding: '5px 0px 5px 8px', display: 'flex', 
@@ -52,7 +51,8 @@ export const ListItem = ({item, dispatch}) => {
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
             <div style={{width: '65px', marginRight: '10px'}}>{item.code || codeData.code}</div>
-            <div style={{width: '100%', marginRight: '5px'}} className='content'
+            <div style={{width: '100%', marginRight: '5px'}}
+                 className='content'
                  onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
                 {item.name || codeData.name}
             </div>
@@ -66,11 +66,9 @@ export const Controls = ({item, dispatch}) => {
         <span style={{display: 'flex', height: '100%'}}>
             <input type='number' name='rank' style={{textAlign: 'right', width: '35px', marginRight: '5px'}}
                    value={item.rank}
-                   onChange={(e) => {
-                       dispatch({action: 'rank', data: {item, rank: e.target.value}});
-                   }} />
+                   onChange={(e) => dispatch({action: 'rank', data: {item, rank: e.target.value}})} />
 
-            <button onClick={() => {dispatch({action: 'exclude', data: {item}});}}>
+            <button onClick={() => dispatch({action: 'exclude', data: {item}})}>
                 <Trash2 color='#ED5935'/>
             </button>
     </span>);
@@ -103,9 +101,7 @@ export const useList = (list = []) => {
                 return [...data];
             }
             case 'exclude': {
-                data.item.included = false;
-                delete data.item.rank;
-                return [...state];
+                return [...state.filter(i => i.urn !== data.item.urn)];
             }
             case 'rank': {
                 data.item.rank = data.rank;

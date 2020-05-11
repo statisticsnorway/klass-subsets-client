@@ -16,7 +16,7 @@ import {useTranslation} from 'react-i18next';
 import {replaceRef} from '../../utils/strings';
 
 export const Classification = ({item = {}, from, to,
-                                include, exclude, chosen, 
+                                include, exclude, chosen,
                                 includeCodes, excludeCodes, chosenCodes
                                 }) => {
     const {t} = useTranslation();
