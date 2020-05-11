@@ -27,7 +27,9 @@ export const useSubset = (init =  {
 
         // TODO: if origin values are not empty, check if all values are valid URNs
 
-        if (codes?.length === 0) return [...origin];
+        if (codes?.length === 0) {
+            return [...origin]
+        }
 
         const updated = new Set(origin);
         codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
@@ -103,7 +105,6 @@ export const useSubset = (init =  {
             // DOCME: if a codelist is chosen, but no codes are checked,
             //  the code list remains in the subset until it explicitly excluded.
             case 'codelist_exclude': {
-                console.log('exclude codes', {data});
                 const origin = state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values;
                 state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values =
                     origin.filter(urn => urn !== data);
@@ -155,7 +156,6 @@ export const useSubset = (init =  {
     function initialize() {
         const restored = JSON.parse(sessionStorage.getItem('draft'));
         if (restored) {
-            console.log({restored});
 
             const annotation =
                 restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
@@ -167,7 +167,7 @@ export const useSubset = (init =  {
 
             origin.values = verifyOrigin(origin.values, restored.codes);
 
-            restored.administrativeDetails = [ annotation, origin ]
+            restored.administrativeDetails = [ annotation, origin ];
         }
         return {...init, ...restored} || init;
     }
