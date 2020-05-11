@@ -3,6 +3,7 @@
   border: 1px solid #C3DCDC;
   border-top: none;
   z-index: 99;
+
   /*position the autocomplete items to be the same width as the container:*/
   top: 100%;
   left: 0;
@@ -14,15 +15,15 @@
   padding: 10px;
   cursor: pointer;
   background-color: white;
-  border-bottom: 1px solid #C3DCDC;
+  border-bottom: 1px solid #c3dcdc;
   width: 95%;
 }
 .autocomplete-items div:hover {
   /*when hovering an item:*/
-  background-color: #B6E8B8;
+  background-color: #b6e8b8;
 }
 .autocomplete-active {
   /*when navigating through the items using the arrow keys:*/
-  background-color: #00824D !important;
+  background-color: #00824d !important;
   color: white;
 }
