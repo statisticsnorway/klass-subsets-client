@@ -83,7 +83,7 @@ export const SubsetCodes = ({subset}) => {
                 : <ul className='list'>
                     {origin
                         .map((urn, index) =>
-                            <li key={urn+index} style={{padding: '5px', width: '600px'}}>
+                            <li key={index} style={{padding: '5px', width: '600px'}}>
                                 <Classification item={{urn}}
                                             to={to} from={from}
                                             chosenCodes={draft.codes}
@@ -100,7 +100,6 @@ export const SubsetCodes = ({subset}) => {
                                                 action: 'codes_exclude',
                                                 data: codes})
                                             }
-                                            remove
                                 />
                             </li>)}
                 </ul>

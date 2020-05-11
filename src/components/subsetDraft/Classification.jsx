@@ -16,7 +16,7 @@ import {useTranslation} from 'react-i18next';
 import {replaceRef} from '../../utils/strings';
 
 export const Classification = ({item = {}, from, to,
-                                include, exclude, chosen, remove,
+                                include, exclude, chosen, 
                                 includeCodes, excludeCodes, chosenCodes
                                 }) => {
     const {t} = useTranslation();
@@ -51,15 +51,8 @@ export const Classification = ({item = {}, from, to,
                 <Info color={metadata ? '#62919A' : '#C3DCDC'}/>
                 </button>
 
-                {remove
+                {include
                     ?
-                    <button onClick={() => {
-                        setShow({none: true});
-                        exclude();
-                    }}>
-                        <Trash2 color='#ED5935'/>
-                    </button>
-                    :
                     <button onClick={() => {
                         if (chosen || codes?.codes?.length > 0) {
                             setShow({none: true});
@@ -71,6 +64,13 @@ export const Classification = ({item = {}, from, to,
                         {!chosen && codes?.codes?.length > 0 && <PlusSquare color='#1A9D49'/>}
                         {chosen && <MinusSquare color='#B6E8B8'/>}
                         {!chosen && codes?.codes?.length === 0 && <XSquare color='#9272FC'/>}
+                    </button>
+                    :
+                    <button onClick={() => {
+                        setShow({none: true});
+                        exclude();
+                    }}>
+                        <Trash2 color='#ED5935'/>
                     </button>
                 }
             </div>
@@ -88,8 +88,14 @@ export const Classification = ({item = {}, from, to,
             </div>}
 
             {show.codes
-                && <Codes from={from} to={to} id={id}
-                          codes={codes?.codes}
+                && <Codes id={id}
+                          codes={codes?.codes.map(code => ({
+                              ...code,
+                              classificationId: id,
+                              validFromInRequestedRange: from,
+                              validToInRequestedRange: to,
+                              urn: code.urn || `urn:klass-api:classifications:${id}:code:${code.code}`
+                          }))}
                           chosenCodes={chosenCodes}
                           includeCodes={includeCodes}
                           excludeCodes={excludeCodes}/>
@@ -101,7 +107,7 @@ export const Classification = ({item = {}, from, to,
     );
 };
 
-export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
+export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
     const {t} = useTranslation();
 
     // DOCME
@@ -112,8 +118,10 @@ export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes, cho
             setTimeout(() => setRenderedCodes(codes),0);
         }
     });
-
     const {codesWithNotes} = useClassification(id);
+
+    const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
+    const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
 
     return (
         <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
@@ -136,21 +144,14 @@ export const Codes = ({from, to, codes = [], id, includeCodes, excludeCodes, cho
                             </button>
                         </div>
 
-                        {codes.map(code => ({
-                            ...code,
-                            classificationId: id,
-                            validFromInRequestedRange: from,
-                            validToInRequestedRange: to,
-                            urn: code.urn || `urn:klass-api:classifications:${id}:code:${code.code}`
-                        }))
-                            .map((code, i) =>
-                                <CodeInfo key={i}
-                                          item={code}
-                                          notes={codesWithNotes.find(c => c.code === code.code)?.notes}
-                                          chosen={chosenCodes.find(c => c.urn === code.urn)}
-                                          toggle={() => chosenCodes.find(c => c.urn === code.urn)
-                                              ? excludeCodes([code])
-                                              : includeCodes([code])}
+                        {codes.map(code =>
+                            <CodeInfo key={code.urn}
+                                      item={code}
+                                      notes={codesWithNotes.find(c => c.code === code.code)?.notes}
+                                      chosen={chosenCodes.find(c => c.urn === code.urn)}
+                                      toggle={() => chosenCodes.find(c => c.urn === code.urn)
+                                          ? excludeCodes([code])
+                                          : includeCodes([code])}
                             />)
                         }
                     </>

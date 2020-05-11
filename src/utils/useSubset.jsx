@@ -23,18 +23,6 @@ export const useSubset = (init =  {
     }
     ) => {
 
-    function expandCode(source = {}, from = '', to = '') {
-            const {code, classificationId, classificationURN} = URN.toURL(source.urn, from, to);
-            return {
-                ...source,
-                code,
-                classificationId,
-                classificationURN,
-                validFromInRequestedRange: from,
-                validToInRequestedRange: to
-            }
-    }
-
     function verifyOrigin(origin = [], codes = []) {
 
         // TODO: if origin values are not empty, check if all values are valid URNs
@@ -122,19 +110,18 @@ export const useSubset = (init =  {
                 return  {...state, codes};
             }
             case 'codes_include': {
-                data.classification.included = true;
-                data.codes.forEach(c => c.included = true );
-
-                if (!state.classifications.find(c => c.name === data.classification.name)) {
-                    state.classifications = [
-                        data.classification,
-                        ...state.classifications];
-                }
-                return  {...state};
+                const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
+                const administrativeDetails = updateOrigin(state.administrativeDetails, candidates);
+                return  {
+                    ...state,
+                    administrativeDetails,
+                    codes: [...state.codes, ...candidates]};
             }
             case 'codes_exclude': {
-                data.codes.forEach(c => c.included = false );
-                return  {...state};
+                const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
+                return  {
+                    ...state,
+                    codes: [...candidates]};
             }
             case 'reset': {
                 sessionStorage.removeItem('draft');
@@ -143,6 +130,16 @@ export const useSubset = (init =  {
             default:
                 return state;
         }
+    }
+
+    // TESTME
+    function updateOrigin(administrativeDetails, codes) {
+        const annotation = administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION');
+        const origin = administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
+
+        origin.values = verifyOrigin(origin.values, codes);
+
+        return [annotation, origin];
     }
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
