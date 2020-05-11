@@ -77,5 +77,5 @@ export const Subsets = ({items}) => {
         <>{items?.length > 0 &&
             items.map((subset, i) => (<SubsetBanner key={i} subset={subset} />))}
         </>
-    )
+    );
 };
