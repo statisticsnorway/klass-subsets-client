@@ -4,9 +4,9 @@ import {PlusSquare, Trash2} from 'react-feather';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
-                                         handle = (data) => console.log(data),
-                                         add = () => console.log('+'),
-                                         remove = (index) => console.log('-', index)}) => {
+                                         handle = (data) => {},
+                                         add = () => {},
+                                         remove = (index) => {}}) => {
 
     const languages = availableLanguages();
     disableUsed(languages, items.map(name => name.languageCode));
