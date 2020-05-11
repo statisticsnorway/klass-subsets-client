@@ -3,15 +3,15 @@ import '../css/list.css';
 import {Trash2} from 'react-feather';
 import {useTranslation} from 'react-i18next';
 import '../css/tooltip.css';
-import {useCode} from '../controllers/klass-api';
+import {URN, useCode} from '../controllers/klass-api';
 
-// TODO: show more data on item component (info block, date, etc?)
 export const List = ({list}) => {
     const { t } = useTranslation();
     return (
         <>
             <div style={{display: 'relative', width: '600px', padding: '5px', position: 'relative'}}>
-                <h5 style={{display: 'inline-block', width: '60px', marginBlockEnd: '0'}}>{t('Code')}</h5>
+                <h5 style={{display: 'inline-block', width: '100px', marginBlockEnd: '0'}}>{t('Code')}</h5>
+                <h5 style={{display: 'inline-block', width: '90px', marginBlockEnd: '0'}}>{t('Classification')}</h5>
                 <h5 style={{display: 'inline', marginBlockEnd: '0'}}>{t('Code name')}</h5>
                 <h5 className='rank-text-tooltip tooltip' style={{
                     display: 'inline',
@@ -50,7 +50,8 @@ export const ListItem = ({item, dispatch}) => {
             onDragStart={() => dispatch({action: 'dragged', data: item})}
             onDragEnd={() => dispatch({action: 'dropped', data: item})}
         >
-            <div style={{width: '65px', marginRight: '10px'}}>{item.code || codeData.code}</div>
+            <div style={{width: '150px', marginRight: '10px'}}>{item.code || codeData.code}</div>
+            <div style={{width: '150px', marginRight: '10px'}}>{item.classificationId || URN.toURL(item?.urn).classificationId}</div>
             <div style={{width: '100%', marginRight: '5px'}}
                  className='content'
                  onClick={() => dispatch({action: 'toggle_dragged', data: item})}>
