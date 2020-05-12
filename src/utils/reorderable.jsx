@@ -22,7 +22,11 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                             <td>{item.code || 'code'}</td>
                             <td>{item.classificationID || 'ID'}</td>
                             <td style={{width: '65%'}}>{item.urn || 'name'}</td>
-                            <td>{item.rank}</td>
+                            <td>{item.rank}
+                                <button onClick={() => rerank(item, 1)}>
+                                    <Trash2 color='#ED5935'/>
+                                </button>
+                            </td>
                             <td>
                                 <button onClick={() => remove([item])}>
                                     <Trash2 color='#ED5935'/>

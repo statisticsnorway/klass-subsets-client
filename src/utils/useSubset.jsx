@@ -127,6 +127,15 @@ export const useSubset = (init =  {
                     ...state,
                     codes: [...candidates]};
             }
+            case 'codes_rerank': {
+                const reranked = state.codes?.find(c => c.urn === data.code.urn);
+                if (reranked) {
+                    reranked.rank = data.rank;
+                }
+                return  {
+                    ...state,
+                    codes: reorder([...state.codes])};
+            }
             case 'reset': {
                 sessionStorage.removeItem('draft');
                 return init;
@@ -134,6 +143,20 @@ export const useSubset = (init =  {
             default:
                 return state;
         }
+    }
+
+    function reorder(list) {
+        if (list?.length > 0) {
+            list.sort((a, b) => (a.rank - b.rank -1));
+        }
+        return rerank(list);
+    }
+
+    function rerank(list) {
+        return list.map((item, i) => ({
+            ...item,
+            rank: i + 1
+        }));
     }
 
     // TESTME
