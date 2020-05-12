@@ -52,3 +52,12 @@ th, td {
   border-bottom: 1px solid #ddd;
   padding: 4px 8px;
 }
+
+.for_screen_readers {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

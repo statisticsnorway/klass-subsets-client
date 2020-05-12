@@ -69,9 +69,7 @@ export const Controls = ({item, dispatch}) => {
                    value={item.rank}
                    onChange={(e) => dispatch({action: 'rank', data: {item, rank: e.target.value}})} />
 
-            <button onClick={() => dispatch({action: 'exclude', data: {item}})}>
-                <Trash2 color='#ED5935'/>
-            </button>
+
     </span>);
 };
 
