@@ -122,12 +122,7 @@ export const useSubset = (init =  {
                     codes: [...state.codes, ...candidates]};
             }
             case 'codes_exclude': {
-                console.log('codes_exclude', data);
-
-                const candidates = state.codes.filter(c => !data.find(s => {
-                    console.log('s === c', s.urn, ' === ', c.urn);
-                    return s.urn === c.urn;
-                }));
+                const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
                 return  {
                     ...state,
                     codes: [...candidates]};

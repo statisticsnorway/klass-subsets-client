@@ -16,12 +16,9 @@ export const SubsetReorder = ({subset}) => {
                                action: 'codes_rerank',
                                data: codes})
                            }
-                           remove={ codes => {
-                               console.log('declarated', codes);
-                               dispatch({
-                                   action: 'codes_exclude',
-                                   data: codes});
-                           }
+                           remove={ codes => dispatch({
+                               action: 'codes_exclude',
+                               data: codes})
                            }
             />
         }
