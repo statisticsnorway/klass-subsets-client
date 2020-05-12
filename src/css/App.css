@@ -44,6 +44,8 @@
 
 button {
   cursor: pointer;
+  background: none;
+  border: none;
 }
 
 th, td {

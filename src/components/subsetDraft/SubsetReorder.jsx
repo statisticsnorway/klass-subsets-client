@@ -1,19 +1,29 @@
 import React from 'react';
-import {List, useList} from '../../utils/list';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
+import {Reorderable} from '../../utils/reorderable';
 
 export const SubsetReorder = ({subset}) => {
+    const {draft, dispatch} = subset;
     const { t } = useTranslation();
 
-    const codes = useList(subset.draft?.codes);
-
-    // TODO: show more data on item component (info block, date, etc?)
     return (<>
-            <Title size={3}>{t('Reorder codes')}</Title>
-            {codes?.items?.length > 0
-                ? <List list={codes}/>
-                : <p>{t('No items to sort')}</p>}
-            <br/><br/>
+        <Title size={3}>{t('Reorder codes')}</Title>
+        {draft.codes?.length === 0
+            ? <p>{t('No items to sort')}</p>
+            : <Reorderable list={draft.codes}
+                           rerank={ codes => dispatch({
+                               action: 'codes_rerank',
+                               data: codes})
+                           }
+                           remove={ codes => {
+                               console.log('declarated', codes);
+                               dispatch({
+                                   action: 'codes_exclude',
+                                   data: codes});
+                           }
+                           }
+            />
+        }
      </>);
 };
