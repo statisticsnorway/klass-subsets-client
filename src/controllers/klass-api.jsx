@@ -138,7 +138,7 @@ export function useCode(origin) {
     const [codeData, setCodeData] = useState({
         ...origin,
         code,
-        classification: classificationId,
+        classificationId,
         _links: {
             self: {
                 href: url

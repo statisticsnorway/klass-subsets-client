@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Trash2, Repeat, ChevronUp, ChevronDown} from 'react-feather';
+import {useCode} from "../controllers/klass-api";
 
 export const Reorderable = ({list = [], rerank, remove}) => {
     const { t } = useTranslation();
@@ -11,7 +12,7 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                 <tbody>
                 <tr>
                     <th>{t('Code')}</th>
-                    <th>{t('Classification')}</th>
+                    <th style={{textAlign: 'right'}}>{t('Classification')}</th>
                     <th>{t('Code name')}</th>
                     <th>{t('Rank')}</th>
                     <th>{t('Remove')}</th>
@@ -23,7 +24,6 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                                        item={item}
                                        remove={remove}
                                        rerank={rerank}
-                                       maxRank={list.length}
                         />
                     ))
                 }
@@ -33,27 +33,31 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank, maxRank}) => {
+export const ReordableItem = ({item = {}, remove, rerank}) => {
 
     const [rank, setRank] = useState(item.rank);
+    const codeData = useCode(item.name ? null : item);
+
+    useEffect(() => console.log({codeData}), [codeData]);
+
     const keys = {
         ENTER: 13,
         SPACE: 32
     };
     return(
         <tr>
-            <td>{item.code || 'code'}</td>
-            <td>{item.classificationID || 'ID'}</td>
-            <td style={{width: '65%'}}>{item.urn || 'name'}</td>
+            <td>{codeData.code || item.code || '-'}</td>
+            <td style={{textAlign: 'right'}}>{codeData.classificationId || item.classificationId}</td>
+            <td style={{width: '65%'}}>{codeData.name || item.name || item.urn}</td>
             <td>
                 <span style={{display: 'inline-block', width: '40px'}}>
 
                     <button onClick={() => rerank(item, item.rank-1)}>
-                        <ChevronUp color={ item.rank === 1 ? '#ECFEED' : '#1A9D49'}/>
+                        <ChevronUp color='#1A9D49'/>
                     </button>
 
                     <button onClick={() => rerank(item, item.rank+1)}>
-                        <ChevronDown color={ item.rank === maxRank ? '#ECFEED' : '#1A9D49'}/>
+                        <ChevronDown color='#1A9D49'/>
                     </button>
 
                 </span>

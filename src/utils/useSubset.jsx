@@ -116,10 +116,11 @@ export const useSubset = (init =  {
             case 'codes_include': {
                 const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
                 const administrativeDetails = updateOrigin(state.administrativeDetails, candidates);
+
                 return  {
                     ...state,
                     administrativeDetails,
-                    codes: [...state.codes, ...candidates]};
+                    codes: [...candidates, ...state.codes]};
             }
             case 'codes_exclude': {
                 const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
