@@ -22,6 +22,9 @@ export default function WelcomePage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.3.1</Title>
+                <Paragraph>Corrected copyright year and footer styling.</Paragraph>
+
            <Title size={4}>v0.3.0</Title>
                <Paragraph>Draft editing feature. To test: choose a subset, click on <Edit
                    style={{color: '#ED5935', margin: '0 10px'}}/> icon in the title.</Paragraph>
