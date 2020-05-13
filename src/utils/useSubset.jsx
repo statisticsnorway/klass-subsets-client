@@ -120,13 +120,13 @@ export const useSubset = (init =  {
                 return  {
                     ...state,
                     administrativeDetails,
-                    codes: [...candidates, ...state.codes]};
+                    codes: reorder([...candidates, ...state.codes])}
             }
             case 'codes_exclude': {
                 const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
                 return  {
                     ...state,
-                    codes: [...candidates]};
+                    codes: reorder([...candidates])};
             }
             case 'codes_rerank': {
                 const reranked = state.codes?.find(c => c.urn === data.code.urn);

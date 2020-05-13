@@ -36,16 +36,25 @@ export const Reorderable = ({list = [], rerank, remove}) => {
 export const ReordableItem = ({item = {}, remove, rerank}) => {
 
     const [rank, setRank] = useState(item.rank);
+    const [background, setBackground] = useState('#ECFEED');
     const codeData = useCode(item.name ? null : item);
 
     useEffect(() => console.log({codeData}), [codeData]);
+    useEffect(() => {
+        function fade() {
+            setBackground('white');
+        }
+        setTimeout(fade, 500)}, []);
 
     const keys = {
         ENTER: 13,
         SPACE: 32
     };
     return(
-        <tr>
+        <tr style={{backgroundColor: background}}
+            onMouseOver={() => setBackground('#ECFEED')}
+            onMouseOut={() => setBackground('white')}>
+            
             <td>{codeData.code || item.code || '-'}</td>
             <td style={{textAlign: 'right'}}>{codeData.classificationId || item.classificationId}</td>
             <td style={{width: '65%'}}>{codeData.name || item.name || item.urn}</td>
