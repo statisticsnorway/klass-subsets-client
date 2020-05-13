@@ -129,6 +129,7 @@ export function useGet(url = null) {
     return [data, isLoading, error, setPath];
 }
 
+// FIXME: do nothing if null
 export function useCode(origin) {
     const {code, classificationId, path, url} = URN.toURL(
         origin?.urn,
