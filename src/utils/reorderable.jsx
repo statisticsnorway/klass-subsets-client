@@ -10,13 +10,11 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     const [dropTarget, setDropTarget] = useState();
     const [dragTargets, setDragTargets] = useState([]);
 
-    useEffect(() => console.log({dragTargets}), [dragTargets]);
-
     return (
         <>
             <table style={{ borderCollapse: 'collapse'}}
-                   //onDragCapture={() => console.log('draG capture')}
-                   //onDragEndCapture={(e) => console.log('drag END capture', e.target)}
+                   onDragEndCapture={() => setDragTargets([])}
+                   onDoubleClickCapture={() => setDragTargets([])}
             >
                 <tbody>
                 <tr>
@@ -30,18 +28,22 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                     .map((item, i) => (
                         <ReordableItem key={item.urn+i}
                                        item={item}
+
                                        remove={remove}
                                        rerank={rerank}
-                                       onDragEnter={(item) => setDropTarget(item)}
+
+                                       onDragEnter={item => setDropTarget(item)}
                                        onDragEnd={() => rerank(dragTargets, dropTarget.rank)}
-                                       toggleDragTarget={(item) => {
+
+                                       isDragTarget={dragTargets.find(t => t.urn === item.urn)}
+                                       toggleDragTarget={dragTarget =>
                                            setDragTargets(prevTargets => {
-                                               return prevTargets.find(t => t.urn === item.urn)
-                                                   ? prevTargets.filter(t => t.urn !== item.urn)
-                                                   : [...prevTargets, item]
+                                               return prevTargets.find(t => t.urn === dragTarget.urn)
+                                                   ? prevTargets.filter(t => t.urn !== dragTarget.urn)
+                                                   : [...prevTargets, dragTarget]
                                            })
-                                       }}
-                                       isTarget={dragTargets.find(t => t.urn === item.urn)}
+                                       }
+                                       setDragTarget={dragTarget => setDragTargets(prev => [...prev, dragTarget])}
                         />
                     ))
                 }
@@ -51,10 +53,12 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter, toggleDragTarget, isTarget}) => {
+export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter, toggleDragTarget, isDragTarget, setDragTarget}) => {
 
     const [rank, setRank] = useState(item.rank);
     const [background, setBackground] = useState('#ECFEED');
+
+    // TODO: cache fetched data in session storage
     const codeData = useCode(item.name ? null : item);
 
     useEffect(() => {
@@ -68,21 +72,27 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
         SPACE: 32
     };
     return(
-        <tr style={{background: isTarget ? 'lightgray' : background}}
+        <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
 
-/*            onMouseOver={() => setBackground('#ECFEED')}
+            onMouseOver={() => setBackground('#ECFEED')}
             onMouseOut={() => setBackground('white')}
-            */
 
             draggable={true}
+
+            onDragStart={() => setDragTarget(item)}
 
             onDragEnd={(e) => {
                 onDragEnd(item);
             }}
 
-            onDragEnter={() => {
+            onDragEnter={(event) => {
+                event.currentTarget.style.backgroundColor = '#ECFEED';
                 onDragEnter(item);
             }}
+
+            onDragLeave={(event) =>
+                event.currentTarget.style.backgroundColor = 'white'
+            }
 
             onClick={() => toggleDragTarget(item)}
         >
@@ -92,11 +102,17 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
             <td>
                 <span style={{display: 'inline-block', width: '40px'}}>
 
-                    <button onClick={() => rerank([item], item.rank-1)}>
+                    <button onClick={(event) => {
+                        event.stopPropagation();
+                        rerank([item], item.rank - 1);
+                    }}>
                         <ChevronUp size={16} color='#1A9D49'/>
                     </button>
 
-                    <button onClick={() => rerank([item], item.rank+1)}>
+                    <button onClick={(event) => {
+                        event.stopPropagation();
+                        rerank([item], item.rank + 1);
+                    }}>
                         <ChevronDown size={16} color='#1A9D49'/>
                     </button>
 
@@ -130,7 +146,8 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
                        }}
                 />
 
-                <button onClick={() => {
+                <button onClick={(event) => {
+                    event.stopPropagation();
                     if (!rank || rank === '-') {
                         setRank(item.rank);
                     } else {
@@ -139,115 +156,6 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
                 }}>
                     <Repeat color={item.rank === rank ? '#F0F8F9' : '#62919A'}/>
                 </button>
-            </td>
-            <td>
-                <button onClick={() => remove([item])}>
-                    <Trash2 color='#ED5935'/>
-                </button>
-            </td>
-        </tr>
-    );
-};
-export const ReordableItem2 = ({item = {}, remove, rerank, exchangeRank, onDragEnter}) => {
-
-    const [rank, setRank] = useState(item.rank);
-    const [background, setBackground] = useState('#ECFEED');
-    const [dragStart, setDragStart] = useState(false);
-    const codeData = useCode(item.name ? null : item);
-
-    useEffect(() => {
-        function fade() {
-            setBackground('white');
-        }
-        setTimeout(fade, 500)}, []);
-
-    const keys = {
-        ENTER: 13,
-        SPACE: 32
-    };
-    return(
-        <tr
-            style={{background: dragStart ? '#B6E8B8' : background}}
-
-            onMouseOver={() => setBackground('#ECFEED')}
-            onMouseOut={() => setBackground('white')}
-
-            draggable={true}
-
-            onDragStart={(e) => {
-                setDragStart(true);
-                console.log('drag START ---n---', item.code, item.rank)
-            }}
-            onDragEnd={() => {
-                setDragStart(false);
-                console.log('drag END ---v---', item.code, item.rank)
-            }}
-            onDrag={(e) => {
-                setBackground('cyan')
-                exchangeRank(item);
-                console.log('dragging meeeeeee', item.code, item.rank)
-            }}
-
-            onDragEnter={() => {
-                onDragEnter(item);
-                setBackground('pink');
-                console.log('ENTER me', item.code, item.rank)
-            }}
-            onDragLeave={() => {
-                setBackground('white');
-                console.log('L E A v E me', item.code, item.rank)
-            }}
-            onDragOver={(e) => {
-                e.preventDefault();
-                setBackground('orange');
-                console.log('over me', item.code, item.rank)
-            }}
-            onDrop={(e) => {
-                e.preventDefault();
-                setBackground('blue');
-                console.log('dropped on me', item.code, item.rank)
-            }}
-
-            onClick={() => setDragStart((prev) => (!prev))}
-        >
-
-            <td>{codeData.code || item.code || '-'}</td>
-            <td style={{textAlign: 'right'}}>{codeData.classificationId || item.classificationId}</td>
-            <td style={{width: '65%'}}>{codeData.name || item.name || item.urn}</td>
-            <td>
-                <span style={{display: 'inline-block', width: '40px'}}>
-
-                    <button onClick={() => rerank(item, item.rank-1)}>
-                        <ChevronUp size={16} color='#1A9D49'/>
-                    </button>
-
-                    <button onClick={() => rerank(item, item.rank+1)}>
-                        <ChevronDown size={16} color='#1A9D49'/>
-                    </button>
-
-                </span>
-            </td>
-            <td style={{width: '10%'}}>
-                    <label htmlFor='rank'
-                           className='for_screen_readers'
-                        >Type a desired rank number
-                    </label>
-                    <input type='number' className='rank' name='rank'
-                           style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
-                           value={rank}
-                           onChange={(e) => setRank(e.target.value)}
-                           onKeyDown={(e) => {
-                               if (e.which === keys.ENTER || e.which === keys.SPACE) {
-                                   e.preventDefault();
-                                   rerank(item, rank);
-                               }
-                           }}
-                           onBlur={() => rerank(item, rank)}
-                    />
-
-                    <button onClick={() => rerank(item, rank)}>
-                        <Repeat color={item.rank === rank ? '#F0F8F9' : '#62919A'}/>
-                    </button>
             </td>
             <td>
                 <button onClick={() => remove([item])}>
