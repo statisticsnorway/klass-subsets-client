@@ -137,18 +137,6 @@ export const useSubset = (init =  {
                     ...state,
                     codes: reorder([...state.codes])};
             }
-            case 'codes_rank_exchange': {
-                console.log('codes_rank_exchange');
-                const a = state.codes?.find(c => c.urn === data.dragTarget?.urn);
-                const b = state.codes?.find(c => c.urn === data.dropTarget?.urn);
-                if (a && b) {
-                    a.rank = data.dropTarget.rank;
-                    b.rank = data.dragTarget.rank;
-                }
-                return  {
-                    ...state,
-                    codes: reorder([...state.codes])};
-            }
             case 'reset': {
                 sessionStorage.removeItem('draft');
                 return init;

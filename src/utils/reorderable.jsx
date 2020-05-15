@@ -4,7 +4,7 @@ import {Trash2, Repeat, ChevronUp, ChevronDown} from 'react-feather';
 import {useCode} from '../controllers/klass-api';
 import '../css/form.css';
 
-export const Reorderable = ({list = [], rerank, remove, exchangeRank}) => {
+export const Reorderable = ({list = [], rerank, remove}) => {
     const { t } = useTranslation();
 
     const [dropTarget, setDropTarget] = useState();
@@ -32,7 +32,7 @@ export const Reorderable = ({list = [], rerank, remove, exchangeRank}) => {
                                        remove={remove}
                                        rerank={rerank}
                                        onDragEnter={(item) => setDropTarget(item)}
-                                       exchangeRank={(dragTarget) => exchangeRank(dragTarget, dropTarget)}
+                                       onDragEnd={(dragTarget) => rerank(dragTarget, dropTarget.rank)}
                         />
                     ))
                 }
@@ -42,7 +42,7 @@ export const Reorderable = ({list = [], rerank, remove, exchangeRank}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank, exchangeRank, onDragEnter}) => {
+export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter}) => {
 
     const [rank, setRank] = useState(item.rank);
     const [background, setBackground] = useState('#ECFEED');
@@ -67,17 +67,12 @@ export const ReordableItem = ({item = {}, remove, rerank, exchangeRank, onDragEn
 
             draggable={true}
 
-
             onDragEnd={(e) => {
-                setBackground('cyan')
-                exchangeRank(item);
-                console.log('drag end', item.code || codeData.code, item.rank)
+                onDragEnd(item);
             }}
 
             onDragEnter={() => {
                 onDragEnter(item);
-                setBackground('pink');
-                console.log('ENTER me', item.code || codeData.code, item.rank)
             }}
 
 
