@@ -20,6 +20,13 @@ export const SubsetReorder = ({subset}) => {
                                action: 'codes_exclude',
                                data: codes})
                            }
+                           exchangeRank={ (dragTarget, dropTarget) => dispatch({
+                               action: 'codes_rerank',
+                               // data: dragTarget, dropTarget
+                               data: {code: dragTarget, rank: dropTarget.rank}
+                           })
+
+                           }
             />
         }
      </>);
