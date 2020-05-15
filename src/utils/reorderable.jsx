@@ -8,8 +8,9 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     const { t } = useTranslation();
 
     const [dropTarget, setDropTarget] = useState();
+    const [dragTargets, setDragTargets] = useState([]);
 
-    useEffect(() => console.log({dropTarget}), [dropTarget]);
+    useEffect(() => console.log({dragTargets}), [dragTargets]);
 
     return (
         <>
@@ -32,7 +33,15 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                                        remove={remove}
                                        rerank={rerank}
                                        onDragEnter={(item) => setDropTarget(item)}
-                                       onDragEnd={(dragTarget) => rerank(dragTarget, dropTarget.rank)}
+                                       onDragEnd={() => rerank(dragTargets, dropTarget.rank)}
+                                       toggleDragTarget={(item) => {
+                                           setDragTargets(prevTargets => {
+                                               return prevTargets.find(t => t.urn === item.urn)
+                                                   ? prevTargets.filter(t => t.urn !== item.urn)
+                                                   : [...prevTargets, item]
+                                           })
+                                       }}
+                                       isTarget={dragTargets.find(t => t.urn === item.urn)}
                         />
                     ))
                 }
@@ -42,7 +51,7 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter}) => {
+export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter, toggleDragTarget, isTarget}) => {
 
     const [rank, setRank] = useState(item.rank);
     const [background, setBackground] = useState('#ECFEED');
@@ -59,7 +68,7 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
         SPACE: 32
     };
     return(
-        <tr style={{background: background}}
+        <tr style={{background: isTarget ? 'lightgray' : background}}
 
 /*            onMouseOver={() => setBackground('#ECFEED')}
             onMouseOut={() => setBackground('white')}
@@ -75,7 +84,7 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
                 onDragEnter(item);
             }}
 
-
+            onClick={() => toggleDragTarget(item)}
         >
             <td>{codeData.code || item.code || '-'}</td>
             <td style={{textAlign: 'right'}}>{codeData.classificationId || item.classificationId}</td>
@@ -83,11 +92,11 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
             <td>
                 <span style={{display: 'inline-block', width: '40px'}}>
 
-                    <button onClick={() => rerank(item, item.rank-1)}>
+                    <button onClick={() => rerank([item], item.rank-1)}>
                         <ChevronUp size={16} color='#1A9D49'/>
                     </button>
 
-                    <button onClick={() => rerank(item, item.rank+1)}>
+                    <button onClick={() => rerank([item], item.rank+1)}>
                         <ChevronDown size={16} color='#1A9D49'/>
                     </button>
 
@@ -105,13 +114,29 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
                        onKeyDown={(e) => {
                            if (e.which === keys.ENTER || e.which === keys.SPACE) {
                                e.preventDefault();
-                               rerank(item, rank);
+                               if (!rank || rank === '-') {
+                                   setRank(item.rank);
+                               } else {
+                                   rerank([item], rank);
+                               }
                            }
                        }}
-                       onBlur={() => rerank(item, rank)}
+                       onBlur={() => {
+                           if (!rank || rank === '-') {
+                               setRank(item.rank);
+                           } else {
+                               rerank([item], rank);
+                           }
+                       }}
                 />
 
-                <button onClick={() => rerank(item, rank)}>
+                <button onClick={() => {
+                    if (!rank || rank === '-') {
+                        setRank(item.rank);
+                    } else {
+                        rerank([item], rank);
+                    }
+                }}>
                     <Repeat color={item.rank === rank ? '#F0F8F9' : '#62919A'}/>
                 </button>
             </td>

@@ -12,9 +12,9 @@ export const SubsetReorder = ({subset}) => {
         {draft.codes?.length === 0
             ? <p>{t('No items to sort')}</p>
             : <Reorderable list={draft.codes}
-                           rerank={ (code, rank) => dispatch({
+                           rerank={ (codes, rank) => dispatch({
                                action: 'codes_rerank',
-                               data: {code, rank}})
+                               data: {codes, rank}})
                            }
                            remove={ codes => dispatch({
                                action: 'codes_exclude',

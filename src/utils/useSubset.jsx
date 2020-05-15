@@ -129,10 +129,12 @@ export const useSubset = (init =  {
                     codes: reorder([...candidates])};
             }
             case 'codes_rerank': {
-                const reranked = state.codes?.find(c => c.urn === data.code.urn);
-                if (reranked) {
-                    reranked.rank = data.rank;
-                }
+                data.codes.forEach(code => {
+                    const reranked = state.codes?.find(c => c.urn === code.urn);
+                    if (reranked && data.rank && data.rank !== '-') {
+                        reranked.rank = data.rank;
+                    }
+                })
                 return  {
                     ...state,
                     codes: reorder([...state.codes])};
