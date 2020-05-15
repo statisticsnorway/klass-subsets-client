@@ -4,6 +4,7 @@ import {Trash2, Repeat, ChevronUp, ChevronDown, HelpCircle} from 'react-feather'
 import {Paragraph, LeadParagraph} from '@statisticsnorway/ssb-component-library';
 import {useCode} from '../controllers/klass-api';
 import '../css/form.css';
+import keys from './keys';
 
 export const Reorderable = ({list = [], rerank, remove}) => {
     const { t } = useTranslation();
@@ -62,7 +63,7 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                 </tr>}
                 {list.sort((a, b) => (a.rank - b.rank -1))
                     .map((item, i) => (
-                        <ReordableItem key={item.urn+i}
+                        <ReordableItem key={item.urn + i}
                                        item={item}
 
                                        remove={remove}
@@ -103,10 +104,6 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
         }
         setTimeout(fade, 500)}, []);
 
-    const keys = {
-        ENTER: 13,
-        SPACE: 32
-    };
     return(
         <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
 

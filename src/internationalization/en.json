@@ -66,7 +66,7 @@
   "Code rank help intro": "The order of items can be changed in several ways:",
   "Code rank help drag-and-drop": "By selecting items to be moved and dragging them to a new position. Select multiple items to be moved at once. Use double click to reset selection of the items.",
   "Code rank help input": "  Type a desired rank number in the corresponding input field and press ENTER or ",
-  "Code rank help input reset": "To reset click outside the input filed or TAB or ESC.",
+  "Code rank help input reset": "To reset click outside the input filed or TAB.",
   "Code rank help arrows": "Move an item one position up or down by clicking the arrows.",
   "Type a desired rank number": "Type a desired rank number",
   "Code name": "Code name",

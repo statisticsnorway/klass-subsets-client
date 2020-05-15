@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import '../css/autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
+import keys from './keys';
 
 export const Search = ({ resource = [],
     setChosen = () => {},
@@ -24,11 +25,6 @@ export const Search = ({ resource = [],
     };
 
     function keyHandler(e) {
-        const keys = {
-            DOWN: 40,
-            UP: 38,
-            ENTER: 13
-        };
         switch (e.keyCode) {
             case keys.DOWN: {
                 setActive((active + 1) % suggestions.length);

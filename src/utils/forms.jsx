@@ -1,6 +1,7 @@
 import {availableLanguages, disableUsed} from './languages';
 import React from 'react';
 import {PlusSquare, Trash2} from 'react-feather';
+import keys from './keys';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
@@ -27,8 +28,8 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                   e.which !== 0 && e.target.selectionStart < prefix.length && e.preventDefault();
                               }}
                               onKeyDown={(e) => {
-                                  ((e.which === 8 && e.target.selectionStart <= prefix.length)
-                                      || (e.which === 46 && e.target.selectionStart < prefix.length))
+                                  ((e.which === keys.BACKSPACE && e.target.selectionStart <= prefix.length)
+                                      || (e.which === keys.DELETE && e.target.selectionStart < prefix.length))
                                       && e.preventDefault();
                                   }
                               }
@@ -44,22 +45,21 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     />
 
                     <button disabled={!(index === items.length - 1 && index < languages.length - 1)}
-                            style={{background: 'none', border: 'none'}}
                             onClick={() => add()}>
                         <PlusSquare color={(index === items.length - 1 && index < languages.length - 1)
                             ? '#1A9D49' : '#C3DCDC'}/>
                     </button>
 
                     <button disabled={index === 0}
-                            style={{background: 'none', border: 'none'}}
                             onClick={() => remove(index)}>
                         <Trash2 color={index > 0 ? '#ED5935' : '#C3DCDC'}/>
                     </button>
                 </div>))
             }
             {items.length === 0 &&
-            <button onClick={() => add()}
-            ><PlusSquare color='#1A9D49'/></button>}
+            <button onClick={() => add()}>
+                <PlusSquare color='#1A9D49'/>
+            </button>}
         </div>
     );
 };
