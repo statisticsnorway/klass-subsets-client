@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Trash2, Repeat, ChevronUp, ChevronDown, HelpCircle} from 'react-feather';
 import {Paragraph, LeadParagraph} from '@statisticsnorway/ssb-component-library';
@@ -9,7 +9,8 @@ import keys from './keys';
 export const Reorderable = ({list = [], rerank, remove}) => {
     const { t } = useTranslation();
 
-    const [dropTarget, setDropTarget] = useState();
+    const [dropTarget, setDropTarget] = useState({});
+    useEffect(() => console.log({dropTarget}), [dropTarget]);
     const [dragTargets, setDragTargets] = useState([]);
     const [showHelp, setShowHelp] = useState(false);
 
@@ -69,8 +70,13 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                                        remove={remove}
                                        rerank={rerank}
 
-                                       onDragEnter={item => setDropTarget(item)}
+                                       onDragEnter={target => setDropTarget(target)}
                                        onDragEnd={() => rerank(dragTargets, dropTarget.rank)}
+
+                                       rerankDragTargets={(rank) => {
+                                           console.log('on drag end', {dragTargets}, rank);
+                                           rerank(dragTargets, rank)
+                                       }}
 
                                        isDragTarget={dragTargets.find(t => t.urn === item.urn)}
                                        toggleDragTarget={dragTarget =>
@@ -90,10 +96,11 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter, toggleDragTarget, isDragTarget, setDragTarget}) => {
+export const ReordableItem = ({item = {}, remove, rerank, rerankDragTargets, onDragEnd, onDragEnter, toggleDragTarget, isDragTarget, setDragTarget}) => {
 
     const [rank, setRank] = useState(item.rank);
     const [background, setBackground] = useState('#ECFEED');
+    const dom = useRef(null);
 
     // TODO: cache fetched data in session storage
     const codeData = useCode(item.name ? null : item);
@@ -106,17 +113,37 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
 
     return(
         <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
-
             onMouseOver={() => setBackground('#ECFEED')}
             onMouseOut={() => setBackground('white')}
+
+            tabIndex='0'
+            ref={dom}
+
+            onKeyDown={(event) => {
+                switch (event.which) {
+                    case keys.SPACE: {
+                        toggleDragTarget(item)
+                        break;
+                    }
+                    case keys.DOWN: {
+                        event.preventDefault();
+                        event.target.nextElementSibling && event.target.nextElementSibling.focus();
+                        break;
+                    }
+                    case keys.UP: {
+                        event.preventDefault();
+                        event.target.previousElementSibling && event.target.previousElementSibling.focus();
+                        break;
+                    }
+                    default: break;
+                }
+
+            }}
 
             draggable={true}
 
             onDragStart={() => setDragTarget(item)}
-
-            onDragEnd={(e) => {
-                onDragEnd(item);
-            }}
+            onDragEnd={() =>onDragEnd()}
 
             onDragEnter={(event) => {
                 event.currentTarget.style.backgroundColor = '#ECFEED';
