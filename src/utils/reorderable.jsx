@@ -10,7 +10,6 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     const { t } = useTranslation();
 
     const [dropTarget, setDropTarget] = useState({});
-    useEffect(() => console.log({dropTarget}), [dropTarget]);
     const [dragTargets, setDragTargets] = useState([]);
     const [showHelp, setShowHelp] = useState(false);
 
@@ -73,11 +72,6 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                                        onDragEnter={target => setDropTarget(target)}
                                        onDragEnd={() => rerank(dragTargets, dropTarget.rank)}
 
-                                       rerankDragTargets={(rank) => {
-                                           console.log('on drag end', {dragTargets}, rank);
-                                           rerank(dragTargets, rank)
-                                       }}
-
                                        isDragTarget={dragTargets.find(t => t.urn === item.urn)}
                                        toggleDragTarget={dragTarget =>
                                            setDragTargets(prevTargets => {
@@ -96,11 +90,10 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank, rerankDragTargets, onDragEnd, onDragEnter, toggleDragTarget, isDragTarget, setDragTarget}) => {
+export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter, toggleDragTarget, isDragTarget, setDragTarget}) => {
 
     const [rank, setRank] = useState(item.rank);
     const [background, setBackground] = useState('#ECFEED');
-    const dom = useRef(null);
 
     // TODO: cache fetched data in session storage
     const codeData = useCode(item.name ? null : item);
@@ -117,7 +110,6 @@ export const ReordableItem = ({item = {}, remove, rerank, rerankDragTargets, onD
             onMouseOut={() => setBackground('white')}
 
             tabIndex='0'
-            ref={dom}
 
             onKeyDown={(event) => {
                 switch (event.which) {
