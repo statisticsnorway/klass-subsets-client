@@ -66,11 +66,10 @@ export const Search = ({ resource = [],
     }
 
     // TODO: convert divs to list items (li)
-    // FIXME: scroll and limit amount of suggestion shown by screen size
     // FIXME: sanitize input !!!!
     // TODO: async fetch ?
     return (
-        <div className="ssb-input ">
+        <div className='ssb-input '>
             <div className="input-wrapper" style={{ width: '100%' }}>
                 <input type='search' className='with-icon'
                     name='classificationSearch'
