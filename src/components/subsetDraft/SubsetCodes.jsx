@@ -80,7 +80,7 @@ export const SubsetCodes = ({subset}) => {
 
             { draft.codes?.length === 0 && origin?.length === 0
                 ? <p>{t('No classifications in the subset draft')}</p>
-                : <ul className='list'>
+                : <ul style={{listStyleType: 'none'}}>
                     {origin
                         .map((urn, index) =>
                             <li key={index} style={{padding: '5px', width: '600px'}}>

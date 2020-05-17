@@ -2,7 +2,7 @@ import React from 'react';
 import '../../css/pages.css';
 import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
-import {Edit} from 'react-feather';
+import {Edit, HelpCircle} from 'react-feather';
 
 export default function WelcomePage() {
    const {t} = useTranslation();
@@ -21,6 +21,20 @@ export default function WelcomePage() {
            </Paragraph>
 
            <Title size={2}>{t('Changelog')}</Title>
+
+           <Title size={4}>v0.3.2</Title>
+               <Paragraph>Updated reorder codes form step:
+                   <ul>
+                       <li>better edge case for drag and drop;</li>
+                       <li>keyboard controls for moving items (<code>SPACE</code>, <code>ESC</code>, <code>UP</code>, <code>DOWN</code>, <code>CTRL</code>+<code>UP</code>, <code>CTRL</code>+<code>DOWN</code>);</li>
+                       <li>better input field control (button and <code>ENTER</code>);</li>
+                       <li>highlighting of updated items;</li>
+                       <li>fixed item deleting (was broken in v0.3);</li>
+                       <li>list item focus (<code>TAB</code>, <code>UP</code>, <code>DOWN</code>);</li>
+                       <li>more detailed help note <HelpCircle color='#2D6975'/>;</li>
+                       <li>arrow to move an item one step up or down;</li>
+                   </ul>
+               </Paragraph>
 
            <Title size={4}>v0.3.1</Title>
                 <Paragraph>Corrected copyright year and footer styling.</Paragraph>
