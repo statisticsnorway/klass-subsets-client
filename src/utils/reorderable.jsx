@@ -18,6 +18,7 @@ export const Reorderable = ({list = [], rerank, remove}) => {
             <table style={{ borderCollapse: 'collapse'}}
                    onDragEndCapture={() => setDragTargets([])}
                    onDoubleClickCapture={() => setDragTargets([])}
+                   onKeyDown={(event) => event.which === keys.ESC && setDragTargets([])}
             >
                 <tbody>
                 <tr>
@@ -42,22 +43,33 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                         style={{height: '100px', background: '#274247', color: 'white'}}>
                         <LeadParagraph negative>{t('Code rank help intro')}</LeadParagraph>
                         <ul>
-                            <li><Paragraph negative>{t('Code rank help drag-and-drop')}</Paragraph></li>
-                            <li><Paragraph negative>
-                            <input className='rank' name='example'
-                                   style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
-                                   value='25' disabled />
-                            {t('Code rank help input')}
-                            <Repeat color='#62919A'/>
-                            {t('Code rank help input reset')}
-                        </Paragraph></li>
-                            <li><Paragraph negative>
-                            <span style={{display: 'inline-block', width: '20px'}}>
-                                <ChevronUp size={16} color='#1A9D49'/>
-                                <ChevronDown size={16} color='#1A9D49'/>
-                            </span>
-                            {t('Code rank help arrows')}
-                        </Paragraph></li>
+                            <li>
+                                <Paragraph negative>{t('Code rank help drag-and-drop')}</Paragraph>
+                            </li>
+                            <li>
+                                <Paragraph negative>
+                                    <input className='rank' name='example'
+                                           style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
+                                           value='25' disabled />
+                                    {t('Code rank help input')}
+                                    <Repeat color='#62919A'/>
+                                    {t('Code rank help input reset')}
+                                </Paragraph>
+                            </li>
+                            <li>
+                                <Paragraph negative>
+                                    <span style={{display: 'inline-block', width: '20px'}}>
+                                        <ChevronUp size={16} color='#1A9D49'/>
+                                        <ChevronDown size={16} color='#1A9D49'/>
+                                    </span>
+                                {t('Code rank help arrows')}
+                                </Paragraph>
+                            </li>
+                            <li>
+                                <Paragraph negative>
+                                    {t('Code rank help keyboard')}
+                                </Paragraph>
+                            </li>
                         </ul>
                     </td>
                 </tr>}
@@ -68,6 +80,7 @@ export const Reorderable = ({list = [], rerank, remove}) => {
 
                                        remove={remove}
                                        rerank={rerank}
+                                       rerankDragTargets={(rank) => rerank(dragTargets, rank)}
 
                                        onDragEnter={target => setDropTarget(target)}
                                        onDragEnd={() => rerank(dragTargets, dropTarget.rank)}
@@ -90,7 +103,12 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter, toggleDragTarget, isDragTarget, setDragTarget}) => {
+export const ReordableItem = ({item = {}, remove, rerank,
+                                             rerankDragTargets,
+                                             onDragEnd, onDragEnter,
+                                             toggleDragTarget, isDragTarget,
+                                             setDragTarget}) =>
+{
 
     const [rank, setRank] = useState(item.rank);
     const [background, setBackground] = useState('#ECFEED');
@@ -119,12 +137,16 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
                     }
                     case keys.DOWN: {
                         event.preventDefault();
-                        event.target.nextElementSibling && event.target.nextElementSibling.focus();
+                        event.ctrlKey
+                            ? rerankDragTargets(item.rank + 1)
+                            : event.target.nextElementSibling && event.target.nextElementSibling.focus();
                         break;
                     }
                     case keys.UP: {
                         event.preventDefault();
-                        event.target.previousElementSibling && event.target.previousElementSibling.focus();
+                        event.ctrlKey
+                            ? rerankDragTargets(item.rank - 1)
+                            : event.target.previousElementSibling && event.target.previousElementSibling.focus();
                         break;
                     }
                     default: break;
@@ -178,10 +200,11 @@ export const ReordableItem = ({item = {}, remove, rerank, onDragEnd, onDragEnter
                 <input type='number' className='rank' name='rank'
                        style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
                        value={rank}
-                       onChange={(e) => setRank(e.target.value)}
-                       onKeyDown={(e) => {
-                           if (e.which === keys.ENTER || e.which === keys.SPACE) {
-                               e.preventDefault();
+                       onChange={(event) => setRank(event.target.value)}
+                       onKeyDown={(event) => {
+                           event.stopPropagation();
+                           if (event.which === keys.ENTER || event.which === keys.SPACE) {
+                               event.preventDefault();
                                if (!rank || rank === '-') {
                                    setRank(item.rank);
                                } else {
