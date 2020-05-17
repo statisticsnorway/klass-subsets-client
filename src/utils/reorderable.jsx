@@ -44,13 +44,17 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                         <LeadParagraph negative>{t('Code rank help intro')}</LeadParagraph>
                         <ul>
                             <li>
-                                <Paragraph negative>{t('Code rank help drag-and-drop')}</Paragraph>
+                                <Paragraph negative>
+                                    <strong>{t('Drag and drop')}. </strong>
+                                    {t('Code rank help drag-and-drop')}
+                                </Paragraph>
                             </li>
                             <li>
                                 <Paragraph negative>
                                     <input className='rank' name='example'
                                            style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
                                            value='25' disabled />
+                                    <strong>{t('Input field')}. </strong>
                                     {t('Code rank help input')}
                                     <Repeat color='#62919A'/>
                                     {t('Code rank help input reset')}
@@ -62,11 +66,13 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                                         <ChevronUp size={16} color='#1A9D49'/>
                                         <ChevronDown size={16} color='#1A9D49'/>
                                     </span>
-                                {t('Code rank help arrows')}
+                                    <strong>{t('Arrows')}. </strong>
+                                    {t('Code rank help arrows')}
                                 </Paragraph>
                             </li>
                             <li>
                                 <Paragraph negative>
+                                    <strong>{t('Keyboard')}. </strong>
                                     {t('Code rank help keyboard')}
                                 </Paragraph>
                             </li>
@@ -104,10 +110,10 @@ export const Reorderable = ({list = [], rerank, remove}) => {
 };
 
 export const ReordableItem = ({item = {}, remove, rerank,
-                                             rerankDragTargets,
-                                             onDragEnd, onDragEnter,
-                                             toggleDragTarget, isDragTarget,
-                                             setDragTarget}) =>
+                               rerankDragTargets,
+                               onDragEnd, onDragEnter,
+                               toggleDragTarget, isDragTarget,
+                               setDragTarget}) =>
 {
 
     const [rank, setRank] = useState(item.rank);
