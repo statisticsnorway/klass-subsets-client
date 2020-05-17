@@ -129,7 +129,6 @@ export const useSubset = (init =  {
                     codes: reorder([...candidates])};
             }
             case 'codes_rerank': {
-                console.log('codes_rerank', data);
                 data.codes.forEach(code => {
                     const reranked = state.codes?.find(c => c.urn === code.urn);
                     if (reranked && data.rank && data.rank !== '-') {
@@ -139,6 +138,10 @@ export const useSubset = (init =  {
                 return  {
                     ...state,
                     codes: reorder([...state.codes])};
+            }
+            case 'codes_cache': {
+                const codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
+                return { ...state, codes}
             }
             case 'reset': {
                 sessionStorage.removeItem('draft');

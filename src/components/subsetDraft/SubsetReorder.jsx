@@ -20,6 +20,10 @@ export const SubsetReorder = ({subset}) => {
                                action: 'codes_exclude',
                                data: codes})
                            }
+                           update={ code => dispatch({
+                               action: 'codes_cache',
+                               data: code})
+                           }
             />
         }
      </>);

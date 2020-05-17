@@ -6,7 +6,7 @@ import {useCode} from '../controllers/klass-api';
 import '../css/form.css';
 import keys from './keys';
 
-export const Reorderable = ({list = [], rerank, remove}) => {
+export const Reorderable = ({list = [], rerank, remove, update}) => {
     const { t } = useTranslation();
 
     const [dropTarget, setDropTarget] = useState({});
@@ -87,6 +87,7 @@ export const Reorderable = ({list = [], rerank, remove}) => {
                                        remove={remove}
                                        rerank={rerank}
                                        rerankDragTargets={(rank) => rerank(dragTargets, rank)}
+                                       update={update}
 
                                        onDragEnter={target => setDropTarget(target)}
                                        onDragEnd={() => rerank(dragTargets, dropTarget.rank)}
@@ -109,8 +110,8 @@ export const Reorderable = ({list = [], rerank, remove}) => {
     );
 };
 
-export const ReordableItem = ({item = {}, remove, rerank,
-                               rerankDragTargets,
+export const ReordableItem = ({item = {}, remove, update,
+                               rerank, rerankDragTargets,
                                onDragEnd, onDragEnter,
                                toggleDragTarget, isDragTarget,
                                setDragTarget}) =>
@@ -127,6 +128,8 @@ export const ReordableItem = ({item = {}, remove, rerank,
             setBackground('white');
         }
         setTimeout(fade, 500)}, []);
+
+    useEffect(() => codeData && update(codeData), [codeData]);
 
     return(
         <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
