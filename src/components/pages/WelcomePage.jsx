@@ -32,9 +32,14 @@ export default function WelcomePage() {
                        <li>fixed item deleting (was broken in v0.3);</li>
                        <li>list item focus (<code>TAB</code>, <code>UP</code>, <code>DOWN</code>);</li>
                        <li>more detailed help note <HelpCircle color='#2D6975'/>;</li>
-                       <li>arrow to move an item one step up or down;</li>
+                       <li>arrow to move an item one step up or down.</li>
                    </ul>
                </Paragraph>
+               <Paragraph>Fixed date picker reset button (KF-336).</Paragraph>
+               <Paragraph>Fixed classification search result confusion (KF-336).</Paragraph>
+               <Paragraph>Fixed code check box confusion (KF-336).</Paragraph>
+               <Paragraph>Fixed session storage reset when "Create a subset" is clicked (KF-336).</Paragraph>
+
 
            <Title size={4}>v0.3.1</Title>
                 <Paragraph>Corrected copyright year and footer styling.</Paragraph>
