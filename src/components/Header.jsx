@@ -44,7 +44,13 @@ export default function Header() {
             </div>
 
             <div className='header-content' style={{marginBottom: '20px'}}>
-                <Tabs activeOnInit={location.pathname} onClick={(path) => history.push(path)}
+                <Tabs activeOnInit={location.pathname}
+                      onClick={(path) => {
+                          if (path === '/create') {
+                              sessionStorage.removeItem('draft');
+                          }
+                          history.push(path);
+                      }}
                       items={[
                           {title: t('Search subsets'), path: '/'},
                           {title: t('Create subset'), path: '/create'},
