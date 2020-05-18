@@ -52,7 +52,7 @@ export const SubsetCodes = ({subset}) => {
                     {searchResult
                     .map(c => (c.urn ? c : {...c, urn: URL.toURN(c._links?.self?.href).urn}))
                     .map((c, index) => (
-                        <li key={index} style={{padding: '5px', width: '600px'}}>
+                        <li key={c.urn + index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={c} from={from} to={to}
                                             chosenCodes={draft.codes}
                                             chosen={origin.includes(c.urn)}
