@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
 import {subsetDraft} from '../../controllers/defaults';
-import {Title} from '@statisticsnorway/ssb-component-library';
+import {Title, FormError} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 
@@ -14,7 +14,7 @@ import {useGet} from '../../controllers/klass-api';
 
 export const SubsetMetadata = ({subset}) => {
 
-    const {draft, dispatch} = subset;
+    const {draft, dispatch, errors} = subset;
     const { t } = useTranslation();
     const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
@@ -38,6 +38,8 @@ export const SubsetMetadata = ({subset}) => {
                     {`  ${draft.administrativeStatus || 'Draft'}`}
                 </span>
             </Title>
+
+            <FormError errorMessages={errors.name} title='Not valid' ></FormError>
             <TextLanguageFieldset title={t('Names')} items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}
                                   remove={(index) => dispatch({action: 'name_remove', data: index})}

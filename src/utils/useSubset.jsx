@@ -1,4 +1,4 @@
-import {useReducer, useEffect} from 'react';
+import {useState, useReducer, useEffect} from 'react';
 import {nextDefaultName} from './languages';
 import {URN} from '../controllers/klass-api';
 
@@ -206,5 +206,17 @@ export const useSubset = (init =  {
         sessionStorage.setItem('draft', JSON.stringify(draft));
     }, [draft]);
 
-    return {draft, dispatch};
+    const [errors, setErrors] = useState({
+        name: ['Too long name'],
+        createdBy: [],
+        validFrom: [],
+        validUntil: [],
+        annotation: [],
+        origin: [],
+        description: [],
+        administrativeStatus: [],
+        codes: []
+    });
+
+    return {draft, dispatch, errors};
 };
