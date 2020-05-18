@@ -63,7 +63,19 @@
   "Reorder codes": "Reorder codes",
   "No items to sort": "No items to sort",
   "Rank": "Rank",
+  "Code rank help intro": "The order of the items can be changed in several ways:",
+  "Drag and drop": "Drag and drop",
+  "Code rank help drag-and-drop": "By selecting items to be moved and dragging them to a new position. Select multiple items to be moved at once. Use double click to reset selection of the items.",
+  "Input field": "   Input field",
+  "Code rank help input": "Type a desired rank number in the corresponding input field and press ENTER or ",
+  "Code rank help input reset": "To reset click outside the input filed or TAB.",
+  "Arrows": "Arrows",
+  "Code rank help arrows": "Move an item one position up or down by clicking the arrows.",
+  "Keyboard": "Keyboard",
+  "Code rank help keyboard": "Navigate through the rows by TAB, DOWN or UP buttons. Select one or multiple items by pressing SPACE. Dismiss items with SPACE. Move selected items below a current item CTRL + DOWN or above the current item CTRL + UP combination.",
+  "Type a desired rank number": "Type a desired rank number",
   "Code name": "Code name",
+  "Remove": "Remove",
 
   "Review and publish": "Review and publish",
   "Publish": "Publish",
@@ -84,6 +96,5 @@
   "and": "and",
   "Authorization and subset-service integration": "Authorisation and subset-service integration",
 
-  "Subset with id does not exist": "Subset with id {{id}} does not exist",
-  "Code rank tooltip": "The order of items can be changed by selecting items to move (select multiple if subsequent items are to be moved at once) and drag them to the correct position (drag and drop)."
+  "Subset with id does not exist": "Subset with id {{id}} does not exist"
 }

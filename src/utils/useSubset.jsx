@@ -116,16 +116,32 @@ export const useSubset = (init =  {
             case 'codes_include': {
                 const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
                 const administrativeDetails = updateOrigin(state.administrativeDetails, candidates);
+
                 return  {
                     ...state,
                     administrativeDetails,
-                    codes: [...state.codes, ...candidates]};
+                    codes: reorder([...candidates, ...state.codes])}
             }
             case 'codes_exclude': {
                 const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
                 return  {
                     ...state,
-                    codes: [...candidates]};
+                    codes: reorder([...candidates])};
+            }
+            case 'codes_rerank': {
+                data.codes.forEach(code => {
+                    const reranked = state.codes?.find(c => c.urn === code.urn);
+                    if (reranked && data.rank && data.rank !== '-') {
+                        reranked.rank = data.rank;
+                    }
+                })
+                return  {
+                    ...state,
+                    codes: reorder([...state.codes])};
+            }
+            case 'codes_cache': {
+                const codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
+                return { ...state, codes}
             }
             case 'reset': {
                 sessionStorage.removeItem('draft');
@@ -134,6 +150,20 @@ export const useSubset = (init =  {
             default:
                 return state;
         }
+    }
+
+    function reorder(list) {
+        if (list?.length > 0) {
+            list.sort((a, b) => (a.rank - b.rank -1));
+        }
+        return rerank(list);
+    }
+
+    function rerank(list) {
+        return list.map((item, i) => ({
+            ...item,
+            rank: i + 1
+        }));
     }
 
     // TESTME

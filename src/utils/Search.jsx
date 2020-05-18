@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import '../css/autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
+import keys from './keys';
 
 export const Search = ({ resource = [],
     setChosen = () => {},
@@ -24,11 +25,6 @@ export const Search = ({ resource = [],
     };
 
     function keyHandler(e) {
-        const keys = {
-            DOWN: 40,
-            UP: 38,
-            ENTER: 13
-        };
         switch (e.keyCode) {
             case keys.DOWN: {
                 setActive((active + 1) % suggestions.length);
@@ -70,11 +66,10 @@ export const Search = ({ resource = [],
     }
 
     // TODO: convert divs to list items (li)
-    // FIXME: scroll and limit amount of suggestion shown by screen size
     // FIXME: sanitize input !!!!
     // TODO: async fetch ?
     return (
-        <div className="ssb-input ">
+        <div className='ssb-input '>
             <div className="input-wrapper" style={{ width: '100%' }}>
                 <input type='search' className='with-icon'
                     name='classificationSearch'

@@ -144,8 +144,8 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                             </button>
                         </div>
 
-                        {codes.map(code =>
-                            <CodeInfo key={code.urn}
+                        {codes.map((code, index) =>
+                            <CodeInfo key={code.urn + index}
                                       item={code}
                                       notes={codesWithNotes.find(c => c.code === code.code)?.notes}
                                       chosen={chosenCodes.find(c => c.urn === code.urn)}
@@ -188,8 +188,8 @@ export const CodeInfo = ({item, notes = [], chosen, toggle}) => {
             {showNotes && <div>
                 {notes.length === 0
                     ? <Text>{t('No notes found.')}</Text>
-                    : notes.map(note => (
-                        <div key={note} style={{padding: '10px 50px 20px 50px'}}>
+                    : notes.map((note, i) => (
+                        <div key={i} style={{padding: '10px 50px 20px 50px'}}>
                             <Title size={4}>{t('Notes')}</Title>
                             <div style={{fontSize: '14px'}}
                                  className='ssb-paragraph small'

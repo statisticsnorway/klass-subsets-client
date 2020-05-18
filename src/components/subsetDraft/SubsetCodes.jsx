@@ -52,7 +52,7 @@ export const SubsetCodes = ({subset}) => {
                     {searchResult
                     .map(c => (c.urn ? c : {...c, urn: URL.toURN(c._links?.self?.href).urn}))
                     .map((c, index) => (
-                        <li key={index} style={{padding: '5px', width: '600px'}}>
+                        <li key={c.urn + index} style={{padding: '5px', width: '600px'}}>
                             <Classification item={c} from={from} to={to}
                                             chosenCodes={draft.codes}
                                             chosen={origin.includes(c.urn)}
@@ -80,10 +80,10 @@ export const SubsetCodes = ({subset}) => {
 
             { draft.codes?.length === 0 && origin?.length === 0
                 ? <p>{t('No classifications in the subset draft')}</p>
-                : <ul className='list'>
+                : <ul style={{listStyleType: 'none'}}>
                     {origin
                         .map((urn, index) =>
-                            <li key={index} style={{padding: '5px', width: '600px'}}>
+                            <li key={urn + index} style={{padding: '5px', width: '600px'}}>
                                 <Classification item={{urn}}
                                             to={to} from={from}
                                             chosenCodes={draft.codes}

@@ -6,7 +6,6 @@ import {SubsetPreview} from '../Subset';
 import {usePost} from '../../controllers/subsets-service';
 import {useHistory} from "react-router-dom";
 
-// TODO: better preview (human pleasant)
 export const SubsetPublish = ({subset}) => {
     const {draft, dispatch} = subset;
 
@@ -15,12 +14,14 @@ export const SubsetPublish = ({subset}) => {
     let history = useHistory();
 
     const [data, setPayload, isLoading, error] = usePost();
+
     useEffect(() => {
         if (data !== null) {
             dispatch({action: 'reset'});
             history.push(`/subsets/${data.id}`);
         }
     }, [data]);
+
     useEffect(() => {
         error !== null && alert(`Publishing failed: ${JSON.stringify(error)}`);
     }, [error]);

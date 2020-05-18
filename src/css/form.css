@@ -19,7 +19,18 @@ fieldset {
   display: block;
 }
 
-.react-date-picker__wrapper {
-  border: 1px solid transparent !important;
-  padding: 0 10px;
+/* #56 disable input type number arrows
+/* For mozilla - cannot be used until field validation is implemented
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: auto;
+  margin: 0;
+}
+*/
+
+/*For Chrome*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
