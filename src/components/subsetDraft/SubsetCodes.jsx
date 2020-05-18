@@ -83,7 +83,7 @@ export const SubsetCodes = ({subset}) => {
                 : <ul className='list'>
                     {origin
                         .map((urn, index) =>
-                            <li key={index} style={{padding: '5px', width: '600px'}}>
+                            <li key={urn + index} style={{padding: '5px', width: '600px'}}>
                                 <Classification item={{urn}}
                                             to={to} from={from}
                                             chosenCodes={draft.codes}
