@@ -53,9 +53,13 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='from_date'>{t('Valid from')}: </label>
                     <input type='date' id='from_date' style={{display: 'block'}}
-                                value={draft.validFrom?.substr(0, 10)}
-                                onChange={(e) => {
-                                    dispatch({action: 'from', data: new Date(e.target.value).toISOString()});}}
+                                value={draft.validFrom?.substr(0, 10) || ''}
+                                onChange={event =>
+                                    dispatch({action: 'from', data:
+                                            event.target.value === ''
+                                                ? null
+                                                : new Date(event.target.value).toISOString()})
+                                }
                                 className='datepicker'/>
                 </div>
 
@@ -63,9 +67,13 @@ export const SubsetMetadata = ({subset}) => {
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='to_date'>{t('Valid to')}: </label>
                     <input type='date' id='to_date' style={{display: 'block'}}
-                                value={draft.validUntil?.substr(0, 10)}
-                           onChange={(e) => {
-                               dispatch({action: 'to', data: new Date(e.target.value).toISOString()});}}
+                                value={draft.validUntil?.substr(0, 10) || ''}
+                           onChange={event =>
+                               dispatch({action: 'to', data:
+                                       event.target.value === ''
+                                           ? null
+                                           : new Date(event.target.value).toISOString()})
+                           }
                            className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>

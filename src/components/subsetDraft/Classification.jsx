@@ -144,8 +144,8 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                             </button>
                         </div>
 
-                        {codes.map((code, i) =>
-                            <CodeInfo key={code.urn+i}
+                        {codes.map((code, index) =>
+                            <CodeInfo key={code.urn + index}
                                       item={code}
                                       notes={codesWithNotes.find(c => c.code === code.code)?.notes}
                                       chosen={chosenCodes.find(c => c.urn === code.urn)}
