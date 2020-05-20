@@ -7,7 +7,10 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                          prefix = '',
                                          handle = (data) => {},
                                          add = () => {},
-                                         remove = (index) => {}}) => {
+                                         remove = (index) => {},
+                                         error = false,
+                                         errorMessage = ''
+    }) => {
 
     const languages = availableLanguages();
     disableUsed(languages, items.map(name => name.languageCode));
@@ -38,6 +41,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                               onPaste={(e) =>
                                   e.target.selectionStart < prefix.length && e.preventDefault()}
                     />
+                    {error && <div className='ssb-input-error '><span>{errorMessage}</span></div>}
 
                     <LanguageSelect languages={languages}
                                     selected={item.languageCode}
@@ -64,9 +68,11 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
     );
 };
 
-export const LanguageSelect = ({languages = availableLanguages(),
-                                selected = false,
-                                onChange = (e) => console.log(e.target.value)}) => {
+export const LanguageSelect = ({
+                                   languages = availableLanguages(),
+                                   selected = false,
+                                   onChange = (e) => console.log(e.target.value)
+                               }) => {
 
     return (
         <select name='language' style={{padding: '2px', margin: '5px', position: 'relative', top: '-6px'}}
@@ -79,14 +85,22 @@ export const LanguageSelect = ({languages = availableLanguages(),
     );
 };
 
-export const Dropdown = ({label='Select', options = [], placeholder= 'Select', selected='', onSelect}) => {
+export const Dropdown = ({
+                             label='Select',
+                             options = [],
+                             placeholder= 'Select',
+                             selected='',
+                             onSelect,
+                             error = false,
+                             errorMessage = ''
+                        }) => {
     return (
         <div className='ssb-dropdown' style={{padding: '15px 0'}}>
             <label htmlFor='ssb_sections' style={{fontSize: '16px'}}>{label}</label>
             <select className='dropdown-interactive-area focused'
                     id='ssb_sections'
                     style={{
-                        width: '600px',
+                        width: '595px',
                         border: '1px solid black',
                         padding: '10px',
                         fontSize: '16px',
@@ -102,6 +116,7 @@ export const Dropdown = ({label='Select', options = [], placeholder= 'Select', s
                     <option key={i} value={section.name}>{section.name}</option>
                 ))}
             </select>
+            {error && <div className='ssb-input-error '><span>{errorMessage}</span></div>}
         </div>
     );
 };

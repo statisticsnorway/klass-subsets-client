@@ -207,13 +207,13 @@ export const useSubset = (init =  {
     }, [draft]);
 
     const [errors, setErrors] = useState({
-        name: ['Too long name'],
-        createdBy: [],
-        validFrom: [],
-        validUntil: [],
-        annotation: [],
+        name: ['test error name'],
+        validFrom: ['test error validFrom'],
+        validUntil: ['test error validUntil'],
+        createdBy: ['test error createdBy'],
+        annotation: ['test error annotation'],
+        description: ['test error description'],
         origin: [],
-        description: [],
         administrativeStatus: [],
         codes: []
     });

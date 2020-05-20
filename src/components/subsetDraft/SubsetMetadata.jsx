@@ -39,13 +39,14 @@ export const SubsetMetadata = ({subset}) => {
                 </span>
             </Title>
 
-            <FormError errorMessages={errors.name} title='Not valid' ></FormError>
             <TextLanguageFieldset title={t('Names')} items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}
                                   remove={(index) => dispatch({action: 'name_remove', data: index})}
                                   handle={() => dispatch({action: 'update'})}
                                   size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
+                                  error={errors?.name?.length > 0}
+                                  errorMessage={errors.name[0]}
             />
 
             <section style={{margin: '5px 0 5px 0'}}>
@@ -77,21 +78,31 @@ export const SubsetMetadata = ({subset}) => {
                            className='datepicker'/>
                 </div>
                 <br style={{clear: 'both'}}/>
+
+                {(errors?.validFrom?.length > 0 || errors?.validUntil?.length > 0)
+                    && <div className='ssb-input-error '>
+                        <span style={{padding: '0 10px 0 0'}}>{errors?.validFrom?.length > 0 && `${errors?.validFrom[0]}.`}</span>
+                        <span>{errors?.validUntil?.length > 0 && `${errors?.validUntil[0]}.`}</span>
+                    </div>
+                }
             </section>
+
 
             {/* TODO: set automatically when logged inn */}
             <Dropdown label={t('Owner')}
-                      options={ssbsections ? ssbsections._embedded.ssbSections : []}
+                      options={ssbsections ? ssbsections._embedded?.ssbSections : []}
                       placeholder={t('Select a responsible department...')}
                       selected={draft.createdBy}
                       onSelect={(item) => dispatch({
                           action: 'createdBy',
                           data: item })}
+                      error={errors?.createdBy?.length > 0}
+                      errorMessage={errors?.createdBy[0]}
             />
 
             {/* TODO: subject is stored in an array, it could be treated as tags ? */}
             <Dropdown label={t('Subject')}
-                      options={classificationfamilies?._embedded.classificationFamilies || []}
+                      options={classificationfamilies?._embedded?.classificationFamilies || []}
                       placeholder={t('Select a classification family...')}
                       selected={draft.administrativeDetails
                           .find(d => d.administrativeDetailType === 'ANNOTATION')
@@ -99,7 +110,10 @@ export const SubsetMetadata = ({subset}) => {
                       onSelect={(item) => dispatch({
                           action: 'subject',
                           data: item })}
+                      error={errors?.annotation?.length > 0}
+                      errorMessage={errors?.annotation[0]}
             />
+
 
             {/* FIXME: limit text size*/}
             <TextLanguageFieldset title={t('Description')} items={draft.description}
@@ -107,6 +121,8 @@ export const SubsetMetadata = ({subset}) => {
                                   remove={(index) => dispatch({action: 'description_remove', data: index})}
                                   handle={() => dispatch({action: 'update'})}
                                   size = {{cols: 65, rows: 4}}
+                                  error={errors?.description?.length > 0}
+                                  errorMessage={errors?.description[0]}
             />
 
 {/* TODO: implement in next version
