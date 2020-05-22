@@ -1,7 +1,7 @@
 import {useState, useReducer, useEffect} from 'react';
 import {nextDefaultName} from '../internationalization/languages';
 import {URN} from './klass-api';
-import {validator} from './validatior'
+import {validate} from './validatior'
 
 export const useSubset = (init =  {
         createdBy: '',
@@ -74,7 +74,7 @@ export const useSubset = (init =  {
                 // FIXME: restrictions
                 setErrors(prev => ({
                     ...prev,
-                    period: validator.checkPeriod(data, state.validUntil)
+                    period: validate.period(data, state.validUntil)
                 }));
                 return {...state, validFrom: data};
             }
@@ -82,7 +82,7 @@ export const useSubset = (init =  {
                 // FIXME: restrictions
                 setErrors(prev => ({
                         ...prev,
-                        period: validator.checkPeriod(state.validFrom, data)
+                        period: validate.period(state.validFrom, data)
                     }
                 ));
                 return {...state, validUntil: data};
