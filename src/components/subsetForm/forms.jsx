@@ -10,7 +10,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                          remove = (index) => {},
                                          error = false,
                                          errorMessage = '',
-                                        maxlength
+                                        maxLength
     }) => {
 
     const languages = availableLanguages();
@@ -24,7 +24,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
             {items.map((item, index) => (
                 <div key={index} style={{padding: '0 0 15px 0'}}>
                     <textarea cols={size.cols} rows={size.rows}
-                              maxlength={maxlength}
+                              maxLength={maxLength}
                               style={{height: `${size.rows * 44}px`}}
                               id={title}
                               value={item.languageText || prefix}

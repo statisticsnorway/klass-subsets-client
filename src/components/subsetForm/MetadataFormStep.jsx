@@ -47,7 +47,7 @@ export const MetadataFormStep = ({subset}) => {
                                   prefix={subsetDraft.namePrefix}
                                   error={errors?.name?.length > 0}
                                   errorMessage={errors.name[0]}
-                                  maxlength={150}
+                                  maxLength={150}
             />
 
             <section style={{margin: '5px 0 5px 0'}}>

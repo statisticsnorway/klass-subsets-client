@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {Button, Title} from '@statisticsnorway/ssb-component-library';
 import {SubsetPreview} from '../Subset';
 import {usePost} from '../../controllers/subsets-service';
-import {useHistory} from "react-router-dom";
+import {useHistory} from 'react-router-dom';
 
 export const PublishFormStep = ({subset}) => {
     const {draft, dispatch} = subset;

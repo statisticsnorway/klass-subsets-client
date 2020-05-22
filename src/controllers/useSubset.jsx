@@ -24,6 +24,18 @@ export const useSubset = (init =  {
     }
     ) => {
 
+    const [errors, setErrors] = useState({
+        name: [],
+        validFrom: [],
+        validUntil: [],
+        createdBy: [],
+        annotation: [],
+        description: [],
+        origin: [],
+        administrativeStatus: [],
+        codes: []
+    });
+
     function verifyOrigin(origin = [], codes = []) {
 
         // TODO: if origin values are not empty, check if all values are valid URNs
@@ -59,6 +71,11 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
+                const errorMessage = validator.checkPeriod(data, state.validUntil);
+                setErrors(prev => ({
+                    ...prev,
+                    validFrom: [...prev.validFrom, errorMessage]
+                }));
                 return {...state, validFrom: data};
             }
             case 'to': {
@@ -206,18 +223,6 @@ export const useSubset = (init =  {
     useEffect(() => {
         sessionStorage.setItem('draft', JSON.stringify(draft));
     }, [draft]);
-
-    const [errors, setErrors] = useState({
-        name: [],
-        validFrom: [],
-        validUntil: [],
-        createdBy: [],
-        annotation: [],
-        description: [],
-        origin: [],
-        administrativeStatus: [],
-        codes: []
-    });
 
     return {draft, dispatch, errors};
 };
