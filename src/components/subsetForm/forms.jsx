@@ -88,7 +88,11 @@ export const LanguageSelect = ({
                 value={selected || languages.find(lang => lang.default)}
                 onChange={(e) => onChange(e)}>
             {languages.map((lang, i) => (
-                <option key={i} value={lang.languageCode} disabled={lang.disabled}>{lang.full}</option>
+                <option key={i}
+                        value={lang.languageCode}
+                        disabled={lang.disabled}
+                        >{lang.full}
+                </option>
             ))}
         </select>
     );
@@ -100,9 +104,10 @@ export const Dropdown = ({
                              placeholder= 'Select',
                              selected='',
                              onSelect,
-                             error = false,
-                             errorMessage = ''
+                             errorMessages = []
                         }) => {
+    const { t } = useTranslation();
+
     return (
         <div className='ssb-dropdown' style={{padding: '15px 0'}}>
             <label htmlFor='ssb_sections' style={{fontSize: '16px'}}>{label}</label>
@@ -125,7 +130,13 @@ export const Dropdown = ({
                     <option key={i} value={section.name}>{section.name}</option>
                 ))}
             </select>
-            {error && <div className='ssb-input-error '><span>{errorMessage}</span></div>}
+            {errorMessages?.length > 0 &&
+                <div className='ssb-input-error '>
+                    {errorMessages.map(error => (
+                        <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                    ))}
+                </div>
+            }
         </div>
     );
 };

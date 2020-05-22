@@ -39,7 +39,8 @@ export const MetadataFormStep = ({subset}) => {
                 </span>
             </Title>
 
-            <TextLanguageFieldset title={t('Names')} items={draft.name}
+            <TextLanguageFieldset title={t('Names')}
+                                  items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}
                                   remove={(index) => dispatch({action: 'name_remove', data: index})}
                                   handle={() => dispatch({action: 'update'})}
@@ -112,8 +113,7 @@ export const MetadataFormStep = ({subset}) => {
                       onSelect={(item) => dispatch({
                           action: 'createdBy',
                           data: item })}
-                      error={errors?.createdBy?.length > 0}
-                      errorMessage={errors?.createdBy[0]}
+                      errorMessages={errors?.createdBy}
             />
 
             {/* TODO: subject is stored in an array, it could be treated as tags ? */}
@@ -126,13 +126,13 @@ export const MetadataFormStep = ({subset}) => {
                       onSelect={(item) => dispatch({
                           action: 'subject',
                           data: item })}
-                      error={errors?.annotation?.length > 0}
-                      errorMessage={errors?.annotation[0]}
+                      errorMessages={errors?.annotation}
             />
 
 
             {/* FIXME: limit text size*/}
-            <TextLanguageFieldset title={t('Description')} items={draft.description}
+            <TextLanguageFieldset title={t('Description')}
+                                  items={draft.description}
                                   add={() => dispatch({action: 'description_add'})}
                                   remove={(index) => dispatch({action: 'description_remove', data: index})}
                                   handle={() => dispatch({action: 'update'})}
