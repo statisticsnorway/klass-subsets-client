@@ -1,7 +1,7 @@
-import {availableLanguages, disableUsed} from './languages';
+import {availableLanguages, disableUsed} from '../../internationalization/languages';
 import React from 'react';
 import {PlusSquare, Trash2} from 'react-feather';
-import keys from './keys';
+import keys from '../../utils/keys';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
@@ -9,7 +9,8 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                          add = () => {},
                                          remove = (index) => {},
                                          error = false,
-                                         errorMessage = ''
+                                         errorMessage = '',
+                                        maxlength
     }) => {
 
     const languages = availableLanguages();
@@ -23,6 +24,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
             {items.map((item, index) => (
                 <div key={index} style={{padding: '0 0 15px 0'}}>
                     <textarea cols={size.cols} rows={size.rows}
+                              maxlength={maxlength}
                               style={{height: `${size.rows * 44}px`}}
                               id={title}
                               value={item.languageText || prefix}

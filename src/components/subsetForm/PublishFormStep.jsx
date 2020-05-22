@@ -6,7 +6,7 @@ import {SubsetPreview} from '../Subset';
 import {usePost} from '../../controllers/subsets-service';
 import {useHistory} from "react-router-dom";
 
-export const SubsetPublish = ({subset}) => {
+export const PublishFormStep = ({subset}) => {
     const {draft, dispatch} = subset;
 
     const { t } = useTranslation();

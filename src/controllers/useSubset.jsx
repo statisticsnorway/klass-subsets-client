@@ -1,6 +1,7 @@
 import {useState, useReducer, useEffect} from 'react';
-import {nextDefaultName} from './languages';
-import {URN} from '../controllers/klass-api';
+import {nextDefaultName} from '../internationalization/languages';
+import {URN} from './klass-api';
+import {validator} from './validatior'
 
 export const useSubset = (init =  {
         createdBy: '',
@@ -207,12 +208,12 @@ export const useSubset = (init =  {
     }, [draft]);
 
     const [errors, setErrors] = useState({
-        name: ['test error name'],
-        validFrom: ['test error validFrom'],
-        validUntil: ['test error validUntil'],
-        createdBy: ['test error createdBy'],
-        annotation: ['test error annotation'],
-        description: ['test error description'],
+        name: [],
+        validFrom: [],
+        validUntil: [],
+        createdBy: [],
+        annotation: [],
+        description: [],
         origin: [],
         administrativeStatus: [],
         codes: []

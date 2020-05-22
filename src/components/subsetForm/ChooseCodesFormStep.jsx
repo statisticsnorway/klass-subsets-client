@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Search} from '../../utils/Search';
+import {Search} from '../../controllers/Search';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
 import {useTranslation} from 'react-i18next';
@@ -12,7 +12,7 @@ import {URL} from '../../controllers/klass-api';
  *  FIXME: notes for codes: restrict period!
  */
 
-export const SubsetCodes = ({subset}) => {
+export const ChooseCodesFormStep = ({subset}) => {
 
     const {draft, dispatch} = subset;
 

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import '../../css/form.css';
-import {Dropdown, TextLanguageFieldset} from '../../utils/forms';
+import {Dropdown, TextLanguageFieldset} from './forms';
 import {subsetDraft} from '../../controllers/defaults';
 import {Title, FormError} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
@@ -12,7 +12,7 @@ import {useGet} from '../../controllers/klass-api';
  *  FIXME: sanitize input
  */
 
-export const SubsetMetadata = ({subset}) => {
+export const MetadataFormStep = ({subset}) => {
 
     const {draft, dispatch, errors} = subset;
     const { t } = useTranslation();
@@ -47,6 +47,7 @@ export const SubsetMetadata = ({subset}) => {
                                   prefix={subsetDraft.namePrefix}
                                   error={errors?.name?.length > 0}
                                   errorMessage={errors.name[0]}
+                                  maxlength={150}
             />
 
             <section style={{margin: '5px 0 5px 0'}}>

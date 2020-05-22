@@ -7,7 +7,7 @@ import Footer from './Footer';
 import WelcomePage from './pages/WelcomePage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
 // import Errors from './Errors';
-import SubsetForm from './subsetDraft/SubsetForm';
+import SubsetForm from './subsetForm/SubsetForm';
 import {SubsetPage} from './pages/SubsetPage';
 
 export default function App() {

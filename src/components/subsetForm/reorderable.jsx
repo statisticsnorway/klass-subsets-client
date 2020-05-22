@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Trash2, Repeat, ChevronUp, ChevronDown, HelpCircle} from 'react-feather';
 import {Paragraph, LeadParagraph} from '@statisticsnorway/ssb-component-library';
-import {useCode} from '../controllers/klass-api';
-import '../css/form.css';
-import keys from './keys';
+import {useCode} from '../../controllers/klass-api';
+import '../../css/form.css';
+import keys from '../../utils/keys';
 
 export const Reorderable = ({list = [], rerank, remove, update}) => {
     const { t } = useTranslation();

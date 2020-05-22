@@ -4,7 +4,7 @@ import {Dropdown, Paragraph, Title} from '@statisticsnorway/ssb-component-librar
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/subsets-service';
 import {Subsets} from '../Subset';
-import {Search} from '../../utils/Search';
+import {Search} from '../../controllers/Search';
 
 export default function SearchSubsetsPage() {
 
