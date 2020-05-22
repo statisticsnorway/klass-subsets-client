@@ -28,6 +28,7 @@ export const useSubset = (init =  {
         name: [],
         validFrom: [],
         validUntil: [],
+        period: [],
         createdBy: [],
         annotation: [],
         description: [],
@@ -71,15 +72,19 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
-                const errorMessage = validator.checkPeriod(data, state.validUntil);
                 setErrors(prev => ({
                     ...prev,
-                    validFrom: [...prev.validFrom, errorMessage]
+                    period: validator.checkPeriod(data, state.validUntil)
                 }));
                 return {...state, validFrom: data};
             }
             case 'to': {
                 // FIXME: restrictions
+                setErrors(prev => ({
+                        ...prev,
+                        period: validator.checkPeriod(state.validFrom, data)
+                    }
+                ));
                 return {...state, validUntil: data};
             }
             case 'createdBy': {

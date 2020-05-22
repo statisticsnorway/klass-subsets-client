@@ -56,34 +56,50 @@ export const MetadataFormStep = ({subset}) => {
                            htmlFor='from_date'>{t('Valid from')}: </label>
                     <input type='date' id='from_date' style={{display: 'block'}}
                                 value={draft.validFrom?.substr(0, 10) || ''}
-                                onChange={event =>
-                                    dispatch({action: 'from', data:
+                                onChange={event => dispatch({action: 'from', data:
                                             event.target.value === ''
                                                 ? null
                                                 : new Date(event.target.value).toISOString()})
                                 }
                                 className='datepicker'/>
+                    {errors?.validFrom?.length > 0 &&
+                    <div className='ssb-input-error '>
+                        {errors.validFrom.map(error => (
+                            <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                        ))}
+                    </div>
+                    }
                 </div>
 
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='to_date'>{t('Valid to')}: </label>
-                    <input type='date' id='to_date' style={{display: 'block'}}
-                                value={draft.validUntil?.substr(0, 10) || ''}
-                           onChange={event =>
-                               dispatch({action: 'to', data:
+                    <input type='date' id='to_date'
+                           style={{display: 'block'}}
+                           value={draft.validUntil?.substr(0, 10) || ''}
+                           onChange={event => dispatch({
+                                   action: 'to', data:
                                        event.target.value === ''
                                            ? null
-                                           : new Date(event.target.value).toISOString()})
+                                           : new Date(event.target.value).toISOString()
+                               })
                            }
                            className='datepicker'/>
+                    {errors?.validUntil?.length > 0 &&
+                        <div className='ssb-input-error '>
+                            {errors.validUntil.map(error => (
+                                <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                            ))}
+                        </div>
+                    }
                 </div>
                 <br style={{clear: 'both'}}/>
 
-                {(errors?.validFrom?.length > 0 || errors?.validUntil?.length > 0)
-                    && <div className='ssb-input-error '>
-                        <span style={{padding: '0 10px 0 0'}}>{errors?.validFrom?.length > 0 && `${errors?.validFrom[0]}.`}</span>
-                        <span>{errors?.validUntil?.length > 0 && `${errors?.validUntil[0]}.`}</span>
+                {errors?.period?.length > 0 &&
+                    <div className='ssb-input-error '>
+                        {errors.period.map(error => (
+                            <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                        ))}
                     </div>
                 }
             </section>

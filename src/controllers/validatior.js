@@ -1,6 +1,7 @@
 export const validator = {
     checkPeriod(from, to) {
-        console.log('checking period')
-        return 'wrong';
+        return from > to
+            ? ['Period cannot start later than end']
+            : [];
     }
 }
