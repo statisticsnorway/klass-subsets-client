@@ -2,16 +2,17 @@ import {availableLanguages, disableUsed} from '../../internationalization/langua
 import React from 'react';
 import {PlusSquare, Trash2} from 'react-feather';
 import keys from '../../utils/keys';
+import {useTranslation} from "react-i18next";
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
                                          handle = (data) => {},
                                          add = () => {},
                                          remove = (index) => {},
-                                         error = false,
-                                         errorMessage = '',
+                                         errorMessages = [],
                                         maxLength
     }) => {
+    const { t } = useTranslation();
 
     const languages = availableLanguages();
     disableUsed(languages, items.map(name => name.languageCode));
@@ -43,7 +44,13 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                               onPaste={(e) =>
                                   e.target.selectionStart < prefix.length && e.preventDefault()}
                     />
-                    {error && <div className='ssb-input-error '><span>{errorMessage}</span></div>}
+                    {errorMessages?.length > 0 &&
+                        <div className='ssb-input-error '>
+                            {errorMessages.map(error => (
+                                <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                            ))}
+                        </div>
+                    }
 
                     <LanguageSelect languages={languages}
                                     selected={item.languageCode}

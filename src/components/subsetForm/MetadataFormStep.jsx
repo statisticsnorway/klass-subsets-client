@@ -45,8 +45,7 @@ export const MetadataFormStep = ({subset}) => {
                                   handle={() => dispatch({action: 'update'})}
                                   size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
-                                  error={errors?.name?.length > 0}
-                                  errorMessage={errors.name[0]}
+                                  errorMessages={errors.name}
                                   maxLength={150}
             />
 
@@ -138,8 +137,7 @@ export const MetadataFormStep = ({subset}) => {
                                   remove={(index) => dispatch({action: 'description_remove', data: index})}
                                   handle={() => dispatch({action: 'update'})}
                                   size = {{cols: 65, rows: 4}}
-                                  error={errors?.description?.length > 0}
-                                  errorMessage={errors?.description[0]}
+                                  errorMessages={errors?.description}
             />
 
 {/* TODO: implement in next version
