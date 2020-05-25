@@ -141,6 +141,7 @@ export const ReordableItem = ({item = {}, remove, update,
             onKeyDown={(event) => {
                 switch (event.which) {
                     case keys.SPACE: {
+                        event.preventDefault();
                         toggleDragTarget(item)
                         break;
                     }
