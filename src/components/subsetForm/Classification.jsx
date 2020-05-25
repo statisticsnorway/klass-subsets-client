@@ -54,10 +54,11 @@ export const Classification = ({item = {}, from, to,
             <div style={{display: 'flex'}}>
                 <div style={{width: '400px'}}>{item?.name || metadata?.name}</div>
 
-                <button onClick={() => item.error
-                    && setShow(prev => {return {alert: !prev.alert};})}>
-                    <Alert color={item.error ? 'orange' : 'transparent'}/>
-                </button>
+                {item.error &&
+                    <button onClick={() => setShow(prev => {return {alert: !prev.alert};})}>
+                        <Alert color='orange'/>
+                    </button>
+                }
 
                 <button onClick={() =>
                     setShow(prev => {return {codes: !prev.codes};})}>
