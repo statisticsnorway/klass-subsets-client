@@ -1,7 +1,7 @@
 import {useState, useReducer, useEffect} from 'react';
 import {nextDefaultName} from '../internationalization/languages';
 import {URN} from './klass-api';
-import {validate} from './validatior'
+import {validate} from './validator'
 
 export const useSubset = (init =  {
         createdBy: '',
