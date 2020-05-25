@@ -32,7 +32,7 @@
   "Choose codes": "Velg koder",
   "Choose classifications and code lists": "Velg kodeverk",
   "All search results will be restricted by validity period set in metadata": "Alle søkeresultater er gyldige innenfor gyldighetsperioden som er valgt for uttrekket",
-  "from to": "f.o.m {{from}} t.o.m {{to}}",
+  "from to": "f.o.m {{from}} til {{to}}",
   "at": "{{date}}",
   "Period is not set": "Gyldighetsperiode er ikke valgt",
   "Type classification name": "Velg kodeverk",
