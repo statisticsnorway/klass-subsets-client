@@ -20,8 +20,10 @@
 
   "Metadata": "Metadata",
   "Names": "Names",
-  "Valid from": "Valid from",
-  "Valid to": "Valid to",
+  "Valid from": "Valid from inclusive",
+  "Valid to": "Valid to exclusive",
+  "Period cannot start later than end": "Period cannot start later than end",
+  "Period cannot include and exclude the same day": "Period cannot include and exclude the same day",
   "Owner": "Owner",
   "Select a responsible department...": "Select a responsible department...",
   "Subject": "Subject",
