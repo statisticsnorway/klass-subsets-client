@@ -5,11 +5,11 @@ import {Classification} from './Classification';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 import {URL} from '../../controllers/klass-api';
+import '../../css/list.css';
 
 /*
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
- *  FIXME: notes for codes: restrict period!
  */
 
 export const ChooseCodesFormStep = ({subset}) => {
@@ -52,27 +52,29 @@ export const ChooseCodesFormStep = ({subset}) => {
                     {searchResult
                     .map(c => (c.urn ? c : {...c, urn: URL.toURN(c._links?.self?.href).urn}))
                     .map((c, index) => (
-                        <li key={c.urn + index} style={{padding: '5px', width: '600px'}}>
-                            <Classification item={c} from={from} to={to}
-                                            chosenCodes={draft.codes}
-                                            chosen={origin.includes(c.urn)}
-                                            include={ () => dispatch({
-                                                action: 'codelist_include',
-                                                data: c.urn})
-                                            }
-                                            exclude={ () => dispatch({
-                                                action: 'codelist_exclude',
-                                                data: c.urn})
-                                            }
-                                            includeCodes={ codes => dispatch({
-                                                action: 'codes_include',
-                                                data: codes})
-                                            }
-                                            excludeCodes={ codes => dispatch({
-                                                action: 'codes_exclude',
-                                                data: codes})
-                                            }
-                        /></li>))}
+                        <Classification
+                            key={c.urn + index}
+                            item={c}
+                            from={from} to={to}
+                            chosenCodes={draft.codes}
+                            chosen={origin.includes(c.urn)}
+                            include={() => dispatch({
+                                action: 'codelist_include',
+                                data: c.urn
+                            })}
+                            exclude={() => dispatch({
+                                action: 'codelist_exclude',
+                                data: c.urn
+                            })}
+                            includeCodes={codes => dispatch({
+                                action: 'codes_include',
+                                data: codes
+                            })}
+                            excludeCodes={codes => dispatch({
+                                action: 'codes_exclude',
+                                data: codes
+                            })}
+                        />))}
                 </ul>
             }
 
@@ -80,28 +82,28 @@ export const ChooseCodesFormStep = ({subset}) => {
 
             { draft.codes?.length === 0 && origin?.length === 0
                 ? <p>{t('No classifications in the subset draft')}</p>
-                : <ul style={{listStyleType: 'none'}}>
+                : <ul className='list'>
                     {origin
                         .map((urn, index) =>
-                            <li key={urn + index} style={{padding: '5px', width: '600px'}}>
-                                <Classification item={{urn}}
-                                            to={to} from={from}
-                                            chosenCodes={draft.codes}
-                                            chosen={true}
-                                            exclude={ () => dispatch({
-                                                action: 'codelist_exclude',
-                                                data: urn})
-                                            }
-                                            includeCodes={ codes => dispatch({
-                                                action: 'codes_include',
-                                                data: codes})
-                                            }
-                                            excludeCodes={ codes => dispatch({
-                                                action: 'codes_exclude',
-                                                data: codes})
-                                            }
-                                />
-                            </li>)}
+                            <Classification
+                                key={urn + index}
+                                item={{urn}}
+                                to={to} from={from}
+                                chosenCodes={draft.codes}
+                                chosen={true}
+                                exclude={() => dispatch({
+                                    action: 'codelist_exclude',
+                                    data: urn
+                                })}
+                                includeCodes={codes => dispatch({
+                                    action: 'codes_include',
+                                    data: codes
+                                })}
+                                excludeCodes={codes => dispatch({
+                                    action: 'codes_exclude',
+                                    data: codes
+                                })}
+                            />)}
                 </ul>
             }
         </>

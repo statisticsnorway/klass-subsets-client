@@ -14,6 +14,7 @@ import {useGet, URN, useClassification} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
 import {replaceRef} from '../../utils/strings';
+import keys from '../../utils/keys';
 
 export const Classification = ({item = {}, from, to,
                                 include, exclude, chosen,
@@ -32,7 +33,26 @@ export const Classification = ({item = {}, from, to,
     const [show, setShow] = useState({none: true});
 
     return (
-        <>
+        <li style={{padding: '5px', width: '600px'}}
+            tabIndex='0'
+            onKeyDown={(event) => {
+                switch (event.which) {
+                    case keys.DOWN: {
+                        console.log('keydown')
+                        event.preventDefault();
+                        event.target.nextElementSibling && event.target.nextElementSibling.focus();
+                        break;
+                    }
+                    case keys.UP: {
+                        console.log('key up')
+                        event.preventDefault();
+                        event.target.previousElementSibling && event.target.previousElementSibling.focus();
+                        break;
+                    }
+                    default: break;
+                }
+
+            }}>
             <div style={{display: 'flex'}}>
                 <div style={{width: '400px'}}>{item?.name || metadata?.name}</div>
 
@@ -78,7 +98,8 @@ export const Classification = ({item = {}, from, to,
             {/*TODO: where item.error comes from?*/}
             {show.alert &&
             <div style={{backgroundColor: 'AntiqueWhite'}}
-                 className='panel'><Text>{item.error}</Text>
+                 className='panel'>
+                <Text>{item.error}</Text>
             </div>}
 
             {show.cannot &&
@@ -103,7 +124,7 @@ export const Classification = ({item = {}, from, to,
 
             {show.info
                 && <CodelistInfo id={id} info={metadata}/>}
-        </>
+        </li>
     );
 };
 
@@ -124,7 +145,8 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
     const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
 
     return (
-        <div style={{backgroundColor: 'AliceBlue'}} className='panel'>
+        <div style={{backgroundColor: 'AliceBlue'}}
+             className='panel'>
             <div className='ssb-checkbox-group'>
                 <div className='checkbox-group-header'>{t('Codes')}
                     {from && to
