@@ -176,12 +176,13 @@ export const ReordableItem = ({item = {}, remove, update,
             onDragLeave={(event) =>
                 event.currentTarget.style.backgroundColor = 'white'
             }
-
-            onClick={() => toggleDragTarget(item)}
         >
             <td>{codeData.code || item.code || '-'}</td>
             <td style={{textAlign: 'right'}}>{codeData.classificationId || item.classificationId}</td>
-            <td style={{width: '65%'}}>{codeData.name || item.name || item.urn}</td>
+            <td style={{width: '65%'}}
+                onClick={() => toggleDragTarget(item)}>
+                {codeData.name || item.name || item.urn}
+            </td>
             <td>
                 <span style={{display: 'inline-block', width: '40px'}}>
 
@@ -221,7 +222,6 @@ export const ReordableItem = ({item = {}, remove, update,
                                }
                            }
                        }}
-                       onBlur={() => setRank(item.rank)}
                 />
 
                 <button onClick={(event) => {
