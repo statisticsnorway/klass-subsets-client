@@ -38,13 +38,11 @@ export const Classification = ({item = {}, from, to,
             onKeyDown={(event) => {
                 switch (event.which) {
                     case keys.DOWN: {
-                        console.log('keydown')
                         event.preventDefault();
                         event.target.nextElementSibling && event.target.nextElementSibling.focus();
                         break;
                     }
                     case keys.UP: {
-                        console.log('key up')
                         event.preventDefault();
                         event.target.previousElementSibling && event.target.previousElementSibling.focus();
                         break;

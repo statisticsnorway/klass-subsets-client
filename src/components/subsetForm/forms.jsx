@@ -80,7 +80,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
 export const LanguageSelect = ({
                                    languages = availableLanguages(),
                                    selected = false,
-                                   onChange = (e) => console.log(e.target.value)
+                                   onChange = (e) => {}
                                }) => {
 
     return (
