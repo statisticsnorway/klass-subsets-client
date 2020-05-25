@@ -147,16 +147,14 @@ export const ReordableItem = ({item = {}, remove, update,
                     }
                     case keys.DOWN: {
                         event.preventDefault();
-                        event.ctrlKey
-                            ? rerankDragTargets(item.rank + 1)
-                            : event.target.nextElementSibling && event.target.nextElementSibling.focus();
+                        event.target.nextElementSibling && event.target.nextElementSibling.focus();
+                        event.ctrlKey && rerankDragTargets(item.rank + 1);
                         break;
                     }
                     case keys.UP: {
                         event.preventDefault();
-                        event.ctrlKey
-                            ? rerankDragTargets(item.rank - 1)
-                            : event.target.previousElementSibling && event.target.previousElementSibling.focus();
+                        event.target.previousElementSibling && event.target.previousElementSibling.focus();
+                        event.ctrlKey && rerankDragTargets(item.rank - 1);
                         break;
                     }
                     default: break;
@@ -222,18 +220,24 @@ export const ReordableItem = ({item = {}, remove, update,
                                    rerank([item], rank);
                                }
                            }
+                           if (event.which === keys.ESC && rank !== item.rank) {
+                               event.preventDefault();
+                               setRank(item.rank);
+                           }
                        }}
                 />
 
                 <button onClick={(event) => {
                     event.stopPropagation();
-                    if (!rank || rank === '-') {
-                        setRank(item.rank);
-                    } else {
-                        rerank([item], rank);
-                    }
-                }}>
-                    <Repeat color={item.rank === rank ? '#F0F8F9' : '#62919A'}/>
+                    if (rank !== item.rank) {
+                        if (!rank || rank === '-') {
+                            setRank(item.rank);
+                        } else {
+                            rerank([item], rank);
+                        }
+                    }}
+                }>
+                    <Repeat color={(!rank || rank === '-' || item.rank === rank) ? '#F0F8F9' : '#62919A'}/>
                 </button>
             </td>
             <td>
