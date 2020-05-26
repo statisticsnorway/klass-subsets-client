@@ -120,8 +120,8 @@ export function useGet(url = null) {
         if (_mounted && path && retry) {
             setError(null);
             setIsLoading(true);
-            //setTimeout(fetchData, 1000);
-            fetchData();
+            setTimeout(fetchData, 1000);
+            // fetchData();
         }
 
         return () => {
@@ -199,7 +199,7 @@ export function useClassification(id = null) {
         [metadata, setVersions]); // force update: all codes have to be fetch again
 
     // FIXME handle errors
-    const [version, , errorVersion, setVersionPath] = useGet();
+    const [version, isLoadingVersion, errorVersion, setVersionPath] = useGet();
     // Fetch codes for one of the version without codes (codes are undefined)
     // If codes defined as empty array, the attempt to fetch the codes will not fire
     // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
@@ -290,5 +290,5 @@ export function useClassification(id = null) {
         useEffect(() => console.log({codesWithNotes}), [codesWithNotes]);
     */
 
-    return {metadata, versions, codesWithNotes};
+    return {metadata, versions, codesWithNotes, isLoadingVersion};
 }

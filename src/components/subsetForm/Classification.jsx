@@ -4,7 +4,7 @@ import {
     Info,
     List as ListIcon,
     MinusSquare,
-    MoreHorizontal,
+    MessageSquare,
     PlusSquare,
     Trash2,
     XSquare,
@@ -27,10 +27,10 @@ export const Classification = ({item = {}, from, to,
     const {id, path, codesPath} = URN.toURL(item?.urn, from, to);
 
     // TODO use fallback, loader, error
-    const [metadata] = useGet(path);
+    const [metadata, isLoadingMetadata,,, setRetryMetadata] = useGet(path);
 
     // TODO use fallback, loader, error
-    const [codes, isLoadingCodes,,, setRetry] = useGet(codesPath);
+    const [codes, isLoadingCodes,,, setRetryCodes] = useGet(codesPath);
 
     const [show, setShow] = useState({none: true});
 
@@ -57,23 +57,32 @@ export const Classification = ({item = {}, from, to,
                 <div style={{width: '400px'}}>{item?.name || metadata?.name}</div>
 
                 {item.error &&
-                    <button onClick={() => setShow(prev => {return {alert: !prev.alert};})}>
+                    <button onClick={() => setShow(prev => ({alert: !prev.alert}))}>
                         <Alert color='orange'/>
                     </button>
                 }
 
-                <button onClick={() => setRetry(true)}>
-                    {isLoadingCodes ? <Spinner/> : <RefreshCw size='20' color='#62919A'/>}
+                <button onClick={() => {
+                    setRetryCodes(true);
+                    setRetryMetadata(true);
+                }}>
+                    <RefreshCw size='20' color={ isLoadingCodes || isLoadingMetadata ? '#C3DCDC' : '#62919A'}/>
                 </button>
 
                 <button onClick={() =>
-                    setShow(prev => {return {codes: !prev.codes};})}>
-                    <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'}/>
+                    setShow(prev => ({codes: !prev.codes}))}>
+                    { isLoadingCodes
+                        ? <Spinner/>
+                        : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
+                    }
                 </button>
 
                 <button onClick={() =>
-                    setShow(prev => {return {info: !prev.info};})}>
-                <Info color={metadata ? '#2D6975' : '#C3DCDC'}/>
+                    setShow(prev => ({info: !prev.info}))}>
+                    { isLoadingMetadata
+                        ? <Spinner/>
+                        : <Info color={metadata ? '#2D6975' : '#C3DCDC'}/>
+                    }
                 </button>
 
                 {include
@@ -83,12 +92,15 @@ export const Classification = ({item = {}, from, to,
                             setShow({none: true});
                             chosen ? exclude() : include();
                         } else {
-                            setShow(prev => {return {cannot: !prev.cannot};});
+                            setShow(prev => ({cannot: !prev.cannot}));
                         }
                     }}>
-                        {!chosen && codes?.codes?.length > 0 && <PlusSquare color='#1A9D49'/>}
-                        {chosen && <MinusSquare color='#B6E8B8'/>}
-                        {!chosen && codes?.codes?.length === 0 && <XSquare color='#9272FC'/>}
+                        {chosen
+                            ? <MinusSquare color='#B6E8B8' />
+                            : !codes || codes?.codes?.length === 0
+                                ? <XSquare color={ codes ? '#9272FC' : '#C3DCDC' }/>
+                                : <PlusSquare color='#1A9D49'/>
+                        }
                     </button>
                     :
                     <button onClick={() => {
@@ -144,7 +156,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
             setTimeout(() => setRenderedCodes(codes),0);
         }
     });
-    const {codesWithNotes} = useClassification(id);
+    const {codesWithNotes, isLoadingVersion} = useClassification(id);
 
     const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
     const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
@@ -179,6 +191,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                                       toggle={() => chosenCodes.find(c => c.urn === code.urn)
                                           ? excludeCodes([code])
                                           : includeCodes([code])}
+                                      isLoadingVersion={isLoadingVersion}
                             />)
                         }
                     </>
@@ -188,7 +201,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
     );
 };
 
-export const CodeInfo = ({item, notes = [], chosen, toggle}) => {
+export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion}) => {
     const {t} = useTranslation();
 
     const [showNotes, setShowNotes] = useState(false);
@@ -208,7 +221,9 @@ export const CodeInfo = ({item, notes = [], chosen, toggle}) => {
                     </label>
                 </div>
                 <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
-                    <MoreHorizontal color={notes.length > 0 ? '#62919A' : '#C3DCDC'}/>
+                    {isLoadingVersion
+                        ? <Spinner />
+                        : <MessageSquare color={notes.length > 0 ? '#62919A' : '#C3DCDC'}/>}
                 </button>
             </div>
 
