@@ -104,6 +104,7 @@ export function useGet(url = null) {
                 _mounted && setIsLoading(false);
                 _mounted && setRetry(false);
             } catch (e) {
+                console.error(e);
                 _mounted && setError({
                     timestamp: Date.now(),
                     status: e.status,
@@ -119,8 +120,8 @@ export function useGet(url = null) {
         if (_mounted && path && retry) {
             setError(null);
             setIsLoading(true);
-            setTimeout(fetchData, 1000);
-          //  fetchData();
+          //  setTimeout(fetchData, 1000);
+            fetchData();
         }
 
         return () => {
