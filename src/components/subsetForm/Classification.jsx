@@ -7,7 +7,8 @@ import {
     MoreHorizontal,
     PlusSquare,
     Trash2,
-    XSquare
+    XSquare,
+    RefreshCw
 } from 'react-feather';
 import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import {useGet, URN, useClassification} from '../../controllers/klass-api';
@@ -28,7 +29,7 @@ export const Classification = ({item = {}, from, to,
     const [metadata] = useGet(path);
 
     // TODO use fallback, loader, error
-    const [codes] = useGet(codesPath);
+    const [codes, isLoadingCodes, errorCodes, setPathCodes, setRetry] = useGet(codesPath);
 
     const [show, setShow] = useState({none: true});
 
@@ -59,6 +60,14 @@ export const Classification = ({item = {}, from, to,
                         <Alert color='orange'/>
                     </button>
                 }
+
+                <button onClick={() => {
+                    console.log('RELOAD?' , codesPath)
+                    //setPathCodes(`${codesPath}/`)
+                    setRetry(true)
+                }}>
+                    <RefreshCw color={isLoadingCodes ? '#2D6975' : '#C3DCDC'}/>
+                </button>
 
                 <button onClick={() =>
                     setShow(prev => {return {codes: !prev.codes};})}>

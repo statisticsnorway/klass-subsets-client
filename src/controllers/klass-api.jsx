@@ -88,6 +88,7 @@ export function useGet(url = null) {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [retry, setRetry] = useState(true);
 
     useEffect(() => {
         let _mounted = true;
@@ -101,6 +102,7 @@ export function useGet(url = null) {
                 const json = await response.json();
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
+                _mounted && setRetry(false);
             } catch (e) {
                 _mounted && setError({
                     timestamp: Date.now(),
@@ -110,23 +112,24 @@ export function useGet(url = null) {
                     path
                 });
                 _mounted && setIsLoading(false);
+                _mounted && setRetry(false);
             }
         };
 
-        if (path && _mounted) {
+        if (_mounted && path && retry) {
             setError(null);
             setIsLoading(true);
-            //setTimeout(fetchData, 1000);
-            fetchData();
+            setTimeout(fetchData, 1000);
+          //  fetchData();
         }
 
         return () => {
             _mounted = false;
         };
         
-    }, [path]);
+    }, [path, retry]);
 
-    return [data, isLoading, error, setPath];
+    return [data, isLoading, error, setPath, setRetry];
 }
 
 // FIXME: do nothing if null
