@@ -15,6 +15,7 @@ import {useGet, URN, useClassification} from '../../controllers/klass-api';
 import '../../css/panel.css';
 import {useTranslation} from 'react-i18next';
 import {replaceRef} from '../../utils/strings';
+import Spinner from '../Spinner';
 import keys from '../../utils/keys';
 
 export const Classification = ({item = {}, from, to,
@@ -61,10 +62,8 @@ export const Classification = ({item = {}, from, to,
                     </button>
                 }
 
-                <button onClick={() => {
-                    setRetry(true)
-                }}>
-                    <RefreshCw color={isLoadingCodes ? '#2D6975' : '#C3DCDC'}/>
+                <button onClick={() => setRetry(true)}>
+                    {isLoadingCodes ? <Spinner/> : <RefreshCw size='20' color='#62919A'/>}
                 </button>
 
                 <button onClick={() =>
@@ -74,7 +73,7 @@ export const Classification = ({item = {}, from, to,
 
                 <button onClick={() =>
                     setShow(prev => {return {info: !prev.info};})}>
-                <Info color={metadata ? '#62919A' : '#C3DCDC'}/>
+                <Info color={metadata ? '#2D6975' : '#C3DCDC'}/>
                 </button>
 
                 {include
