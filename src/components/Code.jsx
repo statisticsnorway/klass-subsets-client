@@ -15,9 +15,9 @@ export const Code = ({origin}) => {
             <p><strong>{t('Classification')}:</strong> {codeData?.classification || '-'}</p>
             <p><strong>{t('URL')}:</strong> {codeData?._links?.self?.href || '-'}</p>
             <p><strong>{t('URN')}:</strong> {origin.urn || '-'}</p>
-            <p><strong>{t('Level')}:</strong> {codeData?.level}</p>
             <p><strong>{'validFromInRequestedRange'}:</strong> {codeData?.validFromInRequestedRange || '-'}</p>
             <p><strong>{'validToInRequestedRange'}:</strong> {codeData?.validToInRequestedRange || '-'}</p>
+            <p><strong>{t('Level')}:</strong> {codeData?.level}</p>
             {codeData?.parentCode && <p><strong>{t('Parent code')}:</strong> {codeData?.parentCode}</p>}
             <p><strong>{t('Notes')}: </strong></p>
             {!codeData?.notes

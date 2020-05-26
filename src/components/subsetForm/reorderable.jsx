@@ -5,6 +5,7 @@ import {Paragraph, LeadParagraph} from '@statisticsnorway/ssb-component-library'
 import {useCode} from '../../controllers/klass-api';
 import '../../css/form.css';
 import keys from '../../utils/keys';
+import Spinner from "../Spinner";
 
 export const Reorderable = ({list = [], rerank, remove, update}) => {
     const { t } = useTranslation();
@@ -121,7 +122,7 @@ export const ReordableItem = ({item = {}, remove, update,
     const [background, setBackground] = useState('#ECFEED');
 
     // TODO: cache fetched data in session storage
-    const codeData = useCode(item.name ? null : item);
+    const {codeData, isLoadingVersion} = useCode(item.name ? null : item);
 
     useEffect(() => {
         function fade() {
@@ -180,7 +181,7 @@ export const ReordableItem = ({item = {}, remove, update,
             <td style={{textAlign: 'right'}}>{codeData.classificationId || item.classificationId}</td>
             <td style={{width: '65%'}}
                 onClick={() => toggleDragTarget(item)}>
-                {codeData.name || item.name || item.urn}
+                {isLoadingVersion ? <Spinner /> : (codeData.name || item.name || item.urn)}
             </td>
             <td>
                 <span style={{display: 'inline-block', width: '40px'}}>
