@@ -159,7 +159,7 @@ export function useCode(origin) {
         });
     }, [targetCode]);
 
-    const {metadata, codesWithNotes} = useClassification(classificationId);
+    const {metadata, codesWithNotes, isLoadingVersion} = useClassification(classificationId);
 
     useEffect(() => {
         metadata?.name && setCodeData(prevCodeData => {
@@ -180,7 +180,7 @@ export function useCode(origin) {
         });
     }, [codesWithNotes, setCodeData, code]);
 
-    return codeData;
+    return {codeData, isLoadingVersion};
 }
 
 export function useClassification(id = null) {
