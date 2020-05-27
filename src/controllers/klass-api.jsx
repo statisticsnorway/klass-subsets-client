@@ -120,8 +120,8 @@ export function useGet(url = null) {
         if (_mounted && path && retry) {
             setError(null);
             setIsLoading(true);
-            setTimeout(fetchData, 1000);
-            // fetchData();
+            //setTimeout(fetchData, 1000);
+            fetchData();
         }
 
         return () => {

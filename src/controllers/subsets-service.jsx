@@ -40,8 +40,8 @@ export function useGet(url = null) {
         if (path !== null && _mounted) {
             setError(null);
             setIsLoading(true);
-            setTimeout(fetchData, 1000);
-            //fetchData();
+            //setTimeout(fetchData, 1000);
+            fetchData();
         }
 
         return () => {
