@@ -132,7 +132,7 @@ export const ReordableItem = ({item = {}, remove, update,
 
     useEffect(() => codeData && update(codeData), [codeData]);
 
-    return(
+    return (
         <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
             onMouseOver={() => setBackground('#ECFEED')}
             onMouseOut={() => setBackground('white')}

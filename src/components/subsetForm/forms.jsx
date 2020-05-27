@@ -18,7 +18,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
     disableUsed(languages, items.map(name => name.languageCode));
 
     return (
-        <div className='ssb-text-area' style={{width: '55%'}}>
+        <div className='ssb-text-area' style={{width: '55%', padding: '15px 0 0 0'}}>
             <label htmlFor={title} style={{display: 'block'}}
             >{title}</label>
 
