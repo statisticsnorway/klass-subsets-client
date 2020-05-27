@@ -1,6 +1,6 @@
 import React, {createContext, useEffect} from 'react';
-import {useSubset} from '../utils/useSubset';
-import {useErrorRegister} from '../utils/useErrorRegister';
+import {useSubset} from './useSubset';
+import {useErrorRegister} from './useErrorRegister';
 
 /** Context Principles
  *

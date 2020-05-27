@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Trash2, Repeat, ChevronUp, ChevronDown, HelpCircle} from 'react-feather';
 import {Paragraph, LeadParagraph} from '@statisticsnorway/ssb-component-library';
-import {useCode} from '../controllers/klass-api';
-import '../css/form.css';
-import keys from './keys';
+import {useCode} from '../../controllers/klass-api';
+import '../../css/form.css';
+import keys from '../../utils/keys';
+import Spinner from "../Spinner";
 
 export const Reorderable = ({list = [], rerank, remove, update}) => {
     const { t } = useTranslation();
@@ -121,17 +122,17 @@ export const ReordableItem = ({item = {}, remove, update,
     const [background, setBackground] = useState('#ECFEED');
 
     // TODO: cache fetched data in session storage
-    const codeData = useCode(item.name ? null : item);
+    const {codeData, isLoadingVersion} = useCode(item.name ? null : item);
 
     useEffect(() => {
         function fade() {
             setBackground('white');
-        }
+        };
         setTimeout(fade, 500)}, []);
 
     useEffect(() => codeData && update(codeData), [codeData]);
 
-    return(
+    return (
         <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
             onMouseOver={() => setBackground('#ECFEED')}
             onMouseOut={() => setBackground('white')}
@@ -141,21 +142,20 @@ export const ReordableItem = ({item = {}, remove, update,
             onKeyDown={(event) => {
                 switch (event.which) {
                     case keys.SPACE: {
-                        toggleDragTarget(item)
+                        event.preventDefault();
+                        toggleDragTarget(item);
                         break;
                     }
                     case keys.DOWN: {
                         event.preventDefault();
-                        event.ctrlKey
-                            ? rerankDragTargets(item.rank + 1)
-                            : event.target.nextElementSibling && event.target.nextElementSibling.focus();
+                        event.target.nextElementSibling && event.target.nextElementSibling.focus();
+                        event.ctrlKey && rerankDragTargets(item.rank + 1);
                         break;
                     }
                     case keys.UP: {
                         event.preventDefault();
-                        event.ctrlKey
-                            ? rerankDragTargets(item.rank - 1)
-                            : event.target.previousElementSibling && event.target.previousElementSibling.focus();
+                        event.target.previousElementSibling && event.target.previousElementSibling.focus();
+                        event.ctrlKey && rerankDragTargets(item.rank - 1);
                         break;
                     }
                     default: break;
@@ -166,7 +166,7 @@ export const ReordableItem = ({item = {}, remove, update,
             draggable={true}
 
             onDragStart={() => setDragTarget(item)}
-            onDragEnd={() =>onDragEnd()}
+            onDragEnd={() => onDragEnd()}
 
             onDragEnter={(event) => {
                 event.currentTarget.style.backgroundColor = '#ECFEED';
@@ -176,12 +176,13 @@ export const ReordableItem = ({item = {}, remove, update,
             onDragLeave={(event) =>
                 event.currentTarget.style.backgroundColor = 'white'
             }
-
-            onClick={() => toggleDragTarget(item)}
         >
             <td>{codeData.code || item.code || '-'}</td>
             <td style={{textAlign: 'right'}}>{codeData.classificationId || item.classificationId}</td>
-            <td style={{width: '65%'}}>{codeData.name || item.name || item.urn}</td>
+            <td style={{width: '65%'}}
+                onClick={() => toggleDragTarget(item)}>
+                {isLoadingVersion ? <Spinner /> : (codeData.name || item.name || item.urn)}
+            </td>
             <td>
                 <span style={{display: 'inline-block', width: '40px'}}>
 
@@ -220,19 +221,24 @@ export const ReordableItem = ({item = {}, remove, update,
                                    rerank([item], rank);
                                }
                            }
+                           if (event.which === keys.ESC && rank !== item.rank) {
+                               event.preventDefault();
+                               setRank(item.rank);
+                           }
                        }}
-                       onBlur={() => setRank(item.rank)}
                 />
 
                 <button onClick={(event) => {
                     event.stopPropagation();
-                    if (!rank || rank === '-') {
-                        setRank(item.rank);
-                    } else {
-                        rerank([item], rank);
-                    }
-                }}>
-                    <Repeat color={item.rank === rank ? '#F0F8F9' : '#62919A'}/>
+                    if (rank !== item.rank) {
+                        if (!rank || rank === '-') {
+                            setRank(item.rank);
+                        } else {
+                            rerank([item], rank);
+                        }
+                    }}
+                }>
+                    <Repeat color={(!rank || rank === '-' || item.rank === rank) ? '#F0F8F9' : '#62919A'}/>
                 </button>
             </td>
             <td>

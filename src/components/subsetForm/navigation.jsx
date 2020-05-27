@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button} from '@statisticsnorway/ssb-component-library';
-import '../css/tooltip.css';
+import '../../css/tooltip.css';
 import {useTranslation} from "react-i18next";
 
 // TODO: add api to navigate to particular steps from inside og the form.

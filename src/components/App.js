@@ -4,10 +4,10 @@ import {BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
 import {ContextProvider} from '../controllers/context';
 import Header from './Header';
 import Footer from './Footer';
-import WelcomePage from './pages/WelcomePage';
+import ChangelogPage from './pages/ChangelogPage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
 // import Errors from './Errors';
-import SubsetForm from './subsetDraft/SubsetForm';
+import SubsetForm from './subsetForm/SubsetForm';
 import {SubsetPage} from './pages/SubsetPage';
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
                         <Route path='/' exact component={SearchSubsetsPage}/>
                         <Redirect push from='/create' to='/auth/create' />
                         <Route path='/auth/create' component={SubsetForm}/>
-                        <Route path='/about' exact component={WelcomePage}/>
+                        <Route path='/about' exact component={ChangelogPage}/>
                         <Route path='/subsets/:id' exact component={SubsetPage}/>
                         <Route component={NoMatch}/>
                     </Switch>

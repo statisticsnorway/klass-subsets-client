@@ -88,6 +88,7 @@ export function useGet(url = null) {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [retry, setRetry] = useState(true);
 
     useEffect(() => {
         let _mounted = true;
@@ -101,7 +102,9 @@ export function useGet(url = null) {
                 const json = await response.json();
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
+                _mounted && setRetry(false);
             } catch (e) {
+                console.error(e);
                 _mounted && setError({
                     timestamp: Date.now(),
                     status: e.status,
@@ -110,10 +113,11 @@ export function useGet(url = null) {
                     path
                 });
                 _mounted && setIsLoading(false);
+                _mounted && setRetry(false);
             }
         };
 
-        if (path && _mounted) {
+        if (_mounted && path && retry) {
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);
@@ -124,9 +128,9 @@ export function useGet(url = null) {
             _mounted = false;
         };
         
-    }, [path]);
+    }, [path, retry]);
 
-    return [data, isLoading, error, setPath];
+    return [data, isLoading, error, setPath, setRetry];
 }
 
 // FIXME: do nothing if null
@@ -155,7 +159,7 @@ export function useCode(origin) {
         });
     }, [targetCode]);
 
-    const {metadata, codesWithNotes} = useClassification(classificationId);
+    const {metadata, codesWithNotes, isLoadingVersion} = useClassification(classificationId);
 
     useEffect(() => {
         metadata?.name && setCodeData(prevCodeData => {
@@ -176,7 +180,7 @@ export function useCode(origin) {
         });
     }, [codesWithNotes, setCodeData, code]);
 
-    return codeData;
+    return {codeData, isLoadingVersion};
 }
 
 export function useClassification(id = null) {
@@ -195,7 +199,7 @@ export function useClassification(id = null) {
         [metadata, setVersions]); // force update: all codes have to be fetch again
 
     // FIXME handle errors
-    const [version, , errorVersion, setVersionPath] = useGet();
+    const [version, isLoadingVersion, errorVersion, setVersionPath] = useGet();
     // Fetch codes for one of the version without codes (codes are undefined)
     // If codes defined as empty array, the attempt to fetch the codes will not fire
     // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
@@ -286,5 +290,5 @@ export function useClassification(id = null) {
         useEffect(() => console.log({codesWithNotes}), [codesWithNotes]);
     */
 
-    return {metadata, versions, codesWithNotes};
+    return {metadata, versions, codesWithNotes, isLoadingVersion};
 }

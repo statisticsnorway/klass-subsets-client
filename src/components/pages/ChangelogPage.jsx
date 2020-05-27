@@ -2,9 +2,10 @@ import React from 'react';
 import '../../css/pages.css';
 import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
-import {Edit, HelpCircle} from 'react-feather';
+import {Edit, HelpCircle, MessageSquare, Repeat, RefreshCw} from 'react-feather';
+import Spinner from "../Spinner";
 
-export default function WelcomePage() {
+export default function ChangelogPage() {
    const {t} = useTranslation();
 
    return (
@@ -21,6 +22,31 @@ export default function WelcomePage() {
            </Paragraph>
 
            <Title size={2}>{t('Changelog')}</Title>
+
+           <Title size={4}>v0.3.3</Title>
+           <Paragraph>Form validation:
+               <ul>
+                   <li>each form field individually (TEST: try to set same date in <code>valid from</code> and <code>valid to</code> fields. Or try to set <code>valid to</code> earlier than <code>valid from</code>. A warning will be displayed under the field.)</li>
+                   <li>whole form before publishing (TEST: let <code>name</code> or <code>Owner</code> fields be empty and go to "Publish" form step -- Publish button should be disabled and Form errors summary is shown.)</li>
+               </ul>
+           </Paragraph>
+           <Paragraph>Limited name length to 250 symbols.</Paragraph>
+           <Paragraph>Corrected field name for <code>valid to</code> field to be exclusive.</Paragraph>
+           <Paragraph>Navigation between code lists in search results by using <code>UP</code> and <code>DOWN</code> on "Choose classification" form step.</Paragraph>
+           <Paragraph>Retry button <RefreshCw size='20' color='#62919A'/> for code lists in search result to repeat Klass API call to retrieve codes and metadata.</Paragraph>
+           <Paragraph>Reorder button <Repeat color='#62919A'/> works properly now.</Paragraph>
+           <Paragraph>No scrolling to page bottom, when selecting codes with <code>SPACE</code>.</Paragraph>
+           <Paragraph><code>ESC</code> in rank input field to reset rank.</Paragraph>
+           <Paragraph><code>ESC</code> on table to unselect all selected codes.</Paragraph>
+           <Paragraph>Some styles are corrected:
+               <ul>
+                   <li><Spinner /> when loading data from services.</li>
+                   <li>Notes icon <MessageSquare color='#62919A' /></li>
+                   <li>Date inputs</li>
+                   <li>Highlight rows and list items on mouse over</li>
+                   <li>etc.</li>
+               </ul>
+           </Paragraph>
 
            <Title size={4}>v0.3.2</Title>
                <Paragraph>Updated reorder codes form step:

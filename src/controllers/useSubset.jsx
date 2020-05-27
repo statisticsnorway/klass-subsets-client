@@ -1,6 +1,7 @@
-import {useReducer, useEffect} from 'react';
-import {nextDefaultName} from './languages';
-import {URN} from '../controllers/klass-api';
+import {useState, useReducer, useEffect} from 'react';
+import {nextDefaultName} from '../internationalization/languages';
+import {URN} from './klass-api';
+import {validate} from './validator'
 
 export const useSubset = (init =  {
         createdBy: '',
@@ -23,6 +24,19 @@ export const useSubset = (init =  {
     }
     ) => {
 
+    const [errors, setErrors] = useState({
+        name: [],
+        validFrom: [],
+        validUntil: [],
+        period: [],
+        createdBy: [],
+        annotation: [],
+        description: [],
+        origin: [],
+        administrativeStatus: [],
+        codes: []
+    });
+
     function verifyOrigin(origin = [], codes = []) {
 
         // TODO: if origin values are not empty, check if all values are valid URNs
@@ -44,6 +58,10 @@ export const useSubset = (init =  {
             case 'update': {
                 return  {...state};
             }
+            case 'validate': {
+                setErrors(validate.subset(state));
+                return  state;
+            }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
                 return  name === null
@@ -58,10 +76,19 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
+                setErrors(prev => ({
+                    ...prev,
+                    period: validate.period(data, state.validUntil)
+                }));
                 return {...state, validFrom: data};
             }
             case 'to': {
                 // FIXME: restrictions
+                setErrors(prev => ({
+                        ...prev,
+                        period: validate.period(state.validFrom, data)
+                    }
+                ));
                 return {...state, validUntil: data};
             }
             case 'createdBy': {
@@ -206,5 +233,5 @@ export const useSubset = (init =  {
         sessionStorage.setItem('draft', JSON.stringify(draft));
     }, [draft]);
 
-    return {draft, dispatch};
+    return {draft, dispatch, errors};
 };
