@@ -58,6 +58,10 @@ export const useSubset = (init =  {
             case 'update': {
                 return  {...state};
             }
+            case 'validate': {
+                setErrors(validate.subset(state));
+                return  state;
+            }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
                 return  name === null

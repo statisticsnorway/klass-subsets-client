@@ -26,7 +26,7 @@ export const PublishFormStep = ({subset}) => {
         error !== null && alert(`Publishing failed: ${JSON.stringify(error)}`);
     }, [error]);
 
-    useEffect(() => console.log({errors: Object.values(errors).flat()}), [errors]);
+    useEffect(() => dispatch({action: 'validate'}), [draft, dispatch]);
 
     return (
         <>
