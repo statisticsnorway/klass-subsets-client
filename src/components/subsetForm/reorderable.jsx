@@ -127,7 +127,7 @@ export const ReordableItem = ({item = {}, remove, update,
     useEffect(() => {
         function fade() {
             setBackground('white');
-        }
+        };
         setTimeout(fade, 500)}, []);
 
     useEffect(() => codeData && update(codeData), [codeData]);
@@ -143,7 +143,7 @@ export const ReordableItem = ({item = {}, remove, update,
                 switch (event.which) {
                     case keys.SPACE: {
                         event.preventDefault();
-                        toggleDragTarget(item)
+                        toggleDragTarget(item);
                         break;
                     }
                     case keys.DOWN: {
@@ -166,7 +166,7 @@ export const ReordableItem = ({item = {}, remove, update,
             draggable={true}
 
             onDragStart={() => setDragTarget(item)}
-            onDragEnd={() =>onDragEnd()}
+            onDragEnd={() => onDragEnd()}
 
             onDragEnter={(event) => {
                 event.currentTarget.style.backgroundColor = '#ECFEED';
