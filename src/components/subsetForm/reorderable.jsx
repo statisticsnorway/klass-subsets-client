@@ -15,7 +15,7 @@ export const Reorderable = ({list = [], rerank, remove, update}) => {
     const [showHelp, setShowHelp] = useState(false);
 
     return (
-        <>
+        <div style={{height: '600px',   overflow: 'auto'}}>
             <table style={{ borderCollapse: 'collapse'}}
                    onDragEndCapture={() => setDragTargets([])}
                    onDoubleClickCapture={() => setDragTargets([])}
@@ -107,7 +107,7 @@ export const Reorderable = ({list = [], rerank, remove, update}) => {
                 }
                 </tbody>
             </table>
-        </>
+        </div>
     );
 };
 

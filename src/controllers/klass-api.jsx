@@ -154,7 +154,7 @@ export function useCode(origin) {
     // FIXME handle errors
     const [targetCode] = useGet(code?.name ? null : path);
     useEffect(() => {
-        targetCode?.codes?.length > 1 && setCodeData(prevCodeData => {
+        targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
             return {...prevCodeData, ...targetCode.codes[0]};
         });
     }, [targetCode]);

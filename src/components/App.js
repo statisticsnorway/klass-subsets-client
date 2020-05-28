@@ -30,7 +30,7 @@ export default function App() {
                         <Route path='/' exact component={SearchSubsetsPage}/>
                         <Redirect push from='/create' to='/auth/create' />
                         <Route path='/auth/create' component={SubsetForm}/>
-                        <Route path='/about' exact component={ChangelogPage}/>
+                        <Route path='/changelog' exact component={ChangelogPage}/>
                         <Route path='/subsets/:id' exact component={SubsetPage}/>
                         <Route component={NoMatch}/>
                     </Switch>
