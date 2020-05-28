@@ -23,6 +23,11 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.3.4</Title>
+           <Paragraph>Bugfix: some codes could not show its name.</Paragraph>
+           <Paragraph>Reorder: show codes in a scrollbar window.</Paragraph>
+           <Paragraph><em>/changelog</em>  instead of <em>/about</em>.</Paragraph>
+
            <Title size={4}>v0.3.3</Title>
            <Paragraph>Form validation:
                <ul>

@@ -54,7 +54,7 @@ export default function Header() {
                       items={[
                           {title: t('Search subsets'), path: '/'},
                           {title: t('Create subset'), path: '/create'},
-                          {title: t('Changelog'), path: '/about'},
+                          {title: t('Changelog'), path: '/changelog'},
                       ]}/>
                 <Divider/>
             </div>
