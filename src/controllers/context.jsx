@@ -9,7 +9,7 @@ import {useErrorRegister} from './useErrorRegister';
  * @constructor initial state to each application state variable
  *
  * Application state variables:
- *  TODO: update the list
+ *  DOCME: update the list
  * - config
  * - operational messages
  * - application messages

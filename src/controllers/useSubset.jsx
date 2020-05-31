@@ -4,10 +4,11 @@ import {URN} from './klass-api';
 import {validate} from './validator'
 
 export const useSubset = (init =  {
-        createdBy: '',
         name: [],
+        administrativeStatus: 'INTERNAL', // cannot be changed by the app, by service only
         validFrom: null,
         validUntil: null,
+        createdBy: '',
         administrativeDetails: [
             {
                 administrativeDetailType: 'ANNOTATION',
@@ -19,7 +20,7 @@ export const useSubset = (init =  {
             }
         ],
         description: [],
-        administrativeStatus: 'DRAFT',
+        version: '1.0.0',
         codes: []
     }
     ) => {
@@ -33,12 +34,11 @@ export const useSubset = (init =  {
         annotation: [],
         description: [],
         origin: [],
-        administrativeStatus: [],
         codes: []
     });
 
     function verifyOrigin(origin = [], codes = []) {
-
+        // TESTME
         // TODO: if origin values are not empty, check if all values are valid URNs
 
         if (codes?.length === 0) {

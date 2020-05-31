@@ -6,6 +6,7 @@ import {PublishFormStep} from './PublishFormStep';
 import {ReorderFormStep} from './ReorderFormStep';
 import {ChooseCodesFormStep} from './ChooseCodesFormStep';
 import {MetadataFormStep} from './MetadataFormStep';
+import {VersionsFormStep} from './VersionsFormStep';
 import {useTranslation} from "react-i18next";
 
 export default function SubsetForm() {
@@ -17,6 +18,9 @@ export default function SubsetForm() {
             <Navigation>
                 <Step label={t('Metadata')}>
                     <MetadataFormStep subset={subset} />
+                </Step>
+                <Step label={t('Versions')}>
+                    <VersionsFormStep subset={subset} />
                 </Step>
                 <Step label={t('Choose codes')}>
                     <ChooseCodesFormStep subset={subset} />

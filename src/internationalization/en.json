@@ -30,6 +30,9 @@
   "Select a classification family...": "Select a classification family...",
   "Description": "Description",
 
+  "Versions": "Versions",
+  "Version": "Version",
+
   "Choose codes": "Choose codes",
   "Choose classifications and code lists": "Choose classifications and code lists",
   "All search results will be restricted by validity period set in metadata": "All search results will be restricted by validity period set in metadata",

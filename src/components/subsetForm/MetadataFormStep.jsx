@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from './forms';
 import {subsetDraft} from '../../controllers/defaults';
-import {Title, FormError} from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 
