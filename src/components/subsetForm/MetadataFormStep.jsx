@@ -127,7 +127,6 @@ export const MetadataFormStep = ({subset}) => {
                           action: 'subject',
                           data: item })}
                       errorMessages={errors?.annotation}
-                      required
             />
 
 

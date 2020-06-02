@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../css/form.css';
 import {useTranslation} from 'react-i18next';
-import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
 import {Dropdown, TextLanguageFieldset} from "./forms";
 
 /*
@@ -20,11 +20,60 @@ export const VersionsFormStep = ({subset}) => {
             dispatch({action: 'remove_empty'});
         };
     }, []);
+
+    const [versions] = useState([
+        { version: '1.0.0',
+            "codes": [
+                {
+                    "urn": "urn:klass-api:classifications:68:code:1",
+                    "rank": 1
+                }],
+            versionRationale: [
+        {
+            "languageText": "version rationale 1",
+            "languageCode": "nb"
+        }
+            ],
+            versionValidFrom: '2019-01-01'
+        },
+        { version: '2.0.0',
+            "codes": [
+                {
+                    "urn": "urn:klass-api:classifications:68:code:2",
+                    "rank": 1
+                }
+            ],
+            versionRationale: [
+                {
+                    "languageText": "version rationale 2",
+                    "languageCode": "nb"
+                }
+            ],
+            versionValidFrom: '2020-01-01'
+        },
+        { version: 'new',
+            codes: [],
+            versionRationale: [],
+            versionValidFrom: null
+        }
+    ])
+
     return (
         <>
             <Title size={3}>{t('Versions')}</Title>
-            <Paragraph>{draft.version}</Paragraph>
 
+            <Dropdown label={t('Version')}
+                      options={versions.map(v => ({name: v.version}))}
+                      placeholder={t('Select a version')}
+                      selected={draft.version}
+                      onSelect={(item) => {
+                          dispatch({
+                              action: 'version_change',
+                              data: versions.find(v => v.version === item)
+                          })
+                      }}
+                      errorMessages={errors?.version}
+            />
             {/* TODO: autofill if null by
                 - validFrom if version 1.0;
                 - validUntil if not null and version > 1.0

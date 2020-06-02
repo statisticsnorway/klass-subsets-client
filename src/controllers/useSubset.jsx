@@ -108,6 +108,17 @@ export const useSubset = (init =  {
                     versionRationale: state.versionRationale?.filter((item, index) => index !== data)
                 };
             }
+            case 'version_change': {
+                return {
+                    ...state,
+                    version: data.version,
+                    versionRationale: data.versionRationale?.length > 0
+                        ? data.versionRationale
+                        : [nextDefaultName([])],
+                    versionValidFrom: data.versionValidFrom,
+                    codes: data.codes
+                }
+            }
             case 'to': {
                 // FIXME: restrictions
                 setErrors(prev => ({

@@ -110,9 +110,9 @@ export const Dropdown = ({
 
     return (
         <div className='ssb-dropdown' style={{padding: '15px 0'}}>
-            <label htmlFor='ssb_sections' style={{fontSize: '16px'}}>{label}</label>
+            <label htmlFor={label} style={{fontSize: '16px'}}>{label}</label>
             <select className='dropdown-interactive-area focused'
-                    id='ssb_sections'
+                    id={label}
                     style={{
                         width: '595px',
                         border: '1px solid black',
