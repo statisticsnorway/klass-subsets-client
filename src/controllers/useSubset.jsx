@@ -21,6 +21,8 @@ export const useSubset = (init =  {
         ],
         description: [],
         version: '1.0.0',
+        versionRationale: [],
+        versionValidFrom: null,
         codes: []
     }
     ) => {
@@ -33,6 +35,9 @@ export const useSubset = (init =  {
         createdBy: [],
         annotation: [],
         description: [],
+        versionRationale: [],
+        versionValidFrom: [],
+        versionPeriod: [],
         origin: [],
         codes: []
     });
@@ -82,6 +87,27 @@ export const useSubset = (init =  {
                 }));
                 return {...state, validFrom: data};
             }
+            case 'version_from': {
+                // FIXME: restrictions
+                setErrors(prev => ({
+                    ...prev,
+                    versionValidFrom: validate.versionValidFrom(),
+                    versionPeriod: validate.period(data, state.validUntil)
+                }));
+                return {...state, validFrom: data};
+            }
+            case 'version_rationale_add': {
+                const vr = nextDefaultName(state.versionRationale);
+                return  vr === null
+                    ? {...state}
+                    : {...state, versionRationale: [...state.versionRationale, vr]};
+            }
+            case 'version_rationale_remove': {
+                return {
+                    ...state,
+                    versionRationale: state.versionRationale?.filter((item, index) => index !== data)
+                };
+            }
             case 'to': {
                 // FIXME: restrictions
                 setErrors(prev => ({
@@ -116,7 +142,8 @@ export const useSubset = (init =  {
             case 'remove_empty': {
                 return {...state,
                     name: state.name.filter(item => item.languageText?.length > 0),
-                    description: state.description.filter(item => item.languageText?.length > 0)
+                    description: state.description.filter(item => item.languageText?.length > 0),
+                    versionRationale: state.versionRationale.filter(item => item.languageText?.length > 0)
                 };
             }
             case 'codelist_include': {
