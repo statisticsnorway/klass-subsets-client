@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../../css/form.css';
 import {useTranslation} from 'react-i18next';
 import {Title} from '@statisticsnorway/ssb-component-library';
-import {Dropdown, TextLanguageFieldset} from "./forms";
+import {Dropdown, TextLanguageFieldset} from './forms';
 
 /*
  *  FIXME: sanitize input
@@ -21,6 +21,7 @@ export const VersionsFormStep = ({subset}) => {
         };
     }, []);
 
+    // STOPSHIP: useGet('{subsets-service}/v1/subsets/{draft.id}/versions')
     const [versions] = useState([
         { version: '1.0.0',
             "codes": [
