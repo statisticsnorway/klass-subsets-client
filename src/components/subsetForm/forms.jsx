@@ -110,7 +110,9 @@ export const Dropdown = ({
 
     return (
         <div className='ssb-dropdown' style={{padding: '15px 0'}}>
-            <label htmlFor={label} style={{fontSize: '16px'}}>{label}</label>
+            <label htmlFor={label} style={{fontSize: '16px'}}>
+                {label}
+            </label>
             <select className='dropdown-interactive-area focused'
                     id={label}
                     style={{
@@ -124,7 +126,11 @@ export const Dropdown = ({
             >
                 <option value='' hidden>{placeholder}</option>
                 {selected.length > 0 && !options.find(s => s.name === selected)
-                && (<option key='outdated' disabled value={selected}>{selected} (outdated)</option>)
+                    && (<option key='outdated'
+                                disabled
+                                value={selected}
+                                >{selected} ({t('Outdated')})
+                    </option>)
                 }
                 {options.map((section, i) => (
                     <option key={i} value={section.name}>{section.name}</option>

@@ -28,10 +28,13 @@
   "Select a responsible department...": "Select a responsible department...",
   "Subject": "Subject",
   "Select a classification family...": "Select a classification family...",
+  "Outdated": "Outdated",
   "Description": "Description",
 
   "Versions": "Versions",
   "Version": "Version",
+  "Select a version": "Select a version",
+  "New version": "New version",
 
   "Choose codes": "Choose codes",
   "Choose classifications and code lists": "Choose classifications and code lists",
@@ -48,7 +51,6 @@
   "Code list cannot be added to the subset due to lack of codes": "Code list cannot be added to the subset due to lack of codes",
   "From": "From",
   "To": "To",
-  "Version": "Version",
   "Code list info": "Code list info",
 
   "Codes": "Codes",

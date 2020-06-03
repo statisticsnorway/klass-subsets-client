@@ -23,6 +23,7 @@ export const useSubset = (init =  {
         version: '1.0.0',
         versionRationale: [],
         versionValidFrom: null,
+        versionValidUntil: null, // just for local use, not part of Classification scheme
         codes: []
     }
     ) => {
@@ -37,6 +38,7 @@ export const useSubset = (init =  {
         description: [],
         versionRationale: [],
         versionValidFrom: [],
+        versionValidUntil: [],
         versionPeriod: [],
         origin: [],
         codes: []
@@ -109,15 +111,37 @@ export const useSubset = (init =  {
                 };
             }
             case 'version_change': {
-                return {
-                    ...state,
-                    version: data.version,
-                    versionRationale: data.versionRationale?.length > 0
-                        ? data.versionRationale
-                        : [nextDefaultName([])],
-                    versionValidFrom: data.versionValidFrom,
-                    codes: data.codes
+                const {item, versions} = data;
+                if (item === 'New version') {
+                    const latest = versions.sort((a, b) => a.versionValidFrom < b.versionVlidFrom)[versions.length - 1];
+                    const next = (parseInt(latest.version.split('.')[0]) + 1).toString();
+                    return {
+                        ...state,
+                        version: `${next}.0.0`,
+                        versionRationale: [ nextDefaultName([]) ],
+                        versionValidFrom: latest.validUntil || state.validUntil,
+                        versionValidUntil: state.validUntil,
+                        codes: []
+                    };
+                } else {
+                    const exists = versions.find(v => v.version === item);
+                    if (exists) {
+                        const next = versions
+                            .sort((a, b) => a.versionValidFrom < b.versionVlidFrom)
+                            .find(v => v.versionValidFrom > exists.versionValidFrom);
+                        return {
+                            ...state,
+                            version: exists.version,
+                            versionRationale: exists.versionRationale?.length > 0
+                                ? exists.versionRationale
+                                : [ nextDefaultName([]) ],
+                            versionValidFrom: exists.versionValidFrom,
+                            versionValidUntil: next?.versionValidFrom || exists.validUntil,
+                            codes: exists.codes
+                        };
+                    }
                 }
+                return state;
             }
             case 'to': {
                 // FIXME: restrictions

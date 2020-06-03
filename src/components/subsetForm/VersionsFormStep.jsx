@@ -52,10 +52,20 @@ export const VersionsFormStep = ({subset}) => {
             ],
             versionValidFrom: '2020-01-01'
         },
-        { version: 'new',
-            codes: [],
-            versionRationale: [],
-            versionValidFrom: null
+        { version: '3.0.0',
+            "codes": [
+                {
+                    "urn": "urn:klass-api:classifications:68:code:2",
+                    "rank": 1
+                }
+            ],
+            versionRationale: [
+                {
+                    "languageText": "version rationale 2",
+                    "languageCode": "nb"
+                }
+            ],
+            versionValidFrom: '2021-01-01'
         }
     ])
 
@@ -64,13 +74,16 @@ export const VersionsFormStep = ({subset}) => {
             <Title size={3}>{t('Versions')}</Title>
 
             <Dropdown label={t('Version')}
-                      options={versions.map(v => ({name: v.version}))}
+                      options={versions
+                          .map(v => ({name: v.version}))
+                          .concat({name: 'New version'})
+                      }
                       placeholder={t('Select a version')}
                       selected={draft.version}
                       onSelect={(item) => {
                           dispatch({
                               action: 'version_change',
-                              data: versions.find(v => v.version === item)
+                              data: {item, versions}
                           })
                       }}
                       errorMessages={errors?.version}
@@ -86,8 +99,9 @@ export const VersionsFormStep = ({subset}) => {
                            htmlFor='version_from_date'>{t('Valid from')}: </label>
                     <input type='date' id='version_from_date' style={{display: 'block'}}
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
-                           onChange={event => dispatch({action: 'version_from', data:
-                                   event.target.value === ''
+                           onChange={event => dispatch({
+                               action: 'version_from',
+                               data: event.target.value === ''
                                        ? null
                                        : new Date(event.target.value).toISOString()})
                            }
@@ -109,7 +123,7 @@ export const VersionsFormStep = ({subset}) => {
                            htmlFor='to_date'>{t('Valid to')}: </label>
                     <input type='date' id='to_date'
                            style={{display: 'block'}}
-                           value={draft.validUntil?.substr(0, 10) || ''}
+                           value={draft.versionValidUntil?.substr(0, 10) || ''}
                            onChange={event => dispatch({
                                action: 'to', data:
                                    event.target.value === ''
@@ -118,9 +132,9 @@ export const VersionsFormStep = ({subset}) => {
                            })
                            }
                            className='datepicker'/>
-                    {errors?.validUntil?.length > 0 &&
+                    {errors?.versionValidUntil?.length > 0 &&
                     <div className='ssb-input-error '>
-                        {errors.validUntil.map(error => (
+                        {errors.versionValidUntil.map(error => (
                             <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                         ))}
                     </div>
