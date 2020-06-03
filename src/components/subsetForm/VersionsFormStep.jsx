@@ -79,6 +79,7 @@ export const VersionsFormStep = ({subset}) => {
                           .concat({name: 'New version'})
                       }
                       placeholder={t('Select a version')}
+                      disabledText={t('New version')}
                       selected={draft.version}
                       onSelect={(item) => {
                           dispatch({

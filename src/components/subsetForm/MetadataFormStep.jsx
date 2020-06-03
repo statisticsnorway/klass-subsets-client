@@ -109,6 +109,7 @@ export const MetadataFormStep = ({subset}) => {
             <Dropdown label={t('Owner')}
                       options={ssbsections ? ssbsections._embedded?.ssbSections : []}
                       placeholder={t('Select a responsible department...')}
+                      disabledText={t('Outdated')}
                       selected={draft.createdBy}
                       onSelect={(item) => dispatch({
                           action: 'createdBy',
@@ -120,6 +121,7 @@ export const MetadataFormStep = ({subset}) => {
             <Dropdown label={t('Subject')}
                       options={classificationfamilies?._embedded?.classificationFamilies || []}
                       placeholder={t('Select a classification family...')}
+                      disabledText={t('Outdated')}
                       selected={draft.administrativeDetails
                           .find(d => d.administrativeDetailType === 'ANNOTATION')
                           .values[0] || ''}
