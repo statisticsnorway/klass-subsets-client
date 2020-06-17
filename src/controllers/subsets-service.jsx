@@ -20,9 +20,7 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                //const response = await fetch(`${subSetsServiceEndpoint}${path}`);
-                console.log('try a new service');
-                const response = await fetch('https://klass-subsets-api.staging-bip-app.ssb.no/v1/subsets/');
+                const response = await fetch(`${subSetsServiceEndpoint}${path}`);
                 let json = await response.json();
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
