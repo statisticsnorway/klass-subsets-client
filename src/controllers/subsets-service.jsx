@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 
 // DOCME
-const subSetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;
+const subsetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;
 // DOCME
-const subSetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
+const subsetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
 
 export function useGet(url = null) {
     const [path, setPath] = useState(url);
@@ -20,7 +20,8 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`${subSetsServiceEndpoint}${path}`);
+                console.log('useGet');
+                const response = await fetch(`${subsetsServiceEndpoint}${path}`);
                 let json = await response.json();
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
@@ -67,7 +68,7 @@ export function usePost() {
             setData(null);
 
             try {
-                const response = await fetch(`${subSetsServiceEndpointAUTH}${path}`, {
+                const response = await fetch(`${subsetsServiceEndpointAUTH}${path}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -105,7 +106,7 @@ export function usePut() {
             setData(null);
 
             try {
-                const response = await fetch(`${subSetsServiceEndpointAUTH}${path}`, {
+                const response = await fetch(`${subsetsServiceEndpointAUTH}${path}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
