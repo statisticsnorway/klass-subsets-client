@@ -98,6 +98,16 @@ export const useSubset = (init =  {
                 }));
                 return {...state, validFrom: data};
             }
+            case 'version_to': {
+                // FIXME: restrictions
+                setErrors(prev => ({
+                        ...prev,
+                        period: validate.period(state.validFrom, data),
+                        versionPeriod: validate.period(state.versionValidFrom, data)
+                    }
+                ));
+                return {...state, versionValidUntil: data, validUntil: data};
+            }
             case 'version_rationale_add': {
                 const vr = nextDefaultName(state.versionRationale);
                 return  vr === null

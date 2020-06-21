@@ -93,7 +93,7 @@ export const VersionsFormStep = ({subset}) => {
                            style={{display: 'block'}}
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
                            onChange={event => dispatch({
-                               action: 'to', data:
+                               action: 'version_to', data:
                                    event.target.value === ''
                                        ? null
                                        : new Date(event.target.value).toISOString()
