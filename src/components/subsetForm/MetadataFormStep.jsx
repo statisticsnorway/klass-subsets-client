@@ -35,14 +35,14 @@ export const MetadataFormStep = ({subset}) => {
         <>
             <Title size={3}>{t('Metadata')}
                 <span style={{fontSize: '14px', color: '#ED5935'}}>
-                    {`  ${draft.administrativeStatus || 'Draft'}`}
+                    {`  ${t(draft.administrativeStatus) || 'Draft'}`}
                 </span>
             </Title>
 
             <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
                 {t('Version')}: <strong>{draft.version || '-'}  </strong>
                 {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
-                {t('Status')}: <strong>{draft.administrativeStatus || '-'}  </strong>
+                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
             </p>
 
             <TextLanguageFieldset title={t('Names')}

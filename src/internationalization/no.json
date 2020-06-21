@@ -10,6 +10,10 @@
   "No name": "Intet navn",
   "Updated": "Oppdatert",
   "Status": "Status",
+  "INTERNAL": "NY",
+  "DRAFT": "UTKAST",
+  "OPEN": "PUBLISERT",
+  "DEPRECATED": "AVSKREVET",
   "Sort by": "Sorter etter",
   "Last updated": "Sist oppdatert",
 

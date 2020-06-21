@@ -31,7 +31,7 @@ export const VersionsFormStep = ({subset}) => {
             <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
                 {t('Version')}: <strong>{draft.version || '-'}  </strong>
                 {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
-                {t('Status')}: <strong>{draft.administrativeStatus || '-'}  </strong>
+                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
             </p>
 
             {!versions
