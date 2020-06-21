@@ -39,6 +39,12 @@ export const MetadataFormStep = ({subset}) => {
                 </span>
             </Title>
 
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+                {t('Version')}: <strong>{draft.version || '-'}  </strong>
+                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{draft.administrativeStatus || '-'}  </strong>
+            </p>
+
             <TextLanguageFieldset title={t('Names')}
                                   items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}

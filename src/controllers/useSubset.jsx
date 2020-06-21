@@ -111,17 +111,19 @@ export const useSubset = (init =  {
                 };
             }
             case 'version_change': {
+                console.log('Versions change', {data});
                 const {item, versions} = data;
                 if (item === 'New version') {
                     const latest = versions.sort((a, b) => a.versionValidFrom < b.versionVlidFrom)[versions.length - 1];
+                    console.log({latest});
                     const next = (parseInt(latest.version.split('.')[0]) + 1).toString();
                     return {
                         ...state,
+                        administrativeStatus: 'INTERNAL',
                         version: `${next}.0.0`,
                         versionRationale: [ nextDefaultName([]) ],
                         versionValidFrom: latest.validUntil || state.validUntil,
-                        versionValidUntil: state.validUntil,
-                        codes: []
+                        versionValidUntil: state.validUntil
                     };
                 } else {
                     const exists = versions.find(v => v.version === item);
@@ -130,7 +132,7 @@ export const useSubset = (init =  {
                             .sort((a, b) => a.versionValidFrom < b.versionVlidFrom)
                             .find(v => v.versionValidFrom > exists.versionValidFrom);
                         return {
-                            ...state,
+                            ...exists,
                             version: exists.version,
                             versionRationale: exists.versionRationale?.length > 0
                                 ? exists.versionRationale

@@ -68,11 +68,11 @@ export const PrevNext = ({min, max, handleClick}) => {
     // It should be possible to click forward and backward without scrolling
     return (
         <div style={{margin: '5px 0 5px 0', width: '60%'}}>
-        <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
-            <Button primary disabled={min} onClick={ prev }>{t('Previous')}</Button>
-        </div>
+            <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
+                <Button primary disabled={min} onClick={ prev }>{t('Previous')}</Button>
+            </div>
             <div style={{float: 'right'}}>
-            <Button primary disabled={max} onClick={ next }>{t('Next')}</Button>
+                <Button primary disabled={max} onClick={ next }>{t('Next')}</Button>
             </div>
             <br style={{clear: 'both'}}/>
         </div>

@@ -3,6 +3,8 @@ import '../../css/form.css';
 import {useTranslation} from 'react-i18next';
 import {Title} from '@statisticsnorway/ssb-component-library';
 import {Dropdown, TextLanguageFieldset} from './forms';
+import {useGet} from '../../controllers/subsets-service';
+import Spinner from "../Spinner";
 
 /*
  *  FIXME: sanitize input
@@ -21,74 +23,36 @@ export const VersionsFormStep = ({subset}) => {
         };
     }, []);
 
-    // STOPSHIP: useGet('{subsets-service}/v1/subsets/{draft.id}/versions')
-    const [versions] = useState([
-        { version: '1.0.0',
-            "codes": [
-                {
-                    "urn": "urn:klass-api:classifications:68:code:1",
-                    "rank": 1
-                }],
-            versionRationale: [
-        {
-            "languageText": "version rationale 1",
-            "languageCode": "nb"
-        }
-            ],
-            versionValidFrom: '2019-01-01'
-        },
-        { version: '2.0.0',
-            "codes": [
-                {
-                    "urn": "urn:klass-api:classifications:68:code:2",
-                    "rank": 1
-                }
-            ],
-            versionRationale: [
-                {
-                    "languageText": "version rationale 2",
-                    "languageCode": "nb"
-                }
-            ],
-            versionValidFrom: '2020-01-01'
-        },
-        { version: '3.0.0',
-            "codes": [
-                {
-                    "urn": "urn:klass-api:classifications:68:code:2",
-                    "rank": 1
-                }
-            ],
-            versionRationale: [
-                {
-                    "languageText": "version rationale 2",
-                    "languageCode": "nb"
-                }
-            ],
-            versionValidFrom: '2021-01-01'
-        }
-    ])
+    const [versions] = useGet(`${draft.id}/versions`);
 
     return (
         <>
             <Title size={3}>{t('Versions')}</Title>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+                {t('Version')}: <strong>{draft.version || '-'}  </strong>
+                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{draft.administrativeStatus || '-'}  </strong>
+            </p>
 
-            <Dropdown label={t('Version')}
-                      options={versions
-                          .map(v => ({name: v.version}))
-                          .concat({name: 'New version'})
-                      }
-                      placeholder={t('Select a version')}
-                      disabledText={t('New version')}
-                      selected={draft.version}
-                      onSelect={(item) => {
-                          dispatch({
-                              action: 'version_change',
-                              data: {item, versions}
-                          })
-                      }}
-                      errorMessages={errors?.version}
-            />
+            {!versions
+                ? <Spinner/>
+                : <Dropdown label={t('Version')}
+                            options={versions
+                                .map(v => ({name: v.version}))
+                                .concat({name: 'New version'})
+                            }
+                            placeholder={t('Select a version')}
+                            disabledText={t('New version')}
+                            selected={draft.version}
+                            onSelect={(item) => {
+                                dispatch({
+                                    action: 'version_change',
+                                    data: {item, versions}
+                                })
+                            }}
+                            errorMessages={errors?.version}
+                />
+            }
             {/* TODO: autofill if null by
                 - validFrom if version 1.0;
                 - validUntil if not null and version > 1.0
@@ -98,7 +62,9 @@ export const VersionsFormStep = ({subset}) => {
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='version_from_date'>{t('Valid from')}: </label>
-                    <input type='date' id='version_from_date' style={{display: 'block'}}
+                    <input type='date'
+                           id='version_from_date'
+                           style={{display: 'block'}}
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
                            onChange={event => dispatch({
                                action: 'version_from',
@@ -122,7 +88,8 @@ export const VersionsFormStep = ({subset}) => {
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='to_date'>{t('Valid to')}: </label>
-                    <input type='date' id='to_date'
+                    <input type='date'
+                           id='to_date'
                            style={{display: 'block'}}
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
                            onChange={event => dispatch({

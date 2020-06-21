@@ -20,9 +20,9 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                console.log('useGet');
                 const response = await fetch(`${subsetsServiceEndpoint}${path}`);
                 let json = await response.json();
+                console.log({json});
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
             }
@@ -74,10 +74,12 @@ export function usePost() {
                     body: JSON.stringify(payload),
                 });
                 let json = await response.json();
+                console.log('SUCCESS ', json)
                 setData(json);
                 setIsLoading(false);
             }
             catch (e) {
+                console.log('ERROR ', e)
                 setError(e);
                 setIsLoading(false);
             }
@@ -93,7 +95,7 @@ export function usePost() {
 }
 
 export function usePut() {
-    const [path, setPath] = useState('sets/');
+    const [path, setPath] = useState('');
     const [data, setData] = useState(null);
     const [payload, setPayload] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -106,12 +108,13 @@ export function usePut() {
             setData(null);
 
             try {
-                const response = await fetch(`${subsetsServiceEndpointAUTH}${path}`, {
+                const response = await fetch(`${subsetsServiceEndpointAUTH}${payload.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                 });
-                setData(response.status === 200 ? payload : response.status);
+                let json = await response.json();
+                setData(json);
                 setIsLoading(false);
             }
             catch (e) {
