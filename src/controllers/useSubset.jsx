@@ -1,9 +1,11 @@
 import {useState, useReducer, useEffect} from 'react';
 import {nextDefaultName} from '../internationalization/languages';
 import {URN} from './klass-api';
-import {validate} from './validator'
+import {validate} from './validator';
+import {toId} from '../utils/strings'
 
 export const useSubset = (init =  {
+        id: '',
         name: [],
         administrativeStatus: 'INTERNAL', // cannot be changed by the app, by service only
         validFrom: null,
@@ -69,11 +71,20 @@ export const useSubset = (init =  {
                 setErrors(validate.subset(state));
                 return  state;
             }
+            case 'name_update': {
+                return  {...state,
+                        id: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
+                            ? toId(state.name[0].languageText)
+                            : state.id
+                    };
+            }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
                 return  name === null
                     ? {...state}
-                    : {...state, name: [...state.name, name]};
+                    : {...state,
+                        name: [...state.name, name]
+                      };
             }
             case 'name_remove': {
                 return {
