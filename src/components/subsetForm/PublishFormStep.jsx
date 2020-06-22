@@ -17,16 +17,17 @@ export const PublishFormStep = ({subset}) => {
     const [update, setPUTPayload, isLoadingUpdate, errorUpdate] = usePut();
 
     useEffect(() => {
-        if (post !== null || update !== null) {
+        if ((post !== null || update !== null) && !(post?.error || update?.error)) {
             dispatch({action: 'reset'});
             history.push(`/subsets/${draft.id}`);
         }
     }, [post, update]);
 
+    // FIXME: workaround caused server not sending exception on error
     useEffect(() => {
-        (errorPost !== null || errorUpdate !== null) &&
-            alert(`Publishing failed: ${JSON.stringify(errorPost || errorUpdate)}`);
-    }, [errorPost, errorUpdate]);
+        (errorPost !== null || errorUpdate !== null || post?.error || update?.error) &&
+            alert(`Publishing failed: ${JSON.stringify(errorPost || errorUpdate || post?.error || update?.error)}`);
+    }, [errorPost, errorUpdate, post, update]);
 
     useEffect(() => dispatch({action: 'validate'}), [draft, dispatch]);
 

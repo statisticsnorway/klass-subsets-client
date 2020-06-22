@@ -129,7 +129,7 @@ export const useSubset = (init =  {
                     const next = (parseInt(latest.version.split('.')[0]) + 1).toString();
                     return {
                         ...state,
-                        administrativeStatus: 'INTERNAL',
+                        administrativeStatus: 'DRAFT',
                         version: `${next}.0.0`,
                         versionRationale: [ nextDefaultName([]) ],
                         versionValidFrom: latest.validUntil || state.validUntil,
