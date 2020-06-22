@@ -83,23 +83,32 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
+                // TODO: warning 'this field changes affects versionValidFrom for v1.0'
                 setErrors(prev => ({
                     ...prev,
                     period: validate.period(data, state.validUntil)
                 }));
-                return {...state, validFrom: data};
+                return {...state,
+                    validFrom: data,
+                    versionValidFrom: (state.version.startsWith('1.') ? data : state.versionValidFrom)
+                };
             }
             case 'version_from': {
                 // FIXME: restrictions
+                // TODO: warning 'this field changes affects validFrom for v1.0'
                 setErrors(prev => ({
                     ...prev,
                     versionValidFrom: validate.versionValidFrom(),
                     versionPeriod: validate.period(data, state.validUntil)
                 }));
-                return {...state, validFrom: data};
+                return {...state,
+                    versionValidFrom: data,
+                    validFrom: (state.version.startsWith('1.') ? data : state.validFrom)
+                };
             }
             case 'version_to': {
                 // FIXME: restrictions
+                // TODO: warning 'this field changes affects validUntil
                 setErrors(prev => ({
                         ...prev,
                         period: validate.period(state.validFrom, data),

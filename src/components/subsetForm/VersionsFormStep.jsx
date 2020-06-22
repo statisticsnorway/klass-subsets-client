@@ -87,9 +87,9 @@ export const VersionsFormStep = ({subset}) => {
                 {/* TODO: warning 'this field changes affects validUntil */}
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor='to_date'>{t('Valid to')}: </label>
+                           htmlFor='version_to_date'>{t('Valid to')}: </label>
                     <input type='date'
-                           id='to_date'
+                           id='version_to_date'
                            style={{display: 'block'}}
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
                            onChange={event => dispatch({
