@@ -24,7 +24,7 @@ export default function ChangelogPage() {
            <Title size={2}>{t('Changelog')}</Title>
 
            <Title size={4}>v0.4.0</Title>
-           <Paragraph>Version form step to create, view, and update versions.</Paragraph>
+           <Paragraph>A version form step to create, view, and update versions.</Paragraph>
            <Paragraph>Save button.</Paragraph>
            <Paragraph>Fixed a major security issue by updating dependencies.</Paragraph>
 
