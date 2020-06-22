@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from './forms';
 import {subsetDraft} from '../../controllers/defaults';
-import {Title, FormError} from '@statisticsnorway/ssb-component-library';
+import {Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 
@@ -35,9 +35,15 @@ export const MetadataFormStep = ({subset}) => {
         <>
             <Title size={3}>{t('Metadata')}
                 <span style={{fontSize: '14px', color: '#ED5935'}}>
-                    {`  ${draft.administrativeStatus || 'Draft'}`}
+                    {`  ${t(draft.administrativeStatus) || 'Draft'}`}
                 </span>
             </Title>
+
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+                {t('Version')}: <strong>{draft.version || '-'}  </strong>
+                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
+            </p>
 
             <TextLanguageFieldset title={t('Names')}
                                   items={draft.name}
@@ -109,6 +115,7 @@ export const MetadataFormStep = ({subset}) => {
             <Dropdown label={t('Owner')}
                       options={ssbsections ? ssbsections._embedded?.ssbSections : []}
                       placeholder={t('Select a responsible department...')}
+                      disabledText={t('Outdated')}
                       selected={draft.createdBy}
                       onSelect={(item) => dispatch({
                           action: 'createdBy',
@@ -120,6 +127,7 @@ export const MetadataFormStep = ({subset}) => {
             <Dropdown label={t('Subject')}
                       options={classificationfamilies?._embedded?.classificationFamilies || []}
                       placeholder={t('Select a classification family...')}
+                      disabledText={t('Outdated')}
                       selected={draft.administrativeDetails
                           .find(d => d.administrativeDetailType === 'ANNOTATION')
                           .values[0] || ''}
@@ -127,7 +135,6 @@ export const MetadataFormStep = ({subset}) => {
                           action: 'subject',
                           data: item })}
                       errorMessages={errors?.annotation}
-                      required
             />
 
 

@@ -1,6 +1,6 @@
 {
   "name": "klass-subsets-webclient",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "description": "A webclient application to communicate with Klass subsets service REST API in order to create and update classification subsets of codes.",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "NPM will notify if any peer dependencies are required."
   ],
   "dependencies": {
-    "@statisticsnorway/ssb-component-library": "^2.0.16",
+    "@statisticsnorway/ssb-component-library": "^2.0.28",
     "dompurify": "^2.0.8",
     "feather-icons": "^4.25.0",
     "fibers": ">= 3.1.0",

@@ -101,7 +101,8 @@ export const LanguageSelect = ({
 export const Dropdown = ({
                              label='Select',
                              options = [],
-                             placeholder= 'Select',
+                             placeholder = 'Select',
+                             disabledText = 'Outdated',
                              selected='',
                              onSelect,
                              errorMessages = []
@@ -110,9 +111,11 @@ export const Dropdown = ({
 
     return (
         <div className='ssb-dropdown' style={{padding: '15px 0'}}>
-            <label htmlFor='ssb_sections' style={{fontSize: '16px'}}>{label}</label>
+            <label htmlFor={label} style={{fontSize: '16px'}}>
+                {label}
+            </label>
             <select className='dropdown-interactive-area focused'
-                    id='ssb_sections'
+                    id={label}
                     style={{
                         width: '595px',
                         border: '1px solid black',
@@ -124,7 +127,11 @@ export const Dropdown = ({
             >
                 <option value='' hidden>{placeholder}</option>
                 {selected.length > 0 && !options.find(s => s.name === selected)
-                && (<option key='outdated' disabled value={selected}>{selected} (outdated)</option>)
+                    && (<option key='outdated'
+                                disabled
+                                value={selected}
+                                >{selected} ({disabledText})
+                    </option>)
                 }
                 {options.map((section, i) => (
                     <option key={i} value={section.name}>{section.name}</option>

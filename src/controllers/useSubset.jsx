@@ -4,10 +4,11 @@ import {URN} from './klass-api';
 import {validate} from './validator'
 
 export const useSubset = (init =  {
-        createdBy: '',
         name: [],
+        administrativeStatus: 'INTERNAL', // cannot be changed by the app, by service only
         validFrom: null,
         validUntil: null,
+        createdBy: '',
         administrativeDetails: [
             {
                 administrativeDetailType: 'ANNOTATION',
@@ -19,7 +20,10 @@ export const useSubset = (init =  {
             }
         ],
         description: [],
-        administrativeStatus: 'DRAFT',
+        version: '1.0.0',
+        versionRationale: [],
+        versionValidFrom: null,
+        versionValidUntil: null, // just for local use, not part of Classification scheme
         codes: []
     }
     ) => {
@@ -32,13 +36,16 @@ export const useSubset = (init =  {
         createdBy: [],
         annotation: [],
         description: [],
+        versionRationale: [],
+        versionValidFrom: [],
+        versionValidUntil: [],
+        versionPeriod: [],
         origin: [],
-        administrativeStatus: [],
         codes: []
     });
 
     function verifyOrigin(origin = [], codes = []) {
-
+        // TESTME
         // TODO: if origin values are not empty, check if all values are valid URNs
 
         if (codes?.length === 0) {
@@ -82,6 +89,72 @@ export const useSubset = (init =  {
                 }));
                 return {...state, validFrom: data};
             }
+            case 'version_from': {
+                // FIXME: restrictions
+                setErrors(prev => ({
+                    ...prev,
+                    versionValidFrom: validate.versionValidFrom(),
+                    versionPeriod: validate.period(data, state.validUntil)
+                }));
+                return {...state, validFrom: data};
+            }
+            case 'version_to': {
+                // FIXME: restrictions
+                setErrors(prev => ({
+                        ...prev,
+                        period: validate.period(state.validFrom, data),
+                        versionPeriod: validate.period(state.versionValidFrom, data)
+                    }
+                ));
+                return {...state, versionValidUntil: data, validUntil: data};
+            }
+            case 'version_rationale_add': {
+                const vr = nextDefaultName(state.versionRationale);
+                return  vr === null
+                    ? {...state}
+                    : {...state, versionRationale: [...state.versionRationale, vr]};
+            }
+            case 'version_rationale_remove': {
+                return {
+                    ...state,
+                    versionRationale: state.versionRationale?.filter((item, index) => index !== data)
+                };
+            }
+            case 'version_change': {
+                console.log('Versions change', {data});
+                const {item, versions} = data;
+                if (item === 'New version') {
+                    const latest = versions.sort((a, b) => a.versionValidFrom < b.versionVlidFrom)[versions.length - 1];
+                    console.log({latest});
+                    const next = (parseInt(latest.version.split('.')[0]) + 1).toString();
+                    return {
+                        ...state,
+                        administrativeStatus: 'DRAFT',
+                        version: `${next}.0.0`,
+                        versionRationale: [ nextDefaultName([]) ],
+                        versionValidFrom: latest.validUntil || state.validUntil,
+                        versionValidUntil: state.validUntil
+                    };
+                } else {
+                    const exists = versions.find(v => v.version === item);
+                    if (exists) {
+                        const next = versions
+                            .sort((a, b) => a.versionValidFrom < b.versionVlidFrom)
+                            .find(v => v.versionValidFrom > exists.versionValidFrom);
+                        return {
+                            ...exists,
+                            version: exists.version,
+                            versionRationale: exists.versionRationale?.length > 0
+                                ? exists.versionRationale
+                                : [ nextDefaultName([]) ],
+                            versionValidFrom: exists.versionValidFrom,
+                            versionValidUntil: next?.versionValidFrom || exists.validUntil,
+                            codes: exists.codes
+                        };
+                    }
+                }
+                return state;
+            }
             case 'to': {
                 // FIXME: restrictions
                 setErrors(prev => ({
@@ -116,7 +189,8 @@ export const useSubset = (init =  {
             case 'remove_empty': {
                 return {...state,
                     name: state.name.filter(item => item.languageText?.length > 0),
-                    description: state.description.filter(item => item.languageText?.length > 0)
+                    description: state.description.filter(item => item.languageText?.length > 0),
+                    versionRationale: state.versionRationale.filter(item => item.languageText?.length > 0)
                 };
             }
             case 'codelist_include': {

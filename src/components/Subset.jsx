@@ -16,6 +16,7 @@ export const SubsetPreview = ({subset}) => {
         <>
             <Title size={2}>{subset.name[0]?.languageText || t('Subset has got no title yet')}</Title>
             <Paragraph><strong>ID:</strong> {subset.id || '-'}</Paragraph>
+            <Paragraph><strong>{t('Version')}:</strong> {subset.version || '-'}</Paragraph>
             <Paragraph><strong>{t('Validity period')}</strong>{
                 from && to
                 ? `: ${t('from to', { from, to })}.`

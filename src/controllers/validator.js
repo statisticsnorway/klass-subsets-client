@@ -16,6 +16,14 @@ export const validate = {
                 : [];
     },
 
+    versionValidFrom(from, to, versionFrom) {
+        return versionFrom < from
+            ? ['version cannot start earlier than subsets validity period']
+            : versionFrom > to
+                ? ['versions cannot have gaps on validity periods']
+                : []
+    },
+
     createdBy(owner) {
         return owner?.length > 0 ? [] : ['Owner is required']
     },

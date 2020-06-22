@@ -10,6 +10,10 @@
   "No name": "Intet navn",
   "Updated": "Oppdatert",
   "Status": "Status",
+  "INTERNAL": "NY",
+  "DRAFT": "UTKAST",
+  "OPEN": "PUBLISERT",
+  "DEPRECATED": "AVSKREVET",
   "Sort by": "Sorter etter",
   "Last updated": "Sist oppdatert",
 
@@ -27,7 +31,13 @@
   "Select a responsible department...": "Velg ansvarlig seksjon...",
   "Subject": "Emneområde",
   "Select a classification family...": "Velg emneområde...",
+  "Outdated": "Utdatert",
   "Description": "Beskrivelse",
+
+  "Versions": "Versjoner",
+  "Version": "Versjon",
+  "Select a version": "Velg en versjon",
+  "New version": "Ny versjon",
 
   "Choose codes": "Velg koder",
   "Choose classifications and code lists": "Velg kodeverk",
@@ -44,7 +54,6 @@
   "Code list cannot be added to the subset due to lack of codes": "Kodeverk uten koder kan ikke inngå i uttrekket",
   "From": "Fra",
   "To": "Til",
-  "Version": "Versjon",
   "Code list info": "Informasjon om kodeverket",
 
   "Codes": "Koder",
@@ -70,6 +79,7 @@
 
   "Review and publish": "Sjekk og publiser",
   "Publish": "Publiser",
+  "Save": "Lagre",
   "Subset has got no title yet": "Uttrekket har ikke noe navn",
   "Validity period": "Gyldighetsperiode",
   "No description": "Beskrivelse mangler",
@@ -84,7 +94,7 @@
   "You can find the source code on": "Du finner kildekoden i",
 
   "Changelog": "Endringslogg",
-  "Adopted ClassificationSubsets schema": "ClassificationSubsets-skjema tatt i bruk",
+  "Adopted ClassificationSubsets schema": "ClassificationSubsets-skjema er tatt i bruk",
   "and": "og",
   "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
