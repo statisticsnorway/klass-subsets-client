@@ -23,6 +23,11 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.4.1</Title>
+           <Paragraph>Better error message on failed saving or publishing.</Paragraph>
+           <Paragraph>Visible ID setting while typing the very first name.</Paragraph>
+           <Paragraph>Version valid from date is now dependent on valid from date.</Paragraph>
+
            <Title size={4}>v0.4.0</Title>
            <Paragraph>A version form step to create, view, and update versions.</Paragraph>
            <Paragraph>Save button.</Paragraph>

@@ -9,3 +9,11 @@ export const replaceRef = note => {
 
     return DOMPurify.sanitize(replaceSlashRef);
 };
+
+export const toId = text => {
+    return text.toLowerCase()
+        .replace(/\s/g, '_')
+        .replace(/å|æ/g, 'a')
+        .replace(/ø/g, 'o')
+        .replace(/\W/g, '')
+}

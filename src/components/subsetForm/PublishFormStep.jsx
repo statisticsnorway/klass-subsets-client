@@ -14,20 +14,20 @@ export const PublishFormStep = ({subset}) => {
     let history = useHistory();
 
     const [post, setPOSTPayload, isLoadingPost, errorPost] = usePost();
-    const [update, setPUTPayload, isLoadingUpdate, errorUpdate] = usePut();
+    const [update, setPUTPayload, isLoadingUpdate, errorUpdate] = usePut(draft.id);
 
     useEffect(() => {
-        if ((post !== null || update !== null) && !(post?.error || update?.error)) {
-            dispatch({action: 'reset'});
-            history.push(`/subsets/${draft.id}`);
+        if (post || update) {
+           // dispatch({action: 'reset'});
+           // history.push(`/subsets/${draft.id}`);
         }
     }, [post, update]);
 
     // FIXME: workaround caused server not sending exception on error
     useEffect(() => {
-        (errorPost !== null || errorUpdate !== null || post?.error || update?.error) &&
-            alert(`Publishing failed: ${JSON.stringify(errorPost || errorUpdate || post?.error || update?.error)}`);
-    }, [errorPost, errorUpdate, post, update]);
+        (errorPost || errorUpdate) &&
+            alert(`Update failed: ${errorPost || errorUpdate}`);
+    }, [errorPost, errorUpdate]);
 
     useEffect(() => dispatch({action: 'validate'}), [draft, dispatch]);
 

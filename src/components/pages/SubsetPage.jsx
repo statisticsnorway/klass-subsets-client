@@ -42,7 +42,7 @@ export const SubsetPage = () => {
                         <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subsetData?.id || '-'}  </strong>
                             {t('Version')}: <strong>{subsetData.version || '-'}  </strong>
                             {t('Updated')}: <strong>{subsetData.lastUpdatedDate || '-'}  </strong>
-                            {t('Status')}: <strong>{subsetData.administrativeStatus || '-'}  </strong>
+                            {t('Status')}: <strong>{t(subsetData.administrativeStatus) || '-'}  </strong>
                         </p>
                         <Paragraph style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subsetData.description?.find(
                             desc => desc.languageCode === 'nb')?.languageText || t('No description')}

@@ -35,7 +35,7 @@ export const MetadataFormStep = ({subset}) => {
         <>
             <Title size={3}>{t('Metadata')}
                 <span style={{fontSize: '14px', color: '#ED5935'}}>
-                    {`  ${t(draft.administrativeStatus) || 'Draft'}`}
+                    {`  ${t(draft.administrativeStatus) || ''}`}
                 </span>
             </Title>
 
@@ -49,7 +49,7 @@ export const MetadataFormStep = ({subset}) => {
                                   items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}
                                   remove={(index) => dispatch({action: 'name_remove', data: index})}
-                                  handle={() => dispatch({action: 'update'})}
+                                  handle={() => dispatch({action: 'name_update'})}
                                   size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
                                   errorMessages={errors.name}

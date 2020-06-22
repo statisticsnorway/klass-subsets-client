@@ -1,9 +1,11 @@
 import {useState, useReducer, useEffect} from 'react';
 import {nextDefaultName} from '../internationalization/languages';
 import {URN} from './klass-api';
-import {validate} from './validator'
+import {validate} from './validator';
+import {toId} from '../utils/strings'
 
 export const useSubset = (init =  {
+        id: '',
         name: [],
         administrativeStatus: 'INTERNAL', // cannot be changed by the app, by service only
         validFrom: null,
@@ -69,11 +71,20 @@ export const useSubset = (init =  {
                 setErrors(validate.subset(state));
                 return  state;
             }
+            case 'name_update': {
+                return  {...state,
+                        id: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
+                            ? toId(state.name[0].languageText)
+                            : state.id
+                    };
+            }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
                 return  name === null
                     ? {...state}
-                    : {...state, name: [...state.name, name]};
+                    : {...state,
+                        name: [...state.name, name]
+                      };
             }
             case 'name_remove': {
                 return {
@@ -83,23 +94,32 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
+                // TODO: warning 'this field changes affects versionValidFrom for v1.0'
                 setErrors(prev => ({
                     ...prev,
                     period: validate.period(data, state.validUntil)
                 }));
-                return {...state, validFrom: data};
+                return {...state,
+                    validFrom: data,
+                    versionValidFrom: (state.version.startsWith('1.') ? data : state.versionValidFrom)
+                };
             }
             case 'version_from': {
                 // FIXME: restrictions
+                // TODO: warning 'this field changes affects validFrom for v1.0'
                 setErrors(prev => ({
                     ...prev,
                     versionValidFrom: validate.versionValidFrom(),
                     versionPeriod: validate.period(data, state.validUntil)
                 }));
-                return {...state, validFrom: data};
+                return {...state,
+                    versionValidFrom: data,
+                    validFrom: (state.version.startsWith('1.') ? data : state.validFrom)
+                };
             }
             case 'version_to': {
                 // FIXME: restrictions
+                // TODO: warning 'this field changes affects validUntil
                 setErrors(prev => ({
                         ...prev,
                         period: validate.period(state.validFrom, data),

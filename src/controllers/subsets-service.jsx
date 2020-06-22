@@ -22,17 +22,14 @@ export function useGet(url = null) {
             try {
                 const response = await fetch(`${subsetsServiceEndpoint}${path}`);
                 let json = await response.json();
-                console.log({json});
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
             }
             catch (e) {
                 setError({
-                    timestamp: Date.now(),
                     status: e.status,
                     error: 'Fetch error',
                     message: `Error during fetching: ${e.message}`,
-                    path
                 });
                 _mounted && setIsLoading(false);
             }
@@ -74,12 +71,14 @@ export function usePost() {
                     body: JSON.stringify(payload),
                 });
                 let json = await response.json();
-                console.log('SUCCESS ', json)
-                setData(json);
-                setIsLoading(false);
+                if (response.status >= 200 && response.status <= 299) {
+                    setData(json);
+                    setIsLoading(false);
+                } else {
+                    throw Error(`${json.error} ${json.message}` || `${response.status} ${response.statusText}`);
+                }
             }
             catch (e) {
-                console.log('ERROR ', e)
                 setError(e);
                 setIsLoading(false);
             }
@@ -94,8 +93,8 @@ export function usePost() {
     return [data, setPayload, isLoading, error, setPath];
 }
 
-export function usePut() {
-    const [path, setPath] = useState('');
+export function usePut(url = '') {
+    const [path, setPath] = useState(url);
     const [data, setData] = useState(null);
     const [payload, setPayload] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -108,14 +107,18 @@ export function usePut() {
             setData(null);
 
             try {
-                const response = await fetch(`${subsetsServiceEndpointAUTH}${payload.id}`, {
+                const response = await fetch(`${subsetsServiceEndpointAUTH}${path}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                 });
                 let json = await response.json();
-                setData(json);
-                setIsLoading(false);
+                if (response.status >= 200 && response.status <= 299) {
+                    setData(json);
+                    setIsLoading(false);
+                } else {
+                    throw Error(`${json.error} ${json.message}` || `${response.status} ${response.statusText}`);
+                }
             }
             catch (e) {
                 setError(e);
