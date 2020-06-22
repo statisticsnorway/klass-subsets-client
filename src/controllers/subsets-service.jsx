@@ -75,7 +75,7 @@ export function usePost() {
                     setData(json);
                     setIsLoading(false);
                 } else {
-                    throw Error(json.error || `${response.status} ${response.statusText}`);
+                    throw Error(`${json.error} ${json.message}` || `${response.status} ${response.statusText}`);
                 }
             }
             catch (e) {
@@ -117,7 +117,7 @@ export function usePut(url = '') {
                     setData(json);
                     setIsLoading(false);
                 } else {
-                    throw Error(json.error || `${response.status} ${response.statusText}`);
+                    throw Error(`${json.error} ${json.message}` || `${response.status} ${response.statusText}`);
                 }
             }
             catch (e) {
