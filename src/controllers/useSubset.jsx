@@ -62,7 +62,9 @@ export const useSubset = (init =  {
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
             case 'edit': {
-                return  {...data};
+                return  {...data,
+                    administrativeStatus: !data?.administrativeStatus ? 'DRAFT' : data.administrativeStatus
+                };
             }
             case 'update': {
                 return  {...state};
