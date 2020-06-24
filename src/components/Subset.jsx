@@ -64,7 +64,7 @@ export const SubsetBanner = ({subset}) => {
             <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || '-'}  </strong>
                 {t('Version')}: <strong>{subset?.version || '-'}  </strong>
                 {t('Updated')}: <strong>{subset?.lastUpdatedDate || '-'}  </strong>
-                {t('Status')}: <strong>{subset?.administrativeStatus || '-'}  </strong>
+                {t('Status')}: <strong>{t(subset?.administrativeStatus) || '-'}  </strong>
             </p>
             <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
                 description => description.languageCode === 'nb')?.languageText || t('No description')}
