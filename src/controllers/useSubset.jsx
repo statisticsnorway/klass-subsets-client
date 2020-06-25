@@ -7,6 +7,7 @@ import {toId} from '../utils/strings'
 export const useSubset = (init =  {
         id: '',
         name: [],
+        shortName: '',
         administrativeStatus: 'INTERNAL', // cannot be changed by the app, by service only
         validFrom: null,
         validUntil: null,
@@ -62,8 +63,10 @@ export const useSubset = (init =  {
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
             case 'edit': {
+                console.log({shortName: data.shortName})
                 return  {...data,
-                    administrativeStatus: !data?.administrativeStatus ? 'DRAFT' : data.administrativeStatus
+                    administrativeStatus: !data?.administrativeStatus ? 'DRAFT' : data.administrativeStatus,
+                    shortName: data.shortName ? data.shortName : ''
                 };
             }
             case 'update': {
@@ -77,7 +80,10 @@ export const useSubset = (init =  {
                 return  {...state,
                         id: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
                             ? toId(state.name[0].languageText)
-                            : state.id
+                            : state.id,
+                        shortName: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
+                            ? state.name[0].languageText
+                            : state.shortName ? state.shortName : ''
                     };
             }
             case 'name_add': {
