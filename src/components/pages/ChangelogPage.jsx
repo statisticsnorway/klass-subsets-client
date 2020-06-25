@@ -25,6 +25,7 @@ export default function ChangelogPage() {
 
            <Title size={4}>v0.4.2</Title>
            <Paragraph>Use major version number only.</Paragraph>
+           <Paragraph>Short name fix.</Paragraph>
 
            <Title size={4}>v0.4.1</Title>
            <Paragraph>Better error message on failed saving or publishing.</Paragraph>
