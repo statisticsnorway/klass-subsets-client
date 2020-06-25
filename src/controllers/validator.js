@@ -18,9 +18,9 @@ export const validate = {
 
     versionValidFrom(from, to, versionFrom) {
         return versionFrom < from
-            ? ['version cannot start earlier than subsets validity period']
+            ? ['A version cannot start earlier than subsets validity period']
             : versionFrom > to
-                ? ['versions cannot have gaps on validity periods']
+                ? ['Versions cannot have gaps on validity periods']
                 : []
     },
 

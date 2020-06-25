@@ -23,6 +23,9 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.4.2</Title>
+           <Paragraph>Use major version number only.</Paragraph>
+
            <Title size={4}>v0.4.1</Title>
            <Paragraph>Better error message on failed saving or publishing.</Paragraph>
            <Paragraph>Visible ID setting while typing the very first name.</Paragraph>
