@@ -18,8 +18,8 @@ export const PublishFormStep = ({subset}) => {
 
     useEffect(() => {
         if (post || update) {
-           // dispatch({action: 'reset'});
-           // history.push(`/subsets/${draft.id}`);
+           dispatch({action: 'reset'});
+           history.push(`/subsets/${draft.id}`);
         }
     }, [post, update]);
 
