@@ -37,9 +37,11 @@ export const VersionsFormStep = ({subset}) => {
             {!versions
                 ? <Spinner/>
                 : <Dropdown label={t('Version')}
-                            options={versions
+                            options={versions && !versions.error
+                                ? versions
                                 .map(v => ({name: v.version}))
                                 .concat({name: 'New version'})
+                                : []
                             }
                             placeholder={t('Select a version')}
                             disabledText={t('New version')}
