@@ -49,15 +49,15 @@ export const SubsetPage = () => {
                         </Paragraph>
 
                         <Paragraph><strong>{t('Owner')}:</strong> {subsetData.createdBy || '-'}</Paragraph>
-                        <Paragraph><strong>{t('Valid from')}:</strong> {subsetData.validFrom.substr(0, 10) || '-'}</Paragraph>
-                        <Paragraph><strong>{t('Valid to')}:</strong> {subsetData.validUntil.substr(0, 10)  || '-'}</Paragraph>
+                        <Paragraph><strong>{t('Valid from')}:</strong> {subsetData.validFrom?.substr(0, 10) || '-'}</Paragraph>
+                        <Paragraph><strong>{t('Valid to')}:</strong> {subsetData.validUntil?.substr(0, 10)  || '-'}</Paragraph>
                         <Paragraph><strong>{t('Subject')}:</strong> {subsetData.administrativeDetails
-                            .find(d => d.administrativeDetailType === 'ANNOTATION')
-                            .values[0] || '-'}</Paragraph>
+                            ? subsetData.administrativeDetails.find(d => d.administrativeDetailType === 'ANNOTATION').values[0]
+                            : '-'}</Paragraph>
 
                         <Title size={3}>{t('Codes')}: </Title>
-                        {
-                            subsetData.codes
+                        { subsetData.codes
+                            ? subsetData.codes
                                 .sort((a,b) => a.rank - b.rank)
                                 .map((code, i) =>
                                     <Code key={i}
@@ -67,6 +67,7 @@ export const SubsetPage = () => {
                                               validToInRequestedRange: subsetData.validUntil?.substr(0, 10)
                                           }}
                                     />)
+                            : []
                         }
                         <Accordion header={t('Raw JSON')}>
                             <pre>{JSON.stringify(subsetData, null, 4)}</pre>

@@ -22,7 +22,7 @@ export const useSubset = (init =  {
             }
         ],
         description: [],
-        version: '1.0.0',
+        version: '1',
         versionRationale: [],
         versionValidFrom: null,
         versionValidUntil: null, // just for local use, not part of Classification scheme
@@ -103,7 +103,7 @@ export const useSubset = (init =  {
                 }));
                 return {...state,
                     validFrom: data,
-                    versionValidFrom: (state.version.startsWith('1.') ? data : state.versionValidFrom)
+                    versionValidFrom: state.version === '1' ? data : state.versionValidFrom
                 };
             }
             case 'version_from': {
@@ -116,7 +116,7 @@ export const useSubset = (init =  {
                 }));
                 return {...state,
                     versionValidFrom: data,
-                    validFrom: (state.version.startsWith('1.') ? data : state.validFrom)
+                    validFrom: state.version === '1' ? data : state.validFrom
                 };
             }
             case 'version_to': {
@@ -143,16 +143,16 @@ export const useSubset = (init =  {
                 };
             }
             case 'version_change': {
-                console.log('Versions change', {data});
                 const {item, versions} = data;
                 if (item === 'New version') {
-                    const latest = versions.sort((a, b) => a.versionValidFrom < b.versionVlidFrom)[versions.length - 1];
-                    console.log({latest});
-                    const next = (parseInt(latest.version.split('.')[0]) + 1).toString();
+                    // TODO handle exception
+                    const versionsNumbers = versions.map(v => parseInt(v.version));
+                    const latestVersionNo = Math.max(...versionsNumbers);
+                    const latest = versions.find(v => v.version === `${latestVersionNo}`)
                     return {
                         ...state,
                         administrativeStatus: 'DRAFT',
-                        version: `${next}.0.0`,
+                        version: `${latestVersionNo + 1}`,
                         versionRationale: [ nextDefaultName([]) ],
                         versionValidFrom: latest.validUntil || state.validUntil,
                         versionValidUntil: state.validUntil
