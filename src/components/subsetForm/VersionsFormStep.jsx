@@ -23,7 +23,7 @@ export const VersionsFormStep = ({subset}) => {
         };
     }, []);
 
-    const [versions] = useGet(`${draft.id}/versions`);
+    const [versions, isLoadingVersions, errorVersions] = useGet(`${draft.id}/versions`);
 
     return (
         <>
@@ -34,10 +34,10 @@ export const VersionsFormStep = ({subset}) => {
                 {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
             </p>
 
-            {!versions
+            {isLoadingVersions
                 ? <Spinner/>
                 : <Dropdown label={t('Version')}
-                            options={versions && !versions.error
+                            options={!errorVersions && versions && !versions.error
                                 ? versions
                                 .map(v => ({name: v.version}))
                                 .concat({name: 'New version'})
