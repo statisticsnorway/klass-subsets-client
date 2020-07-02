@@ -24,6 +24,9 @@ export default function ChangelogPage() {
            <Title size={2}>{t('Changelog')}</Title>
 
            <Title size={4}>v0.4.2</Title>
+           <Paragraph>Fixed empty <code>validUntil</code> and <code>createdDate</code> in order to save and publish subsets.</Paragraph>
+
+           <Title size={4}>v0.4.2</Title>
            <Paragraph>Use major version number only.</Paragraph>
            <Paragraph>Short name fix.</Paragraph>
 
