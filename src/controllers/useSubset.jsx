@@ -151,20 +151,20 @@ export const useSubset = (init =  {
             case 'version_change': {
                 const {item, versions} = data;
                 if (item === 'New version') {
-                    // TODO handle exception
-                    const versionsNumbers = versions.map(v => parseInt(v.version));
+                    const versionsNumbers = versions.map(v => v.version);
                     const latestVersionNo = Math.max(...versionsNumbers);
-                    const latest = versions.find(v => v.version === `${latestVersionNo}`)
+                    const latest = versions.find(v => v.version === latestVersionNo)
                     return {
                         ...state,
                         administrativeStatus: 'DRAFT',
-                        version: `${latestVersionNo + 1}`,
+                        version: `${latestVersionNo +1}`,
                         versionRationale: [ nextDefaultName([]) ],
                         versionValidFrom: latest?.validUntil || state.validUntil,
                         versionValidUntil: state.validUntil
                     };
                 } else {
-                    const exists = versions.find(v => v.version === item);
+                    const chosenVersion = parseInt(item);
+                    const exists = versions.find(v => v.version === chosenVersion);
                     if (exists) {
                         const next = versions
                             .sort((a, b) => a.versionValidFrom < b.versionVlidFrom)
