@@ -63,8 +63,8 @@ export const useSubset = (init =  {
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
             case 'edit': {
-                console.log({shortName: data.shortName})
-                return  {...data,
+                return  {
+                    ...data,
                     administrativeStatus: !data?.administrativeStatus ? 'DRAFT' : data.administrativeStatus,
                     shortName: data.shortName ? data.shortName : ''
                 };
@@ -160,7 +160,7 @@ export const useSubset = (init =  {
                         administrativeStatus: 'DRAFT',
                         version: `${latestVersionNo + 1}`,
                         versionRationale: [ nextDefaultName([]) ],
-                        versionValidFrom: latest.validUntil || state.validUntil,
+                        versionValidFrom: latest?.validUntil || state.validUntil,
                         versionValidUntil: state.validUntil
                     };
                 } else {
