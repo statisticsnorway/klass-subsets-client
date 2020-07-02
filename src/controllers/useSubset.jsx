@@ -167,7 +167,7 @@ export const useSubset = (init =  {
                     const exists = versions.find(v => v.version === chosenVersion);
                     if (exists) {
                         const next = versions
-                            .sort((a, b) => a.versionValidFrom < b.versionVlidFrom)
+                            .sort((a, b) => a.versionValidFrom < b.versionValidFrom)
                             .find(v => v.versionValidFrom > exists.versionValidFrom);
                         return {
                             ...exists,
