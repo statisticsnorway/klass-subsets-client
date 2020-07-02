@@ -10,6 +10,7 @@ export const useSubset = (init =  {
         shortName: '',
         administrativeStatus: 'INTERNAL', // cannot be changed by the app, by service only
         validFrom: null,
+        validUntil: null,
         createdBy: '',
         administrativeDetails: [
             {
@@ -62,8 +63,8 @@ export const useSubset = (init =  {
     function subsetReducer(state, {action, data = {}}) {
         switch (action) {
             case 'edit': {
-                console.log({shortName: data.shortName})
-                return  {...data,
+                return  {
+                    ...data,
                     administrativeStatus: !data?.administrativeStatus ? 'DRAFT' : data.administrativeStatus,
                     shortName: data.shortName ? data.shortName : ''
                 };
@@ -150,23 +151,23 @@ export const useSubset = (init =  {
             case 'version_change': {
                 const {item, versions} = data;
                 if (item === 'New version') {
-                    // TODO handle exception
-                    const versionsNumbers = versions.map(v => parseInt(v.version));
+                    const versionsNumbers = versions.map(v => v.version);
                     const latestVersionNo = Math.max(...versionsNumbers);
-                    const latest = versions.find(v => v.version === `${latestVersionNo}`)
+                    const latest = versions.find(v => v.version === latestVersionNo)
                     return {
                         ...state,
                         administrativeStatus: 'DRAFT',
-                        version: `${latestVersionNo + 1}`,
+                        version: `${latestVersionNo +1}`,
                         versionRationale: [ nextDefaultName([]) ],
-                        versionValidFrom: latest.validUntil || state.validUntil,
+                        versionValidFrom: latest?.validUntil || state.validUntil,
                         versionValidUntil: state.validUntil
                     };
                 } else {
-                    const exists = versions.find(v => v.version === item);
+                    const chosenVersion = parseInt(item);
+                    const exists = versions.find(v => v.version === chosenVersion);
                     if (exists) {
                         const next = versions
-                            .sort((a, b) => a.versionValidFrom < b.versionVlidFrom)
+                            .sort((a, b) => a.versionValidFrom < b.versionValidFrom)
                             .find(v => v.versionValidFrom > exists.versionValidFrom);
                         return {
                             ...exists,

@@ -25,7 +25,9 @@ export default function ChangelogPage() {
 
            <Title size={4}>v0.4.3</Title>
            <Paragraph>Fixed empty <code>validUntil</code> and <code>createdDate</code> in order to save and publish subsets.</Paragraph>
-           <Paragraph>Right service used for search from with no until date.</Paragraph>
+           <Paragraph>The right service used for search from with no until date.</Paragraph>
+           <Paragraph>Adjusted to receive subset version as an integer, not a string as before.</Paragraph>
+           <Paragraph>No refresh button.</Paragraph>
 
            <Title size={4}>v0.4.2</Title>
            <Paragraph>Use major version number only.</Paragraph>
