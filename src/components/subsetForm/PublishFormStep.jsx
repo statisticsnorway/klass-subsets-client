@@ -31,7 +31,7 @@ export const PublishFormStep = ({subset}) => {
 
     useEffect(() => dispatch({action: 'validate'}), [draft, dispatch]);
 
-    return (
+return (
         <>
             <Title size={3}>{t('Review and publish')}</Title>
             <SubsetPreview subset={draft}/>
@@ -48,12 +48,8 @@ export const PublishFormStep = ({subset}) => {
                     <Button
                         disabled={update !== null || Object.values(errors).flat().length > 0 || draft.administrativeStatus === 'OPEN'}
                         onClick={() => draft.administrativeStatus === 'INTERNAL'
-                            ? setPOSTPayload({
-                                ...draft,
-                                administrativeStatus: 'DRAFT',
-                                createdDate: new Date().toISOString(),
-                            })
-                            : setPUTPayload({...draft, administrativeStatus: 'DRAFT'})
+                            ? setPOSTPayload(prepare('DRAFT', {...draft}))
+                            : setPUTPayload(prepare('DRAFT', {...draft}))
                         }>{t('Save')}
                     </Button>
                 </div>
@@ -62,12 +58,8 @@ export const PublishFormStep = ({subset}) => {
                     <Button
                         disabled={post !== null || Object.values(errors).flat().length > 0}
                         onClick={() => draft.administrativeStatus === 'INTERNAL'
-                            ? setPOSTPayload({
-                                ...draft,
-                                administrativeStatus: 'OPEN',
-                                createdDate: new Date().toISOString(),
-                            })
-                            : setPUTPayload({...draft, administrativeStatus: 'OPEN'})
+                            ? setPOSTPayload(prepare('OPEN', {...draft}))
+                            : setPUTPayload(prepare('OPEN', {...draft}))
                         }>{t('Publish')}
                     </Button>
                 </div>
@@ -79,3 +71,11 @@ export const PublishFormStep = ({subset}) => {
         </>
     );
 };
+
+function prepare(status = '', payload = {}) {
+    payload.administrativeStatus = status;
+    payload.createdDate = payload.createdDate ? payload.createdDate : new Date().toISOString(); // FIXME: has to be set on backend side+
+    payload.lastUpdatedDate = new Date().toISOString(); // FIXME: has to be set on backend side+
+    Object.keys(payload).forEach((key) => (payload[key] == null) && delete payload[key]);
+    return payload;
+}
