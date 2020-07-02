@@ -32,10 +32,13 @@ export const ChooseCodesFormStep = ({subset}) => {
             <Title size={3}>{t('Choose classifications and code lists')}</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
                 {t('All search results will be restricted by validity period set in metadata')}{
-                from && to
-                    ? `: ${t('from to', { from, to })}.`
-                    : from || to ? `: ${t('at', { date: from || to})}.`
-                    : `. ${t('Period is not set')}.`
+                from || to
+                    ? from && to
+                        ? `: ${t('from to', { from, to })}.`
+                        : from
+                            ? `: ${t('from', { from })}.`
+                            : `: ${t('to', { to })}.`
+                    : `: ${t('at', { date: new Date().toISOString().substr(0, 10)})}. ${t('Period is not set')}.`
             }
             </p>
             <Search resource={ classifications?._embedded?.classifications || []}
