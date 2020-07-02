@@ -61,6 +61,7 @@ export const Classification = ({item = {}, from, to,
                         <Alert color='orange'/>
                     </button>
                 }
+{/*
 
                 <button onClick={() => {
                     setRetryCodes(true);
@@ -68,9 +69,10 @@ export const Classification = ({item = {}, from, to,
                 }}>
                     <RefreshCw size='20' color={ isLoadingCodes || isLoadingMetadata ? '#C3DCDC' : '#62919A'}/>
                 </button>
+*/}
 
                 <button onClick={() =>
-                    setShow(prev => ({codes: !prev.codes}))}>
+                    setShow(prev => ({codes: !prev.codes}))}>   
                     { isLoadingCodes
                         ? <Spinner/>
                         : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
