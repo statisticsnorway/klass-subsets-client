@@ -23,10 +23,19 @@ export const URN = {
                 classificationURN: `urn:klass-api:classifications:${id}`,
                 path: from && to
                     ? `/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
-                    : `/${service}/${id}/codesAt.json?date=${ from || to || today }&selectCodes=${code}`,
+                    : from && !to
+                        ? `/${service}/${id}/codes.json?from=${ from }&selectCodes=${code}`
+                        : !from && to
+                            ? `/${service}/${id}/codes.json?to=${ to }&selectCodes=${code}`
+                            : `/${service}/${id}/codesAt.json?date=${ today }&selectCodes=${code}`
+                ,
                 url: from && to
                 ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
-                : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ from || to || today }&selectCodes=${code}`
+                    : from && !to
+                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&selectCodes=${code}`
+                        : !from && to
+                            ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?to=${ to }&selectCodes=${code}`
+                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today }&selectCodes=${code}`
             };
         }
 
@@ -41,11 +50,19 @@ export const URN = {
                 path: `/${service}/${id}`,
                 codesPath: from && to
                     ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
-                    : `/${service}/${id}/codesAt.json?date=${from || to || today}`,
+                    : from && !to
+                        ? `/${service}/${id}/codes.json?from=${ from }`
+                        : !from && to
+                            ? `/${service}/${id}/codes.json?to=${ to }`
+                            : `/${service}/${id}/codesAt.json?date=${ today }`,
                 url: `${klassApiServiceEndpoint}/${service}/${id}`,
                 codesUrl: from && to
                     ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}`
-                    : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${from || to || today}`
+                    : from && !to
+                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }`
+                        : !from && to
+                            ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?to=${ to }`
+                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today }`
             };
         }
 
@@ -74,7 +91,11 @@ export const URL = {
                 path: `/${service}/${id}`,
                 codesPath: from && to
                     ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
-                    : `/${service}/${id}/codesAt.json?date=${from || to || today}`
+                    : from && !to
+                        ? `/${service}/${id}/codes.json?from=${ from }`
+                        : !from && to
+                            ? `/${service}/${id}/codes.json?to=${ to }`
+                            : `/${service}/${id}/codesAt.json?date=${ today }`
             };
         }
 

@@ -50,6 +50,8 @@
   "Choose classifications and code lists": "Choose classifications and code lists",
   "All search results will be restricted by validity period set in metadata": "All search results will be restricted by validity period set in metadata",
   "from to": "from incl. {{from}} to excl. {{to}}",
+  "from": "f.o.m {{from}}",
+  "to": "til {{to}}",
   "at": "at {{date}}",
   "Period is not set": "Period is not set",
   "Type classification name": "Type classification name",
