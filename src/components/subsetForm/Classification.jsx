@@ -166,10 +166,13 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
              className='panel'>
             <div className='ssb-checkbox-group'>
                 <div className='checkbox-group-header'>{t('Codes')}
-                    {from && to
-                        ? ` ${t('from to', { from, to })}:`
-                        : from || to ? ` ${t('at', { date: from || to})}:`
-                            : ` (${t('Period is not set').toLocaleLowerCase()})`
+                    {from || to
+                        ? from && to
+                            ? `: ${t('from to', { from, to })}.`
+                            : from
+                                ? `: ${t('from', { from })}.`
+                                : `: ${t('to', { to })}.`
+                        : `: ${t('at', { date: new Date().toISOString().substr(0, 10)})}. ${t('Period is not set').toLocaleLowerCase()})`
                     }</div>
                 {!codes || codes.length === 0
                     ? <Text>{t('No codes found for this validity period')}</Text>
