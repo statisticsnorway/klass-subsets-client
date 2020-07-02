@@ -48,7 +48,11 @@ export const PublishFormStep = ({subset}) => {
                     <Button
                         disabled={update !== null || Object.values(errors).flat().length > 0 || draft.administrativeStatus === 'OPEN'}
                         onClick={() => draft.administrativeStatus === 'INTERNAL'
-                            ? setPOSTPayload({...draft, administrativeStatus: 'DRAFT'})
+                            ? setPOSTPayload({
+                                ...draft,
+                                administrativeStatus: 'DRAFT',
+                                createdDate: new Date().toISOString(),
+                            })
                             : setPUTPayload({...draft, administrativeStatus: 'DRAFT'})
                         }>{t('Save')}
                     </Button>
@@ -58,7 +62,11 @@ export const PublishFormStep = ({subset}) => {
                     <Button
                         disabled={post !== null || Object.values(errors).flat().length > 0}
                         onClick={() => draft.administrativeStatus === 'INTERNAL'
-                            ? setPOSTPayload({...draft, administrativeStatus: 'OPEN'})
+                            ? setPOSTPayload({
+                                ...draft,
+                                administrativeStatus: 'OPEN',
+                                createdDate: new Date().toISOString(),
+                            })
                             : setPUTPayload({...draft, administrativeStatus: 'OPEN'})
                         }>{t('Publish')}
                     </Button>
