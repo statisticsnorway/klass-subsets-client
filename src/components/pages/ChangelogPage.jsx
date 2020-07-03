@@ -27,7 +27,8 @@ export default function ChangelogPage() {
            <Paragraph>Fixed empty <code>validUntil</code> and <code>createdDate</code> in order to save and publish subsets.</Paragraph>
            <Paragraph>The right service used for search from with no until date.</Paragraph>
            <Paragraph>Adjusted to receive subset version as an integer, not a string as before.</Paragraph>
-           <Paragraph>No refresh button.</Paragraph>
+           <Paragraph>Removed refresh button.</Paragraph>
+           <Paragraph>Disabled valid until and version valif from input fields.</Paragraph>
            <Paragraph>Version validity period is used for code lists search in the form.</Paragraph>
 
            <Title size={4}>v0.4.2</Title>

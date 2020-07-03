@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import '../../css/form.css';
 import {useTranslation} from 'react-i18next';
-import {Title} from '@statisticsnorway/ssb-component-library';
+import {Paragraph, Title} from '@statisticsnorway/ssb-component-library';
 import {Dropdown, TextLanguageFieldset} from './forms';
 import {useGet} from '../../controllers/subsets-service';
-import Spinner from "../Spinner";
+import Spinner from '../Spinner';
+import {HelpCircle} from 'react-feather';
 
 /*
  *  FIXME: sanitize input
@@ -14,6 +15,8 @@ export const VersionsFormStep = ({subset}) => {
 
     const {draft, dispatch, errors} = subset;
     const {t} = useTranslation();
+    const [showHelp, setShowHelp] = useState(false);
+
     useEffect(() => {
         draft.versionRationale?.length === 0
         && dispatch({action: 'version_rationale_add'});
@@ -55,18 +58,23 @@ export const VersionsFormStep = ({subset}) => {
                             errorMessages={errors?.version}
                 />
             }
-            {/* TODO: autofill if null by
-                - validFrom if version 1.0;
-                - validUntil if not null and version > 1.0
-                */}
-            {/* TODO: disable if not null */}
+
             <section style={{margin: '5px 0 5px 0'}}>
-                <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
+                <div style={{float: 'left', marginRight: '20px', padding: '0', position: 'relative', top: '-10px'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor='version_from_date'>{t('Valid from')}: </label>
+                           htmlFor='version_from_date'>{t('Version valid from')}:
+                        <button
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                setShowHelp(prev => !prev);
+                            }}>
+                            <HelpCircle color='#2D6975'/>
+                        </button>
+                    </label>
                     <input type='date'
                            id='version_from_date'
-                           style={{display: 'block'}}
+                           style={{display: 'block', border: 'none'}}
+                           disabled
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
                            onChange={event => dispatch({
                                action: 'version_from',
@@ -89,7 +97,7 @@ export const VersionsFormStep = ({subset}) => {
                 {/* TODO: warning 'this field changes affects validUntil */}
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor='version_to_date'>{t('Valid to')}: </label>
+                           htmlFor='version_to_date'>{t('Version valid until')}: </label>
                     <input type='date'
                            id='version_to_date'
                            style={{display: 'block'}}
@@ -111,6 +119,15 @@ export const VersionsFormStep = ({subset}) => {
                     }
                 </div>
                 <br style={{clear: 'both'}}/>
+
+                {showHelp &&
+                    <div style={{background: '#274247', color: 'white', padding: '0 0 0 10px'}}>
+                        <Paragraph negative>
+                            <strong>{t('Version valid from')}. </strong>
+                            {t('Version valid from help')}
+                        </Paragraph>
+                    </div>
+                }
 
                 {errors?.versionPeriod?.length > 0 &&
                 <div className='ssb-input-error '>

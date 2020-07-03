@@ -26,6 +26,7 @@
   "Names": "Names",
   "Valid from": "Valid from inclusive",
   "Valid to": "Valid to exclusive",
+  "Valid to help": "This field is dependent on the last version validity period. Set it up on the next form step",
   "At least one name is required": "At least one name is required",
   "At least one code is required": "At least one code is required",
   "Owner is required": "Owner is required",
@@ -43,6 +44,9 @@
 
   "Versions": "Versions",
   "Version": "Version",
+  "Version valid from": "Version valid from",
+  "Version valid from help": "This field is dependent on previous version's validity period. Choose the previous version to change it. Don't forget to save changes.",
+  "Version valid until": "Version valid until",
   "Select a version": "Select a version",
   "New version": "New version",
 
