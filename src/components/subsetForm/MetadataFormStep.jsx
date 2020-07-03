@@ -114,7 +114,7 @@ export const MetadataFormStep = ({subset}) => {
                 </div>
                 <br style={{clear: 'both'}}/>
                 {showHelp &&
-                    <div style={{background: '#274247', color: 'white'}}>
+                    <div style={{background: '#274247', color: 'white', padding: '0 0 0 10px'}}>
                         <Paragraph negative>
                             <strong>{t('Valid to')}. </strong>
                             {t('Valid to help')}

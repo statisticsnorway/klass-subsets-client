@@ -43,6 +43,9 @@
 
   "Versions": "Versjoner",
   "Version": "Versjon",
+  "Version valid from": "Versjon gyldig f.o.m",
+  "Version valid from help": "Dette feltet er avhengig av den forrige versjonens gyldighetsperiode. Velg den forrige versjonen for å oppdatere den. Husk å lagre endringene.",
+  "Version valid until": "Versjon gyldig til",
   "Select a version": "Velg en versjon",
   "New version": "Ny versjon",
 
