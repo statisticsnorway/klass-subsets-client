@@ -72,7 +72,7 @@ export const Classification = ({item = {}, from, to,
 */}
 
                 <button onClick={() =>
-                    setShow(prev => ({codes: !prev.codes}))}>   
+                    setShow(prev => ({codes: !prev.codes}))}>
                     { isLoadingCodes
                         ? <Spinner/>
                         : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />

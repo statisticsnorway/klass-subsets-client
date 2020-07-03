@@ -48,7 +48,7 @@
 
   "Choose codes": "Choose codes",
   "Choose classifications and code lists": "Choose classifications and code lists",
-  "All search results will be restricted by validity period set in metadata": "All search results will be restricted by validity period set in metadata",
+  "All search results will be restricted by validity period set for the version": "All search results will be restricted by validity period set for the version",
   "from to": "from incl. {{from}} to excl. {{to}}",
   "from": "f.o.m {{from}}",
   "to": "til {{to}}",
