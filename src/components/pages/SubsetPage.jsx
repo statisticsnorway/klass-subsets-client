@@ -63,7 +63,7 @@ export const SubsetPage = () => {
                                     <Code key={i}
                                           origin={{
                                               ...code,
-                                              validFromInRequestedRange: subsetData.validFrom?.substr(0, 10),
+                                              validFromInRequestedRange: subsetData.versionValidFrom?.substr(0, 10),
                                               validToInRequestedRange: subsetData.validUntil?.substr(0, 10)
                                           }}
                                     />)

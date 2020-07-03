@@ -31,7 +31,7 @@ export const ChooseCodesFormStep = ({subset}) => {
     return (<>
             <Title size={3}>{t('Choose classifications and code lists')}</Title>
             <p style={{color:'grey', fontSize:'11px'}}>
-                {t('All search results will be restricted by validity period set in metadata')}{
+                {t('All search results will be restricted by validity period set for the version')}{
                 from || to
                     ? from && to
                         ? `: ${t('from to', { from, to })}.`
