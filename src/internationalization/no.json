@@ -25,6 +25,7 @@
   "Names": "Navn",
   "Valid from": "Gyldig fra og med",
   "Valid to": "Gyldig til",
+  "Valid to help": "Dette feltet er avhengig av aller siste versionens gyldighetsperiode. Den kan bli satt opp på det neste skjemasteget.",
   "At least one name is required": "Minst ett navn er påkrevd",
   "At least one code is required": "Minst en kode er påkrevd",
   "Owner is required": "Ansvarlig seksjon er påkrevd",

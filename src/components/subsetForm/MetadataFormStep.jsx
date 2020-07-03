@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from './forms';
 import {subsetDraft} from '../../controllers/defaults';
-import {Title} from '@statisticsnorway/ssb-component-library';
+import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
+import {HelpCircle} from 'react-feather';
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -18,6 +19,7 @@ export const MetadataFormStep = ({subset}) => {
     const { t } = useTranslation();
     const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
+    const [showHelp, setShowHelp] = useState(false);
 
     useEffect(() => {
         draft.name?.length === 0
@@ -77,11 +79,20 @@ export const MetadataFormStep = ({subset}) => {
                     }
                 </div>
 
-                <div style={{float: 'left'}}>
+                <div style={{float: 'left', position: 'relative', top: '-10px'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                           htmlFor='to_date'>{t('Valid to')}: </label>
+                           htmlFor='to_date'>{t('Valid to')}:
+                        <button
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                setShowHelp(prev => !prev);
+                        }}>
+                            <HelpCircle color='#2D6975'/>
+                        </button>
+                    </label>
                     <input type='date' id='to_date'
-                           style={{display: 'block'}}
+                           style={{display: 'block', border: 'none'}}
+                           disabled
                            value={draft.validUntil?.substr(0, 10) || ''}
                            onChange={event => dispatch({
                                    action: 'to', data:
@@ -91,6 +102,7 @@ export const MetadataFormStep = ({subset}) => {
                                })
                            }
                            className='datepicker'/>
+
                     {errors?.validUntil?.length > 0 &&
                         <div className='ssb-input-error '>
                             {errors.validUntil.map(error => (
@@ -98,8 +110,18 @@ export const MetadataFormStep = ({subset}) => {
                             ))}
                         </div>
                     }
+
                 </div>
                 <br style={{clear: 'both'}}/>
+                {showHelp &&
+                    <div style={{background: '#274247', color: 'white'}}>
+                        <Paragraph negative>
+                            <strong>{t('Valid to')}. </strong>
+                            {t('Valid to help')}
+                        </Paragraph>
+                    </div>
+                }
+
 
                 {errors?.period?.length > 0 &&
                     <div className='ssb-input-error '>

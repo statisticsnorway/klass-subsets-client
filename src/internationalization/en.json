@@ -26,6 +26,7 @@
   "Names": "Names",
   "Valid from": "Valid from inclusive",
   "Valid to": "Valid to exclusive",
+  "Valid to help": "This field is dependent on the last version validity period. Set it up on the next form step",
   "At least one name is required": "At least one name is required",
   "At least one code is required": "At least one code is required",
   "Owner is required": "Owner is required",
