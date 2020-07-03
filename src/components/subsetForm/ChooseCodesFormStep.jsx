@@ -21,8 +21,8 @@ export const ChooseCodesFormStep = ({subset}) => {
 
     const { t } = useTranslation();
 
-    const from = draft.validFrom?.substr(0, 10);
-    const to = draft.validUntil?.substr(0, 10);
+    const from = draft.versionValidFrom?.substr(0, 10) || draft.validFrom?.substr(0, 10);
+    const to = draft.versionValidUntil?.substr(0, 10) || draft.validUntil?.substr(0, 10);
     const origin = draft.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN')?.values;
 
     const [searchResult, setSearchResult] = useState([]);
