@@ -10,6 +10,7 @@ export const SubsetPreview = ({subset}) => {
     // TODO: show subset in other languages - switch button for language?
 
     const from = subset.validFrom?.substr(0, 10);
+    const versionFrom = subset.versionValidFrom?.substr(0, 10);
     const to = subset.validUntil?.substr(0, 10);
 
     return (
@@ -39,7 +40,7 @@ export const SubsetPreview = ({subset}) => {
                     <Code key={i}
                           origin={{
                               ...code,
-                              validFromInRequestedRange: from,
+                              validFromInRequestedRange: versionFrom,
                               validToInRequestedRange: to
                           }}
                     />))}
