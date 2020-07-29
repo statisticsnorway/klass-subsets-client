@@ -5,11 +5,12 @@ import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/subsets-service';
 import {Subsets} from '../Subset';
 import {Search} from '../../controllers/Search';
+import Spinner from "../Spinner";
 
 export default function SearchSubsetsPage() {
 
     const { t } = useTranslation();
-    const [subsets] = useGet('');
+    const [subsets, isLoadingSubsets] = useGet('');
     const [searchResults, setSearchResults] = useState([]);
 
 
@@ -39,11 +40,14 @@ export default function SearchSubsetsPage() {
                 ]}
             />
 
-            {!searchResults || searchResults.length === 0
-                ? <Paragraph>{t('Nothing is found')}</Paragraph>
-                : <Subsets items={searchResults
-                    .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate ? 0
-                    : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />
+            {isLoadingSubsets
+                ? <div style={{marginTop: '15px'}}><Spinner/></div>
+                : !searchResults || searchResults.length === 0
+                    ? <Paragraph>{t('Nothing is found')}</Paragraph>
+                    : <Subsets items={searchResults
+                        .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate
+                            ? 0
+                            : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />
             }
         </div>
     );
