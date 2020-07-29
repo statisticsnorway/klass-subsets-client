@@ -159,8 +159,9 @@ export const useSubset = (init =  {
                         administrativeStatus: 'DRAFT',
                         version: `${latestVersionNo +1}`,
                         versionRationale: [ nextDefaultName([]) ],
-                        versionValidFrom: latest?.validUntil || state.validUntil,
-                        versionValidUntil: state.validUntil
+                        versionValidFrom: latest?.validUntil,
+                        versionValidUntil: null,
+                        temporary: true
                     };
                 } else {
                     const chosenVersion = parseInt(item);

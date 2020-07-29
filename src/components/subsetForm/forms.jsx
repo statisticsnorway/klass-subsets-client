@@ -100,7 +100,7 @@ export const LanguageSelect = ({
 
 export const Dropdown = ({
                              label='Select',
-                             options = [{ title: ' ', id: ' '}],
+                             options = [{ title: ' ', id: ' ', disabled: false}],
                              placeholder = 'Select',
                              disabledText = 'Outdated',
                              selected='',
@@ -134,7 +134,7 @@ export const Dropdown = ({
                     </option>)
                 }
                 {options.map((option) => (
-                    <option key={option.id} value={option.id}>{option.title}</option>
+                    <option key={option.id} value={option.id} disabled={option.disabled}>{option.title}</option>
                 ))}
             </select>
             {errorMessages?.length > 0 &&

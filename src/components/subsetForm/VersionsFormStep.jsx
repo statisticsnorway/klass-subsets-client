@@ -41,17 +41,18 @@ export const VersionsFormStep = ({subset}) => {
                 ? <Spinner/>
                 : <Dropdown label={t('Version')}
                             options={!errorVersions && versions && !versions.error
-                                ? versions
-                                .map(v => ({...v,
-                                    title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)}`,
-                                    id: `${v.version}`}))
-                                .concat({
-                                    title: `${t('New version')} ${draft.validUntil || '-'}`,
-                                    id: 'New version'})
+                                ? [
+                                    ...versions.map(v => ({...v,
+                                        title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)}`,
+                                        id: `${v.version}`
+                                    })),
+
+                                    { title: `${t('New version')}`, id: 'New version', disabled: draft.temporary }
+                                ]
                                 : []
                             }
                             placeholder={t('Select a version')}
-                            disabledText={t('New version')}
+                            disabledText={t('Not saved')}
                             selected={`${draft.version}`}
                             onSelect={(option) => {
                                 dispatch({
@@ -77,8 +78,7 @@ export const VersionsFormStep = ({subset}) => {
                     </label>
                     <input type='date'
                            id='version_from_date'
-                           style={{display: 'block', border: 'none'}}
-                           disabled
+                           style={{display: 'block'}}
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
                            onChange={event => dispatch({
                                action: 'version_from',
@@ -97,7 +97,6 @@ export const VersionsFormStep = ({subset}) => {
                 </div>
 
                 {/* TODO: autofill by next version's versionValidFrom or validUntil */}
-                {/* TODO: disable if not null */}
                 {/* TODO: warning 'this field changes affects validUntil */}
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
