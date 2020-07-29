@@ -123,7 +123,7 @@ export const Dropdown = ({
                         fontSize: '16px',
                     }}
                     value={selected}
-                    onChange={(e) => onSelect(e.target.value)}
+                    onChange={(e) => onSelect(options.find(o => o.id == e.target.value))}
             >
                 <option value='' hidden>{placeholder}</option>
                 {selected.length > 0 && !options.find(s => s.name === selected)
@@ -133,8 +133,8 @@ export const Dropdown = ({
                                 >{selected} ({disabledText})
                     </option>)
                 }
-                {options.map((section, i) => (
-                    <option key={i} value={section.name}>{section.name}</option>
+                {options.map((option) => (
+                    <option key={option.id} value={option.id}>{option.title}</option>
                 ))}
             </select>
             {errorMessages?.length > 0 &&

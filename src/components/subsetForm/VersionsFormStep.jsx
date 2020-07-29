@@ -42,17 +42,21 @@ export const VersionsFormStep = ({subset}) => {
                 : <Dropdown label={t('Version')}
                             options={!errorVersions && versions && !versions.error
                                 ? versions
-                                .map(v => ({name: v.version}))
-                                .concat({name: 'New version'})
+                                .map(v => ({...v,
+                                    title: `${v.versionValidFrom?.substr(0, 10)}`,
+                                    id: v.version}))
+                                .concat({
+                                    title: `${t('New version')} ${draft.validUntil || '-'}`,
+                                    id: 'New version'})
                                 : []
                             }
                             placeholder={t('Select a version')}
                             disabledText={t('New version')}
                             selected={draft.version}
-                            onSelect={(item) => {
+                            onSelect={(option) => {
                                 dispatch({
                                     action: 'version_change',
-                                    data: {item, versions}
+                                    data: {item: option.id, versions}
                                 })
                             }}
                             errorMessages={errors?.version}
