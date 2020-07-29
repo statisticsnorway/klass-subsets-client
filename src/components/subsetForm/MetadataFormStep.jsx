@@ -135,13 +135,17 @@ export const MetadataFormStep = ({subset}) => {
 
             {/* TODO: set automatically when logged inn */}
             <Dropdown label={t('Owner')}
-                      options={ssbsections ? ssbsections._embedded?.ssbSections : []}
+                      options={ssbsections
+                          ? ssbsections._embedded?.ssbSections.map(section => ({
+                          title: section.name, id: section.name
+                      }))
+                          : [{title: draft.createdBy, id: 0}]}
                       placeholder={t('Select a responsible department...')}
                       disabledText={t('Outdated')}
                       selected={draft.createdBy}
-                      onSelect={(item) => dispatch({
+                      onSelect={(option) => dispatch({
                           action: 'createdBy',
-                          data: item })}
+                          data: option.title })}
                       errorMessages={errors?.createdBy}
             />
 

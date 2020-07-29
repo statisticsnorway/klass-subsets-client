@@ -43,8 +43,8 @@ export const VersionsFormStep = ({subset}) => {
                             options={!errorVersions && versions && !versions.error
                                 ? versions
                                 .map(v => ({...v,
-                                    title: `${v.versionValidFrom?.substr(0, 10)}`,
-                                    id: v.version}))
+                                    title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)}`,
+                                    id: `${v.version}`}))
                                 .concat({
                                     title: `${t('New version')} ${draft.validUntil || '-'}`,
                                     id: 'New version'})
@@ -52,7 +52,7 @@ export const VersionsFormStep = ({subset}) => {
                             }
                             placeholder={t('Select a version')}
                             disabledText={t('New version')}
-                            selected={draft.version}
+                            selected={`${draft.version}`}
                             onSelect={(option) => {
                                 dispatch({
                                     action: 'version_change',
