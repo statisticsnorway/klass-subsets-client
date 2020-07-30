@@ -113,16 +113,17 @@ export const useSubset = (init =  {
                 };
             }
             case 'version_from': {
+                const {date, versions} = data;
                 // FIXME: restrictions
                 // TODO: warning 'this field changes affects validFrom for v1.0'
                 setErrors(prev => ({
                     ...prev,
-                    versionValidFrom: validate.versionValidFrom(),
-                    versionPeriod: validate.period(data, state.validUntil)
+                    versionValidFrom: validate.versionValidFrom(state.validFrom, state.validUntil, date, versions),
+                    versionPeriod: validate.period(date, state.validUntil),
                 }));
                 return {...state,
-                    versionValidFrom: data,
-                    validFrom: state.version === '1' ? data : state.validFrom
+                    versionValidFrom: date,
+                    validFrom: state.version === '1' ? date : state.validFrom
                 };
             }
             case 'version_to': {
@@ -151,17 +152,16 @@ export const useSubset = (init =  {
             case 'version_change': {
                 const {item, versions} = data;
                 if (item === 'New version') {
-                    const versionsNumbers = versions.map(v => v.version);
-                    const latestVersionNo = Math.max(...versionsNumbers);
-                    const latest = versions.find(v => v.version === latestVersionNo)
+                    const latest = versions.sort((a,b) => a.versionValidFrom - b.versionValidFrom)[0];
+                    console.log({latest});
                     return {
                         ...state,
                         administrativeStatus: 'DRAFT',
-                        version: `${latestVersionNo +1}`,
+                        version: `${ Math.max(...versions.map(v => v.version)) +1 }`,
                         versionRationale: [ nextDefaultName([]) ],
-                        versionValidFrom: latest?.validUntil,
+                        versionValidFrom: latest?.versionValidUntil,
                         versionValidUntil: null,
-                        temporary: true
+                        validUntil: null,
                     };
                 } else {
                     const chosenVersion = parseInt(item);

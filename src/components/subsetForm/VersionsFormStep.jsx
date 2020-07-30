@@ -82,9 +82,12 @@ export const VersionsFormStep = ({subset}) => {
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
                            onChange={event => dispatch({
                                action: 'version_from',
-                               data: event.target.value === ''
+                               data: {
+                                   date: event.target.value === ''
                                        ? null
-                                       : new Date(event.target.value).toISOString()})
+                                       : new Date(event.target.value).toISOString(),
+                                   versions
+                               }})
                            }
                            className='datepicker'/>
                     {errors?.versionValidFrom?.length > 0 &&

@@ -16,7 +16,7 @@ export const validate = {
                 : [];
     },
 
-    versionValidFrom(from, to, versionFrom) {
+    versionValidFrom(from, to, versionFrom, versions) {
         return versionFrom < from
             ? ['A version cannot start earlier than subsets validity period']
             : versionFrom > to
