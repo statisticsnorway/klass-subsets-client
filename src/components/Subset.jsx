@@ -58,7 +58,7 @@ export const SubsetBanner = ({subset}) => {
     // FIXME: translate placeholders
     // TODO: smart language choice
     return (
-        <div style={{lineHeight: '50%', margin: '50px 0'}}>
+        <div style={{margin: '50px 0'}}>
             <SsbLink href={`/subsets/${subset?.id}`} linkType='profiled'>
                 {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || t('No name')}
             </SsbLink>
@@ -67,7 +67,7 @@ export const SubsetBanner = ({subset}) => {
                 {t('Updated')}: <strong>{subset?.lastUpdatedDate || '-'}  </strong>
                 {t('Status')}: <strong>{t(subset?.administrativeStatus) || '-'}  </strong>
             </p>
-            <p style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subset?.description?.find(
+            <p style={{fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0'}}>{subset?.description?.find(
                 description => description.languageCode === 'nb')?.languageText || t('No description')}
             </p>
         </div>

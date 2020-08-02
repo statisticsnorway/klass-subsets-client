@@ -28,6 +28,23 @@ export const VersionsFormStep = ({subset}) => {
 
     const [versions, isLoadingVersions, errorVersions] = useGet(`${draft.id}/versions`);
 
+    useEffect(() => {
+        if (versions) {
+            const exists = versions.find(v => v.version === draft.version);
+            if (exists) {
+                const next = versions.filter(v => v.versionValidFrom > exists.versionValidFrom)
+                    .sort((a, b) =>
+                        a.versionValidFrom < b.versionValidFrom ? -1 :
+                            a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
+
+                dispatch({
+                    action: 'version_to',
+                    data: next?.versionValidFrom || draft.versionValidUntil || null
+                });
+            }
+        }
+    }, [versions]);
+
     return (
         <>
             <Title size={3}>{t('Versions')}</Title>
@@ -56,7 +73,7 @@ export const VersionsFormStep = ({subset}) => {
                             selected={`${draft.version}`}
                             onSelect={(option) => {
                                 dispatch({
-                                    action: 'version_change',
+                                    action: 'version_switch',
                                     data: {item: option.id, versions}
                                 })
                             }}
@@ -99,7 +116,6 @@ export const VersionsFormStep = ({subset}) => {
                     }
                 </div>
 
-                {/* TODO: autofill by next version's versionValidFrom or validUntil */}
                 {/* TODO: warning 'this field changes affects validUntil */}
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
@@ -108,6 +124,7 @@ export const VersionsFormStep = ({subset}) => {
                            id='version_to_date'
                            style={{display: 'block'}}
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
+                           disabled={ !draft.versionValidFrom && !draft.validUntil }
                            onChange={event => dispatch({
                                action: 'version_to', data:
                                    event.target.value === ''
