@@ -117,7 +117,6 @@ export const VersionsFormStep = ({subset}) => {
                     }
                 </div>
 
-                {/* TODO: warning 'this field changes affects validUntil */}
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='version_to_date'>{t('Version valid until')}: </label>
@@ -127,13 +126,14 @@ export const VersionsFormStep = ({subset}) => {
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
                            disabled={
                                (!draft.versionValidFrom && !draft.validUntil)
-                               || (versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))}
+                               || (versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
+                               || (draft.versionValidUntil == versions?.find(v => v.version == draft.version-1)?.validFrom
+                                   && draft.versionValidFrom < versions?.find(v => v.version == draft.version-1)?.validFrom)}
                            onChange={event => dispatch({
-                               action: 'version_to', data:
-                                   event.target.value === ''
+                               action: 'version_to',
+                               data: event.target.value === ''
                                        ? null
-                                       : new Date(event.target.value).toISOString()
-                           })
+                                       : new Date(event.target.value).toISOString()})
                            }
                            className='datepicker'/>
                     {errors?.versionValidUntil?.length > 0 &&

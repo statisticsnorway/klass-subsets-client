@@ -9,7 +9,6 @@ export const validate = {
     },
 
     period(from, to) {
-        console.log("validator: period from "+from+" - to "+to);
         return !from || !to
             ? []
             : from > to
