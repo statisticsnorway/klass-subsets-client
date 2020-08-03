@@ -19,7 +19,6 @@ export const validate = {
     },
 
     versionValidFrom(from, to, versionFrom, allowedDates = []) {
-        console.log("validator: versionFrom "+versionFrom+" <= to "+to+" && versionFrom >= from "+from+" :", versionFrom <= to, versionFrom >= from);
         return !versionFrom
             ? ['A valid version from date is required']
             : versionFrom > to

@@ -147,8 +147,8 @@ export const useSubset = (init =  {
                     }));
                     return {...state,
                         versionValidFrom: date,
-                        versionValidUntil: state.versionValidFrom === latest?.validFrom ? null :  state.versionValidFrom,
-                        validUntil: state.versionValidFrom === latest?.validFrom ? null :  state.versionValidFrom
+                        versionValidUntil: state.versionValidFrom === latest?.validFrom ? null : state.versionValidUntil,
+                        validUntil: state.versionValidFrom === latest?.validFrom ? null : state.versionValidUntil
                     }
                 }
 

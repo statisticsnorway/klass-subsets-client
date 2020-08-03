@@ -69,7 +69,7 @@ export const VersionsFormStep = ({subset}) => {
                                 : []
                             }
                             placeholder={t('Select a version')}
-                            disabledText={t('INTERNAL')}
+                            disabledText={t(draft.administrativeStatus)}
                             selected={`${draft.version}`}
                             onSelect={(option) => {
                                 dispatch({
