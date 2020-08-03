@@ -135,7 +135,8 @@ export const useSubset = (init =  {
                     a.versionValidFrom < b.versionValidFrom ? 1 :
                     a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0];
                 // later version
-                if (date === latest?.validUntil) {
+                if ((latest?.validUntil && date === latest?.validUntil)
+                    || (!latest?.validUntil && date > latest?.versionValidFrom)) {
                     console.log('later version');
                     setErrors(prev => ({
                         ...prev,
@@ -215,7 +216,7 @@ export const useSubset = (init =  {
                     return {
                         ...state,
                         version: `${ Math.max(...versions.map(v => v.version)) +1 }`,
-                        administrativeStatus: 'DRAFT',
+                        administrativeStatus: 'INTERNAL',
                         versionRationale: [ nextDefaultName([]) ],
                         versionValidFrom: latest?.versionValidUntil,
                         versionValidUntil: null,

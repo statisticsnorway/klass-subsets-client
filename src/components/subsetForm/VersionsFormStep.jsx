@@ -60,16 +60,16 @@ export const VersionsFormStep = ({subset}) => {
                             options={!errorVersions && versions && !versions.error
                                 ? [
                                     ...versions.map(v => ({...v,
-                                        title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)}`,
+                                        title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)} ${t(v.administrativeStatus)}`,
                                         id: `${v.version}`
                                     })),
 
-                                    { title: `${t('New version')}`, id: 'New version', disabled: draft.temporary }
+                                    { title: `${t('New version')}`, id: 'New version', disabled: !versions.find(v => v.version === draft.version) }
                                 ]
                                 : []
                             }
                             placeholder={t('Select a version')}
-                            disabledText={t('Not saved')}
+                            disabledText={t('INTERNAL')}
                             selected={`${draft.version}`}
                             onSelect={(option) => {
                                 dispatch({
@@ -97,6 +97,7 @@ export const VersionsFormStep = ({subset}) => {
                            id='version_from_date'
                            style={{display: 'block'}}
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
+                           disabled={versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN')}
                            onChange={event => dispatch({
                                action: 'version_from',
                                data: {
@@ -109,8 +110,8 @@ export const VersionsFormStep = ({subset}) => {
                            className='datepicker'/>
                     {errors?.versionValidFrom?.length > 0 &&
                     <div className='ssb-input-error '>
-                        {errors.versionValidFrom.map(error => (
-                            <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                        {errors.versionValidFrom.map((error, i) => (
+                            <span key={error+i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                         ))}
                     </div>
                     }
@@ -124,7 +125,9 @@ export const VersionsFormStep = ({subset}) => {
                            id='version_to_date'
                            style={{display: 'block'}}
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
-                           disabled={ !draft.versionValidFrom && !draft.validUntil }
+                           disabled={
+                               (!draft.versionValidFrom && !draft.validUntil)
+                               || (versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))}
                            onChange={event => dispatch({
                                action: 'version_to', data:
                                    event.target.value === ''

@@ -10,7 +10,7 @@
   "No name": "No name",
   "Updated": "Updated",
   "Status": "Status",
-  "INTERNAL": "NEW",
+  "INTERNAL": "NOT SAVED",
   "DRAFT": "DRAFT",
   "OPEN": "PUBLISHED",
   "DEPRECATED": "DEPRECATED",
@@ -49,7 +49,6 @@
   "Version valid until": "Version valid until",
   "Select a version": "Select a version",
   "New version": "New version",
-  "Not saved": "Not saved",
 
   "Choose codes": "Choose codes",
   "Choose classifications and code lists": "Choose classifications and code lists",
