@@ -157,8 +157,8 @@ export const VersionsFormStep = ({subset}) => {
 
                 {errors?.versionPeriod?.length > 0 &&
                 <div className='ssb-input-error '>
-                    {errors.versionPeriod.map(error => (
-                        <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                    {errors.versionPeriod.map((error, i) => (
+                        <span key={error+i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                     ))}
                 </div>
                 }

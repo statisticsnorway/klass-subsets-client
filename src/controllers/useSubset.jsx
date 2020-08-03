@@ -141,14 +141,14 @@ export const useSubset = (init =  {
                     setErrors(prev => ({
                         ...prev,
                         versionValidFrom: validate.versionValidFrom(state.validFrom, latest?.validUntil, date),
-                        versionPeriod: validate.period(date, state.versionValidUntil),
+                        versionPeriod: validate.period(date, state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil),
                         validFrom: validate.validFrom(state.validFrom),
-                        period: validate.period(state.validFrom, state.versionValidFrom === latest?.validFrom ? null :  state.versionValidFrom)
+                        period: validate.period(state.validFrom, state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil)
                     }));
                     return {...state,
                         versionValidFrom: date,
-                        versionValidUntil: state.versionValidFrom === latest?.validFrom ? null : state.versionValidUntil,
-                        validUntil: state.versionValidFrom === latest?.validFrom ? null : state.versionValidUntil
+                        versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil,
+                        validUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil
                     }
                 }
 
