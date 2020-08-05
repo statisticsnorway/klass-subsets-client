@@ -9,19 +9,23 @@ export const validate = {
     },
 
     period(from, to) {
-        return from > to
-            ? ['Period cannot start later than end']
-            : from === to
-                ? ['Period cannot include and exclude the same day']
-                : [];
+        return !from || !to
+            ? []
+            : from > to
+                ? ['Period cannot start later than end']
+                : from === to
+                    ? ['Period cannot include and exclude the same day']
+                    : [];
     },
 
-    versionValidFrom(from, to, versionFrom) {
-        return versionFrom < from
-            ? ['A version cannot start earlier than subsets validity period']
+    versionValidFrom(from, to, versionFrom, allowedDates = []) {
+        return !versionFrom
+            ? ['A valid version from date is required']
             : versionFrom > to
                 ? ['Versions cannot have gaps on validity periods']
-                : []
+                : versionFrom <= to && versionFrom >= from && !allowedDates.includes(versionFrom)
+                    ? ['This date is already covered in previous versions']
+                    : [];
     },
 
     createdBy(owner) {
@@ -43,6 +47,8 @@ export const validate = {
             description: [],
             origin: [],
             administrativeStatus: [],
+            versionValidFrom: validate.versionValidFrom(draft.validFrom, draft.validUntil, draft.versionValidFrom),
+            versionPeriod: validate.period(draft.versionValidFrom, draft.validUntil),
             codes: this.codes(draft.codes)
         }
     }

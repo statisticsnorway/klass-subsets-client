@@ -28,6 +28,23 @@ export const VersionsFormStep = ({subset}) => {
 
     const [versions, isLoadingVersions, errorVersions] = useGet(`${draft.id}/versions`);
 
+    useEffect(() => {
+        if (versions) {
+            const exists = versions.find(v => v.version === draft.version);
+            if (exists) {
+                const next = versions.filter(v => v.versionValidFrom > exists.versionValidFrom)
+                    .sort((a, b) =>
+                        a.versionValidFrom < b.versionValidFrom ? -1 :
+                            a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
+
+                dispatch({
+                    action: 'version_to',
+                    data: next?.versionValidFrom || draft.versionValidUntil || null
+                });
+            }
+        }
+    }, [versions]);
+
     return (
         <>
             <Title size={3}>{t('Versions')}</Title>
@@ -41,18 +58,23 @@ export const VersionsFormStep = ({subset}) => {
                 ? <Spinner/>
                 : <Dropdown label={t('Version')}
                             options={!errorVersions && versions && !versions.error
-                                ? versions
-                                .map(v => ({name: v.version}))
-                                .concat({name: 'New version'})
+                                ? [
+                                    ...versions.map(v => ({...v,
+                                        title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)} ${t(v.administrativeStatus)}`,
+                                        id: `${v.version}`
+                                    })),
+
+                                    { title: `${t('New version')}`, id: 'New version', disabled: !versions.find(v => v.version === draft.version) }
+                                ]
                                 : []
                             }
                             placeholder={t('Select a version')}
-                            disabledText={t('New version')}
-                            selected={draft.version}
-                            onSelect={(item) => {
+                            disabledText={t(draft.administrativeStatus)}
+                            selected={`${draft.version}`}
+                            onSelect={(option) => {
                                 dispatch({
-                                    action: 'version_change',
-                                    data: {item, versions}
+                                    action: 'version_switch',
+                                    data: {item: option.id, versions}
                                 })
                             }}
                             errorMessages={errors?.version}
@@ -73,28 +95,28 @@ export const VersionsFormStep = ({subset}) => {
                     </label>
                     <input type='date'
                            id='version_from_date'
-                           style={{display: 'block', border: 'none'}}
-                           disabled
+                           style={{display: 'block'}}
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
+                           disabled={versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN')}
                            onChange={event => dispatch({
                                action: 'version_from',
-                               data: event.target.value === ''
+                               data: {
+                                   date: event.target.value === ''
                                        ? null
-                                       : new Date(event.target.value).toISOString()})
+                                       : new Date(event.target.value).toISOString(),
+                                   versions
+                               }})
                            }
                            className='datepicker'/>
                     {errors?.versionValidFrom?.length > 0 &&
                     <div className='ssb-input-error '>
-                        {errors.versionValidFrom.map(error => (
-                            <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                        {errors.versionValidFrom.map((error, i) => (
+                            <span key={error+i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                         ))}
                     </div>
                     }
                 </div>
 
-                {/* TODO: autofill by next version's versionValidFrom or validUntil */}
-                {/* TODO: disable if not null */}
-                {/* TODO: warning 'this field changes affects validUntil */}
                 <div style={{float: 'left'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='version_to_date'>{t('Version valid until')}: </label>
@@ -102,12 +124,16 @@ export const VersionsFormStep = ({subset}) => {
                            id='version_to_date'
                            style={{display: 'block'}}
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
+                           disabled={
+                               (!draft.versionValidFrom && !draft.validUntil)
+                               || (versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
+                               || (draft.versionValidUntil === versions?.find(v => v.version === draft.version-1)?.validFrom
+                                   && draft.versionValidFrom < versions?.find(v => v.version === draft.version-1)?.validFrom)}
                            onChange={event => dispatch({
-                               action: 'version_to', data:
-                                   event.target.value === ''
+                               action: 'version_to',
+                               data: event.target.value === ''
                                        ? null
-                                       : new Date(event.target.value).toISOString()
-                           })
+                                       : new Date(event.target.value)?.toISOString()})
                            }
                            className='datepicker'/>
                     {errors?.versionValidUntil?.length > 0 &&
@@ -131,8 +157,8 @@ export const VersionsFormStep = ({subset}) => {
 
                 {errors?.versionPeriod?.length > 0 &&
                 <div className='ssb-input-error '>
-                    {errors.versionPeriod.map(error => (
-                        <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                    {errors.versionPeriod.map((error, i) => (
+                        <span key={error+i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                     ))}
                 </div>
                 }

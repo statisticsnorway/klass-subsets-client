@@ -100,7 +100,7 @@ export const LanguageSelect = ({
 
 export const Dropdown = ({
                              label='Select',
-                             options = [],
+                             options = [{ title: ' ', id: ' ', disabled: false}],
                              placeholder = 'Select',
                              disabledText = 'Outdated',
                              selected='',
@@ -123,18 +123,18 @@ export const Dropdown = ({
                         fontSize: '16px',
                     }}
                     value={selected}
-                    onChange={(e) => onSelect(e.target.value)}
+                    onChange={(e) => onSelect(options.find(o => o.id === e.target.value))}
             >
                 <option value='' hidden>{placeholder}</option>
-                {selected.length > 0 && !options.find(s => s.name === selected)
+                {selected.length > 0 && !options.find(s => s.id === selected)
                     && (<option key='outdated'
                                 disabled
                                 value={selected}
                                 >{selected} ({disabledText})
                     </option>)
                 }
-                {options.map((section, i) => (
-                    <option key={i} value={section.name}>{section.name}</option>
+                {options.map((option) => (
+                    <option key={option.id} value={option.id} disabled={option.disabled}>{option.title}</option>
                 ))}
             </select>
             {errorMessages?.length > 0 &&

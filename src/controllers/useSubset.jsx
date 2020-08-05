@@ -113,21 +113,82 @@ export const useSubset = (init =  {
                 };
             }
             case 'version_from': {
+                const {date, versions} = data;
                 // FIXME: restrictions
                 // TODO: warning 'this field changes affects validFrom for v1.0'
-                setErrors(prev => ({
-                    ...prev,
-                    versionValidFrom: validate.versionValidFrom(),
-                    versionPeriod: validate.period(data, state.validUntil)
-                }));
-                return {...state,
-                    versionValidFrom: data,
-                    validFrom: state.version === '1' ? data : state.validFrom
+
+                if ((!versions || versions.length === 0) && state.version === '1') {
+                    console.log('Very first version');
+                    setErrors(prev => ({
+                        ...prev,
+                        versionValidFrom: validate.versionValidFrom(state.validFrom, state.validUntil, date),
+                        versionPeriod: validate.period(date, state.validUntil),
+                    }));
+                    return {...state,
+                        versionValidFrom: date,
+                        validFrom: date
+                    }
+                }
+
+                const latest = versions.sort((a, b) =>
+                    a.versionValidFrom < b.versionValidFrom ? 1 :
+                    a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0];
+                // later version
+                if ((latest?.validUntil && date === latest?.validUntil)
+                    || (!latest?.validUntil && date > latest?.versionValidFrom)) {
+                    console.log('Later version');
+                    const nextState = {...state,
+                        versionValidFrom: date,
+                        versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil,
+                        validUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil
+                    }
+                    setErrors(prev => ({
+                        ...prev,
+                        versionValidFrom: validate.versionValidFrom(nextState.validFrom, latest?.validUntil, nextState.versionValidFrom),
+                        versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
+                        validFrom: validate.validFrom(nextState.validFrom),
+                        period: validate.period(nextState.validFrom, nextState.validUntil)
+                    }));
+                    return nextState;
+                }
+
+                // earlier version
+                if (date >= new Date('1800-01-01').toISOString() && date < latest?.validFrom) {
+                    console.log('earlier version from ');
+                    const nextState = {
+                        ...state,
+                        versionValidFrom: date,
+                        validFrom: date,
+                        versionValidUntil: latest?.validFrom
+                    };
+                    setErrors(prev => ({
+                        ...prev,
+                        versionValidFrom: validate.versionValidFrom(nextState.validFrom, nextState.validUntil, nextState.versionValidFrom),
+                        versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
+                        validFrom: validate.validFrom(nextState.validFrom),
+                        period: validate.period(nextState.validFrom, nextState.validUntil)
+                    }));
+                    return nextState;
+                }
+
+                // other
+                console.log('Covered period or illegal input');
+                const nextState = {
+                    ...state,
+                    versionValidFrom: date,
+                    versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil
                 };
+                setErrors( prev => ({
+                    ...prev,
+                    versionValidFrom: validate.versionValidFrom(nextState.validFrom, latest?.validUntil || nextState.versionValidUntil || latest?.versionValidFrom, nextState.versionValidFrom),
+                    versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
+                    validFrom: validate.validFrom(nextState.validFrom),
+                    period: validate.period(nextState.validFrom, nextState.validUntil)
+                }));
+                return nextState;
             }
             case 'version_to': {
                 // FIXME: restrictions
-                // TODO: warning 'this field changes affects validUntil
                 setErrors(prev => ({
                         ...prev,
                         period: validate.period(state.validFrom, data),
@@ -148,27 +209,29 @@ export const useSubset = (init =  {
                     versionRationale: state.versionRationale?.filter((item, index) => index !== data)
                 };
             }
-            case 'version_change': {
+            case 'version_switch': {
                 const {item, versions} = data;
                 if (item === 'New version') {
-                    const versionsNumbers = versions.map(v => v.version);
-                    const latestVersionNo = Math.max(...versionsNumbers);
-                    const latest = versions.find(v => v.version === latestVersionNo)
+                    const latest = versions.sort((a,b) =>
+                        a.versionValidFrom < b.versionValidFrom ? 1 :
+                            a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0];
                     return {
                         ...state,
-                        administrativeStatus: 'DRAFT',
-                        version: `${latestVersionNo +1}`,
+                        version: `${ Math.max(...versions.map(v => v.version)) +1 }`,
+                        administrativeStatus: 'INTERNAL',
                         versionRationale: [ nextDefaultName([]) ],
-                        versionValidFrom: latest?.validUntil || state.validUntil,
-                        versionValidUntil: state.validUntil
+                        versionValidFrom: latest?.versionValidUntil,
+                        versionValidUntil: null,
+                        validUntil: null
                     };
                 } else {
                     const chosenVersion = parseInt(item);
                     const exists = versions.find(v => v.version === chosenVersion);
                     if (exists) {
-                        const next = versions
-                            .sort((a, b) => a.versionValidFrom < b.versionValidFrom)
-                            .find(v => v.versionValidFrom > exists.versionValidFrom);
+                        const next = versions.filter(v => v.versionValidFrom > exists.versionValidFrom)
+                            .sort((a, b) =>
+                                a.versionValidFrom < b.versionValidFrom ? -1 :
+                                    a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
                         return {
                             ...exists,
                             version: exists.version,

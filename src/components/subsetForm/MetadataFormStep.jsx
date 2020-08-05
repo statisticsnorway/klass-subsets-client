@@ -135,27 +135,32 @@ export const MetadataFormStep = ({subset}) => {
 
             {/* TODO: set automatically when logged inn */}
             <Dropdown label={t('Owner')}
-                      options={ssbsections ? ssbsections._embedded?.ssbSections : []}
+                      options={ssbsections
+                          ? ssbsections._embedded?.ssbSections.map(section => ({
+                          title: section.name, id: section.name
+                      }))
+                          : []}
                       placeholder={t('Select a responsible department...')}
                       disabledText={t('Outdated')}
                       selected={draft.createdBy}
-                      onSelect={(item) => dispatch({
+                      onSelect={(option) => dispatch({
                           action: 'createdBy',
-                          data: item })}
+                          data: option.title })}
                       errorMessages={errors?.createdBy}
             />
 
-            {/* TODO: subject is stored in an array, it could be treated as tags ? */}
             <Dropdown label={t('Subject')}
-                      options={classificationfamilies?._embedded?.classificationFamilies || []}
+                      options={classificationfamilies?._embedded?.classificationFamilies
+                          .map(family => ({title: family.name, id: family.name}))
+                          || []}
                       placeholder={t('Select a classification family...')}
                       disabledText={t('Outdated')}
                       selected={draft.administrativeDetails
                           .find(d => d.administrativeDetailType === 'ANNOTATION')
                           .values[0] || ''}
-                      onSelect={(item) => dispatch({
+                      onSelect={(option) => dispatch({
                           action: 'subject',
-                          data: item })}
+                          data: option.title })}
                       errorMessages={errors?.annotation}
             />
 
