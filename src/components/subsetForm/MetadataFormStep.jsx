@@ -7,7 +7,6 @@ import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 import {useGet as useGetSubset} from '../../controllers/subsets-service';
 import {HelpCircle} from 'react-feather';
-import Spinner from "../Spinner";
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -57,6 +56,7 @@ export const MetadataFormStep = ({subset}) => {
                                id='shortName'
                                name='shortName'
                                value={draft.id}
+                               maxLength='128'
                                onChange={(event) => {
                                    setPathExist(event.target.value);
                                    dispatch({
