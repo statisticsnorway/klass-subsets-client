@@ -158,7 +158,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
             setTimeout(() => setRenderedCodes(codes),0);
         }
     });
-    useEffect(()=> {console.log("Codes updated", new Date().toISOString())}, [codes]);
+
     const {codesWithNotes, isLoadingVersion} = useClassification(id);
 
     const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
