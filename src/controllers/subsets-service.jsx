@@ -15,7 +15,7 @@ export function useGet(url = null) {
         let _mounted = true;
 
         const fetchData = async () => {
-
+            setData(null);
             setError(null);
             setIsLoading(true);
 

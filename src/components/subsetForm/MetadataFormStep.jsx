@@ -5,11 +5,11 @@ import {subsetDraft} from '../../controllers/defaults';
 import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
+import {useGet as useGetSubset} from '../../controllers/subsets-service';
 import {HelpCircle} from 'react-feather';
 
 /*
  *  TODO: select components (2) from the ssb-component-library
- *  TODO: textarea styled as input text in the ssb-component-library
  *  FIXME: sanitize input
  */
 
@@ -20,6 +20,7 @@ export const MetadataFormStep = ({subset}) => {
     const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
     const [showHelp, setShowHelp] = useState(false);
+    const [exist, isLoadingExist, errorExist, setPathExist] = useGetSubset();
 
     useEffect(() => {
         draft.name?.length === 0
@@ -33,6 +34,13 @@ export const MetadataFormStep = ({subset}) => {
         };
     }, []);
 
+    useEffect(() => {
+        draft.version === '1'
+        && draft.administrativeStatus === 'INTERNAL'
+        && draft.id?.length > 0
+        && setPathExist(draft.id)
+    }, [draft.id]);
+
     return (
         <>
             <Title size={3}>{t('Metadata')}
@@ -41,11 +49,36 @@ export const MetadataFormStep = ({subset}) => {
                 </span>
             </Title>
 
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
+                {draft.administrativeStatus === 'INTERNAL' && draft.version === '1'
+                    ? <>
+                        <label htmlFor='shortName'>ID:</label>
+                        <input type='text'
+                               id='shortName'
+                               name='shortName'
+                               value={draft.id}
+                               maxLength='128'
+                               onChange={(event) => {
+                                   setPathExist(event.target.value);
+                                   dispatch({
+                                       action: 'shortName_update',
+                                       data: event.target.value
+                                   });
+                               }}
+                               style={{margin: '0 5px'}}
+                        />
+                    </>
+                    : <>ID: <strong>{draft?.id || '-'}  </strong></>
+                }
                 {t('Version')}: <strong>{draft.version || '-'}  </strong>
                 {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
                 {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
             </p>
+            {exist && !exist.error &&
+                <div className='ssb-input-error ' style={{width: '25%'}}>
+                    <span style={{padding: '0 10px 0 0'}}>{t('Already used ID')}</span>
+                </div>
+            }
 
             <TextLanguageFieldset title={t('Names')}
                                   items={draft.name}

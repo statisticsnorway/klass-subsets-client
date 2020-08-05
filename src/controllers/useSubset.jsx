@@ -32,6 +32,7 @@ export const useSubset = (init =  {
     ) => {
 
     const [errors, setErrors] = useState({
+        id: [],
         name: [],
         validFrom: [],
         validUntil: [],
@@ -74,21 +75,26 @@ export const useSubset = (init =  {
             }
             case 'validate': {
                 setErrors(validate.subset(state));
-                return  state;
+                return {...state};
             }
             case 'name_update': {
-                return  {...state,
-                        id: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
+                const nextState = {...state,
+                    id: !state.shortName
+                        && state.administrativeStatus === 'INTERNAL'
+                        && state.version === '1'
+                        && state.name.length === 1
                             ? toId(state.name[0].languageText)
-                            : state.id,
-                        shortName: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
-                            ? state.name[0].languageText
-                            : state.shortName ? state.shortName : ''
-                    };
+                            : state.shortName
+                };
+                setErrors(prev => ({
+                    ...prev,
+                    id: validate.id(nextState.id)
+                }));
+                return nextState;
             }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
-                return  name === null
+                return  !name
                     ? {...state}
                     : {...state,
                         name: [...state.name, name]
@@ -99,6 +105,20 @@ export const useSubset = (init =  {
                     ...state,
                     name: state.name?.filter((item, index) => index !== data)
                 };
+            }
+            case 'shortName_update': {
+                const nextState = state.administrativeStatus === 'INTERNAL' && state.version === '1'
+                    ? {
+                        ...state,
+                        shortName: toId(data),
+                        id: toId(data)
+                        }
+                    : state;
+                setErrors(prev => ({
+                    ...prev,
+                    id: validate.id(nextState.id)
+                }));
+                return nextState;
             }
             case 'from': {
                 // FIXME: restrictions
