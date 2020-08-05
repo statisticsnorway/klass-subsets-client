@@ -127,13 +127,13 @@ export const VersionsFormStep = ({subset}) => {
                            disabled={
                                (!draft.versionValidFrom && !draft.validUntil)
                                || (versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
-                               || (draft.versionValidUntil == versions?.find(v => v.version == draft.version-1)?.validFrom
-                                   && draft.versionValidFrom < versions?.find(v => v.version == draft.version-1)?.validFrom)}
+                               || (draft.versionValidUntil === versions?.find(v => v.version === draft.version-1)?.validFrom
+                                   && draft.versionValidFrom < versions?.find(v => v.version === draft.version-1)?.validFrom)}
                            onChange={event => dispatch({
                                action: 'version_to',
                                data: event.target.value === ''
                                        ? null
-                                       : new Date(event.target.value).toISOString()})
+                                       : new Date(event.target.value)?.toISOString()})
                            }
                            className='datepicker'/>
                     {errors?.versionValidUntil?.length > 0 &&
