@@ -23,6 +23,9 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.4.4</Title>
+           <Paragraph>Possibility to create a new version earlier than validity period, in addition to later versions.</Paragraph>
+
            <Title size={4}>v0.4.3</Title>
            <Paragraph>Fixed empty <code>validUntil</code> and <code>createdDate</code> in order to save and publish subsets.</Paragraph>
            <Paragraph>The right service used for search from with no until date.</Paragraph>
