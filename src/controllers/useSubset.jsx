@@ -74,21 +74,21 @@ export const useSubset = (init =  {
             }
             case 'validate': {
                 setErrors(validate.subset(state));
-                return  state;
+                return {...state};
             }
             case 'name_update': {
                 return  {...state,
-                        id: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
+                    id: !state.shortName
+                        && state.administrativeStatus === 'INTERNAL'
+                        && state.version === '1'
+                        && state.name.length === 1
                             ? toId(state.name[0].languageText)
-                            : state.id,
-                        shortName: (!state.id || (state.administrativeStatus === 'INTERNAL' && state.name.length === 1))
-                            ? state.name[0].languageText
-                            : state.shortName ? state.shortName : ''
-                    };
+                            : state.shortName
+                };
             }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
-                return  name === null
+                return  !name
                     ? {...state}
                     : {...state,
                         name: [...state.name, name]
@@ -99,6 +99,17 @@ export const useSubset = (init =  {
                     ...state,
                     name: state.name?.filter((item, index) => index !== data)
                 };
+            }
+            case 'shortName_update': {
+                if (state.administrativeStatus === 'INTERNAL' && state.version === '1')
+                    return {
+                        ...state,
+                        shortName: toId(data),
+                        id: toId(data)
+                    };
+                else {
+                    return state;
+                }
             }
             case 'from': {
                 // FIXME: restrictions

@@ -6,6 +6,7 @@ import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 import {HelpCircle} from 'react-feather';
+import {toId} from "../../utils/strings";
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -41,7 +42,23 @@ export const MetadataFormStep = ({subset}) => {
                 </span>
             </Title>
 
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
+                {draft.administrativeStatus === 'INTERNAL' && draft.version === '1'
+                    ? <>
+                        <label htmlFor='shortName'>ID:</label>
+                        <input type='text'
+                               id='shortName'
+                               name='shortName'
+                               value={draft.id}
+                               onChange={(event) => dispatch({
+                                   action: 'shortName_update',
+                                   data: event.target.value
+                               })}
+                               style={{margin: '0 5px'}}
+                        />
+                    </>
+                    : <>ID: <strong>{draft?.id || '-'}  </strong></>
+                }
                 {t('Version')}: <strong>{draft.version || '-'}  </strong>
                 {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
                 {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
