@@ -46,7 +46,8 @@ return (
 
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <Button
-                        disabled={update !== null || Object.values(errors).flat().length > 0 || draft.administrativeStatus === 'OPEN'}
+                        disabled={update !== null || Object.values(errors).flat().length > 0
+                                || draft.administrativeStatus === 'OPEN'}
                         onClick={() => draft.administrativeStatus === 'INTERNAL'
                             ? setPOSTPayload(prepare('DRAFT', {...draft}))
                             : setPUTPayload(prepare('DRAFT', {...draft}))

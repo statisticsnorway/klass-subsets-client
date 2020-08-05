@@ -10,7 +10,7 @@ import Spinner from "../Spinner";
 export default function SearchSubsetsPage() {
 
     const { t } = useTranslation();
-    const [subsets, isLoadingSubsets] = useGet('');
+    const [subsets, isLoadingSubsets, errorSubsets] = useGet('');
     const [searchResults, setSearchResults] = useState([]);
 
 
@@ -42,12 +42,14 @@ export default function SearchSubsetsPage() {
 
             {isLoadingSubsets
                 ? <div style={{marginTop: '15px'}}><Spinner/></div>
-                : !searchResults || searchResults.length === 0
-                    ? <Paragraph>{t('Nothing is found')}</Paragraph>
-                    : <Subsets items={searchResults
-                        .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate
-                            ? 0
-                            : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />
+                : errorSubsets || subsets?.error
+                    ? <p style={{color: 'red'}}>{t('Failed to connect to the server: ')}{errorSubsets?.message || subsets?.error?.message}</p>
+                    : !searchResults || searchResults.length === 0
+                        ? <Paragraph>{t('Nothing is found')}</Paragraph>
+                        : <Subsets items={searchResults
+                            .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate
+                                ? 0
+                                : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />
             }
         </div>
     );

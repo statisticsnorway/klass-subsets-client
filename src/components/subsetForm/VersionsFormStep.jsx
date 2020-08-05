@@ -29,7 +29,7 @@ export const VersionsFormStep = ({subset}) => {
     const [versions, isLoadingVersions, errorVersions] = useGet(`${draft.id}/versions`);
 
     useEffect(() => {
-        if (versions) {
+        if (versions && !versions.error) {
             const exists = versions.find(v => v.version === draft.version);
             if (exists) {
                 const next = versions.filter(v => v.versionValidFrom > exists.versionValidFrom)
@@ -97,7 +97,7 @@ export const VersionsFormStep = ({subset}) => {
                            id='version_from_date'
                            style={{display: 'block'}}
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
-                           disabled={versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN')}
+                           disabled={versions && !versions.error && versions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN')}
                            onChange={event => dispatch({
                                action: 'version_from',
                                data: {
@@ -126,8 +126,9 @@ export const VersionsFormStep = ({subset}) => {
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
                            disabled={
                                (!draft.versionValidFrom && !draft.validUntil)
-                               || (versions && versions.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
-                               || (draft.versionValidUntil === versions?.find(v => v.version === draft.version-1)?.validFrom
+                               || (versions && !versions.error && versions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
+                               || (versions && !versions.error &&
+                                   draft.versionValidUntil === versions?.find(v => v.version === draft.version-1)?.validFrom
                                    && draft.versionValidFrom < versions?.find(v => v.version === draft.version-1)?.validFrom)}
                            onChange={event => dispatch({
                                action: 'version_to',
