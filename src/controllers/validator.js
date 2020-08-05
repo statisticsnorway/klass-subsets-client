@@ -1,5 +1,11 @@
 export const validate = {
 
+    id(shortName) {
+        return !shortName
+            ? ['ID is a mandatory field.']
+            : []
+    },
+
     name(names) {
         return names?.length > 0 ? [] : ['At least one name is required']
     },
@@ -38,6 +44,7 @@ export const validate = {
 
     subset(draft) {
         return {
+            id: this.id(draft.id),
             name: this.name(draft.name),
             validFrom: this.validFrom(draft.validFrom),
             validUntil: [],

@@ -32,6 +32,7 @@ export const useSubset = (init =  {
     ) => {
 
     const [errors, setErrors] = useState({
+        id: [],
         name: [],
         validFrom: [],
         validUntil: [],
@@ -77,7 +78,7 @@ export const useSubset = (init =  {
                 return {...state};
             }
             case 'name_update': {
-                return  {...state,
+                const nextState = {...state,
                     id: !state.shortName
                         && state.administrativeStatus === 'INTERNAL'
                         && state.version === '1'
@@ -85,6 +86,11 @@ export const useSubset = (init =  {
                             ? toId(state.name[0].languageText)
                             : state.shortName
                 };
+                setErrors(prev => ({
+                    ...prev,
+                    id: validate.id(nextState.id)
+                }));
+                return nextState;
             }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
@@ -101,15 +107,18 @@ export const useSubset = (init =  {
                 };
             }
             case 'shortName_update': {
-                if (state.administrativeStatus === 'INTERNAL' && state.version === '1')
-                    return {
+                const nextState = state.administrativeStatus === 'INTERNAL' && state.version === '1'
+                    ? {
                         ...state,
                         shortName: toId(data),
                         id: toId(data)
-                    };
-                else {
-                    return state;
-                }
+                        }
+                    : state;
+                setErrors(prev => ({
+                    ...prev,
+                    id: validate.id(nextState.id)
+                }));
+                return nextState;
             }
             case 'from': {
                 // FIXME: restrictions

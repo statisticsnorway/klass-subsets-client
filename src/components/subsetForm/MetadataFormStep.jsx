@@ -5,12 +5,12 @@ import {subsetDraft} from '../../controllers/defaults';
 import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
+import {useGet as useGetSubset} from '../../controllers/subsets-service';
 import {HelpCircle} from 'react-feather';
-import {toId} from "../../utils/strings";
+import Spinner from "../Spinner";
 
 /*
  *  TODO: select components (2) from the ssb-component-library
- *  TODO: textarea styled as input text in the ssb-component-library
  *  FIXME: sanitize input
  */
 
@@ -21,6 +21,7 @@ export const MetadataFormStep = ({subset}) => {
     const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
     const [showHelp, setShowHelp] = useState(false);
+    const [exist, isLoadingExist, errorExist, setPathExist] = useGetSubset();
 
     useEffect(() => {
         draft.name?.length === 0
@@ -33,6 +34,12 @@ export const MetadataFormStep = ({subset}) => {
             dispatch({action: 'remove_empty'});
         };
     }, []);
+
+    useEffect(() => {console.log({exist}, {errorExist})}, [exist, errorExist]);
+    useEffect(() => {
+        draft.id?.length > 0 && setPathExist(draft.id);
+        console.log({id: draft.id});
+        }, [draft.id]);
 
     return (
         <>
@@ -50,10 +57,13 @@ export const MetadataFormStep = ({subset}) => {
                                id='shortName'
                                name='shortName'
                                value={draft.id}
-                               onChange={(event) => dispatch({
-                                   action: 'shortName_update',
-                                   data: event.target.value
-                               })}
+                               onChange={(event) => {
+                                   setPathExist(event.target.value);
+                                   dispatch({
+                                       action: 'shortName_update',
+                                       data: event.target.value
+                                   });
+                               }}
                                style={{margin: '0 5px'}}
                         />
                     </>
@@ -63,6 +73,11 @@ export const MetadataFormStep = ({subset}) => {
                 {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
                 {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
             </p>
+            {exist && !exist.error &&
+                <div className='ssb-input-error ' style={{width: '25%'}}>
+                    <span style={{padding: '0 10px 0 0'}}>{t('Already used ID')}</span>
+                </div>
+            }
 
             <TextLanguageFieldset title={t('Names')}
                                   items={draft.name}

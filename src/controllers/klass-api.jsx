@@ -115,6 +115,7 @@ export function useGet(url = null) {
         let _mounted = true;
 
         const fetchData = async () => {
+            setData(null);
             setError(null);
             setIsLoading(true);
 
@@ -138,7 +139,7 @@ export function useGet(url = null) {
             }
         };
 
-        if (_mounted && path && retry) {
+        if (_mounted && (path || retry)) {
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);
