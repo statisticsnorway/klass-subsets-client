@@ -158,6 +158,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
             setTimeout(() => setRenderedCodes(codes),0);
         }
     });
+
     const {codesWithNotes, isLoadingVersion} = useClassification(id);
 
     const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
@@ -188,14 +189,14 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                             </button>
                         </div>
 
-                        {codes.map((code, index) =>
-                            <CodeInfo key={code.urn + index}
+                        {codes.map(code =>
+                            <CodeInfo key={code.urn + new Date().toISOString()}
                                       item={code}
                                       notes={codesWithNotes.find(c => c.code === code.code)?.notes}
                                       chosen={chosenCodes.find(c => c.urn === code.urn)}
-                                      toggle={() => chosenCodes.find(c => c.urn === code.urn)
-                                          ? excludeCodes([code])
-                                          : includeCodes([code])}
+                                      toggle={(clicked) => chosenCodes.find(c => c.urn === clicked.urn)
+                                          ? excludeCodes([clicked])
+                                          : includeCodes([clicked])}
                                       isLoadingVersion={isLoadingVersion}
                             />)
                         }
@@ -219,7 +220,10 @@ export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion}) =
                            type='checkbox' name='include'
                            checked={chosen}
                            value={item.code}
-                           onChange={() => toggle()}/>
+                           onChange={(e) => toggle({
+                               code: e.target.value,
+                               urn: e.target.id
+                           })}/>
                     <label className='checkbox-label'
                            htmlFor={item.urn}>
                         <Text><strong>{item.code}</strong> {item.name}</Text>
