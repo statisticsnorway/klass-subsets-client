@@ -75,7 +75,7 @@ export const useSubset = (init =  {
             }
             case 'validate': {
                 setErrors(validate.subset(state));
-                return {...state};
+                return state;
             }
             case 'name_update': {
                 const nextState = {...state,
