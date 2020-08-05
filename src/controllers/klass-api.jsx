@@ -11,16 +11,16 @@ export const URN = {
         // FIXME sanitize input - XSS is a threat!!!
         // For now it accepts letters, digits, % & # _ - . , etc
         // the code will be used to fetch data from the Klass API
-        const codePattern = /urn:klass-api:classifications:[0-9]+:code:[\w]+/i;
+        const codePattern = /urn:ssb:klass-api:classifications:[0-9]+:code:[-]?[\w]+/i;
 
         if (codePattern.test(urn)) {
-            const [,,service,id,,code] = urn.split(':');
+            const [,,,service,id,,code] = urn.split(':');
 
             return {
                 code,
                 service,
                 classificationId: id,
-                classificationURN: `urn:klass-api:classifications:${id}`,
+                classificationURN: `urn:ssb:klass-api:classifications:${id}`,
                 path: from && to
                     ? `/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
                     : from && !to
@@ -39,10 +39,10 @@ export const URN = {
             };
         }
 
-        const classificationPattern = /urn:klass-api:classifications:[0-9]+/i;
+        const classificationPattern = /urn:ssb:klass-api:classifications:[0-9]+/i;
 
         if (classificationPattern.test(urn)) {
-            const [, , service, id] = urn.split(':');
+            const [,,, service, id] = urn.split(':');
 
             return {
                 service,
@@ -87,7 +87,7 @@ export const URL = {
             return {
                 service,
                 id,
-                urn: `urn:klass-api:classifications:${id}`,
+                urn: `urn:ssb:klass-api:classifications:${id}`,
                 path: `/${service}/${id}`,
                 codesPath: from && to
                     ? `/${service}/${id}/codes.json?from=${from}&to=${to}`

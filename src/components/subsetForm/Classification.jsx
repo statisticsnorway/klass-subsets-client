@@ -134,7 +134,7 @@ export const Classification = ({item = {}, from, to,
                               classificationId: id,
                               validFromInRequestedRange: from,
                               validToInRequestedRange: to,
-                              urn: code.urn || `urn:klass-api:classifications:${id}:code:${code.code}`
+                              urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
                           }))}
                           chosenCodes={chosenCodes}
                           includeCodes={includeCodes}
@@ -174,7 +174,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                             : from
                                 ? `: ${t('from', { from })}.`
                                 : `: ${t('to', { to })}.`
-                        : `: ${t('at', { date: new Date().toISOString().substr(0, 10)})}. ${t('Period is not set').toLocaleLowerCase()})`
+                        : `: ${t('at', { date: new Date().toISOString().substr(0, 10)})} (${t('Period is not set')})`
                     }</div>
                 {!codes || codes.length === 0
                     ? <Text>{t('No codes found for this validity period')}</Text>
