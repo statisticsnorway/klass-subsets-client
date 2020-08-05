@@ -18,8 +18,8 @@ export const PublishFormStep = ({subset}) => {
 
     useEffect(() => {
         if (post || update) {
-           dispatch({action: 'reset'});
-           history.push(`/subsets/${draft.id}`);
+            dispatch({action: 'reset'});
+            history.push(`/subsets/${draft.id}`);
         }
     }, [post, update]);
 
@@ -29,7 +29,8 @@ export const PublishFormStep = ({subset}) => {
             alert(`Update failed: ${errorPost || errorUpdate}`);
     }, [errorPost, errorUpdate]);
 
-    useEffect(() => dispatch({action: 'validate'}), [draft, dispatch]);
+    useEffect(() =>
+        !post && !update && dispatch({action: 'validate'}), [draft, dispatch]);
 
 return (
         <>

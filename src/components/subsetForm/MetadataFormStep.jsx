@@ -74,7 +74,7 @@ export const MetadataFormStep = ({subset}) => {
                 {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
                 {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
             </p>
-            {exist && !exist.error &&
+            {draft.id?.length > 0 && exist && !exist.error &&
                 <div className='ssb-input-error ' style={{width: '25%'}}>
                     <span style={{padding: '0 10px 0 0'}}>{t('Already used ID')}</span>
                 </div>
