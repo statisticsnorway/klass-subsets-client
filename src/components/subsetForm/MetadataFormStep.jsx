@@ -34,11 +34,12 @@ export const MetadataFormStep = ({subset}) => {
         };
     }, []);
 
-    useEffect(() => {console.log({exist}, {errorExist})}, [exist, errorExist]);
     useEffect(() => {
-        draft.id?.length > 0 && setPathExist(draft.id);
-        console.log({id: draft.id});
-        }, [draft.id]);
+        draft.version === '1'
+        && draft.administrativeStatus === 'INTERNAL'
+        && draft.id?.length > 0
+        && setPathExist(draft.id)
+    }, [draft.id]);
 
     return (
         <>
