@@ -190,10 +190,10 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                         </div>
 
                         {codes.map(code =>
-                            <CodeInfo key={code.urn + new Date().toISOString()}
+                            <CodeInfo key={code.urn + chosenCodes.findIndex(c => c.urn === code.urn)}
                                       item={code}
                                       notes={codesWithNotes.find(c => c.code === code.code)?.notes}
-                                      chosen={chosenCodes.find(c => c.urn === code.urn)}
+                                      chosen={chosenCodes.findIndex(c => c.urn === code.urn) > -1}
                                       toggle={(clicked) => chosenCodes.find(c => c.urn === clicked.urn)
                                           ? excludeCodes([clicked])
                                           : includeCodes([clicked])}

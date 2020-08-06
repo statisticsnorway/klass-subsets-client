@@ -106,7 +106,7 @@ export const MetadataFormStep = ({subset}) => {
                     {errors?.validFrom?.length > 0 &&
                     <div className='ssb-input-error '>
                         {errors.validFrom.map(error => (
-                            <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                            <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                         ))}
                     </div>
                     }
@@ -203,7 +203,7 @@ export const MetadataFormStep = ({subset}) => {
                                   items={draft.description}
                                   add={() => dispatch({action: 'description_add'})}
                                   remove={(index) => dispatch({action: 'description_remove', data: index})}
-                                  handle={() => dispatch({action: 'update'})}
+                                  handle={() => dispatch({action: 'description_update'})}
                                   size = {{cols: 65, rows: 4}}
                                   errorMessages={errors?.description}
             />

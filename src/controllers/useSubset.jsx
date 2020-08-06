@@ -285,6 +285,10 @@ export const useSubset = (init =  {
                     .values[0] = data;
                 return  {...state};
             }
+
+            case 'description_update': {
+                return  {...state};
+            }
             case 'description_add': {
                 const description = nextDefaultName(state.description);
                 return  description === null
