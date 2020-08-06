@@ -70,9 +70,6 @@ export const useSubset = (init =  {
                     shortName: data.shortName ? data.shortName : ''
                 };
             }
-            case 'update': {
-                return  {...state};
-            }
             case 'validate': {
                 setErrors(validate.subset(state));
                 return state;
@@ -228,6 +225,9 @@ export const useSubset = (init =  {
                     ...state,
                     versionRationale: state.versionRationale?.filter((item, index) => index !== data)
                 };
+            }
+            case 'version_rationale_update': {
+                return  {...state};
             }
             case 'version_switch': {
                 const {item, versions} = data;

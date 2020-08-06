@@ -171,7 +171,7 @@ export const VersionsFormStep = ({subset}) => {
                                   items={draft.versionRationale}
                                   add={() => dispatch({action: 'version_rationale_add'})}
                                   remove={(index) => dispatch({action: 'version_rationale_remove', data: index})}
-                                  handle={() => dispatch({action: 'update'})}
+                                  handle={() => dispatch({action: 'version_rationale_update'})}
                                   size = {{cols: 65, rows: 4}}
                                   errorMessages={errors?.versionRationale}
             />
