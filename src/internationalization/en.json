@@ -46,6 +46,7 @@
   "Versions": "Versions",
   "Version": "Version",
   "Version valid from": "Version valid from",
+  "A valid version from date is required": "A valid version from date is required",
   "Version valid from help": "This field is dependent on previous version's validity period. Choose the previous version to change it. Don't forget to save changes.",
   "Version valid until": "Version valid until",
   "Select a version": "Select a version",
