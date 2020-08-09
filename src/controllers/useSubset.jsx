@@ -75,7 +75,7 @@ export const useSubset = (init =  {
                 return state;
             }
             case 'name_text': {
-                if (!data.text || data.index < 0 || data.index >= state.name.length)
+                if (data.index < 0 || data.index >= state.name.length)
                     return state;
                 // FIXME: restrict input, validate input
                 const nextName = state.name;
@@ -108,8 +108,8 @@ export const useSubset = (init =  {
             }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
-                return  !name
-                    ? {...state}
+                return !name
+                    ? state
                     : {...state,
                         name: [...state.name, name]
                       };
@@ -228,8 +228,8 @@ export const useSubset = (init =  {
             }
             case 'version_rationale_add': {
                 const vr = nextDefaultName(state.versionRationale);
-                return  !vr
-                    ? {...state}
+                return !vr
+                    ? state
                     : {...state, versionRationale: [...state.versionRationale, vr]};
             }
             case 'version_rationale_remove': {
@@ -239,7 +239,7 @@ export const useSubset = (init =  {
                 };
             }
             case 'version_rationale_text': {
-                if (!data.text || data.index < 0 || data.index >= state.versionRationale.length)
+                if (data.index < 0 || data.index >= state.versionRationale.length)
                     return state;
                 const nextDescription = state.versionRationale;
                 nextDescription[data.index].languageText = data.text;
@@ -315,7 +315,7 @@ export const useSubset = (init =  {
                 return  {...state};
             }
             case 'description_text': {
-                if (!data.text || data.index < 0 || data.index >= state.description.length)
+                if (data.index < 0 || data.index >= state.description.length)
                     return state;
                 const nextDescription = state.description;
                 nextDescription[data.index].languageText = data.text;
@@ -336,8 +336,8 @@ export const useSubset = (init =  {
             }
             case 'description_add': {
                 const description = nextDefaultName(state.description);
-                return  !description
-                    ? {...state}
+                return !description
+                    ? state
                     : {...state, description: [...state.description, description]};
             }
             case 'description_remove': {
