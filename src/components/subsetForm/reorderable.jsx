@@ -7,7 +7,7 @@ import '../../css/form.css';
 import keys from '../../utils/keys';
 import Spinner from "../Spinner";
 
-export const Reorderable = ({list = [], rerank, remove, update}) => {
+export const Reorderable = ({list = [], rerank, remove, update, disabled}) => {
     const { t } = useTranslation();
 
     const [dropTarget, setDropTarget] = useState({});
@@ -36,7 +36,7 @@ export const Reorderable = ({list = [], rerank, remove, update}) => {
                             <HelpCircle color='#2D6975'/>
                         </button>
                     </th>
-                    <th className='for_screen_readers'>{t('Remove')}</th>
+                    {!disabled && <th className='for_screen_readers'>{t('Remove')}</th>}
                 </tr>
                 {showHelp &&
                 <tr>
@@ -102,6 +102,8 @@ export const Reorderable = ({list = [], rerank, remove, update}) => {
                                            })
                                        }
                                        setDragTarget={dragTarget => setDragTargets(prev => [...prev, dragTarget])}
+
+                                       disabled={disabled}
                         />
                     ))
                 }
@@ -115,7 +117,7 @@ export const ReordableItem = ({item = {}, remove, update,
                                rerank, rerankDragTargets,
                                onDragEnd, onDragEnter,
                                toggleDragTarget, isDragTarget,
-                               setDragTarget}) =>
+                               setDragTarget, disabled}) =>
 {
 
     const [rank, setRank] = useState(item.rank);
@@ -163,7 +165,7 @@ export const ReordableItem = ({item = {}, remove, update,
 
             }}
 
-            draggable={true}
+            draggable={!disabled}
 
             onDragStart={() => setDragTarget(item)}
             onDragEnd={() => onDragEnd()}
@@ -183,69 +185,77 @@ export const ReordableItem = ({item = {}, remove, update,
                 onClick={() => toggleDragTarget(item)}>
                 {isLoadingVersion ? <Spinner /> : (codeData.name || item.name || item.urn)}
             </td>
-            <td>
-                <span style={{display: 'inline-block', width: '40px'}}>
+            {!disabled &&
+                <td>
+                        <span style={{display: 'inline-block', width: '40px'}}>
 
-                    <button onClick={(event) => {
-                        event.stopPropagation();
-                        rerank([item], item.rank - 1);
-                    }}>
-                        <ChevronUp size={16} color='#1A9D49'/>
-                    </button>
+                            <button onClick={(event) => {
+                                event.stopPropagation();
+                                rerank([item], item.rank - 1);
+                            }}>
+                                <ChevronUp size={16} color='#1A9D49'/>
+                            </button>
 
-                    <button onClick={(event) => {
-                        event.stopPropagation();
-                        rerank([item], item.rank + 1);
-                    }}>
-                        <ChevronDown size={16} color='#1A9D49'/>
-                    </button>
+                            <button onClick={(event) => {
+                                event.stopPropagation();
+                                rerank([item], item.rank + 1);
+                            }}>
+                                <ChevronDown size={16} color='#1A9D49'/>
+                            </button>
 
-                </span>
-            </td>
-            <td style={{width: '10%'}}>
-                <label htmlFor='rank'
-                       className='for_screen_readers'
-                >Type a desired rank number
-                </label>
-                <input type='number' className='rank' name='rank'
-                       style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
-                       value={rank}
-                       onChange={(event) => setRank(event.target.value)}
-                       onKeyDown={(event) => {
-                           event.stopPropagation();
-                           if (event.which === keys.ENTER || event.which === keys.SPACE) {
-                               event.preventDefault();
-                               if (!rank || rank === '-') {
-                                   setRank(item.rank);
-                               } else {
-                                   rerank([item], rank);
+                        </span>}
+                </td>
+            }
+            {disabled
+                ? <td style={{textAlign: 'right'}}>{rank}</td>
+                : <td style={{width: '10%'}}>
+                    <label htmlFor='rank'
+                           className='for_screen_readers'
+                    >Type a desired rank number
+                    </label>
+                    <input type='number' className='rank' name='rank'
+                           style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
+                           value={rank}
+                           onChange={(event) => setRank(event.target.value)}
+                           onKeyDown={(event) => {
+                               event.stopPropagation();
+                               if (event.which === keys.ENTER || event.which === keys.SPACE) {
+                                   event.preventDefault();
+                                   if (!rank || rank === '-') {
+                                       setRank(item.rank);
+                                   } else {
+                                       rerank([item], rank);
+                                   }
                                }
-                           }
-                           if (event.which === keys.ESC && rank !== item.rank) {
-                               event.preventDefault();
-                               setRank(item.rank);
-                           }
-                       }}
-                />
+                               if (event.which === keys.ESC && rank !== item.rank) {
+                                   event.preventDefault();
+                                   setRank(item.rank);
+                               }
+                           }}
+                    />
 
-                <button onClick={(event) => {
-                    event.stopPropagation();
-                    if (rank !== item.rank) {
-                        if (!rank || rank === '-') {
-                            setRank(item.rank);
-                        } else {
-                            rerank([item], rank);
+                    <button onClick={(event) => {
+                        event.stopPropagation();
+                        if (rank !== item.rank) {
+                            if (!rank || rank === '-') {
+                                setRank(item.rank);
+                            } else {
+                                rerank([item], rank);
+                            }
                         }
-                    }}
-                }>
-                    <Repeat color={(!rank || rank === '-' || item.rank === rank) ? '#F0F8F9' : '#62919A'}/>
-                </button>
-            </td>
-            <td>
-                <button onClick={() => remove([item])}>
-                    <Trash2 color='#ED5935'/>
-                </button>
-            </td>
+                    }
+                    }>
+                        <Repeat color={(!rank || rank === '-' || item.rank === rank) ? '#F0F8F9' : '#62919A'}/>
+                    </button>
+                </td>
+            }
+            {!disabled &&
+                <td>
+                    <button onClick={() => remove([item])}>
+                        <Trash2 color='#ED5935'/>
+                    </button>
+                </td>
+            }
         </tr>
     );
 };

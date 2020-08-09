@@ -99,14 +99,18 @@ export const MetadataFormStep = ({subset}) => {
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='from_date'>{t('Valid from')}: </label>
-                    <input type='date' id='from_date' style={{display: 'block'}}
-                                value={draft.validFrom?.substr(0, 10) || ''}
-                                onChange={event => dispatch({action: 'from', data:
-                                            event.target.value === ''
-                                                ? null
-                                                : new Date(event.target.value).toISOString()})
-                                }
-                                className='datepicker'/>
+                    <input type='date'
+                           id='from_date'
+                           style={{display: 'block'}}
+                           value={draft.validFrom?.substr(0, 10) || ''}
+                           onChange={event => dispatch({
+                               action: 'from',
+                               data: event.target.value === ''
+                                       ? null
+                                       : new Date(event.target.value).toISOString()})}
+                           className='datepicker'
+                           disabled={draft.administrativeStatus === 'OPEN'}
+                    />
                     {errors?.validFrom?.length > 0 &&
                     <div className='ssb-input-error '>
                         {errors.validFrom.map(error => (

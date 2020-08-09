@@ -20,7 +20,8 @@ import keys from '../../utils/keys';
 
 export const Classification = ({item = {}, from, to,
                                 include, exclude, chosen,
-                                includeCodes, excludeCodes, chosenCodes
+                                includeCodes, excludeCodes, chosenCodes,
+                                disabled
                                 }) => {
     const {t} = useTranslation();
 
@@ -62,7 +63,6 @@ export const Classification = ({item = {}, from, to,
                     </button>
                 }
 {/*
-
                 <button onClick={() => {
                     setRetryCodes(true);
                     setRetryMetadata(true);
@@ -70,7 +70,6 @@ export const Classification = ({item = {}, from, to,
                     <RefreshCw size='20' color={ isLoadingCodes || isLoadingMetadata ? '#C3DCDC' : '#62919A'}/>
                 </button>
 */}
-
                 <button onClick={() =>
                     setShow(prev => ({codes: !prev.codes}))}>
                     { isLoadingCodes
@@ -87,30 +86,31 @@ export const Classification = ({item = {}, from, to,
                     }
                 </button>
 
-                {include
-                    ?
-                    <button onClick={() => {
-                        if (chosen || codes?.codes?.length > 0) {
+                {disabled
+                    ? <></>
+                    : include
+                        ?
+                        <button onClick={() => {
+                            if (chosen || codes?.codes?.length > 0) {
+                                setShow({none: true});
+                                chosen ? exclude() : include();
+                            } else {
+                                setShow(prev => ({cannot: !prev.cannot}));
+                            }
+                        }}>
+                            {!codes || codes?.codes?.length === 0
+                                ? <XSquare color='#9272FC'/>
+                                : chosen
+                                    ? <MinusSquare color='#B6E8B8' />
+                                    : <PlusSquare color='#1A9D49'/>}
+                        </button>
+                        :
+                        <button onClick={() => {
                             setShow({none: true});
-                            chosen ? exclude() : include();
-                        } else {
-                            setShow(prev => ({cannot: !prev.cannot}));
-                        }
-                    }}>
-                        {chosen
-                            ? <MinusSquare color='#B6E8B8' />
-                            : !codes || codes?.codes?.length === 0
-                                ? <XSquare color={ codes ? '#9272FC' : '#C3DCDC' }/>
-                                : <PlusSquare color='#1A9D49'/>
-                        }
-                    </button>
-                    :
-                    <button onClick={() => {
-                        setShow({none: true});
-                        exclude();
-                    }}>
-                        <Trash2 color='#ED5935'/>
-                    </button>
+                            exclude();
+                        }}>
+                            <Trash2 color='#ED5935'/>
+                        </button>
                 }
             </div>
 

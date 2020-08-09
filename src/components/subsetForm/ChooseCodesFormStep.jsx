@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Search} from '../../controllers/Search';
-import {Title} from '@statisticsnorway/ssb-component-library';
+import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
 import {Classification} from './Classification';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
@@ -30,7 +30,13 @@ export const ChooseCodesFormStep = ({subset}) => {
     /* TODO: tooltips for classification icons */
     return (<>
             <Title size={3}>{t('Choose classifications and code lists')}</Title>
-            <p style={{color:'grey', fontSize:'11px'}}>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+                {t('Version')}: <strong>{draft.version || '-'}  </strong>
+                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
+            </p>
+
+            <Paragraph>
                 {t('All search results will be restricted by validity period set for the version')}{
                 from || to
                     ? from && to
@@ -40,7 +46,7 @@ export const ChooseCodesFormStep = ({subset}) => {
                             : `: ${t('to', { to })}.`
                     : `: ${t('at', { date: new Date().toISOString().substr(0, 10)})}. ${t('Period is not set')}.`
             }
-            </p>
+            </Paragraph>
             <Search resource={ classifications?._embedded?.classifications || []}
                     setChosen={ items => setSearchResult(items) }
                     placeholder={t('Type classification name')}
@@ -77,6 +83,7 @@ export const ChooseCodesFormStep = ({subset}) => {
                                 action: 'codes_exclude',
                                 data: codes
                             })}
+                            disabled={draft.administrativeStatus === 'OPEN'}
                         />))}
                 </ul>
             }
@@ -106,6 +113,7 @@ export const ChooseCodesFormStep = ({subset}) => {
                                     action: 'codes_exclude',
                                     data: codes
                                 })}
+                                disabled={draft.administrativeStatus === 'OPEN'}
                             />)}
                 </ul>
             }

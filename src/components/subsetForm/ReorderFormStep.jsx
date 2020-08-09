@@ -24,6 +24,7 @@ export const ReorderFormStep = ({subset}) => {
                                action: 'codes_cache',
                                data: code})
                            }
+                           disabled={draft.administrativeStatus === 'OPEN'}
             />
         }
      </>);
