@@ -20,7 +20,7 @@ export const Step_1_Metadata = ({subset}) => {
     const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
     const [showHelp, setShowHelp] = useState(false);
-    const [exist, isLoadingExist, errorExist, setPathExist] = useGetSubset();
+    const [exist,,, setPathExist] = useGetSubset();
 
     useEffect(() => {
         draft.name?.length === 0

@@ -13,8 +13,8 @@ export const Step_5_Publish = ({subset}) => {
 
     let history = useHistory();
 
-    const [post, setPOSTPayload, isLoadingPost, errorPost] = usePost();
-    const [update, setPUTPayload, isLoadingUpdate, errorUpdate] = usePut(draft.id);
+    const [post, setPOSTPayload,, errorPost] = usePost();
+    const [update, setPUTPayload,, errorUpdate] = usePut(draft.id);
 
     useEffect(() => {
         if (post || update) {
@@ -40,7 +40,7 @@ return (
                 {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
                 {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
             </p>
-            
+
             <SubsetPreview subset={draft}/>
 
             { Object.values(errors).flat().length > 0 &&

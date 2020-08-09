@@ -28,10 +28,10 @@ export const Classification = ({item = {}, from, to,
     const {id, path, codesPath} = URN.toURL(item?.urn, from, to);
 
     // TODO use fallback, loader, error
-    const [metadata, isLoadingMetadata,,, setRetryMetadata] = useGet(path);
+    const [metadata, isLoadingMetadata,,,] = useGet(path);
 
     // TODO use fallback, loader, error
-    const [codes, isLoadingCodes,,, setRetryCodes] = useGet(codesPath);
+    const [codes, isLoadingCodes,,,] = useGet(codesPath);
 
     const [show, setShow] = useState({none: true});
 
