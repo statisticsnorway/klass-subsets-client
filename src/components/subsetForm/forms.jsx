@@ -6,7 +6,8 @@ import {useTranslation} from "react-i18next";
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
-                                         handle = (data) => {},
+                                         handleText = (index, text) => {},
+                                         handleLang = (index, lang) => {},
                                          add = () => {},
                                          remove = (index) => {},
                                          errorMessages = [],
@@ -29,16 +30,13 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                               style={{height: `${size.rows * 44}px`}}
                               id={title}
                               value={item.languageText || prefix}
-                              onChange={(e) => handle(item.languageText = e.target.value)}
-                              onKeyPress={(e) => {
-                                  e.which !== 0 && e.target.selectionStart < prefix.length && e.preventDefault();
-                              }}
-                              onKeyDown={(e) => {
+                              onChange={(e) => handleText(index, e.target.value)}
+                              onKeyPress={(e) =>
+                                  e.which !== 0 && e.target.selectionStart < prefix.length && e.preventDefault()}
+                              onKeyDown={(e) =>
                                   ((e.which === keys.BACKSPACE && e.target.selectionStart <= prefix.length)
                                       || (e.which === keys.DELETE && e.target.selectionStart < prefix.length))
-                                      && e.preventDefault();
-                                  }
-                              }
+                                      && e.preventDefault()}
                               onCut={(e) =>
                                   e.target.selectionStart < prefix.length && e.preventDefault()}
                               onPaste={(e) =>
@@ -54,7 +52,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
 
                     <LanguageSelect languages={languages}
                                     selected={item.languageCode}
-                                    onChange={(e) => handle(item.languageCode = e.target.value)}
+                                    onChange={(e) => handleLang(index, e.target.value)}
                     />
 
                     <button disabled={!(index === items.length - 1 && index < languages.length - 1)}

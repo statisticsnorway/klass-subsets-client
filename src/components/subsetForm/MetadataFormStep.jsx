@@ -83,8 +83,12 @@ export const MetadataFormStep = ({subset}) => {
             <TextLanguageFieldset title={t('Names')}
                                   items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}
-                                  remove={(index) => dispatch({action: 'name_remove', data: index})}
-                                  handle={() => dispatch({action: 'name_update'})}
+                                  remove={(index) => dispatch({
+                                      action: 'name_remove', data: index})}
+                                  handleText={(index, text) => dispatch({
+                                      action: 'name_text', data: {index, text}})}
+                                  handleLang={(index, lang) => dispatch({
+                                      action: 'name_lang', data: {index, lang}})}
                                   size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
                                   errorMessages={errors.name}
@@ -202,8 +206,12 @@ export const MetadataFormStep = ({subset}) => {
             <TextLanguageFieldset title={t('Description')}
                                   items={draft.description}
                                   add={() => dispatch({action: 'description_add'})}
-                                  remove={(index) => dispatch({action: 'description_remove', data: index})}
-                                  handle={() => dispatch({action: 'description_update'})}
+                                  remove={(index) => dispatch({
+                                      action: 'description_remove', data: index})}
+                                  handleText={(index, text) => dispatch({
+                                      action: 'description_text', data: {index, text}})}
+                                  handleLang={(index, lang) => dispatch({
+                                      action: 'description_lang', data: {index, lang}})}
                                   size = {{cols: 65, rows: 4}}
                                   errorMessages={errors?.description}
             />

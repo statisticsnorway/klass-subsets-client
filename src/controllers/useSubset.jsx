@@ -74,13 +74,20 @@ export const useSubset = (init =  {
                 setErrors(validate.subset(state));
                 return state;
             }
-            case 'name_update': {
-                const nextState = {...state,
+            case 'name_text': {
+                if (!data.text || data.index < 0 || data.index >= state.name.length)
+                    return state;
+                // FIXME: restrict input, validate input
+                const nextName = state.name;
+                nextName[data.index].languageText = data.text;
+                const nextState = {
+                    ...state,
+                    name: nextName,
                     id: !state.shortName
                         && state.administrativeStatus === 'INTERNAL'
                         && state.version === '1'
-                        && state.name.length === 1
-                            ? toId(state.name[0].languageText)
+                        && nextName.length > 0
+                            ? toId(nextName[0].languageText)
                             : state.shortName
                 };
                 setErrors(prev => ({
@@ -88,6 +95,16 @@ export const useSubset = (init =  {
                     id: validate.id(nextState.id)
                 }));
                 return nextState;
+            }
+            case 'name_lang': {
+                if (!data.lang || data.index < 0 || data.index >= state.name.length)
+                    return state;
+                const nextDescription = state.name;
+                nextDescription[data.index].languageCode = data.lang;
+                return {
+                    ...state,
+                    name: nextDescription
+                }
             }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
@@ -105,11 +122,9 @@ export const useSubset = (init =  {
             }
             case 'shortName_update': {
                 const nextState = state.administrativeStatus === 'INTERNAL' && state.version === '1'
-                    ? {
-                        ...state,
+                    ? {...state,
                         shortName: toId(data),
-                        id: toId(data)
-                        }
+                        id: toId(data)}
                     : state;
                 setErrors(prev => ({
                     ...prev,
@@ -119,7 +134,6 @@ export const useSubset = (init =  {
             }
             case 'from': {
                 // FIXME: restrictions
-                // TODO: warning 'this field changes affects versionValidFrom for v1.0'
                 setErrors(prev => ({
                     ...prev,
                     period: validate.period(data, state.validUntil)
@@ -132,8 +146,6 @@ export const useSubset = (init =  {
             case 'version_from': {
                 const {date, versions} = data;
                 // FIXME: restrictions
-                // TODO: warning 'this field changes affects validFrom for v1.0'
-
                 if ((!versions || versions.length === 0) && state.version === '1') {
                     console.log('Very first version');
                     setErrors(prev => ({
@@ -216,7 +228,7 @@ export const useSubset = (init =  {
             }
             case 'version_rationale_add': {
                 const vr = nextDefaultName(state.versionRationale);
-                return  vr === null
+                return  !vr
                     ? {...state}
                     : {...state, versionRationale: [...state.versionRationale, vr]};
             }
@@ -226,8 +238,25 @@ export const useSubset = (init =  {
                     versionRationale: state.versionRationale?.filter((item, index) => index !== data)
                 };
             }
-            case 'version_rationale_update': {
-                return  {...state};
+            case 'version_rationale_text': {
+                if (!data.text || data.index < 0 || data.index >= state.versionRationale.length)
+                    return state;
+                const nextDescription = state.versionRationale;
+                nextDescription[data.index].languageText = data.text;
+                return {
+                    ...state,
+                    versionRationale: nextDescription
+                }
+            }
+            case 'version_rationale_lang': {
+                if (!data.lang || data.index < 0 || data.index >= state.versionRationale.length)
+                    return state;
+                const nextDescription = state.versionRationale;
+                nextDescription[data.index].languageCode = data.lang;
+                return {
+                    ...state,
+                    versionRationale: nextDescription
+                }
             }
             case 'version_switch': {
                 const {item, versions} = data;
@@ -285,13 +314,29 @@ export const useSubset = (init =  {
                     .values[0] = data;
                 return  {...state};
             }
-
-            case 'description_update': {
-                return  {...state};
+            case 'description_text': {
+                if (!data.text || data.index < 0 || data.index >= state.description.length)
+                    return state;
+                const nextDescription = state.description;
+                nextDescription[data.index].languageText = data.text;
+                return {
+                    ...state,
+                    description: nextDescription
+                }
+            }
+            case 'description_lang': {
+                if (!data.lang || data.index < 0 || data.index >= state.description.length)
+                    return state;
+                const nextDescription = state.description;
+                nextDescription[data.index].languageCode = data.lang;
+                return {
+                    ...state,
+                    description: nextDescription
+                }
             }
             case 'description_add': {
                 const description = nextDefaultName(state.description);
-                return  description === null
+                return  !description
                     ? {...state}
                     : {...state, description: [...state.description, description]};
             }
