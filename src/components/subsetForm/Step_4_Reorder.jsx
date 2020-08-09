@@ -9,6 +9,12 @@ export const Step_4_Reorder = ({subset}) => {
 
     return (<>
         <Title size={3}>{t('Reorder codes')}</Title>
+        <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+            {t('Version')}: <strong>{draft.version || '-'}  </strong>
+            {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+            {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
+        </p>
+
         {draft.codes?.length === 0
             ? <p>{t('No items to sort')}</p>
             : <Reorderable list={draft.codes}
