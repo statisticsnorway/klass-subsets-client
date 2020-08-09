@@ -13,7 +13,7 @@ import {HelpCircle} from 'react-feather';
  *  FIXME: sanitize input
  */
 
-export const MetadataFormStep = ({subset}) => {
+export const Step_1_Metadata = ({subset}) => {
 
     const {draft, dispatch, errors} = subset;
     const { t } = useTranslation();

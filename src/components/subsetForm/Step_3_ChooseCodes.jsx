@@ -12,7 +12,7 @@ import '../../css/list.css';
  *  FIXME: sanitize input
  */
 
-export const ChooseCodesFormStep = ({subset}) => {
+export const Step_3_ChooseCodes = ({subset}) => {
 
     const {draft, dispatch} = subset;
 

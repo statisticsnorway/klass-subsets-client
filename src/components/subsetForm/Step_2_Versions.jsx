@@ -11,7 +11,7 @@ import {HelpCircle} from 'react-feather';
  *  FIXME: sanitize input
  */
 
-export const VersionsFormStep = ({subset}) => {
+export const Step_2_Versions = ({subset}) => {
 
     const {draft, dispatch, errors} = subset;
     const {t} = useTranslation();

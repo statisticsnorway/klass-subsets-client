@@ -3,7 +3,7 @@ import {Title} from '@statisticsnorway/ssb-component-library';
 import {useTranslation} from 'react-i18next';
 import {Reorderable} from './reorderable';
 
-export const ReorderFormStep = ({subset}) => {
+export const Step_4_Reorder = ({subset}) => {
     const {draft, dispatch} = subset;
     const { t } = useTranslation();
 
