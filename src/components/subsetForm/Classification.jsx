@@ -20,17 +20,18 @@ import keys from '../../utils/keys';
 
 export const Classification = ({item = {}, from, to,
                                 include, exclude, chosen,
-                                includeCodes, excludeCodes, chosenCodes
+                                includeCodes, excludeCodes, chosenCodes,
+                                disabled
                                 }) => {
     const {t} = useTranslation();
 
     const {id, path, codesPath} = URN.toURL(item?.urn, from, to);
 
     // TODO use fallback, loader, error
-    const [metadata, isLoadingMetadata,,, setRetryMetadata] = useGet(path);
+    const [metadata, isLoadingMetadata,,,] = useGet(path);
 
     // TODO use fallback, loader, error
-    const [codes, isLoadingCodes,,, setRetryCodes] = useGet(codesPath);
+    const [codes, isLoadingCodes,,,] = useGet(codesPath);
 
     const [show, setShow] = useState({none: true});
 
@@ -62,7 +63,6 @@ export const Classification = ({item = {}, from, to,
                     </button>
                 }
 {/*
-
                 <button onClick={() => {
                     setRetryCodes(true);
                     setRetryMetadata(true);
@@ -70,7 +70,6 @@ export const Classification = ({item = {}, from, to,
                     <RefreshCw size='20' color={ isLoadingCodes || isLoadingMetadata ? '#C3DCDC' : '#62919A'}/>
                 </button>
 */}
-
                 <button onClick={() =>
                     setShow(prev => ({codes: !prev.codes}))}>
                     { isLoadingCodes
@@ -87,30 +86,31 @@ export const Classification = ({item = {}, from, to,
                     }
                 </button>
 
-                {include
-                    ?
-                    <button onClick={() => {
-                        if (chosen || codes?.codes?.length > 0) {
+                {disabled
+                    ? <></>
+                    : include
+                        ?
+                        <button onClick={() => {
+                            if (chosen || codes?.codes?.length > 0) {
+                                setShow({none: true});
+                                chosen ? exclude() : include();
+                            } else {
+                                setShow(prev => ({cannot: !prev.cannot}));
+                            }
+                        }}>
+                            {!codes || codes?.codes?.length === 0
+                                ? <XSquare color='#9272FC'/>
+                                : chosen
+                                    ? <MinusSquare color='#B6E8B8' />
+                                    : <PlusSquare color='#1A9D49'/>}
+                        </button>
+                        :
+                        <button onClick={() => {
                             setShow({none: true});
-                            chosen ? exclude() : include();
-                        } else {
-                            setShow(prev => ({cannot: !prev.cannot}));
-                        }
-                    }}>
-                        {chosen
-                            ? <MinusSquare color='#B6E8B8' />
-                            : !codes || codes?.codes?.length === 0
-                                ? <XSquare color={ codes ? '#9272FC' : '#C3DCDC' }/>
-                                : <PlusSquare color='#1A9D49'/>
-                        }
-                    </button>
-                    :
-                    <button onClick={() => {
-                        setShow({none: true});
-                        exclude();
-                    }}>
-                        <Trash2 color='#ED5935'/>
-                    </button>
+                            exclude();
+                        }}>
+                            <Trash2 color='#ED5935'/>
+                        </button>
                 }
             </div>
 
@@ -138,7 +138,9 @@ export const Classification = ({item = {}, from, to,
                           }))}
                           chosenCodes={chosenCodes}
                           includeCodes={includeCodes}
-                          excludeCodes={excludeCodes}/>
+                          excludeCodes={excludeCodes}
+                          disabled={disabled}
+            />
             }
 
             {show.info
@@ -147,7 +149,7 @@ export const Classification = ({item = {}, from, to,
     );
 };
 
-export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
+export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes, disabled}) => {
     const {t} = useTranslation();
 
     // DOCME
@@ -190,14 +192,16 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                         </div>
 
                         {codes.map(code =>
-                            <CodeInfo key={code.urn + new Date().toISOString()}
+                            <CodeInfo key={code.urn + chosenCodes.findIndex(c => c.urn === code.urn)}
                                       item={code}
                                       notes={codesWithNotes.find(c => c.code === code.code)?.notes}
-                                      chosen={chosenCodes.find(c => c.urn === code.urn)}
+                                      chosen={chosenCodes.findIndex(c => c.urn === code.urn) > -1}
                                       toggle={(clicked) => chosenCodes.find(c => c.urn === clicked.urn)
-                                          ? excludeCodes([clicked])
-                                          : includeCodes([clicked])}
+                                                  ? excludeCodes([clicked])
+                                                  : includeCodes([clicked])
+                                      }
                                       isLoadingVersion={isLoadingVersion}
+                                      disabled={disabled}
                             />)
                         }
                     </>
@@ -207,7 +211,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
     );
 };
 
-export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion}) => {
+export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion, disabled}) => {
     const {t} = useTranslation();
 
     const [showNotes, setShowNotes] = useState(false);
@@ -217,14 +221,17 @@ export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion}) =
             <div style={{display: 'flex'}}>
                 <div className='ssb-checkbox'>
                     <input id={item.urn}
+                           className='checkbox'
                            type='checkbox' name='include'
                            checked={chosen}
                            value={item.code}
+                           disabled={disabled}
                            onChange={(e) => toggle({
                                code: e.target.value,
                                urn: e.target.id
                            })}/>
                     <label className='checkbox-label'
+                           style={{background: 'transparent'}}
                            htmlFor={item.urn}>
                         <Text><strong>{item.code}</strong> {item.name}</Text>
                     </label>

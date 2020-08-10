@@ -13,14 +13,14 @@ import {HelpCircle} from 'react-feather';
  *  FIXME: sanitize input
  */
 
-export const MetadataFormStep = ({subset}) => {
+export const Step_1_Metadata = ({subset}) => {
 
     const {draft, dispatch, errors} = subset;
     const { t } = useTranslation();
     const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
     const [showHelp, setShowHelp] = useState(false);
-    const [exist, isLoadingExist, errorExist, setPathExist] = useGetSubset();
+    const [exist,,, setPathExist] = useGetSubset();
 
     useEffect(() => {
         draft.name?.length === 0
@@ -83,8 +83,12 @@ export const MetadataFormStep = ({subset}) => {
             <TextLanguageFieldset title={t('Names')}
                                   items={draft.name}
                                   add={() => dispatch({action: 'name_add'})}
-                                  remove={(index) => dispatch({action: 'name_remove', data: index})}
-                                  handle={() => dispatch({action: 'name_update'})}
+                                  remove={(index) => dispatch({
+                                      action: 'name_remove', data: index})}
+                                  handleText={(index, text) => dispatch({
+                                      action: 'name_text', data: {index, text}})}
+                                  handleLang={(index, lang) => dispatch({
+                                      action: 'name_lang', data: {index, lang}})}
                                   size={{cols: 65, rows: 1}}
                                   prefix={subsetDraft.namePrefix}
                                   errorMessages={errors.name}
@@ -95,18 +99,22 @@ export const MetadataFormStep = ({subset}) => {
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                            htmlFor='from_date'>{t('Valid from')}: </label>
-                    <input type='date' id='from_date' style={{display: 'block'}}
-                                value={draft.validFrom?.substr(0, 10) || ''}
-                                onChange={event => dispatch({action: 'from', data:
-                                            event.target.value === ''
-                                                ? null
-                                                : new Date(event.target.value).toISOString()})
-                                }
-                                className='datepicker'/>
+                    <input type='date'
+                           id='from_date'
+                           style={{display: 'block'}}
+                           value={draft.validFrom?.substr(0, 10) || ''}
+                           onChange={event => dispatch({
+                               action: 'from',
+                               data: event.target.value === ''
+                                       ? null
+                                       : new Date(event.target.value).toISOString()})}
+                           className='datepicker'
+                           disabled={draft.administrativeStatus === 'OPEN'}
+                    />
                     {errors?.validFrom?.length > 0 &&
                     <div className='ssb-input-error '>
                         {errors.validFrom.map(error => (
-                            <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                            <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                         ))}
                     </div>
                     }
@@ -202,8 +210,12 @@ export const MetadataFormStep = ({subset}) => {
             <TextLanguageFieldset title={t('Description')}
                                   items={draft.description}
                                   add={() => dispatch({action: 'description_add'})}
-                                  remove={(index) => dispatch({action: 'description_remove', data: index})}
-                                  handle={() => dispatch({action: 'update'})}
+                                  remove={(index) => dispatch({
+                                      action: 'description_remove', data: index})}
+                                  handleText={(index, text) => dispatch({
+                                      action: 'description_text', data: {index, text}})}
+                                  handleLang={(index, lang) => dispatch({
+                                      action: 'description_lang', data: {index, lang}})}
                                   size = {{cols: 65, rows: 4}}
                                   errorMessages={errors?.description}
             />

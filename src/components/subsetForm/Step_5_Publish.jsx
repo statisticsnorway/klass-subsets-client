@@ -6,15 +6,15 @@ import {SubsetPreview} from '../Subset';
 import {usePost, usePut} from '../../controllers/subsets-service';
 import {useHistory} from 'react-router-dom';
 
-export const PublishFormStep = ({subset}) => {
+export const Step_5_Publish = ({subset}) => {
     const {draft, dispatch, errors} = subset;
 
     const { t } = useTranslation();
 
     let history = useHistory();
 
-    const [post, setPOSTPayload, isLoadingPost, errorPost] = usePost();
-    const [update, setPUTPayload, isLoadingUpdate, errorUpdate] = usePut(draft.id);
+    const [post, setPOSTPayload,, errorPost] = usePost();
+    const [update, setPUTPayload,, errorUpdate] = usePut(draft.id);
 
     useEffect(() => {
         if (post || update) {
@@ -35,6 +35,12 @@ export const PublishFormStep = ({subset}) => {
 return (
         <>
             <Title size={3}>{t('Review and publish')}</Title>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+                {t('Version')}: <strong>{draft.version || '-'}  </strong>
+                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
+            </p>
+
             <SubsetPreview subset={draft}/>
 
             { Object.values(errors).flat().length > 0 &&

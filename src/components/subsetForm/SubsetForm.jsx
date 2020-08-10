@@ -2,12 +2,12 @@ import React, {useContext} from 'react';
 import '../../css/pages.css';
 import {AppContext} from '../../controllers/context';
 import {Navigation, Step} from './navigation';
-import {PublishFormStep} from './PublishFormStep';
-import {ReorderFormStep} from './ReorderFormStep';
-import {ChooseCodesFormStep} from './ChooseCodesFormStep';
-import {MetadataFormStep} from './MetadataFormStep';
-import {VersionsFormStep} from './VersionsFormStep';
-import {useTranslation} from "react-i18next";
+import {Step_1_Metadata} from './Step_1_Metadata';
+import {Step_2_Versions} from './Step_2_Versions';
+import {Step_3_ChooseCodes} from './Step_3_ChooseCodes';
+import {Step_4_Reorder} from './Step_4_Reorder';
+import {Step_5_Publish} from './Step_5_Publish';
+import {useTranslation} from 'react-i18next';
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
@@ -17,19 +17,19 @@ export default function SubsetForm() {
         <div className='page'>
             <Navigation>
                 <Step label={t('Metadata')}>
-                    <MetadataFormStep subset={subset} />
+                    <Step_1_Metadata subset={subset} />
                 </Step>
                 <Step label={t('Versions')}>
-                    <VersionsFormStep subset={subset} />
+                    <Step_2_Versions subset={subset} />
                 </Step>
                 <Step label={t('Choose codes')}>
-                    <ChooseCodesFormStep subset={subset} />
+                    <Step_3_ChooseCodes subset={subset} />
                 </Step>
                 <Step label={t('Reorder codes')}>
-                    <ReorderFormStep subset={subset} />
+                    <Step_4_Reorder subset={subset} />
                 </Step>
                 <Step label={t('Review and publish')}>
-                    <PublishFormStep subset={subset} />
+                    <Step_5_Publish subset={subset} />
                 </Step>
             </Navigation>
         </div>
