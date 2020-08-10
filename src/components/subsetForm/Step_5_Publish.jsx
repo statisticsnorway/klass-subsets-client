@@ -55,7 +55,7 @@ return (
                     <Button
                         disabled={update !== null || Object.values(errors).flat().length > 0
                                 || draft.administrativeStatus === 'OPEN'}
-                        onClick={() => draft.administrativeStatus === 'INTERNAL'
+                        onClick={() => draft.administrativeStatus === 'INTERNAL' && draft.version === '1'
                             ? setPOSTPayload(prepare('DRAFT', {...draft}))
                             : setPUTPayload(prepare('DRAFT', {...draft}))
                         }>{t('Save')}
@@ -65,7 +65,7 @@ return (
                 <div style={{float: 'right'}}>
                     <Button
                         disabled={post !== null || Object.values(errors).flat().length > 0}
-                        onClick={() => draft.administrativeStatus === 'INTERNAL'
+                        onClick={() => draft.administrativeStatus === 'INTERNAL' && draft.version === '1'
                             ? setPOSTPayload(prepare('OPEN', {...draft}))
                             : setPUTPayload(prepare('OPEN', {...draft}))
                         }>{t('Publish')}
