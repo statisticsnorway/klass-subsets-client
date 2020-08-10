@@ -203,7 +203,7 @@ export const ReordableItem = ({item = {}, remove, update,
                                 <ChevronDown size={16} color='#1A9D49'/>
                             </button>
 
-                        </span>}
+                        </span>
                 </td>
             }
             {disabled

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button} from '@statisticsnorway/ssb-component-library';
-import '../../css/tooltip.css';
-import {useTranslation} from "react-i18next";
+import '../../css/pointer.css';
+import {useTranslation} from 'react-i18next';
 
 // TODO: add api to navigate to particular steps from inside og the form.
 // For instance from the last (preview) page.
@@ -9,9 +9,15 @@ export function Navigation({children}) {
     const [step, setStep] = useState(0);
 
     return (<>
-            <ProgressBar steps={children} handleClick={setStep} activeStep={step} />
+            <ProgressBar steps={children}
+                         handleClick={setStep}
+                         activeStep={step} />
+
             <div>{children[step]}</div>
-            <PrevNext min={step===0} max={step===children.length-1} handleClick={setStep} />
+
+            <PrevNext min={step===0}
+                      max={step===children.length-1}
+                      handleClick={setStep} />
         </>
     );
 }
@@ -23,28 +29,14 @@ export const Step = ({children}) => {
 export const ProgressBar = ({steps, handleClick, activeStep}) => {
 
     return (
-        <div style={{textAlign: 'center', width: '60%'}}>
+        <div>
             {steps.map((step, index) => (
-                <div key={index} className='tooltip'>
+                <div key={step.props.label} style={{display: 'inline-block'}}>
                     <button 
                         onClick={ () => handleClick(index) }
-                        style={{
-                            borderRadius: '50%',
-                            background: activeStep === index ? '#62919A' : '#C3DCDC',
-                            border: 'none',
-                            color: 'transparent',
-                            textAlign: 'center',
-                            textDecoration: 'none',
-                            display: 'inline-block',
-                            padding: '1px 5px',
-                            margin: '0 30px 0 0',
-                            ariaLabel: `notifications-label-${index}`
-                        }}
-                        >{index}
+                        className={activeStep === index ? 'pointer-active' : 'pointer'}
+                        >{step.props.label}
                     </button>
-                    <span className='tooltiptext' style={{ borderBottom: '1px dotted #274247'}}
-                          role='tooltip'
-                          id={`notifications-label${index}`}>{step.props.label}</span>
                 </div>
             ))}
         </div>
