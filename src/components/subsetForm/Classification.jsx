@@ -138,7 +138,9 @@ export const Classification = ({item = {}, from, to,
                           }))}
                           chosenCodes={chosenCodes}
                           includeCodes={includeCodes}
-                          excludeCodes={excludeCodes}/>
+                          excludeCodes={excludeCodes}
+                          disabled={disabled}
+            />
             }
 
             {show.info
@@ -147,7 +149,7 @@ export const Classification = ({item = {}, from, to,
     );
 };
 
-export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes}) => {
+export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes, disabled}) => {
     const {t} = useTranslation();
 
     // DOCME
@@ -195,9 +197,11 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
                                       notes={codesWithNotes.find(c => c.code === code.code)?.notes}
                                       chosen={chosenCodes.findIndex(c => c.urn === code.urn) > -1}
                                       toggle={(clicked) => chosenCodes.find(c => c.urn === clicked.urn)
-                                          ? excludeCodes([clicked])
-                                          : includeCodes([clicked])}
+                                                  ? excludeCodes([clicked])
+                                                  : includeCodes([clicked])
+                                      }
                                       isLoadingVersion={isLoadingVersion}
+                                      disabled={disabled}
                             />)
                         }
                     </>
@@ -207,7 +211,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes})
     );
 };
 
-export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion}) => {
+export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion, disabled}) => {
     const {t} = useTranslation();
 
     const [showNotes, setShowNotes] = useState(false);
@@ -217,14 +221,17 @@ export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion}) =
             <div style={{display: 'flex'}}>
                 <div className='ssb-checkbox'>
                     <input id={item.urn}
+                           className='checkbox'
                            type='checkbox' name='include'
                            checked={chosen}
                            value={item.code}
+                           disabled={disabled}
                            onChange={(e) => toggle({
                                code: e.target.value,
                                urn: e.target.id
                            })}/>
                     <label className='checkbox-label'
+                           style={{background: 'transparent'}}
                            htmlFor={item.urn}>
                         <Text><strong>{item.code}</strong> {item.name}</Text>
                     </label>
