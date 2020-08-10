@@ -29,6 +29,8 @@ export default function ChangelogPage() {
            <Paragraph>Codes with dash as first symbol is allowed.</Paragraph>
            <Paragraph>Bugfix: Codes checkbox updates on each click.</Paragraph>
            <Paragraph>Possibility to type own Id (to choose a shorter one, with no prefix, etc.). Max length is 128 symbols.</Paragraph>
+           <Paragraph>>Pointer style for the form navigation.</Paragraph>
+           <Paragraph>>Disabled editing for published subsets (inputs, adding code lists, adding codes, reordering, drag and drop).</Paragraph>
 
            <Title size={4}>v0.4.3</Title>
            <Paragraph>Fixed empty <code>validUntil</code> and <code>createdDate</code> in order to save and publish subsets.</Paragraph>
