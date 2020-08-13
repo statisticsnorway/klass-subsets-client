@@ -126,7 +126,7 @@ export const Step_2_Versions = ({subset}) => {
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
                            disabled={
                                (!draft.versionValidFrom && !draft.validUntil)
-                               || (versions && !versions.error && versions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
+                               || (draft.validUntil && versions && !versions.error && versions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
                                || (versions && !versions.error &&
                                    draft.versionValidUntil === versions?.find(v => v.version === draft.version-1)?.validFrom
                                    && draft.versionValidFrom < versions?.find(v => v.version === draft.version-1)?.validFrom)}
