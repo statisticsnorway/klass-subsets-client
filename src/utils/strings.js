@@ -15,5 +15,5 @@ export const toId = text => {
         .replace(/\s/g, '_')
         .replace(/å|æ/g, 'a')
         .replace(/ø/g, 'o')
-        .replace(/\W/g, '')
+        .replace(/[^a-z0-9-_]*/g, '')
 }
