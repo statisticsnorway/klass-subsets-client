@@ -1,9 +1,11 @@
 export const validate = {
 
-    id(shortName) {
-        return !shortName
-            ? ['ID is a mandatory field.']
-            : []
+    id(id) {
+        return !id || !(typeof id === 'string' || id instanceof String)
+            ? ['ID is a mandatory field']
+            : !(/([a-z0-9])$/.test(id))
+                ? ['Only lower case letters, numbers, dashes, and underscores are allowed']
+                : []
     },
 
     name(names) {

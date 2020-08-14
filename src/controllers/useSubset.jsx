@@ -8,7 +8,7 @@ export const useSubset = (init =  {
         id: '',
         name: [],
         shortName: '',
-        administrativeStatus: 'INTERNAL', // cannot be changed by the app, by service only
+        administrativeStatus: 'INTERNAL',
         validFrom: null,
         validUntil: null,
         createdBy: '',
