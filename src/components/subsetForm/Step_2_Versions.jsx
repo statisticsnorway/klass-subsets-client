@@ -26,7 +26,7 @@ export const Step_2_Versions = ({subset}) => {
         };
     }, []);
 
-    const [versions, isLoadingVersions, errorVersions] = useGet(`${draft.id}/versions`);
+    const [versions, isLoadingVersions, errorVersions] = useGet(`${draft.id}/versions?includeFuture=true&includeDrafts=true`);
 
     useEffect(() => {
         if (versions && !versions.error) {
