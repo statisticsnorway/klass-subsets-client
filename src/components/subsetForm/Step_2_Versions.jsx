@@ -74,7 +74,7 @@ export const Step_2_Versions = ({subset}) => {
                             onSelect={(option) => {
                                 dispatch({
                                     action: 'version_switch',
-                                    data: {item: option.id, versions}
+                                    data: {chosenVersion: option.id, versions}
                                 })
                             }}
                             errorMessages={errors?.version}
