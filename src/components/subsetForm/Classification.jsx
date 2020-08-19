@@ -219,23 +219,27 @@ export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion, di
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div className='ssb-checkbox'>
-                    <input id={item.urn}
-                           className='checkbox'
-                           type='checkbox' name='include'
-                           checked={chosen}
-                           value={item.code}
-                           disabled={disabled}
-                           onChange={(e) => toggle({
-                               code: e.target.value,
-                               urn: e.target.id
-                           })}/>
-                    <label className='checkbox-label'
-                           style={{background: 'transparent'}}
-                           htmlFor={item.urn}>
-                        <Text><strong>{item.code}</strong> {item.name}</Text>
-                    </label>
-                </div>
+                {disabled
+                    ? <div >
+                        <Text style={{margin: '5px'}}><strong>{item.code}</strong> {item.name}</Text>
+                      </div>
+                    : <div className='ssb-checkbox'>
+                        <input id={item.urn}
+                               className='checkbox'
+                               type='checkbox' name='include'
+                               checked={chosen}
+                               value={item.code}
+                               onChange={(e) => toggle({
+                                   code: e.target.value,
+                                   urn: e.target.id
+                               })}/>
+                        <label className='checkbox-label'
+                               style={{background: 'transparent'}}
+                               htmlFor={item.urn}>
+                            <Text><strong>{item.code}</strong> {item.name}</Text>
+                        </label>
+                    </div>
+                }
                 <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
                     {isLoadingVersion
                         ? <Spinner />
