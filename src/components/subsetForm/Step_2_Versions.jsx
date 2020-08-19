@@ -75,7 +75,7 @@ export const Step_2_Versions = ({subset}) => {
                                 dispatch({
                                     action: 'version_switch',
                                     data: {chosenVersion: option.id, versions}
-                                })
+                                });
                             }}
                             errorMessages={errors?.version}
                 />

@@ -5,15 +5,15 @@ export const validate = {
             ? ['ID is a mandatory field']
             : !(/([a-z0-9])$/.test(id))
                 ? ['Only lower case letters, numbers, dashes, and underscores are allowed']
-                : []
+                : [];
     },
 
     name(names) {
-        return names?.length > 0 ? [] : ['At least one name is required']
+        return names?.length > 0 ? [] : ['At least one name is required'];
     },
 
     validFrom(date) {
-        return date ? [] : ['A valid from date is required']
+        return date ? [] : ['A valid from date is required'];
     },
 
     period(from, to) {
@@ -37,16 +37,15 @@ export const validate = {
     },
 
     createdBy(owner) {
-        return owner?.length > 0 ? [] : ['Owner is required']
+        return owner?.length > 0 ? [] : ['Owner is required'];
     },
 
     codes(codes) {
-        return codes?.length > 0 ? [] : ['At least one code is required']
+        return codes?.length > 0 ? [] : ['At least one code is required'];
     },
 
     subset(draft) {
-        return {
-            id: this.id(draft.id),
+        return { id: this.id(draft.id),
             name: this.name(draft.name),
             validFrom: this.validFrom(draft.validFrom),
             validUntil: [],
@@ -59,6 +58,6 @@ export const validate = {
             versionValidFrom: validate.versionValidFrom(draft.validFrom, draft.validUntil, draft.versionValidFrom),
             versionPeriod: validate.period(draft.versionValidFrom, draft.validUntil),
             codes: this.codes(draft.codes)
-        }
+        };
     }
 }

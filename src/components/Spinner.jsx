@@ -1,6 +1,6 @@
 import React from 'react';
 import {RefreshCw} from 'react-feather';
-import '../css/spinner.css'
+import '../css/spinner.css';
 
 export default function Spinner() {
 

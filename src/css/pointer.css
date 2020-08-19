@@ -2,11 +2,12 @@
   width: 115px;
   height: 40px;
   position: relative;
-  background: #62919A;
+  background: #62919a;
   margin: 10px 10px;
   padding-left: 20px;
   font-family: 'Roboto', serif;
 }
+
 .pointer-active:after {
   content: "";
   position: absolute;
@@ -18,6 +19,7 @@
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
 }
+
 .pointer-active:before {
   content: "";
   position: absolute;
@@ -25,19 +27,21 @@
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 20px solid #62919A;
+  border-left: 20px solid #62919a;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
 }
+
 .pointer {
   width: 115px;
   height: 40px;
   position: relative;
-  background: #C3DCDC;
+  background: #c3dcdc;
   margin: 10px 10px;
   padding-left: 20px;
   font-family: 'Roboto', serif;
 }
+
 .pointer:after {
   content: "";
   position: absolute;
@@ -49,6 +53,7 @@
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
 }
+
 .pointer:before {
   content: "";
   position: absolute;
@@ -56,7 +61,7 @@
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 20px solid #C3DCDC;
+  border-left: 20px solid #c3dcdc;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
 }
