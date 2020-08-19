@@ -7,31 +7,41 @@ import Spinner from './Spinner';
 
 export const Code = ({origin}) => {
     const { t } = useTranslation();
-    const {codeData, isLoadingVersion} = useCode(origin);
+    const {codeData, isLoadingVersion} = useCode(origin?.name && origin?.notes ? null : origin);
 
     return (
-        <Accordion header={isLoadingVersion ? <Spinner/> : `${codeData?.code || URN.toURL(origin).code || origin?.code || '-'} ${codeData?.name || '-'}`} subHeader={origin.rank}>
-            <p><strong>{t('Short name')}:</strong> {codeData?.shortName || '-'}</p>
+        <Accordion
+            header={!origin?.name && isLoadingVersion
+                ? <Spinner/>
+                : `${origin?.code || URN.toURL(origin).code || codeData?.code || '-'} ${origin?.name || codeData?.name || '-'}`}
+            subHeader={origin.rank}
+        >
+            <p><strong>{t('Short name')}:</strong> {origin?.shortName || codeData?.shortName || '-'}</p>
             <p><strong>{t('Code')}:</strong> {origin?.code || '-'}</p>
-            <p><strong>{t('Classification')}:</strong> {codeData?.classification || '-'}</p>
-            <p><strong>{t('URL')}:</strong> {codeData?._links?.self?.href || '-'}</p>
+            <p><strong>{t('Classification')}:</strong> {origin?.classification ||codeData?.classification || '-'}</p>
+            <p><strong>{t('URL')}:</strong> {origin?._links?.self?.href || codeData?._links?.self?.href || '-'}</p>
             <p><strong>{t('URN')}:</strong> {origin.urn || '-'}</p>
-            <p><strong>{'validFromInRequestedRange'}:</strong> {codeData?.validFromInRequestedRange || '-'}</p>
-            <p><strong>{'validToInRequestedRange'}:</strong> {codeData?.validToInRequestedRange || '-'}</p>
-            <p><strong>{t('Level')}:</strong> {codeData?.level}</p>
-            {codeData?.parentCode && <p><strong>{t('Parent code')}:</strong> {codeData?.parentCode}</p>}
-            <p><strong>{t('Notes')}: </strong></p>
-            {!codeData?.notes
-                ? '-'
-                : codeData.notes.map((note, i) => (
-                    <div key={i} style={{padding: '5px 25px 10px 25px'}}>
-                        <div style={{width: '65%'}}
-                             className='ssb-paragraph'
-                            // DOCME
-                            // FIXME: find another way
-                             dangerouslySetInnerHTML={ {__html: replaceRef(note.note) } } />
-                        <Text small><strong>«{note.versionName}»</strong> ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})</Text>
-                    </div>))}
+            <p><strong>{'validFromInRequestedRange'}:</strong> {origin?.validFromInRequestedRange || codeData?.validFromInRequestedRange || '-'}</p>
+            <p><strong>{'validToInRequestedRange'}:</strong> {origin?.validToInRequestedRange || codeData?.validToInRequestedRange || '-'}</p>
+            <p><strong>{t('Level')}:</strong> {origin?.level || codeData?.level}</p>
+            {(origin?.parentCode || codeData?.parentCode) &&
+            <p><strong>{t('Parent code')}:</strong> {origin?.parentCode || codeData?.parentCode}</p>}
+            <p><strong>{t('Notes')}: </strong>
+            {isLoadingVersion
+                ? <Spinner/>
+                : !codeData?.notes
+                    ? '-'
+                    : codeData.notes.map((note, i) => (
+                        <div key={i} style={{padding: '5px 25px 10px 25px'}}>
+                            <div style={{width: '65%'}}
+                                 className='ssb-paragraph'
+                                // DOCME
+                                // FIXME: find another way
+                                 dangerouslySetInnerHTML={ {__html: replaceRef(note.note) } } />
+                            <Text small>
+                                {t('Note is valid for version')} «{note.versionName}» ({note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                        </div>))
+            }</p>
         </Accordion>
     );
 };

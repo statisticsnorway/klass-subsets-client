@@ -259,8 +259,8 @@ export const useSubset = (init =  {
                 }
             }
             case 'version_switch': {
-                const {item, versions} = data;
-                if (item === 'New version') {
+                const {chosenVersion, versions} = data;
+                if (chosenVersion === 'New version') {
                     const latest = versions.sort((a,b) =>
                         a.versionValidFrom < b.versionValidFrom ? 1 :
                             a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0];
@@ -274,7 +274,6 @@ export const useSubset = (init =  {
                         validUntil: null
                     };
                 } else {
-                    const chosenVersion = parseInt(item);
                     const exists = versions.find(v => v.version === chosenVersion);
                     if (exists) {
                         const next = versions.filter(v => v.versionValidFrom > exists.versionValidFrom)

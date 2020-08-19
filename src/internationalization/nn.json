@@ -81,8 +81,9 @@
   "Parent code": "Forelderkode",
 
   "Notes": "Kommentarer",
+  "Note is valid for version": "Kommentaren er gyldig for versjon",
   "Valid": "Gyldig",
-  "No notes found.": "Ingen notater er funnet.",
+  "No notes found.": "Ingen kommentarer er funnet",
 
   "Reorder codes": "Rekkefølge",
   "No items to sort": "Ingen koder",
