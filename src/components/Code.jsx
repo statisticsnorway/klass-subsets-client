@@ -14,7 +14,7 @@ export const Code = ({origin}) => {
             header={!origin?.name && isLoadingVersion
                 ? <Spinner/>
                 : `${origin?.code || URN.toURL(origin).code || codeData?.code || '-'} ${origin?.name || codeData?.name || '-'}`}
-            subHeader={origin.rank}
+            subHeader={`${origin.rank}`}
         >
             <p><strong>{t('Short name')}:</strong> {origin?.shortName || codeData?.shortName || '-'}</p>
             <p><strong>{t('Code')}:</strong> {origin?.code || '-'}</p>
@@ -26,7 +26,7 @@ export const Code = ({origin}) => {
             <p><strong>{t('Level')}:</strong> {origin?.level || codeData?.level}</p>
             {(origin?.parentCode || codeData?.parentCode) &&
             <p><strong>{t('Parent code')}:</strong> {origin?.parentCode || codeData?.parentCode}</p>}
-            <p><strong>{t('Notes')}: </strong>
+            <div><strong>{t('Notes')}: </strong>
             {isLoadingVersion
                 ? <Spinner/>
                 : !codeData?.notes
@@ -41,7 +41,7 @@ export const Code = ({origin}) => {
                             <Text small>
                                 {t('Note is valid for version')} «{note.versionName}» ({note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))
-            }</p>
+            }</div>
         </Accordion>
     );
 };
