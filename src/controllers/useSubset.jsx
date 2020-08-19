@@ -2,7 +2,7 @@ import {useState, useReducer, useEffect} from 'react';
 import {nextDefaultName} from '../internationalization/languages';
 import {URN} from './klass-api';
 import {validate} from './validator';
-import {toId} from '../utils/strings'
+import {toId} from '../utils/strings';
 
 export const useSubset = (init =  {
         id: '',
@@ -75,8 +75,9 @@ export const useSubset = (init =  {
                 return state;
             }
             case 'name_text': {
-                if (data.index < 0 || data.index >= state.name.length)
+                if (data.index < 0 || data.index >= state.name.length) {
                     return state;
+                }
                 // FIXME: restrict input, validate input
                 const nextName = state.name;
                 nextName[data.index].languageText = data.text;
@@ -97,14 +98,15 @@ export const useSubset = (init =  {
                 return nextState;
             }
             case 'name_lang': {
-                if (!data.lang || data.index < 0 || data.index >= state.name.length)
+                if (!data.lang || data.index < 0 || data.index >= state.name.length) {
                     return state;
+                }
                 const nextDescription = state.name;
                 nextDescription[data.index].languageCode = data.lang;
                 return {
                     ...state,
                     name: nextDescription
-                }
+                };
             }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
@@ -147,7 +149,7 @@ export const useSubset = (init =  {
                 const {date, versions} = data;
                 // FIXME: restrictions
                 if ((!versions || versions.length === 0) && state.version === '1') {
-                    console.log('Very first version');
+                    console.info('Very first version');
                     setErrors(prev => ({
                         ...prev,
                         versionValidFrom: validate.versionValidFrom(state.validFrom, state.validUntil, date),
@@ -165,7 +167,7 @@ export const useSubset = (init =  {
                 // later version
                 if ((latest?.validUntil && date === latest?.validUntil)
                     || (!latest?.validUntil && date > latest?.versionValidFrom)) {
-                    console.log('Later version');
+                    console.info('Later version');
                     const nextState = {...state,
                         versionValidFrom: date,
                         versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil,
@@ -183,7 +185,7 @@ export const useSubset = (init =  {
 
                 // earlier version
                 if (date >= new Date('1800-01-01').toISOString() && date < latest?.validFrom) {
-                    console.log('earlier version from ');
+                    console.info('Earlier version');
                     const nextState = {
                         ...state,
                         versionValidFrom: date,
@@ -201,7 +203,7 @@ export const useSubset = (init =  {
                 }
 
                 // other
-                console.log('Covered period or illegal input');
+                console.info('Covered period or illegal input');
                 const nextState = {
                     ...state,
                     versionValidFrom: date,
@@ -239,18 +241,20 @@ export const useSubset = (init =  {
                 };
             }
             case 'version_rationale_text': {
-                if (data.index < 0 || data.index >= state.versionRationale.length)
+                if (data.index < 0 || data.index >= state.versionRationale.length) {
                     return state;
+                }
                 const nextDescription = state.versionRationale;
                 nextDescription[data.index].languageText = data.text;
                 return {
                     ...state,
                     versionRationale: nextDescription
-                }
+                };
             }
             case 'version_rationale_lang': {
-                if (!data.lang || data.index < 0 || data.index >= state.versionRationale.length)
+                if (!data.lang || data.index < 0 || data.index >= state.versionRationale.length) {
                     return state;
+                }
                 const nextDescription = state.versionRationale;
                 nextDescription[data.index].languageCode = data.lang;
                 return {
@@ -314,8 +318,9 @@ export const useSubset = (init =  {
                 return  {...state};
             }
             case 'description_text': {
-                if (data.index < 0 || data.index >= state.description.length)
+                if (data.index < 0 || data.index >= state.description.length) {
                     return state;
+                }
                 const nextDescription = state.description;
                 nextDescription[data.index].languageText = data.text;
                 return {
@@ -324,8 +329,9 @@ export const useSubset = (init =  {
                 }
             }
             case 'description_lang': {
-                if (!data.lang || data.index < 0 || data.index >= state.description.length)
+                if (!data.lang || data.index < 0 || data.index >= state.description.length) {
                     return state;
+                }
                 const nextDescription = state.description;
                 nextDescription[data.index].languageCode = data.lang;
                 return {
@@ -380,7 +386,7 @@ export const useSubset = (init =  {
                 return  {
                     ...state,
                     administrativeDetails,
-                    codes: reorder([...candidates, ...state.codes])}
+                    codes: reorder([...candidates, ...state.codes])};
             }
             case 'codes_exclude': {
                 const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
@@ -401,7 +407,7 @@ export const useSubset = (init =  {
             }
             case 'codes_cache': {
                 const codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
-                return { ...state, codes}
+                return { ...state, codes};
             }
             case 'reset': {
                 sessionStorage.removeItem('draft');

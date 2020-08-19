@@ -98,7 +98,7 @@ export const Reorderable = ({list = [], rerank, remove, update, disabled}) => {
                                            setDragTargets(prevTargets => {
                                                return prevTargets.find(t => t.urn === dragTarget.urn)
                                                    ? prevTargets.filter(t => t.urn !== dragTarget.urn)
-                                                   : [...prevTargets, dragTarget]
+                                                   : [...prevTargets, dragTarget];
                                            })
                                        }
                                        setDragTarget={dragTarget => setDragTargets(prev => [...prev, dragTarget])}
@@ -127,10 +127,10 @@ export const ReordableItem = ({item = {}, remove, update,
     const {codeData, isLoadingVersion} = useCode(item.name ? null : item);
 
     useEffect(() => {
-        function fade() {
-            setBackground('white');
-        };
-        setTimeout(fade, 500)}, []);
+        function fade() { setBackground('white'); }
+        setTimeout(fade, 500);
+        }, []
+    );
 
     useEffect(() => codeData && update(codeData), [codeData]);
 

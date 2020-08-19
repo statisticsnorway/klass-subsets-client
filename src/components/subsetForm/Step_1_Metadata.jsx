@@ -38,7 +38,7 @@ export const Step_1_Metadata = ({subset}) => {
         draft.version === '1'
         && draft.administrativeStatus === 'INTERNAL'
         && draft.id?.length > 0
-        && setPathExist(draft.id)
+        && setPathExist(draft.id);
     }, [draft.id]);
 
     return (
