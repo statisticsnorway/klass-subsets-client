@@ -48,12 +48,20 @@ export const SubsetPage = () => {
                             desc => desc.languageCode === 'nb')?.languageText || t('No description')}
                         </Paragraph>
 
-                        <Paragraph><strong>{t('Owner')}:</strong> {subsetData.createdBy || '-'}</Paragraph>
-                        <Paragraph><strong>{t('Valid from')}:</strong> {subsetData.validFrom?.substr(0, 10) || '-'}</Paragraph>
-                        <Paragraph><strong>{t('Valid to')}:</strong> {subsetData.validUntil?.substr(0, 10)  || '-'}</Paragraph>
-                        <Paragraph><strong>{t('Subject')}:</strong> {subsetData.administrativeDetails
+                        <Paragraph>
+                            <strong>{t('Owner')}:</strong> {subsetData.createdBy || '-'}
+                        </Paragraph>
+                        <Paragraph>
+                            <strong>{t('Valid from')}:</strong> {subsetData.validFrom?.substr(0, 10) || '-'}
+                        </Paragraph>
+                        <Paragraph>
+                            <strong>{t('Valid to')}:</strong> {subsetData.validUntil?.substr(0, 10)  || '-'}
+                        </Paragraph>
+                        <Paragraph>
+                            <strong>{t('Subject')}:</strong> {subsetData.administrativeDetails
                             ? subsetData.administrativeDetails.find(d => d.administrativeDetailType === 'ANNOTATION').values[0]
-                            : '-'}</Paragraph>
+                            : '-'}
+                        </Paragraph>
 
                         <Title size={3}>{t('Codes')}: </Title>
                         { subsetData.codes
