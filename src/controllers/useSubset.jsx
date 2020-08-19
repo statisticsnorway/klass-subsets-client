@@ -149,7 +149,7 @@ export const useSubset = (init =  {
                 const {date, versions} = data;
                 // FIXME: restrictions
                 if ((!versions || versions.length === 0) && state.version === '1') {
-                    console.log('Very first version');
+                    console.info('Very first version');
                     setErrors(prev => ({
                         ...prev,
                         versionValidFrom: validate.versionValidFrom(state.validFrom, state.validUntil, date),
@@ -167,7 +167,7 @@ export const useSubset = (init =  {
                 // later version
                 if ((latest?.validUntil && date === latest?.validUntil)
                     || (!latest?.validUntil && date > latest?.versionValidFrom)) {
-                    console.log('Later version');
+                    console.info('Later version');
                     const nextState = {...state,
                         versionValidFrom: date,
                         versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil,
@@ -185,7 +185,7 @@ export const useSubset = (init =  {
 
                 // earlier version
                 if (date >= new Date('1800-01-01').toISOString() && date < latest?.validFrom) {
-                    console.log('earlier version from ');
+                    console.info('Earlier version');
                     const nextState = {
                         ...state,
                         versionValidFrom: date,
@@ -203,7 +203,7 @@ export const useSubset = (init =  {
                 }
 
                 // other
-                console.log('Covered period or illegal input');
+                console.info('Covered period or illegal input');
                 const nextState = {
                     ...state,
                     versionValidFrom: date,

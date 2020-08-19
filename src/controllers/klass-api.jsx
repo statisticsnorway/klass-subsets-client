@@ -126,7 +126,6 @@ export function useGet(url = null) {
                 _mounted && setIsLoading(false);
                 _mounted && setRetry(false);
             } catch (e) {
-                console.error(e);
                 _mounted && setError({
                     timestamp: Date.now(),
                     status: e.status,
