@@ -60,4 +60,4 @@ export const validate = {
             codes: this.codes(draft.codes)
         };
     }
-}
+};

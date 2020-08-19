@@ -158,7 +158,7 @@ export const useSubset = (init =  {
                     return {...state,
                         versionValidFrom: date,
                         validFrom: date
-                    }
+                    };
                 }
 
                 const latest = versions.sort((a, b) =>
@@ -400,7 +400,7 @@ export const useSubset = (init =  {
                     if (reranked && data.rank && data.rank !== '-') {
                         reranked.rank = data.rank;
                     }
-                })
+                });
                 return  {
                     ...state,
                     codes: reorder([...state.codes])};
