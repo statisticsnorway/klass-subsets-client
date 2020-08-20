@@ -35,11 +35,7 @@ export const Step_1_Metadata = ({subset}) => {
 
     return (
         <>
-            <Title size={3}>{t('Metadata')}
-                <span style={{fontSize: '14px', color: '#ED5935'}}>
-                    {`  ${t(draft.administrativeStatus) || ''}`}
-                </span>
-            </Title>
+            <Title size={3}>{t('Metadata')}</Title>
             <SubsetBrief editable />
 
             <TextLanguageFieldset title={t('Names')}
