@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import '../../css/form.css';
 import {Dropdown, TextLanguageFieldset} from './forms';
 import {subsetDraft} from '../../controllers/defaults';
@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 import {HelpCircle} from 'react-feather';
 import {SubsetBrief} from '../SubsetBrief';
+import {AppContext} from "../../controllers/context";
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -22,8 +23,6 @@ export const Step_1_Metadata = ({subset}) => {
     const [showHelp, setShowHelp] = useState(false);
 
     useEffect(() => {
-        draft.name?.length === 0
-            && dispatch({action: 'name_add'});
 
         draft.description?.length === 0
             && dispatch({action: 'description_add'});
@@ -37,21 +36,7 @@ export const Step_1_Metadata = ({subset}) => {
         <>
             <Title size={3}>{t('Metadata')}</Title>
             <SubsetBrief editable />
-
-            <TextLanguageFieldset title={t('Names')}
-                                  items={draft.name}
-                                  add={() => dispatch({action: 'name_add'})}
-                                  remove={(index) => dispatch({
-                                      action: 'name_remove', data: index})}
-                                  handleText={(index, text) => dispatch({
-                                      action: 'name_text', data: {index, text}})}
-                                  handleLang={(index, lang) => dispatch({
-                                      action: 'name_lang', data: {index, lang}})}
-                                  size={{cols: 65, rows: 1}}
-                                  prefix={subsetDraft.namePrefix}
-                                  errorMessages={errors.name}
-                                  maxLength={250}
-            />
+            <SubsetNameForm />
 
             <section style={{margin: '5px 0 5px 0'}}>
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
@@ -189,3 +174,36 @@ export const Step_1_Metadata = ({subset}) => {
         </>
     );
 };
+
+export const SubsetNameForm = () => {
+    const { t } = useTranslation();
+    const { subset, errors } = useContext(AppContext);
+    const { draft, dispatch } = subset;
+
+    useEffect(() => {
+        draft.name?.length === 0
+        && dispatch({action: 'name_add'});
+
+        return () => {
+            dispatch({action: 'remove_empty'});
+        };
+    }, []);
+
+    return (
+        <><TextLanguageFieldset title={t('Names')}
+                                items={draft?.name}
+                                add={() => dispatch({action: 'name_add'})}
+                                remove={(index) => dispatch({
+                                    action: 'name_remove', data: index})}
+                                handleText={(index, text) => dispatch({
+                                    action: 'name_text', data: {index, text}})}
+                                handleLang={(index, lang) => dispatch({
+                                    action: 'name_lang', data: {index, lang}})}
+                                size={{cols: 65, rows: 1}}
+                                prefix={subsetDraft?.namePrefix}
+                                errorMessages={errors?.name}
+                                maxLength={250}
+        /></>
+    );
+};
+
