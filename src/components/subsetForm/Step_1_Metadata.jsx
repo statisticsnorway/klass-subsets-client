@@ -18,7 +18,6 @@ export const Step_1_Metadata = ({subset}) => {
 
     const {draft, dispatch, errors} = subset;
     const { t } = useTranslation();
-    const [ssbsections] = useGet('ssbsections.json');
     const [classificationfamilies] = useGet('classificationfamilies.json');
 
     useEffect(() => {
@@ -37,22 +36,8 @@ export const Step_1_Metadata = ({subset}) => {
             <SubsetBrief editable />
             <SubsetNameForm />
             <SubsetValidityForm />
+            <SubsetSectionForm />
 
-            {/* TODO: set automatically when logged inn */}
-            <Dropdown label={t('Owner')}
-                      options={ssbsections
-                          ? ssbsections._embedded?.ssbSections.map(section => ({
-                          title: section.name, id: section.name
-                      }))
-                          : []}
-                      placeholder={t('Select a responsible department...')}
-                      disabledText={t('Outdated')}
-                      selected={draft.createdBy}
-                      onSelect={(option) => dispatch({
-                          action: 'createdBy',
-                          data: option.title })}
-                      errorMessages={errors?.createdBy}
-            />
 
             <Dropdown label={t('Subject')}
                       options={classificationfamilies?._embedded?.classificationFamilies
@@ -111,7 +96,7 @@ export const SubsetNameForm = () => {
     }, []);
 
     return (
-        <><TextLanguageFieldset title={t('Names')}
+        <TextLanguageFieldset title={t('Names')}
                                 items={draft?.name}
                                 add={() => dispatch({action: 'name_add'})}
                                 remove={(index) => dispatch({
@@ -124,7 +109,7 @@ export const SubsetNameForm = () => {
                                 prefix={subsetDraft?.namePrefix}
                                 errorMessages={errors?.name}
                                 maxLength={250}
-        /></>
+        />
     );
 };
 
@@ -213,4 +198,29 @@ console.log({errors});
           }
       </section>
   );
+};
+
+export const SubsetSectionForm = () => {
+    const { t } = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch, errors } = subset;
+    const [ssbsections] = useGet('ssbsections.json');
+
+    // TODO: set automatically when logged inn
+    return (
+        <Dropdown label={t('Owner')}
+                  options={ssbsections
+                      ? ssbsections._embedded?.ssbSections.map(section => ({
+                          title: section.name, id: section.name
+                      }))
+                      : []}
+                  placeholder={t('Select a responsible department...')}
+                  disabledText={t('Outdated')}
+                  selected={draft.createdBy}
+                  onSelect={(option) => dispatch({
+                      action: 'createdBy',
+                      data: option.title })}
+                  errorMessages={errors?.createdBy}
+        />
+    );
 };
