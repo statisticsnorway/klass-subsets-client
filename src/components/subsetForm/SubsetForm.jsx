@@ -10,12 +10,16 @@ import {Step_5_Publish} from './Step_5_Publish';
 import {useTranslation} from 'react-i18next';
 
 export default function SubsetForm() {
-    const {subset} = useContext(AppContext);
+    const {subset2} = useContext(AppContext);
     const { t } = useTranslation();
 
     return (
         <div className='page'>
-            <Navigation>
+
+            <p>{subset2.draft.name}</p>
+            <p>{subset2.draft.eat(5)}</p>
+
+            {/*<Navigation>
 
                 <Step label={t('Metadata')}><Step_1_Metadata/></Step>
 
@@ -31,7 +35,7 @@ export default function SubsetForm() {
                 <Step label={t('Review and publish')}>
                     <Step_5_Publish subset={subset} />
                 </Step>
-            </Navigation>
+            </Navigation>*/}
         </div>
     );
 }

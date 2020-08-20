@@ -475,3 +475,42 @@ export const useSubset = (init =  {
 
     return {draft, dispatch, errors};
 };
+
+export const useSubset2 = (init = Subset()) => {
+
+    function subsetReducer(state, {action, data = {}}) {
+        console.info({action, data});
+        switch (action) {
+            case 'setName': {
+                return  {
+                    ...data,
+                    name: data
+                };
+            }
+            default:
+                return state;
+        }
+    }
+    const [draft, dispatch] = useReducer(subsetReducer, init);
+
+    return {draft, dispatch};
+};
+
+function Subset (id, name) {
+    let init = {
+        id: '45456',
+        name: 'Stephanie',
+    }
+
+    return Object.assign(
+        init,
+        eater(init)
+    )
+}
+
+const eater = (state) => ({
+    eat(amount) {
+        console.log(`${state.name} is eating.`)
+        return state.id + amount;
+    }
+})
