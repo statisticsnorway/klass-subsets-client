@@ -45,7 +45,8 @@ export const validate = {
     },
 
     subset(draft) {
-        return { id: this.id(draft.id),
+        return {
+            id: this.id(draft.id),
             name: this.name(draft.name),
             validFrom: this.validFrom(draft.validFrom),
             validUntil: [],
