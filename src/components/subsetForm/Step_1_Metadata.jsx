@@ -18,7 +18,6 @@ export const Step_1_Metadata = ({subset}) => {
 
     const {draft, dispatch, errors} = subset;
     const { t } = useTranslation();
-    const [classificationfamilies] = useGet('classificationfamilies.json');
 
     useEffect(() => {
 
@@ -37,23 +36,7 @@ export const Step_1_Metadata = ({subset}) => {
             <SubsetNameForm />
             <SubsetValidityForm />
             <SubsetSectionForm />
-
-
-            <Dropdown label={t('Subject')}
-                      options={classificationfamilies?._embedded?.classificationFamilies
-                          .map(family => ({title: family.name, id: family.name}))
-                          || []}
-                      placeholder={t('Select a classification family...')}
-                      disabledText={t('Outdated')}
-                      selected={draft.administrativeDetails
-                          .find(d => d.administrativeDetailType === 'ANNOTATION')
-                          .values[0] || ''}
-                      onSelect={(option) => dispatch({
-                          action: 'subject',
-                          data: option.title })}
-                      errorMessages={errors?.annotation}
-            />
-
+            <SubsetSubjectForm />
 
             {/* FIXME: limit text size*/}
             <TextLanguageFieldset title={t('Description')}
@@ -221,6 +204,30 @@ export const SubsetSectionForm = () => {
                       action: 'createdBy',
                       data: option.title })}
                   errorMessages={errors?.createdBy}
+        />
+    );
+};
+
+export const SubsetSubjectForm = () => {
+    const { t } = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch, errors } = subset;
+    const [classificationfamilies] = useGet('classificationfamilies.json');
+
+    return (
+        <Dropdown label={t('Subject')}
+                  options={classificationfamilies?._embedded?.classificationFamilies
+                      .map(family => ({title: family.name, id: family.name}))
+                  || []}
+                  placeholder={t('Select a classification family...')}
+                  disabledText={t('Outdated')}
+                  selected={draft.administrativeDetails
+                      .find(d => d.administrativeDetailType === 'ANNOTATION')
+                      .values[0] || ''}
+                  onSelect={(option) => dispatch({
+                      action: 'subject',
+                      data: option.title })}
+                  errorMessages={errors?.annotation}
         />
     );
 };
