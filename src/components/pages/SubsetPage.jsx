@@ -7,6 +7,7 @@ import {Code} from '../Code';
 import {Edit} from 'react-feather';
 import {AppContext} from '../../controllers/context';
 import Spinner from '../Spinner';
+import {Brief, Id} from '../SubsetBrief';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
@@ -39,11 +40,12 @@ export const SubsetPage = () => {
                                     history.push('/create');
                                 }}/>
                         </Title>
-                        <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subsetData?.id || '-'}  </strong>
-                            {t('Version')}: <strong>{subsetData.version || '-'}  </strong>
-                            {t('Updated')}: <strong>{subsetData.lastUpdatedDate || '-'}  </strong>
-                            {t('Status')}: <strong>{t(subsetData.administrativeStatus) || '-'}  </strong>
-                        </p>
+                        <Brief
+                            id={<Id>{subsetData?.id || '-'}</Id>}
+                            version={subsetData?.version}
+                            lastUpdatedDate={subsetData?.lastUpdatedDate}
+                            status={subsetData?.administrativeStatus}
+                        />
                         <Paragraph style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subsetData.description?.find(
                             desc => desc.languageCode === 'nb')?.languageText || t('No description')}
                         </Paragraph>
