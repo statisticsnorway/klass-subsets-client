@@ -35,8 +35,7 @@ export const SubsetNameForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch, errors } = subset;
 
-    useEffect(() => {
-        draft.name?.length === 0
+    useEffect(() => { draft.name?.length === 0
         && dispatch({action: 'name_add'});
 
         return () => {
@@ -44,6 +43,7 @@ export const SubsetNameForm = () => {
         };
     }, []);
 
+    // DOCME: max name length
     return (
         <TextLanguageFieldset title={t('Names')}
                                 items={draft?.name}
@@ -67,7 +67,7 @@ export const SubsetValidityForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch, errors } = subset;
     const [showHelp, setShowHelp] = useState(false);
-console.log({errors});
+
     return (
       <section style={{margin: '5px 0 5px 0'}}>
           <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
@@ -153,7 +153,7 @@ export const SubsetSectionForm = () => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
     const { draft, dispatch, errors } = subset;
-    const [ssbsections] = useGet('ssbsections.json');
+    const [ ssbsections ] = useGet('ssbsections.json');
 
     // TODO: set automatically when logged inn
     return (
@@ -178,7 +178,7 @@ export const SubsetSubjectForm = () => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
     const { draft, dispatch, errors } = subset;
-    const [classificationfamilies] = useGet('classificationfamilies.json');
+    const [ classificationfamilies ] = useGet('classificationfamilies.json');
 
     return (
         <Dropdown label={t('Subject')}
@@ -199,9 +199,9 @@ export const SubsetSubjectForm = () => {
 };
 
 export const SubsetDescriptionForm = () => {
-    const {t} = useTranslation();
-    const {subset} = useContext(AppContext);
-    const {draft, dispatch, errors} = subset;
+    const { t } = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch, errors } = subset;
 
     useEffect(() => {
         draft.description?.length === 0
@@ -212,7 +212,7 @@ export const SubsetDescriptionForm = () => {
         };
     }, []);
 
-    // FIXME: limit text size
+    // DOCME: max description length
     return (
         <TextLanguageFieldset title={t('Description')}
                               items={draft.description}
@@ -225,6 +225,7 @@ export const SubsetDescriptionForm = () => {
                                   action: 'description_lang', data: {index, lang}})}
                               size = {{cols: 65, rows: 4}}
                               errorMessages={errors?.description}
+                              maxLength={2500}
         />
     );
 };

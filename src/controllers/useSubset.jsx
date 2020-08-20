@@ -62,6 +62,7 @@ export const useSubset = (init =  {
     }
 
     function subsetReducer(state, {action, data = {}}) {
+        console.info({action, data});
         switch (action) {
             case 'edit': {
                 return  {
