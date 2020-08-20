@@ -14,20 +14,8 @@ import {AppContext} from "../../controllers/context";
  *  FIXME: sanitize input
  */
 
-export const Step_1_Metadata = ({subset}) => {
-
-    const {draft, dispatch, errors} = subset;
+export const Step_1_Metadata = () => {
     const { t } = useTranslation();
-
-    useEffect(() => {
-
-        draft.description?.length === 0
-            && dispatch({action: 'description_add'});
-
-        return () => {
-            dispatch({action: 'remove_empty'});
-        };
-    }, []);
 
     return (
         <>
@@ -37,29 +25,7 @@ export const Step_1_Metadata = ({subset}) => {
             <SubsetValidityForm />
             <SubsetSectionForm />
             <SubsetSubjectForm />
-
-            {/* FIXME: limit text size*/}
-            <TextLanguageFieldset title={t('Description')}
-                                  items={draft.description}
-                                  add={() => dispatch({action: 'description_add'})}
-                                  remove={(index) => dispatch({
-                                      action: 'description_remove', data: index})}
-                                  handleText={(index, text) => dispatch({
-                                      action: 'description_text', data: {index, text}})}
-                                  handleLang={(index, lang) => dispatch({
-                                      action: 'description_lang', data: {index, lang}})}
-                                  size = {{cols: 65, rows: 4}}
-                                  errorMessages={errors?.description}
-            />
-
-{/* TODO: implement in next version
-            <label><input type='checkbox'/>Subscribe for changes</label>
-*/}
-
-            {/* TODO: implement in next version if ordered
-            /* move to each fieldset (?)
-            <Button onClick={() => {subset.dispatch({action: 'reset'});}}>Reset</Button>
-*/}
+            <SubsetDescriptionForm />
         </>
     );
 };
@@ -228,6 +194,37 @@ export const SubsetSubjectForm = () => {
                       action: 'subject',
                       data: option.title })}
                   errorMessages={errors?.annotation}
+        />
+    );
+};
+
+export const SubsetDescriptionForm = () => {
+    const {t} = useTranslation();
+    const {subset} = useContext(AppContext);
+    const {draft, dispatch, errors} = subset;
+
+    useEffect(() => {
+        draft.description?.length === 0
+        && dispatch({action: 'description_add'});
+
+        return () => {
+            dispatch({action: 'remove_empty'});
+        };
+    }, []);
+
+    // FIXME: limit text size
+    return (
+        <TextLanguageFieldset title={t('Description')}
+                              items={draft.description}
+                              add={() => dispatch({action: 'description_add'})}
+                              remove={(index) => dispatch({
+                                  action: 'description_remove', data: index})}
+                              handleText={(index, text) => dispatch({
+                                  action: 'description_text', data: {index, text}})}
+                              handleLang={(index, lang) => dispatch({
+                                  action: 'description_lang', data: {index, lang}})}
+                              size = {{cols: 65, rows: 4}}
+                              errorMessages={errors?.description}
         />
     );
 };
