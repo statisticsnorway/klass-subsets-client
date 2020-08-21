@@ -7,7 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 import {HelpCircle} from 'react-feather';
 import {SubsetBrief} from '../SubsetBrief';
-import {AppContext} from "../../controllers/context";
+import {AppContext} from '../../controllers/context';
 
 /*
  *  TODO: select components (2) from the ssb-component-library
@@ -35,7 +35,8 @@ export const SubsetNameForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch, errors } = subset;
 
-    useEffect(() => { draft.name?.length === 0
+    useEffect(() => {
+        draft.name?.length === 0
         && dispatch({action: 'name_add'});
 
         return () => {

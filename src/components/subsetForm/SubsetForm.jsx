@@ -10,13 +10,29 @@ import {Step_5_Publish} from './Step_5_Publish';
 import {useTranslation} from 'react-i18next';
 
 export default function SubsetForm() {
-    const {subset2} = useContext(AppContext);
+    const {subset} = useContext(AppContext);
+    //const {subset2} = useContext(AppContext);
     const { t } = useTranslation();
 
     return (
         <div className='page'>
+            <Navigation>
+                <Step label={t('Metadata')}><Step_1_Metadata/></Step>
+                <Step label={t('Versions')}>
+                    <Step_2_Versions subset={subset} />
+                </Step>
+                <Step label={t('Choose codes')}>
+                    <Step_3_ChooseCodes subset={subset} />
+                </Step>
+                <Step label={t('Reorder codes')}>
+                    <Step_4_Reorder subset={subset} />
+                </Step>
+                <Step label={t('Review and publish')}>
+                    <Step_5_Publish subset={subset} />
+                </Step>
+            </Navigation>
 
-            <p>{subset2.draft.name}</p>
+            {/*  <p>{subset2.draft.name}</p>
             <p>{subset2.draft.id}</p>
             <p>{subset2.draft.eat(5)}</p>
             <button onClick={() => subset2.dispatch(
@@ -32,25 +48,8 @@ export default function SubsetForm() {
                     data: '111'
                 }
             )}
-            >update ID</button>
+            >update ID</button>*/}
 
-            {/*<Navigation>
-
-                <Step label={t('Metadata')}><Step_1_Metadata/></Step>
-
-                <Step label={t('Versions')}>
-                    <Step_2_Versions subset={subset} />
-                </Step>
-                <Step label={t('Choose codes')}>
-                    <Step_3_ChooseCodes subset={subset} />
-                </Step>
-                <Step label={t('Reorder codes')}>
-                    <Step_4_Reorder subset={subset} />
-                </Step>
-                <Step label={t('Review and publish')}>
-                    <Step_5_Publish subset={subset} />
-                </Step>
-            </Navigation>*/}
         </div>
     );
 }
