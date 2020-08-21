@@ -186,10 +186,10 @@ export function useCode(origin) {
         metadata?.name && setCodeData(prevCodeData => {
             return {
                 ...prevCodeData,
-                classification: `${classificationId} - ${metadata.name}`
+                classification: metadata.name
             };
         });
-    }, [metadata, classificationId]);
+    }, [metadata]);
 
     useEffect(() => {
         const exists = codesWithNotes.find(c => c.code === code);

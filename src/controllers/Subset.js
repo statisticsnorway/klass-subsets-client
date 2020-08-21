@@ -17,3 +17,33 @@ const eater = (state) => ({
         state.energy += amount
     }
 })*/
+
+export function Subset (data) {
+    let init = data || {
+        id: '',
+        name: [],
+        shortName: '',
+        administrativeStatus: 'INTERNAL',
+        validFrom: null,
+        validUntil: null,
+        createdBy: '',
+        administrativeDetails: [
+            {
+                administrativeDetailType: 'ANNOTATION',
+                values: []
+            },
+            {
+                administrativeDetailType: 'ORIGIN',
+                values: []
+            }
+        ],
+        description: [],
+        version: '1',
+        versionRationale: [],
+        versionValidFrom: null,
+        versionValidUntil: null, // just for local use, not part of Classification scheme
+        codes: []
+    }
+
+    return init;
+}

@@ -18,7 +18,7 @@ export const Code = ({origin}) => {
         >
             <p><strong>{t('Short name')}:</strong> {origin?.shortName || codeData?.shortName || '-'}</p>
             <p><strong>{t('Code')}:</strong> {origin?.code || '-'}</p>
-            <p><strong>{t('Classification')}:</strong> {origin?.classification ||codeData?.classification || '-'}</p>
+            <p><strong>{t('Classification')}:</strong> {origin?.classification || codeData?.classification || '-'}</p>
             <p><strong>{t('URL')}:</strong> {origin?._links?.self?.href || codeData?._links?.self?.href || '-'}</p>
             <p><strong>{t('URN')}:</strong> {origin.urn || '-'}</p>
             <p><strong>{'validFromInRequestedRange'}:</strong> {origin?.validFromInRequestedRange || codeData?.validFromInRequestedRange || '-'}</p>

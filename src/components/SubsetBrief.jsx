@@ -11,7 +11,7 @@ export const Brief = ({id, version, lastUpdatedDate, status}) => {
             {id || '-'}
             {t('Version')}: <strong>{version || '-'}  </strong>
             {t('Updated')}: <strong>{lastUpdatedDate || '-'}  </strong>
-            {t('Status')}: <strong>{status || '-'}  </strong>
+            {t('Status')}: <strong>{t(status) || '-'}  </strong>
         </p>
     );
 };
@@ -29,7 +29,7 @@ export const SubsetBrief = ({editable = false}) => {
             }
             version={version}
             lastUpdatedDate={lastUpdatedDate}
-            status={t(administrativeStatus)}
+            status={administrativeStatus}
         />
     );
 };
