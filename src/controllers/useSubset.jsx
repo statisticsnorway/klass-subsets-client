@@ -425,7 +425,6 @@ export const useSubset = (init = Subset()) => {
     }
 
     useEffect(() => {
-        console.log({draft});
         sessionStorage.setItem('draft', JSON.stringify(draft));
     }, [draft]);
 

@@ -2,13 +2,13 @@ import {toId, sanitize} from '../utils/strings';
 import {subsetDraft, STATUS_ENUM} from './defaults';
 
 export function Subset (data) {
-    console.log({_data: data})
+
     const subset  = {
         _id: data?.id || data?._id || '',
         _name: data?.name || data?._name || [],
         _shortName: data?.shortName || data?._shortName || '',
         _administrativeStatus: data?.administrativeStatus || data?._administrativeStatus || 'INTERNAL',
-        validFrom: data?.validFrom || null,
+        _validFrom: data?.validFrom || data?._validFrom || null,
         validUntil: data?.validUntil || null,
         createdBy: data?.createdBy || '',
         administrativeDetails: data?.administrativeDetails
@@ -70,6 +70,15 @@ export function Subset (data) {
         set: (status = '') => {
             if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
                 subset._administrativeStatus = status;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'version', {
+        get: () => { return subset._version },
+        set: (version = '') => {
+            if (subset.isEditableStatus() && parseInt(version)) {
+                subset._version = version;
             }
         }
     });
