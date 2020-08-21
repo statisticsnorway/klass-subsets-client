@@ -61,13 +61,8 @@ export const useSubset = (init = Subset()) => {
                 return Subset({...state});
             }
             case 'name_add': {
-                const name = nextDefaultName(state.name);
-                return !name
-                    ? state
-                    : Subset({
-                            ...state,
-                            name: [...state.name, name]
-                      });
+                state.addName(nextDefaultName(state.name));
+                return Subset({...state});
             }
             case 'name_remove': {
                 return Subset({

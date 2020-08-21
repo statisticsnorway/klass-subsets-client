@@ -74,6 +74,10 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'isPublished', {
+        get: () => { return subset._administrativeStatus  === 'OPEN' },
+    });
+
     Object.defineProperty(subset, 'version', {
         get: () => { return subset._version },
         set: (version = '') => {
@@ -83,14 +87,41 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'payload', {
+        get: () => {
+            const payload = {
+                id: subset.id,
+                shortName: subset.shortName,
+                name: subset.name,
+                administrativeStatus: subset.administrativeStatus,
+                validFrom: subset.validFrom,
+                validUntil: subset.validUntil,
+                createdBy: subset.createdBy,
+                administrativeDetails: subset.administrativeDetails,
+                description: subset.description,
+                version: subset.version,
+                versionRationale: subset.versionRationale,
+                versionValidFrom: subset.versionValidFrom,
+                codes: subset.codes,
+                lastUpdatedDate: new Date().toISOString()  // FIXME: has to be set on backend side+
+            };
+            Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));
+            return payload;
+        }
+    })
+
     return subset;
 }
 
 const editable = (state = {}) => ({
 
-    isEditableId() {
+    isNew() {
         return state._administrativeStatus === 'INTERNAL'
-            && state._version === '1';
+            && state._version === '1'
+    },
+
+    isEditableId() {
+        return this.isNew();
     },
 
     isEditableShortName() {
@@ -129,6 +160,12 @@ const updatable = (state = {}) => ({
             && LANGUAGE_CODE_ENUM.includes(lang))
         {
             state._name[index].languageCode = lang;
+        }
+    },
+
+    addName(name) {
+        if (state.isEditableName() && name && state.name.length < LANGUAGE_CODE_ENUM.length) {
+            state._name.push(name);
         }
     }
 

@@ -50,10 +50,13 @@ return (
 
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <Button
-                        disabled={update !== null || draft.administrativeStatus === 'OPEN'}
-                        onClick={() => draft.administrativeStatus === 'INTERNAL' && draft.version === '1'
-                            ? setPOSTPayload(prepare('DRAFT', {...draft}))
-                            : setPUTPayload(prepare('DRAFT', {...draft}))
+                        disabled={ !update || draft.isPublished }
+                        onClick={() => {
+                            draft.administrativeStatus = 'DRAFT';
+                            draft.isNew()
+                                ? setPOSTPayload(draft.payload)
+                                : setPUTPayload(draft.payload)
+                        }
                         }>{t('Save')}
                     </Button>
                 </div>
@@ -61,9 +64,12 @@ return (
                 <div style={{float: 'right'}}>
                     <Button
                         disabled={post !== null || Object.values(errors).flat().length > 0}
-                        onClick={() => draft.administrativeStatus === 'INTERNAL' && draft.version === '1'
-                            ? setPOSTPayload(prepare('OPEN', {...draft}))
-                            : setPUTPayload(prepare('OPEN', {...draft}))
+                        onClick={() => {
+                            draft.administrativeStatus = 'OPEN';
+                            draft.isNew()
+                                ? setPOSTPayload(draft.payload)
+                                : setPUTPayload(draft.payload)
+                        }
                         }>{t('Publish')}
                     </Button>
                 </div>
@@ -75,11 +81,11 @@ return (
         </>
     );
 };
-
+/*
 function prepare(status = '', payload = {}) {
     payload.administrativeStatus = status;
     payload.version = `${payload.version}`;
     payload.lastUpdatedDate = new Date().toISOString(); // FIXME: has to be set on backend side+
     Object.keys(payload).forEach((key) => (payload[key] == null) && delete payload[key]);
     return payload;
-}
+}*/

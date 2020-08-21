@@ -46,7 +46,7 @@ export const SubsetPreview = ({subset}) => {
                     />))}
 
             <Accordion header={t('Raw JSON')}>
-                <pre>{JSON.stringify(subset, null, 4)}</pre>
+                <pre>{JSON.stringify(subset.payload, null, 4)}</pre>
             </Accordion>
         </>
     );
