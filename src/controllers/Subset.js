@@ -18,6 +18,8 @@ const eater = (state) => ({
     }
 })*/
 
+import {toId, sanitize} from '../utils/strings';
+
 export function Subset (data) {
     const init  = {
         id: '',
@@ -49,15 +51,33 @@ export function Subset (data) {
 
     return Object.assign(
         subset,
-        editable(subset)
+        editable(subset),
+        updateble(subset)
     );
 }
 
 const editable = (state) => ({
     isEditableId() {
-        console.log(state.administrativeStatus === 'INTERNAL'
-            && state.version === '1');
         return state.administrativeStatus === 'INTERNAL'
             && state.version === '1';
+    },
+
+    isEditableShortName() {
+        return true;
     }
-})
+});
+
+const updateble = (state) => ({
+    updateId(id) {
+        if (state.isEditableId()) {
+            state.id = toId(id);
+            state.updateShortName(id);
+        }
+    },
+
+    updateShortName(shortName) {
+        if (state.isEditableShortName()) {
+            state.shortName = sanitize(shortName);
+        }
+    }
+});

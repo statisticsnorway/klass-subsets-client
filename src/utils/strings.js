@@ -12,8 +12,11 @@ export const replaceRef = note => {
 
 export const toId = text => {
     return text.toLowerCase()
-        .replace(/\s/g, '_')
         .replace(/å|æ/g, 'a')
         .replace(/ø/g, 'o')
-        .replace(/[^a-z0-9-_]*/g, '');
+        .replace(/[^a-z0-9-_ ]*/g, '');
+};
+
+export const sanitize = text => {
+    return text.replace(/[^A-ZÆØÅa-zæøå0-9- _]*/g, '');
 };

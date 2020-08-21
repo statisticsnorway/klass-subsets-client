@@ -99,16 +99,12 @@ export const useSubset = (init = Subset()) => {
                 });
             }
             case 'shortName_update': {
-                const nextState = state.administrativeStatus === 'INTERNAL' && state.version === '1'
-                    ? Subset({...state,
-                        shortName: toId(data),
-                        id: toId(data)})
-                    : state;
+                state.updateId(data);
                 setErrors(prev => ({
                     ...prev,
-                    id: validate.id(nextState.id)
+                    id: validate.id(state.id)
                 }));
-                return nextState;
+                return Subset({...state});
             }
             case 'from': {
                 // FIXME: restrictions

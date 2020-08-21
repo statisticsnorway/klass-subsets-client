@@ -22,7 +22,7 @@ export const SubsetBrief = ({editable = false}) => {
 
     return (
         <Brief
-            id={editable && subset.draft.isEditableId
+            id={editable && subset.draft.isEditableId()
                 ? <SubsetIdForm/>
                 : <Id>{id || '-'}</Id>
             }
