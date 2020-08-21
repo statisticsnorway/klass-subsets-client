@@ -17,7 +17,22 @@ export default function SubsetForm() {
         <div className='page'>
 
             <p>{subset2.draft.name}</p>
+            <p>{subset2.draft.id}</p>
             <p>{subset2.draft.eat(5)}</p>
+            <button onClick={() => subset2.dispatch(
+                {
+                    action: 'setName',
+                    data: 'Benjamin'
+                }
+            )}
+            >update name</button>
+            <button onClick={() => subset2.dispatch(
+                {
+                    action: 'setId',
+                    data: '111'
+                }
+            )}
+            >update ID</button>
 
             {/*<Navigation>
 

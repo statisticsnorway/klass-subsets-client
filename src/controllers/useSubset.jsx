@@ -476,16 +476,18 @@ export const useSubset = (init =  {
     return {draft, dispatch, errors};
 };
 
-export const useSubset2 = (init = Subset()) => {
+export const useSubset2 = (init = Subset({})) => {
 
     function subsetReducer(state, {action, data = {}}) {
         console.info({action, data});
         switch (action) {
             case 'setName': {
-                return  {
-                    ...data,
-                    name: data
-                };
+                return Subset({...state, name: data});
+            }
+            case 'setId': {
+                console.log(state.eat(data));
+                state.updateId = data;
+                return Subset({...state});
             }
             default:
                 return state;
@@ -496,11 +498,14 @@ export const useSubset2 = (init = Subset()) => {
     return {draft, dispatch};
 };
 
-function Subset (id, name) {
+function Subset ({id = 'myID', name = 'Stephanie'}) {
     let init = {
-        id: '45456',
-        name: 'Stephanie',
-    }
+        id,
+        name,
+        set updateId(x) {
+            this.id = x;
+        }
+    };
 
     return Object.assign(
         init,
