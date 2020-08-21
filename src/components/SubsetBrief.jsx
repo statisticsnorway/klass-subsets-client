@@ -17,13 +17,12 @@ export const Brief = ({id, version, lastUpdatedDate, status}) => {
 };
 
 export const SubsetBrief = ({editable = false}) => {
-    const { t } = useTranslation();
     const { subset } = useContext(AppContext);
     const { id, version, lastUpdatedDate, administrativeStatus } = subset?.draft;
 
     return (
         <Brief
-            id={editable && administrativeStatus === 'INTERNAL' && version === '1'
+            id={editable && subset.draft.isEditableId
                 ? <SubsetIdForm/>
                 : <Id>{id || '-'}</Id>
             }

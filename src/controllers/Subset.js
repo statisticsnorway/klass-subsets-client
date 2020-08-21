@@ -19,7 +19,7 @@ const eater = (state) => ({
 })*/
 
 export function Subset (data) {
-    let init = data || {
+    const init  = {
         id: '',
         name: [],
         shortName: '',
@@ -45,5 +45,19 @@ export function Subset (data) {
         codes: []
     }
 
-    return init;
+    const subset = {...init, ...data};
+
+    return Object.assign(
+        subset,
+        editable(subset)
+    );
 }
+
+const editable = (state) => ({
+    isEditableId() {
+        console.log(state.administrativeStatus === 'INTERNAL'
+            && state.version === '1');
+        return state.administrativeStatus === 'INTERNAL'
+            && state.version === '1';
+    }
+})

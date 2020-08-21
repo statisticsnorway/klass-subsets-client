@@ -42,8 +42,7 @@ export const useSubset = (init = Subset()) => {
         switch (action) {
             case 'edit': {
                 return Subset({...data,
-                    administrativeStatus: !data?.administrativeStatus ? 'DRAFT' : data.administrativeStatus,
-                    shortName: data.shortName ? data.shortName : ''
+                    administrativeStatus: data?.administrativeStatus || 'DRAFT'
                 });
             }
             case 'validate': {
