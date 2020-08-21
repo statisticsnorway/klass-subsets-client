@@ -52,7 +52,7 @@ export function Subset (data) {
     return Object.assign(
         subset,
         editable(subset),
-        updateble(subset)
+        updatable(subset)
     );
 }
 
@@ -67,7 +67,7 @@ const editable = (state) => ({
     }
 });
 
-const updateble = (state) => ({
+const updatable = (state) => ({
     updateId(id) {
         if (state.isEditableId()) {
             state.id = toId(id);
