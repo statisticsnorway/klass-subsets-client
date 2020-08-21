@@ -20,7 +20,7 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`${subsetsServiceEndpoint}${path}`);
+                const response = await fetch(`${subsetsServiceEndpoint}${path}?includeFuture=true&includeDrafts=true`);
                 let json = await response.json();
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
