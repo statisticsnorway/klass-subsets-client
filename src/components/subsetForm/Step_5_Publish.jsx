@@ -5,6 +5,7 @@ import {Button, Title, FormError} from '@statisticsnorway/ssb-component-library'
 import {SubsetPreview} from '../Subset';
 import {usePost, usePut} from '../../controllers/subsets-service';
 import {useHistory} from 'react-router-dom';
+import {SubsetBrief} from "../SubsetBrief";
 
 export const Step_5_Publish = ({subset}) => {
     const {draft, dispatch, errors} = subset;
@@ -35,11 +36,7 @@ export const Step_5_Publish = ({subset}) => {
 return (
         <>
             <Title size={3}>{t('Review and publish')}</Title>
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
-                {t('Version')}: <strong>{draft.version || '-'}  </strong>
-                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
-                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
-            </p>
+            <SubsetBrief />
 
             <SubsetPreview subset={draft}/>
 
