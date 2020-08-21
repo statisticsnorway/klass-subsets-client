@@ -57,15 +57,8 @@ export const useSubset = (init = Subset()) => {
                 return Subset({...state});
             }
             case 'name_lang': {
-                if (!data.lang || data.index < 0 || data.index >= state.name.length) {
-                    return state;
-                }
-                const nextDescription = state.name;
-                nextDescription[data.index].languageCode = data.lang;
-                return Subset({
-                    ...state,
-                    name: nextDescription
-                });
+                state.updateNameLanguageByIndex(data.index, data.lang)
+                return Subset({...state});
             }
             case 'name_add': {
                 const name = nextDefaultName(state.name);
@@ -83,7 +76,7 @@ export const useSubset = (init = Subset()) => {
                 });
             }
             case 'shortName_update': {
-                state.id = data;
+                state.shortName = data;
                 setErrors(prev => ({
                     ...prev,
                     id: validate.id(state.id)

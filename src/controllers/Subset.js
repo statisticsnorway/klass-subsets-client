@@ -1,12 +1,12 @@
 import {toId, sanitize} from '../utils/strings';
-import {subsetDraft, STATUS_ENUM} from './defaults';
+import {subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM} from './defaults';
 
 export function Subset (data) {
 
     const subset  = {
         _id: data?.id || data?._id || '',
-        _name: data?.name || data?._name || [],
         _shortName: data?.shortName || data?._shortName || '',
+        _name: data?.name || data?._name || [],
         _administrativeStatus: data?.administrativeStatus || data?._administrativeStatus || 'INTERNAL',
         _validFrom: data?.validFrom || data?._validFrom || null,
         validUntil: data?.validUntil || null,
@@ -41,17 +41,7 @@ export function Subset (data) {
         get: () => { return subset._id },
         set: (id = '') => {
             if (subset.isEditableId()) {
-                subset._id = toId(id);
-                subset._shortName = id;
-            }
-        }
-    });
-
-    Object.defineProperty(subset, 'name', {
-        get: () => { return subset._name },
-        set: (name = []) => {
-            if (subset.isEditableName()) {
-                subset._name = name;
+                subset._id = sanitize(toId(id), subsetDraft?.maxLengthId);
             }
         }
     });
@@ -61,6 +51,16 @@ export function Subset (data) {
         set: (shortName = '') => {
             if (subset.isEditableShortName()) {
                 subset._shortName = sanitize(shortName, subsetDraft?.maxLengthShortName);
+                subset.id = shortName;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'name', {
+        get: () => { return subset._name },
+        set: (name = []) => {
+            if (subset.isEditableName()) {
+                subset._name = name;
             }
         }
     });
@@ -77,7 +77,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'version', {
         get: () => { return subset._version },
         set: (version = '') => {
-            if (subset.isEditableStatus() && parseInt(version)) {
+            if (subset.isEditableVersion() && parseInt(version)) {
                 subset._version = version;
             }
         }
@@ -103,18 +103,32 @@ const editable = (state = {}) => ({
 
     isEditableStatus() {
         return true;
+    },
+
+    isEditableVersion() {
+        return true;
     }
 });
 
 const updatable = (state = {}) => ({
 
-    updateNameTextByIndex(index, text) {
+    updateNameTextByIndex(index = -1, text = '') {
         if (state.isEditableName()
-            && index >= 0 && index < state._name?.length) {
+            && index >= 0 && index < state._name?.length)
+        {
             state._name[index].languageText = sanitize(text, subsetDraft?.maxLengthName);
-            if (!state._shortName && state._name?.length > 0) {
+            if (!state.shortName && state.name?.length > 0) {
                 state.id = toId(text);
             }
+        }
+    },
+
+    updateNameLanguageByIndex(index = -1, lang = '') {
+        if (state.isEditableName()
+            && index >= 0 && index < state.name?.length
+            && LANGUAGE_CODE_ENUM.includes(lang))
+        {
+            state._name[index].languageCode = lang;
         }
     }
 

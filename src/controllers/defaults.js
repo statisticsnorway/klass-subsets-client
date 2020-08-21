@@ -21,3 +21,9 @@ export const STATUS_ENUM = [
     'INTERNAL',
     'OPEN'
 ];
+
+export const LANGUAGE_CODE_ENUM = [
+    'en',
+    'nb',
+    'nn'
+];
