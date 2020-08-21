@@ -1,10 +1,8 @@
 import {availableLanguages, disableUsed} from '../../internationalization/languages';
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import {PlusSquare, Trash2} from 'react-feather';
 import keys from '../../utils/keys';
-import {useTranslation} from 'react-i18next';
-import {AppContext} from '../../controllers/context';
-import {useGet as useGetSubset} from '../../controllers/subsets-service';
+import {useTranslation} from "react-i18next";
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
@@ -145,47 +143,5 @@ export const Dropdown = ({
                 </div>
             }
         </div>
-    );
-};
-
-export const SubsetIdForm = () => {
-    const { subset } = useContext(AppContext);
-    const { t } = useTranslation();
-
-    const [exist,,, setPathExist] = useGetSubset();
-
-    useEffect(() => {
-        subset.draft.version === '1'
-        && subset.draft.administrativeStatus === 'INTERNAL'
-        && subset.draft.id?.length > 0
-        && setPathExist(subset.draft.id);
-    }, [subset.draft.id]);
-
-    return (
-        <>
-            <label htmlFor='shortName'>ID:</label>
-            <input type='text'
-                   id='shortName'
-                   name='shortName'
-                   value={subset.draft.id}
-                // DOCME
-                   maxLength='128'
-                   onChange={(event) => {
-                       setPathExist(event.target.value);
-                       subset.dispatch({
-                           action: 'shortName_update',
-                           data: event.target.value
-                       });
-                   }}
-                   style={{margin: '0 5px'}}
-                   disabled={subset.draft.administrativeStatus !== 'INTERNAL'
-                   || subset.draft.version !== '1'}
-            />
-            { subset.draft.id?.length > 0 && exist && !exist.error &&
-            <div className='ssb-input-error ' style={{width: '25%', position: 'absolute'}}>
-                <span style={{padding: '0 10px 0 0'}}>{t('Already used ID')}</span>
-            </div>
-            }
-        </>
     );
 };
