@@ -2,15 +2,17 @@ import {toId, sanitize} from '../utils/strings';
 import {subsetDraft} from './defaults';
 
 export function Subset (data) {
-    const init  = {
-        id: '',
-        name: [],
-        shortName: '',
-        administrativeStatus: 'INTERNAL',
-        validFrom: null,
-        validUntil: null,
-        createdBy: '',
-        administrativeDetails: [
+    console.log({_data: data})
+    const _subset  = {
+        _id: data?.id || '',
+        name: data?.name || [],
+        shortName: data?.shortName || '',
+        administrativeStatus: data?.administrativeStatus || 'INTERNAL',
+        validFrom: data?.validFrom || null,
+        validUntil: data?.validUntil || null,
+        createdBy: data?.createdBy || '',
+        administrativeDetails: data?.administrativeDetails
+            || [
             {
                 administrativeDetailType: 'ANNOTATION',
                 values: []
@@ -20,27 +22,38 @@ export function Subset (data) {
                 values: []
             }
         ],
-        description: [],
-        version: '1',
-        versionRationale: [],
-        versionValidFrom: null,
-        versionValidUntil: null, // just for local use, not part of Classification scheme
-        codes: []
+        description: data?.description || [],
+        version: data?.version || '1',
+        versionRationale: data?.versionRationale || [],
+        versionValidFrom: data?.versionValidFrom || null,
+        versionValidUntil: data?.versionValidUntil || null, // just for local use, not part of Classification scheme
+        codes: data?.codes || []
     }
 
-    const subset = {...init, ...data};
-
-    return Object.assign(
-        subset,
-        editable(subset),
-        updatable(subset)
+    Object.assign(
+        _subset,
+        editable(_subset),
+        updatable(_subset)
     );
+
+    Object.defineProperty(_subset, 'id', {
+        get: () => { return _subset._id },
+        set: (id) => {
+            console.log('set id', id);
+            if (_subset.isEditableId()) {
+                _subset._id = toId(id);
+                _subset.updateShortName(id);
+            }
+        }
+    });
+
+    return _subset;
 }
 
 const editable = (state) => ({
     isEditableId() {
-        return state.administrativeStatus === 'INTERNAL'
-            && state.version === '1';
+        return state._administrativeStatus === 'INTERNAL'
+            && state._version === '1';
     },
 
     isEditableShortName() {
@@ -62,16 +75,16 @@ const updatable = (state) => ({
 
     updateShortName(shortName) {
         if (state.isEditableShortName()) {
-            state.shortName = sanitize(shortName, subsetDraft.maxLengthShortName);
+            state._shortName = sanitize(shortName, subsetDraft.maxLengthShortName);
         }
     },
 
     updateNameTextByIndex(index, text) {
         if (state.isEditableName()
             && index >= 0 && index < state.name.length) {
-            state.name[index].languageText = sanitize(text, subsetDraft.maxLengthName);
-            if (!state.shortName && state.name.length > 0) {
-                state.updateId(toId(text));
+            state._name[index].languageText = sanitize(text, subsetDraft.maxLengthName);
+            if (!state._shortName && state._name.length > 0) {
+                state.id = toId(text);
             }
         }
     }

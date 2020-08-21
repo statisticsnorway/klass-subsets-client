@@ -84,7 +84,7 @@ export const useSubset = (init = Subset()) => {
                 });
             }
             case 'shortName_update': {
-                state.updateId(data);
+                state.id = data;
                 setErrors(prev => ({
                     ...prev,
                     id: validate.id(state.id)
