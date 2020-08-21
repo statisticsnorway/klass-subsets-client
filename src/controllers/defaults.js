@@ -8,6 +8,7 @@ export const subsetDraft = {
     namePrefix: 'Uttrekk for ',
     maxLengthId: 128,
     maxLengthName: 250,
+    maxLengthShortName: 250,
     maxLengthDescription: 2500,
     maxLengthVersionRationale: 2500
 };

@@ -1,26 +1,5 @@
-/* experiment 1
-function Subset (id, name) {
-    let init = {
-        id: '',
-        name: 'Stephanie',
-    }
-
-    return Object.assign(
-        init,
-        eater(init)
-    )
-}
-
-const eater = (state) => ({
-    eat(amount) {
-        console.log(`${state.name} is eating.`)
-        state.energy += amount
-    }
-})*/
-
-
-
 import {toId, sanitize} from '../utils/strings';
+import {subsetDraft} from './defaults';
 
 export function Subset (data) {
     const init  = {
@@ -83,14 +62,14 @@ const updatable = (state) => ({
 
     updateShortName(shortName) {
         if (state.isEditableShortName()) {
-            state.shortName = sanitize(shortName);
+            state.shortName = sanitize(shortName, subsetDraft.maxLengthShortName);
         }
     },
 
     updateNameTextByIndex(index, text) {
         if (state.isEditableName()
             && index >= 0 && index < state.name.length) {
-            state.name[index].languageText = sanitize(text.substring(0, ));
+            state.name[index].languageText = sanitize(text, subsetDraft.maxLengthName);
             if (!state.shortName && state.name.length > 0) {
                 state.updateId(toId(text));
             }
