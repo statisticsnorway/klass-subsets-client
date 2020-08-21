@@ -5,7 +5,6 @@ import {Classification} from './Classification';
 import {useTranslation} from 'react-i18next';
 import {useGet} from '../../controllers/klass-api';
 import {URL} from '../../controllers/klass-api';
-import {SubsetBrief} from '../SubsetBrief';
 import '../../css/list.css';
 
 /*
@@ -31,7 +30,11 @@ export const Step_3_ChooseCodes = ({subset}) => {
     /* TODO: tooltips for classification icons */
     return (<>
             <Title size={3}>{t('Choose classifications and code lists')}</Title>
-            <SubsetBrief />
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+                {t('Version')}: <strong>{draft.version || '-'}  </strong>
+                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
+            </p>
 
             <Paragraph>
                 {t('All search results will be restricted by validity period set for the version')}{

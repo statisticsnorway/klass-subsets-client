@@ -6,7 +6,6 @@ import {Dropdown, TextLanguageFieldset} from './forms';
 import {useGet} from '../../controllers/subsets-service';
 import Spinner from '../Spinner';
 import {HelpCircle} from 'react-feather';
-import {SubsetBrief} from '../SubsetBrief';
 
 /*
  *  FIXME: sanitize input
@@ -49,7 +48,11 @@ export const Step_2_Versions = ({subset}) => {
     return (
         <>
             <Title size={3}>{t('Versions')}</Title>
-            <SubsetBrief />
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
+                {t('Version')}: <strong>{draft.version || '-'}  </strong>
+                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
+                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
+            </p>
 
             {isLoadingVersions
                 ? <Spinner/>
