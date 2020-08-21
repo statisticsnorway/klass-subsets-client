@@ -18,5 +18,5 @@ export const toId = text => {
 };
 
 export const sanitize = text => {
-    return text.replace(/[^A-ZÆØÅa-zæøå0-9- _]*/g, '');
+    return text.replace(/[^A-ZÆØÅa-zæøå0-9-.,; _]*/g, '');
 };

@@ -18,6 +18,8 @@ const eater = (state) => ({
     }
 })*/
 
+
+
 import {toId, sanitize} from '../utils/strings';
 
 export function Subset (data) {
@@ -64,6 +66,10 @@ const editable = (state) => ({
 
     isEditableShortName() {
         return true;
+    },
+
+    isEditableName() {
+        return true;
     }
 });
 
@@ -78,6 +84,16 @@ const updatable = (state) => ({
     updateShortName(shortName) {
         if (state.isEditableShortName()) {
             state.shortName = sanitize(shortName);
+        }
+    },
+
+    updateNameTextByIndex(index, text) {
+        if (state.isEditableName()
+            && index >= 0 && index < state.name.length) {
+            state.name[index].languageText = sanitize(text.substring(0, ));
+            if (!state.shortName && state.name.length > 0) {
+                state.updateId(toId(text));
+            }
         }
     }
 });

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {AppContext} from '../controllers/context';
 import {useTranslation} from 'react-i18next';
-import {SubsetIdForm} from './subsetForm/forms';
+import {SubsetIdForm} from './subsetForm/Step_1_Metadata';
 
 export const Brief = ({id, version, lastUpdatedDate, status}) => {
     const { t } = useTranslation();

@@ -5,7 +5,11 @@ export const languages = [
 ];
 
 export const subsetDraft = {
-    namePrefix: 'Uttrekk for '
+    namePrefix: 'Uttrekk for ',
+    maxLengthId: 128,
+    maxLengthName: 250,
+    maxLengthDescription: 2500,
+    maxLengthVersionRationale: 2500
 };
 
 // TODO: defaults for subset description in different languages

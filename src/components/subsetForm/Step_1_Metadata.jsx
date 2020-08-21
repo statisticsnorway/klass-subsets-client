@@ -8,10 +8,10 @@ import {useGet} from '../../controllers/klass-api';
 import {HelpCircle} from 'react-feather';
 import {SubsetBrief} from '../SubsetBrief';
 import {AppContext} from '../../controllers/context';
+import {useGet as useGetSubset} from '../../controllers/subsets-service';
 
 /*
  *  TODO: select components (2) from the ssb-component-library
- *  FIXME: sanitize input
  */
 
 export const Step_1_Metadata = () => {
@@ -26,6 +26,48 @@ export const Step_1_Metadata = () => {
             <SubsetSectionForm />
             <SubsetSubjectForm />
             <SubsetDescriptionForm />
+        </>
+    );
+};
+
+
+export const SubsetIdForm = () => {
+    const { subset } = useContext(AppContext);
+    const { t } = useTranslation();
+
+    const [exist,,, setPathExist] = useGetSubset();
+
+    useEffect(() => {
+        subset.draft.version === '1'
+        && subset.draft.administrativeStatus === 'INTERNAL'
+        && subset.draft.id?.length > 0
+        && setPathExist(subset.draft.id);
+    }, [subset.draft.id]);
+
+    return (
+        <>
+            <label htmlFor='shortName'>ID:</label>
+            <input type='text'
+                   id='shortName'
+                   name='shortName'
+                   value={subset.draft.id}
+                   maxLength='128'
+                   onChange={(event) => {
+                       setPathExist(event.target.value);
+                       subset.dispatch({
+                           action: 'shortName_update',
+                           data: event.target.value
+                       });
+                   }}
+                   style={{margin: '0 5px'}}
+                   disabled={subset.draft.administrativeStatus !== 'INTERNAL'
+                   || subset.draft.version !== '1'}
+            />
+            { subset.draft.id?.length > 0 && exist && !exist.error &&
+            <div className='ssb-input-error ' style={{width: '25%', position: 'absolute'}}>
+                <span style={{padding: '0 10px 0 0'}}>{t('Already used ID')}</span>
+            </div>
+            }
         </>
     );
 };
@@ -58,7 +100,7 @@ export const SubsetNameForm = () => {
                                 size={{cols: 65, rows: 1}}
                                 prefix={subsetDraft?.namePrefix}
                                 errorMessages={errors?.name}
-                                maxLength={250}
+                                maxLength={subsetDraft.maxLengthName}
         />
     );
 };
@@ -226,7 +268,7 @@ export const SubsetDescriptionForm = () => {
                                   action: 'description_lang', data: {index, lang}})}
                               size = {{cols: 65, rows: 4}}
                               errorMessages={errors?.description}
-                              maxLength={2500}
+                              maxLength={subsetDraft.maxLengthDescription}
         />
     );
 };

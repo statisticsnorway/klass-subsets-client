@@ -50,27 +50,12 @@ export const useSubset = (init = Subset()) => {
                 return state;
             }
             case 'name_text': {
-                if (data.index < 0 || data.index >= state.name.length) {
-                    return state;
-                }
-                // FIXME: restrict input, validate input
-                const nextName = state.name;
-                nextName[data.index].languageText = data.text;
-                const nextState = Subset({
-                    ...state,
-                    name: nextName,
-                    id: !state.shortName
-                        && state.administrativeStatus === 'INTERNAL'
-                        && state.version === '1'
-                        && nextName.length > 0
-                            ? toId(nextName[0].languageText)
-                            : state.id
-                });
+                state.updateNameTextByIndex(data.index, data.text);
                 setErrors(prev => ({
                     ...prev,
-                    id: validate.id(nextState.id)
+                    id: validate.id(state.id)
                 }));
-                return nextState;
+                return Subset({...state});
             }
             case 'name_lang': {
                 if (!data.lang || data.index < 0 || data.index >= state.name.length) {
