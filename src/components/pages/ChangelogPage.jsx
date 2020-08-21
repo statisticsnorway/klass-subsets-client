@@ -23,7 +23,7 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
-           <Title size={4}>v0.4.5</Title>
+           <Title size={4}>v0.4.5 og v0.4.6</Title>
            <Paragraph>Adjusted to the new response structure from the subset service.</Paragraph>
 
            <Title size={4}>v0.4.4</Title>
