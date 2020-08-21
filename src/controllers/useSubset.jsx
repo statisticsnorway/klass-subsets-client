@@ -2,7 +2,6 @@ import {useState, useReducer, useEffect} from 'react';
 import {nextDefaultName} from '../internationalization/languages';
 import {URN} from './klass-api';
 import {validate} from './validator';
-import {toId} from '../utils/strings';
 import {Subset} from './Subset';
 
 export const useSubset = (init = Subset()) => {
@@ -432,48 +431,3 @@ export const useSubset = (init = Subset()) => {
 
     return {draft, dispatch, errors};
 };
-
-/* experiment 1
-export const useSubset2 = (init = Subset({})) => {
-
-    function subsetReducer(state, {action, data = {}}) {
-        console.info({action, data});
-        switch (action) {
-            case 'setName': {
-                return Subset({...state, name: data});
-            }
-            case 'setId': {
-                console.log(state.eat(data));
-                state.updateId = data;
-                return Subset({...state});
-            }
-            default:
-                return state;
-        }
-    }
-    const [draft, dispatch] = useReducer(subsetReducer, init);
-
-    return {draft, dispatch};
-};
-
-function Subset ({id = 'myID', name = 'Stephanie'}) {
-    let init = {
-        id,
-        name,
-        set updateId(x) {
-            this.id = x;
-        }
-    };
-
-    return Object.assign(
-        init,
-        eater(init)
-    )
-}
-
-const eater = (state) => ({
-    eat(amount) {
-        console.log(`${state.name} is eating.`)
-        return state.id + amount;
-    }
-})*/

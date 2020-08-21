@@ -14,3 +14,10 @@ export const subsetDraft = {
 };
 
 // TODO: defaults for subset description in different languages
+
+export const STATUS_ENUM = [
+    'DEPRECATED',
+    'DRAFT',
+    'INTERNAL',
+    'OPEN'
+];

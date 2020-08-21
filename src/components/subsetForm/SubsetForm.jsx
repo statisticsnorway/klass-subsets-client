@@ -11,7 +11,6 @@ import {useTranslation} from 'react-i18next';
 
 export default function SubsetForm() {
     const {subset} = useContext(AppContext);
-    //const {subset2} = useContext(AppContext);
     const { t } = useTranslation();
 
     return (
@@ -31,26 +30,6 @@ export default function SubsetForm() {
                     <Step_5_Publish subset={subset} />
                 </Step>
             </Navigation>
-
-            {/* experiment 1
-            <p>{subset2.draft.name}</p>
-            <p>{subset2.draft.id}</p>
-            <p>{subset2.draft.eat(5)}</p>
-            <button onClick={() => subset2.dispatch(
-                {
-                    action: 'setName',
-                    data: 'Benjamin'
-                }
-            )}
-            >update name</button>
-            <button onClick={() => subset2.dispatch(
-                {
-                    action: 'setId',
-                    data: '111'
-                }
-            )}
-            >update ID</button>*/}
-
         </div>
     );
 }
