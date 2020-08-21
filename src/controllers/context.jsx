@@ -32,14 +32,14 @@ export const ContextProvider = ({ children }) => {
             []
     );
 
-    const subset2 = useSubset2();
-    useEffect(() => console.log({ newState2: subset2.draft }),[subset2.draft]);
+    /*const subset2 = useSubset2();
+    useEffect(() => console.log({ newState2: subset2.draft }),[subset2.draft]);*/
 
     const subset = useSubset();
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
 
     return (
-        <AppContext.Provider value={{subset2, errorRegister}}>
+        <AppContext.Provider value={{subset, errorRegister}}>
             {children}
         </AppContext.Provider>
     );

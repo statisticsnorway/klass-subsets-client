@@ -3,7 +3,7 @@ export const validate = {
     id(id) {
         return !id || !(typeof id === 'string' || id instanceof String)
             ? ['ID is a mandatory field']
-            : !(/([a-z0-9])$/.test(id))
+            : !(/([a-z0-9-_])$/.test(id))
                 ? ['Only lower case letters, numbers, dashes, and underscores are allowed']
                 : [];
     },
