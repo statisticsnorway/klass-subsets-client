@@ -25,12 +25,8 @@ import {useErrorRegister} from './useErrorRegister';
 export const AppContext = createContext({});
 
 // TODO: backup the context in session storage every 1 min?
-// TODO: remove draft from session storage after successful submitting to the server
 export const ContextProvider = ({ children }) => {
-    const errorRegister = useErrorRegister(
-        /* FIXME: for visible test purposes. Remove before release! */
-            []
-    );
+    const errorRegister = useErrorRegister([]);
 
     const subset = useSubset();
     useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
