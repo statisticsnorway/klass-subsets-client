@@ -1,3 +1,4 @@
+/* experiment 1
 function Subset (id, name) {
     let init = {
         id: '',
@@ -15,4 +16,4 @@ const eater = (state) => ({
         console.log(`${state.name} is eating.`)
         state.energy += amount
     }
-})
+})*/

@@ -476,6 +476,7 @@ export const useSubset = (init =  {
     return {draft, dispatch, errors};
 };
 
+/* experiment 1
 export const useSubset2 = (init = Subset({})) => {
 
     function subsetReducer(state, {action, data = {}}) {
@@ -518,4 +519,4 @@ const eater = (state) => ({
         console.log(`${state.name} is eating.`)
         return state.id + amount;
     }
-})
+})*/

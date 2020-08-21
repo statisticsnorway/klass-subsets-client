@@ -28,7 +28,8 @@ export const AppContext = createContext({});
 export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister([]);
 
-    /*const subset2 = useSubset2();
+    /* experiment 1
+    const subset2 = useSubset2();
     useEffect(() => console.log({ newState2: subset2.draft }),[subset2.draft]);*/
 
     const subset = useSubset();

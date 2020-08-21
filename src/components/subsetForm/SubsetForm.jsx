@@ -32,7 +32,8 @@ export default function SubsetForm() {
                 </Step>
             </Navigation>
 
-            {/*  <p>{subset2.draft.name}</p>
+            {/* experiment 1
+            <p>{subset2.draft.name}</p>
             <p>{subset2.draft.id}</p>
             <p>{subset2.draft.eat(5)}</p>
             <button onClick={() => subset2.dispatch(
