@@ -25,8 +25,8 @@ export function Subset (data) {
         description: data?.description || [],
         _version: data?.version || data?._version || '1',
         versionRationale: data?.versionRationale || [],
-        _versionValidFrom: data?.versionValidFrom || data?._versionValidFrom || null,
-        versionValidUntil: data?.versionValidUntil || null, // just for local use, not part of Classification scheme
+        versionValidFrom: data?.versionValidFrom || null,
+        _versionValidUntil: data?.versionValidUntil || data?._versionValidUntil || null,
         codes: data?.codes || [],
         lastUpdatedDate: data?.lastUpdatedDate || null,
         _previousSubsets: data?._previousSubsets || []
@@ -40,8 +40,10 @@ export function Subset (data) {
     );
 
     Object.defineProperty(subset, 'id', {
-        get: () => { return subset._id },
+        get: () => { return subset._id; },
         set: (id = '') => {
+            console.debug('Set id', id);
+
             if (subset.isEditableId()) {
                 subset._id = sanitize(toId(id), subsetDraft?.maxLengthId);
             }
@@ -49,8 +51,10 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'shortName', {
-        get: () => { return subset._shortName },
+        get: () => { return subset._shortName; },
         set: (shortName = '') => {
+            console.debug('Set shortName', shortName);
+
             if (subset.isEditableShortName()) {
                 subset._shortName = sanitize(shortName, subsetDraft?.maxLengthShortName);
                 subset.id = shortName;
@@ -61,6 +65,8 @@ export function Subset (data) {
     Object.defineProperty(subset, 'name', {
         get: () => { return subset._name },
         set: (name = []) => {
+            console.debug('Set name', name);
+
             if (subset.isEditableName()) {
                 subset._name = name;
             }
@@ -68,8 +74,10 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'administrativeStatus', {
-        get: () => { return subset._administrativeStatus },
+        get: () => { return subset._administrativeStatus; },
         set: (status = '') => {
+            console.debug('Set administrativeStatus', status);
+
             if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
                 subset._administrativeStatus = status;
             }
@@ -77,14 +85,16 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'isPublished', {
-        get: () => { return subset._administrativeStatus  === 'OPEN' },
+        get: () => { return subset._administrativeStatus  === 'OPEN'; },
     });
 
     Object.defineProperty(subset, 'validFrom', {
-        get: () => { return subset._validFrom },
+        get: () => { return subset._validFrom; },
         set: (date = null) => {
+            console.debug('Set validFrom', date);
+
             if (subset.isEditableValidFrom()
-                && subset.isInAxceptablePeriod(date))
+                && subset.isInAcceptablePeriod(date))
             {
                 subset._validFrom = date;
                 if (subset.isNew()) {
@@ -95,20 +105,31 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'version', {
-        get: () => { return subset._version }
-    });
-
-    Object.defineProperty(subset, 'versionValidFrom', {
-        get: () => { return subset._versionValidFrom },
-        set: (date = null) => {
-        }
+        get: () => { return subset._version; }
     });
 
     Object.defineProperty(subset, 'previousSubsets', {
-        get: () => { return subset._previousSubsets },
+        get: () => { return subset._previousSubsets; },
         set: (list = []) => {
-            // FIXME: restrict, validate
-            subset._previousSubsets = list;
+            console.debug('Set previousSubsets', list);
+
+            // FIXME: restrict, validate the list
+            subset._previousSubsets = list.sort((a, b) =>
+                a.versionValidFrom < b.versionValidFrom ? -1 :
+                    a.versionValidFrom > b.versionValidFrom ? 1 : 0);
+
+            subset.versionValidUntil = subset.calculateVersionValidUntil();
+        }
+    });
+
+    Object.defineProperty(subset, 'versionValidUntil', {
+        get: () => { return subset._versionValidUntil; },
+        set: (date = null) => {
+            console.debug('Set versionValidUntil', date);
+
+            if (!date || subset.isInAcceptablePeriod(date)) {
+                subset._versionValidUntil = date;
+            }
         }
     });
 
@@ -180,6 +201,8 @@ const updatable = (state = {}) => ({
         if (state.isEditableName()
             && index >= 0 && index < state._name?.length)
         {
+            console.debug('updateNameTextByIndex', index, text);
+
             state._name[index].languageText = sanitize(text, subsetDraft?.maxLengthName);
             if (!state.shortName && state.name?.length > 0) {
                 state.id = toId(text);
@@ -190,8 +213,10 @@ const updatable = (state = {}) => ({
     updateNameLanguageByIndex(index = -1, lang = '') {
         if (state.isEditableName()
             && index >= 0 && index < state.name?.length
-            && state.isAxceptableLanguageCode(lang))
+            && state.isAcceptableLanguageCode(lang))
         {
+            console.debug('updateNameLanguageByIndex', index, lang);
+
             state._name[index].languageCode = lang;
         }
     },
@@ -200,6 +225,8 @@ const updatable = (state = {}) => ({
         if (state.isEditableName()
             && state.name?.length < LANGUAGE_CODE_ENUM.length)
         {
+            console.debug('addName', name);
+
             state._name.push(name);
         }
     },
@@ -208,20 +235,37 @@ const updatable = (state = {}) => ({
         if (state.isEditableName()
             && index >= 0 && index < state._name?.length)
         {
+            console.debug('removeNameByIndex', index);
+
             state._name = state.name?.filter((item, i) => i !== index)
         }
+    },
+
+    calculateVersionValidUntil() {
+        console.debug('calculateVersionValidUntil');
+
+        const exists = state.previousSubsets?.find(v => v.version === state.version);
+        if (exists) {
+            const next = state.previousSubsets.filter(v => v.versionValidFrom > exists.versionValidFrom)
+                .sort((a, b) =>
+                    a.versionValidFrom < b.versionValidFrom ? -1 :
+                        a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
+
+            return next?.versionValidFrom || state._versionValidUntil || null
+        }
+        return state._versionValidUntil;
     }
 
 });
 
 const restrictable = (state = {}) => ({
 
-    isInAxceptablePeriod(date) {
+    isInAcceptablePeriod(date) {
         return date >= axceptablePeriod.from
             && date < axceptablePeriod.until;
     },
     
-    isAxceptableLanguageCode(lang) {
+    isAcceptableLanguageCode(lang) {
         return LANGUAGE_CODE_ENUM.includes(lang);
     }
     

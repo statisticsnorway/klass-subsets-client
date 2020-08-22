@@ -158,7 +158,6 @@ export const useSubset = (init = Subset()) => {
                 return nextState;
             }
             case 'version_to': {
-                // FIXME: restrictions
                 setErrors(prev => ({
                         ...prev,
                         period: validate.period(state.validFrom, data),
@@ -166,6 +165,10 @@ export const useSubset = (init = Subset()) => {
                     }
                 ));
                 return Subset({...state, versionValidUntil: data, validUntil: data});
+            }
+            case 'previous_versions': {
+                state.previousSubsets = data;
+                return Subset({...state});
             }
             case 'version_rationale_add': {
                 const vr = nextDefaultName(state.versionRationale);
@@ -201,7 +204,7 @@ export const useSubset = (init = Subset()) => {
                     versionRationale: nextDescription
                 });
             }
-            case 'version_switch': {
+            case '': {
                 const {chosenVersion, versions} = data;
                 if (chosenVersion === 'New version') {
                     const latest = versions.sort((a,b) =>

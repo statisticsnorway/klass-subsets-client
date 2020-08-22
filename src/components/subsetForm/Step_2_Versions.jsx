@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../css/form.css';
-import {useTranslation} from 'react-i18next';
-import {Paragraph, Title} from '@statisticsnorway/ssb-component-library';
-import {Dropdown, TextLanguageFieldset} from './forms';
-import {useGet} from '../../controllers/subsets-service';
+import { useTranslation } from 'react-i18next';
+import { Paragraph, Title } from '@statisticsnorway/ssb-component-library';
+import { Dropdown, TextLanguageFieldset } from './forms';
+import { useGet } from '../../controllers/subsets-service';
 import Spinner from '../Spinner';
-import {HelpCircle} from 'react-feather';
-import {SubsetBrief} from "../SubsetBrief";
+import { HelpCircle } from 'react-feather';
+import { SubsetBrief } from "../SubsetBrief";
 
 /*
  *  FIXME: sanitize input
@@ -14,9 +14,9 @@ import {SubsetBrief} from "../SubsetBrief";
 
 export const Step_2_Versions = ({subset}) => {
 
-    const {draft, dispatch, errors} = subset;
-    const {t} = useTranslation();
-    const [showHelp, setShowHelp] = useState(false);
+    const { draft, dispatch, errors } = subset;
+    const { t } = useTranslation();
+    const [ showHelp, setShowHelp ] = useState(false);
 
     useEffect(() => {
         draft.versionRationale?.length === 0
@@ -31,20 +31,12 @@ export const Step_2_Versions = ({subset}) => {
 
     useEffect(() => {
         if (versions && !versions.error) {
-            const exists = versions.find(v => v.version === draft.version);
-            if (exists) {
-                const next = versions.filter(v => v.versionValidFrom > exists.versionValidFrom)
-                    .sort((a, b) =>
-                        a.versionValidFrom < b.versionValidFrom ? -1 :
-                            a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
-
-                dispatch({
-                    action: 'version_to',
-                    data: next?.versionValidFrom || draft.versionValidUntil || null
-                });
-            }
+            dispatch({
+                action: 'previous_versions',
+                data: versions
+            });
         }
-    }, [versions]);
+    }, [ versions, dispatch ]);
 
     return (
         <>
