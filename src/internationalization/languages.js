@@ -6,7 +6,6 @@ export function availableLanguages() {
 }
 
 export function nextDefaultName(items) {
-    console.debug('nextDefaultName', items);
     if (items.length < 1) {
         return {
             languageText: '',

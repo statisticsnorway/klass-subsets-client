@@ -74,8 +74,6 @@ export const SubsetNameForm = () => {
     const { draft, dispatch, errors } = subset;
 
     useEffect(() => {
-        console.log('add fired in SubsetNameForm', draft.name?.length);
-
         draft.name?.length === 0
         && dispatch({action: 'name_add'});
 
