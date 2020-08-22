@@ -2,7 +2,7 @@ import { useReducer, useEffect } from 'react';
 import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
 import { validate } from './validator';
-import { Subset } from './Subset';
+import { Subset } from './Subset.prototype';
 
 let errors = {
     id: [],
