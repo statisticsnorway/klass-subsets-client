@@ -35,10 +35,6 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'name_text': {
             state.updateNameTextByIndex(data.index, data.text);
-            /*setErrors(prev => ({
-                ...prev,
-                id: validate.id(state.id)
-            }));*/
             errors = { ...errors, id: validate.id(state.id)};
             return Subset({...state});
         }
@@ -58,19 +54,11 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'shortName_update': {
             state.shortName = data;
-            /*setErrors(prev => ({
-                ...prev,
-                id: validate.id(state.id)
-            }));*/
             errors = { ...errors, id: validate.id(state.id) };
             return Subset({...state});
         }
         case 'from': {
             state.validFrom = data;
-            /*setErrors(prev => ({
-                ...prev,
-                period: validate.period(data, state.validUntil)
-            }));*/
             errors = { ...errors, period: validate.period(data, state.validUntil) };
             return Subset({...state});
         }
@@ -79,11 +67,6 @@ function subsetReducer(state, {action, data = {}}) {
             // FIXME: restrictions
             if ((!versions || versions.length === 0) && state.version === '1') {
                 console.info('Very first version');
-                /*setErrors(prev => ({
-                    ...prev,
-                    versionValidFrom: validate.versionValidFrom(state.validFrom, state.validUntil, date),
-                    versionPeriod: validate.period(date, state.validUntil)
-                }));*/
                 errors = { ...errors,
                     versionValidFrom: validate.versionValidFrom(state.validFrom, state.validUntil, date),
                     versionPeriod: validate.period(date, state.validUntil)
@@ -106,13 +89,6 @@ function subsetReducer(state, {action, data = {}}) {
                     versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil,
                     validUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil
                 });
-                /*setErrors(prev => ({
-                    ...prev,
-                    versionValidFrom: validate.versionValidFrom(nextState.validFrom, latest?.validUntil, nextState.versionValidFrom),
-                    versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
-                    validFrom: validate.validFrom(nextState.validFrom),
-                    period: validate.period(nextState.validFrom, nextState.validUntil)
-                }));*/
                 errors = { ...errors,
                     versionValidFrom: validate.versionValidFrom(nextState.validFrom, latest?.validUntil, nextState.versionValidFrom),
                     versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
@@ -131,13 +107,6 @@ function subsetReducer(state, {action, data = {}}) {
                     validFrom: date,
                     versionValidUntil: latest?.validFrom
                 });
-                /*setErrors(prev => ({
-                    ...prev,
-                    versionValidFrom: validate.versionValidFrom(nextState.validFrom, nextState.validUntil, nextState.versionValidFrom),
-                    versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
-                    validFrom: validate.validFrom(nextState.validFrom),
-                    period: validate.period(nextState.validFrom, nextState.validUntil)
-                }));*/
                 errors = { ...errors,
                     versionValidFrom: validate.versionValidFrom(nextState.validFrom, nextState.validUntil, nextState.versionValidFrom),
                     versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
@@ -154,22 +123,15 @@ function subsetReducer(state, {action, data = {}}) {
                 versionValidFrom: date,
                 versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil
             });
-            /*setErrors( prev => ({
-                ...prev,
-                versionValidFrom: validate.versionValidFrom(nextState.validFrom, latest?.validUntil || nextState.versionValidUntil || latest?.versionValidFrom, nextState.versionValidFrom),
+            errors = { ...errors,
+                versionValidFrom: validate.versionValidFrom(nextState.validFrom, nextState.validUntil, nextState.versionValidFrom),
                 versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
                 validFrom: validate.validFrom(nextState.validFrom),
                 period: validate.period(nextState.validFrom, nextState.validUntil)
-            }));*/
+            };
             return nextState;
         }
         case 'version_to': {
-            /*setErrors(prev => ({
-                    ...prev,
-                    period: validate.period(state.validFrom, data),
-                    versionPeriod: validate.period(state.versionValidFrom, data)
-                }
-            ));*/
             errors = { ...errors,
                 period: validate.period(state.validFrom, data),
                 versionPeriod: validate.period(state.versionValidFrom, data)
@@ -252,11 +214,6 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'to': {
             // FIXME: restrictions
-            /*setErrors(prev => ({
-                    ...prev,
-                    period: validate.period(state.validFrom, data)
-                }
-            ));*/
             errors = { ...errors,
                 period: validate.period(state.validFrom, data)
             };
