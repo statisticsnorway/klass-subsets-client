@@ -56,7 +56,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     />
 
                     <button disabled={!(index === items.length - 1 && index < languages.length - 1)}
-                            onClick={() => add()}>
+                            onClick={add}>
                         <PlusSquare color={(index === items.length - 1 && index < languages.length - 1)
                             ? '#1A9D49' : '#C3DCDC'}/>
                     </button>
@@ -68,7 +68,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                 </div>))
             }
             {items.length === 0 &&
-            <button onClick={() => add()}>
+            <button onClick={add}>
                 <PlusSquare color='#1A9D49'/>
             </button>}
         </div>

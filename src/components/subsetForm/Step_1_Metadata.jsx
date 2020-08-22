@@ -10,10 +10,6 @@ import {SubsetBrief} from '../SubsetBrief';
 import {AppContext} from '../../controllers/context';
 import {useGet as useGetSubset} from '../../controllers/subsets-service';
 
-/*
- *  TODO: select components (2) from the ssb-component-library
- */
-
 export const Step_1_Metadata = () => {
     const { t } = useTranslation();
 
@@ -78,6 +74,8 @@ export const SubsetNameForm = () => {
     const { draft, dispatch, errors } = subset;
 
     useEffect(() => {
+        console.log('add fired in SubsetNameForm', draft.name?.length);
+
         draft.name?.length === 0
         && dispatch({action: 'name_add'});
 
@@ -86,11 +84,13 @@ export const SubsetNameForm = () => {
         };
     }, []);
 
-    // DOCME: max name length
     return (
         <TextLanguageFieldset title={t('Names')}
                                 items={draft?.name}
-                                add={() => dispatch({action: 'name_add'})}
+                                add={() => {
+                                    console.log('add fired in TextLanguageFieldset');
+                                    dispatch({action: 'name_add'});
+                                }}
                                 remove={(index) => dispatch({
                                     action: 'name_remove', data: index})}
                                 handleText={(index, text) => dispatch({

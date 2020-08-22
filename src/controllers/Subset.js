@@ -63,7 +63,11 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'name', {
-        get: () => { return subset._name },
+        get: () => {
+            console.debug('Get name', subset._name);
+
+            return subset._name
+        },
         set: (name = []) => {
             console.debug('Set name', name);
 
@@ -227,7 +231,7 @@ const updatable = (state = {}) => ({
         {
             console.debug('addName', name);
 
-            state._name.push(name);
+            state._name = [ ...state._name, name ];
         }
     },
 
