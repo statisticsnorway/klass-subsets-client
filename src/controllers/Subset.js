@@ -101,6 +101,7 @@ export function Subset (data) {
                 && subset.isInAcceptablePeriod(date))
             {
                 subset._validFrom = date;
+                
                 if (subset.isNew()) {
                     subset.versionValidFrom = date;
                 }

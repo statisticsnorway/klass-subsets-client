@@ -12,7 +12,7 @@ import { SubsetBrief } from "../SubsetBrief";
  *  FIXME: sanitize input
  */
 
-export const Step_2_Versions = ({subset}) => {
+export const Step2Versions = ({subset}) => {
 
     const { draft, dispatch, errors } = subset;
     const { t } = useTranslation();

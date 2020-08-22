@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {Reorderable} from './reorderable';
 import {SubsetBrief} from "../SubsetBrief";
 
-export const Step_4_Reorder = ({subset}) => {
+export const Step4Reorder = ({subset}) => {
     const {draft, dispatch} = subset;
     const { t } = useTranslation();
 

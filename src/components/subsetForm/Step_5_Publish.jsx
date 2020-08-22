@@ -7,7 +7,7 @@ import {usePost, usePut} from '../../controllers/subsets-service';
 import {useHistory} from 'react-router-dom';
 import {SubsetBrief} from "../SubsetBrief";
 
-export const Step_5_Publish = ({subset}) => {
+export const Step5Publish = ({subset}) => {
     const {draft, dispatch, errors} = subset;
 
     const { t } = useTranslation();

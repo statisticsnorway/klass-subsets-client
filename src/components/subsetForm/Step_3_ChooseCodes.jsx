@@ -13,7 +13,7 @@ import {SubsetBrief} from "../SubsetBrief";
  *  FIXME: sanitize input
  */
 
-export const Step_3_ChooseCodes = ({subset}) => {
+export const Step3ChooseCodes = ({subset}) => {
 
     const {draft, dispatch} = subset;
 

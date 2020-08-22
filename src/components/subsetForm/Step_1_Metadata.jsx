@@ -10,7 +10,7 @@ import {SubsetBrief} from '../SubsetBrief';
 import {AppContext} from '../../controllers/context';
 import {useGet as useGetSubset} from '../../controllers/subsets-service';
 
-export const Step_1_Metadata = () => {
+export const Step1Metadata = () => {
     const { t } = useTranslation();
 
     return (

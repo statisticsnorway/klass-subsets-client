@@ -1,8 +1,8 @@
-import {useState, useReducer, useEffect} from 'react';
-import {nextDefaultName} from '../internationalization/languages';
-import {URN} from './klass-api';
-import {validate} from './validator';
-import {Subset} from './Subset';
+import { useReducer, useEffect } from 'react';
+import { nextDefaultName } from '../internationalization/languages';
+import { URN } from './klass-api';
+import { validate } from './validator';
+import { Subset } from './Subset';
 
 let errors = {
     id: [],
