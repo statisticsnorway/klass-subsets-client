@@ -95,13 +95,11 @@ export function Subset (data) {
     Object.defineProperty(subset, 'validFrom', {
         get: () => { return subset._validFrom; },
         set: (date = null) => {
-            console.debug('Set validFrom', date);
+            console.debug('Set validFrom', date, subset.isEditableValidFrom());
 
-            if (subset.isEditableValidFrom()
-                && subset.isInAcceptablePeriod(date))
-            {
+            if (subset.isEditableValidFrom()) {
                 subset._validFrom = date;
-                
+
                 if (subset.isNew()) {
                     subset.versionValidFrom = date;
                 }
