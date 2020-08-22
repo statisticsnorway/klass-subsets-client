@@ -65,10 +65,8 @@ export const useSubset = (init = Subset()) => {
                 return Subset({...state});
             }
             case 'name_remove': {
-                return Subset({
-                    ...state,
-                    name: state.name?.filter((item, index) => index !== data)
-                });
+                state.removeNameByIndex(data)
+                return Subset({...state});
             }
             case 'shortName_update': {
                 state.shortName = data;
@@ -79,15 +77,12 @@ export const useSubset = (init = Subset()) => {
                 return Subset({...state});
             }
             case 'from': {
-                // FIXME: restrictions
+                state.validFrom = data;
                 setErrors(prev => ({
                     ...prev,
                     period: validate.period(data, state.validUntil)
                 }));
-                return Subset({...state,
-                    validFrom: data,
-                    versionValidFrom: state.version === '1' ? data : state.versionValidFrom
-                });
+                return Subset({...state});
             }
             case 'version_from': {
                 const {date, versions} = data;

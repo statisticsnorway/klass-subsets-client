@@ -27,3 +27,8 @@ export const LANGUAGE_CODE_ENUM = [
     'nb',
     'nn'
 ];
+
+export const axceptablePeriod = {
+    from: new Date('1800-01-01'),
+    until: new Date('2300-01-01')
+};

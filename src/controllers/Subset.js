@@ -1,5 +1,5 @@
 import {toId, sanitize} from '../utils/strings';
-import {subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM} from './defaults';
+import {subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, axceptablePeriod} from './defaults';
 
 export function Subset (data) {
 
@@ -25,16 +25,18 @@ export function Subset (data) {
         description: data?.description || [],
         _version: data?.version || data?._version || '1',
         versionRationale: data?.versionRationale || [],
-        versionValidFrom: data?.versionValidFrom || null,
+        _versionValidFrom: data?.versionValidFrom || data?._versionValidFrom || null,
         versionValidUntil: data?.versionValidUntil || null, // just for local use, not part of Classification scheme
         codes: data?.codes || [],
-        lastUpdatedDate: data?.lastUpdatedDate || null
+        lastUpdatedDate: data?.lastUpdatedDate || null,
+        _previousSubsets: data?._previousSubsets || []
     }
 
     Object.assign(
         subset,
         editable(subset),
-        updatable(subset)
+        updatable(subset),
+        restrictable(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -78,12 +80,35 @@ export function Subset (data) {
         get: () => { return subset._administrativeStatus  === 'OPEN' },
     });
 
-    Object.defineProperty(subset, 'version', {
-        get: () => { return subset._version },
-        set: (version = '') => {
-            if (subset.isEditableVersion() && parseInt(version)) {
-                subset._version = version;
+    Object.defineProperty(subset, 'validFrom', {
+        get: () => { return subset._validFrom },
+        set: (date = null) => {
+            if (subset.isEditableValidFrom()
+                && subset.isInAxceptablePeriod(date))
+            {
+                subset._validFrom = date;
+                if (subset.isNew()) {
+                    subset.versionValidFrom = date;
+                }
             }
+        }
+    });
+
+    Object.defineProperty(subset, 'version', {
+        get: () => { return subset._version }
+    });
+
+    Object.defineProperty(subset, 'versionValidFrom', {
+        get: () => { return subset._versionValidFrom },
+        set: (date = null) => {
+        }
+    });
+
+    Object.defineProperty(subset, 'previousSubsets', {
+        get: () => { return subset._previousSubsets },
+        set: (list = []) => {
+            // FIXME: restrict, validate
+            subset._previousSubsets = list;
         }
     });
 
@@ -136,7 +161,15 @@ const editable = (state = {}) => ({
         return true;
     },
 
+    isEditableValidFrom() {
+        return this.isNew();
+    },
+
     isEditableVersion() {
+        return true;
+    },
+
+    isEditableVersionValidFrom() {
         return true;
     }
 });
@@ -157,16 +190,39 @@ const updatable = (state = {}) => ({
     updateNameLanguageByIndex(index = -1, lang = '') {
         if (state.isEditableName()
             && index >= 0 && index < state.name?.length
-            && LANGUAGE_CODE_ENUM.includes(lang))
+            && state.isAxceptableLanguageCode(lang))
         {
             state._name[index].languageCode = lang;
         }
     },
 
     addName(name) {
-        if (state.isEditableName() && name && state.name.length < LANGUAGE_CODE_ENUM.length) {
+        if (state.isEditableName()
+            && state.name?.length < LANGUAGE_CODE_ENUM.length)
+        {
             state._name.push(name);
+        }
+    },
+
+    removeNameByIndex(index) {
+        if (state.isEditableName()
+            && index >= 0 && index < state._name?.length)
+        {
+            state._name = state.name?.filter((item, i) => i !== index)
         }
     }
 
+});
+
+const restrictable = (state = {}) => ({
+
+    isInAxceptablePeriod(date) {
+        return date >= axceptablePeriod.from
+            && date < axceptablePeriod.until;
+    },
+    
+    isAxceptableLanguageCode(lang) {
+        return LANGUAGE_CODE_ENUM.includes(lang);
+    }
+    
 });
