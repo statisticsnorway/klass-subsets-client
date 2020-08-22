@@ -4,7 +4,7 @@ import {validate} from "./validator";
 
 export function Subset (data) {
 
-    const subset  = {
+    const subset = {
         _id: data?.id || data?._id || '',
         _shortName: data?.shortName || data?._shortName || '',
         _name: data?.name || data?._name || [],
@@ -31,23 +31,6 @@ export function Subset (data) {
         codes: data?.codes || [],
         lastUpdatedDate: data?.lastUpdatedDate || null,
         _previousSubsets: data?._previousSubsets || [],
-
-        _errors: data?._errors || {
-            id: [],
-            name: [],
-            validFrom: [],
-            validUntil: [],
-            period: [],
-            createdBy: [],
-            annotation: [],
-            description: [],
-            versionRationale: [],
-            versionValidFrom: [],
-            versionValidUntil: [],
-            versionPeriod: [],
-            origin: [],
-            codes: []
-        }
     }
 
     Object.assign(
@@ -156,9 +139,9 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'errors', {
         get: () => {
-            console.debug('Get versionValidUntil');
+            console.debug('Get errors', subset._errors);
 
-            return validate.subset(subset);
+            return subset._errors;
             }
     });
 
@@ -185,7 +168,7 @@ export function Subset (data) {
         }
     })
 
-    return subset;
+    return subset.validate();
 }
 
 const editable = (state = {}) => ({
@@ -279,7 +262,6 @@ const updatable = (state = {}) => ({
                 .sort((a, b) =>
                     a.versionValidFrom < b.versionValidFrom ? -1 :
                         a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
-
             return next?.versionValidFrom || state._versionValidUntil || null
         }
         return state._versionValidUntil;
@@ -296,6 +278,10 @@ const restrictable = (state = {}) => ({
     
     isAcceptableLanguageCode(lang) {
         return LANGUAGE_CODE_ENUM.includes(lang);
+    },
+
+    validate() {
+        state._errors = validate.subset(state);
+        return state;
     }
-    
 });

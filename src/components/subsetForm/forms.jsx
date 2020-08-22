@@ -45,7 +45,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     {errorMessages?.length > 0 &&
                         <div className='ssb-input-error '>
                             {errorMessages.map(error => (
-                                <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                                <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                             ))}
                         </div>
                     }

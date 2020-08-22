@@ -31,7 +31,6 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'name_text': {
             state.updateNameTextByIndex(data.index, data.text);
-            errors = { ...errors, id: validate.id(state.id)};
             return Subset({...state});
         }
         case 'name_lang': {
@@ -50,7 +49,7 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'shortName_update': {
             state.shortName = data;
-            errors = { ...errors, id: validate.id(state.id) };
+            //errors = { ...errors, id: validate.id(state.id) };
             return Subset({...state});
         }
         case 'from': {

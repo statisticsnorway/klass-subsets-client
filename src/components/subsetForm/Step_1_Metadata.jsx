@@ -71,7 +71,7 @@ export const SubsetIdForm = () => {
 export const SubsetNameForm = () => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
-    const { draft, dispatch, errors } = subset;
+    const { draft, dispatch } = subset;
 
     useEffect(() => {
         draft.name?.length === 0
@@ -85,10 +85,7 @@ export const SubsetNameForm = () => {
     return (
         <TextLanguageFieldset title={t('Names')}
                                 items={draft?.name}
-                                add={() => {
-                                    console.log('add fired in TextLanguageFieldset');
-                                    dispatch({action: 'name_add'});
-                                }}
+                                add={ () => dispatch({action: 'name_add'}) }
                                 remove={(index) => dispatch({
                                     action: 'name_remove', data: index})}
                                 handleText={(index, text) => dispatch({
@@ -97,7 +94,7 @@ export const SubsetNameForm = () => {
                                     action: 'name_lang', data: {index, lang}})}
                                 size={{cols: 65, rows: 1}}
                                 prefix={subsetDraft?.namePrefix}
-                                errorMessages={errors?.name}
+                                errorMessages={draft.errors?.name}
                                 maxLength={subsetDraft.maxLengthName}
         />
     );
@@ -265,7 +262,7 @@ export const SubsetDescriptionForm = () => {
                               handleLang={(index, lang) => dispatch({
                                   action: 'description_lang', data: {index, lang}})}
                               size = {{cols: 65, rows: 4}}
-                              errorMessages={errors?.description}
+                              errorMessages={draft.errors?.description}
                               maxLength={subsetDraft.maxLengthDescription}
         />
     );
