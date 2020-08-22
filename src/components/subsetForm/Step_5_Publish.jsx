@@ -8,7 +8,7 @@ import {useHistory} from 'react-router-dom';
 import {SubsetBrief} from "../SubsetBrief";
 
 export const Step5Publish = ({subset}) => {
-    const {draft, dispatch, errors} = subset;
+    const {draft, dispatch} = subset;
 
     const { t } = useTranslation();
 
@@ -30,9 +30,6 @@ export const Step5Publish = ({subset}) => {
             alert(`Update failed: ${errorPost || errorUpdate}`);
     }, [errorPost, errorUpdate]);
 
-    useEffect(() =>
-        !post && !update && dispatch({action: 'validate'}), [draft, dispatch]);
-
 return (
         <>
             <Title size={3}>{t('Review and publish')}</Title>
@@ -40,9 +37,9 @@ return (
 
             <SubsetPreview subset={draft}/>
 
-            { Object.values(errors).flat().length > 0 &&
+            { Object.values(draft.errors).flat().length > 0 &&
                 <FormError title={t('Some fields are not right')}
-                           errorMessages={Object.values(errors).flat().map(e => t(e))}
+                           errorMessages={Object.values(draft.errors).flat().map(e => t(e))}
                 />
             }
 
@@ -63,7 +60,7 @@ return (
 
                 <div style={{float: 'right'}}>
                     <Button
-                        disabled={post !== null || Object.values(errors).flat().length > 0}
+                        disabled={post !== null || Object.values(draft.errors).flat().length > 0}
                         onClick={() => {
                             draft.administrativeStatus = 'OPEN';
                             draft.isNew()

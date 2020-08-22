@@ -1,5 +1,6 @@
 import {toId, sanitize} from '../utils/strings';
 import {subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, axceptablePeriod} from './defaults';
+import {validate} from "./validator";
 
 export function Subset (data) {
 
@@ -26,10 +27,27 @@ export function Subset (data) {
         _version: data?.version || data?._version || '1',
         versionRationale: data?.versionRationale || [],
         versionValidFrom: data?.versionValidFrom || null,
-        _versionValidUntil: data?.versionValidUntil || data?._versionValidUntil || null,
+        versionValidUntil: data?.versionValidUntil || null,
         codes: data?.codes || [],
         lastUpdatedDate: data?.lastUpdatedDate || null,
-        _previousSubsets: data?._previousSubsets || []
+        _previousSubsets: data?._previousSubsets || [],
+
+        _errors: data?._errors || {
+            id: [],
+            name: [],
+            validFrom: [],
+            validUntil: [],
+            period: [],
+            createdBy: [],
+            annotation: [],
+            description: [],
+            versionRationale: [],
+            versionValidFrom: [],
+            versionValidUntil: [],
+            versionPeriod: [],
+            origin: [],
+            codes: []
+        }
     }
 
     Object.assign(
@@ -136,6 +154,14 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'errors', {
+        get: () => {
+            console.debug('Get versionValidUntil');
+
+            return validate.subset(subset);
+            }
+    });
+
     Object.defineProperty(subset, 'payload', {
         get: () => {
             const payload = {
@@ -208,7 +234,7 @@ const updatable = (state = {}) => ({
 
             state._name[index].languageText = sanitize(text, subsetDraft?.maxLengthName);
             if (!state.shortName && state.name?.length > 0) {
-                state.id = toId(text);
+                state.id = toId(state._name[0].languageText);
             }
         }
     },

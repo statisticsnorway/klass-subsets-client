@@ -29,10 +29,6 @@ function subsetReducer(state, {action, data = {}}) {
                 administrativeStatus: data?.administrativeStatus || 'DRAFT'
             });
         }
-        case 'validate': {
-            errors = validate.subset(state);
-            return state;
-        }
         case 'name_text': {
             state.updateNameTextByIndex(data.index, data.text);
             errors = { ...errors, id: validate.id(state.id)};
