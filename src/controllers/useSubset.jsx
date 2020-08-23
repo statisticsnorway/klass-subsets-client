@@ -38,8 +38,6 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'name_add': {
-            console.log('add fired in name_add');
-
             state.addName(nextDefaultName(state.name));
             return Subset({...state});
         }
@@ -125,11 +123,8 @@ function subsetReducer(state, {action, data = {}}) {
             return nextState;
         }
         case 'version_to': {
-            errors = { ...errors,
-                period: validate.period(state.validFrom, data),
-                versionPeriod: validate.period(state.versionValidFrom, data)
-            };
-            return Subset({...state, versionValidUntil: data, validUntil: data});
+            state.versionValidUntil = data;
+            return Subset({...state});
         }
         case 'previous_versions': {
             state.previousSubsets = data;
@@ -188,11 +183,8 @@ function subsetReducer(state, {action, data = {}}) {
             return state;
         }
         case 'to': {
-            // FIXME: restrictions
-            errors = { ...errors,
-                period: validate.period(state.validFrom, data)
-            };
-            return Subset({...state, validUntil: data});
+            state.validUntil = data;
+            return Subset({...state});
         }
         case 'createdBy': {
             return  {...state, createdBy: data};

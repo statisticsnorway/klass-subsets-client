@@ -14,7 +14,7 @@ import { SubsetBrief } from "../SubsetBrief";
 
 export const Step2Versions = ({subset}) => {
 
-    const { draft, dispatch, errors } = subset;
+    const { draft, dispatch } = subset;
     const { t } = useTranslation();
     const [ showHelp, setShowHelp ] = useState(false);
 
@@ -66,7 +66,7 @@ export const Step2Versions = ({subset}) => {
                                     data: {chosenVersion: option.id, versions}
                                 });
                             }}
-                            errorMessages={errors?.version}
+                            errorMessages={draft.errors?.version}
                 />
             }
 
@@ -97,9 +97,9 @@ export const Step2Versions = ({subset}) => {
                                }})
                            }
                            className='datepicker'/>
-                    {errors?.versionValidFrom?.length > 0 &&
+                    {draft.errors?.versionValidFrom?.length > 0 &&
                     <div className='ssb-input-error '>
-                        {errors.versionValidFrom.map((error, i) => (
+                        {draft.errors.versionValidFrom.map((error, i) => (
                             <span key={error+i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                         ))}
                     </div>
@@ -126,9 +126,9 @@ export const Step2Versions = ({subset}) => {
                                        : new Date(event.target.value)?.toISOString()})
                            }
                            className='datepicker'/>
-                    {errors?.versionValidUntil?.length > 0 &&
+                    {draft.errors?.versionValidUntil?.length > 0 &&
                     <div className='ssb-input-error '>
-                        {errors.versionValidUntil.map(error => (
+                        {draft.errors.versionValidUntil.map(error => (
                             <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                         ))}
                     </div>
@@ -145,9 +145,9 @@ export const Step2Versions = ({subset}) => {
                     </div>
                 }
 
-                {errors?.versionPeriod?.length > 0 &&
+                {draft.errors?.versionPeriod?.length > 0 &&
                 <div className='ssb-input-error '>
-                    {errors.versionPeriod.map((error, i) => (
+                    {draft.errors.versionPeriod.map((error, i) => (
                         <span key={error+i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                     ))}
                 </div>
@@ -165,7 +165,7 @@ export const Step2Versions = ({subset}) => {
                                   handleLang={(index, lang) => dispatch({
                                       action: 'version_rationale_lang', data: {index, lang}})}
                                   size = {{cols: 65, rows: 4}}
-                                  errorMessages={errors?.versionRationale}
+                                  errorMessages={draft.errors?.versionRationale}
             />
         </>
     );
