@@ -323,6 +323,8 @@ const restrictable = (state = {}) => ({
 const versionable = (state = {}) => ({
 
     calculateNextVersionNumber() {
+        console.debug('calculateNextVersionNumber');
+
         return Math.max(...state.previousVersions.map(v => v.version)) + 1;
     },
 
@@ -375,6 +377,7 @@ const versionable = (state = {}) => ({
 const nameControl = (state = {}) => ({
 
     addName(name = nextDefaultName(state.name)) {
+
         if (state.isEditableName()
             && state.name?.length < LANGUAGE_CODE_ENUM.length) {
             console.debug('addName', name);
@@ -480,7 +483,8 @@ const versionRationaleControl = (state = {}) => ({
 
     addVersionRationale(versionRationale = nextDefaultName(state.versionRationale)) {
         if (state.isEditableVersionRationale()
-            && state.versionRationale?.length < LANGUAGE_CODE_ENUM.length) {
+            && state.versionRationale?.length < LANGUAGE_CODE_ENUM.length)
+        {
             console.debug('addVersionRationale', versionRationale);
 
             state.versionRationale = [...state.versionRationale, versionRationale];
@@ -489,7 +493,8 @@ const versionRationaleControl = (state = {}) => ({
 
     removeVersionRationaleByIndex(index) {
         if (state.isEditableVersionRationale()
-            && index >= 0 && index < state.versionRationale?.length) {
+            && index >= 0 && index < state.versionRationale?.length)
+        {
             console.debug('removeVersionRationaleByIndex', index);
 
             state.versionRationale = state.versionRationale?.filter((item, i) => i !== index)

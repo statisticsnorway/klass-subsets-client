@@ -146,10 +146,9 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_switch': {
-            const { chosenVersion } = data;
-            chosenVersion === 'New version'
+            data === 'New version'
                 ? state.createNewVersion()
-                : state.switchToVersion(chosenVersion);
+                : state.switchToVersion(data);
             return Subset({...state});
         }
         case 'to': {
