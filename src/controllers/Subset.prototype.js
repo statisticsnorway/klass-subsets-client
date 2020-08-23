@@ -348,7 +348,7 @@ const versionable = (state = {}) => ({
     createNewVersion() {
         console.debug('createNewVersion');
 
-        state.version = `${ state.calculateNextVersionNumber() }`;
+        state._version = `${ state.calculateNextVersionNumber() }`;
         state.administrativeStatus = 'INTERNAL';
         state.versionRationale = [ nextDefaultName([]) ];
         state.versionValidFrom = state.latestVersion?.versionValidUntil || null;
