@@ -5,6 +5,7 @@ import {validate} from "./validator";
 export function Subset (data) {
 
     const subset = {
+        // step 1 Metadata
         _id: data?.id || data?._id || '',
         _shortName: data?.shortName || data?._shortName || '',
         _name: data?.name || data?._name || [],
@@ -23,21 +24,31 @@ export function Subset (data) {
                 values: []
             }
         ],
-        description: data?.description || [],
+        _description: data?.description || data?._description || [],
+
+        // step 2 Versions
         _version: data?.version || data?._version || '1',
-        versionRationale: data?.versionRationale || [],
+        _previousSubsets: data?._previousSubsets || [],
+        _versionRationale: data?.versionRationale || data?._versionRationale || [],
         versionValidFrom: data?.versionValidFrom || null,
         versionValidUntil: data?.versionValidUntil || null,
+
+        // Step 3 and 4 Codes
         codes: data?.codes || [],
+
+        // extra
         lastUpdatedDate: data?.lastUpdatedDate || null,
-        _previousSubsets: data?._previousSubsets || [],
     }
 
     Object.assign(
         subset,
         editable(subset),
-        updatable(subset),
-        restrictable(subset)
+        restrictable(subset),
+
+        nameControl(subset),
+        descriptionControl(subset),
+        versionRationaleControl(subset),
+        versionPeriodControl(),
     );
 
     Object.defineProperty(subset, 'id', {
@@ -64,11 +75,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'name', {
-        get: () => {
-            console.debug('Get name', subset._name);
-
-            return subset._name
-        },
+        get: () => { return subset._name; },
         set: (name = []) => {
             console.debug('Set name', name);
 
@@ -137,6 +144,28 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'versionRationale', {
+        get: () => { return subset._versionRationale; },
+        set: (versionRationale = []) => {
+            console.debug('Set versionRationale', versionRationale);
+
+            if (subset.isEditableVersionRationale()) {
+                subset._versionRationale = versionRationale;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'description', {
+        get: () => { return subset._description; },
+        set: (description = []) => {
+            console.debug('Set description', description);
+
+            if (subset.isEditableDescription()) {
+                subset._description = description;
+            }
+        }
+    });
+
     Object.defineProperty(subset, 'errors', {
         get: () => {
             console.debug('Get errors', subset._errors);
@@ -194,6 +223,10 @@ const editable = (state = {}) => ({
         return true;
     },
 
+    isEditableDescription() {
+        return true;
+    },
+
     isEditableValidFrom() {
         return this.isNew();
     },
@@ -204,15 +237,35 @@ const editable = (state = {}) => ({
 
     isEditableVersionValidFrom() {
         return true;
+    },
+
+    isEditableVersionRationale() {
+        return true;
     }
 });
 
-const updatable = (state = {}) => ({
+const restrictable = (state = {}) => ({
+
+    isInAcceptablePeriod(date) {
+        return date >= axceptablePeriod.from
+            && date < axceptablePeriod.until;
+    },
+
+    isAcceptableLanguageCode(lang) {
+        return LANGUAGE_CODE_ENUM.includes(lang);
+    },
+
+    validate() {
+        state._errors = validate.subset(state);
+        return state;
+    }
+});
+
+const nameControl = (state = {}) => ({
 
     updateNameTextByIndex(index = -1, text = '') {
         if (state.isEditableName()
-            && index >= 0 && index < state._name?.length)
-        {
+            && index >= 0 && index < state._name?.length) {
             console.debug('updateNameTextByIndex', index, text);
 
             state._name[index].languageText = sanitize(text, subsetDraft?.maxLengthName);
@@ -225,8 +278,7 @@ const updatable = (state = {}) => ({
     updateNameLanguageByIndex(index = -1, lang = '') {
         if (state.isEditableName()
             && index >= 0 && index < state.name?.length
-            && state.isAcceptableLanguageCode(lang))
-        {
+            && state.isAcceptableLanguageCode(lang)) {
             console.debug('updateNameLanguageByIndex', index, lang);
 
             state._name[index].languageCode = lang;
@@ -235,23 +287,85 @@ const updatable = (state = {}) => ({
 
     addName(name) {
         if (state.isEditableName()
-            && state.name?.length < LANGUAGE_CODE_ENUM.length)
-        {
+            && state.name?.length < LANGUAGE_CODE_ENUM.length) {
             console.debug('addName', name);
 
-            state._name = [ ...state._name, name ];
+            state.name = [...state.name, name];
         }
     },
 
     removeNameByIndex(index) {
         if (state.isEditableName()
-            && index >= 0 && index < state._name?.length)
-        {
+            && index >= 0 && index < state.name?.length) {
             console.debug('removeNameByIndex', index);
 
-            state._name = state.name?.filter((item, i) => i !== index)
+            state.name = state.name?.filter((item, i) => i !== index)
         }
     },
+
+    removeEmptyNames() {
+        console.debug('removeEmptyNames');
+
+        state.name = state.name.filter(item => item.languageText?.length > 0);
+    }
+
+});
+
+const descriptionControl = (state = {}) => ({
+
+    addDescription(description) {
+        if (state.isEditableName()
+            && state.description?.length < LANGUAGE_CODE_ENUM.length) {
+            console.debug('addDescription', description);
+
+            state.description = [...state.description, description];
+        }
+    },
+
+    removeDescriptionByIndex(index) {
+        if (state.isEditableDescription()
+            && index >= 0 && index < state.description?.length) {
+            console.debug('removeDescriptionByIndex', index);
+
+            state.description = state.description?.filter((item, i) => i !== index)
+        }
+    },
+
+    removeEmptyDescriptions() {
+        console.debug('removeEmptyDescriptions');
+
+        state.description = state.description.filter(item => item.languageText?.length > 0);
+    }
+});
+
+const versionRationaleControl = (state = {}) => ({
+
+    addVersionRationale(versionRationale) {
+        if (state.isEditableName()
+            && state.versionRationale?.length < LANGUAGE_CODE_ENUM.length) {
+            console.debug('addVersionRationale', versionRationale);
+
+            state.versionRationale = [...state.versionRationale, versionRationale];
+        }
+    },
+
+    removeVersionRationaleByIndex(index) {
+        if (state.isEditableDescription()
+            && index >= 0 && index < state.versionRationale?.length) {
+            console.debug('removeVersionRationaleByIndex', index);
+
+            state.versionRationale = state.versionRationale?.filter((item, i) => i !== index)
+        }
+    },
+
+    removeEmptyVersionRationales() {
+        console.debug('removeEmptyVersionRationales');
+
+        state.versionRationale = state.versionRationale.filter(item => item.languageText?.length > 0);
+    }
+});
+
+const versionPeriodControl = (state = {}) => ({
 
     calculateVersionValidUntil() {
         console.debug('calculateVersionValidUntil');
@@ -265,23 +379,5 @@ const updatable = (state = {}) => ({
             return next?.versionValidFrom || state._versionValidUntil || null
         }
         return state._versionValidUntil;
-    }
-
-});
-
-const restrictable = (state = {}) => ({
-
-    isInAcceptablePeriod(date) {
-        return date >= axceptablePeriod.from
-            && date < axceptablePeriod.until;
-    },
-    
-    isAcceptableLanguageCode(lang) {
-        return LANGUAGE_CODE_ENUM.includes(lang);
-    },
-
-    validate() {
-        state._errors = validate.subset(state);
-        return state;
     }
 });

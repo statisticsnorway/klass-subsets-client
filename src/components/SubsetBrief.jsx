@@ -8,7 +8,7 @@ export const Brief = ({id, version, lastUpdatedDate, status}) => {
     const { t } = useTranslation();
 
     return (
-        <Text small>
+        <Text small style={{margin: '50px 0'}}>
             {id || '-'}
             {t('Version')}: <strong>{version || '-'}  </strong>
             {t('Updated')}: <strong>{lastUpdatedDate || '-'}  </strong>

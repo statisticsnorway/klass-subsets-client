@@ -49,12 +49,10 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'shortName_update': {
             state.shortName = data;
-            //errors = { ...errors, id: validate.id(state.id) };
             return Subset({...state});
         }
         case 'from': {
             state.validFrom = data;
-            errors = { ...errors, period: validate.period(data, state.validUntil) };
             return Subset({...state});
         }
         case 'version_from': {
@@ -138,16 +136,12 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_rationale_add': {
-            const vr = nextDefaultName(state.versionRationale);
-            return !vr
-                ? state
-                : Subset({...state, versionRationale: [...state.versionRationale, vr]});
+            state.addVersionRationale(nextDefaultName(state.versionRationale));
+            return Subset({...state});
         }
         case 'version_rationale_remove': {
-            return Subset({
-                ...state,
-                versionRationale: state.versionRationale?.filter((item, index) => index !== data)
-            });
+            state.removeVersionRationaleByIndex(data);
+            return Subset({...state});
         }
         case 'version_rationale_text': {
             if (data.index < 0 || data.index >= state.versionRationale.length) {
@@ -247,23 +241,18 @@ function subsetReducer(state, {action, data = {}}) {
             });
         }
         case 'description_add': {
-            const description = nextDefaultName(state.description);
-            return !description
-                ? state
-                : Subset({...state, description: [...state.description, description]});
+            state.addDescription(nextDefaultName(state.description));
+            return Subset({...state});
         }
         case 'description_remove': {
-            return Subset({
-                ...state,
-                description: state.description?.filter((item, index) => index !== data)
-            });
+            state.removeDescriptionByIndex(data);
+            return Subset({...state});
         }
         case 'remove_empty': {
-            return Subset({...state,
-                name: state.name.filter(item => item.languageText?.length > 0),
-                description: state.description.filter(item => item.languageText?.length > 0),
-                versionRationale: state.versionRationale.filter(item => item.languageText?.length > 0)
-            });
+            state.removeEmptyNames();
+            state.removeEmptyDescriptions();
+            state.removeEmptyVersionRationales();
+            return Subset({...state});
         }
         case 'codelist_include': {
             const annotation = state.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION');

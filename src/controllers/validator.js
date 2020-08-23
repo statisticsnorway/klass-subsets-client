@@ -1,7 +1,7 @@
 export const validate = {
 
     id(id) {
-        return !id || !(typeof id === 'string' || id instanceof String)
+        return !id || id.length === 0 || !(typeof id === 'string' || id instanceof String)
             ? ['ID is a mandatory field']
             : !(/([a-z0-9-_])$/.test(id))
                 ? ['Only lower case letters, numbers, dashes, and underscores are allowed']
@@ -9,11 +9,15 @@ export const validate = {
     },
 
     name(names) {
-        return names?.length > 0 ? [] : ['At least one name is required'];
+        return names?.length > 0
+            ? []
+            : ['At least one name is required'];
     },
 
     validFrom(date) {
-        return date ? [] : ['A valid from date is required'];
+        return date ?
+            []
+            : ['A valid from date is required'];
     },
 
     period(from, to) {
