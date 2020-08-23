@@ -140,8 +140,9 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'origin', {
-        get: () => { return subset._administrativeDetails
-            .find(d => d.administrativeDetailType === 'ORIGIN').values;
+        get: () => {
+            return subset._administrativeDetails
+                .find(d => d.administrativeDetailType === 'ORIGIN').values;
         },
         set: (origin = []) => {
             console.debug('Set origin', origin, subset.isEditableOrigin());
@@ -495,7 +496,6 @@ const nameControl = (state = {}) => ({
             state._name[index].languageCode = lang;
         }
     }
-
 });
 
 const descriptionControl = (state = {}) => ({

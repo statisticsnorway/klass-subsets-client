@@ -187,8 +187,6 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'codelist_include': {
-            //state.origin = state.origin.find(v => v === data) ? state.origin : [data, ...state.origin];
-
             state.addOrigin(data);
             return Subset({...state});
         }
