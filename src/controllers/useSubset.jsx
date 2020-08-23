@@ -187,7 +187,9 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'codelist_include': {
-            state.origin = state.origin.find(v => v === data) ? state.origin : [data, ...state.origin];
+            //state.origin = state.origin.find(v => v === data) ? state.origin : [data, ...state.origin];
+
+            state.addOrigin(data);
             return Subset({...state});
         }
         // DOCME: if a codelist is chosen, but no codes are checked,
@@ -199,9 +201,8 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'codes_include': {
             const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
-            state.origin = candidates.map(c => URN.toURL(c.urn).classificationURN);
-
-            return Subset({
+            state.origin = verifyOrigin(state.origin, candidates);
+            return  Subset({
                 ...state,
                 codes: reorder([...candidates, ...state.codes])});
         }

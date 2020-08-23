@@ -4,16 +4,24 @@ const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
 export const URN = {
 
+    // FIXME sanitize input - XSS is a threat!!!
+    // For now it accepts letters, digits, % & # _ - . , etc
+    // the code will be used to fetch data from the Klass API
+    codePattern: /urn:ssb:klass-api:classifications:[0-9]+:code:[-]?[\w]+/i,
+    classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
+
+    isCodePattern(urn) {
+        return this.codePattern.test(urn)
+    },
+
+    isClassificationPattern(urn) {
+        return this.classificationPattern.test(urn)
+    },
     // TESTME
-    toURL: (urn, from, to) => {
+    toURL(urn, from, to) {
         const today = !(from || to) && new Date().toISOString().substr(0, 10);
 
-        // FIXME sanitize input - XSS is a threat!!!
-        // For now it accepts letters, digits, % & # _ - . , etc
-        // the code will be used to fetch data from the Klass API
-        const codePattern = /urn:ssb:klass-api:classifications:[0-9]+:code:[-]?[\w]+/i;
-
-        if (codePattern.test(urn)) {
+        if (this.isCodePattern(urn)) {
             const [,,,service,id,,code] = urn.split(':');
 
             return {
@@ -39,9 +47,7 @@ export const URN = {
             };
         }
 
-        const classificationPattern = /urn:ssb:klass-api:classifications:[0-9]+/i;
-
-        if (classificationPattern.test(urn)) {
+        if (this.isClassificationPattern(urn)) {
             const [,,, service, id] = urn.split(':');
 
             return {

@@ -2,6 +2,7 @@ import { toId, sanitize } from '../utils/strings';
 import { subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, axceptablePeriod } from './defaults';
 import { validate } from './validator';
 import { nextDefaultName } from '../internationalization/languages';
+import { URN } from './klass-api';
 
 export function Subset (data) {
 
@@ -49,7 +50,8 @@ export function Subset (data) {
 
         nameControl(subset),
         descriptionControl(subset),
-        versionRationaleControl(subset)
+        versionRationaleControl(subset),
+        originControl(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -188,7 +190,6 @@ export function Subset (data) {
             }
         }
     });
-
 
     Object.defineProperty(subset, 'validUntil', {
         get: () => { return subset._validUntil; },
@@ -600,3 +601,16 @@ const versionRationaleControl = (state = {}) => ({
     }
 });
 
+const originControl = (state = {}) => ({
+
+    addOrigin(origin = '') {
+        console.debug('addOrigin', origin);
+
+        if (URN.isClassificationPattern(origin)
+            && !state.origin.includes(origin))
+        {
+            state.origin = [origin, ...state.origin];
+        }
+    }
+
+});
