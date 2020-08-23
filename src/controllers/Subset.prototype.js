@@ -1,7 +1,7 @@
-import {toId, sanitize} from '../utils/strings';
-import {subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, axceptablePeriod} from './defaults';
-import {validate} from "./validator";
-import {nextDefaultName} from "../internationalization/languages";
+import { toId, sanitize } from '../utils/strings';
+import { subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, axceptablePeriod } from './defaults';
+import { validate } from './validator';
+import { nextDefaultName } from '../internationalization/languages';
 
 export function Subset (data) {
 
@@ -374,7 +374,7 @@ const versionable = (state = {}) => ({
 
 const nameControl = (state = {}) => ({
 
-    addName(name) {
+    addName(name = nextDefaultName(state.name)) {
         if (state.isEditableName()
             && state.name?.length < LANGUAGE_CODE_ENUM.length) {
             console.debug('addName', name);
@@ -428,7 +428,7 @@ const nameControl = (state = {}) => ({
 
 const descriptionControl = (state = {}) => ({
 
-    addDescription(description) {
+    addDescription(description = nextDefaultName(state.description)) {
         if (state.isEditableDescription()
             && state.description?.length < LANGUAGE_CODE_ENUM.length) {
             console.debug('addDescription', description);
@@ -478,7 +478,7 @@ const descriptionControl = (state = {}) => ({
 
 const versionRationaleControl = (state = {}) => ({
 
-    addVersionRationale(versionRationale) {
+    addVersionRationale(versionRationale = nextDefaultName(state.versionRationale)) {
         if (state.isEditableVersionRationale()
             && state.versionRationale?.length < LANGUAGE_CODE_ENUM.length) {
             console.debug('addVersionRationale', versionRationale);

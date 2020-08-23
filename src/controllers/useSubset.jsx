@@ -1,5 +1,4 @@
 import { useReducer, useEffect } from 'react';
-import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
 import { validate } from './validator';
 import { Subset } from './Subset.prototype';
@@ -38,7 +37,7 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'name_add': {
-            state.addName(nextDefaultName(state.name));
+            state.addName();
             return Subset({...state});
         }
         case 'name_remove': {
@@ -131,7 +130,7 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_rationale_add': {
-            state.addVersionRationale(nextDefaultName(state.versionRationale));
+            state.addVersionRationale();
             return Subset({...state});
         }
         case 'version_rationale_remove': {
@@ -176,7 +175,7 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'description_add': {
-            state.addDescription(nextDefaultName(state.description));
+            state.addDescription();
             return Subset({...state});
         }
         case 'description_remove': {
