@@ -1,6 +1,5 @@
 import { useReducer, useEffect } from 'react';
 import { URN } from './klass-api';
-import { validate } from './validator';
 import { Subset } from './Subset.prototype';
 
 let errors = {
@@ -207,7 +206,7 @@ export const useSubset = (init = Subset()) => {
     // FIXME: discard on non-valid draft and return init
     function initialize() {
         const restored = JSON.parse(sessionStorage.getItem('draft'));
-        /*if (restored) {
+        if (restored) {
 
             const annotation =
                 restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
@@ -220,7 +219,7 @@ export const useSubset = (init = Subset()) => {
             origin.values = verifyOrigin(origin.values, restored.codes);
 
             restored.administrativeDetails = [ annotation, origin ];
-        }*/
+        }
         return Subset({...init, ...restored}) || Subset();
     }
 

@@ -30,12 +30,12 @@ export const validate = {
                     : [];
     },
 
-    versionValidFrom(from, to, versionFrom, allowedDates = []) {
+    versionValidFrom(version, from, to, versionFrom, allowedDates = []) {
         return !versionFrom
             ? ['A valid version from date is required']
             : versionFrom > to
                 ? ['Versions cannot have gaps on validity periods']
-                : versionFrom <= to && versionFrom >= from && !allowedDates.includes(versionFrom)
+                : version !== '1' && versionFrom <= to && versionFrom >= from && !allowedDates.includes(versionFrom)
                     ? ['This date is already covered in previous versions']
                     : [];
     },
@@ -49,6 +49,7 @@ export const validate = {
     },
 
     subset(draft) {
+
          return {
             id: this.id(draft.id),
             name: this.name(draft.name),
@@ -60,8 +61,8 @@ export const validate = {
             description: [],
             origin: [],
             administrativeStatus: [],
-            versionValidFrom: validate.versionValidFrom(draft.validFrom, draft.validUntil, draft.versionValidFrom),
-            versionPeriod: validate.period(draft.versionValidFrom, draft.validUntil),
+            versionValidFrom: this.versionValidFrom(draft.version, draft.validFrom, draft.validUntil, draft.versionValidFrom),
+            versionPeriod: this.period(draft.versionValidFrom, draft.validUntil),
             codes: this.codes(draft.codes)
         };
     }
