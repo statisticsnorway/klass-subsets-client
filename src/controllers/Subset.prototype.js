@@ -263,28 +263,6 @@ const restrictable = (state = {}) => ({
 
 const nameControl = (state = {}) => ({
 
-    updateNameTextByIndex(index = -1, text = '') {
-        if (state.isEditableName()
-            && index >= 0 && index < state._name?.length) {
-            console.debug('updateNameTextByIndex', index, text);
-
-            state._name[index].languageText = sanitize(text, subsetDraft?.maxLengthName);
-            if (!state.shortName && state.name?.length > 0) {
-                state.id = toId(state._name[0].languageText);
-            }
-        }
-    },
-
-    updateNameLanguageByIndex(index = -1, lang = '') {
-        if (state.isEditableName()
-            && index >= 0 && index < state.name?.length
-            && state.isAcceptableLanguageCode(lang)) {
-            console.debug('updateNameLanguageByIndex', index, lang);
-
-            state._name[index].languageCode = lang;
-        }
-    },
-
     addName(name) {
         if (state.isEditableName()
             && state.name?.length < LANGUAGE_CODE_ENUM.length) {
@@ -304,9 +282,35 @@ const nameControl = (state = {}) => ({
     },
 
     removeEmptyNames() {
-        console.debug('removeEmptyNames');
+        if (state.isEditableName()) {
+            console.debug('removeEmptyNames');
 
-        state.name = state.name.filter(item => item.languageText?.length > 0);
+            state.name = state.name.filter(item => item.languageText?.length > 0);
+        }
+    },
+
+    updateNameTextByIndex(index = -1, text = '') {
+        if (state.isEditableName()
+            && index >= 0 && index < state.name?.length) 
+        {
+            console.debug('updateNameTextByIndex', index, text);
+
+            state._name[index].languageText = sanitize(text, subsetDraft?.maxLengthName);
+            if (!state.shortName && state.name?.length > 0) {
+                state.id = toId(state.name[0].languageText);
+            }
+        }
+    },
+
+    updateNameLanguageByIndex(index = -1, lang = '') {
+        if (state.isEditableName()
+            && index >= 0 && index < state.name?.length
+            && state.isAcceptableLanguageCode(lang)) 
+        {
+            console.debug('updateNameLanguageByIndex', index, lang);
+
+            state._name[index].languageCode = lang;
+        }
     }
 
 });
@@ -314,7 +318,7 @@ const nameControl = (state = {}) => ({
 const descriptionControl = (state = {}) => ({
 
     addDescription(description) {
-        if (state.isEditableName()
+        if (state.isEditableDescription()
             && state.description?.length < LANGUAGE_CODE_ENUM.length) {
             console.debug('addDescription', description);
 
@@ -332,16 +336,39 @@ const descriptionControl = (state = {}) => ({
     },
 
     removeEmptyDescriptions() {
-        console.debug('removeEmptyDescriptions');
+        if (state.isEditableDescription()) {
+            console.debug('removeEmptyDescriptions');
 
-        state.description = state.description.filter(item => item.languageText?.length > 0);
+            state.description = state.description.filter(item => item.languageText?.length > 0);
+        }
+    },
+
+    updateDescriptionTextByIndex(index = -1, text = '') {
+        if (state.isEditableDescription()
+            && index >= 0 && index < state.description?.length) 
+        {
+            console.debug('updateDescriptionTextByIndex', index, text);
+
+            state._description[index].languageText = sanitize(text, subsetDraft?.maxLengthDescription);
+        }
+    },
+
+    updateDescriptionLanguageByIndex(index = -1, lang = '') {
+        if (state.isEditableDescription()
+            && index >= 0 && index < state.description?.length
+            && state.isAcceptableLanguageCode(lang)) 
+        {
+            console.debug('updateDescriptionLanguageByIndex', index, lang);
+
+            state._description[index].languageCode = lang;
+        }
     }
 });
 
 const versionRationaleControl = (state = {}) => ({
 
     addVersionRationale(versionRationale) {
-        if (state.isEditableName()
+        if (state.isEditableVersionRationale()
             && state.versionRationale?.length < LANGUAGE_CODE_ENUM.length) {
             console.debug('addVersionRationale', versionRationale);
 
@@ -350,7 +377,7 @@ const versionRationaleControl = (state = {}) => ({
     },
 
     removeVersionRationaleByIndex(index) {
-        if (state.isEditableDescription()
+        if (state.isEditableVersionRationale()
             && index >= 0 && index < state.versionRationale?.length) {
             console.debug('removeVersionRationaleByIndex', index);
 
@@ -359,9 +386,33 @@ const versionRationaleControl = (state = {}) => ({
     },
 
     removeEmptyVersionRationales() {
-        console.debug('removeEmptyVersionRationales');
+        if (state.isEditableVersionRationale()) {
+            console.debug('removeEmptyVersionRationales');
 
-        state.versionRationale = state.versionRationale.filter(item => item.languageText?.length > 0);
+            state.versionRationale = state.versionRationale.filter(item => item.languageText?.length > 0);
+        }
+    },
+
+
+    updateVersionRationaleTextByIndex(index = -1, text = '') {
+        if (state.isEditableVersionRationale()
+            && index >= 0 && index < state.versionRationale?.length)
+        {
+            console.debug('updateVersionRationaleTextByIndex', index, text);
+
+            state._versionRationale[index].languageText = sanitize(text, subsetDraft?.maxLengthDescription);
+        }
+    },
+
+    updateVersionRationaleLanguageByIndex(index = -1, lang = '') {
+        if (state.isEditableVersionRationale()
+            && index >= 0 && index < state.versionRationale?.length
+            && state.isAcceptableLanguageCode(lang))
+        {
+            console.debug('updateVersionRationaleLanguageByIndex', index, lang);
+
+            state._versionRationale[index].languageCode = lang;
+        }
     }
 });
 
