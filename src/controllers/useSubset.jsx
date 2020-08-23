@@ -144,26 +144,12 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_rationale_text': {
-            if (data.index < 0 || data.index >= state.versionRationale.length) {
-                return state;
-            }
-            const nextDescription = state.versionRationale;
-            nextDescription[data.index].languageText = data.text;
-            return Subset({
-                ...state,
-                versionRationale: nextDescription
-            });
+            state.updateVersionRationaleTextByIndex(data.index, data.text);
+            return Subset({...state});
         }
         case 'version_rationale_lang': {
-            if (!data.lang || data.index < 0 || data.index >= state.versionRationale.length) {
-                return state;
-            }
-            const nextDescription = state.versionRationale;
-            nextDescription[data.index].languageCode = data.lang;
-            return Subset({
-                ...state,
-                versionRationale: nextDescription
-            });
+            state.updateVersionRationaleLanguageByIndex(data.index, data.lang);
+            return Subset({...state});
         }
         case '': {
             const {chosenVersion, versions} = data;
@@ -219,26 +205,12 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'description_text': {
-            if (data.index < 0 || data.index >= state.description.length) {
-                return state;
-            }
-            const nextDescription = state.description;
-            nextDescription[data.index].languageText = data.text;
-            return Subset({
-                ...state,
-                description: nextDescription
-            });
+            state.updateDescriptionTextByIndex(data.index, data.text);
+            return Subset({...state});
         }
         case 'description_lang': {
-            if (!data.lang || data.index < 0 || data.index >= state.description.length) {
-                return state;
-            }
-            const nextDescription = state.description;
-            nextDescription[data.index].languageCode = data.lang;
-            return Subset({
-                ...state,
-                description: nextDescription
-            });
+            state.updateDescriptionLanguageByIndex(data.index, data.lang);
+            return Subset({...state});
         }
         case 'description_add': {
             state.addDescription(nextDefaultName(state.description));
