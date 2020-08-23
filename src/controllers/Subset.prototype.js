@@ -1,6 +1,7 @@
 import {toId, sanitize} from '../utils/strings';
 import {subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, axceptablePeriod} from './defaults';
 import {validate} from "./validator";
+import {nextDefaultName} from "../internationalization/languages";
 
 export function Subset (data) {
 
@@ -44,11 +45,11 @@ export function Subset (data) {
         subset,
         editable(subset),
         restrictable(subset),
+        versionable(subset),
 
         nameControl(subset),
         descriptionControl(subset),
-        versionRationaleControl(subset),
-        versionPeriodControl(),
+        versionRationaleControl(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -319,6 +320,58 @@ const restrictable = (state = {}) => ({
     }
 });
 
+const versionable = (state = {}) => ({
+
+    calculateNextVersionNumber() {
+        return Math.max(...state.previousVersions.map(v => v.version)) + 1;
+    },
+
+    calculateVersionValidUntil() {
+        console.debug('calculateVersionValidUntil');
+
+        const exists = state.previousVersions?.find(v => v.version === state.version);
+        if (exists) {
+            const next = state.previousVersions
+                .filter(v => v.versionValidFrom > exists.versionValidFrom)
+                .sort((a, b) =>
+                    a.versionValidFrom < b.versionValidFrom ? -1 :
+                        a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
+            if (next) {
+                console.debug('next', next);
+                return next?.versionValidFrom;
+            }
+            return state.validUntil;
+        }
+        return state.validUntil;
+    },
+
+    createNewVersion() {
+        console.debug('createNewVersion');
+
+        state.version = `${ state.calculateNextVersionNumber() }`;
+        state.administrativeStatus = 'INTERNAL';
+        state.versionRationale = [ nextDefaultName([]) ];
+        state.versionValidFrom = state.latestVersion?.versionValidUntil || null;
+        state.versionValidUntil = null;
+    },
+
+    switchToVersion(chosenVersion = '') {
+        console.debug('switchToVersion', chosenVersion);
+
+        const exists = state.previousVersions.find(v => v.version === chosenVersion);
+        if (exists) {
+            state._version = exists.version;
+            state.versionRationale = exists.versionRationale?.length > 0
+                ? exists.versionRationale
+                : [ nextDefaultName([]) ];
+            state.codes = exists.codes || [];
+            state.versionValidFrom = exists.versionValidFrom;
+            state.versionValidUntil = state.calculateVersionValidUntil(exists);
+        }
+    }
+
+});
+
 const nameControl = (state = {}) => ({
 
     addName(name) {
@@ -474,19 +527,3 @@ const versionRationaleControl = (state = {}) => ({
     }
 });
 
-const versionPeriodControl = (state = {}) => ({
-
-    calculateVersionValidUntil() {
-        console.debug('calculateVersionValidUntil');
-
-        const exists = state.previousVersions?.find(v => v.version === state.version);
-        if (exists) {
-            const next = state.previousVersions.filter(v => v.versionValidFrom > exists.versionValidFrom)
-                .sort((a, b) =>
-                    a.versionValidFrom < b.versionValidFrom ? -1 :
-                        a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
-            return next?.versionValidFrom || state.versionValidUntil || null;
-        }
-        return state._versionValidUntil;
-    }
-});

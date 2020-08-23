@@ -59,7 +59,7 @@ export const Step2Versions = ({subset}) => {
                             }
                             placeholder={t('Select a version')}
                             disabledText={t(draft.administrativeStatus)}
-                            selected={`${draft.version}`}
+                            selected={draft.version}
                             onSelect={(option) => {
                                 dispatch({
                                     action: 'version_switch',

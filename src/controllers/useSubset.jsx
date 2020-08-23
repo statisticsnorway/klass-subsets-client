@@ -127,7 +127,7 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'previous_versions': {
-            state.previousSubsets = data;
+            state.previousVersions = data;
             return Subset({...state});
         }
         case 'version_rationale_add': {
@@ -147,40 +147,11 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_switch': {
-            const {chosenVersion, versions} = data;
-            if (chosenVersion === 'New version') {
-                const latest = versions.sort((a,b) =>
-                    a.versionValidFrom < b.versionValidFrom ? 1 :
-                        a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0];
-                return Subset({
-                    ...state,
-                    version: `${ Math.max(...versions.map(v => v.version)) +1 }`,
-                    administrativeStatus: 'INTERNAL',
-                    versionRationale: [ nextDefaultName([]) ],
-                    versionValidFrom: latest?.versionValidUntil,
-                    versionValidUntil: null,
-                    validUntil: null
-                });
-            } else {
-                const exists = versions.find(v => v.version === chosenVersion);
-                if (exists) {
-                    const next = versions.filter(v => v.versionValidFrom > exists.versionValidFrom)
-                        .sort((a, b) =>
-                            a.versionValidFrom < b.versionValidFrom ? -1 :
-                                a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
-                    return Subset({
-                        ...exists,
-                        version: exists.version,
-                        versionRationale: exists.versionRationale?.length > 0
-                            ? exists.versionRationale
-                            : [ nextDefaultName([]) ],
-                        versionValidFrom: exists.versionValidFrom,
-                        versionValidUntil: next?.versionValidFrom || exists.validUntil,
-                        codes: exists.codes
-                    });
-                }
-            }
-            return state;
+            const { chosenVersion } = data;
+            chosenVersion === 'New version'
+                ? state.createNewVersion()
+                : state.switchToVersion(chosenVersion);
+            return Subset({...state});
         }
         case 'to': {
             state.validUntil = data;
