@@ -151,7 +151,7 @@ function subsetReducer(state, {action, data = {}}) {
             state.updateVersionRationaleLanguageByIndex(data.index, data.lang);
             return Subset({...state});
         }
-        case '': {
+        case 'version_switch': {
             const {chosenVersion, versions} = data;
             if (chosenVersion === 'New version') {
                 const latest = versions.sort((a,b) =>
