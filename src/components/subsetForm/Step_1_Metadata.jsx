@@ -207,7 +207,7 @@ export const SubsetValidityForm = () => {
 export const SubsetSectionForm = () => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
-    const { draft, dispatch, errors } = subset;
+    const { draft, dispatch } = subset;
     const [ ssbsections ] = useGet('ssbsections.json');
 
     // TODO: set automatically when logged inn
@@ -224,7 +224,7 @@ export const SubsetSectionForm = () => {
                   onSelect={(option) => dispatch({
                       action: 'createdBy',
                       data: option.title })}
-                  errorMessages={errors?.createdBy}
+                  errorMessages={draft.errors?.createdBy}
         />
     );
 };
@@ -242,9 +242,7 @@ export const SubsetSubjectForm = () => {
                   || []}
                   placeholder={t('Select a classification family...')}
                   disabledText={t('Outdated')}
-                  selected={draft.administrativeDetails
-                      .find(d => d.administrativeDetailType === 'ANNOTATION')
-                      .values[0] || ''}
+                  selected={draft.subject || ''}
                   onSelect={(option) => dispatch({
                       action: 'subject',
                       data: option.title })}
@@ -256,7 +254,7 @@ export const SubsetSubjectForm = () => {
 export const SubsetDescriptionForm = () => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
-    const { draft, dispatch, errors } = subset;
+    const { draft, dispatch } = subset;
 
     useEffect(() => {
         draft.description?.length === 0
@@ -271,13 +269,17 @@ export const SubsetDescriptionForm = () => {
     return (
         <TextLanguageFieldset title={t('Description')}
                               items={draft.description}
-                              add={() => dispatch({action: 'description_add'})}
+                              add={() => dispatch({
+                                  action: 'description_add'})}
                               remove={(index) => dispatch({
-                                  action: 'description_remove', data: index})}
+                                  action: 'description_remove',
+                                  data: index})}
                               handleText={(index, text) => dispatch({
-                                  action: 'description_text', data: {index, text}})}
+                                  action: 'description_text',
+                                  data: {index, text}})}
                               handleLang={(index, lang) => dispatch({
-                                  action: 'description_lang', data: {index, lang}})}
+                                  action: 'description_lang',
+                                  data: {index, lang}})}
                               size = {{cols: 65, rows: 4}}
                               errorMessages={draft.errors?.description}
                               maxLength={subsetDraft.maxLengthDescription}

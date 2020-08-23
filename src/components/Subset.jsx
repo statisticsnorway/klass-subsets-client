@@ -29,9 +29,7 @@ export const SubsetPreview = ({subset}) => {
 
             <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
 
-            <Paragraph><strong>{t('Subject')}:</strong> {subset.administrativeDetails
-                .find(d => d.administrativeDetailType === 'ANNOTATION')
-                .values[0] || '-'}</Paragraph>
+            <Paragraph><strong>{t('Subject')}:</strong> {subset.subject || '-'}</Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
             {subset.codes

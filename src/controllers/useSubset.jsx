@@ -161,9 +161,7 @@ function subsetReducer(state, {action, data = {}}) {
         }
         case 'subject': {
             // FIXME: mutable change
-            state.administrativeDetails
-                .find(d => d.administrativeDetailType === 'ANNOTATION')
-                .values[0] = data;
+            state.subject = data;
             return Subset({...state});
         }
         case 'description_text': {
@@ -189,33 +187,22 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'codelist_include': {
-            const annotation = state.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION');
-            const origin = state.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
-
-            origin.values = origin.values.find(v => v === data) ? origin.values : [data, ...origin.values];
-            return Subset({
-                ...state,
-                administrativeDetails: [annotation, origin]
-            });
+            state.origin = state.origin.find(v => v === data) ? state.origin : [data, ...state.origin];
+            return Subset({...state});
         }
         // DOCME: if a codelist is chosen, but no codes are checked,
         //  the code list remains in the subset until it explicitly excluded.
         case 'codelist_exclude': {
-            const origin = state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values;
-            state.administrativeDetails.find(d => d.administrativeDetailType === 'ORIGIN').values =
-                origin.filter(urn => urn !== data);
-
+            state.origin = state.origin.filter(urn => urn !== data);
             const codes = state.codes.filter(c => !c.urn.startsWith(data));
-
             return Subset({...state, codes});
         }
         case 'codes_include': {
             const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
-            const administrativeDetails = updateOrigin(state.administrativeDetails, candidates);
+            state.origin = candidates.map(c => URN.toURL(c.urn).classificationURN);
 
             return Subset({
                 ...state,
-                administrativeDetails,
                 codes: reorder([...candidates, ...state.codes])});
         }
         case 'codes_exclude': {
@@ -275,16 +262,6 @@ function verifyOrigin(origin = [], codes = []) {
     return [...updated];
 }
 
-// TESTME
-function updateOrigin(administrativeDetails, codes) {
-    const annotation = administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION');
-    const origin = administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
-
-    origin.values = verifyOrigin(origin.values, codes);
-
-    return [annotation, origin];
-}
-
 export const useSubset = (init = Subset()) => {
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
@@ -296,7 +273,7 @@ export const useSubset = (init = Subset()) => {
     // FIXME: discard on non-valid draft and return init
     function initialize() {
         const restored = JSON.parse(sessionStorage.getItem('draft'));
-        if (restored) {
+        /*if (restored) {
 
             const annotation =
                 restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
@@ -309,7 +286,7 @@ export const useSubset = (init = Subset()) => {
             origin.values = verifyOrigin(origin.values, restored.codes);
 
             restored.administrativeDetails = [ annotation, origin ];
-        }
+        }*/
         return Subset({...init, ...restored}) || Subset();
     }
 

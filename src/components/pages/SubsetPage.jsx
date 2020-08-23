@@ -60,9 +60,7 @@ export const SubsetPage = () => {
                             <strong>{t('Valid to')}:</strong> {subsetData.validUntil?.substr(0, 10)  || '-'}
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Subject')}:</strong> {subsetData.administrativeDetails
-                            ? subsetData.administrativeDetails.find(d => d.administrativeDetailType === 'ANNOTATION').values[0]
-                            : '-'}
+                            <strong>{t('Subject')}:</strong> {subsetData.subject || '-'}
                         </Paragraph>
 
                         <Title size={3}>{t('Codes')}: </Title>

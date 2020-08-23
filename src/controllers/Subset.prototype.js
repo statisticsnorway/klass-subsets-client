@@ -14,7 +14,7 @@ export function Subset (data) {
         _validFrom: data?.validFrom || data?._validFrom || null,
         _validUntil: data?.validUntil || data?._validUntil || null,
         _createdBy: data?.createdBy || data?._createdBy || '',
-        administrativeDetails: data?.administrativeDetails
+        _administrativeDetails: data?.administrativeDetails || data?._administrativeDetails
             || [
             {
                 administrativeDetailType: 'ANNOTATION',
@@ -100,10 +100,54 @@ export function Subset (data) {
     Object.defineProperty(subset, 'createdBy', {
         get: () => { return subset._createdBy; },
         set: (createdBy = '') => {
-            console.debug('Set createdBy', createdBy, subset.isEditablecreatedBy());
+            console.debug('Set createdBy', createdBy, subset.isEditableCreatedBy());
 
-            if (subset.isEditablecreatedBy()) {
+            if (subset.isEditableCreatedBy()) {
                 subset._createdBy = createdBy;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'administrativeDetails', {
+        get: () => { return subset._administrativeDetails; },
+        set: (administrativeDetails = []) => {
+            console.debug('Set administrativeDetails', administrativeDetails,
+                subset.isEditableSubject() && subset.isEditableOrigin());
+
+            if (subset.isEditableSubject()
+                && subset.isEditableOrigin())
+            {
+                subset._administrativeDetails = administrativeDetails;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'subject', {
+        get: () => { return subset._administrativeDetails
+            .find(d => d.administrativeDetailType === 'ANNOTATION').values[0];
+        },
+        set: (subject = '') => {
+            console.debug('Set subject', subject, subset.isEditableSubject());
+
+            if (subset.isEditableSubject()) {
+                subset._administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ANNOTATION')
+                    .values[0] = subject;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'origin', {
+        get: () => { return subset._administrativeDetails
+            .find(d => d.administrativeDetailType === 'ORIGIN').values;
+        },
+        set: (origin = []) => {
+            console.debug('Set origin', origin, subset.isEditableOrigin());
+
+            if (subset.isEditableOrigin()) {
+                subset._administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ORIGIN')
+                    .values = origin;
             }
         }
     });
@@ -214,6 +258,7 @@ export function Subset (data) {
         }
     });
 
+
     Object.defineProperty(subset, 'errors', {
         get: () => {
             console.debug('Get errors', subset._errors);
@@ -285,7 +330,15 @@ const editable = (state = {}) => ({
         return true;
     },
 
-    isEditablecreatedBy() {
+    isEditableCreatedBy() {
+        return true;
+    },
+
+    isEditableSubject() {
+        return true;
+    },
+
+    isEditableOrigin() {
         return true;
     },
 
