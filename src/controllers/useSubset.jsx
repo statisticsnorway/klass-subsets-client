@@ -53,73 +53,8 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_from': {
-            const {date, versions} = data;
-            // FIXME: restrictions
-            if ((!versions || versions.length === 0) && state.version === '1') {
-                console.info('Very first version');
-                errors = { ...errors,
-                    versionValidFrom: validate.versionValidFrom(state.validFrom, state.validUntil, date),
-                    versionPeriod: validate.period(date, state.validUntil)
-                };
-                return Subset({...state,
-                    versionValidFrom: date,
-                    validFrom: date
-                });
-            }
-
-            const latest = versions.sort((a, b) =>
-                a.versionValidFrom < b.versionValidFrom ? 1 :
-                    a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0];
-            // later version
-            if ((latest?.validUntil && date === latest?.validUntil)
-                || (!latest?.validUntil && date > latest?.versionValidFrom)) {
-                console.info('Later version');
-                const nextState = Subset({...state,
-                    versionValidFrom: date,
-                    versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil,
-                    validUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil
-                });
-                errors = { ...errors,
-                    versionValidFrom: validate.versionValidFrom(nextState.validFrom, latest?.validUntil, nextState.versionValidFrom),
-                    versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
-                    validFrom: validate.validFrom(nextState.validFrom),
-                    period: validate.period(nextState.validFrom, nextState.validUntil)
-                };
-                return nextState;
-            }
-
-            // earlier version
-            if (date >= new Date('1800-01-01').toISOString() && date < latest?.validFrom) {
-                console.info('Earlier version');
-                const nextState = Subset({
-                    ...state,
-                    versionValidFrom: date,
-                    validFrom: date,
-                    versionValidUntil: latest?.validFrom
-                });
-                errors = { ...errors,
-                    versionValidFrom: validate.versionValidFrom(nextState.validFrom, nextState.validUntil, nextState.versionValidFrom),
-                    versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
-                    validFrom: validate.validFrom(nextState.validFrom),
-                    period: validate.period(nextState.validFrom, nextState.validUntil)
-                };
-                return nextState;
-            }
-
-            // other
-            console.info('Covered period or illegal input');
-            const nextState = Subset({
-                ...state,
-                versionValidFrom: date,
-                versionValidUntil: state.versionValidUntil === latest?.validFrom ? null : state.versionValidUntil
-            });
-            errors = { ...errors,
-                versionValidFrom: validate.versionValidFrom(nextState.validFrom, nextState.validUntil, nextState.versionValidFrom),
-                versionPeriod: validate.period(nextState.versionValidFrom, nextState.versionValidUntil),
-                validFrom: validate.validFrom(nextState.validFrom),
-                period: validate.period(nextState.validFrom, nextState.validUntil)
-            };
-            return nextState;
+            state.versionValidFrom = data;
+            return Subset({...state});
         }
         case 'version_to': {
             state.versionValidUntil = data;

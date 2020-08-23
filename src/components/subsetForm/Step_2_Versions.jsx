@@ -89,12 +89,10 @@ export const Step2Versions = ({subset}) => {
                            disabled={versions && !versions.error && versions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN')}
                            onChange={event => dispatch({
                                action: 'version_from',
-                               data: {
-                                   date: event.target.value === ''
+                               data: event.target.value === ''
                                        ? null
                                        : new Date(event.target.value).toISOString(),
-                                   versions
-                               }})
+                               })
                            }
                            className='datepicker'/>
                     {draft.errors?.versionValidFrom?.length > 0 &&
