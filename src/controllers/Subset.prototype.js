@@ -13,7 +13,7 @@ export function Subset (data) {
         _administrativeStatus: data?.administrativeStatus || data?._administrativeStatus || 'INTERNAL',
         _validFrom: data?.validFrom || data?._validFrom || null,
         _validUntil: data?.validUntil || data?._validUntil || null,
-        createdBy: data?.createdBy || '',
+        _createdBy: data?.createdBy || data?._createdBy || '',
         administrativeDetails: data?.administrativeDetails
             || [
             {
@@ -93,6 +93,17 @@ export function Subset (data) {
 
             if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
                 subset._administrativeStatus = status;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'createdBy', {
+        get: () => { return subset._createdBy; },
+        set: (createdBy = '') => {
+            console.debug('Set createdBy', createdBy, subset.isEditablecreatedBy());
+
+            if (subset.isEditablecreatedBy()) {
+                subset._createdBy = createdBy;
             }
         }
     });
@@ -271,6 +282,10 @@ const editable = (state = {}) => ({
     },
 
     isEditableStatus() {
+        return true;
+    },
+
+    isEditablecreatedBy() {
         return true;
     },
 

@@ -156,7 +156,8 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'createdBy': {
-            return  {...state, createdBy: data};
+            state.createdBy = data;
+            return  Subset({...state});
         }
         case 'subject': {
             // FIXME: mutable change
