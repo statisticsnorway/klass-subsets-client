@@ -1,7 +1,11 @@
 import React from 'react';
-import {Accordion, Paragraph, Title, Link as SsbLink} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {Code} from './Code';
+import { Accordion,
+    Paragraph,
+    Title,
+    Link as SsbLink
+} from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
+import { Code } from './Code';
 
 export const SubsetPreview = ({subset}) => {
     const { t } = useTranslation();
@@ -29,9 +33,7 @@ export const SubsetPreview = ({subset}) => {
 
             <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
 
-            <Paragraph><strong>{t('Subject')}:</strong> {subset.administrativeDetails
-                .find(d => d.administrativeDetailType === 'ANNOTATION')
-                .values[0] || '-'}</Paragraph>
+            <Paragraph><strong>{t('Subject')}:</strong> {subset.subject || '-'}</Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
             {subset.codes
@@ -46,7 +48,7 @@ export const SubsetPreview = ({subset}) => {
                     />))}
 
             <Accordion header={t('Raw JSON')}>
-                <pre>{JSON.stringify(subset, null, 4)}</pre>
+                <pre>{JSON.stringify(subset.payload, null, 4)}</pre>
             </Accordion>
         </>
     );

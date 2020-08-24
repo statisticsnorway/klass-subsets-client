@@ -17,3 +17,9 @@ export const toId = text => {
         .replace(/ø/g, 'o')
         .replace(/[^a-z0-9-_]*/g, '');
 };
+
+export const sanitize = (text, maxLength) => {
+    return text
+        .substring(0, maxLength)
+        .replace(/[^A-ZÆØÅa-zæøå0-9-.,; _]*/g, '');
+};

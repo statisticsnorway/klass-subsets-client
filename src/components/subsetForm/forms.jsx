@@ -1,8 +1,8 @@
-import {availableLanguages, disableUsed} from '../../internationalization/languages';
 import React from 'react';
-import {PlusSquare, Trash2} from 'react-feather';
+import { PlusSquare, Trash2} from 'react-feather';
 import keys from '../../utils/keys';
-import {useTranslation} from "react-i18next";
+import { availableLanguages, disableUsed } from '../../internationalization/languages';
+import { useTranslation } from 'react-i18next';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',
@@ -45,7 +45,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     {errorMessages?.length > 0 &&
                         <div className='ssb-input-error '>
                             {errorMessages.map(error => (
-                                <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                                <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                             ))}
                         </div>
                     }
@@ -56,7 +56,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     />
 
                     <button disabled={!(index === items.length - 1 && index < languages.length - 1)}
-                            onClick={() => add()}>
+                            onClick={add}>
                         <PlusSquare color={(index === items.length - 1 && index < languages.length - 1)
                             ? '#1A9D49' : '#C3DCDC'}/>
                     </button>
@@ -68,7 +68,7 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                 </div>))
             }
             {items.length === 0 &&
-            <button onClick={() => add()}>
+            <button onClick={add}>
                 <PlusSquare color='#1A9D49'/>
             </button>}
         </div>
@@ -138,7 +138,7 @@ export const Dropdown = ({
             {errorMessages?.length > 0 &&
                 <div className='ssb-input-error '>
                     {errorMessages.map(error => (
-                        <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                        <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
                     ))}
                 </div>
             }

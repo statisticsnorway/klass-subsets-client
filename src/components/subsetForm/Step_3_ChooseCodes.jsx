@@ -1,18 +1,19 @@
-import React, {useState} from 'react';
-import {Search} from '../../controllers/Search';
-import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
-import {Classification} from './Classification';
-import {useTranslation} from 'react-i18next';
-import {useGet} from '../../controllers/klass-api';
-import {URL} from '../../controllers/klass-api';
+import React, { useState } from 'react';
+import { Search } from '../../controllers/Search';
+import { Title, Paragraph } from '@statisticsnorway/ssb-component-library';
+import { Classification } from './Classification';
+import { useTranslation } from 'react-i18next';
+import { useGet } from '../../controllers/klass-api';
+import { URL } from '../../controllers/klass-api';
 import '../../css/list.css';
+import { SubsetBrief } from '../SubsetBrief';
 
 /*
  *  TODO: (test) mock for service
  *  FIXME: sanitize input
  */
 
-export const Step_3_ChooseCodes = ({subset}) => {
+export const Step3ChooseCodes = ({subset}) => {
 
     const {draft, dispatch} = subset;
 
@@ -30,11 +31,7 @@ export const Step_3_ChooseCodes = ({subset}) => {
     /* TODO: tooltips for classification icons */
     return (<>
             <Title size={3}>{t('Choose classifications and code lists')}</Title>
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{draft?.id || '-'}  </strong>
-                {t('Version')}: <strong>{draft.version || '-'}  </strong>
-                {t('Updated')}: <strong>{draft.lastUpdatedDate || '-'}  </strong>
-                {t('Status')}: <strong>{t(draft.administrativeStatus) || '-'}  </strong>
-            </p>
+            <SubsetBrief />
 
             <Paragraph>
                 {t('All search results will be restricted by validity period set for the version')}{

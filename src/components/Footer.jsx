@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     GitHub,
     Facebook,
@@ -5,12 +6,9 @@ import {
     Rss,
     Twitter
 } from 'react-feather';
-import React from 'react';
 import ssbLogo from '../images/SsbLogo.svg';
-
-//import {Link, useHistory, useLocation} from 'react-router-dom';
-import {Link, Button, Footer as SsbFooter} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
+import { Link, Button, Footer as SsbFooter} from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Footer() {

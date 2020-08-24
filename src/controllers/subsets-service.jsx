@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 // DOCME
 const subsetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;

@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../css/pages.css';
-import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {Edit, HelpCircle, MessageSquare, Repeat, RefreshCw} from 'react-feather';
-import Spinner from "../Spinner";
+import { Title, Paragraph } from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
+import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw } from 'react-feather';
+import Spinner from '../Spinner';
 
 export default function ChangelogPage() {
-   const {t} = useTranslation();
+   const { t } = useTranslation();
 
    return (
        <div className='page'>
@@ -22,6 +22,10 @@ export default function ChangelogPage() {
            </Paragraph>
 
            <Title size={2}>{t('Changelog')}</Title>
+
+           <Title size={4}>v0.5.0</Title>
+           <Paragraph>Refactored code and internal state management.</Paragraph>
+           <Paragraph>bugfix: KF-380, KF-386, partly reloading problems.</Paragraph>
 
            <Title size={4}>v0.4.5 og v0.4.6</Title>
            <Paragraph>Adjusted to the new response structure from the subset service.</Paragraph>
@@ -63,12 +67,11 @@ export default function ChangelogPage() {
            <Paragraph><em>/changelog</em>  instead of <em>/about</em>.</Paragraph>
 
            <Title size={4}>v0.3.3</Title>
-           <Paragraph>Form validation:
+           <Paragraph>Form validation:</Paragraph>
                <ul>
                    <li>each form field individually (TEST: try to set same date in <code>valid from</code> and <code>valid to</code> fields. Or try to set <code>valid to</code> earlier than <code>valid from</code>. A warning will be displayed under the field.)</li>
                    <li>whole form before publishing (TEST: let <code>name</code> or <code>Owner</code> fields be empty and go to "Publish" form step -- Publish button should be disabled and Form errors summary is shown.)</li>
                </ul>
-           </Paragraph>
            <Paragraph>Limited name length to 250 symbols.</Paragraph>
            <Paragraph>Corrected field name for <code>valid to</code> field to be exclusive.</Paragraph>
            <Paragraph>Navigation between code lists in search results by using <code>UP</code> and <code>DOWN</code> on "Choose classification" form step.</Paragraph>
@@ -77,33 +80,33 @@ export default function ChangelogPage() {
            <Paragraph>No scrolling to page bottom, when selecting codes with <code>SPACE</code>.</Paragraph>
            <Paragraph><code>ESC</code> in rank input field to reset rank.</Paragraph>
            <Paragraph><code>ESC</code> on table to unselect all selected codes.</Paragraph>
-           <Paragraph>Some styles are corrected:
-               <ul>
+           <Paragraph>Some styles are corrected:</Paragraph>
+                <ul>
                    <li><Spinner /> when loading data from services.</li>
                    <li>Notes icon <MessageSquare color='#62919A' /></li>
                    <li>Date inputs</li>
                    <li>Highlight rows and list items on mouse over</li>
                    <li>etc.</li>
                </ul>
-           </Paragraph>
-
            <Title size={4}>v0.3.2</Title>
-               <Paragraph>Updated reorder codes form step:
-                   <ul>
-                       <li>better edge case for drag and drop;</li>
-                       <li>keyboard controls for moving items (<code>SPACE</code>, <code>ESC</code>, <code>UP</code>, <code>DOWN</code>, <code>CTRL</code>+<code>UP</code>, <code>CTRL</code>+<code>DOWN</code>);</li>
-                       <li>better input field control (button and <code>ENTER</code>);</li>
-                       <li>highlighting of updated items;</li>
-                       <li>fixed item deleting (was broken in v0.3);</li>
-                       <li>list item focus (<code>TAB</code>, <code>UP</code>, <code>DOWN</code>);</li>
-                       <li>more detailed help note <HelpCircle color='#2D6975'/>;</li>
-                       <li>arrow to move an item one step up or down.</li>
-                   </ul>
-               </Paragraph>
-               <Paragraph>Fixed date picker reset button (KF-336).</Paragraph>
-               <Paragraph>Fixed classification search result confusion (KF-336).</Paragraph>
-               <Paragraph>Fixed code check box confusion (KF-336).</Paragraph>
-               <Paragraph>Fixed session storage reset when "Create a subset" is clicked (KF-336).</Paragraph>
+           <Paragraph>Updated reorder codes form step:</Paragraph>
+           <ul>
+               <li>better edge case for drag and drop;</li>
+               <li>keyboard controls for moving items
+                   (<code>SPACE</code>, <code>ESC</code>, <code>UP</code>, <code>DOWN</code>,
+                   <code>CTRL</code>+<code>UP</code>, <code>CTRL</code>+<code>DOWN</code>);
+               </li>
+               <li>better input field control (button and <code>ENTER</code>);</li>
+               <li>highlighting of updated items;</li>
+               <li>fixed item deleting (was broken in v0.3);</li>
+               <li>list item focus (<code>TAB</code>, <code>UP</code>, <code>DOWN</code>);</li>
+               <li>more detailed help note <HelpCircle color='#2D6975'/>;</li>
+               <li>arrow to move an item one step up or down.</li>
+           </ul>
+           <Paragraph>Fixed date picker reset button (KF-336).</Paragraph>
+           <Paragraph>Fixed classification search result confusion (KF-336).</Paragraph>
+           <Paragraph>Fixed code check box confusion (KF-336).</Paragraph>
+           <Paragraph>Fixed session storage reset when "Create a subset" is clicked (KF-336).</Paragraph>
 
 
            <Title size={4}>v0.3.1</Title>

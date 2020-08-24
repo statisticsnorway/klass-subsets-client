@@ -1,13 +1,13 @@
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Accordion, Text} from '@statisticsnorway/ssb-component-library';
-import {replaceRef} from '../utils/strings';
-import {useCode, URN} from '../controllers/klass-api';
+import { useTranslation } from 'react-i18next';
+import { Accordion, Text } from '@statisticsnorway/ssb-component-library';
+import { replaceRef } from '../utils/strings';
+import { useCode, URN } from '../controllers/klass-api';
 import Spinner from './Spinner';
 
 export const Code = ({origin}) => {
     const { t } = useTranslation();
-    const {codeData, isLoadingVersion} = useCode(origin?.name && origin?.notes ? null : origin);
+    const { codeData, isLoadingVersion } = useCode(origin?.name && origin?.notes ? null : origin);
 
     return (
         <Accordion
@@ -18,7 +18,7 @@ export const Code = ({origin}) => {
         >
             <p><strong>{t('Short name')}:</strong> {origin?.shortName || codeData?.shortName || '-'}</p>
             <p><strong>{t('Code')}:</strong> {origin?.code || '-'}</p>
-            <p><strong>{t('Classification')}:</strong> {origin?.classification ||codeData?.classification || '-'}</p>
+            <p><strong>{t('Classification')}:</strong> {origin?.classification || codeData?.classification || '-'}</p>
             <p><strong>{t('URL')}:</strong> {origin?._links?.self?.href || codeData?._links?.self?.href || '-'}</p>
             <p><strong>{t('URN')}:</strong> {origin.urn || '-'}</p>
             <p><strong>{'validFromInRequestedRange'}:</strong> {origin?.validFromInRequestedRange || codeData?.validFromInRequestedRange || '-'}</p>

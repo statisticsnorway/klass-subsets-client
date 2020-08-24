@@ -1,19 +1,23 @@
 export const validate = {
 
     id(id) {
-        return !id || !(typeof id === 'string' || id instanceof String)
+        return !id || id.length === 0 || !(typeof id === 'string' || id instanceof String)
             ? ['ID is a mandatory field']
-            : !(/([a-z0-9])$/.test(id))
+            : !(/([a-z0-9-_])$/.test(id))
                 ? ['Only lower case letters, numbers, dashes, and underscores are allowed']
                 : [];
     },
 
     name(names) {
-        return names?.length > 0 ? [] : ['At least one name is required'];
+        return names?.length > 0
+            ? []
+            : ['At least one name is required'];
     },
 
     validFrom(date) {
-        return date ? [] : ['A valid from date is required'];
+        return date ?
+            []
+            : ['A valid from date is required'];
     },
 
     period(from, to) {
@@ -26,12 +30,12 @@ export const validate = {
                     : [];
     },
 
-    versionValidFrom(from, to, versionFrom, allowedDates = []) {
+    versionValidFrom(version, from, to, versionFrom, allowedDates = []) {
         return !versionFrom
             ? ['A valid version from date is required']
             : versionFrom > to
                 ? ['Versions cannot have gaps on validity periods']
-                : versionFrom <= to && versionFrom >= from && !allowedDates.includes(versionFrom)
+                : version !== '1' && versionFrom <= to && versionFrom >= from && !allowedDates.includes(versionFrom)
                     ? ['This date is already covered in previous versions']
                     : [];
     },
@@ -45,7 +49,9 @@ export const validate = {
     },
 
     subset(draft) {
-        return { id: this.id(draft.id),
+
+         return {
+            id: this.id(draft.id),
             name: this.name(draft.name),
             validFrom: this.validFrom(draft.validFrom),
             validUntil: [],
@@ -55,8 +61,8 @@ export const validate = {
             description: [],
             origin: [],
             administrativeStatus: [],
-            versionValidFrom: validate.versionValidFrom(draft.validFrom, draft.validUntil, draft.versionValidFrom),
-            versionPeriod: validate.period(draft.versionValidFrom, draft.validUntil),
+            versionValidFrom: this.versionValidFrom(draft.version, draft.validFrom, draft.validUntil, draft.versionValidFrom),
+            versionPeriod: this.period(draft.versionValidFrom, draft.validUntil),
             codes: this.codes(draft.codes)
         };
     }

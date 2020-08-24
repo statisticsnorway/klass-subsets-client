@@ -1,12 +1,13 @@
-import React, {useContext} from 'react';
-import {Accordion, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {useHistory, useParams} from 'react-router-dom';
-import {useGet} from '../../controllers/subsets-service';
-import {Code} from '../Code';
-import {Edit} from 'react-feather';
-import {AppContext} from '../../controllers/context';
+import React, { useContext } from 'react';
+import { Accordion, Paragraph, Title } from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useParams } from 'react-router-dom';
+import { useGet } from '../../controllers/subsets-service';
+import { Code } from '../Code';
+import { Edit } from 'react-feather';
+import { AppContext } from '../../controllers/context';
 import Spinner from '../Spinner';
+import { Brief, Id } from '../SubsetBrief';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
@@ -39,11 +40,12 @@ export const SubsetPage = () => {
                                     history.push('/create');
                                 }}/>
                         </Title>
-                        <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subsetData?.id || '-'}  </strong>
-                            {t('Version')}: <strong>{subsetData.version || '-'}  </strong>
-                            {t('Updated')}: <strong>{subsetData.lastUpdatedDate || '-'}  </strong>
-                            {t('Status')}: <strong>{t(subsetData.administrativeStatus) || '-'}  </strong>
-                        </p>
+                        <Brief
+                            id={<Id>{subsetData?.id || '-'}</Id>}
+                            version={subsetData?.version}
+                            lastUpdatedDate={subsetData?.lastUpdatedDate}
+                            status={subsetData?.administrativeStatus}
+                        />
                         <Paragraph style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subsetData.description?.find(
                             desc => desc.languageCode === 'nb')?.languageText || t('No description')}
                         </Paragraph>
@@ -58,9 +60,7 @@ export const SubsetPage = () => {
                             <strong>{t('Valid to')}:</strong> {subsetData.validUntil?.substr(0, 10)  || '-'}
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Subject')}:</strong> {subsetData.administrativeDetails
-                            ? subsetData.administrativeDetails.find(d => d.administrativeDetailType === 'ANNOTATION').values[0]
-                            : '-'}
+                            <strong>{t('Subject')}:</strong> {subsetData.subject || '-'}
                         </Paragraph>
 
                         <Title size={3}>{t('Codes')}: </Title>

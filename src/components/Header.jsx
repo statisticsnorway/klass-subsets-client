@@ -1,8 +1,8 @@
 import logo from '../images/SsbLogo.svg';
 import React from 'react';
-import {Link, useHistory, useLocation} from 'react-router-dom';
-import {Divider, Header as SsbHeader, Tabs, Text, Title} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Divider, Header as SsbHeader, Tabs, Text, Title } from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Header() {

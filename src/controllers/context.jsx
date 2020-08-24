@@ -1,6 +1,6 @@
-import React, {createContext, useEffect} from 'react';
-import {useSubset} from './useSubset';
-import {useErrorRegister} from './useErrorRegister';
+import React, { createContext, useEffect } from 'react';
+import { useSubset } from './useSubset';
+import { useErrorRegister } from './useErrorRegister';
 
 /** Context Principles
  *
@@ -24,12 +24,11 @@ import {useErrorRegister} from './useErrorRegister';
 
 export const AppContext = createContext({});
 
-// TODO: backup the context in session storage every 1 min?
 export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister([]);
 
     const subset = useSubset();
-    useEffect(() => console.log({ newState: subset.draft }),[subset.draft]);
+    useEffect(() => console.info({ newState: subset.draft }),[subset.draft]);
 
     return (
         <AppContext.Provider value={{subset, errorRegister}}>
