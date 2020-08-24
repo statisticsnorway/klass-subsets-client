@@ -11,11 +11,11 @@ export const URN = {
     classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
 
     isCodePattern(urn) {
-        return this.codePattern.test(urn)
+        return this.codePattern.test(urn);
     },
 
     isClassificationPattern(urn) {
-        return this.classificationPattern.test(urn)
+        return this.classificationPattern.test(urn);
     },
     // TESTME
     toURL(urn, from, to) {
@@ -311,11 +311,11 @@ export function useClassification(id = null) {
     }, [version, setCodesWithNotes]);
 
     /*
-        useEffect(() => console.log({metadata}), [metadata]);
-        useEffect(() => console.log({versions}), [versions]);
-        useEffect(() => console.log({version}), [version]);
-        useEffect(() => console.log({codesWithNotes}), [codesWithNotes]);
+        useEffect(() => console.debug({metadata}), [metadata]);
+        useEffect(() => console.debug({versions}), [versions]);
+        useEffect(() => console.debug({version}), [version]);
+        useEffect(() => console.debug({codesWithNotes}), [codesWithNotes]);
     */
 
-    return {metadata, versions, codesWithNotes, isLoadingVersion};
+    return { metadata, versions, codesWithNotes, isLoadingVersion };
 }

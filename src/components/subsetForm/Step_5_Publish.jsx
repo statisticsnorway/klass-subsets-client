@@ -52,7 +52,7 @@ return (
                             draft.administrativeStatus = 'DRAFT';
                             draft.isNew()
                                 ? setPOSTPayload(draft.payload)
-                                : setPUTPayload(draft.payload)
+                                : setPUTPayload(draft.payload);
                         }
                         }>{t('Save')}
                     </Button>
