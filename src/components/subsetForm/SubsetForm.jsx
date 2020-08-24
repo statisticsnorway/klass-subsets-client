@@ -17,9 +17,7 @@ export default function SubsetForm() {
         <div className='page'>
             <Navigation>
                 <Step label={ t('Metadata') }><Step1Metadata/></Step>
-                <Step label={ t('Versions') }>
-                    <Step2Versions subset={subset} />
-                </Step>
+                <Step label={ t('Versions') }><Step2Versions/></Step>
                 <Step label={ t('Choose codes') }>
                     <Step3ChooseCodes subset={ subset } />
                 </Step>

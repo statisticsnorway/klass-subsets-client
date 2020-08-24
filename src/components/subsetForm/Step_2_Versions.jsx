@@ -10,43 +10,15 @@ import { SubsetBrief } from "../SubsetBrief";
 import {AppContext} from "../../controllers/context";
 import {subsetDraft} from "../../controllers/defaults";
 
-/*
- *  FIXME: sanitize input
- */
-
-export const Step2Versions = ({subset}) => {
-
-    const { draft, dispatch } = subset;
+export const Step2Versions = () => {
     const { t } = useTranslation();
-
-    useEffect(() => {
-        draft.versionRationale?.length === 0
-        && dispatch({action: 'version_rationale_add'});
-
-        return () => {
-            dispatch({action: 'remove_empty'});
-        };
-    }, []);
-
     return (
         <>
             <Title size={3}>{t('Versions')}</Title>
             <SubsetBrief />
             <VersionSwitcher />
             <VersionPeriod />
-
-            <TextLanguageFieldset title={t('Version rationale')}
-                                  items={draft.versionRationale}
-                                  add={() => dispatch({action: 'version_rationale_add'})}
-                                  remove={(index) => dispatch({action: 'version_rationale_remove', data: index})}
-                                  handleText={(index, text) => dispatch({
-                                      action: 'version_rationale_text', data: {index, text}})}
-                                  handleLang={(index, lang) => dispatch({
-                                      action: 'version_rationale_lang', data: {index, lang}})}
-                                  size = {{cols: 65, rows: 4}}
-                                  errorMessages={draft.errors?.versionRationale}
-                                  maxLength={subsetDraft.maxLengthVersionRationale}
-            />
+            <VersionRationale />
         </>
     );
 };
@@ -109,9 +81,9 @@ export const VersionSwitcher = () => {
 };
 
 export const VersionPeriod = () => {
-    const {subset} = useContext(AppContext);
-    const {draft, dispatch} = subset;
-    const {t} = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
+    const { t } = useTranslation();
 
     const [ showHelp, setShowHelp ] = useState(false);
 
@@ -200,5 +172,37 @@ export const VersionPeriod = () => {
             </div>
             }
         </section>
-    )
-}
+    );
+};
+
+
+export const VersionRationale = () => {
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
+    const { t } = useTranslation();
+
+    useEffect(() => {
+        draft.versionRationale?.length === 0
+        && dispatch({action: 'version_rationale_add'});
+
+        return () => {
+            dispatch({action: 'remove_empty'});
+        };
+    }, []);
+
+    return (
+        <TextLanguageFieldset title={t('Version rationale')}
+                              items={draft.versionRationale}
+                              add={() => dispatch({action: 'version_rationale_add'})}
+                              remove={(index) => dispatch({action: 'version_rationale_remove', data: index})}
+                              handleText={(index, text) => dispatch({
+                                  action: 'version_rationale_text', data: {index, text}
+                              })}
+                              handleLang={(index, lang) => dispatch({
+                                  action: 'version_rationale_lang', data: {index, lang}
+                              })}
+                              size={{cols: 65, rows: 4}}
+                              maxLength={subsetDraft.maxLengthVersionRationale}
+                              errorMessages={draft.errors?.versionRationale}
+    />);
+};
