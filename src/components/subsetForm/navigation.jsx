@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {Button} from '@statisticsnorway/ssb-component-library';
+import React, { useState } from 'react';
+import { Button } from '@statisticsnorway/ssb-component-library';
 import '../../css/pointer.css';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 // TODO: add api to navigate to particular steps from inside og the form.
 // For instance from the last (preview) page.

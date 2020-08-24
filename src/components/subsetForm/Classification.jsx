@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     AlertTriangle as Alert,
     Info,
@@ -10,11 +10,11 @@ import {
     XSquare,
     RefreshCw
 } from 'react-feather';
-import {Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
-import {useGet, URN, useClassification} from '../../controllers/klass-api';
+import { Paragraph, Text, Title } from '@statisticsnorway/ssb-component-library';
+import { useGet, URN, useClassification } from '../../controllers/klass-api';
 import '../../css/panel.css';
-import {useTranslation} from 'react-i18next';
-import {replaceRef} from '../../utils/strings';
+import { useTranslation } from 'react-i18next';
+import { replaceRef } from '../../utils/strings';
 import Spinner from '../Spinner';
 import keys from '../../utils/keys';
 

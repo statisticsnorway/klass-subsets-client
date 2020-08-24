@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import '../../css/pages.css';
-import {useTranslation} from 'react-i18next';
-import {Button, Title, FormError} from '@statisticsnorway/ssb-component-library';
-import {SubsetPreview} from '../Subset';
-import {usePost, usePut} from '../../controllers/subsets-service';
-import {useHistory} from 'react-router-dom';
-import {SubsetBrief} from "../SubsetBrief";
+import { useTranslation } from 'react-i18next';
+import { Button, Title, FormError } from '@statisticsnorway/ssb-component-library';
+import { SubsetPreview } from '../Subset';
+import { usePost, usePut } from '../../controllers/subsets-service';
+import { useHistory } from 'react-router-dom';
+import { SubsetBrief } from '../SubsetBrief';
 
 export const Step5Publish = ({subset}) => {
     const {draft, dispatch} = subset;

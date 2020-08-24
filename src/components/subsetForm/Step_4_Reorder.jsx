@@ -1,8 +1,8 @@
 import React from 'react';
-import {Title} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {Reorderable} from './reorderable';
-import {SubsetBrief} from "../SubsetBrief";
+import { Title } from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
+import { Reorderable } from './reorderable';
+import { SubsetBrief } from '../SubsetBrief';
 
 export const Step4Reorder = ({subset}) => {
     const {draft, dispatch} = subset;

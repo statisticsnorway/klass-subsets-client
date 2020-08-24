@@ -1,4 +1,4 @@
-import {validate} from './validator';
+import { validate } from './validator';
 
 describe('Subset validator: ID', () => {
     it('should warn that ID cannot be null', () => {

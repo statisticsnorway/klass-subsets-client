@@ -1,7 +1,7 @@
 export const languages = [
-    {languageCode: 'nb', IETF: 'nb-NO', full: 'Norsk bokmål', default: true},
-    {languageCode: 'nn', IETF: 'nn-NO', full: 'Nynorsk'},
-    {languageCode: 'en', IETF: 'en-US', full: 'English'}
+    { languageCode: 'nb', IETF: 'nb-NO', full: 'Norsk bokmål', default: true },
+    { languageCode: 'nn', IETF: 'nn-NO', full: 'Nynorsk' },
+    { languageCode: 'en', IETF: 'en-US', full: 'English' }
 ];
 
 export const subsetDraft = {
@@ -28,7 +28,7 @@ export const LANGUAGE_CODE_ENUM = [
     'nn'
 ];
 
-export const axceptablePeriod = {
+export const acceptablePeriod = {
     from: new Date('1800-01-01'),
     until: new Date('2300-01-01')
 };

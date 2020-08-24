@@ -1,13 +1,13 @@
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Accordion, Text} from '@statisticsnorway/ssb-component-library';
-import {replaceRef} from '../utils/strings';
-import {useCode, URN} from '../controllers/klass-api';
+import { useTranslation } from 'react-i18next';
+import { Accordion, Text } from '@statisticsnorway/ssb-component-library';
+import { replaceRef } from '../utils/strings';
+import { useCode, URN } from '../controllers/klass-api';
 import Spinner from './Spinner';
 
 export const Code = ({origin}) => {
     const { t } = useTranslation();
-    const {codeData, isLoadingVersion} = useCode(origin?.name && origin?.notes ? null : origin);
+    const { codeData, isLoadingVersion } = useCode(origin?.name && origin?.notes ? null : origin);
 
     return (
         <Accordion

@@ -1,5 +1,5 @@
 import { toId, sanitize } from '../utils/strings';
-import { subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, axceptablePeriod } from './defaults';
+import { subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, acceptablePeriod } from './defaults';
 import { validate } from './validator';
 import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
@@ -436,8 +436,8 @@ const editable = (state = {}) => ({
 const restrictable = (state = {}) => ({
 
     isInAcceptablePeriod(date) {
-        return date >= axceptablePeriod.from.toISOString()
-            && date < axceptablePeriod.until.toISOString();
+        return date >= acceptablePeriod.from.toISOString()
+            && date < acceptablePeriod.until.toISOString();
     },
 
     isAcceptableLanguageCode(lang) {

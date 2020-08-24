@@ -1,7 +1,11 @@
 import React from 'react';
-import {Accordion, Paragraph, Title, Link as SsbLink} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {Code} from './Code';
+import { Accordion,
+    Paragraph,
+    Title,
+    Link as SsbLink
+} from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
+import { Code } from './Code';
 
 export const SubsetPreview = ({subset}) => {
     const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 

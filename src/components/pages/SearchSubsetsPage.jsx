@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../css/pages.css';
 import {Dropdown, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {useGet} from '../../controllers/subsets-service';
-import {Subsets} from '../Subset';
-import {Search} from '../../controllers/Search';
+import { useTranslation } from 'react-i18next';
+import { useGet } from '../../controllers/subsets-service';
+import { Subsets } from '../Subset';
+import { Search } from '../../controllers/Search';
 import Spinner from "../Spinner";
 
 export default function SearchSubsetsPage() {
 
     const { t } = useTranslation();
-    const [subsets, isLoadingSubsets, errorSubsets] = useGet('');
-    const [searchResults, setSearchResults] = useState([]);
+    const [ subsets, isLoadingSubsets, errorSubsets ] = useGet('');
+    const [ searchResults, setSearchResults ] = useState([]);
 
 
     useEffect(() => setSearchResults(subsets), [subsets]);

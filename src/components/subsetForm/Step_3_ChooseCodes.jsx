@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {Search} from '../../controllers/Search';
-import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
-import {Classification} from './Classification';
-import {useTranslation} from 'react-i18next';
-import {useGet} from '../../controllers/klass-api';
-import {URL} from '../../controllers/klass-api';
+import React, { useState } from 'react';
+import { Search } from '../../controllers/Search';
+import { Title, Paragraph } from '@statisticsnorway/ssb-component-library';
+import { Classification } from './Classification';
+import { useTranslation } from 'react-i18next';
+import { useGet } from '../../controllers/klass-api';
+import { URL } from '../../controllers/klass-api';
 import '../../css/list.css';
-import {SubsetBrief} from "../SubsetBrief";
+import { SubsetBrief } from '../SubsetBrief';
 
 /*
  *  TODO: (test) mock for service

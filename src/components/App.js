@@ -1,14 +1,13 @@
 import React from 'react';
 import '../css/App.css';
-import {BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
-import {ContextProvider} from '../controllers/context';
+import { BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
+import { ContextProvider } from '../controllers/context';
 import Header from './Header';
 import Footer from './Footer';
 import ChangelogPage from './pages/ChangelogPage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
-// import Errors from './Errors';
 import SubsetForm from './subsetForm/SubsetForm';
-import {SubsetPage} from './pages/SubsetPage';
+import { SubsetPage } from './pages/SubsetPage';
 
 export default function App() {
     return (
@@ -22,10 +21,6 @@ export default function App() {
                 <div className='app'>
                     <Header/>
                 <div className='app-content'>
-{/* FIXME use it!
-    TODO: style it!
-                    <Errors/>
-*/}
                     <Switch>
                         <Route path='/' exact component={SearchSubsetsPage}/>
                         <Redirect push from='/create' to='/auth/create' />

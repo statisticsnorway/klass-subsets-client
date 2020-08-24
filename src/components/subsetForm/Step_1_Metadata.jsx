@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../../css/form.css';
-import {Dropdown, TextLanguageFieldset} from './forms';
-import {subsetDraft} from '../../controllers/defaults';
-import {Title, Paragraph} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {useGet} from '../../controllers/klass-api';
-import {HelpCircle} from 'react-feather';
-import {SubsetBrief} from '../SubsetBrief';
-import {AppContext} from '../../controllers/context';
-import {useGet as useGetSubset} from '../../controllers/subsets-service';
+import { Dropdown, TextLanguageFieldset } from './forms';
+import { subsetDraft } from '../../controllers/defaults';
+import { Title, Paragraph } from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
+import { useGet } from '../../controllers/klass-api';
+import { HelpCircle } from 'react-feather';
+import { SubsetBrief } from '../SubsetBrief';
+import { AppContext } from '../../controllers/context';
+import { useGet as useGetSubset } from '../../controllers/subsets-service';
 
 export const Step1Metadata = () => {
     const { t } = useTranslation();

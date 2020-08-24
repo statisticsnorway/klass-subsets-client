@@ -1,13 +1,13 @@
-import React, {useContext} from 'react';
-import {Accordion, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
-import {useTranslation} from 'react-i18next';
-import {useHistory, useParams} from 'react-router-dom';
-import {useGet} from '../../controllers/subsets-service';
-import {Code} from '../Code';
-import {Edit} from 'react-feather';
-import {AppContext} from '../../controllers/context';
+import React, { useContext } from 'react';
+import { Accordion, Paragraph, Title } from '@statisticsnorway/ssb-component-library';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useParams } from 'react-router-dom';
+import { useGet } from '../../controllers/subsets-service';
+import { Code } from '../Code';
+import { Edit } from 'react-feather';
+import { AppContext } from '../../controllers/context';
 import Spinner from '../Spinner';
-import {Brief, Id} from '../SubsetBrief';
+import { Brief, Id } from '../SubsetBrief';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();

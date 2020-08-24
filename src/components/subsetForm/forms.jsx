@@ -1,8 +1,8 @@
-import {availableLanguages, disableUsed} from '../../internationalization/languages';
 import React from 'react';
-import {PlusSquare, Trash2} from 'react-feather';
+import { PlusSquare, Trash2} from 'react-feather';
 import keys from '../../utils/keys';
-import {useTranslation} from 'react-i18next';
+import { availableLanguages, disableUsed } from '../../internationalization/languages';
+import { useTranslation } from 'react-i18next';
 
 export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
                                          prefix = '',

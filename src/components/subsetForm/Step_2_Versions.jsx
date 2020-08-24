@@ -175,7 +175,6 @@ export const VersionPeriod = () => {
     );
 };
 
-
 export const VersionRationale = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
