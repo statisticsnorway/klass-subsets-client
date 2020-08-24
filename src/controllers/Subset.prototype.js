@@ -30,7 +30,7 @@ export function Subset (data) {
 
         // step 2 Versions
         _version: data?.version || data?._version || '1',
-        _previousVersions: data?._previousVersions || undefined,
+        _previousVersions: data?._previousVersions || null,
         _versionRationale: data?.versionRationale || data?._versionRationale || [],
         _versionValidFrom: data?.versionValidFrom || data?._versionValidFrom || null,
         _versionValidUntil: data?.versionValidUntil || data?._versionValidUntil || null,
@@ -40,7 +40,7 @@ export function Subset (data) {
 
         // extra
         lastUpdatedDate: data?.lastUpdatedDate || null,
-    }
+    };
 
     Object.assign(
         subset,
@@ -207,7 +207,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'latestVersion', {
         get: () => {
             if (!subset.previousVersions) {
-                return undefined;
+                return null;
             }
             return subset.previousVersions.sort((a,b) =>
             a.versionValidFrom < b.versionValidFrom ? 1 :
@@ -324,7 +324,7 @@ export function Subset (data) {
             Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));
             return payload;
         }
-    })
+    });
 
     return subset.validate();
 }
@@ -351,7 +351,7 @@ const editable = (state = {}) => ({
         //console.debug('isLatestSavedVersion', state.latestVersion?.version === state.version);
 
         if (!state.previousVersions) {
-            return undefined;
+            return null;
         }
         return state.latestVersion?.version === state.version;
     },
@@ -577,7 +577,7 @@ const descriptionControl = (state = {}) => ({
         {
             //console.debug('removeDescriptionByIndex', index);
 
-            state.description = state.description?.filter((item, i) => i !== index)
+            state.description = state.description?.filter((item, i) => i !== index);
         }
     },
 

@@ -11,11 +11,11 @@ export const URN = {
     classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
 
     isCodePattern(urn) {
-        return this.codePattern.test(urn)
+        return this.codePattern.test(urn);
     },
 
     isClassificationPattern(urn) {
-        return this.classificationPattern.test(urn)
+        return this.classificationPattern.test(urn);
     },
     // TESTME
     toURL(urn, from, to) {

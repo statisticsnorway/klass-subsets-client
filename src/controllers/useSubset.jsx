@@ -32,7 +32,7 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'name_lang': {
-            state.updateNameLanguageByIndex(data.index, data.lang)
+            state.updateNameLanguageByIndex(data.index, data.lang);
             return Subset({...state});
         }
         case 'name_add': {
@@ -40,7 +40,7 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'name_remove': {
-            state.removeNameByIndex(data)
+            state.removeNameByIndex(data);
             return Subset({...state});
         }
         case 'shortName_update': {
