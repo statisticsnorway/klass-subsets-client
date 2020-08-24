@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import '../../css/form.css';
 import { useTranslation } from 'react-i18next';
 import { Paragraph, Title } from '@statisticsnorway/ssb-component-library';
@@ -7,6 +7,7 @@ import { useGet } from '../../controllers/subsets-service';
 import Spinner from '../Spinner';
 import { HelpCircle } from 'react-feather';
 import { SubsetBrief } from "../SubsetBrief";
+import {AppContext} from "../../controllers/context";
 
 /*
  *  FIXME: sanitize input
@@ -27,48 +28,11 @@ export const Step2Versions = ({subset}) => {
         };
     }, []);
 
-    const [versions, isLoadingVersions, errorVersions] = useGet(`${draft.id}/versions`);
-
-    useEffect(() => {
-        if (versions && !versions.error) {
-            dispatch({
-                action: 'previous_versions',
-                data: versions
-            });
-        }
-    }, [ versions, dispatch ]);
-
     return (
         <>
             <Title size={3}>{t('Versions')}</Title>
             <SubsetBrief />
-
-            {isLoadingVersions
-                ? <Spinner/>
-                : <Dropdown label={t('Version')}
-                            options={!errorVersions && versions && !versions.error
-                                ? [
-                                    ...versions.map(v => ({...v,
-                                        title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)} ${t(v.administrativeStatus)}`,
-                                        id: `${v.version}`
-                                    })),
-
-                                    { title: `${t('New version')}`, id: 'New version', disabled: !versions.find(v => v.version === draft.version) }
-                                ]
-                                : []
-                            }
-                            placeholder={t('Select a version')}
-                            disabledText={t(draft.administrativeStatus)}
-                            selected={draft.version}
-                            onSelect={(option) => {
-                                dispatch({
-                                    action: 'version_switch',
-                                    data: option.id
-                                });
-                            }}
-                            errorMessages={draft.errors?.version}
-                />
-            }
+            <VersionSwitcher />
 
             <section style={{margin: '5px 0 5px 0'}}>
                 <div style={{float: 'left', marginRight: '20px', padding: '0', position: 'relative', top: '-10px'}}>
@@ -86,7 +50,9 @@ export const Step2Versions = ({subset}) => {
                            id='version_from_date'
                            style={{display: 'block'}}
                            value={draft.versionValidFrom?.substr(0, 10) || ''}
-                           disabled={versions && !versions.error && versions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN')}
+                           disabled={draft.previousVersions
+                                && draft.previousVersions?.find(v => v.version === draft.version
+                                && v.administrativeStatus === 'OPEN')}
                            onChange={event => dispatch({
                                action: 'version_from',
                                data: event.target.value === ''
@@ -113,10 +79,10 @@ export const Step2Versions = ({subset}) => {
                            value={draft.versionValidUntil?.substr(0, 10) || ''}
                            disabled={
                                (!draft.versionValidFrom && !draft.validUntil)
-                               || (draft.validUntil && versions && !versions.error && versions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
-                               || (versions && !versions.error &&
-                                   draft.versionValidUntil === versions?.find(v => v.version === draft.version-1)?.validFrom
-                                   && draft.versionValidFrom < versions?.find(v => v.version === draft.version-1)?.validFrom)}
+                               || (draft.validUntil && draft.previousVersions && draft.previousVersions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
+                               || (draft.previousVersions &&
+                                   draft.versionValidUntil === draft.previousVersions?.find(v => v.version === draft.version-1)?.validFrom
+                                   && draft.versionValidFrom < draft.previousVersions?.find(v => v.version === draft.version-1)?.validFrom)}
                            onChange={event => dispatch({
                                action: 'version_to',
                                data: event.target.value === ''
@@ -166,5 +132,62 @@ export const Step2Versions = ({subset}) => {
                                   errorMessages={draft.errors?.versionRationale}
             />
         </>
+    );
+};
+
+export const VersionSwitcher = () => {
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
+    const { t } = useTranslation();
+
+    const [ versions, isLoadingVersions, errorVersions ] = useGet(`${draft.id}/versions`);
+
+    useEffect(() => {
+        if (versions && !versions.error) {
+            dispatch({
+                action: 'previous_versions',
+                data: versions
+            });
+        }
+    }, [ versions, dispatch ]);
+
+
+    return (
+        <>{isLoadingVersions
+            ? <Spinner/>
+            : errorVersions || versions?.error
+                ? <>
+                    <p style={{color: 'red'}}>{errorVersions.message}</p>
+                    <p style={{color: 'red'}}>{versions?.error}</p>
+                  </>
+                : <Dropdown label={t('Version')}
+                        options={draft.previousVersions
+                            ? [
+                                ...draft.previousVersions.map(v => ({
+                                    ...v,
+                                    title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)} ${t(v.administrativeStatus)}`,
+                                    id: `${v.version}`
+                                })),
+
+                                {
+                                    title: `${t('New version')}`,
+                                    id: 'New version',
+                                    disabled: !draft.previousVersions.find(v => v.version === draft.version)
+                                }
+                            ]
+                            : []
+                        }
+                        placeholder={t('Select a version')}
+                        disabledText={t(draft.administrativeStatus)}
+                        selected={draft.version}
+                        onSelect={(option) => {
+                            dispatch({
+                                action: 'version_switch',
+                                data: option.id
+                            });
+                        }}
+                        errorMessages={draft.errors?.version}
+            />
+    } </>
     );
 };
