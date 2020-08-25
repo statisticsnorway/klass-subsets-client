@@ -8,10 +8,8 @@ import { useHistory } from 'react-router-dom';
 import { SubsetBrief } from '../SubsetBrief';
 
 export const Step5Publish = ({subset}) => {
-    const {draft, dispatch} = subset;
-
+    const { draft, dispatch } = subset;
     const { t } = useTranslation();
-
     let history = useHistory();
 
     const [post, setPOSTPayload,, errorPost] = usePost();
@@ -47,12 +45,11 @@ return (
 
                 <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
                     <Button
-                        disabled={ !update || draft.isPublished }
+                        disabled={ update !== null || draft.isPublished }
                         onClick={() => {
-                            draft.administrativeStatus = 'DRAFT';
                             draft.isNew()
-                                ? setPOSTPayload(draft.payload)
-                                : setPUTPayload(draft.payload);
+                                ? setPOSTPayload(draft.draftPayload)
+                                : setPUTPayload(draft.draftPayload);
                         }
                         }>{t('Save')}
                     </Button>
@@ -60,12 +57,11 @@ return (
 
                 <div style={{float: 'right'}}>
                     <Button
-                        disabled={post !== null || Object.values(draft.errors).flat().length > 0}
+                        disabled={ post !== null || Object.values(draft.errors).flat().length > 0}
                         onClick={() => {
-                            draft.administrativeStatus = 'OPEN';
                             draft.isNew()
-                                ? setPOSTPayload(draft.payload)
-                                : setPUTPayload(draft.payload)
+                                ? setPOSTPayload(draft.publishPayload)
+                                : setPUTPayload(draft.publishPayload)
                         }
                         }>{t('Publish')}
                     </Button>
