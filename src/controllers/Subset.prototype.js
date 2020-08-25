@@ -40,6 +40,7 @@ export function Subset (data) {
 
         // extra
         lastUpdatedDate: data?.lastUpdatedDate || null,
+        createDate: data?.createdDate || new Date().toISOString()
     };
 
     Object.assign(
