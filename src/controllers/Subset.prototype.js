@@ -91,7 +91,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'administrativeStatus', {
         get: () => { return subset._administrativeStatus; },
         set: (status = '') => {
-            //console.debug('Set administrativeStatus', status);
+            console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
 
             if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
                 subset._administrativeStatus = status;
@@ -156,7 +156,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'isPublished', {
-        get: () => { return subset._administrativeStatus  === 'OPEN'; },
+        get: () => { return subset._administrativeStatus  === 'OPEN';},
     });
 
 
@@ -326,14 +326,32 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'draftPayload', {
+        get: () => {
+            return {
+                ...subset.payload,
+                administrativeStatus: 'DRAFT'
+            };
+        }
+    });
+
+    Object.defineProperty(subset, 'publishPayload', {
+        get: () => {
+            return {
+                ...subset.payload,
+                administrativeStatus: 'OPEN'
+            };
+        }
+    });
+
     return subset.validate();
 }
 
 const editable = (state = {}) => ({
 
     isNew() {
-        //console.debug('isNew', state.administrativeStatus === 'INTERNAL'
-        //    && state.version === '1');
+        console.debug('isNew', state.administrativeStatus === 'INTERNAL'
+            && state.version === '1');
 
         return state.administrativeStatus === 'INTERNAL'
             && state.version === '1';

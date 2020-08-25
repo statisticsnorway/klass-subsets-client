@@ -23,6 +23,10 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.5.1</Title>
+           <Paragraph>Bugfix: corrected payload for saving and publishing.</Paragraph>
+           <Paragraph>Bugfix: corrected state restore from session storage.</Paragraph>
+
            <Title size={4}>v0.5.0</Title>
            <Paragraph>Refactored code and internal state management.</Paragraph>
            <Paragraph>bugfix: KF-380, KF-386, partly reloading problems.</Paragraph>

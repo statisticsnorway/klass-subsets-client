@@ -206,21 +206,7 @@ export const useSubset = (init = Subset()) => {
     // FIXME: discard on non-valid draft and return init
     function initialize() {
         const restored = JSON.parse(sessionStorage.getItem('draft'));
-        if (restored) {
-
-            const annotation =
-                restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION')
-                || init.administrativeDetails?.find(d => d.administrativeDetailType === 'ANNOTATION');
-
-            const origin =
-                restored.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN')
-                || init.administrativeDetails?.find(d => d.administrativeDetailType === 'ORIGIN');
-
-            origin.values = verifyOrigin(origin.values, restored.codes);
-
-            restored.administrativeDetails = [ annotation, origin ];
-        }
-        return Subset({...init, ...restored}) || Subset();
+        return restored ? Subset({...init, ...restored}) : Subset();
     }
 
     useEffect(() => {

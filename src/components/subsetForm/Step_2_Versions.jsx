@@ -43,16 +43,11 @@ export const VersionSwitcher = () => {
     return (
         <>{isLoadingVersions
             ? <Spinner/>
-            : errorVersions || versions?.error
-                ? <>
-                    <p style={{color: 'red'}}>{errorVersions.message}</p>
-                    <p style={{color: 'red'}}>{versions?.error}</p>
-                  </>
-                : <Dropdown label={t('Version')}
+            : <Dropdown label={t('Version')}
                         options={draft.previousVersions
-                            ? [
-                                ...draft.previousVersions.map(v => ({
-                                    ...v,
+                       ? [
+                           ...draft.previousVersions.map(v => ({
+                               ...v,
                                     title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)} ${t(v.administrativeStatus)}`,
                                     id: `${v.version}`
                                 })),
