@@ -74,11 +74,3 @@ return (
         </>
     );
 };
-/*
-function prepare(status = '', payload = {}) {
-    payload.administrativeStatus = status;
-    payload.version = `${payload.version}`;
-    payload.lastUpdatedDate = new Date().toISOString(); // FIXME: has to be set on backend side+
-    Object.keys(payload).forEach((key) => (payload[key] == null) && delete payload[key]);
-    return payload;
-}*/

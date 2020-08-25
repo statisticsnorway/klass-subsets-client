@@ -59,8 +59,6 @@ export function usePost() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log('POST', {payload});
-
         const fetchData = async () => {
             setError(null);
             setIsLoading(true);
