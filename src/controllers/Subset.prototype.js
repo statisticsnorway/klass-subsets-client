@@ -320,7 +320,8 @@ export function Subset (data) {
                 versionRationale: subset.versionRationale,
                 versionValidFrom: subset.versionValidFrom,
                 codes: subset.codes,
-                lastUpdatedDate: new Date().toISOString()  // FIXME: has to be set on backend side+
+                lastUpdatedDate: new Date().toISOString(), // FIXME: has to be set on backend side+
+                createDate: subset.createDate  // FIXME: has to be set on backend side+
             };
             Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));
             return payload;
