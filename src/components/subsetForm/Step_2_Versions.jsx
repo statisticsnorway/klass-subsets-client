@@ -1,14 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import '../../css/form.css';
 import { useTranslation } from 'react-i18next';
-import { Paragraph, Title } from '@statisticsnorway/ssb-component-library';
+import {Paragraph, Title} from '@statisticsnorway/ssb-component-library';
 import { Dropdown, TextLanguageFieldset } from './forms';
 import { useGet } from '../../controllers/subsets-service';
 import Spinner from '../Spinner';
-import { HelpCircle } from 'react-feather';
-import { SubsetBrief } from "../SubsetBrief";
-import {AppContext} from "../../controllers/context";
-import {subsetDraft} from "../../controllers/defaults";
+import { SubsetBrief } from '../SubsetBrief';
+import { AppContext } from '../../controllers/context';
+import { subsetDraft } from '../../controllers/defaults';
+import { Help } from '../../components/Help';
 
 export const Step2Versions = () => {
     const { t } = useTranslation();
@@ -106,28 +106,18 @@ export const VersionValidFromForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
-    const [ showHelp, setShowHelp ] = useState(false);
 
     return (
         <>
             <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                   htmlFor='version_from_date'>{t('Version valid from')}:
-                <button
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        setShowHelp(prev => !prev);
-                    }}>
-                    <HelpCircle color='#2D6975'/>
-                </button>
+                   htmlFor='version_from_date'
+            >{t('Version valid from')}:
+                <Help>
+                    <strong>{ t('Version valid from') }. </strong>
+                    { t('Version valid from help') }
+                </Help>
             </label>
-            {showHelp &&
-                <div style={{background: '#274247', color: 'white', padding: '0 0 0 10px'}}>
-                    <Paragraph negative>
-                        <strong>{ t('Version valid from') }. </strong>
-                        { t('Version valid from help') }
-                    </Paragraph>
-                </div>
-            }
+
             <input type='date'
                    id='version_from_date'
                    style={{display: 'block'}}
