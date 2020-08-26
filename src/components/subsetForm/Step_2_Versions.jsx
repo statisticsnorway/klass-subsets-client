@@ -45,9 +45,9 @@ export const VersionSwitcher = () => {
             ? <Spinner/>
             : <Dropdown label={t('Version')}
                         options={draft.previousVersions
-                       ? [
-                           ...draft.previousVersions.map(v => ({
-                               ...v,
+                           ? [
+                               ...draft.previousVersions.map(v => ({
+                                   ...v,
                                     title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)} ${t(v.administrativeStatus)}`,
                                     id: `${v.version}`
                                 })),
@@ -77,96 +77,118 @@ export const VersionSwitcher = () => {
 
 export const VersionPeriod = () => {
     const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
     const { t } = useTranslation();
-
-    const [ showHelp, setShowHelp ] = useState(false);
 
     return (
         <section style={{margin: '5px 0 5px 0'}}>
             <div style={{float: 'left', marginRight: '20px', padding: '0', position: 'relative', top: '-10px'}}>
-                <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                       htmlFor='version_from_date'>{t('Version valid from')}:
-                    <button
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            setShowHelp(prev => !prev);
-                        }}>
-                        <HelpCircle color='#2D6975'/>
-                    </button>
-                </label>
-                <input type='date'
-                       id='version_from_date'
-                       style={{display: 'block'}}
-                       value={draft.versionValidFrom?.substr(0, 10) || ''}
-                       disabled={draft.previousVersions
-                       && draft.previousVersions?.find(v => v.version === draft.version
-                           && v.administrativeStatus === 'OPEN')}
-                       onChange={event => dispatch({
-                           action: 'version_from',
-                           data: event.target.value === ''
-                               ? null
-                               : new Date(event.target.value).toISOString(),
-                       })
-                       }
-                       className='datepicker'/>
-                {draft.errors?.versionValidFrom?.length > 0 &&
-                <div className='ssb-input-error '>
-                    {draft.errors.versionValidFrom.map((error, i) => (
-                        <span key={error + i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
-                    ))}
-                </div>
-                }
+                <VersionValidFromForm />
             </div>
-
             <div style={{float: 'left'}}>
-                <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                       htmlFor='version_to_date'>{t('Version valid until')}: </label>
-                <input type='date'
-                       id='version_to_date'
-                       style={{display: 'block'}}
-                       value={draft.versionValidUntil?.substr(0, 10) || ''}
-                       disabled={
-                           (!draft.versionValidFrom && !draft.validUntil)
-                           || (draft.validUntil && draft.previousVersions && draft.previousVersions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
-                           || (draft.previousVersions &&
-                               draft.versionValidUntil === draft.previousVersions?.find(v => v.version === draft.version - 1)?.validFrom
-                               && draft.versionValidFrom < draft.previousVersions?.find(v => v.version === draft.version - 1)?.validFrom)}
-                       onChange={event => dispatch({
-                           action: 'version_to',
-                           data: event.target.value === ''
-                               ? null
-                               : new Date(event.target.value)?.toISOString()
-                       })
-                       }
-                       className='datepicker'/>
-                {draft.errors?.versionValidUntil?.length > 0 &&
-                <div className='ssb-input-error '>
-                    {draft.errors.versionValidUntil.map(error => (
-                        <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
-                    ))}
-                </div>
-                }
+                <VersionValidUntilForm />
             </div>
             <br style={{clear: 'both'}}/>
 
-            {showHelp &&
-            <div style={{background: '#274247', color: 'white', padding: '0 0 0 10px'}}>
-                <Paragraph negative>
-                    <strong>{t('Version valid from')}. </strong>
-                    {t('Version valid from help')}
-                </Paragraph>
-            </div>
-            }
-
-            {draft.errors?.versionPeriod?.length > 0 &&
+            {subset.draft?.errors?.versionPeriod?.length > 0 &&
             <div className='ssb-input-error '>
-                {draft.errors.versionPeriod.map((error, i) => (
-                    <span key={error + i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                {subset.draft?.errors.versionPeriod.map((error, i) => (
+                    <span key={error + i} style={{padding: '0 10px 0 0'}}
+                    >{t(error)}.
+                    </span>
                 ))}
             </div>
             }
         </section>
+    );
+};
+
+export const VersionValidFromForm = () => {
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
+    const { t } = useTranslation();
+    const [ showHelp, setShowHelp ] = useState(false);
+
+    return (
+        <>
+            <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
+                   htmlFor='version_from_date'>{t('Version valid from')}:
+                <button
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        setShowHelp(prev => !prev);
+                    }}>
+                    <HelpCircle color='#2D6975'/>
+                </button>
+            </label>
+            {showHelp &&
+                <div style={{background: '#274247', color: 'white', padding: '0 0 0 10px'}}>
+                    <Paragraph negative>
+                        <strong>{ t('Version valid from') }. </strong>
+                        { t('Version valid from help') }
+                    </Paragraph>
+                </div>
+            }
+            <input type='date'
+                   id='version_from_date'
+                   style={{display: 'block'}}
+                   value={draft.versionValidFrom?.substr(0, 10) || ''}
+                   disabled={draft.previousVersions
+                   && draft.previousVersions?.find(v => v.version === draft.version
+                       && v.administrativeStatus === 'OPEN')}
+                   onChange={event => dispatch({
+                       action: 'version_from',
+                       data: event.target.value === ''
+                           ? null
+                           : new Date(event.target.value).toISOString(),
+                   })
+                   }
+                   className='datepicker'/>
+            {draft.errors?.versionValidFrom?.length > 0 &&
+            <div className='ssb-input-error '>
+                {draft.errors.versionValidFrom.map((error, i) => (
+                    <span key={error + i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                ))}
+            </div>
+            }
+        </>
+    );
+};
+
+export const VersionValidUntilForm = () => {
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
+    const { t } = useTranslation();
+
+    return (
+        <>
+            <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
+                   htmlFor='version_to_date'>{t('Version valid until')}: </label>
+            <input type='date'
+                   id='version_to_date'
+                   style={{display: 'block'}}
+                   value={draft.versionValidUntil?.substr(0, 10) || ''}
+                   disabled={
+                       (!draft.versionValidFrom && !draft.validUntil)
+                       || (draft.validUntil && draft.previousVersions && draft.previousVersions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
+                       || (draft.previousVersions &&
+                           draft.versionValidUntil === draft.previousVersions?.find(v => v.version === draft.version - 1)?.validFrom
+                           && draft.versionValidFrom < draft.previousVersions?.find(v => v.version === draft.version - 1)?.validFrom)}
+                   onChange={event => dispatch({
+                       action: 'version_to',
+                       data: event.target.value === ''
+                           ? null
+                           : new Date(event.target.value)?.toISOString()
+                   })
+                   }
+                   className='datepicker'/>
+            {draft.errors?.versionValidUntil?.length > 0 &&
+            <div className='ssb-input-error '>
+                {draft.errors.versionValidUntil.map(error => (
+                    <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                ))}
+            </div>
+            }
+        </>
     );
 };
 
