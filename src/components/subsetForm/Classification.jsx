@@ -199,15 +199,16 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes, 
                     }</div>
                 {!codes || codes.length === 0
                     ? <Text>{t('No codes found for this validity period')}</Text>
-                    : <>
-                        <div style={{padding: '5px'}}>
-                            <button onClick={() => includeCodes(codes)}
+                    : <>{!disabled &&
+                            <div style={{padding: '5px'}}>
+                                <button onClick={() => includeCodes(codes)}
                                 >{t('All')}
-                            </button>
-                            <button onClick={() => excludeCodes(codes)}
+                                </button>
+                                <button onClick={() => excludeCodes(codes)}
                                 >{t('None')}
-                            </button>
-                        </div>
+                                </button>
+                            </div>
+                        }
 
                         {codes.map(code =>
                             <CodeInfo key={code.urn + chosenCodes.findIndex(c => c.urn === code.urn)}
