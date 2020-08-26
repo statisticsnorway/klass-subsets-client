@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { SubsetBrief } from '../SubsetBrief';
 import { AppContext } from '../../controllers/context';
 
-export const Step5Publish = ({subset}) => {
+export const Step5Publish = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
     const { t } = useTranslation();

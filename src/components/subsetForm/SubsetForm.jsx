@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import '../../css/pages.css';
-import { AppContext } from '../../controllers/context';
 import { Navigation, Step } from './navigation';
 import { Step1Metadata } from './Step_1_Metadata';
 import { Step2Versions } from './Step_2_Versions';
