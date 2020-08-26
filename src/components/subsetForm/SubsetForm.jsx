@@ -26,7 +26,7 @@ export default function SubsetForm() {
                 <Step label={ t('Reorder codes') }>
                     <Step4Reorder  />
                 </Step>
-                <Step label={t('Review and publish')}>
+                <Step label={ t('Review and publish') }>
                     <Step5Publish />
                 </Step>
             </Navigation>

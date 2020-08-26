@@ -35,7 +35,7 @@ return (
             <Title size={3}>{t('Review and publish')}</Title>
             <SubsetBrief />
 
-            <SubsetPreview subset={draft}/>
+            <SubsetPreview subset={ draft }/>
 
             { Object.values(draft.errors).flat().length > 0 &&
                 <FormError title={t('Some fields are not right')}

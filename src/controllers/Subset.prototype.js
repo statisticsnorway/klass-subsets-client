@@ -520,7 +520,7 @@ const versionable = (state = {}) => ({
             state._versionRationale = exists.versionRationale?.length > 0
                 ? exists.versionRationale
                 : [ nextDefaultName([]) ];
-            state._codes = exists.codes || [];
+            state.codes = exists.codes || [];
             state._versionValidFrom = exists.versionValidFrom;
             state._versionValidUntil = state.calculateVersionValidUntil(exists);
             state._administrativeStatus = exists.administrativeStatus;
