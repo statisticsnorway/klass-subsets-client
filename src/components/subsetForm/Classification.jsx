@@ -232,13 +232,13 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                                checked={ draft.isChosenCode(item.urn) }
                                value={item.code}
                                onChange={(e) =>
-                                   draft.isChosenCode()
+                                   draft.isChosenCode(item.urn)
                                        ? dispatch({
-                                           action: 'codes_include',
+                                           action: 'codes_exclude',
                                            data: [item]
                                        })
                                        : dispatch({
-                                           action: 'codes_exclude',
+                                           action: 'codes_include',
                                            data: [item]
                                        })
                                }/>

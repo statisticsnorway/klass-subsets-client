@@ -120,16 +120,15 @@ function subsetReducer(state, {action, data = {}}) {
             state.removeEmptyVersionRationales();
             return Subset({...state});
         }
+        // DOCME: if a codelist is chosen, but no codes are checked,
+        //  the code list remains in the subset until it explicitly excluded.
         case 'codelist_include': {
             state.addOrigin(data);
             return Subset({...state});
         }
-        // DOCME: if a codelist is chosen, but no codes are checked,
-        //  the code list remains in the subset until it explicitly excluded.
         case 'codelist_exclude': {
-            state.origin = state.origin.filter(urn => urn !== data);
-            const codes = state.codes.filter(c => !c.urn.startsWith(data));
-            return Subset({...state, codes});
+            state.removeOrigin(data);
+            return Subset({...state});
         }
         case 'codes_include': {
             const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
