@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import '../../css/pages.css';
-import { AppContext } from '../../controllers/context';
 import { Navigation, Step } from './navigation';
 import { Step1Metadata } from './Step_1_Metadata';
 import { Step2Versions } from './Step_2_Versions';
@@ -10,7 +9,6 @@ import { Step5Publish } from './Step_5_Publish';
 import { useTranslation } from 'react-i18next';
 
 export default function SubsetForm() {
-    const { subset } = useContext(AppContext);
     const { t } = useTranslation();
 
     return (
@@ -23,13 +21,13 @@ export default function SubsetForm() {
                     <Step2Versions/>
                 </Step>
                 <Step label={ t('Choose codes') }>
-                    <Step3ChooseCodes subset={ subset } />
+                    <Step3ChooseCodes />
                 </Step>
                 <Step label={ t('Reorder codes') }>
-                    <Step4Reorder subset={ subset } />
+                    <Step4Reorder  />
                 </Step>
-                <Step label={t('Review and publish')}>
-                    <Step5Publish subset={ subset } />
+                <Step label={ t('Review and publish') }>
+                    <Step5Publish />
                 </Step>
             </Navigation>
         </div>

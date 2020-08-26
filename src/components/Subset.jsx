@@ -6,27 +6,32 @@ import { Accordion,
 } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { Code } from './Code';
+import { eu } from '../utils/strings';
 
 export const SubsetPreview = ({subset}) => {
     const { t } = useTranslation();
 
     // FIXME: show title in selected language, not just first in the name array.
     // TODO: show subset in other languages - switch button for language?
-
-    const from = subset.validFrom?.substr(0, 10);
-    const versionFrom = subset.versionValidFrom?.substr(0, 10);
-    const to = subset.validUntil?.substr(0, 10);
+    // TODO: show versions?
 
     return (
         <>
             <Title size={2}>{subset.name[0]?.languageText || t('Subset has got no title yet')}</Title>
             <Paragraph><strong>ID:</strong> {subset.id || '-'}</Paragraph>
-            <Paragraph><strong>{t('Version')}:</strong> {subset.version || '-'}</Paragraph>
-            <Paragraph><strong>{t('Validity period')}</strong>{
-                from && to
-                ? `: ${t('from to', { from, to })}.`
-                : from || to ? `: ${t('at', { date: from || to})}.`
-                : `: ${t('Period is not set').toLocaleLowerCase()}.`}
+            <Paragraph><strong>{t('Subsets validity period')}</strong>
+                { subset?.validFrom || subset?.validUntil
+                    ? `: ${ t('from') } ${ eu(subset?.validFrom) || '...' } ${
+                        t('to')} ${ eu(subset?.validUntil) || '...' }`
+                    : `. ${ t('Period is not set') }.`
+                }
+            </Paragraph>
+            <Paragraph><strong>{t('Versions validity period')}</strong>
+                { subset?.versionValidFrom || subset?.versionValidUntil
+                    ? `: ${ t('from') } ${ eu(subset?.versionValidFrom) || '...' } ${
+                        t('to')} ${ eu(subset?.versionValidUntil) || '...' }`
+                    : `. ${ t('Period is not set') }.`
+                }
             </Paragraph>
 
             <Paragraph>{subset.description[0]?.languageText || t('No description')}</Paragraph>
@@ -35,6 +40,8 @@ export const SubsetPreview = ({subset}) => {
 
             <Paragraph><strong>{t('Subject')}:</strong> {subset.subject || '-'}</Paragraph>
 
+            <Paragraph><strong>{t('Version')}:</strong> {subset.version || '-'}</Paragraph>
+
             <Title size={3}>{t('Codes')}: </Title>
             {subset.codes
                 .sort((a,b) => (a.rank - b.rank))
@@ -42,8 +49,8 @@ export const SubsetPreview = ({subset}) => {
                     <Code key={i}
                           origin={{
                               ...code,
-                              validFromInRequestedRange: versionFrom,
-                              validToInRequestedRange: to
+                              validFromInRequestedRange: subset.versionValidFrom,
+                              validToInRequestedRange: subset.versionValidUntil || ''
                           }}
                     />))}
 

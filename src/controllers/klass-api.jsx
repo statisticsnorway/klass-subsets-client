@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { today } from '../utils/strings';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
@@ -19,8 +20,6 @@ export const URN = {
     },
     // TESTME
     toURL(urn, from, to) {
-        const today = !(from || to) && new Date().toISOString().substr(0, 10);
-
         if (this.isCodePattern(urn)) {
             const [,,,service,id,,code] = urn.split(':');
 
@@ -28,22 +27,22 @@ export const URN = {
                 code,
                 service,
                 classificationId: id,
-                classificationURN: `urn:ssb:klass-api:classifications:${id}`,
+                classificationURN: `urn:ssb:klass-api:classifications:${ id }`,
                 path: from && to
-                    ? `/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
+                    ? `/${service}/${id}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
                     : from && !to
-                        ? `/${service}/${id}/codes.json?from=${ from }&selectCodes=${code}`
+                        ? `/${service}/${id}/codes.json?from=${ from }&selectCodes=${ code }`
                         : !from && to
-                            ? `/${service}/${id}/codes.json?to=${ to }&selectCodes=${code}`
-                            : `/${service}/${id}/codesAt.json?date=${ today }&selectCodes=${code}`
+                            ? `/${service}/${id}/codes.json?to=${ to }&selectCodes=${ code }`
+                            : `/${service}/${id}/codesAt.json?date=${ today() }&selectCodes=${ code }`
                 ,
                 url: from && to
-                ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}&selectCodes=${code}`
+                ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
                     : from && !to
-                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&selectCodes=${code}`
+                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&selectCodes=${ code }`
                         : !from && to
-                            ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?to=${ to }&selectCodes=${code}`
-                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today }&selectCodes=${code}`
+                            ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?to=${ to }&selectCodes=${ code }`
+                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today() }&selectCodes=${ code }`
             };
         }
 
@@ -60,15 +59,15 @@ export const URN = {
                         ? `/${service}/${id}/codes.json?from=${ from }`
                         : !from && to
                             ? `/${service}/${id}/codes.json?to=${ to }`
-                            : `/${service}/${id}/codesAt.json?date=${ today }`,
-                url: `${klassApiServiceEndpoint}/${service}/${id}`,
+                            : `/${service}/${id}/codesAt.json?date=${ today() }`,
+                url: `${klassApiServiceEndpoint}/${ service }/${ id }`,
                 codesUrl: from && to
-                    ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${from}&to=${to}`
+                    ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?from=${ from }&to=${ to }`
                     : from && !to
-                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }`
+                        ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?from=${ from }`
                         : !from && to
-                            ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?to=${ to }`
-                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today }`
+                            ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?to=${ to }`
+                            : `${klassApiServiceEndpoint}/${ service }/${ id }/codesAt.json?date=${ today() }`
             };
         }
 
@@ -79,7 +78,6 @@ export const URN = {
 export const URL = {
 
     toURN: (url, from, to) => {
-        const today = !(from || to) && new Date().toISOString().substr(0, 10);
 
         // FIXME sanitize input - XSS is a threat!!!
         // For now it accepts letters, digits, % & # _ - . , etc
@@ -101,21 +99,19 @@ export const URL = {
                         ? `/${service}/${id}/codes.json?from=${ from }`
                         : !from && to
                             ? `/${service}/${id}/codes.json?to=${ to }`
-                            : `/${service}/${id}/codesAt.json?date=${ today }`
+                            : `/${service}/${id}/codesAt.json?date=${ today() }`
             };
         }
-
         return {};
     }
 };
 
 // TODO: error handling using global and private error handlers
 export function useGet(url = null) {
-    const [path, setPath] = useState(url);
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [retry, setRetry] = useState(true);
+    const [ path, setPath ] = useState(url);
+    const [ data, setData ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ error, setError ] = useState(null);
 
     useEffect(() => {
         let _mounted = true;
@@ -130,7 +126,6 @@ export function useGet(url = null) {
                 const json = await response.json();
                 _mounted && setData(json);
                 _mounted && setIsLoading(false);
-                _mounted && setRetry(false);
             } catch (e) {
                 _mounted && setError({
                     timestamp: Date.now(),
@@ -140,11 +135,11 @@ export function useGet(url = null) {
                     path
                 });
                 _mounted && setIsLoading(false);
-                _mounted && setRetry(false);
             }
         };
 
-        if (_mounted && (path || retry)) {
+        if (_mounted && path) {
+            console.debug({path, _mounted});
             setError(null);
             setIsLoading(true);
             //setTimeout(fetchData, 1000);
@@ -155,12 +150,11 @@ export function useGet(url = null) {
             _mounted = false;
         };
         
-    }, [path, retry]);
+    }, [ path ]);
 
-    return [data, isLoading, error, setPath, setRetry];
+    return [ data, isLoading, error, setPath ];
 }
 
-// FIXME: do nothing if null
 export function useCode(origin) {
     const {code, classificationId, path, url} = URN.toURL(
         origin?.urn,

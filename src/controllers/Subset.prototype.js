@@ -36,11 +36,11 @@ export function Subset (data) {
         _versionValidUntil: data?.versionValidUntil || data?._versionValidUntil || null,
 
         // Step 3 and 4 Codes
-        codes: data?.codes || [],
+        _codes: data?.codes || data?._codes || [],
 
-        // extra
+        // not protected
         lastUpdatedDate: data?.lastUpdatedDate || null,
-        createdDate: data?.createdDate || new Date().toISOString()
+        createdDate: data?.createdDate || null
     };
 
     Object.assign(
@@ -52,7 +52,8 @@ export function Subset (data) {
         nameControl(subset),
         descriptionControl(subset),
         versionRationaleControl(subset),
-        originControl(subset)
+        originControl(subset),
+        codesControl(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -146,12 +147,14 @@ export function Subset (data) {
                 .find(d => d.administrativeDetailType === 'ORIGIN').values;
         },
         set: (origin = []) => {
-            //console.debug('Set origin', origin, subset.isEditableOrigin());
+            console.debug('Set origin', origin, subset.isEditableOrigin());
 
             if (subset.isEditableOrigin()) {
                 subset._administrativeDetails
                     .find(d => d.administrativeDetailType === 'ORIGIN')
                     .values = origin;
+
+                //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
             }
         }
     });
@@ -215,6 +218,15 @@ export function Subset (data) {
                 a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0]; }
     });
 
+    Object.defineProperty(subset, 'previousVersion', {
+        get: () => {
+            if (!subset.previousVersions) {
+                return null;
+            }
+            return subset.previousVersions?.find(v => v.version === `${parseInt(subset.version) - 1}`);
+        }
+    });
+
     Object.defineProperty(subset, 'previousVersions', {
         get: () => { return subset._previousVersions; },
         set: (list = []) => {
@@ -232,7 +244,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionValidFrom', {
-        get: () => { return subset._versionValidFrom; },
+        get: () => { return subset._versionValidFrom?.substr(0, 10); },
         set: (date = null) => {
             //console.debug('Set versionValidFrom', date);
 
@@ -243,20 +255,20 @@ export function Subset (data) {
                 if (subset.isNew()
                     && subset.validFrom !== subset.versionValidFrom)
                 {
-                    subset.validFrom = subset.versionValidFrom;
+                    subset.validFrom = subset._versionValidFrom;
                 }
 
                 else if (subset.isBeforeCoveredPeriod(date)
-                    && subset.validFrom !== subset.versionValidFrom)
+                    && subset.validFrom !== subset._versionValidFrom)
                 {
                     subset.versionValidUntil = subset.validFrom;
-                    subset.validFrom = subset.versionValidFrom;
+                    subset.validFrom = subset._versionValidFrom;
                 }
 
                 else {
                     //console.debug('Covered period or later or illegal input');
 
-                    if (subset.versionValidUntil === subset.latestVersion?.validFrom) {
+                    if (subset._versionValidUntil === subset.latestVersion?.validFrom) {
                         subset.versionValidUntil = null;
                     }
                 }
@@ -265,7 +277,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionValidUntil', {
-        get: () => { return subset._versionValidUntil; },
+        get: () => { return subset._versionValidUntil?.substr(0, 10); },
         set: (date = null) => {
             //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
@@ -276,9 +288,9 @@ export function Subset (data) {
                 if ((subset.isNew()
                     || (subset.isNewVersion() && subset.isAfterCoveredPeriod(date))
                     || subset.isLatestSavedVersion())
-                    && subset.validUntil !== subset.versionValidUntil)
+                    && subset.validUntil !== subset._versionValidUntil)
                 {
-                    subset.validUntil = date;
+                    subset.validUntil = subset._versionValidUntil;
                 }
             }
         }
@@ -295,6 +307,16 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'codes', {
+        get: () => { return subset._codes; },
+        set: (codes = []) => {
+            console.debug('Set codes', codes);
+
+            if (subset.isEditableCodes()) {
+                subset._codes = codes;
+            }
+        }
+    });
 
     Object.defineProperty(subset, 'errors', {
         get: () => {
@@ -307,21 +329,19 @@ export function Subset (data) {
     Object.defineProperty(subset, 'payload', {
         get: () => {
             const payload = {
-                id: subset.id,
-                shortName: subset.shortName,
-                name: subset.name,
-                administrativeStatus: subset.administrativeStatus,
-                validFrom: subset.validFrom,
-                validUntil: subset.validUntil,
-                createdBy: subset.createdBy,
-                administrativeDetails: subset.administrativeDetails,
-                description: subset.description,
-                version: subset.version,
-                versionRationale: subset.versionRationale,
-                versionValidFrom: subset.versionValidFrom,
-                codes: subset.codes,
-                lastUpdatedDate: new Date().toISOString(), // FIXME: has to be set on backend side+
-                createdDate: subset.createdDate  // FIXME: has to be set on backend side+
+                id: subset._id,
+                shortName: subset._shortName,
+                name: subset._name,
+                administrativeStatus: subset._administrativeStatus,
+                validFrom: subset._validFrom,
+                validUntil: subset._validUntil,
+                createdBy: subset._createdBy,
+                administrativeDetails: subset._administrativeDetails,
+                description: subset._description,
+                version: subset._version,
+                versionRationale: subset._versionRationale,
+                versionValidFrom: subset._versionValidFrom,
+                codes: subset._codes
             };
             Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));
             return payload;
@@ -352,9 +372,9 @@ export function Subset (data) {
 const editable = (state = {}) => ({
 
     isNew() {
-        console.debug('isNew', state.administrativeStatus === 'INTERNAL'
+        /*console.debug('isNew', state.administrativeStatus === 'INTERNAL'
             && state.version === '1');
-
+        */
         return state.administrativeStatus === 'INTERNAL'
             && state.version === '1';
     },
@@ -445,6 +465,10 @@ const editable = (state = {}) => ({
 
     isEditableVersionRationale() {
         return true;
+    },
+
+    isEditableCodes() {
+        return true;
     }
 });
 
@@ -512,13 +536,13 @@ const versionable = (state = {}) => ({
             state._versionRationale = exists.versionRationale?.length > 0
                 ? exists.versionRationale
                 : [ nextDefaultName([]) ];
-            state._codes = exists.codes || [];
+            state.codes = exists.codes || [];
             state._versionValidFrom = exists.versionValidFrom;
             state._versionValidUntil = state.calculateVersionValidUntil(exists);
+            state._administrativeStatus = exists.administrativeStatus;
 
             state._validFrom = exists.validFrom;
             state._validUntil = exists.validUntil;
-
         }
     }
 
@@ -693,6 +717,29 @@ const originControl = (state = {}) => ({
             && !state.origin.includes(origin))
         {
             state.origin = [origin, ...state.origin];
+        }
+    },
+
+    removeOrigin(origin = '') {
+        console.debug('removeOrigin', origin);
+
+        if (URN.isClassificationPattern(origin)) {
+            state.origin = state.origin.filter(urn => urn !== origin);
+            // TODO: move to defineProperty 'origin
+            state.codes = state._codes.filter(c => !c.urn.startsWith(origin));
+        }
+    }
+
+});
+
+const codesControl = (state = {}) => ({
+
+    isChosenCode(urn = '') {
+        //console.debug('isChosenCode', state.codes.findIndex(c => c.urn === urn) > -1);
+
+        if (URN.isCodePattern(urn))
+        {
+            return state.codes.findIndex(c => c.urn === urn) > -1;
         }
     }
 

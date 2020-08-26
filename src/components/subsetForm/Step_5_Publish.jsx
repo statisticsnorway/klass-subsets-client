@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import '../../css/pages.css';
 import { useTranslation } from 'react-i18next';
 import { Button, Title, FormError } from '@statisticsnorway/ssb-component-library';
@@ -6,8 +6,10 @@ import { SubsetPreview } from '../Subset';
 import { usePost, usePut } from '../../controllers/subsets-service';
 import { useHistory } from 'react-router-dom';
 import { SubsetBrief } from '../SubsetBrief';
+import { AppContext } from '../../controllers/context';
 
-export const Step5Publish = ({subset}) => {
+export const Step5Publish = () => {
+    const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
     let history = useHistory();
@@ -33,7 +35,7 @@ return (
             <Title size={3}>{t('Review and publish')}</Title>
             <SubsetBrief />
 
-            <SubsetPreview subset={draft}/>
+            <SubsetPreview subset={ draft }/>
 
             { Object.values(draft.errors).flat().length > 0 &&
                 <FormError title={t('Some fields are not right')}
