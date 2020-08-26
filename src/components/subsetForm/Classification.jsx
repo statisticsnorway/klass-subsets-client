@@ -70,13 +70,17 @@ export const Classification = ({item = {}, from, to,
                     <RefreshCw size='20' color={ isLoadingCodes || isLoadingMetadata ? '#C3DCDC' : '#62919A'}/>
                 </button>
 */}
-                <button onClick={() =>
-                    setShow(prev => ({codes: !prev.codes}))}>
-                    { isLoadingCodes
-                        ? <Spinner/>
-                        : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
-                    }
-                </button>
+                <CodesPanel
+                    isLoadingCodes={isLoadingCodes}
+                    codes={codes}
+                    id={id}
+                    chosenCodes={chosenCodes}
+                    includeCodes={includeCodes}
+                    excludeCodes={excludeCodes}
+                    disabled={disabled}
+                    from={from}
+                    to={to}
+                />
 
                 <button onClick={() =>
                     setShow(prev => ({info: !prev.info}))}>
@@ -127,25 +131,43 @@ export const Classification = ({item = {}, from, to,
                 <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
 
-            {show.codes
-                && <Codes id={id}
-                          codes={codes?.codes.map(code => ({
-                              ...code,
-                              classificationId: id,
-                              validFromInRequestedRange: from,
-                              validToInRequestedRange: to,
-                              urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
-                          }))}
-                          chosenCodes={chosenCodes}
-                          includeCodes={includeCodes}
-                          excludeCodes={excludeCodes}
-                          disabled={disabled}
-            />
-            }
+
 
             {show.info
                 && <CodelistInfo id={id} info={metadata}/>}
         </li>
+    );
+};
+
+export const CodesPanel = ({isLoadingCodes, codes, id, chosenCodes, includeCodes, excludeCodes, disabled, from, to}) => {
+
+    const [show, setShow] = useState({none: true});
+
+    return (
+        <>
+            <button onClick={() =>
+                setShow(prev => ({codes: !prev.codes}))}>
+                { isLoadingCodes
+                    ? <Spinner/>
+                    : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
+                }
+            </button>
+            {show.codes
+            && <Codes id={id}
+                      codes={codes?.codes.map(code => ({
+                          ...code,
+                          classificationId: id,
+                          validFromInRequestedRange: from,
+                          validToInRequestedRange: to,
+                          urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
+                      }))}
+                      chosenCodes={chosenCodes}
+                      includeCodes={includeCodes}
+                      excludeCodes={excludeCodes}
+                      disabled={disabled}
+            />
+            }
+        </>
     );
 };
 
