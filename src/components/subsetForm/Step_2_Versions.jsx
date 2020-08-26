@@ -28,7 +28,7 @@ export const VersionSwitcher = () => {
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
 
-    const [ versions, isLoadingVersions, errorVersions ] = useGet(`${draft.id}/versions`);
+    const [ versions, isLoadingVersions ] = useGet(`${draft.id}/versions`);
 
     useEffect(() => {
         if (versions && !versions.error) {

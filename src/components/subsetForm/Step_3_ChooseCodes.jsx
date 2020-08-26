@@ -7,7 +7,8 @@ import { useGet } from '../../controllers/klass-api';
 import { URL } from '../../controllers/klass-api';
 import '../../css/list.css';
 import { SubsetBrief } from '../SubsetBrief';
-import {AppContext} from '../../controllers/context';
+import { AppContext } from '../../controllers/context';
+import { eu } from '../../utils/strings';
 
 export const Step3ChooseCodes = () => {
     const { t } = useTranslation();
@@ -39,7 +40,7 @@ export const SearchForm = () => {
             <Paragraph>
                 { t('Search results are restricted by versions validity period')}
                 { from || to
-                    ? `: ${ t('from') } ${ from || '...' } ${t('to')} ${ to || '...' }`
+                    ? `: ${ t('from') } ${ eu(from) || '...' } ${t('to')} ${ eu(to) || '...' }`
                     : `. ${ t('Period is not set') }.`
                 }
             </Paragraph>
@@ -60,11 +61,11 @@ export const SearchForm = () => {
                         .map(c => (c.urn ? c : {...c, urn: URL.toURN(c._links?.self?.href).urn}))
                         .map((c, index) => (
                             <Classification
-                                key={c.urn + index}
-                                item={c}
-                                from={from} to={to}
-                                chosenCodes={draft.codes}
-                                chosen={origin.includes(c.urn)}
+                                key={ c.urn + index }
+                                item={ c }
+                                from={ from } to={ to }
+                                chosenCodes={ draft.codes }
+                                chosen={ origin.includes(c.urn) }
                                 include={() => dispatch({
                                     action: 'codelist_include',
                                     data: c.urn

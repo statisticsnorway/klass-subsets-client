@@ -4,15 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { SubsetIdForm } from './subsetForm/Step_1_Metadata';
 
-export const Brief = ({id, version, lastUpdatedDate, status}) => {
+export const Brief = ({ id, version, lastUpdatedDate, status }) => {
     const { t } = useTranslation();
 
     return (
-        <Text small style={{margin: '50px 0'}}>
+        <Text small style={{ margin: '50px 0' }}>
             {id || '-'}
-            {t('Version')}: <strong>{version || '-'}  </strong>
-            {t('Updated')}: <strong>{lastUpdatedDate || '-'}  </strong>
-            {t('Status')}: <strong>{t(status) || '-'}  </strong>
+            { t('Version') }: <strong>{ version || '-' }  </strong>
+            { t('Updated') }: <strong>{ lastUpdatedDate.toLocaleString('no-NO') || '-' }  </strong>
+            { t('Status') }: <strong>{ t(status) || '-' }  </strong>
         </Text>
     );
 };
@@ -23,17 +23,17 @@ export const SubsetBrief = ({editable = false}) => {
 
     return (
         <Brief
-            id={editable && subset.draft.isEditableId()
+            id={ editable && subset.draft.isEditableId()
                 ? <SubsetIdForm/>
-                : <Id>{id || '-'}</Id>
+                : <Id>{ id || '-' }</Id>
             }
-            version={version}
-            lastUpdatedDate={lastUpdatedDate}
-            status={administrativeStatus}
+            version={ version }
+            lastUpdatedDate={ lastUpdatedDate }
+            status={ administrativeStatus }
         />
     );
 };
 
 export const Id = (props) => {
-    return (<>ID: <strong>{props.children}</strong> </>);
+    return (<>ID: <strong>{ props.children }</strong> </>);
 };

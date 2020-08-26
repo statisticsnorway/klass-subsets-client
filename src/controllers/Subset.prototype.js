@@ -359,9 +359,9 @@ export function Subset (data) {
 const editable = (state = {}) => ({
 
     isNew() {
-        console.debug('isNew', state.administrativeStatus === 'INTERNAL'
+        /*console.debug('isNew', state.administrativeStatus === 'INTERNAL'
             && state.version === '1');
-
+        */
         return state.administrativeStatus === 'INTERNAL'
             && state.version === '1';
     },
