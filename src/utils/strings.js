@@ -32,6 +32,5 @@ export const eu = (dateString) => {
     if (!dateString || dateString?.length < 0) {
         return null;
     }
-    const date = new Date(dateString);
-    return `${date?.getDate()}.${date?.getMonth()}.${date?.getFullYear()}`
+    return new Date(dateString)?.toLocaleString('ru-RU')?.substr(0, 10);
 }
