@@ -25,22 +25,21 @@ export const Step3ChooseCodes = () => {
 
 export const SearchForm = () => {
     const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { versionValidFrom, versionValidUntil } = subset.draft;
     const { t } = useTranslation();
 
     // FIXME: more flexible url building based on first response?
-    const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
-    const [searchResult, setSearchResult] = useState([]);
+    const [ classifications ] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
 
-    const from = draft.versionValidFrom
-    const to = draft.versionValidUntil
+    const [ searchResult, setSearchResult ] = useState([]);
 
     return (
         <>
             <Paragraph>
                 { t('Search results are restricted by versions validity period')}
-                { from || to
-                    ? `: ${ t('from') } ${ eu(from) || '...' } ${t('to')} ${ eu(to) || '...' }`
+                { versionValidFrom || versionValidUntil
+                    ? `: ${ t('from') } ${ eu(versionValidFrom) || '...' } ${
+                            t('to')} ${ eu(versionValidUntil) || '...' }`
                     : `. ${ t('Period is not set') }.`
                 }
             </Paragraph>
@@ -60,30 +59,8 @@ export const SearchForm = () => {
                     {searchResult
                         .map(c => (c.urn ? c : {...c, urn: URL.toURN(c._links?.self?.href).urn}))
                         .map((c, index) => (
-                            <Classification
-                                key={ c.urn + index }
-                                item={ c }
-                                from={ from } to={ to }
-                                chosenCodes={ draft.codes }
-                                chosen={ origin.includes(c.urn) }
-                                include={() => dispatch({
-                                    action: 'codelist_include',
-                                    data: c.urn
-                                })}
-                                exclude={() => dispatch({
-                                    action: 'codelist_exclude',
-                                    data: c.urn
-                                })}
-                                includeCodes={codes => dispatch({
-                                    action: 'codes_include',
-                                    data: codes
-                                })}
-                                excludeCodes={codes => dispatch({
-                                    action: 'codes_exclude',
-                                    data: codes
-                                })}
-                                disabled={draft.administrativeStatus === 'OPEN'}
-                            />))}
+                            <Classification key={ c.urn + index } item={ c } includible />))
+                    }
                 </ul>
             }
         </>
@@ -91,40 +68,19 @@ export const SearchForm = () => {
 };
 
 export const IncludedCodeLists = () => {
-    const {subset} = useContext(AppContext);
-    const {draft, dispatch} = subset;
-    const {t} = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { t } = useTranslation();
 
     return (
         <>
             <Title size={3}>{t('Choose codes from classifications')}</Title>
 
-            { draft.codes?.length === 0 && draft.origin?.length === 0
+            { subset.draft.origin?.length === 0
                 ? <p>{t('No classifications in the subset draft')}</p>
                 : <ul className='list'>
-                    {draft.origin
-                        .map((urn, index) =>
-                            <Classification
-                                key={urn + index}
-                                item={{urn}}
-                                to={ draft.versionValidUntil }
-                                from={ draft.versionValidFrom }
-                                chosenCodes={draft.codes}
-                                chosen={true}
-                                exclude={() => dispatch({
-                                    action: 'codelist_exclude',
-                                    data: urn
-                                })}
-                                includeCodes={codes => dispatch({
-                                    action: 'codes_include',
-                                    data: codes
-                                })}
-                                excludeCodes={codes => dispatch({
-                                    action: 'codes_exclude',
-                                    data: codes
-                                })}
-                                disabled={draft.administrativeStatus === 'OPEN'}
-                            />)}
+                    { subset.draft.origin
+                        .map((urn, index) => <Classification key={urn + index} item={{urn}}/>)
+                    }
                 </ul>
             }
         </>

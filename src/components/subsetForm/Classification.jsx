@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     AlertTriangle as Alert,
     Info,
@@ -17,15 +17,18 @@ import { useTranslation } from 'react-i18next';
 import { replaceRef } from '../../utils/strings';
 import Spinner from '../Spinner';
 import keys from '../../utils/keys';
+import { AppContext } from '../../controllers/context';
 
-export const Classification = ({item = {}, from, to,
-                                include, exclude, chosen,
-                                includeCodes, excludeCodes, chosenCodes,
-                                disabled
-                                }) => {
-    const {t} = useTranslation();
+export const Classification = ({item = {}, includible}) => {
+    const { t } = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
 
-    const {id, path, codesPath} = URN.toURL(item?.urn, from, to);
+    const {id, path, codesPath} = URN.toURL(
+        item?.urn,
+        draft.versionValidFrom,
+        draft.versionValidUntil
+    );
 
     // TODO use fallback, loader, error
     const [metadata, isLoadingMetadata,,,] = useGet(path);
@@ -70,17 +73,14 @@ export const Classification = ({item = {}, from, to,
                     <RefreshCw size='20' color={ isLoadingCodes || isLoadingMetadata ? '#C3DCDC' : '#62919A'}/>
                 </button>
 */}
-                <CodesPanel
-                    isLoadingCodes={isLoadingCodes}
-                    codes={codes}
-                    id={id}
-                    chosenCodes={chosenCodes}
-                    includeCodes={includeCodes}
-                    excludeCodes={excludeCodes}
-                    disabled={disabled}
-                    from={from}
-                    to={to}
-                />
+
+                <button onClick={() =>
+                    setShow(prev => ({codes: !prev.codes}))}>
+                    { isLoadingCodes
+                        ? <Spinner/>
+                        : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
+                    }
+                </button>
 
                 <button onClick={() =>
                     setShow(prev => ({info: !prev.info}))}>
@@ -90,28 +90,39 @@ export const Classification = ({item = {}, from, to,
                     }
                 </button>
 
-                {disabled
+                { draft.isPublished
                     ? <></>
-                    : include
+                    : includible
                         ?
                         <button onClick={() => {
-                            if (chosen || codes?.codes?.length > 0) {
+                            if (draft.origin.includes(item.urn) || codes?.codes?.length > 0) {
                                 setShow({none: true});
-                                chosen ? exclude() : include();
+                                draft.origin.includes(item.urn)
+                                    ? dispatch({
+                                        action: 'codelist_exclude',
+                                        data: item.urn
+                                    })
+                                    : dispatch({
+                                        action: 'codelist_include',
+                                        data: item.urn
+                                    });
                             } else {
                                 setShow(prev => ({cannot: !prev.cannot}));
                             }
                         }}>
                             {!codes || codes?.codes?.length === 0
                                 ? <XSquare color='#9272FC'/>
-                                : chosen
+                                : draft.origin.includes(item.urn)
                                     ? <MinusSquare color='#B6E8B8' />
                                     : <PlusSquare color='#1A9D49'/>}
                         </button>
                         :
                         <button onClick={() => {
                             setShow({none: true});
-                            exclude();
+                            dispatch({
+                                action: 'codelist_exclude',
+                                data: item.urn
+                            });
                         }}>
                             <Trash2 color='#ED5935'/>
                         </button>
@@ -131,7 +142,15 @@ export const Classification = ({item = {}, from, to,
                 <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
 
-
+            {show.codes &&
+                <Codes
+                    codes={codes?.codes?.map(code => ({
+                    ...code,
+                    classificationId: id,
+                    validFromInRequestedRange: draft.versionValidFrom,
+                    validToInRequestedRange: draft.versionValidUntil,
+                    urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
+            }))}/>}
 
             {show.info
                 && <CodelistInfo id={id} info={metadata}/>}
@@ -139,40 +158,10 @@ export const Classification = ({item = {}, from, to,
     );
 };
 
-export const CodesPanel = ({isLoadingCodes, codes, id, chosenCodes, includeCodes, excludeCodes, disabled, from, to}) => {
-
-    const [show, setShow] = useState({none: true});
-
-    return (
-        <>
-            <button onClick={() =>
-                setShow(prev => ({codes: !prev.codes}))}>
-                { isLoadingCodes
-                    ? <Spinner/>
-                    : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
-                }
-            </button>
-            {show.codes
-            && <Codes id={id}
-                      codes={codes?.codes.map(code => ({
-                          ...code,
-                          classificationId: id,
-                          validFromInRequestedRange: from,
-                          validToInRequestedRange: to,
-                          urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
-                      }))}
-                      chosenCodes={chosenCodes}
-                      includeCodes={includeCodes}
-                      excludeCodes={excludeCodes}
-                      disabled={disabled}
-            />
-            }
-        </>
-    );
-};
-
-export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes, disabled}) => {
-    const {t} = useTranslation();
+export const Codes = ({codes = []}) => {
+    const { t } = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
 
     // DOCME
     // FIXME: magic number 35
@@ -183,7 +172,7 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes, 
         }
     });
 
-    const {codesWithNotes, isLoadingVersion} = useClassification(id);
+    const {codesWithNotes, isLoadingVersion} = useClassification(codes?.length > 0 && codes[0].classificationId);
 
     const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
     const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
@@ -199,28 +188,28 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes, 
                     }</div>
                 {!codes || codes.length === 0
                     ? <Text>{t('No codes found for this validity period')}</Text>
-                    : <>{!disabled &&
+                    : <>{!draft.isPublished &&
                             <div style={{padding: '5px'}}>
-                                <button onClick={() => includeCodes(codes)}
+                                <button onClick={() => dispatch({
+                                    action: 'codes_include',
+                                    data: codes
+                                })}
                                 >{t('All')}
                                 </button>
-                                <button onClick={() => excludeCodes(codes)}
+                                <button onClick={() => dispatch({
+                                    action: 'codes_exclude',
+                                    data: codes
+                                })}
                                 >{t('None')}
                                 </button>
                             </div>
                         }
 
                         {codes.map(code =>
-                            <CodeInfo key={code.urn + chosenCodes.findIndex(c => c.urn === code.urn)}
+                            <CodeInfo key={code.urn + draft.isChosenCode(code.urn)}
                                       item={code}
                                       notes={codesWithNotes.find(c => c.code === code.code)?.notes}
-                                      chosen={chosenCodes.findIndex(c => c.urn === code.urn) > -1}
-                                      toggle={(clicked) => chosenCodes.find(c => c.urn === clicked.urn)
-                                                  ? excludeCodes([clicked])
-                                                  : includeCodes([clicked])
-                                      }
                                       isLoadingVersion={isLoadingVersion}
-                                      disabled={disabled}
                             />)
                         }
                     </>
@@ -230,15 +219,17 @@ export const Codes = ({codes = [], id, includeCodes, excludeCodes, chosenCodes, 
     );
 };
 
-export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion, disabled}) => {
-    const {t} = useTranslation();
+export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
+    const { t } = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
 
     const [showNotes, setShowNotes] = useState(false);
 
     return (
         <>
             <div style={{display: 'flex'}}>
-                {disabled
+                { draft.isPublished
                     ? <div >
                         <Text style={{margin: '5px'}}><strong>{item.code}</strong> {item.name}</Text>
                       </div>
@@ -246,12 +237,19 @@ export const CodeInfo = ({item, notes = [], chosen, toggle, isLoadingVersion, di
                         <input id={item.urn}
                                className='checkbox'
                                type='checkbox' name='include'
-                               checked={chosen}
+                               checked={ draft.isChosenCode(item.urn) }
                                value={item.code}
-                               onChange={(e) => toggle({
-                                   code: e.target.value,
-                                   urn: e.target.id
-                               })}/>
+                               onChange={(e) =>
+                                   draft.isChosenCode()
+                                       ? dispatch({
+                                           action: 'codes_include',
+                                           data: [item]
+                                       })
+                                       : dispatch({
+                                           action: 'codes_exclude',
+                                           data: [item]
+                                       })
+                               }/>
                         <label className='checkbox-label'
                                style={{background: 'transparent'}}
                                htmlFor={item.urn}>

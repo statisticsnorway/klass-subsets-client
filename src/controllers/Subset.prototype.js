@@ -52,7 +52,8 @@ export function Subset (data) {
         nameControl(subset),
         descriptionControl(subset),
         versionRationaleControl(subset),
-        originControl(subset)
+        originControl(subset),
+        codesControl(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -700,6 +701,19 @@ const originControl = (state = {}) => ({
             && !state.origin.includes(origin))
         {
             state.origin = [origin, ...state.origin];
+        }
+    }
+
+});
+
+const codesControl = (state = {}) => ({
+
+    isChosenCode(urn = '') {
+        //console.debug('codesControl', urn);
+
+        if (URN.isCodePattern(urn))
+        {
+            return state.codes.findIndex(c => c.urn === urn) > -1;
         }
     }
 
