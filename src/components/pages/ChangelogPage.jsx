@@ -23,7 +23,8 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
-
+           <Title size={4}>v0.5.3</Title>
+           <Paragraph>Removed workaround from v0.5.2</Paragraph>
 
            <Title size={4}>v0.5.2</Title>
            <Paragraph>Workaround (temporary): <code>lastUpdatedDate</code> and <code>createdDate</code> are set by client.</Paragraph>

@@ -38,9 +38,9 @@ export function Subset (data) {
         // Step 3 and 4 Codes
         codes: data?.codes || [],
 
-        // extra
+        // not protected
         lastUpdatedDate: data?.lastUpdatedDate || null,
-        createdDate: data?.createdDate || new Date().toISOString()
+        createdDate: data?.createdDate || null
     };
 
     Object.assign(
@@ -319,9 +319,7 @@ export function Subset (data) {
                 version: subset.version,
                 versionRationale: subset.versionRationale,
                 versionValidFrom: subset.versionValidFrom,
-                codes: subset.codes,
-                lastUpdatedDate: new Date().toISOString(), // FIXME: has to be set on backend side+
-                createdDate: subset.createdDate  // FIXME: has to be set on backend side+
+                codes: subset.codes
             };
             Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));
             return payload;
