@@ -307,18 +307,18 @@ export function Subset (data) {
     Object.defineProperty(subset, 'payload', {
         get: () => {
             const payload = {
-                id: subset.id,
-                shortName: subset.shortName,
-                name: subset.name,
-                administrativeStatus: subset.administrativeStatus,
-                validFrom: subset.validFrom,
-                validUntil: subset.validUntil,
-                createdBy: subset.createdBy,
-                administrativeDetails: subset.administrativeDetails,
-                description: subset.description,
-                version: subset.version,
-                versionRationale: subset.versionRationale,
-                versionValidFrom: subset.versionValidFrom,
+                id: subset._id,
+                shortName: subset._shortName,
+                name: subset._name,
+                administrativeStatus: subset._administrativeStatus,
+                validFrom: subset._validFrom,
+                validUntil: subset._validUntil,
+                createdBy: subset._createdBy,
+                administrativeDetails: subset._administrativeDetails,
+                description: subset._description,
+                version: subset._version,
+                versionRationale: subset._versionRationale,
+                versionValidFrom: subset._versionValidFrom,
                 codes: subset.codes
             };
             Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));

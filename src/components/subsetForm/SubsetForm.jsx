@@ -23,7 +23,7 @@ export default function SubsetForm() {
                     <Step2Versions/>
                 </Step>
                 <Step label={ t('Choose codes') }>
-                    <Step3ChooseCodes subset={ subset } />
+                    <Step3ChooseCodes />
                 </Step>
                 <Step label={ t('Reorder codes') }>
                     <Step4Reorder subset={ subset } />
