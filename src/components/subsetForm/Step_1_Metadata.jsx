@@ -34,8 +34,7 @@ export const SubsetIdForm = () => {
     const [exist,,, setPathExist] = useGetSubset();
 
     useEffect(() => {
-        subset.draft.version === '1'
-        && subset.draft.administrativeStatus === 'INTERNAL'
+        subset.draft.isNew()
         && subset.draft.id?.length > 0
         && setPathExist(subset.draft.id);
     }, [subset.draft.id]);
@@ -47,7 +46,7 @@ export const SubsetIdForm = () => {
                    id='shortName'
                    name='shortName'
                    value={subset.draft.id}
-                   maxLength='128'
+                   maxLength={ subsetDraft.maxLengthId }
                    onChange={(event) => {
                        setPathExist(event.target.value);
                        subset.dispatch({
@@ -56,8 +55,7 @@ export const SubsetIdForm = () => {
                        });
                    }}
                    style={{margin: '0 5px'}}
-                   disabled={subset.draft.administrativeStatus !== 'INTERNAL'
-                   || subset.draft.version !== '1'}
+                   disabled={ !subset.draft.isNew() }
             />
             { exist && !exist.error &&
                 <div className='ssb-input-error ' style={{width: '25%', position: 'absolute'}}>
