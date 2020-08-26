@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../../css/form.css';
 import { Dropdown, TextLanguageFieldset } from './forms';
 import { subsetDraft } from '../../controllers/defaults';
-import { Title, Paragraph } from '@statisticsnorway/ssb-component-library';
+import { Title } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/klass-api';
-import { HelpCircle } from 'react-feather';
 import { SubsetBrief } from '../SubsetBrief';
 import { AppContext } from '../../controllers/context';
 import { useGet as useGetSubset } from '../../controllers/subsets-service';
+import { Help } from '../Help';
 
 export const Step1Metadata = () => {
     const { t } = useTranslation();
@@ -37,7 +37,7 @@ export const SubsetIdForm = () => {
         subset.draft.isNew()
         && subset.draft.id?.length > 0
         && setPathExist(subset.draft.id);
-    }, [subset.draft.id]);
+    }, [ subset.draft.id ]);
 
     return (
         <div>
@@ -59,7 +59,7 @@ export const SubsetIdForm = () => {
             />
             { exist && !exist.error &&
                 <div className='ssb-input-error ' style={{width: '25%', position: 'absolute'}}>
-                    <span style={{padding: '0 10px 0 0'}}>{t('Already used ID')}</span>
+                    <span style={{padding: '0 10px 0 0'}}>{ t('Already used ID') }</span>
                 </div>
             }
 
@@ -149,14 +149,12 @@ export const SubsetValidityForm = () => {
 
             <div style={{float: 'left', position: 'relative', top: '-10px'}}>
                 <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                       htmlFor='to_date'>{t('Valid to')}:
-                    <button
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            setShowHelp(prev => !prev);
-                        }}>
-                        <HelpCircle color='#2D6975'/>
-                    </button>
+                       htmlFor='to_date'>
+                    { t('Valid to') }:
+                        <Help>
+                            <strong>{t('Valid to')}. </strong>
+                            {t('Valid to help')}
+                        </Help>
                 </label>
                 <input type='date' id='to_date'
                        style={{display: 'block', border: 'none'}}
@@ -181,15 +179,6 @@ export const SubsetValidityForm = () => {
             </div>
 
             <br style={{clear: 'both'}}/>
-
-            {showHelp &&
-                <div style={{background: '#274247', color: 'white', padding: '0 0 0 10px'}}>
-                    <Paragraph negative>
-                        <strong>{t('Valid to')}. </strong>
-                        {t('Valid to help')}
-                    </Paragraph>
-                </div>
-            }
 
             {draft.errors?.period?.length > 0 &&
                 <div className='ssb-input-error '>

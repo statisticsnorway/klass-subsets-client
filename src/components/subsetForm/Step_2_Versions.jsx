@@ -123,8 +123,8 @@ export const VersionValidFromForm = () => {
                    style={{display: 'block'}}
                    value={draft.versionValidFrom?.substr(0, 10) || ''}
                    disabled={draft.previousVersions
-                   && draft.previousVersions?.find(v => v.version === draft.version
-                       && v.administrativeStatus === 'OPEN')}
+                        && draft.previousVersions?.find(v => v.version === draft.version
+                        && v.administrativeStatus === 'OPEN')}
                    onChange={event => dispatch({
                        action: 'version_from',
                        data: event.target.value === ''

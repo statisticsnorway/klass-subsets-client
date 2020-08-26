@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import '../css/form.css';
 import { Paragraph } from '@statisticsnorway/ssb-component-library';
-import { useTranslation } from 'react-i18next';
 import { HelpCircle } from 'react-feather';
 
 export const Help = ({ children }) => {
-    const {t} = useTranslation();
     const [ showHelp, setShowHelp ] = useState(false);
 
     return (
