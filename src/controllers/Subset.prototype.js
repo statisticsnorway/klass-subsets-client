@@ -278,7 +278,7 @@ export function Subset (data) {
                     || subset.isLatestSavedVersion())
                     && subset.validUntil !== subset.versionValidUntil)
                 {
-                    subset.validUntil = date;
+                    subset.validUntil = subset._versionValidUntil;
                 }
             }
         }

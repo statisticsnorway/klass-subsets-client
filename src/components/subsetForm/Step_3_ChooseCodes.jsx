@@ -7,7 +7,7 @@ import { useGet } from '../../controllers/klass-api';
 import { URL } from '../../controllers/klass-api';
 import '../../css/list.css';
 import { SubsetBrief } from '../SubsetBrief';
-import {AppContext} from "../../controllers/context";
+import {AppContext} from '../../controllers/context';
 
 export const Step3ChooseCodes = () => {
     const { t } = useTranslation();
@@ -23,9 +23,9 @@ export const Step3ChooseCodes = () => {
 };
 
 export const SearchForm = () => {
-    const {subset} = useContext(AppContext);
-    const {draft, dispatch} = subset;
-    const {t} = useTranslation();
+    const { subset } = useContext(AppContext);
+    const { draft, dispatch } = subset;
+    const { t } = useTranslation();
 
     // FIXME: more flexible url building based on first response?
     const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
@@ -37,15 +37,10 @@ export const SearchForm = () => {
     return (
         <>
             <Paragraph>
-                { t('All search results will be restricted by validity period set for the version')}
-                {
-                    !from && !to
-                        ? `: ${t('at', { date: new Date().toISOString().substr(0, 10)})}. ${t('Period is not set')}.`
-                        : from && to
-                            ? `: ${t('from to', { from, to })}.`
-                            : from
-                                ? `: ${t('from', { from })}.`
-                                : `: ${t('to', { to })}.`
+                { t('Search results are restricted by versions validity period')}
+                { from || to
+                    ? `: ${ t('from') } ${ from || '...' } ${t('to')} ${ to || '...' }`
+                    : `. ${ t('Period is not set') }.`
                 }
             </Paragraph>
             <Search resource={ classifications?._embedded?.classifications || []}

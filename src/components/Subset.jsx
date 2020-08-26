@@ -23,9 +23,7 @@ export const SubsetPreview = ({subset}) => {
             <Paragraph><strong>ID:</strong> {subset.id || '-'}</Paragraph>
             <Paragraph><strong>{t('Version')}:</strong> {subset.version || '-'}</Paragraph>
             <Paragraph><strong>{t('Validity period')}</strong>{
-                from && to
-                ? `: ${t('from to', { from, to })}.`
-                : from || to ? `: ${t('at', { date: from || to})}.`
+                from || to ? `: ${t('at', { date: from || to})}.`
                 : `: ${t('Period is not set').toLocaleLowerCase()}.`}
             </Paragraph>
 

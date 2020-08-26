@@ -118,7 +118,6 @@ export const SubsetValidityForm = () => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
-    const [ showHelp, setShowHelp ] = useState(false);
 
     return (
         <section style={{margin: '5px 0 5px 0'}}>

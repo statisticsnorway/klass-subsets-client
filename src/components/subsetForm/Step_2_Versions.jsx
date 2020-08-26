@@ -157,12 +157,7 @@ export const VersionValidUntilForm = () => {
                    id='version_to_date'
                    style={{display: 'block'}}
                    value={draft.versionValidUntil?.substr(0, 10) || ''}
-                   disabled={
-                       (!draft.versionValidFrom && !draft.validUntil)
-                       || (draft.validUntil && draft.previousVersions && draft.previousVersions?.find(v => v.version === draft.version && v.administrativeStatus === 'OPEN'))
-                       || (draft.previousVersions &&
-                           draft.versionValidUntil === draft.previousVersions?.find(v => v.version === draft.version - 1)?.validFrom
-                           && draft.versionValidFrom < draft.previousVersions?.find(v => v.version === draft.version - 1)?.validFrom)}
+                   disabled={ draft.isPublished }
                    onChange={event => dispatch({
                        action: 'version_to',
                        data: event.target.value === ''
