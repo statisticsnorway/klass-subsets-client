@@ -65,14 +65,6 @@ export const Classification = ({item = {}, includible}) => {
                         <Alert color='orange'/>
                     </button>
                 }
-{/*
-                <button onClick={() => {
-                    setRetryCodes(true);
-                    setRetryMetadata(true);
-                }}>
-                    <RefreshCw size='20' color={ isLoadingCodes || isLoadingMetadata ? '#C3DCDC' : '#62919A'}/>
-                </button>
-*/}
 
                 <button onClick={() =>
                     setShow(prev => ({codes: !prev.codes}))}>
