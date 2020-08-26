@@ -61,8 +61,8 @@ export const validate = {
             description: [],
             origin: [],
             administrativeStatus: [],
-            versionValidFrom: this.versionValidFrom(draft.version, draft.validFrom, draft.validUntil, draft.versionValidFrom),
-            versionPeriod: this.period(draft.versionValidFrom, draft.validUntil),
+            versionValidFrom: this.versionValidFrom(draft.version, draft.validFrom, draft.validUntil, draft._versionValidFrom),
+            versionPeriod: this.period(draft._versionValidFrom, draft._versionValidUntil),
             codes: this.codes(draft.codes)
         };
     }

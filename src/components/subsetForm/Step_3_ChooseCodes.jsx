@@ -31,8 +31,8 @@ export const SearchForm = () => {
     const [classifications] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
     const [searchResult, setSearchResult] = useState([]);
 
-    const from = draft.versionValidFrom?.substr(0, 10)
-    const to = draft.versionValidUntil?.substr(0, 10)
+    const from = draft.versionValidFrom
+    const to = draft.versionValidUntil
 
     return (
         <>
@@ -94,9 +94,6 @@ export const IncludedCodeLists = () => {
     const {draft, dispatch} = subset;
     const {t} = useTranslation();
 
-    const from = draft.versionValidFrom?.substr(0, 10)
-    const to = draft.versionValidUntil?.substr(0, 10)
-
     return (
         <>
             <Title size={3}>{t('Choose codes from classifications')}</Title>
@@ -109,7 +106,8 @@ export const IncludedCodeLists = () => {
                             <Classification
                                 key={urn + index}
                                 item={{urn}}
-                                to={to} from={from}
+                                to={ draft.versionValidUntil }
+                                from={ draft.versionValidFrom }
                                 chosenCodes={draft.codes}
                                 chosen={true}
                                 exclude={() => dispatch({

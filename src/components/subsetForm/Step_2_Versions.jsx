@@ -1,20 +1,20 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect } from 'react';
 import '../../css/form.css';
 import { useTranslation } from 'react-i18next';
-import {Paragraph, Title} from '@statisticsnorway/ssb-component-library';
+import { Title} from '@statisticsnorway/ssb-component-library';
 import { Dropdown, TextLanguageFieldset } from './forms';
 import { useGet } from '../../controllers/subsets-service';
 import Spinner from '../Spinner';
 import { SubsetBrief } from '../SubsetBrief';
 import { AppContext } from '../../controllers/context';
 import { subsetDraft } from '../../controllers/defaults';
-import { Help } from '../../components/Help';
+import { Help } from '../Help';
 
 export const Step2Versions = () => {
     const { t } = useTranslation();
     return (
         <>
-            <Title size={3}>{t('Versions')}</Title>
+            <Title size={3}>{ t('Versions') }</Title>
             <SubsetBrief />
             <VersionSwitcher />
             <VersionPeriod />
@@ -41,35 +41,39 @@ export const VersionSwitcher = () => {
 
 
     return (
-        <>{isLoadingVersions
+        <>{ isLoadingVersions
             ? <Spinner/>
-            : <Dropdown label={t('Version')}
-                        options={draft.previousVersions
+            : <Dropdown label={ t('Version') }
+                        options={ draft.previousVersions
                            ? [
                                ...draft.previousVersions.map(v => ({
                                    ...v,
-                                    title: `${t('Version')} ${v.version}: ${v.versionValidFrom?.substr(0, 10)} ${t(v.administrativeStatus)}`,
-                                    id: `${v.version}`
+                                    title: `${ t('Version') } ${ 
+                                       v.version }: ${ 
+                                       v.versionValidFrom?.substr(0, 10)} ${ 
+                                       t(v.administrativeStatus) 
+                                   }`,
+                                    id: `${ v.version }`
                                 })),
 
                                 {
-                                    title: `${t('New version')}`,
+                                    title: `${ t('New version') }`,
                                     id: 'New version',
-                                    disabled: !draft.previousVersions.find(v => v.version === draft.version)
+                                    disabled: draft.isNewVersion()
                                 }
                             ]
                             : []
                         }
-                        placeholder={t('Select a version')}
-                        disabledText={t(draft.administrativeStatus)}
-                        selected={draft.version}
-                        onSelect={(option) => {
+                        placeholder={ t('Select a version') }
+                        disabledText={ t(draft.administrativeStatus) }
+                        selected={ draft.version }
+                        onSelect={ (option) => {
                             dispatch({
                                 action: 'version_switch',
                                 data: option.id
                             });
                         }}
-                        errorMessages={draft.errors?.version}
+                        errorMessages={ draft.errors?.version }
             />
     } </>
     );
@@ -80,8 +84,13 @@ export const VersionPeriod = () => {
     const { t } = useTranslation();
 
     return (
-        <section style={{margin: '5px 0 5px 0'}}>
-            <div style={{float: 'left', marginRight: '20px', padding: '0', position: 'relative', top: '-10px'}}>
+        <section style={{ margin: '5px 0 5px 0' }}>
+            <div style={{ float: 'left',
+                marginRight: '20px',
+                padding: '0',
+                position: 'relative',
+                top: '-10px'
+            }}>
                 <VersionValidFromForm />
             </div>
             <div style={{float: 'left'}}>
@@ -89,9 +98,9 @@ export const VersionPeriod = () => {
             </div>
             <br style={{clear: 'both'}}/>
 
-            {subset.draft?.errors?.versionPeriod?.length > 0 &&
+            { subset.draft?.errors?.versionPeriod?.length > 0 &&
             <div className='ssb-input-error '>
-                {subset.draft?.errors.versionPeriod.map((error, i) => (
+                { subset.draft?.errors.versionPeriod.map((error, i) => (
                     <span key={error + i} style={{padding: '0 10px 0 0'}}
                     >{t(error)}.
                     </span>
@@ -111,7 +120,7 @@ export const VersionValidFromForm = () => {
         <>
             <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                    htmlFor='version_from_date'
-            >{t('Version valid from')}:
+            >{ t('Version valid from') }:
                 <Help>
                     <strong>{ t('Version valid from') }. </strong>
                     { t('Version valid from help') }
@@ -120,12 +129,10 @@ export const VersionValidFromForm = () => {
 
             <input type='date'
                    id='version_from_date'
-                   style={{display: 'block'}}
-                   value={draft.versionValidFrom?.substr(0, 10) || ''}
-                   disabled={draft.previousVersions
-                        && draft.previousVersions?.find(v => v.version === draft.version
-                        && v.administrativeStatus === 'OPEN')}
-                   onChange={event => dispatch({
+                   style={{ display: 'block' }}
+                   value={ draft.versionValidFrom || '' }
+                   disabled={ draft.isPublished }
+                   onChange={ event => dispatch({
                        action: 'version_from',
                        data: event.target.value === ''
                            ? null
@@ -136,7 +143,7 @@ export const VersionValidFromForm = () => {
             {draft.errors?.versionValidFrom?.length > 0 &&
             <div className='ssb-input-error '>
                 {draft.errors.versionValidFrom.map((error, i) => (
-                    <span key={error + i} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                    <span key={error + i} style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
                 ))}
             </div>
             }
@@ -151,13 +158,13 @@ export const VersionValidUntilForm = () => {
 
     return (
         <>
-            <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                   htmlFor='version_to_date'>{t('Version valid until')}: </label>
+            <label style={{ display: 'block', fontSize: '16px', fontFamily: 'Roboto' }}
+                   htmlFor='version_to_date'>{ t('Version valid until') }: </label>
             <input type='date'
                    id='version_to_date'
-                   style={{display: 'block'}}
-                   value={draft.versionValidUntil?.substr(0, 10) || ''}
-                   disabled={ draft.isPublished }
+                   style={{ display: 'block' }}
+                   value={ draft.versionValidUntil || '' }
+                   disabled={ draft.isPublished && !draft.isLatestSavedVersion() }
                    onChange={event => dispatch({
                        action: 'version_to',
                        data: event.target.value === ''
@@ -166,12 +173,12 @@ export const VersionValidUntilForm = () => {
                    })
                    }
                    className='datepicker'/>
-            {draft.errors?.versionValidUntil?.length > 0 &&
-            <div className='ssb-input-error '>
-                {draft.errors.versionValidUntil.map(error => (
-                    <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
-                ))}
-            </div>
+            { draft.errors?.versionValidUntil?.length > 0 &&
+                <div className='ssb-input-error '>
+                    { draft.errors.versionValidUntil.map(error => (
+                        <span style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
+                    ))}
+                </div>
             }
         </>
     );
