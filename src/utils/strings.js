@@ -23,3 +23,7 @@ export const sanitize = (text, maxLength) => {
         .substring(0, maxLength)
         .replace(/[^A-ZÆØÅa-zæøå0-9-.,; _]*/g, '');
 };
+
+export const today = () => {
+    return new Date().toISOString().substr(0, 10);
+};

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { today } from '../utils/strings';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
@@ -19,8 +20,6 @@ export const URN = {
     },
     // TESTME
     toURL(urn, from, to) {
-        const today = !(from || to) && new Date().toISOString().substr(0, 10);
-
         if (this.isCodePattern(urn)) {
             const [,,,service,id,,code] = urn.split(':');
 
@@ -35,7 +34,7 @@ export const URN = {
                         ? `/${service}/${id}/codes.json?from=${ from }&selectCodes=${ code }`
                         : !from && to
                             ? `/${service}/${id}/codes.json?to=${ to }&selectCodes=${ code }`
-                            : `/${service}/${id}/codesAt.json?date=${ today }&selectCodes=${ code }`
+                            : `/${service}/${id}/codesAt.json?date=${ today() }&selectCodes=${ code }`
                 ,
                 url: from && to
                 ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
@@ -43,7 +42,7 @@ export const URN = {
                         ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&selectCodes=${ code }`
                         : !from && to
                             ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?to=${ to }&selectCodes=${ code }`
-                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today }&selectCodes=${ code }`
+                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today() }&selectCodes=${ code }`
             };
         }
 
@@ -60,15 +59,15 @@ export const URN = {
                         ? `/${service}/${id}/codes.json?from=${ from }`
                         : !from && to
                             ? `/${service}/${id}/codes.json?to=${ to }`
-                            : `/${service}/${id}/codesAt.json?date=${ today }`,
+                            : `/${service}/${id}/codesAt.json?date=${ today() }`,
                 url: `${klassApiServiceEndpoint}/${ service }/${ id }`,
                 codesUrl: from && to
-                    ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?from=${from}&to=${to}`
+                    ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?from=${ from }&to=${ to }`
                     : from && !to
                         ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?from=${ from }`
                         : !from && to
                             ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?to=${ to }`
-                            : `${klassApiServiceEndpoint}/${ service }/${ id }/codesAt.json?date=${ today }`
+                            : `${klassApiServiceEndpoint}/${ service }/${ id }/codesAt.json?date=${ today() }`
             };
         }
 
@@ -79,7 +78,6 @@ export const URN = {
 export const URL = {
 
     toURN: (url, from, to) => {
-        const today = !(from || to) && new Date().toISOString().substr(0, 10);
 
         // FIXME sanitize input - XSS is a threat!!!
         // For now it accepts letters, digits, % & # _ - . , etc
@@ -101,7 +99,7 @@ export const URL = {
                         ? `/${service}/${id}/codes.json?from=${ from }`
                         : !from && to
                             ? `/${service}/${id}/codes.json?to=${ to }`
-                            : `/${service}/${id}/codesAt.json?date=${ today }`
+                            : `/${service}/${id}/codesAt.json?date=${ today() }`
             };
         }
         return {};
