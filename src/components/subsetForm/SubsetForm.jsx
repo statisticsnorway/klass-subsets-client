@@ -10,7 +10,6 @@ import { Step5Publish } from './Step_5_Publish';
 import { useTranslation } from 'react-i18next';
 
 export default function SubsetForm() {
-    const { subset } = useContext(AppContext);
     const { t } = useTranslation();
 
     return (
@@ -26,10 +25,10 @@ export default function SubsetForm() {
                     <Step3ChooseCodes />
                 </Step>
                 <Step label={ t('Reorder codes') }>
-                    <Step4Reorder subset={ subset } />
+                    <Step4Reorder  />
                 </Step>
                 <Step label={t('Review and publish')}>
-                    <Step5Publish subset={ subset } />
+                    <Step5Publish />
                 </Step>
             </Navigation>
         </div>

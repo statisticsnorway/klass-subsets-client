@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { Search } from '../../controllers/Search';
 import { Title, Paragraph } from '@statisticsnorway/ssb-component-library';
 import { Classification } from './Classification';
