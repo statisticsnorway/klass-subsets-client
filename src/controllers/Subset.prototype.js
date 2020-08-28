@@ -279,10 +279,10 @@ export function Subset (data) {
 
                 subset._versionValidUntil = date;
 
-                if ((subset.isNew()
+                if (subset.isNew()
                     || (subset.isNewVersion() && subset.isAfterCoveredPeriod(date))
+                    || (subset.isNewVersion() && subset.isAfterCoveredPeriod(subset.versionValidFrom))
                     || subset.isLatestSavedVersion())
-                    && subset._validUntil !== subset._versionValidUntil)
                 {
                     subset._validUntil = subset._versionValidUntil;
                 }
@@ -516,8 +516,8 @@ const versionable = (state = {}) => ({
         state._version = `${ state.calculateNextVersionNumber() }`;
         state.administrativeStatus = 'INTERNAL';
         state.versionRationale = [ nextDefaultName([]) ];
-        state.versionValidFrom = state.latestVersion?.versionValidUntil || null;
-        state.versionValidUntil = null;
+        state.versionValidFrom = state.latestVersion?.validUntil || null;
+        state.versionValidUntil = null; 
     },
 
     switchToVersion(chosenVersion = '') {

@@ -18,10 +18,11 @@ export const toId = text => {
         .replace(/[^a-z0-9-_]*/g, '');
 };
 
+// TODO: deview letter whitelist
 export const sanitize = (text, maxLength) => {
     return text && text
         .substring(0, Math.min(maxLength, text.length))
-        .replace(/[^A-ZÆØÅa-zæøå0-9-.,; _]*/g, '');
+        .replace(/[^A-ZÆØÅa-zæøå0-9-.,; _:!?"'/%]*/g, '');
 };
 
 export const today = () => {
