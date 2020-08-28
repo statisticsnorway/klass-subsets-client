@@ -184,10 +184,8 @@ export function Subset (data) {
 
                 subset._validFrom = date;
 
-                if (subset.isNew()
-                    && subset.validFrom !== subset.versionValidUntil)
-                {
-                    subset.versionValidFrom = date;
+                if (subset.isNew()) {
+                    subset._versionValidFrom = subset.validFrom;
                 }
             }
         }
@@ -243,7 +241,7 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'versionValidFrom', {
+       Object.defineProperty(subset, 'versionValidFrom', {
         get: () => { return subset._versionValidFrom?.substr(0, 10); },
         set: (date = null) => {
             //console.debug('Set versionValidFrom', date);
@@ -252,25 +250,21 @@ export function Subset (data) {
 
                 subset._versionValidFrom = date;
 
-                if (subset.isNew()
-                    && subset.validFrom !== subset.versionValidFrom)
+                if (subset.isNew()) {
+                    subset._validFrom = subset.versionValidFrom;
+
+                } else if (subset.isBeforeCoveredPeriod(date)) {
+                    subset._versionValidUntil = subset.latestVersion?.validFrom;
+                    subset._validFrom = subset.versionValidFrom;
+
+                } else if (
+                    subset._versionValidFrom > subset.latestVersion?.validFrom
+                    || subset.versionValidUntil === subset.latestVersion?.validFrom)
                 {
-                    subset.validFrom = subset._versionValidFrom;
-                }
+                    //console.debug('Covered period or later or illegal input - clean calculated dates');
 
-                else if (subset.isBeforeCoveredPeriod(date)
-                    && subset.validFrom !== subset._versionValidFrom)
-                {
-                    subset.versionValidUntil = subset.validFrom;
-                    subset.validFrom = subset._versionValidFrom;
-                }
-
-                else {
-                    //console.debug('Covered period or later or illegal input');
-
-                    if (subset._versionValidUntil === subset.latestVersion?.validFrom) {
-                        subset.versionValidUntil = null;
-                    }
+                    subset._versionValidUntil = null;
+                    subset._validFrom = subset.latestVersion?.validFrom
                 }
             }
         }
@@ -288,9 +282,9 @@ export function Subset (data) {
                 if ((subset.isNew()
                     || (subset.isNewVersion() && subset.isAfterCoveredPeriod(date))
                     || subset.isLatestSavedVersion())
-                    && subset.validUntil !== subset._versionValidUntil)
+                    && subset._validUntil !== subset._versionValidUntil)
                 {
-                    subset.validUntil = subset._versionValidUntil;
+                    subset._validUntil = subset._versionValidUntil;
                 }
             }
         }
@@ -545,7 +539,6 @@ const versionable = (state = {}) => ({
             state._validUntil = exists.validUntil;
         }
     }
-
 });
 
 const nameControl = (state = {}) => ({
