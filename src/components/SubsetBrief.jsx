@@ -9,7 +9,7 @@ export const Brief = ({ id, version, lastUpdatedDate, status }) => {
 
     return (
         <Text small style={{ margin: '50px 0' }}>
-            {id || '-'}
+            { id || '-'}
             { t('Version') }: <strong>{ version || '-' }  </strong>
             { t('Updated') }: <strong>{ 
                 (lastUpdatedDate && new Date(lastUpdatedDate).toLocaleString('ru-RU')) 

@@ -20,10 +20,15 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`${subsetsServiceEndpoint}${path}?includeFuture=true&includeDrafts=true`);
+                const response = await fetch(`${ subsetsServiceEndpoint }${ path }?includeFuture=true&includeDrafts=true`);
                 let json = await response.json();
-                _mounted && setData(json);
-                _mounted && setIsLoading(false);
+                if (_mounted && response.status >= 200 && response.status <= 299) {
+                    setData(json);
+                    setIsLoading(false);
+                } else {
+                    throw Error(`${ json.error } ${ json.message }`
+                        || `${ response.status } ${ response.statusText }`);
+                }
             }
             catch (e) {
                 setError({
@@ -48,15 +53,15 @@ export function useGet(url = null) {
 
     }, [path]);
 
-    return [data, isLoading, error, setPath];
+    return [ data, isLoading, error, setPath ];
 }
 
 export function usePost() {
-    const [path, setPath] = useState('');
-    const [data, setData] = useState(null);
-    const [payload, setPayload] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [ path, setPath ] = useState('');
+    const [ data, setData ] = useState(null);
+    const [ payload, setPayload ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ error, setError ] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,7 +70,7 @@ export function usePost() {
             setData(null);
 
             try {
-                const response = await fetch(`${subsetsServiceEndpointAUTH}${path}`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -75,7 +80,8 @@ export function usePost() {
                     setData(json);
                     setIsLoading(false);
                 } else {
-                    throw Error(`${json.error} ${json.message}` || `${response.status} ${response.statusText}`);
+                    throw Error(`${ json.error } ${ json.message }`
+                        || `${ response.status } ${ response.statusText }`);
                 }
             }
             catch (e) {
@@ -88,17 +94,17 @@ export function usePost() {
             fetchData();
         }
 
-    }, [payload]);
+    }, [ payload ]);
 
-    return [data, setPayload, isLoading, error, setPath];
+    return [ data, setPayload, isLoading, error, setPath ];
 }
 
 export function usePut(url = '') {
-    const [path, setPath] = useState(url);
-    const [data, setData] = useState(null);
-    const [payload, setPayload] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [ path, setPath ] = useState(url);
+    const [ data, setData ] = useState(null);
+    const [ payload, setPayload ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ error, setError ] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -107,7 +113,7 @@ export function usePut(url = '') {
             setData(null);
 
             try {
-                const response = await fetch(`${subsetsServiceEndpointAUTH}${path}`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -117,7 +123,10 @@ export function usePut(url = '') {
                     setData(json);
                     setIsLoading(false);
                 } else {
-                    throw Error(`${json.error} ${json.message}` || `${response.status} ${response.statusText}`);
+                    throw Error(
+                        `${ json.error } ${ json.message }`
+                        || `${ response.status } ${ response.statusText }`
+                    );
                 }
             }
             catch (e) {
@@ -130,7 +139,7 @@ export function usePut(url = '') {
             fetchData();
         }
 
-    }, [payload]);
+    }, [ payload ]);
 
-    return [data, setPayload, isLoading, error, setPath];
+    return [ data, setPayload, isLoading, error, setPath ];
 }

@@ -31,7 +31,7 @@ export const SubsetIdForm = () => {
     const { subset } = useContext(AppContext);
     const { t } = useTranslation();
 
-    const [exist,,, setPathExist] = useGetSubset();
+    const [exist,, errorExists, setPathExist] = useGetSubset();
 
     useEffect(() => {
         subset.draft.isNew()

@@ -22,13 +22,13 @@ export const Step5Publish = () => {
             dispatch({action: 'reset'});
             history.push(`/subsets/${draft.id}`);
         }
-    }, [post, update]);
+    }, [ post, update ]);
 
     // FIXME: workaround caused server not sending exception on error
     useEffect(() => {
         (errorPost || errorUpdate) &&
-            alert(`Update failed: ${errorPost || errorUpdate}`);
-    }, [errorPost, errorUpdate]);
+            alert(`Update failed: ${ errorPost || errorUpdate }`);
+    }, [ errorPost, errorUpdate ]);
 
 return (
         <>

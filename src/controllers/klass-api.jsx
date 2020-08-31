@@ -124,8 +124,15 @@ export function useGet(url = null) {
             try {
                 const response = await fetch(`${klassApiServiceEndpoint}${path}`);
                 const json = await response.json();
-                _mounted && setData(json);
-                _mounted && setIsLoading(false);
+                if (response.status >= 200 && response.status <= 299 && _mounted) {
+                    setData(json);
+                    setIsLoading(false);
+                } else {
+                    throw Error(
+                        `${json.error} ${json.message}`
+                        || `${response.status} ${response.statusText}`
+                    );
+                }
             } catch (e) {
                 _mounted && setError({
                     timestamp: Date.now(),
