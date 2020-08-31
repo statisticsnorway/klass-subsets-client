@@ -6,10 +6,10 @@ const subsetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;
 const subsetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
 
 export function useGet(url = null) {
-    const [path, setPath] = useState(url);
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [ path, setPath ] = useState(url);
+    const [ data, setData ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ error, setError ] = useState(null);
 
     useEffect(() => {
         let _mounted = true;

@@ -162,6 +162,54 @@ export function useGet(url = null) {
     return [ data, isLoading, error, setPath ];
 }
 
+export function useCodeName(origin) {
+    const { code, classificationId, path, url } = URN.toURL(
+        origin?.urn,
+        origin?.validFromInRequestedRange,
+        origin?.validToInRequestedRange);
+
+    const [codeData, setCodeData] = useState({
+        ...origin,
+        code,
+        classificationId,
+        _links: {
+            self: {
+                href: url
+            }
+        },
+        error: null
+    });
+
+    // FIXME handle errors
+    const [targetCode, isLoadingTargetCode, errorTargetCode ] = useGet(origin?.name ? null : path);
+    useEffect(() => {
+        targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                ...targetCode.codes[0]
+            };
+        });
+
+        targetCode?.error && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                ...targetCode?.error
+            };
+        });
+    }, [ targetCode ]);
+
+    useEffect(() => {
+        errorTargetCode && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                error: errorTargetCode.message
+            };
+        });
+    }, [ errorTargetCode ]);
+
+    return { codeData, isLoadingTargetCode };
+}
+
 export function useCode(origin) {
     const {code, classificationId, path, url} = URN.toURL(
         origin?.urn,
@@ -180,7 +228,7 @@ export function useCode(origin) {
     });
 
     // FIXME handle errors
-    const [targetCode] = useGet(code?.name ? null : path);
+    const [targetCode] = useGet(origin?.name ? null : path);
     useEffect(() => {
         targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
             return {...prevCodeData, ...targetCode.codes[0]};

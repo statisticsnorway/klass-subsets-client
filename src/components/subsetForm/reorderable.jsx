@@ -8,7 +8,7 @@ import {
     HelpCircle
 } from 'react-feather';
 import { Paragraph, LeadParagraph } from '@statisticsnorway/ssb-component-library';
-import { useCode } from '../../controllers/klass-api';
+import { useCodeName } from '../../controllers/klass-api';
 import '../../css/form.css';
 import keys from '../../utils/keys';
 import Spinner from '../Spinner';
@@ -126,19 +126,19 @@ export const ReordableItem = ({item = {}, remove, update,
                                setDragTarget, disabled}) =>
 {
 
-    const [rank, setRank] = useState(item.rank);
-    const [background, setBackground] = useState('#ECFEED');
+    const [ rank, setRank ] = useState(item.rank);
+    const [ background, setBackground ] = useState('#ECFEED');
 
     // TODO: cache fetched data in session storage
-    const {codeData, isLoadingVersion} = useCode(item.name ? null : item);
+    const { codeData, isLoadingVersion } = useCodeName({ item });
+
+    useEffect(() => codeData && update(codeData), [ codeData ]);
 
     useEffect(() => {
         function fade() { setBackground('white'); }
         setTimeout(fade, 500);
         }, []
     );
-
-    useEffect(() => codeData && update(codeData), [codeData]);
 
     return (
         <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
