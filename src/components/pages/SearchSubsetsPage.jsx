@@ -10,7 +10,7 @@ import Spinner from "../Spinner";
 export default function SearchSubsetsPage() {
 
     const { t } = useTranslation();
-    const [ subsets, isLoadingSubsets, errorSubsets ] = useGet('jhgjhg');
+    const [ subsets, isLoadingSubsets, errorSubsets ] = useGet('');
     const [ searchResults, setSearchResults ] = useState([]);
 
 
