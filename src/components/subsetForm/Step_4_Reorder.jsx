@@ -14,7 +14,7 @@ export const Step4Reorder = () => {
         <Title size={3}>{t('Reorder codes')}</Title>
         <SubsetBrief />
 
-        {draft.codes?.length === 0
+        { draft.codes?.length === 0
             ? <p>{t('No items to sort')}</p>
             : <Reorderable list={draft.codes}
                            rerank={ (codes, rank) => dispatch({

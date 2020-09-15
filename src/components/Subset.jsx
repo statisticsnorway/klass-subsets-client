@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Code } from './Code';
 import { eu } from '../utils/strings';
 
-export const SubsetPreview = ({subset}) => {
+export const SubsetPreview = ({ subset }) => {
     const { t } = useTranslation();
 
     // FIXME: show title in selected language, not just first in the name array.

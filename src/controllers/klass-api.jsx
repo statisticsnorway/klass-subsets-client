@@ -180,7 +180,6 @@ export function useCodeName(origin) {
         error: null
     });
 
-    // FIXME handle errors
     const [targetCode, isLoadingTargetCode, errorTargetCode ] = useGet(origin?.name ? null : path);
     useEffect(() => {
         targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
