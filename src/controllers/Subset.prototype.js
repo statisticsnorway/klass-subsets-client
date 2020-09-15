@@ -304,11 +304,12 @@ export function Subset (data) {
     Object.defineProperty(subset, 'codes', {
         get: () => { return subset._codes; },
         set: (codes = []) => {
-            console.debug('Set codes and update origin', codes);
+            // console.debug('Set codes and update origin', codes);
 
             if (subset.isEditableCodes()) {
                 subset._codes = codes;
-                // TODO: reorder
+                subset.reorderCodes();
+                subset.rerankCodes();
                 subset.verifyOrigin();
             }
         }
@@ -726,7 +727,7 @@ const originControl = (state = {}) => ({
     },
 
     verifyOrigin() {
-        console.debug('verifyOrigin');
+        //console.debug('verifyOrigin');
 
         // TESTME
     // TODO: if origin values are not empty, check if all values are valid URNs
@@ -752,44 +753,37 @@ const codesControl = (state = {}) => ({
         const candidates = codes?.filter(c => !state.isChosenCode(c.urn));
         if (candidates.length > 0) {
             state.codes = [...candidates, ...state.codes];
-            state.reorderCodes();
-            state.rerankCodes();
         }
     },
 
     removeCodes(codes = []) {
-        console.debug('deleteCodes', codes);
+        //console.debug('deleteCodes', codes);
 
         state.codes = state.codes.filter(c => !codes.find(s => s.urn === c.urn));
-        state.reorderCodes();
-        state.rerankCodes();
     },
 
     reorderCodes() {
-        console.debug('reorderCodes');
+        //console.debug('reorderCodes');
 
         state.codes.sort((a, b) => (a.rank - b.rank -1));
     },
 
     rerankCodes() {
-        console.debug('rerankCodes');
+        //console.debug('rerankCodes');
 
-        state.codes = state.codes.map((item, i) => ({
-            ...item,
-            rank: i + 1
-        }));
+        state.codes.forEach((item, i) => {
+            item.rank = i + 1
+        });
     },
 
     changeRank(rank, codes) {
-        console.debug('changeRank', rank, codes);
+        //console.debug('changeRank', rank, codes);
 
         if (rank && rank !== '-') {
-            codes.forEach(code => {
-                const exist = state.codes?.find(c => c.urn === code.urn);
-                exist.rank = rank;
-            });
-            state.reorderCodes();
-            state.rerankCodes();
+            state.codes = state.codes.map(c => codes.find(i => i.urn === c.urn)
+                ? {...c, rank}
+                : c
+            )
         }
     }
 

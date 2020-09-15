@@ -155,20 +155,6 @@ function subsetReducer(state, {action, data = {}}) {
     }
 }
 
-function reorder(list) {
-    if (list?.length > 0) {
-        list.sort((a, b) => (a.rank - b.rank -1));
-    }
-    return rerank(list);
-}
-
-function rerank(list) {
-    return list.map((item, i) => ({
-        ...item,
-        rank: i + 1
-    }));
-}
-
 export const useSubset = (init = Subset()) => {
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:

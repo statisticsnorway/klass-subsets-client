@@ -12,6 +12,8 @@ export const URN = {
     classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
 
     isCodePattern(urn) {
+        if (!urn) return false;
+
         if (!this.codePattern.test(urn)) {
             console.warn('Unexpected code URN pattern', urn);
         }
@@ -19,6 +21,8 @@ export const URN = {
     },
 
     isClassificationPattern(urn) {
+        if (!urn) return false;
+
         if (!this.classificationPattern.test(urn)) {
             console.warn('Unexpected classification URN pattern', urn);
         }
