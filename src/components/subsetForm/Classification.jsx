@@ -220,18 +220,18 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
 
     return (
         <>
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
                 { draft.isPublished
                     ? <div >
-                        <Text style={{margin: '5px'}}><strong>{item.code}</strong> {item.name}</Text>
+                        <Text style={{ margin: '5px' }}><strong>{ item.code }</strong> { item.name }</Text>
                       </div>
                     : <div className='ssb-checkbox'>
                         <input id={item.urn}
                                className='checkbox'
                                type='checkbox' name='include'
                                checked={ draft.isChosenCode(item.urn) }
-                               value={item.code}
-                               onChange={(e) =>
+                               value={ item.code }
+                               onChange={ (e) =>
                                    draft.isChosenCode(item.urn)
                                        ? dispatch({
                                            action: 'codes_exclude',
@@ -252,24 +252,24 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                 <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
                     {isLoadingVersion
                         ? <Spinner />
-                        : <MessageSquare color={notes.length > 0 ? '#62919A' : '#C3DCDC'}/>}
+                        : <MessageSquare color={ notes.length > 0 ? '#62919A' : '#C3DCDC' }/>}
                 </button>
             </div>
 
             {showNotes && <div>
                 {notes.length === 0
-                    ? <Text>{t('No notes found.')}</Text>
+                    ? <Text>{ t('No notes found.') }</Text>
                     : notes.map((note, i) => (
-                        <div key={i} style={{padding: '10px 50px 20px 50px'}}>
-                            <Title size={4}>{t('Notes')}</Title>
-                            <div style={{fontSize: '14px'}}
+                        <div key={i} style={{ padding: '10px 50px 20px 50px' }}>
+                            <Title size={4}>{ t('Notes') }</Title>
+                            <div style={{ fontSize: '14px' }}
                                  className='ssb-paragraph small'
                                 // DOCME
                                 // FIXME: find another way
-                                 dangerouslySetInnerHTML={{__html: replaceRef(note.note)}}
+                                 dangerouslySetInnerHTML={{ __html: replaceRef(note.note) }}
                             />
                             <Text small>
-                                ({t('valid')}: {note.validFrom || '...'} - {note.validTo || '...'})
+                                ({t('valid')}: { note.validFrom || '...'} - {note.validTo || '...' })
                             </Text>
                         </div>))}
             </div>
@@ -297,14 +297,14 @@ export const CodelistInfo = ({id, info}) => {
                     .sort((a, b) => (a.validFrom > b.validFrom ? -1 : 0))
                     .map((version, i) => (
                     <tr key={i}>
-                        <td>{version.validFrom || '...'}</td>
-                        <td>{version.validTo || '...'}</td>
-                        <td style={{width: '65%'}}>{version.name}</td>
+                        <td>{ version.validFrom || '...' }</td>
+                        <td>{ version.validTo || '...' }</td>
+                        <td style={{ width: '65%' }}>{version.name}</td>
                     </tr>
                 ))}
                 </tbody>
             </table>
-            <Paragraph><strong>{t('Description')}:</strong> {info.description || '-'}</Paragraph>
+            <Paragraph><strong>{t('Description')}:</strong> { info.description || '-' }</Paragraph>
         </div>
     );
 };

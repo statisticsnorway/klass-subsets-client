@@ -131,11 +131,8 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'codes_include': {
-            const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
-            state.origin = verifyOrigin(state.origin, candidates);
-            return  Subset({
-                ...state,
-                codes: reorder([...candidates, ...state.codes])});
+            state.prependCodes(data);
+            return Subset({...state});
         }
         case 'codes_exclude': {
             const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));

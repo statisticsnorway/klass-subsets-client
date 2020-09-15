@@ -12,15 +12,21 @@ export const URN = {
     classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
 
     isCodePattern(urn) {
+        if (!this.codePattern.test(urn)) {
+            console.warn('Unexpected code URN pattern', urn);
+        }
         return this.codePattern.test(urn);
     },
 
     isClassificationPattern(urn) {
+        if (!this.classificationPattern.test(urn)) {
+            console.warn('Unexpected classification URN pattern', urn);
+        }
         return this.classificationPattern.test(urn);
     },
     // TESTME
     toURL(urn, from, to) {
-        if (this.isCodePattern(urn)) {
+        if (this.codePattern.test(urn)) {
             const [,,,service,id,,code] = urn.split(':');
 
             return {
@@ -46,7 +52,7 @@ export const URN = {
             };
         }
 
-        if (this.isClassificationPattern(urn)) {
+        if (this.classificationPattern.test(urn)) {
             const [,,, service, id] = urn.split(':');
 
             return {
@@ -70,6 +76,8 @@ export const URN = {
                             : `${klassApiServiceEndpoint}/${ service }/${ id }/codesAt.json?date=${ today() }`
             };
         }
+
+        console.warn('Unexpected URN pattern:', urn);
 
         return {};
     }

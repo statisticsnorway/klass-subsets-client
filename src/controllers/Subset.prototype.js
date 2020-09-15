@@ -152,7 +152,7 @@ export function Subset (data) {
             if (subset.isEditableOrigin()) {
                 subset._administrativeDetails
                     .find(d => d.administrativeDetailType === 'ORIGIN')
-                    .values = origin;
+                    .values = origin.filter(o => URN.isClassificationPattern(o));
 
                 //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
             }
@@ -304,10 +304,11 @@ export function Subset (data) {
     Object.defineProperty(subset, 'codes', {
         get: () => { return subset._codes; },
         set: (codes = []) => {
-            console.debug('Set codes', codes);
+            console.debug('Set codes and update origin', codes);
 
             if (subset.isEditableCodes()) {
                 subset._codes = codes;
+                subset.verifyOrigin();
             }
         }
     });
@@ -721,6 +722,17 @@ const originControl = (state = {}) => ({
             // TODO: move to defineProperty 'origin
             state.codes = state._codes.filter(c => !c.urn.startsWith(origin));
         }
+    },
+
+    verifyOrigin() {
+        console.debug('verifyOrigin');
+
+        // TESTME
+    // TODO: if origin values are not empty, check if all values are valid URNs
+
+        const updated = new Set(state.origin);
+        state.codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
+        state.origin = [...updated];
     }
 
 });
@@ -728,12 +740,24 @@ const originControl = (state = {}) => ({
 const codesControl = (state = {}) => ({
 
     isChosenCode(urn = '') {
-        //console.debug('isChosenCode', state.codes.findIndex(c => c.urn === urn) > -1);
+        console.debug('isChosenCode', state.codes.findIndex(c => c.urn === urn) > -1);
 
-        if (!URN.isCodePattern(urn)) {
-            return false;
+        return URN.isCodePattern(urn) && state.codes.findIndex(c => c.urn === urn) > -1;
+    },
+
+    prependCodes(codes = []) {
+        console.debug('prependCodes', codes);
+
+        // const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
+        // state.origin = verifyOrigin(state.origin, candidates);
+        // return  Subset({
+        //     ...state,
+        //     codes: reorder([...candidates, ...state.codes])});
+
+        const candidates = codes?.filter(c => !state.isChosenCode(c.urn));
+        if (candidates.length > 0) {
+            state.codes = [...candidates, ...state.codes];
         }
-        return state.codes.findIndex(c => c.urn === urn) > -1;
     }
 
 });
