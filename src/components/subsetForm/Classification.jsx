@@ -87,9 +87,9 @@ export const Classification = ({item = {}, includible}) => {
                     : includible
                         ?
                         <button onClick={() => {
-                            if (draft.origin.includes(item.urn) || codes?.codes?.length > 0) {
+                            if (draft.hasOrigin(item.urn) || codes?.codes?.length > 0) {
                                 setShow({none: true});
-                                draft.origin.includes(item.urn)
+                                draft.hasOrigin(item.urn)
                                     ? dispatch({
                                         action: 'codelist_exclude',
                                         data: item.urn
@@ -104,7 +104,7 @@ export const Classification = ({item = {}, includible}) => {
                         }}>
                             {!codes || codes?.codes?.length === 0
                                 ? <XSquare color='#9272FC'/>
-                                : draft.origin.includes(item.urn)
+                                : draft.hasOrigin(item.urn)
                                     ? <MinusSquare color='#B6E8B8' />
                                     : <PlusSquare color='#1A9D49'/>}
                         </button>
@@ -122,19 +122,19 @@ export const Classification = ({item = {}, includible}) => {
             </div>
 
             {/*TODO: where item.error comes from?*/}
-            {show.alert &&
-            <div style={{backgroundColor: 'AntiqueWhite'}}
+            { show.alert &&
+            <div style={{ backgroundColor: 'AntiqueWhite' }}
                  className='panel'>
                 <Text>{item.error}</Text>
-            </div>}
+            </div> }
 
-            {show.cannot &&
+            { show.cannot &&
             <div style={{backgroundColor: '#ECE6FE'}}
                  className='panel'>
                 <Text>{t('Code list cannot be added to the subset due to lack of codes')}</Text>
             </div>}
 
-            {show.codes &&
+            { show.codes &&
                 <Codes
                     codes={codes?.codes?.map(code => ({
                     ...code,
@@ -144,8 +144,8 @@ export const Classification = ({item = {}, includible}) => {
                     urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
             }))}/>}
 
-            {show.info
-                && <CodelistInfo id={id} info={metadata}/>}
+            { show.info
+                && <CodelistInfo id={id} info={metadata}/> }
         </li>
     );
 };

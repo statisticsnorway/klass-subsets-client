@@ -141,24 +141,6 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'origin', {
-        get: () => {
-            return subset._administrativeDetails
-                .find(d => d.administrativeDetailType === 'ORIGIN').values;
-        },
-        set: (origin = []) => {
-            console.debug('Set origin', origin, subset.isEditableOrigin());
-
-            if (subset.isEditableOrigin()) {
-                subset._administrativeDetails
-                    .find(d => d.administrativeDetailType === 'ORIGIN')
-                    .values = origin.filter(o => URN.isClassificationPattern(o));
-
-                //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
-            }
-        }
-    });
-
     Object.defineProperty(subset, 'isPublished', {
         get: () => { return subset._administrativeStatus  === 'OPEN';},
     });
@@ -297,6 +279,24 @@ export function Subset (data) {
 
             if (subset.isEditableVersionRationale()) {
                 subset._versionRationale = versionRationale;
+            }
+        }
+    });
+
+    Object.defineProperty(subset, 'origin', {
+        get: () => {
+            return subset._administrativeDetails
+                .find(d => d.administrativeDetailType === 'ORIGIN').values;
+        },
+        set: (origin = []) => {
+            //console.debug('Set origin', origin, subset.isEditableOrigin());
+
+            if (subset.isEditableOrigin()) {
+                subset._administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ORIGIN')
+                    .values = origin.filter(o => URN.isClassificationPattern(o));
+
+                //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
             }
         }
     });
@@ -735,8 +735,12 @@ const originControl = (state = {}) => ({
         const updated = new Set(state.origin);
         state.codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
         state.origin = [...updated];
-    }
+    },
 
+
+    hasOrigin(urn = '') {
+            return state.origin?.includes(urn);
+    }
 });
 
 const codesControl = (state = {}) => ({
