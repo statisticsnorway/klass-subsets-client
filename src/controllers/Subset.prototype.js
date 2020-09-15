@@ -714,7 +714,7 @@ const originControl = (state = {}) => ({
     },
 
     removeOrigin(origin = '') {
-        console.debug('removeOrigin', origin);
+        //console.debug('removeOrigin', origin);
 
         if (URN.isClassificationPattern(origin)) {
             state.origin = state.origin.filter(urn => urn !== origin);
@@ -730,10 +730,10 @@ const codesControl = (state = {}) => ({
     isChosenCode(urn = '') {
         //console.debug('isChosenCode', state.codes.findIndex(c => c.urn === urn) > -1);
 
-        if (URN.isCodePattern(urn))
-        {
-            return state.codes.findIndex(c => c.urn === urn) > -1;
+        if (!URN.isCodePattern(urn)) {
+            return false;
         }
+        return state.codes.findIndex(c => c.urn === urn) > -1;
     }
 
 });
