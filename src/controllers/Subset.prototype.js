@@ -19,7 +19,7 @@ export function Subset (data) {
             || [
             {
                 administrativeDetailType: 'ANNOTATION',
-                values: []
+                values: ['']
             },
             {
                 administrativeDetailType: 'ORIGIN',
@@ -253,7 +253,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionValidUntil', {
-        get: () => { return subset._versionValidUntil?.substr(0, 10); },
+        get: () => { return subset._versionValidUntil?.substr(0, 10) || null; },
         set: (date = null) => {
             //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
@@ -324,6 +324,8 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'payload', {
+        // TESTME
+        // DOCME
         get: () => {
             const payload = {
                 id: subset._id,
@@ -340,7 +342,10 @@ export function Subset (data) {
                 versionValidFrom: subset._versionValidFrom,
                 codes: subset._codes
             };
-            Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));
+            Object.keys(payload).forEach((key) => (
+                (!payload[key] || payload[key] === '')
+                && delete payload[key])
+            );
             return payload;
         }
     });
@@ -737,9 +742,8 @@ const originControl = (state = {}) => ({
         state.origin = [...updated];
     },
 
-
     hasOrigin(urn = '') {
-            return state.origin?.includes(urn);
+        return state.origin?.includes(urn);
     }
 });
 

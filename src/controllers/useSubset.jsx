@@ -1,5 +1,4 @@
 import { useReducer, useEffect } from 'react';
-import { URN } from './klass-api';
 import { Subset } from './Subset.prototype';
 
 let errors = {
