@@ -135,25 +135,16 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'codes_exclude': {
-            const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
-            return Subset({
-                ...state,
-                codes: reorder([...candidates])});
+            state.removeCodes(data);
+            return Subset({...state});
         }
         case 'codes_rerank': {
-            data.codes.forEach(code => {
-                const reranked = state.codes?.find(c => c.urn === code.urn);
-                if (reranked && data.rank && data.rank !== '-') {
-                    reranked.rank = data.rank;
-                }
-            });
-            return Subset({
-                ...state,
-                codes: reorder([...state.codes])});
+            state.changeRank(data.rank, data.codes)
+            return Subset({...state});
         }
         case 'codes_cache': {
-            const codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
-            return Subset({ ...state, codes});
+            state.codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
+            return state;
         }
         case 'reset': {
             sessionStorage.removeItem('draft');

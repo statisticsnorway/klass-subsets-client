@@ -308,6 +308,7 @@ export function Subset (data) {
 
             if (subset.isEditableCodes()) {
                 subset._codes = codes;
+                // TODO: reorder
                 subset.verifyOrigin();
             }
         }
@@ -751,6 +752,44 @@ const codesControl = (state = {}) => ({
         const candidates = codes?.filter(c => !state.isChosenCode(c.urn));
         if (candidates.length > 0) {
             state.codes = [...candidates, ...state.codes];
+            state.reorderCodes();
+            state.rerankCodes();
+        }
+    },
+
+    removeCodes(codes = []) {
+        console.debug('deleteCodes', codes);
+
+        state.codes = state.codes.filter(c => !codes.find(s => s.urn === c.urn));
+        state.reorderCodes();
+        state.rerankCodes();
+    },
+
+    reorderCodes() {
+        console.debug('reorderCodes');
+
+        state.codes.sort((a, b) => (a.rank - b.rank -1));
+    },
+
+    rerankCodes() {
+        console.debug('rerankCodes');
+
+        state.codes = state.codes.map((item, i) => ({
+            ...item,
+            rank: i + 1
+        }));
+    },
+
+    changeRank(rank, codes) {
+        console.debug('changeRank', rank, codes);
+
+        if (rank && rank !== '-') {
+            codes.forEach(code => {
+                const exist = state.codes?.find(c => c.urn === code.urn);
+                exist.rank = rank;
+            });
+            state.reorderCodes();
+            state.rerankCodes();
         }
     }
 
