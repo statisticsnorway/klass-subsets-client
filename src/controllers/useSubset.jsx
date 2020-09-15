@@ -178,19 +178,6 @@ function rerank(list) {
     }));
 }
 
-function verifyOrigin(origin = [], codes = []) {
-    // TESTME
-    // TODO: if origin values are not empty, check if all values are valid URNs
-
-    if (codes?.length === 0) {
-        return [...origin];
-    }
-
-    const updated = new Set(origin);
-    codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
-    return [...updated];
-}
-
 export const useSubset = (init = Subset()) => {
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:

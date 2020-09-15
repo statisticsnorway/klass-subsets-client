@@ -740,19 +740,13 @@ const originControl = (state = {}) => ({
 const codesControl = (state = {}) => ({
 
     isChosenCode(urn = '') {
-        console.debug('isChosenCode', state.codes.findIndex(c => c.urn === urn) > -1);
+        //console.debug('isChosenCode', state.codes.findIndex(c => c.urn === urn) > -1);
 
         return URN.isCodePattern(urn) && state.codes.findIndex(c => c.urn === urn) > -1;
     },
 
     prependCodes(codes = []) {
         console.debug('prependCodes', codes);
-
-        // const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
-        // state.origin = verifyOrigin(state.origin, candidates);
-        // return  Subset({
-        //     ...state,
-        //     codes: reorder([...candidates, ...state.codes])});
 
         const candidates = codes?.filter(c => !state.isChosenCode(c.urn));
         if (candidates.length > 0) {
