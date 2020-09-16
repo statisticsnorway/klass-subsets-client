@@ -58,7 +58,7 @@ describe('Subset prototype: default values', () => {
     });
 });
 
-describe('Subset prototype: default defined properties', () => {
+describe('Subset prototype: defined properties on an initial subset', () => {
     it('should initiate a Subset as not published', () => {
         expect(Subset().isPublished).toBeFalsy();
     });
@@ -68,7 +68,7 @@ describe('Subset prototype: default defined properties', () => {
     });
 
     it('should initiate a Subset with no errors', () => {
-        expect(Subset().error).toBeUndefined();
+        expect(Subset().errors).toBeUndefined();
     });
 
     it('should create a copy of a Subset with status DRAFT with no effect on the actual status', () => {
@@ -83,3 +83,4 @@ describe('Subset prototype: default defined properties', () => {
         expect(subset.administrativeStatus).toBe('INTERNAL');
     });
 });
+
