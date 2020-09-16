@@ -93,7 +93,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'administrativeStatus', {
         get: () => { return subset._administrativeStatus; },
         set: (status = '') => {
-            console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
+            // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
 
             if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
                 subset._administrativeStatus = status;
@@ -756,7 +756,7 @@ const codesControl = (state = {}) => ({
     },
 
     prependCodes(codes = []) {
-        console.debug('prependCodes', codes);
+        // console.debug('prependCodes', codes);
 
         const candidates = codes?.filter(c => !state.isChosenCode(c.urn));
         if (candidates.length > 0) {

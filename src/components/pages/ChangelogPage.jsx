@@ -26,6 +26,7 @@ export default function ChangelogPage() {
            <Title size={4}>v0.5.4</Title>
            <Paragraph>Muted "required field" warnings, put an asterisk on required fields.</Paragraph>
            <Paragraph>Refactored: Subset prototype encapsulates all subset's responsibility.</Paragraph>
+           <Paragraph>Regression testing required on functionality related to adding/removing codes, reordering codes.</Paragraph>
 
            <Title size={4}>v0.5.3</Title>
            <Paragraph>Removed workaround from v0.5.2</Paragraph>
