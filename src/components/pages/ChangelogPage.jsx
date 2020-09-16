@@ -23,6 +23,10 @@ export default function ChangelogPage() {
 
            <Title size={2}>{t('Changelog')}</Title>
 
+           <Title size={4}>v0.5.4</Title>
+           <Paragraph>Muted "required field" warnings, put an asterisk on required fields.</Paragraph>
+           <Paragraph>Refactored: Subset prototype encapsulates all subset's responsibility.</Paragraph>
+
            <Title size={4}>v0.5.3</Title>
            <Paragraph>Removed workaround from v0.5.2</Paragraph>
            <Paragraph>Bugfix: KF-387, KF-392, KF-393, KF-394, KF-392, KF-396, KF-397, KF-398, KF-399.</Paragraph>
