@@ -1,5 +1,4 @@
 import { useReducer, useEffect } from 'react';
-import { URN } from './klass-api';
 import { Subset } from './Subset.prototype';
 
 let errors = {
@@ -131,32 +130,20 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'codes_include': {
-            const candidates = data.filter(c => !state.codes.find(s => s.urn === c.urn));
-            state.origin = verifyOrigin(state.origin, candidates);
-            return  Subset({
-                ...state,
-                codes: reorder([...candidates, ...state.codes])});
+            state.prependCodes(data);
+            return Subset({...state});
         }
         case 'codes_exclude': {
-            const candidates = state.codes.filter(c => !data.find(s => s.urn === c.urn));
-            return Subset({
-                ...state,
-                codes: reorder([...candidates])});
+            state.removeCodes(data);
+            return Subset({...state});
         }
         case 'codes_rerank': {
-            data.codes.forEach(code => {
-                const reranked = state.codes?.find(c => c.urn === code.urn);
-                if (reranked && data.rank && data.rank !== '-') {
-                    reranked.rank = data.rank;
-                }
-            });
-            return Subset({
-                ...state,
-                codes: reorder([...state.codes])});
+            state.changeRank(data.rank, data.codes)
+            return Subset({...state});
         }
         case 'codes_cache': {
-            const codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
-            return Subset({ ...state, codes});
+            state.codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
+            return state;
         }
         case 'reset': {
             sessionStorage.removeItem('draft');
@@ -165,33 +152,6 @@ function subsetReducer(state, {action, data = {}}) {
         default:
             return state;
     }
-}
-
-function reorder(list) {
-    if (list?.length > 0) {
-        list.sort((a, b) => (a.rank - b.rank -1));
-    }
-    return rerank(list);
-}
-
-function rerank(list) {
-    return list.map((item, i) => ({
-        ...item,
-        rank: i + 1
-    }));
-}
-
-function verifyOrigin(origin = [], codes = []) {
-    // TESTME
-    // TODO: if origin values are not empty, check if all values are valid URNs
-
-    if (codes?.length === 0) {
-        return [...origin];
-    }
-
-    const updated = new Set(origin);
-    codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
-    return [...updated];
 }
 
 export const useSubset = (init = Subset()) => {

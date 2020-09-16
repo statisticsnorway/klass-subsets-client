@@ -14,9 +14,9 @@ export const SubsetPage = () => {
 
     let { id } = useParams();
     let history = useHistory();
-    const {subset} = useContext(AppContext);
+    const { subset } = useContext(AppContext);
 
-    const [subsetData, isLoadingSubsetData] = useGet(id);
+    const [ subsetData, isLoadingSubsetData ] = useGet(id);
 
     // FIXME: translate placeholders
     // TODO: smart language choice
@@ -41,10 +41,10 @@ export const SubsetPage = () => {
                                 }}/>
                         </Title>
                         <Brief
-                            id={<Id>{subsetData?.id || '-'}</Id>}
-                            version={subsetData?.version}
-                            lastUpdatedDate={subsetData?.lastUpdatedDate}
-                            status={subsetData?.administrativeStatus}
+                            id={<Id>{ subsetData?.id || '-' }</Id>}
+                            version={ subsetData?.version }
+                            lastUpdatedDate={ subsetData?.lastUpdatedDate }
+                            status={ subsetData?.administrativeStatus }
                         />
                         <Paragraph style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subsetData.description?.find(
                             desc => desc.languageCode === 'nb')?.languageText || t('No description')}
@@ -78,7 +78,7 @@ export const SubsetPage = () => {
                             : []
                         }
                         <Accordion header={t('Raw JSON')}>
-                            <pre>{JSON.stringify(subsetData, null, 4)}</pre>
+                            <pre>{ JSON.stringify(subsetData, null, 4) }</pre>
                         </Accordion>
                     </div>
             }

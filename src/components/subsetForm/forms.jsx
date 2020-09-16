@@ -67,10 +67,11 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                     </button>
                 </div>))
             }
-            {items.length === 0 &&
-            <button onClick={add}>
-                <PlusSquare color='#1A9D49'/>
-            </button>}
+            { items.length === 0 &&
+                <button onClick={add}>
+                    <PlusSquare color='#1A9D49'/>
+                </button>
+            }
         </div>
     );
 };
@@ -82,14 +83,14 @@ export const LanguageSelect = ({
                                }) => {
 
     return (
-        <select name='language' style={{padding: '2px', margin: '5px', position: 'relative', top: '-6px'}}
-                value={selected || languages.find(lang => lang.default)}
-                onChange={(e) => onChange(e)}>
-            {languages.map((lang, i) => (
-                <option key={i}
-                        value={lang.languageCode}
-                        disabled={lang.disabled}
-                        >{lang.full}
+        <select name='language' style={{ padding: '2px', margin: '5px', position: 'relative', top: '-6px' }}
+                value={ selected || languages.find(lang => lang.default) }
+                onChange={ (e) => onChange(e)}>
+            {languages.map( (lang, i) => (
+                <option key={ i }
+                        value={ lang.languageCode }
+                        disabled={ lang.disabled }
+                        >{ lang.full }
                 </option>
             ))}
         </select>
@@ -98,7 +99,7 @@ export const LanguageSelect = ({
 
 export const Dropdown = ({
                              label='Select',
-                             options = [{ title: ' ', id: ' ', disabled: false}],
+                             options = [{ title: ' ', id: ' ', disabled: false }],
                              placeholder = 'Select',
                              disabledText = 'Outdated',
                              selected='',
@@ -108,37 +109,42 @@ export const Dropdown = ({
     const { t } = useTranslation();
 
     return (
-        <div className='ssb-dropdown' style={{padding: '15px 0'}}>
-            <label htmlFor={label} style={{fontSize: '16px'}}>
-                {label}
+        <div className='ssb-dropdown' style={{ padding: '15px 0' }}>
+            <label htmlFor={ label } style={{ fontSize: '16px' }}>
+                { label }
             </label>
             <select className='dropdown-interactive-area focused'
-                    id={label}
+                    id={ label }
                     style={{
                         width: '595px',
                         border: '1px solid black',
                         padding: '10px',
                         fontSize: '16px',
                     }}
-                    value={selected}
-                    onChange={(e) => onSelect(options.find(o => o.id === e.target.value))}
+                    value={ selected }
+                    onChange={ (e) =>
+                        onSelect(options.find(o => o.id === e.target.value))
+                    }
             >
-                <option value='' hidden>{placeholder}</option>
-                {selected.length > 0 && !options.find(s => s.id === selected)
+                <option value='' hidden>{ placeholder }</option>
+                { selected.length > 0 && !options.find(s => s.id === selected)
                     && (<option key='outdated'
                                 disabled
-                                value={selected}
-                                >{selected} ({disabledText})
+                                value={ selected }
+                                >{ selected } ({ disabledText })
                     </option>)
                 }
-                {options.map((option) => (
-                    <option key={option.id} value={option.id} disabled={option.disabled}>{option.title}</option>
+                { options.map((option) => (
+                    <option key={ option.id }
+                            value={ option.id }
+                            disabled={ option.disabled }>{ option.title }
+                    </option>
                 ))}
             </select>
-            {errorMessages?.length > 0 &&
+            { errorMessages?.length > 0 && selected.length > 0 &&
                 <div className='ssb-input-error '>
-                    {errorMessages.map(error => (
-                        <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                    { errorMessages.map(error => (
+                        <span key={ error } style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
                     ))}
                 </div>
             }

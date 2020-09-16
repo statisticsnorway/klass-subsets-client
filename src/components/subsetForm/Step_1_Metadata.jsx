@@ -63,7 +63,8 @@ export const SubsetIdForm = () => {
                 </div>
             }
 
-            { subset.draft?.errors?.id?.length > 0 &&
+            { subset.draft?.errors?.id?.length > 0
+                && subset.draft?.id?.length > 0 &&
                 <div className='ssb-input-error ' style={{width: '25%', position: 'absolute'}}>
                     {subset.draft?.errors?.id.map(error => (
                         <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
@@ -89,7 +90,7 @@ export const SubsetNameForm = () => {
     }, []);
 
     return (
-        <TextLanguageFieldset title={t('Names')}
+        <TextLanguageFieldset title={ `${t('Names')} *`}
                               items={draft?.name}
                               add={() => dispatch({
                                   action: 'name_add'
@@ -106,10 +107,10 @@ export const SubsetNameForm = () => {
                                   action: 'name_lang',
                                   data: {index, lang}
                               })}
-                              size={{cols: 65, rows: 1}}
-                              prefix={subsetDraft?.namePrefix}
-                              errorMessages={draft.errors?.name}
-                              maxLength={subsetDraft.maxLengthName}
+                              size={{ cols: 65, rows: 1 }}
+                              prefix={ subsetDraft?.namePrefix }
+                              errorMessages={ draft.errors?.name }
+                              maxLength={ subsetDraft.maxLengthName }
         />
     );
 };
@@ -120,27 +121,29 @@ export const SubsetValidityForm = () => {
     const { draft, dispatch } = subset;
 
     return (
-        <section style={{margin: '5px 0 5px 0'}}>
-            <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
-                <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
-                       htmlFor='from_date'>{t('Valid from')}: </label>
+        <section style={{ margin: '5px 0 5px 0' }}>
+            <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
+
+                <label style={{ display: 'block', fontSize: '16px', fontFamily: 'Roboto' }}
+                       htmlFor='from_date'>{ `${t('Valid from')} *`}: </label>
                 <input type='date'
                        id='from_date'
-                       style={{display: 'block'}}
-                       value={draft.validFrom?.substr(0, 10) || ''}
-                       onChange={event => dispatch({
+                       style={{ display: 'block' }}
+                       value={ draft.validFrom?.substr(0, 10) || '' }
+                       onChange={ event => dispatch({
                            action: 'from',
                            data: event.target.value === ''
                                ? null
                                : new Date(event.target.value).toISOString()
                        })}
                        className='datepicker'
-                       disabled={draft.administrativeStatus === 'OPEN'}
+                       disabled={ draft.isPublished }
                 />
-                {draft.errors?.validFrom?.length > 0 &&
+
+                { draft.errors?.validFrom?.length > 0 && draft?.validFrom &&
                 <div className='ssb-input-error '>
-                    {draft.errors.validFrom.map(error => (
-                        <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
+                    { draft.errors.validFrom.map(error => (
+                        <span key={error} style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
                     ))}
                 </div>
                 }
@@ -168,7 +171,7 @@ export const SubsetValidityForm = () => {
                        }
                        className='datepicker'/>
 
-                {draft.errors?.validUntil?.length > 0 &&
+                { draft.errors?.validUntil?.length > 0 &&
                 <div className='ssb-input-error '>
                     {draft.errors.validUntil.map(error => (
                         <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
@@ -198,19 +201,19 @@ export const SubsetSectionForm = () => {
 
     // TODO: set automatically when logged inn
     return (
-        <Dropdown label={t('Owner')}
-                  options={ssbsections
+        <Dropdown label={ `${t('Owner')} *` }
+                  options={ ssbsections
                       ? ssbsections._embedded?.ssbSections.map(section => ({
                           title: section.name, id: section.name
                       }))
                       : []}
-                  placeholder={t('Select a responsible department...')}
-                  disabledText={t('Outdated')}
-                  selected={draft.createdBy}
-                  onSelect={(option) => dispatch({
+                  placeholder={ t('Select a responsible department...') }
+                  disabledText={ t('Outdated') }
+                  selected={ draft.createdBy }
+                  onSelect={ (option) => dispatch({
                       action: 'createdBy',
                       data: option.title })}
-                  errorMessages={draft.errors?.createdBy}
+                  errorMessages={ draft.errors?.createdBy }
         />
     );
 };
@@ -222,7 +225,7 @@ export const SubsetSubjectForm = () => {
     const [ classificationfamilies ] = useGet('classificationfamilies.json');
 
     return (
-        <Dropdown label={t('Subject')}
+        <Dropdown label={ `${t('Subject')} *` }
                   options={classificationfamilies?._embedded?.classificationFamilies
                       .map(family => ({title: family.name, id: family.name}))
                   || []}

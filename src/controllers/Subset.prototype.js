@@ -19,7 +19,7 @@ export function Subset (data) {
             || [
             {
                 administrativeDetailType: 'ANNOTATION',
-                values: []
+                values: ['']
             },
             {
                 administrativeDetailType: 'ORIGIN',
@@ -93,7 +93,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'administrativeStatus', {
         get: () => { return subset._administrativeStatus; },
         set: (status = '') => {
-            console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
+            // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
 
             if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
                 subset._administrativeStatus = status;
@@ -137,24 +137,6 @@ export function Subset (data) {
                 subset._administrativeDetails
                     .find(d => d.administrativeDetailType === 'ANNOTATION')
                     .values[0] = subject;
-            }
-        }
-    });
-
-    Object.defineProperty(subset, 'origin', {
-        get: () => {
-            return subset._administrativeDetails
-                .find(d => d.administrativeDetailType === 'ORIGIN').values;
-        },
-        set: (origin = []) => {
-            console.debug('Set origin', origin, subset.isEditableOrigin());
-
-            if (subset.isEditableOrigin()) {
-                subset._administrativeDetails
-                    .find(d => d.administrativeDetailType === 'ORIGIN')
-                    .values = origin;
-
-                //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
             }
         }
     });
@@ -271,7 +253,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionValidUntil', {
-        get: () => { return subset._versionValidUntil?.substr(0, 10); },
+        get: () => { return subset._versionValidUntil?.substr(0, 10) || null; },
         set: (date = null) => {
             //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
@@ -301,13 +283,34 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'origin', {
+        get: () => {
+            return subset._administrativeDetails
+                .find(d => d.administrativeDetailType === 'ORIGIN').values;
+        },
+        set: (origin = []) => {
+            //console.debug('Set origin', origin, subset.isEditableOrigin());
+
+            if (subset.isEditableOrigin()) {
+                subset._administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ORIGIN')
+                    .values = origin.filter(o => URN.isClassificationPattern(o));
+
+                //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
+            }
+        }
+    });
+
     Object.defineProperty(subset, 'codes', {
         get: () => { return subset._codes; },
         set: (codes = []) => {
-            console.debug('Set codes', codes);
+            // console.debug('Set codes and update origin', codes);
 
             if (subset.isEditableCodes()) {
                 subset._codes = codes;
+                subset.reorderCodes();
+                subset.rerankCodes();
+                subset.verifyOrigin();
             }
         }
     });
@@ -321,6 +324,8 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'payload', {
+        // TESTME
+        // DOCME
         get: () => {
             const payload = {
                 id: subset._id,
@@ -337,7 +342,10 @@ export function Subset (data) {
                 versionValidFrom: subset._versionValidFrom,
                 codes: subset._codes
             };
-            Object.keys(payload).forEach((key) => (!payload[key] && delete payload[key]));
+            Object.keys(payload).forEach((key) => (
+                (!payload[key] || payload[key] === '')
+                && delete payload[key])
+            );
             return payload;
         }
     });
@@ -714,15 +722,29 @@ const originControl = (state = {}) => ({
     },
 
     removeOrigin(origin = '') {
-        console.debug('removeOrigin', origin);
+        //console.debug('removeOrigin', origin);
 
         if (URN.isClassificationPattern(origin)) {
             state.origin = state.origin.filter(urn => urn !== origin);
             // TODO: move to defineProperty 'origin
             state.codes = state._codes.filter(c => !c.urn.startsWith(origin));
         }
-    }
+    },
 
+    verifyOrigin() {
+        //console.debug('verifyOrigin');
+
+        // TESTME
+    // TODO: if origin values are not empty, check if all values are valid URNs
+
+        const updated = new Set(state.origin);
+        state.codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
+        state.origin = [...updated];
+    },
+
+    hasOrigin(urn = '') {
+        return state.origin?.includes(urn);
+    }
 });
 
 const codesControl = (state = {}) => ({
@@ -730,9 +752,46 @@ const codesControl = (state = {}) => ({
     isChosenCode(urn = '') {
         //console.debug('isChosenCode', state.codes.findIndex(c => c.urn === urn) > -1);
 
-        if (URN.isCodePattern(urn))
-        {
-            return state.codes.findIndex(c => c.urn === urn) > -1;
+        return URN.isCodePattern(urn) && state.codes.findIndex(c => c.urn === urn) > -1;
+    },
+
+    prependCodes(codes = []) {
+        // console.debug('prependCodes', codes);
+
+        const candidates = codes?.filter(c => !state.isChosenCode(c.urn));
+        if (candidates.length > 0) {
+            state.codes = [...candidates, ...state.codes];
+        }
+    },
+
+    removeCodes(codes = []) {
+        //console.debug('deleteCodes', codes);
+
+        state.codes = state.codes.filter(c => !codes.find(s => s.urn === c.urn));
+    },
+
+    reorderCodes() {
+        //console.debug('reorderCodes');
+
+        state.codes.sort((a, b) => (a.rank - b.rank -1));
+    },
+
+    rerankCodes() {
+        //console.debug('rerankCodes');
+
+        state.codes.forEach((item, i) => {
+            item.rank = i + 1
+        });
+    },
+
+    changeRank(rank, codes) {
+        //console.debug('changeRank', rank, codes);
+
+        if (rank && rank !== '-') {
+            state.codes = state.codes.map(c => codes.find(i => i.urn === c.urn)
+                ? {...c, rank}
+                : c
+            )
         }
     }
 

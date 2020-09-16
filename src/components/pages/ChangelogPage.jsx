@@ -10,18 +10,23 @@ export default function ChangelogPage() {
 
    return (
        <div className='page'>
-           <Title size={2}>{t('Feedback')}</Title>
+           <Title size={2}> {t('Feedback') }</Title>
 
-           <Paragraph>{t('The application is under development.')}</Paragraph>
-           <Paragraph>{t('You can report an issue or suggest an improvement here')} <a
+           <Paragraph>{ t('The application is under development.') }</Paragraph>
+           <Paragraph>{ t('You can report an issue or suggest an improvement here') } <a
                 className='App-link'
                 href='https://github.com/statisticsnorway/klass-subsets-web/issues'
                 target='_blank'
                 rel='noopener noreferrer'
-           >{t('Issues')}</a>
+           >{ t('Issues') }</a>
            </Paragraph>
 
-           <Title size={2}>{t('Changelog')}</Title>
+           <Title size={2}>{ t('Changelog') }</Title>
+
+           <Title size={4}>v0.5.4</Title>
+           <Paragraph>Muted "required field" warnings, put an asterisk on required fields.</Paragraph>
+           <Paragraph>Refactored: Subset prototype encapsulates all subset's responsibility.</Paragraph>
+           <Paragraph>Regression testing required on functionality related to adding/removing codes, reordering codes.</Paragraph>
 
            <Title size={4}>v0.5.3</Title>
            <Paragraph>Removed workaround from v0.5.2</Paragraph>

@@ -5,9 +5,9 @@ import { replaceRef } from '../utils/strings';
 import { useCode, URN } from '../controllers/klass-api';
 import Spinner from './Spinner';
 
-export const Code = ({origin}) => {
+export const Code = ({ origin }) => {
     const { t } = useTranslation();
-    const { codeData, isLoadingVersion } = useCode(origin?.name && origin?.notes ? null : origin);
+    const { codeData, isLoadingVersion } = useCode(origin);
 
     return (
         <Accordion
@@ -16,14 +16,14 @@ export const Code = ({origin}) => {
                 : `${origin?.code || URN.toURL(origin).code || codeData?.code || '-'} ${origin?.name || codeData?.name || '-'}`}
             subHeader={`${origin.rank}`}
         >
-            <p><strong>{t('Short name')}:</strong> {origin?.shortName || codeData?.shortName || '-'}</p>
-            <p><strong>{t('Code')}:</strong> {origin?.code || '-'}</p>
-            <p><strong>{t('Classification')}:</strong> {origin?.classification || codeData?.classification || '-'}</p>
-            <p><strong>{t('URL')}:</strong> {origin?._links?.self?.href || codeData?._links?.self?.href || '-'}</p>
-            <p><strong>{t('URN')}:</strong> {origin.urn || '-'}</p>
-            <p><strong>{'validFromInRequestedRange'}:</strong> {origin?.validFromInRequestedRange || codeData?.validFromInRequestedRange || '-'}</p>
-            <p><strong>{'validToInRequestedRange'}:</strong> {origin?.validToInRequestedRange || codeData?.validToInRequestedRange || '-'}</p>
-            <p><strong>{t('Level')}:</strong> {origin?.level || codeData?.level}</p>
+            <p><strong>{ t('Short name')} :</strong> {origin?.shortName || codeData?.shortName || '-'}</p>
+            <p><strong>{ t('Code') }:</strong> {origin?.code || '-'}</p>
+            <p><strong>{ t('Classification') }:</strong> {origin?.classification || codeData?.classification || '-'}</p>
+            <p><strong>{ t('URL') }:</strong> {origin?._links?.self?.href || codeData?._links?.self?.href || '-'}</p>
+            <p><strong>{ t('URN')} :</strong> {origin.urn || '-'}</p>
+            <p><strong>{ 'validFromInRequestedRange' }:</strong> {origin?.validFromInRequestedRange || codeData?.validFromInRequestedRange || '-'}</p>
+            <p><strong>{ 'validToInRequestedRange' }:</strong> {origin?.validToInRequestedRange || codeData?.validToInRequestedRange || '-'}</p>
+            <p><strong>{ t('Level') }:</strong> {origin?.level || codeData?.level}</p>
             {(origin?.parentCode || codeData?.parentCode) &&
             <p><strong>{t('Parent code')}:</strong> {origin?.parentCode || codeData?.parentCode}</p>}
             <div><strong>{t('Notes')}: </strong>

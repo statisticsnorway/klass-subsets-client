@@ -1,6 +1,6 @@
 {
   "name": "klass-subsets-webclient",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "A webclient application to communicate with Klass subsets service REST API in order to create and update classification subsets of codes.",
   "repository": {
     "type": "git",

@@ -122,7 +122,7 @@ export const VersionValidFromForm = () => {
                    htmlFor='version_from_date'
             >{ t('Version valid from') }:
                 <Help>
-                    <strong>{ t('Version valid from') }. </strong>
+                    <strong>{ `${t('Version valid from')} *` }. </strong>
                     { t('Version valid from help') }
                 </Help>
             </label>
@@ -140,12 +140,12 @@ export const VersionValidFromForm = () => {
                    })
                    }
                    className='datepicker'/>
-            {draft.errors?.versionValidFrom?.length > 0 &&
-            <div className='ssb-input-error '>
-                {draft.errors.versionValidFrom.map((error, i) => (
-                    <span key={error + i} style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
-                ))}
-            </div>
+            { draft.errors?.versionValidFrom?.length > 0 && draft?.versionValidFrom &&
+                <div className='ssb-input-error '>
+                    {draft.errors.versionValidFrom.map((error, i) => (
+                        <span key={error + i} style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
+                    ))}
+                </div>
             }
         </>
     );

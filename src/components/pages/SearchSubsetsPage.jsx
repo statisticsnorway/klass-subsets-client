@@ -43,7 +43,12 @@ export default function SearchSubsetsPage() {
             {isLoadingSubsets
                 ? <div style={{marginTop: '15px'}}><Spinner/></div>
                 : errorSubsets || subsets?.error
-                    ? <p style={{color: 'red'}}>{t('Failed to connect to the server: ')}{errorSubsets?.message || subsets?.error?.message}</p>
+                    ? <p style={{color: 'red'}}>{t('Failed to connect to the server: ')}{
+                            errorSubsets?.message
+                            || subsets?.error?.message
+                            || subsets?.error
+                            || subsets?.message}
+                    </p>
                     : !searchResults || searchResults.length === 0
                         ? <Paragraph>{t('Nothing is found')}</Paragraph>
                         : <Subsets items={searchResults

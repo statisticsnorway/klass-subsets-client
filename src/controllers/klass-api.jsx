@@ -12,15 +12,25 @@ export const URN = {
     classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
 
     isCodePattern(urn) {
+        if (!urn) return false;
+
+        if (!this.codePattern.test(urn)) {
+            console.warn('Unexpected code URN pattern', urn);
+        }
         return this.codePattern.test(urn);
     },
 
     isClassificationPattern(urn) {
+        if (!urn) return false;
+
+        if (!this.classificationPattern.test(urn)) {
+            console.warn('Unexpected classification URN pattern', urn);
+        }
         return this.classificationPattern.test(urn);
     },
     // TESTME
     toURL(urn, from, to) {
-        if (this.isCodePattern(urn)) {
+        if (this.codePattern.test(urn)) {
             const [,,,service,id,,code] = urn.split(':');
 
             return {
@@ -46,7 +56,7 @@ export const URN = {
             };
         }
 
-        if (this.isClassificationPattern(urn)) {
+        if (this.classificationPattern.test(urn)) {
             const [,,, service, id] = urn.split(':');
 
             return {
@@ -70,6 +80,8 @@ export const URN = {
                             : `${klassApiServiceEndpoint}/${ service }/${ id }/codesAt.json?date=${ today() }`
             };
         }
+
+        console.warn('Unexpected URN pattern:', urn);
 
         return {};
     }
@@ -124,8 +136,15 @@ export function useGet(url = null) {
             try {
                 const response = await fetch(`${klassApiServiceEndpoint}${path}`);
                 const json = await response.json();
-                _mounted && setData(json);
-                _mounted && setIsLoading(false);
+                if (response.status >= 200 && response.status <= 299 && _mounted) {
+                    setData(json);
+                    setIsLoading(false);
+                } else {
+                    throw Error(
+                        `${json.error} ${json.message}`
+                        || `${response.status} ${response.statusText}`
+                    );
+                }
             } catch (e) {
                 _mounted && setError({
                     timestamp: Date.now(),
@@ -155,6 +174,53 @@ export function useGet(url = null) {
     return [ data, isLoading, error, setPath ];
 }
 
+export function useCodeName(origin) {
+    const { code, classificationId, path, url } = URN.toURL(
+        origin?.urn,
+        origin?.validFromInRequestedRange,
+        origin?.validToInRequestedRange);
+
+    const [codeData, setCodeData] = useState({
+        ...origin,
+        code,
+        classificationId,
+        _links: {
+            self: {
+                href: url
+            }
+        },
+        error: null
+    });
+
+    const [targetCode, isLoadingTargetCode, errorTargetCode ] = useGet(origin?.name ? null : path);
+    useEffect(() => {
+        targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                ...targetCode.codes[0]
+            };
+        });
+
+        targetCode?.error && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                ...targetCode?.error
+            };
+        });
+    }, [ targetCode ]);
+
+    useEffect(() => {
+        errorTargetCode && setCodeData(prevCodeData => {
+            return {
+                ...prevCodeData,
+                error: errorTargetCode.message
+            };
+        });
+    }, [ errorTargetCode ]);
+
+    return { codeData, isLoadingTargetCode };
+}
+
 export function useCode(origin) {
     const {code, classificationId, path, url} = URN.toURL(
         origin?.urn,
@@ -173,7 +239,7 @@ export function useCode(origin) {
     });
 
     // FIXME handle errors
-    const [targetCode] = useGet(code?.name ? null : path);
+    const [targetCode] = useGet(origin?.name ? null : path);
     useEffect(() => {
         targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
             return {...prevCodeData, ...targetCode.codes[0]};
