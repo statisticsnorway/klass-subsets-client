@@ -22,7 +22,7 @@ export const SubsetPage = () => {
     // TODO: smart language choice
     return(
         <div className='page'>
-            {isLoadingSubsetData
+            { isLoadingSubsetData
                 ? <div style={{margin: 'auto', width: '20%'}}><Spinner/></div>
                 : !subsetData
                     ? <p>{t('Subset with id does not exist', {id})}.</p>

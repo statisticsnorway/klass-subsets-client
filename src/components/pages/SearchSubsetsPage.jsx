@@ -40,10 +40,10 @@ export default function SearchSubsetsPage() {
                 ]}
             />
 
-            {isLoadingSubsets
-                ? <div style={{marginTop: '15px'}}><Spinner/></div>
+            { isLoadingSubsets
+                ? <div style={{ marginTop: '15px' }}><Spinner/></div>
                 : errorSubsets || subsets?.error
-                    ? <p style={{color: 'red'}}>{t('Failed to connect to the server: ')}{
+                    ? <p style={{ color: 'red' }}>{t('Failed to connect to the server: ')}{
                             errorSubsets?.message
                             || subsets?.error?.message
                             || subsets?.error
@@ -51,7 +51,7 @@ export default function SearchSubsetsPage() {
                     </p>
                     : !searchResults || searchResults.length === 0
                         ? <Paragraph>{t('Nothing is found')}</Paragraph>
-                        : <Subsets items={searchResults
+                        : <Subsets items={ searchResults
                             .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate
                                 ? 0
                                 : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />
