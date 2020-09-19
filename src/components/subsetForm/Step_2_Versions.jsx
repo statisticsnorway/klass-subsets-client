@@ -46,6 +46,12 @@ export const VersionSwitcher = () => {
             : <Dropdown label={ t('Version') }
                         options={ draft.previousVersions
                            ? [
+                                {
+                                    title: `${ t('Create previous version') }`,
+                                    id: 'Create previous version',
+                                    disabled: draft.isNewVersion()
+                                },
+
                                ...draft.previousVersions.map(v => ({
                                    ...v,
                                     title: `${ t('Version') } ${ 
@@ -57,8 +63,8 @@ export const VersionSwitcher = () => {
                                 })),
 
                                 {
-                                    title: `${ t('New version') }`,
-                                    id: 'New version',
+                                    title: `${ t('Create next version') }`,
+                                    id: 'Create next version',
                                     disabled: draft.isNewVersion()
                                 }
                             ]
@@ -131,7 +137,7 @@ export const VersionValidFromForm = () => {
                    id='version_from_date'
                    style={{ display: 'block' }}
                    value={ draft.versionValidFrom || '' }
-                   disabled={ draft.isPublished }
+                   disabled={ !draft.isEditableVersionValidFrom() }
                    onChange={ event => dispatch({
                        action: 'version_from',
                        data: event.target.value === ''
@@ -142,8 +148,8 @@ export const VersionValidFromForm = () => {
                    className='datepicker'/>
             { draft.errors?.versionValidFrom?.length > 0 && draft?.versionValidFrom &&
                 <div className='ssb-input-error '>
-                    {draft.errors.versionValidFrom.map((error, i) => (
-                        <span key={error + i} style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
+                    { draft.errors.versionValidFrom.map((error, i) => (
+                        <span key={ error + i } style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
                     ))}
                 </div>
             }
@@ -164,7 +170,7 @@ export const VersionValidUntilForm = () => {
                    id='version_to_date'
                    style={{ display: 'block' }}
                    value={ draft.versionValidUntil || '' }
-                   disabled={ draft.isPublished && !draft.isLatestSavedVersion() }
+                   disabled={ !draft.isEditableVersionValidUntil() }
                    onChange={event => dispatch({
                        action: 'version_to',
                        data: event.target.value === ''

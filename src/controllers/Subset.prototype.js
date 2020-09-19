@@ -1,8 +1,8 @@
 import { toId, sanitize } from '../utils/strings';
 import { subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, acceptablePeriod } from './defaults';
-import { validate } from './validator';
 import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
+import { errorsControl } from './errorsControl';
 
 export function Subset (data) {
 
@@ -53,7 +53,8 @@ export function Subset (data) {
         descriptionControl(subset),
         versionRationaleControl(subset),
         originControl(subset),
-        codesControl(subset)
+        codesControl(subset),
+        errorsControl(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -223,7 +224,7 @@ export function Subset (data) {
         }
     });
 
-       Object.defineProperty(subset, 'versionValidFrom', {
+    Object.defineProperty(subset, 'versionValidFrom', {
         get: () => { return subset._versionValidFrom?.substr(0, 10); },
         set: (date = null) => {
             //console.debug('Set versionValidFrom', date);
@@ -319,8 +320,8 @@ export function Subset (data) {
         get: () => {
             //console.debug('Get errors', subset._errors);
 
-            return subset._errors;
-            }
+            return subset.validate();
+        }
     });
 
     Object.defineProperty(subset, 'payload', {
@@ -368,7 +369,7 @@ export function Subset (data) {
         }
     });
 
-    return subset.validate();
+    return subset;
 }
 
 const editable = (state = {}) => ({
@@ -417,8 +418,20 @@ const editable = (state = {}) => ({
             && date < state.validFrom;
     },
 
+    isInCoveredPeriod(date) {
+        const start = state.latestVersion?.validFrom || state._validFrom;
+        const end = state.latestVersion
+            ? state.latestVersion?.validUntil || state.latestVersion?.versionValidFrom
+            : state._validUntil;
+        return !end
+            ? date === start
+            : end === state.latestVersion?.versionValidFrom
+                ? date >= start && date <= end
+                : date >= start && date < end;
+    },
+
     isEditableId() {
-        return this.isNew();
+        return state.isNew();
     },
 
     isEditableShortName() {
@@ -441,16 +454,8 @@ const editable = (state = {}) => ({
         return true;
     },
 
-    isEditableOrigin() {
-        return true;
-    },
-
-    isEditableDescription() {
-        return true;
-    },
-
     isEditableValidFrom() {
-        return this.isNew() || this.isNewVersion();
+        return state.isNew() || state.isNewVersion();
     },
 
     isEditableValidUntil() {
@@ -458,10 +463,46 @@ const editable = (state = {}) => ({
     },
 
     isEditableVersionValidFrom() {
-        return true;
+        /* console.debug('isEditableVersionValidFrom', !state.versionValidFrom
+         || state.isNew()
+         || state.isNewPreviousVersion()
+         || (state.isNewNextVersion() && state.latestVersion && !state.latestVersion._validUntil));*/
+
+        return !state.versionValidFrom
+            || state.isNew()
+            || state.isNewPreviousVersion()
+            || (state.isNewNextVersion() && state.latestVersion && !state.latestVersion._validUntil);
     },
 
     isEditableVersionValidUntil() {
+        console.debug('isEditableVersionValidUntil');
+
+        return (!state._versionValidUntil && state._versionValidFrom)
+            || state.isLatestSavedVersion()
+            || state.isNew();
+    },
+
+    isNewPreviousVersion() {
+        console.debug('isNewPreviousVersion', state.isNewVersion()
+            && state._versionValidUntil === state.latestVersion.validFrom);
+
+        return state.isNewVersion()
+            && state._versionValidUntil === state.latestVersion.validFrom;
+    },
+
+    isNewNextVersion() {
+        console.debug('isNewNextVersion');
+
+        return state.isNewVersion()
+            && (state._versionValidUntil !== state.latestVersion.validFrom
+            || !state.isBeforeCoveredPeriod(state._versionValidFrom));
+    },
+
+    isEditableOrigin() {
+        return true;
+    },
+
+    isEditableDescription() {
         return true;
     },
 
@@ -483,11 +524,6 @@ const restrictable = (state = {}) => ({
 
     isAcceptableLanguageCode(lang) {
         return LANGUAGE_CODE_ENUM.includes(lang);
-    },
-
-    validate() {
-        state._errors = validate.subset(state);
-        return state;
     }
 });
 
@@ -524,8 +560,23 @@ const versionable = (state = {}) => ({
         state._version = `${ state.calculateNextVersionNumber() }`;
         state.administrativeStatus = 'INTERNAL';
         state.versionRationale = [ nextDefaultName([]) ];
+    },
+
+
+    createPreviousVersion() {
+        //console.debug('createPreviousVersion');
+
+        state.createNewVersion();
+        state.versionValidFrom = null;
+        state.versionValidUntil = state.latestVersion?.validFrom || state.validFrom;
+    },
+
+    createNextVersion() {
+        //console.debug('createNextVersion');
+
+        state.createNewVersion();
         state.versionValidFrom = state.latestVersion?.validUntil || null;
-        state.versionValidUntil = null; 
+        state.versionValidUntil = null;
     },
 
     switchToVersion(chosenVersion = '') {
