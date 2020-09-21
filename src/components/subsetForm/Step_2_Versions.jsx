@@ -181,8 +181,8 @@ export const VersionValidUntilForm = () => {
                    className='datepicker'/>
             { draft.errors?.versionValidUntil?.length > 0 &&
                 <div className='ssb-input-error '>
-                    { draft.errors.versionValidUntil.map(error => (
-                        <span style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
+                    { draft.errors.versionValidUntil.map((error, i) => (
+                        <span key={ error + i } style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
                     ))}
                 </div>
             }
