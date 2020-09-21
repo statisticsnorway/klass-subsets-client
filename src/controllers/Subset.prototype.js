@@ -575,6 +575,7 @@ const versionable = (state = {}) => ({
         state.createNewVersion();
         state._versionValidFrom = state.latestVersion?.validUntil || null;
         state._versionValidUntil = null;
+        state._validUntil = null;
     },
 
     switchToVersion(chosenVersion = '') {
