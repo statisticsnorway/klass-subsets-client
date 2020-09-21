@@ -64,13 +64,7 @@ export const errorsControl = (state = {}) => ({
     },
 
     validateVersionValidFrom() {
-        /*console.debug('validateVersionValidFrom', {
-            isNew: state.isNew(),
-            isNewVersion: state.isNewVersion(),
-            earlierThanValidUntil: state._versionValidFrom <= state._validUntil,
-            laterThanValidFrom: state._versionValidFrom >= state._validFrom,
-            laterThenValidUntil_Gap: state._versionValidFrom > state._validUntil
-        })*/
+        //console.debug('validateVersionValidFrom');
 
         return !state._versionValidFrom
             ? ['A valid version from date is required']
