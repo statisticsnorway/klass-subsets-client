@@ -33,7 +33,7 @@ export function Subset (data) {
         _previousVersions: data?._previousVersions || null,
         _versionRationale: data?.versionRationale || data?._versionRationale || [],
         _versionValidFrom: data?.versionValidFrom || data?._versionValidFrom || null,
-        _versionValidUntil: data?.versionValidUntil || data?._versionValidUntil || null,
+        _versionValidUntil: data?._versionValidUntil || data?.validUntil || null,
 
         // Step 3 and 4 Codes
         _codes: data?.codes || data?._codes || [],
@@ -448,7 +448,7 @@ const editable = (state = {}) => ({
         //console.debug('isEditableVersionValidUntil');
 
         return (state.isLatestSavedVersion()
-                && !state._versionValidUntil
+                && !state.latestVersion?.validUntil
             )
             || (state.isNew()
                 && state.isInAcceptablePeriod(state._versionValidFrom)
@@ -526,7 +526,7 @@ const versionable = (state = {}) => ({
     },
 
     calculateVersionValidUntil() {
-        //console.debug('calculateVersionValidUntil');
+        console.debug('calculateVersionValidUntil');
 
         const exists = state.previousVersions?.find(v => v.version === state.version);
         if (exists) {
@@ -537,9 +537,12 @@ const versionable = (state = {}) => ({
                         a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
             if (next) {
                 return next?.versionValidFrom;
+                console.debug('calculateVersionValidUntil', next);
             }
-            return exists.validUntil;
+            return exists.validUntil || state.validUntil;
+            console.debug('calculateVersionValidUntil', exists);
         }
+        console.debug('calculateVersionValidUntil', {stateVU: state.validUntil});
         return state.validUntil;
     },
 
@@ -549,6 +552,7 @@ const versionable = (state = {}) => ({
         state._version = `${ state.calculateNextVersionNumber() }`;
         state.administrativeStatus = 'INTERNAL';
         state.versionRationale = [ nextDefaultName([]) ];
+        state.resetValidityPeriod();
     },
 
 
@@ -561,11 +565,11 @@ const versionable = (state = {}) => ({
     },
 
     createNextVersion() {
-        //console.debug('createNextVersion');
+        console.debug('createNextVersion');
 
         state.createNewVersion();
-        state.versionValidFrom = state.latestVersion?.validUntil || null;
-        state.versionValidUntil = null;
+        state._versionValidFrom = state.latestVersion?.validUntil || null;
+        state._versionValidUntil = null;
     },
 
     switchToVersion(chosenVersion = '') {
@@ -601,10 +605,22 @@ const versionable = (state = {}) => ({
     updateValidityPeriod() {
         // console.debug('updateValidityPeriod');
 
-        if (state.isNew() || state.isNewPreviousVersion()) {
+        if (state.isInAcceptablePeriod(state._versionValidFrom)
+            && (state.isNew()
+                || state.isNewPreviousVersion()
+            ))
+        {
             state._validFrom = state._versionValidFrom;
         }
-        if (state.isNew() || state.isNewNextVersion() || state.isLatestSavedVersion()) {
+
+        if ((!state._versionValidUntil
+            || state.isInAcceptablePeriod(state._versionValidUntil)
+            )
+            && (state.isNew()
+                || state.isNewNextVersion()
+                || state.isLatestSavedVersion()
+            ))
+        {
             state._validUntil = state._versionValidUntil;
         }
     }
