@@ -1,4 +1,4 @@
-import React, {useContext, useEffect } from 'react';
+import React, {useContext, useEffect, useState } from 'react';
 import '../../css/form.css';
 import { useTranslation } from 'react-i18next';
 import { Title} from '@statisticsnorway/ssb-component-library';
@@ -121,6 +121,7 @@ export const VersionValidFromForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
+    const [ showErrors, setShowErrors ] = useState(false);
 
     return (
         <>
@@ -143,10 +144,12 @@ export const VersionValidFromForm = () => {
                        data: event.target.value === ''
                            ? null
                            : new Date(event.target.value).toISOString(),
-                   })
-                   }
-                   className='datepicker'/>
-            { draft.errors?.versionValidFrom?.length > 0 && draft?.versionValidFrom &&
+                   })}
+                   className='datepicker'
+                   onBlur={ () => setShowErrors(true) }
+                   onFocus={ () => setShowErrors(false) }
+            />
+            { showErrors && draft.errors?.versionValidFrom?.length > 0 && draft?.versionValidFrom &&
                 <div className='ssb-input-error '>
                     { draft.errors.versionValidFrom.map((error, i) => (
                         <span key={ error + i } style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
@@ -161,6 +164,7 @@ export const VersionValidUntilForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
+    const [ showErrors, setShowErrors ] = useState(false);
 
     return (
         <>
@@ -176,10 +180,12 @@ export const VersionValidUntilForm = () => {
                        data: event.target.value === ''
                            ? null
                            : new Date(event.target.value)?.toISOString()
-                   })
-                   }
-                   className='datepicker'/>
-            { draft.errors?.versionValidUntil?.length > 0 &&
+                   })}
+                   className='datepicker'
+                   onBlur={ () => setShowErrors(true) }
+                   onFocus={ () => setShowErrors(false) }
+            />
+            { showErrors && draft.errors?.versionValidUntil?.length > 0 &&
                 <div className='ssb-input-error '>
                     { draft.errors.versionValidUntil.map((error, i) => (
                         <span key={ error + i } style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
