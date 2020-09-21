@@ -26,7 +26,7 @@ export const sanitize = (text, maxLength) => {
 };
 
 export const today = () => {
-    return new Date().toISOString().substr(0, 10);
+    return new Date().toJSON().substr(0, 10);
 };
 
 export const eu = (dateString) => {

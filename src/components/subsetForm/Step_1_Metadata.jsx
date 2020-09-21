@@ -136,7 +136,7 @@ export const SubsetValidityForm = () => {
                            action: 'from',
                            data: event.target.value === ''
                                ? null
-                               : new Date(event.target.value).toISOString()
+                               : new Date(event.target.value).toJSON()
                        })}
                        className='datepicker'
                        disabled={ !draft.isNew() }
@@ -170,7 +170,7 @@ export const SubsetValidityForm = () => {
                            action: 'to', data:
                                event.target.value === ''
                                    ? null
-                                   : new Date(event.target.value).toISOString()
+                                   : new Date(event.target.value).toJSON()
                        })}
                        className='datepicker'
                        onBlur={ () => setShowUntilErrors(true) }
