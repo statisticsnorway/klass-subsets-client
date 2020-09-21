@@ -441,7 +441,12 @@ const editable = (state = {}) => ({
 
         return state.isNew()
             || (state.isNewVersion() && !state._versionValidFrom)
-            || (state.isNewVersion() && state._versionValidFrom !== state.latestVersion?.validUntil)
+            || (state.isNewVersion()
+                && state._versionValidFrom !== state.latestVersion?.validUntil)
+            || (state.isNewVersion()
+                && state._versionValidFrom === state.latestVersion?.validUntil
+                && state._versionValidUntil === state.latestVersion?.validFrom
+            )
     },
 
     isEditableVersionValidUntil() {
