@@ -23,6 +23,9 @@ export default function ChangelogPage() {
 
            <Title size={2}>{ t('Changelog') }</Title>
 
+           <Title size={4}>v0.5.5</Title>
+           <Paragraph><code>versionValidFrom</code> and <code>versionValidUntil</code> flow corrected.</Paragraph>
+
            <Title size={4}>v0.5.4</Title>
            <Paragraph>Muted "required field" warnings, put an asterisk on required fields.</Paragraph>
            <Paragraph>Refactored: Subset prototype encapsulates all subset's responsibility.</Paragraph>
