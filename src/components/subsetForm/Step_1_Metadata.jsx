@@ -137,7 +137,7 @@ export const SubsetValidityForm = () => {
                                : new Date(event.target.value).toISOString()
                        })}
                        className='datepicker'
-                       disabled={ draft.isPublished }
+                       disabled={ !draft.isNew() }
                 />
 
                 { draft.errors?.validFrom?.length > 0 && draft?.validFrom &&
