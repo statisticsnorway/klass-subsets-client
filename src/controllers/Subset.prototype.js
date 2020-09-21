@@ -601,10 +601,10 @@ const versionable = (state = {}) => ({
     updateValidityPeriod() {
         // console.debug('updateValidityPeriod');
 
-        if (state.isNewPreviousVersion()) {
+        if (state.isNew() || state.isNewPreviousVersion()) {
             state._validFrom = state._versionValidFrom;
         }
-        if (state.isNewNextVersion() || state.isLatestSavedVersion()) {
+        if (state.isNew() || state.isNewNextVersion() || state.isLatestSavedVersion()) {
             state._validUntil = state._versionValidUntil;
         }
     }
