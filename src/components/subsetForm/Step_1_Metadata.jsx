@@ -125,7 +125,7 @@ export const SubsetValidityForm = () => {
             <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
 
                 <label style={{ display: 'block', fontSize: '16px', fontFamily: 'Roboto' }}
-                       htmlFor='from_date'>{ `${t('Valid from')} *`}: </label>
+                       htmlFor='from_date'>{ `${t('Valid from')} *`} </label>
                 <input type='date'
                        id='from_date'
                        style={{ display: 'block' }}
@@ -152,7 +152,7 @@ export const SubsetValidityForm = () => {
             <div style={{float: 'left', position: 'relative', top: '-10px'}}>
                 <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                        htmlFor='to_date'>
-                    { t('Valid to') }:
+                    { t('Valid to') }
                         <Help>
                             <strong>{t('Valid to')}. </strong>
                             {t('Valid to help')}
@@ -173,9 +173,9 @@ export const SubsetValidityForm = () => {
 
                 { draft.errors?.validUntil?.length > 0 &&
                 <div className='ssb-input-error '>
-                    {draft.errors.validUntil.map(error => (
+                    { draft.errors.validUntil.map(error => (
                         <span style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
-                    ))}
+                    )) }
                 </div>
                 }
             </div>

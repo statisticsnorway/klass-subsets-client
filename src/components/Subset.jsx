@@ -74,14 +74,17 @@ export const SubsetBanner = ({subset}) => {
             </SsbLink>
             <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
                 <Brief
-                    id={<Id>{ subset?.id || '-' }</Id>}
+                    id={ <Id>{ subset?.id || '-' }</Id> }
                     version={ subset?.version }
                     lastUpdatedDate={ subset?.lastUpdatedDate }
                     status={ t(subset?.administrativeStatus) }
                 />
             </p>
-            <p style={{fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0'}}>{subset?.description?.find(
-                description => description.languageCode === 'nb')?.languageText || t('No description')}
+            <p style={{ fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0' }}>
+                { subset?.description?.find(
+                    desc => desc.languageCode === 'nb')?.languageText
+                    || t('No description')
+                }
             </p>
         </div>
     );

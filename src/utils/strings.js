@@ -22,7 +22,7 @@ export const toId = text => {
 export const sanitize = (text, maxLength) => {
     return text && text
         .substring(0, Math.min(maxLength, text.length))
-        .replace(/[^A-ZÆØÅa-zæøå0-9-.,; _:!?"'/%]*/g, '');
+        .replace(/[^A-ZÆØÅa-zæøå0-9-.,; _:!?()"'/%]*/g, '');
 };
 
 export const today = () => {

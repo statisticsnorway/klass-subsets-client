@@ -1,11 +1,17 @@
+import { acceptablePeriod } from './defaults';
+import { eu } from '../utils/strings';
+
 export const errorsControl = (state = {}) => ({
 
     validateId() {
-        return !state.id || state.id.length === 0 || !(typeof state.id === 'string' || state.id instanceof String)
-            ? ['ID is a mandatory field']
-            : !(/([a-z0-9-_])$/.test(state.id))
-                ? ['Only lower case letters, numbers, dashes, and underscores are allowed']
-                : [];
+        return !state.id
+            || state.id.length === 0
+            || !(typeof state.id === 'string'
+            || state.id instanceof String)
+                ? ['ID is a mandatory field']
+                : !(/([a-z0-9-_])$/.test(state.id))
+                    ? ['Only lower case letters, numbers, dashes, and underscores are allowed']
+                    : [];
     },
 
     validateName() {
@@ -15,9 +21,26 @@ export const errorsControl = (state = {}) => ({
     },
 
     validateValidFrom() {
-        return state.validFrom ?
-            []
-            : ['A valid from date is required'];
+        return !state.validFrom
+            ? ['A valid from date is required']
+            : !state.isInAcceptablePeriod(state._validFrom)
+                ? [`Only dates between ${
+                    eu(acceptablePeriod.from)
+                    } and ${
+                    eu(acceptablePeriod.until)
+                    } are acceptable`]
+                : [];
+    },
+
+    validateValidUntil() {
+        return !state._validUntil
+            || state.isInAcceptablePeriod(state._validUntil)
+                ? []
+                : [`Only dates between ${
+                    eu(acceptablePeriod.from)
+                    } and ${
+                    eu(acceptablePeriod.until)
+                    } are acceptable`];
     },
 
     validatePeriod(from, to) {
@@ -39,22 +62,40 @@ export const errorsControl = (state = {}) => ({
     },
 
     validateVersionValidFrom() {
-        console.debug('validateVersionValidFrom', {
+        /*console.debug('validateVersionValidFrom', {
             isNew: state.isNew(),
             isNewVersion: state.isNewVersion(),
             earlierThanValidUntil: state._versionValidFrom <= state._validUntil,
             laterThanValidFrom: state._versionValidFrom >= state._validFrom,
             laterThenValidUntil_Gap: state._versionValidFrom > state._validUntil
-        })
+        })*/
+
         return !state._versionValidFrom
             ? ['A valid version from date is required']
-            : !state.isNewVersion()
-                ? []
-                : state._versionValidFrom > state._validUntil
-                    ? ['Versions cannot have gaps on validity periods']
-                    : state.isInCoveredPeriod(state._versionValidFrom)
-                        ? ['This date is already covered in previous versions']
-                        : [];
+            : !state.isInAcceptablePeriod(state._versionValidFrom)
+                ? [`Only dates between ${
+                    eu(acceptablePeriod.from)
+                    } and ${
+                        eu(acceptablePeriod.until)
+                    } are acceptable`]
+                : !state.isNewVersion()
+                    ? []
+                    : state._versionValidFrom > state._validUntil
+                        ? ['Versions cannot have gaps on validity periods']
+                        : state.isInCoveredPeriod(state._versionValidFrom)
+                            ? ['This date is already covered in previous versions']
+                            : [];
+    },
+
+    validateVersionValidUntil() {
+        return !state._versionValidUntil
+        || state.isInAcceptablePeriod(state._versionValidUntil)
+            ? []
+            : [`Only dates between ${
+                eu(acceptablePeriod.from)
+                } and ${
+                eu(acceptablePeriod.until)
+                } are acceptable`];
     },
 
     validateCreatedBy() {
@@ -72,7 +113,7 @@ export const errorsControl = (state = {}) => ({
             id: state.validateId(),
             name: state.validateName(),
             validFrom: state.validateValidFrom(),
-            validUntil: [],
+            validUntil: state.validateValidUntil(),
             period: state.validateSubsetPeriod(),
             createdBy: state.validateCreatedBy(),
             annotation: [],
@@ -80,6 +121,7 @@ export const errorsControl = (state = {}) => ({
             origin: [],
             administrativeStatus: [],
             versionValidFrom: state.validateVersionValidFrom(),
+            versionValidUntil: state.validateVersionValidUntil(),
             versionPeriod: state.validateVersionPeriod(),
             codes: state.validateCodes()
         };

@@ -41,26 +41,29 @@ export const SubsetPage = () => {
                                 }}/>
                         </Title>
                         <Brief
-                            id={<Id>{ subsetData?.id || '-' }</Id>}
+                            id={ <Id>{ subsetData?.id || '-' }</Id> }
                             version={ subsetData?.version }
                             lastUpdatedDate={ subsetData?.lastUpdatedDate }
                             status={ subsetData?.administrativeStatus }
                         />
-                        <Paragraph style={{fontSize: 'calc(10px + 0.8vmin)'}}>{subsetData.description?.find(
-                            desc => desc.languageCode === 'nb')?.languageText || t('No description')}
+                        <Paragraph style={{ fontSize: 'calc(10px + 0.8vmin)' }}>
+                            { subsetData.description?.find(
+                                desc => desc.languageCode === 'nb')?.languageText
+                                || t('No description')
+                            }
                         </Paragraph>
 
                         <Paragraph>
-                            <strong>{t('Owner')}:</strong> {subsetData.createdBy || '-'}
+                            <strong>{t('Owner')}:</strong> { subsetData.createdBy || '-' }
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Valid from')}:</strong> {subsetData.validFrom?.substr(0, 10) || '-'}
+                            <strong>{t('Valid from')}:</strong> { subsetData.validFrom?.substr(0, 10) || '-' }
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Valid to')}:</strong> {subsetData.validUntil?.substr(0, 10)  || '-'}
+                            <strong>{t('Valid to')}:</strong> { subsetData.validUntil?.substr(0, 10)  || '-' }
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Subject')}:</strong> {subsetData.subject || '-'}
+                            <strong>{t('Subject')}:</strong> { subsetData.subject || '-' }
                         </Paragraph>
 
                         <Title size={3}>{t('Codes')}: </Title>

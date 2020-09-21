@@ -126,7 +126,7 @@ export const VersionValidFromForm = () => {
         <>
             <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                    htmlFor='version_from_date'
-            >{ t('Version valid from') }:
+            >{ t('Version valid from') }
                 <Help>
                     <strong>{ `${t('Version valid from')} *` }. </strong>
                     { t('Version valid from help') }
@@ -165,7 +165,7 @@ export const VersionValidUntilForm = () => {
     return (
         <>
             <label style={{ display: 'block', fontSize: '16px', fontFamily: 'Roboto' }}
-                   htmlFor='version_to_date'>{ t('Version valid until') }: </label>
+                   htmlFor='version_to_date'>{ t('Version valid until') } </label>
             <input type='date'
                    id='version_to_date'
                    style={{ display: 'block' }}
