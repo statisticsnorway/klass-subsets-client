@@ -47,6 +47,8 @@ export const errorsControl = (state = {}) => ({
         return !from || !to
             ? []
             : from > to
+                && state.isInAcceptablePeriod(from)
+                && state.isInAcceptablePeriod(to)
                 ? ['Period cannot start later than end']
                 : from === to
                     ? ['Period cannot include and exclude the same day']
