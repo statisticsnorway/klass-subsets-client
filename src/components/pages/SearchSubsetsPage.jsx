@@ -20,17 +20,17 @@ export default function SearchSubsetsPage() {
         <div className='page'>
             <Title size={2}>{t('Search subsets')}</Title>
 
-            <Search resource={subsets || []}
-                    setChosen={(item) => setSearchResults(item)}
-                    placeholder={t('Subset name')}
-                    searchBy = {(input, resource) => input === '' ? subsets : resource
+            <Search resource={ subsets || [] }
+                    setChosen={ (item) => setSearchResults(item) }
+                    placeholder={ t('Subset name') }
+                    searchBy={ (input, resource) => input === '' ? subsets : resource
                             .filter(i => i.name[0].languageText.toLowerCase()
-                                .indexOf(input.toLowerCase()) > -1)}
-                    searchible = {(item) => item[0].languageText}/>
+                                .indexOf(input.toLowerCase()) > -1) }
+                    searchible={ (item) => item[0].languageText}/>
 
-            <h3>{t('Search results')}</h3>
+            <h3>{ t('Search results') }</h3>
             <Dropdown
-                header={t('Sort by')}
+                header={ t('Sort by') }
                 selectedItem={{ title: t('Last updated'), id: 'Last' }}
                 items={[
                     { title: t('Last updated'), id: 'last' },
@@ -40,18 +40,18 @@ export default function SearchSubsetsPage() {
                 ]}
             />
 
-            {isLoadingSubsets
-                ? <div style={{marginTop: '15px'}}><Spinner/></div>
+            { isLoadingSubsets
+                ? <div style={{ marginTop: '15px' }}><Spinner/></div>
                 : errorSubsets || subsets?.error
-                    ? <p style={{color: 'red'}}>{t('Failed to connect to the server: ')}{
+                    ? <p style={{ color: 'red' }}>{ t('Failed to connect to the server: ') }{
                             errorSubsets?.message
                             || subsets?.error?.message
                             || subsets?.error
                             || subsets?.message}
                     </p>
                     : !searchResults || searchResults.length === 0
-                        ? <Paragraph>{t('Nothing is found')}</Paragraph>
-                        : <Subsets items={searchResults
+                        ? <Paragraph>{ t('Nothing is found') }</Paragraph>
+                        : <Subsets items={ searchResults
                             .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate
                                 ? 0
                                 : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />

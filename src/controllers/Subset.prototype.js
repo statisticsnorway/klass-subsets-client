@@ -1,8 +1,8 @@
 import { toId, sanitize } from '../utils/strings';
 import { subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, acceptablePeriod } from './defaults';
-import { validate } from './validator';
 import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
+import { errorsControl } from './errorsControl';
 
 export function Subset (data) {
 
@@ -33,7 +33,7 @@ export function Subset (data) {
         _previousVersions: data?._previousVersions || null,
         _versionRationale: data?.versionRationale || data?._versionRationale || [],
         _versionValidFrom: data?.versionValidFrom || data?._versionValidFrom || null,
-        _versionValidUntil: data?.versionValidUntil || data?._versionValidUntil || null,
+        _versionValidUntil: data?._versionValidUntil || data?.validUntil || null,
 
         // Step 3 and 4 Codes
         _codes: data?.codes || data?._codes || [],
@@ -53,7 +53,8 @@ export function Subset (data) {
         descriptionControl(subset),
         versionRationaleControl(subset),
         originControl(subset),
-        codesControl(subset)
+        codesControl(subset),
+        errorsControl(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -223,31 +224,16 @@ export function Subset (data) {
         }
     });
 
-       Object.defineProperty(subset, 'versionValidFrom', {
+    Object.defineProperty(subset, 'versionValidFrom', {
         get: () => { return subset._versionValidFrom?.substr(0, 10); },
         set: (date = null) => {
             //console.debug('Set versionValidFrom', date);
 
             if (subset.isEditableVersionValidFrom) {
 
+                subset.resetValidityPeriod();
                 subset._versionValidFrom = date;
-
-                if (subset.isNew()) {
-                    subset._validFrom = subset.versionValidFrom;
-
-                } else if (subset.isBeforeCoveredPeriod(date)) {
-                    subset._versionValidUntil = subset.latestVersion?.validFrom;
-                    subset._validFrom = subset.versionValidFrom;
-
-                } else if (
-                    subset._versionValidFrom > subset.latestVersion?.validFrom
-                    || subset.versionValidUntil === subset.latestVersion?.validFrom)
-                {
-                    //console.debug('Covered period or later or illegal input - clean calculated dates');
-
-                    subset._versionValidUntil = null;
-                    subset._validFrom = subset.latestVersion?.validFrom
-                }
+                subset.updateValidityPeriod();
             }
         }
     });
@@ -259,15 +245,9 @@ export function Subset (data) {
 
             if (subset.isEditableVersionValidUntil()) {
 
+                subset.resetValidityPeriod();
                 subset._versionValidUntil = date;
-
-                if (subset.isNew()
-                    || (subset.isNewVersion() && subset.isAfterCoveredPeriod(date))
-                    || (subset.isNewVersion() && subset.isAfterCoveredPeriod(subset.versionValidFrom))
-                    || subset.isLatestSavedVersion())
-                {
-                    subset._validUntil = subset._versionValidUntil;
-                }
+                subset.updateValidityPeriod();
             }
         }
     });
@@ -319,8 +299,8 @@ export function Subset (data) {
         get: () => {
             //console.debug('Get errors', subset._errors);
 
-            return subset._errors;
-            }
+            return subset.validate();
+        }
     });
 
     Object.defineProperty(subset, 'payload', {
@@ -368,29 +348,27 @@ export function Subset (data) {
         }
     });
 
-    return subset.validate();
+    return subset;
 }
 
 const editable = (state = {}) => ({
 
     isNew() {
-        /*console.debug('isNew', state.administrativeStatus === 'INTERNAL'
-            && state.version === '1');
-        */
+        //console.debug('isNew', state.administrativeStatus === 'INTERNAL' && state.version === '1');
+
         return state.administrativeStatus === 'INTERNAL'
             && state.version === '1';
     },
 
     isNewVersion() {
-        //console.debug('isNewVersion', state.administrativeStatus === 'INTERNAL'
-         //   && state.version !== '1');
+        //console.debug('isNewVersion', state.administrativeStatus === 'INTERNAL' && state.version !== '1');
 
         return state.administrativeStatus === 'INTERNAL'
             && state.version !== '1';
     },
 
     isLatestSavedVersion() {
-        //console.debug('isLatestSavedVersion', state.latestVersion?.version === state.version);
+        //console.debug('isLatestSavedVersion');
 
         if (!state.previousVersions) {
             return null;
@@ -399,8 +377,7 @@ const editable = (state = {}) => ({
     },
 
     isAfterCoveredPeriod(date) {
-        //console.debug('isAfterCoveredPeriod', date
-        //    && (date >= state.latestVersion?.validUntil || date > state.latestVersion?.versionValidFrom));
+        //console.debug('isAfterCoveredPeriod');
 
         return date
             && (date >= state.latestVersion?.validUntil
@@ -408,17 +385,27 @@ const editable = (state = {}) => ({
     },
 
     isBeforeCoveredPeriod(date) {
-        //console.debug('isBeforeCoveredPeriod', date
-        //    && state.isInAcceptablePeriod(date)
-        //    && date < state.validFrom);
+        //console.debug('isBeforeCoveredPeriod');
 
         return date
             && state.isInAcceptablePeriod(date)
             && date < state.validFrom;
     },
 
+    isInCoveredPeriod(date) {
+        const start = state.latestVersion?.validFrom || state._validFrom;
+        const end = state.latestVersion
+            ? state.latestVersion?.validUntil || state.latestVersion?.versionValidFrom
+            : state._validUntil;
+        return !end
+            ? date === start
+            : end === state.latestVersion?.versionValidFrom
+                ? date >= start && date <= end
+                : date >= start && date < end;
+    },
+
     isEditableId() {
-        return this.isNew();
+        return state.isNew();
     },
 
     isEditableShortName() {
@@ -441,16 +428,8 @@ const editable = (state = {}) => ({
         return true;
     },
 
-    isEditableOrigin() {
-        return true;
-    },
-
-    isEditableDescription() {
-        return true;
-    },
-
     isEditableValidFrom() {
-        return this.isNew() || this.isNewVersion();
+        return state.isNew() || state.isNewVersion();
     },
 
     isEditableValidUntil() {
@@ -458,10 +437,67 @@ const editable = (state = {}) => ({
     },
 
     isEditableVersionValidFrom() {
-        return true;
+        //console.debug('isEditableVersionValidFrom');
+
+        return state.isNew()
+            || (state.isNewVersion() && !state._versionValidFrom)
+            || (state.isNewVersion()
+                && state._versionValidFrom !== state.latestVersion?.validUntil)
+            || (state.isNewVersion()
+                && state._versionValidFrom === state.latestVersion?.validUntil
+                && state._versionValidUntil === state.latestVersion?.validFrom
+            )
     },
 
     isEditableVersionValidUntil() {
+        //console.debug('isEditableVersionValidUntil');
+
+        return (state.isLatestSavedVersion()
+                && !state.latestVersion?.validUntil
+            )
+            || (state.isNew()
+                && state.isInAcceptablePeriod(state._versionValidFrom)
+            )
+            || (state.isNewVersion()
+                && state._versionValidUntil !== state.latestVersion?.validFrom
+                && state.isInAcceptablePeriod(state._versionValidFrom)
+            )
+    },
+
+    isNewPreviousVersion() {
+        /*console.debug('isNewPreviousVersion');*/
+
+        return state.isNewVersion()
+            && state._versionValidUntil === state.latestVersion?.validFrom
+            && state.isInAcceptablePeriod(state._versionValidFrom)
+            && state.isBeforeCoveredPeriod(state._versionValidFrom);
+    },
+
+    isNewNextVersion() {
+        //console.debug('isNewNextVersion');
+
+        return state.isNewVersion()
+            && (
+                (state.latestVersion?.validUntil
+                    && state._versionValidFrom === state.latestVersion?.validUntil)
+                ||
+                (!state.latestVersion?.validUntil
+                    && state.isInAcceptablePeriod(state._versionValidFrom)
+                    && state.isAfterCoveredPeriod(state._versionValidFrom))
+            )
+            && (
+                !state._versionValidUntil
+                ||
+                (state.isInAcceptablePeriod(state._versionValidUntil)
+                    && state._versionValidUntil > state._versionValidFrom)
+            )
+    },
+
+    isEditableOrigin() {
+        return true;
+    },
+
+    isEditableDescription() {
         return true;
     },
 
@@ -477,17 +513,12 @@ const editable = (state = {}) => ({
 const restrictable = (state = {}) => ({
 
     isInAcceptablePeriod(date) {
-        return date >= acceptablePeriod.from.toISOString()
-            && date < acceptablePeriod.until.toISOString();
+        return date >= acceptablePeriod.from
+            && date < acceptablePeriod.until;
     },
 
     isAcceptableLanguageCode(lang) {
         return LANGUAGE_CODE_ENUM.includes(lang);
-    },
-
-    validate() {
-        state._errors = validate.subset(state);
-        return state;
     }
 });
 
@@ -500,7 +531,7 @@ const versionable = (state = {}) => ({
     },
 
     calculateVersionValidUntil() {
-        //console.debug('calculateVersionValidUntil');
+        console.debug('calculateVersionValidUntil');
 
         const exists = state.previousVersions?.find(v => v.version === state.version);
         if (exists) {
@@ -510,11 +541,13 @@ const versionable = (state = {}) => ({
                     a.versionValidFrom < b.versionValidFrom ? -1 :
                         a.versionValidFrom > b.versionValidFrom ? 1 : 0)[0];
             if (next) {
-                //console.debug('next', next);
                 return next?.versionValidFrom;
+                console.debug('calculateVersionValidUntil', next);
             }
-            return state.validUntil;
+            return exists.validUntil || state.validUntil;
+            console.debug('calculateVersionValidUntil', exists);
         }
+        console.debug('calculateVersionValidUntil', {stateVU: state.validUntil});
         return state.validUntil;
     },
 
@@ -524,8 +557,25 @@ const versionable = (state = {}) => ({
         state._version = `${ state.calculateNextVersionNumber() }`;
         state.administrativeStatus = 'INTERNAL';
         state.versionRationale = [ nextDefaultName([]) ];
-        state.versionValidFrom = state.latestVersion?.validUntil || null;
-        state.versionValidUntil = null; 
+        state.resetValidityPeriod();
+    },
+
+
+    createPreviousVersion() {
+        //console.debug('createPreviousVersion');
+
+        state.createNewVersion();
+        state._versionValidFrom = null;
+        state._versionValidUntil = state.latestVersion?.validFrom || state.validFrom;
+    },
+
+    createNextVersion() {
+        console.debug('createNextVersion');
+
+        state.createNewVersion();
+        state._versionValidFrom = state.latestVersion?.validUntil || null;
+        state._versionValidUntil = null;
+        state._validUntil = null;
     },
 
     switchToVersion(chosenVersion = '') {
@@ -540,13 +590,47 @@ const versionable = (state = {}) => ({
                 : [ nextDefaultName([]) ];
             state.codes = exists.codes || [];
             state._versionValidFrom = exists.versionValidFrom;
-            state._versionValidUntil = state.calculateVersionValidUntil(exists);
             state._administrativeStatus = exists.administrativeStatus;
 
             state._validFrom = exists.validFrom;
             state._validUntil = exists.validUntil;
+
+            state._versionValidUntil = state.calculateVersionValidUntil();
+        }
+    },
+
+    resetValidityPeriod() {
+        //console.debug('resetValidityPeriod');
+
+        if (state.latestVersion) {
+            state._validFrom = state.latestVersion?.validFrom;
+            state._validUntil = state.latestVersion?.validUntil;
+        }
+    },
+
+    updateValidityPeriod() {
+        // console.debug('updateValidityPeriod');
+
+        if (state.isInAcceptablePeriod(state._versionValidFrom)
+            && (state.isNew()
+                || state.isNewPreviousVersion()
+            ))
+        {
+            state._validFrom = state._versionValidFrom;
+        }
+
+        if ((!state._versionValidUntil
+            || state.isInAcceptablePeriod(state._versionValidUntil)
+            )
+            && (state.isNew()
+                || state.isNewNextVersion()
+                || state.isLatestSavedVersion()
+            ))
+        {
+            state._validUntil = state._versionValidUntil;
         }
     }
+
 });
 
 const nameControl = (state = {}) => ({

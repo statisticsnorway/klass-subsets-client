@@ -1,23 +1,6 @@
 import { useReducer, useEffect } from 'react';
 import { Subset } from './Subset.prototype';
 
-let errors = {
-    id: [],
-    name: [],
-    validFrom: [],
-    validUntil: [],
-    period: [],
-    createdBy: [],
-    annotation: [],
-    description: [],
-    versionRationale: [],
-    versionValidFrom: [],
-    versionValidUntil: [],
-    versionPeriod: [],
-    origin: [],
-    codes: []
-};
-
 function subsetReducer(state, {action, data = {}}) {
     console.info({action, data});
     switch (action) {
@@ -79,9 +62,11 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_switch': {
-            data === 'New version'
-                ? state.createNewVersion()
-                : state.switchToVersion(data);
+            data === 'Create next version'
+                ? state.createNextVersion()
+                : data === 'Create previous version'
+                    ? state.createPreviousVersion()
+                    : state.switchToVersion(data);
             return Subset({...state});
         }
         case 'to': {
@@ -172,5 +157,5 @@ export const useSubset = (init = Subset()) => {
         sessionStorage.setItem('draft', JSON.stringify(draft));
     }, [draft]);
 
-    return {draft, dispatch, errors};
+    return {draft, dispatch};
 };

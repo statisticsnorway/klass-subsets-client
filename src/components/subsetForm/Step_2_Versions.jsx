@@ -1,4 +1,4 @@
-import React, {useContext, useEffect } from 'react';
+import React, {useContext, useEffect, useState } from 'react';
 import '../../css/form.css';
 import { useTranslation } from 'react-i18next';
 import { Title} from '@statisticsnorway/ssb-component-library';
@@ -46,6 +46,12 @@ export const VersionSwitcher = () => {
             : <Dropdown label={ t('Version') }
                         options={ draft.previousVersions
                            ? [
+                                {
+                                    title: `${ t('Create previous version') }`,
+                                    id: 'Create previous version',
+                                    disabled: draft.isNewVersion()
+                                },
+
                                ...draft.previousVersions.map(v => ({
                                    ...v,
                                     title: `${ t('Version') } ${ 
@@ -57,8 +63,8 @@ export const VersionSwitcher = () => {
                                 })),
 
                                 {
-                                    title: `${ t('New version') }`,
-                                    id: 'New version',
+                                    title: `${ t('Create next version') }`,
+                                    id: 'Create next version',
                                     disabled: draft.isNewVersion()
                                 }
                             ]
@@ -115,12 +121,13 @@ export const VersionValidFromForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
+    const [ showErrors, setShowErrors ] = useState(false);
 
     return (
         <>
             <label style={{display: 'block', fontSize: '16px', fontFamily: 'Roboto'}}
                    htmlFor='version_from_date'
-            >{ t('Version valid from') }:
+            >{ t('Version valid from') }
                 <Help>
                     <strong>{ `${t('Version valid from')} *` }. </strong>
                     { t('Version valid from help') }
@@ -131,19 +138,21 @@ export const VersionValidFromForm = () => {
                    id='version_from_date'
                    style={{ display: 'block' }}
                    value={ draft.versionValidFrom || '' }
-                   disabled={ draft.isPublished }
+                   disabled={ !draft.isEditableVersionValidFrom() }
                    onChange={ event => dispatch({
                        action: 'version_from',
                        data: event.target.value === ''
                            ? null
                            : new Date(event.target.value).toISOString(),
-                   })
-                   }
-                   className='datepicker'/>
-            { draft.errors?.versionValidFrom?.length > 0 && draft?.versionValidFrom &&
+                   })}
+                   className='datepicker'
+                   onBlur={ () => setShowErrors(true) }
+                   onFocus={ () => setShowErrors(false) }
+            />
+            { showErrors && draft.errors?.versionValidFrom?.length > 0 && draft?.versionValidFrom &&
                 <div className='ssb-input-error '>
-                    {draft.errors.versionValidFrom.map((error, i) => (
-                        <span key={error + i} style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
+                    { draft.errors.versionValidFrom.map((error, i) => (
+                        <span key={ error + i } style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
                     ))}
                 </div>
             }
@@ -155,28 +164,31 @@ export const VersionValidUntilForm = () => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
+    const [ showErrors, setShowErrors ] = useState(false);
 
     return (
         <>
             <label style={{ display: 'block', fontSize: '16px', fontFamily: 'Roboto' }}
-                   htmlFor='version_to_date'>{ t('Version valid until') }: </label>
+                   htmlFor='version_to_date'>{ t('Version valid until') } </label>
             <input type='date'
                    id='version_to_date'
                    style={{ display: 'block' }}
                    value={ draft.versionValidUntil || '' }
-                   disabled={ draft.isPublished && !draft.isLatestSavedVersion() }
+                   disabled={ !draft.isEditableVersionValidUntil() }
                    onChange={event => dispatch({
                        action: 'version_to',
                        data: event.target.value === ''
                            ? null
                            : new Date(event.target.value)?.toISOString()
-                   })
-                   }
-                   className='datepicker'/>
-            { draft.errors?.versionValidUntil?.length > 0 &&
+                   })}
+                   className='datepicker'
+                   onBlur={ () => setShowErrors(true) }
+                   onFocus={ () => setShowErrors(false) }
+            />
+            { showErrors && draft.errors?.versionValidUntil?.length > 0 &&
                 <div className='ssb-input-error '>
-                    { draft.errors.versionValidUntil.map(error => (
-                        <span style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
+                    { draft.errors.versionValidUntil.map((error, i) => (
+                        <span key={ error + i } style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
                     ))}
                 </div>
             }

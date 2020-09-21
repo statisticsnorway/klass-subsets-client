@@ -7,6 +7,7 @@ import { Accordion,
 import { useTranslation } from 'react-i18next';
 import { Code } from './Code';
 import { eu } from '../utils/strings';
+import {Brief, Id} from "./SubsetBrief";
 
 export const SubsetPreview = ({ subset }) => {
     const { t } = useTranslation();
@@ -43,7 +44,7 @@ export const SubsetPreview = ({ subset }) => {
             <Paragraph><strong>{t('Version')}:</strong> {subset.version || '-'}</Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
-            {subset.codes
+            { subset.codes
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
                     <Code key={i}
@@ -55,7 +56,7 @@ export const SubsetPreview = ({ subset }) => {
                     />))}
 
             <Accordion header={t('Raw JSON')}>
-                <pre>{JSON.stringify(subset.payload, null, 4)}</pre>
+                <pre>{ JSON.stringify(subset.payload, null, 4) }</pre>
             </Accordion>
         </>
     );
@@ -71,13 +72,19 @@ export const SubsetBanner = ({subset}) => {
             <SsbLink href={`/subsets/${subset?.id}`} linkType='profiled'>
                 {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || t('No name')}
             </SsbLink>
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>ID: <strong>{subset?.id || '-'}  </strong>
-                {t('Version')}: <strong>{subset?.version || '-'}  </strong>
-                {t('Updated')}: <strong>{subset?.lastUpdatedDate || '-'}  </strong>
-                {t('Status')}: <strong>{t(subset?.administrativeStatus) || '-'}  </strong>
+            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
+                <Brief
+                    id={ <Id>{ subset?.id || '-' }</Id> }
+                    version={ subset?.version }
+                    lastUpdatedDate={ subset?.lastUpdatedDate }
+                    status={ t(subset?.administrativeStatus) }
+                />
             </p>
-            <p style={{fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0'}}>{subset?.description?.find(
-                description => description.languageCode === 'nb')?.languageText || t('No description')}
+            <p style={{ fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0' }}>
+                { subset?.description?.find(
+                    desc => desc.languageCode === 'nb')?.languageText
+                    || t('No description')
+                }
             </p>
         </div>
     );
