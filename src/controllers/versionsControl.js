@@ -45,7 +45,7 @@ export const versionable = (state = {}) => ({
     },
 
     createNextVersion() {
-        console.debug('createNextVersion');
+        //console.debug('createNextVersion');
 
         state.createNewVersion();
         state._versionValidFrom = state.latestVersion?.validUntil || null;
@@ -84,7 +84,7 @@ export const versionable = (state = {}) => ({
     },
 
     updateValidityPeriod() {
-        // console.debug('updateValidityPeriod');
+        //console.debug('updateValidityPeriod');
 
         if (state.isInAcceptablePeriod(state._versionValidFrom)
             && (state.isNew()

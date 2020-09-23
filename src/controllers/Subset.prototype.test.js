@@ -84,4 +84,3 @@ describe('Subset prototype: defined properties on an initial subset', () => {
         expect(subset.administrativeStatus).toBe('INTERNAL');
     });
 });
-
