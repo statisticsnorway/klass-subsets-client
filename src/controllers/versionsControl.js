@@ -86,24 +86,53 @@ export const versionable = (state = {}) => ({
     updateValidityPeriod() {
         //console.debug('updateValidityPeriod');
 
-        if (state.isInAcceptablePeriod(state._versionValidFrom)
-            && (state.isNew()
-                || state.isNewPreviousVersion()
+        if (state.isInAcceptablePeriod(state._versionValidFrom) // A
+            && (state.isNew()                              // B
+                || state.isNewPreviousVersion()  // C
             ))
         {
             state._validFrom = state._versionValidFrom;
         }
 
-        if ((!state._versionValidUntil
-                || state.isInAcceptablePeriod(state._versionValidUntil)
+        if ((!state._versionValidUntil      // D
+                || state.isInAcceptablePeriod(state._versionValidUntil)   // E
             )
-            && (state.isNew()
-                || state.isNewNextVersion()
-                || state.isLatestSavedVersion()
+            && (state.isNew()   // B
+                || state.isNewNextVersion()  // F
+                || state.isLatestSavedVersion()    // G
             ))
         {
             state._validUntil = state._versionValidUntil;
         }
-    }
+    },
+
+    isNewPreviousVersion() {
+        /*console.debug('isNewPreviousVersion');*/
+
+        return state.isNewVersion()
+            && state._versionValidUntil === state.latestVersion?.validFrom
+            && state.isInAcceptablePeriod(state._versionValidFrom)
+            && state.isBeforeCoveredPeriod(state._versionValidFrom);
+    },
+
+    isNewNextVersion() {
+        //console.debug('isNewNextVersion');
+
+        return state.isNewVersion()
+            && (
+                (state.latestVersion?.validUntil //1
+                    && state._versionValidFrom === state.latestVersion?.validUntil)
+                ||
+                (!state.latestVersion?.validUntil //2
+                    && state.isInAcceptablePeriod(state._versionValidFrom)
+                    && state.isAfterCoveredPeriod(state._versionValidFrom))
+            )
+            && (
+                !state._versionValidUntil //3
+                ||
+                (state.isInAcceptablePeriod(state._versionValidUntil) //4
+                    && state._versionValidUntil > state._versionValidFrom)
+            )
+    },
 
 });

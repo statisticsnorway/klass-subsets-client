@@ -307,4 +307,156 @@ describe('Subset prototype: updateValidityPeriod - legal states', () => {
         expect(given.validUntil).toBeNull();
 
     });
+
+    it('should overwrite validUntil for the latest published subset\'s version if it was null', () => {
+        const given = Subset({
+
+            _version: '1',
+            _administrativeStatus: 'OPEN',
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,
+            _versionValidFrom: '1990-09-21T00:00:00.000Z',
+            _versionValidUntil: '2000-09-21T00:00:00.000Z',          //3
+
+            _previousVersions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBe('2000-09-21T00:00:00.000Z');
+
+    });
+});
+
+describe('Subset prototype: updateValidityPeriod - illegal states', () => {
+
+    it('should not overwrite validFrom for a saved subset\'s version, ' +
+        'when no other saved versions available', () => {
+        const given = Subset({
+
+            _version: '1',
+            _administrativeStatus: 'OPEN',  // not B, not C, not F
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,                              // G
+            _versionValidFrom: '1990-09-21T00:00:00.000Z',    // A
+            _versionValidUntil: null                  // D fetched
+
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should not overwrite validFrom for a saved subset\'s version with ' +
+        'validUntil set, when no other saved versions available', () => {
+        const given = Subset({
+
+            _version: '1',
+            _administrativeStatus: 'OPEN',  // not B, not C, not F
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: '2000-09-21T00:00:00.000Z',  // G
+            _versionValidFrom: '1990-09-21T00:00:00.000Z',   // A
+            _versionValidUntil: '2000-09-21T00:00:00.000Z' // E, fetched
+
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBe('2000-09-21T00:00:00.000Z');
+
+    });
+
+    it('should not overwrite validFrom or validUntil for earliest saved ' +
+        'subset\'s version, but mot latest', () => {
+        const given = Subset({
+
+            _version: '1',
+            _administrativeStatus: 'OPEN',  // not B, not C, not F
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,                              // D
+            _versionValidFrom: '1990-09-21T00:00:00.000Z',    // A
+            _versionValidUntil: '2000-09-21T00:00:00.000Z', // calculated
+
+            _previousVersions: [  // not G
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                },
+                {
+                    version: '2',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '2000-09-21T00:00:00.000Z',
+                }
+            ]
+
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should not overwrite validFrom or validUntil for saved subset\'s version ' +
+        'in the middle of the covered period', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'OPEN',  // not B, not C, not F
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,                              // D
+            _versionValidFrom: '2000-09-21T00:00:00.000Z',    // A
+            _versionValidUntil: '2010-09-21T00:00:00.000Z', // not G, calculated
+
+            _previousVersions: [  // not G
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                },
+                {
+                    version: '2',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '2000-09-21T00:00:00.000Z',
+                },
+                {
+                    version: '3',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '2010-09-21T00:00:00.000Z',
+                }
+            ]
+
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
 });
