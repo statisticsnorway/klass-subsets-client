@@ -208,13 +208,13 @@ describe('Subset prototype: updateValidityPeriod - legal states', () => {
             _validFrom: '1990-09-21T00:00:00.000Z',
             _validUntil: null,
             _versionValidFrom: '2000-09-21T00:00:00.000Z',
-            _versionValidUntil: '2010-09-21T00:00:00.000Z',
+            _versionValidUntil: '2010-09-21T00:00:00.000Z', //4
 
             _previousVersions: [
                 {
                     version: '1',
                     validFrom: '1990-09-21T00:00:00.000Z',
-                    validUntil: '2000-09-21T00:00:00.000Z',
+                    validUntil: '2000-09-21T00:00:00.000Z', //1
                     versionValidFrom: '1990-09-21T00:00:00.000Z'
                 }
             ]
@@ -235,13 +235,13 @@ describe('Subset prototype: updateValidityPeriod - legal states', () => {
             _validFrom: '1990-09-21T00:00:00.000Z',
             _validUntil: null,
             _versionValidFrom: '2000-09-21T00:00:00.000Z',
-            _versionValidUntil: '2010-09-21T00:00:00.000Z',
+            _versionValidUntil: '2010-09-21T00:00:00.000Z', //4
 
             _previousVersions: [
                 {
                     version: '1',
                     validFrom: '1990-09-21T00:00:00.000Z',
-                    validUntil: null,
+                    validUntil: null,                          //2
                     versionValidFrom: '1990-09-21T00:00:00.000Z'
                 }
             ]
@@ -262,13 +262,40 @@ describe('Subset prototype: updateValidityPeriod - legal states', () => {
             _validFrom: '1990-09-21T00:00:00.000Z',
             _validUntil: '2000-09-21T00:00:00.000Z',
             _versionValidFrom: '2000-09-21T00:00:00.000Z',
-            _versionValidUntil: null,
+            _versionValidUntil: null,                        //3
 
             _previousVersions: [
                 {
                     version: '1',
                     validFrom: '1990-09-21T00:00:00.000Z',
-                    validUntil: '2000-09-21T00:00:00.000Z',
+                    validUntil: '2000-09-21T00:00:00.000Z', //1
+                    versionValidFrom: '1990-09-21T00:00:00.000Z'
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should keep validUntil as null for new later subset\'s versions', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'INTERNAL',
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: '2000-09-21T00:00:00.000Z',
+            _versionValidFrom: '2000-09-21T00:00:00.000Z',
+            _versionValidUntil: null,                        //3
+
+            _previousVersions: [
+                {
+                    version: '1',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null, //2
                     versionValidFrom: '1990-09-21T00:00:00.000Z'
                 }
             ]
