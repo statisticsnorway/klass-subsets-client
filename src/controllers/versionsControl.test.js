@@ -339,7 +339,7 @@ describe('Subset prototype: updateValidityPeriod - legal states', () => {
 
 describe('Subset prototype: updateValidityPeriod - illegal states', () => {
 
-    it('should not overwrite validFrom for a saved subset\'s version, ' +
+    it('should not overwrite validFrom for a saved version, ' +
         'when no other saved versions available', () => {
         const given = Subset({
 
@@ -347,8 +347,8 @@ describe('Subset prototype: updateValidityPeriod - illegal states', () => {
             _administrativeStatus: 'OPEN',  // not B, not C, not F
             _validFrom: '1990-09-21T00:00:00.000Z',
             _validUntil: null,                              // G
-            _versionValidFrom: '1990-09-21T00:00:00.000Z',    // A
-            _versionValidUntil: null                  // D fetched
+            _versionValidFrom: '1880-09-21T00:00:00.000Z',    // A, not editable actually
+            _versionValidUntil: null                  // D calculated
 
         });
 
@@ -359,7 +359,7 @@ describe('Subset prototype: updateValidityPeriod - illegal states', () => {
 
     });
 
-    it('should not overwrite validFrom for a saved subset\'s version with ' +
+    it('should not overwrite validFrom for a saved version with ' +
         'validUntil set, when no other saved versions available', () => {
         const given = Subset({
 
@@ -367,8 +367,8 @@ describe('Subset prototype: updateValidityPeriod - illegal states', () => {
             _administrativeStatus: 'OPEN',  // not B, not C, not F
             _validFrom: '1990-09-21T00:00:00.000Z',
             _validUntil: '2000-09-21T00:00:00.000Z',  // G
-            _versionValidFrom: '1990-09-21T00:00:00.000Z',   // A
-            _versionValidUntil: '2000-09-21T00:00:00.000Z' // E, fetched
+            _versionValidFrom: '1880-09-21T00:00:00.000Z',   // A, not editable actually
+            _versionValidUntil: '2000-09-21T00:00:00.000Z' // E, calculated
 
         });
 
@@ -379,8 +379,37 @@ describe('Subset prototype: updateValidityPeriod - illegal states', () => {
 
     });
 
+    it('should not overwrite validUntil for a saved version with ' +
+        'validUntil set, when the original published version available', () => {
+        const given = Subset({
+
+            _version: '1',
+            _administrativeStatus: 'OPEN',  // not B, not C, not F
+            _validFrom: '1990-09-21T00:00:00.000Z',  // fetched
+            _validUntil: '2000-09-21T00:00:00.000Z',  // fetched
+            _versionValidFrom: '1990-09-21T00:00:00.000Z',   // A, not editable actually
+            _versionValidUntil: '2222-09-21T00:00:00.000Z', // E, user input, not editable actually
+
+            _previousVersions: [ // G
+                {
+                    _version: '1',
+                    _administrativeStatus: 'OPEN',
+                    _validFrom: '1990-09-21T00:00:00.000Z',
+                    _validUntil: '2000-09-21T00:00:00.000Z',
+                    _versionValidFrom: '1880-09-21T00:00:00.000Z',   // A, not editable actually
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBe('2000-09-21T00:00:00.000Z');
+
+    });
+
     it('should not overwrite validFrom or validUntil for earliest saved ' +
-        'subset\'s version, but mot latest', () => {
+        'version, but mot latest', () => {
         const given = Subset({
 
             _version: '1',
@@ -457,6 +486,210 @@ describe('Subset prototype: updateValidityPeriod - illegal states', () => {
 
         expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
         expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should not overwrite validUntil in the latest saved version, if ' +
+        'the versionValidUntil date are not in the acceptable period', () => {
+        const given = Subset({
+
+            _version: '1',
+            _administrativeStatus: 'OPEN',              // G
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,
+            _versionValidFrom: '1990-09-21T00:00:00.000Z',
+            _versionValidUntil: '2301-09-21T00:00:00.000Z',          // user input, not D, not E
+
+            _previousVersions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should not overwrite validUntil in the new next version, if ' +
+        'the versionValidUntil date are not in the acceptable period', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'INTERNAL',         // F
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,
+            _versionValidFrom: '2000-09-21T00:00:00.000Z',        // user input
+            _versionValidUntil: '2301-09-21T00:00:00.000Z',          // user input, not D, not E
+
+            _previousVersions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should not overwrite validUntil in the new next version, if ' +
+        'the versionValidUntil date are earlier than versionValidFrom', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'INTERNAL',         // F
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,
+            _versionValidFrom: '2000-09-21T00:00:00.000Z',        // user input
+            _versionValidUntil: '1850-09-21T00:00:00.000Z',
+
+            _previousVersions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should not overwrite validUntil in the new next version, if ' +
+        'the versionValidUntil date are in covered period', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'INTERNAL',         // F
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: '2000-09-21T00:00:00.000Z',
+            _versionValidFrom: '2000-09-21T00:00:00.000Z',        // user input
+            _versionValidUntil: '1999-09-21T00:00:00.000Z',
+
+            _previousVersions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: '2000-09-21T00:00:00.000Z',
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBe('2000-09-21T00:00:00.000Z');
+
+    });
+
+    it('should not overwrite validFrom in the new previous version, if ' +
+        'the versionValidFrom date are not in the acceptable period', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'INTERNAL',      // C
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,
+            _versionValidFrom: '1799-09-21T00:00:00.000Z',  // user input, not A
+            _versionValidUntil: '1990-09-21T00:00:00.000Z',
+
+            _previousVersions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+    it('should not overwrite validFrom in the new previous version, if ' +
+        'the versionValidFrom date is later than versionValidUntil', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'INTERNAL',      // C
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: null,
+            _versionValidFrom: '2299-09-21T00:00:00.000Z',  // user input, not A
+            _versionValidUntil: '1990-09-21T00:00:00.000Z',
+
+            _previousVersions: [ // C
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: null,
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBeNull();
+
+    });
+
+
+    it('should not overwrite validFrom in the new previous version, if ' +
+        'the versionValidFrom date is in covered period', () => {
+        const given = Subset({
+
+            _version: '2',
+            _administrativeStatus: 'INTERNAL',      // C
+            _validFrom: '1990-09-21T00:00:00.000Z',
+            _validUntil: '2000-09-21T00:00:00.000Z',
+            _versionValidFrom: '1999-09-21T00:00:00.000Z',  // user input, not A
+            _versionValidUntil: '1990-09-21T00:00:00.000Z',
+
+            _previousVersions: [ // C
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '1990-09-21T00:00:00.000Z',
+                    validUntil: '2000-09-21T00:00:00.000Z',
+                    versionValidFrom: '1990-09-21T00:00:00.000Z',
+                }
+            ]
+        });
+
+        given.updateValidityPeriod();
+
+        expect(given.validFrom).toBe('1990-09-21T00:00:00.000Z');
+        expect(given.validUntil).toBe('2000-09-21T00:00:00.000Z');
 
     });
 });
