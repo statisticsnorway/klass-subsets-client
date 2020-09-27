@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/App.css';
-import { BrowserRouter, Link, Route, Switch, Redirect} from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch, Redirect, useRouteMatch, useParams } from 'react-router-dom';
 import { ContextProvider } from '../controllers/context';
 import Header from './Header';
 import Footer from './Footer';
@@ -22,11 +22,13 @@ export default function App() {
                     <Header/>
                 <div className='app-content'>
                     <Switch>
-                        <Route path='/' exact component={SearchSubsetsPage}/>
+                        <Route path='/' exact component={ SearchSubsetsPage }/>
                         <Redirect push from='/create' to='/auth/create' />
-                        <Route path='/auth/create' component={SubsetForm}/>
-                        <Route path='/changelog' exact component={ChangelogPage}/>
-                        <Route path='/subsets/:id' exact component={SubsetPage}/>
+                        <Route path='/auth/create' component={ SubsetForm }/>
+                        <Route path='/changelog' exact component={ ChangelogPage }/>
+                        <Route path='/subsets/:id' exact component={ SubsetPage }/>
+                        <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>
+                        <Route path='/subsets/:id/versions/:version' exact component={ SubsetPage }/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </div>

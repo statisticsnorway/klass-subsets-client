@@ -20,7 +20,7 @@ export const Step5Publish = () => {
     useEffect(() => {
         if (post || update) {
             dispatch({action: 'reset'});
-            history.push(`/subsets/${draft.id}`);
+            history.push(`/subsets/${draft.id}/version/${draft.version}`);
         }
     }, [ post, update ]);
 
