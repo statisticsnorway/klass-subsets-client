@@ -29,6 +29,7 @@ export default function ChangelogPage() {
            <Title size={4}>v0.5.6</Title>
            <Paragraph>More unit tests.</Paragraph>
            <Paragraph>Changed date-to-string format.</Paragraph>
+           <Paragraph>Fix for KF-400: after saving or publishing a version redirect to this particular version.</Paragraph>
 
            <Title size={4}>v0.5.5</Title>
            <Paragraph><code>versionValidFrom</code> and <code>versionValidUntil</code> flow corrected.</Paragraph>
