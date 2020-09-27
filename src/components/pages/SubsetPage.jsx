@@ -12,23 +12,31 @@ import { Brief, Id } from '../SubsetBrief';
 export const SubsetPage = () => {
     const { t } = useTranslation();
 
-    let { id } = useParams();
+    let { id, version } = useParams();
     let history = useHistory();
     const { subset } = useContext(AppContext);
 
-    const [ subsetData, isLoadingSubsetData ] = useGet(id);
+    const [ subsetData, isLoadingSubsetData ] = useGet(version
+        ? `${id}/versions/${version}`
+        : id);
 
     // FIXME: translate placeholders
     // TODO: smart language choice
     return(
         <div className='page'>
             { isLoadingSubsetData
-                ? <div style={{margin: 'auto', width: '20%'}}><Spinner/></div>
+                ? <div style={{ margin: 'auto', width: '20%' }}><Spinner/></div>
                 : !subsetData
-                    ? <p>{t('Subset with id does not exist', {id})}.</p>
+                    ? <p>{ version
+                        ? t('Subset version for subset with id does not exist', {version, id})
+                        : t('Subset with id does not exist', {id}) }.
+                      </p>
                     : <div>
                         <Title size={3}>
-                            {subsetData.name?.find(name => name.languageCode === 'nb')?.languageText || t('No name')}
+                            {
+                                subsetData.name?.find(name => name.languageCode === 'nb')?.languageText
+                                || t('No name')
+                            }
                             <Edit
                                 style={{
                                     color: '#ED5935',

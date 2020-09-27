@@ -114,5 +114,5 @@
   "Authorization and subset-service integration": "Autorisasjon og subsets-tjenesteintegrasjon",
 
   "Subset with id does not exist": "Det finnes ikke uttrekk med id {{id}}",
-  "Code rank tooltip": "Rekkefølgen på elementer kan endres ved å markere elementer som skal flyttes (markere flere hvis etterfølgende elementer skal flyttes samtidig), og dra dem til riktig posisjon (drag and drop)."
+  "Subset version for subset with id does not exist": "Det finnes ikke versjon {{version}} av uttrekk med id {{id}}"
 }
