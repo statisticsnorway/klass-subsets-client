@@ -29,6 +29,6 @@ export const LANGUAGE_CODE_ENUM = [
 ];
 
 export const acceptablePeriod = {
-    from: new Date('1800-01-01').toISOString(),
-    until: new Date('2300-01-01').toISOString()
+    from: new Date('1800-01-01').toJSON(),
+    until: new Date('2300-01-01').toJSON()
 };

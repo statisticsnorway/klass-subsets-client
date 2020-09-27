@@ -23,6 +23,10 @@ export default function ChangelogPage() {
 
            <Title size={2}>{ t('Changelog') }</Title>
 
+           <Title size={4}>v0.5.6</Title>
+           <Paragraph>More unit tests.</Paragraph>
+           <Paragraph>Changed date-to-string format.</Paragraph>
+
            <Title size={4}>v0.5.5</Title>
            <Paragraph><code>versionValidFrom</code> and <code>versionValidUntil</code> flow corrected.</Paragraph>
            <Paragraph>Muted field warnings until field's focus is out.</Paragraph>

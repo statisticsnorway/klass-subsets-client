@@ -143,7 +143,7 @@ export const VersionValidFromForm = () => {
                        action: 'version_from',
                        data: event.target.value === ''
                            ? null
-                           : new Date(event.target.value).toISOString(),
+                           : new Date(event.target.value).toJSON(),
                    })}
                    className='datepicker'
                    onBlur={ () => setShowErrors(true) }
@@ -179,7 +179,7 @@ export const VersionValidUntilForm = () => {
                        action: 'version_to',
                        data: event.target.value === ''
                            ? null
-                           : new Date(event.target.value)?.toISOString()
+                           : new Date(event.target.value)?.toJSON()
                    })}
                    className='datepicker'
                    onBlur={ () => setShowErrors(true) }

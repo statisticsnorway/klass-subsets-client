@@ -47,6 +47,8 @@ export const errorsControl = (state = {}) => ({
         return !from || !to
             ? []
             : from > to
+                && state.isInAcceptablePeriod(from)
+                && state.isInAcceptablePeriod(to)
                 ? ['Period cannot start later than end']
                 : from === to
                     ? ['Period cannot include and exclude the same day']
@@ -62,13 +64,7 @@ export const errorsControl = (state = {}) => ({
     },
 
     validateVersionValidFrom() {
-        /*console.debug('validateVersionValidFrom', {
-            isNew: state.isNew(),
-            isNewVersion: state.isNewVersion(),
-            earlierThanValidUntil: state._versionValidFrom <= state._validUntil,
-            laterThanValidFrom: state._versionValidFrom >= state._validFrom,
-            laterThenValidUntil_Gap: state._versionValidFrom > state._validUntil
-        })*/
+        //console.debug('validateVersionValidFrom');
 
         return !state._versionValidFrom
             ? ['A valid version from date is required']
