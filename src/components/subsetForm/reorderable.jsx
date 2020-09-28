@@ -16,12 +16,13 @@ import Spinner from '../Spinner';
 export const Reorderable = ({list = [], rerank, remove, update, disabled}) => {
     const { t } = useTranslation();
 
-    const [dropTarget, setDropTarget] = useState({});
-    const [dragTargets, setDragTargets] = useState([]);
-    const [showHelp, setShowHelp] = useState(false);
+    const [ dropTarget, setDropTarget] = useState({});
+    const [ dragTargets, setDragTargets] = useState([]);
+    const [ showHelp, setShowHelp ] = useState(false);
+    const [ scrollZone, setScrollZone ] = useState(false);
 
     return (
-        <div style={{height: '600px',   overflow: 'auto'}}>
+        <div style={{height: '600px', overflow: 'auto'}}>
             <table style={{ borderCollapse: 'collapse'}}
                    onDragEndCapture={() => setDragTargets([])}
                    onDoubleClickCapture={() => setDragTargets([])}
