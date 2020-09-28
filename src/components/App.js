@@ -23,8 +23,9 @@ export default function App() {
                 <div className='app-content'>
                     <Switch>
                         <Route path='/' exact component={ SearchSubsetsPage }/>
-                        <Redirect push from='/create' to='/auth/create' />
+                        {/*<Redirect push from='/create' to='/auth/create' />*/}
                         <Route path='/auth/create' component={ SubsetForm }/>
+                        <Route path='/create' component={ SubsetForm }/>
                         <Route path='/changelog' exact component={ ChangelogPage }/>
                         <Route path='/subsets/:id' exact component={ SubsetPage }/>
                         <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>
