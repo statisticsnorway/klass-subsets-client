@@ -2,7 +2,7 @@ import React from 'react';
 import '../../css/pages.css';
 import { Title, Paragraph } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
-import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw } from 'react-feather';
+import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
 import Spinner from '../Spinner';
 
 export default function ChangelogPage() {
@@ -23,13 +23,12 @@ export default function ChangelogPage() {
 
            <Title size={2}>{ t('Changelog') }</Title>
 
-           <Title size={4}>v0.6.0</Title>
-           <Paragraph>Code duplicates with different name are allowed.</Paragraph>
-
            <Title size={4}>v0.5.6</Title>
            <Paragraph>More unit tests.</Paragraph>
            <Paragraph>Changed date-to-string format.</Paragraph>
-           <Paragraph>Fix for KF-400: after saving or publishing a version redirect to this particular version.</Paragraph>
+           <Paragraph>Bugfix KF-400: after saving or publishing a version redirect to this particular version.</Paragraph>
+           <Paragraph>Filter settings <Sliders size='20' color='#62919A' /> on subset search page.</Paragraph>
+           <Paragraph>Edit button to each search result.</Paragraph>
 
            <Title size={4}>v0.5.5</Title>
            <Paragraph><code>versionValidFrom</code> and <code>versionValidUntil</code> flow corrected.</Paragraph>
