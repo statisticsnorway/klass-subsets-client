@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Title, FormError } from '@statisticsnorway/ssb-component-library';
 import { SubsetPreview } from '../Subset';
 import { usePost, usePut } from '../../controllers/subsets-service';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { SubsetBrief } from '../SubsetBrief';
 import { AppContext } from '../../controllers/context';
 
@@ -13,6 +13,7 @@ export const Step5Publish = () => {
     const { draft, dispatch } = subset;
     const { t } = useTranslation();
     let history = useHistory();
+    let location = useLocation();
 
     const [post, setPOSTPayload,, errorPost] = usePost();
     const [update, setPUTPayload,, errorUpdate] = usePut(draft.id);
@@ -43,33 +44,45 @@ return (
                 />
             }
 
-            <div style={{margin: '5px 0 5px 0', width: '60%'}}>
+            <div style={{ margin: '5px 0 5px 0', width: '60%' }}>
 
-                <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
+                <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
                     <Button
                         disabled={ update !== null || draft.isPublished }
                         onClick={() => {
-                            draft.isNew()
-                                ? setPOSTPayload(draft.draftPayload)
-                                : setPUTPayload(draft.draftPayload);
+                            if (location.pathname === '/auth/create') {
+                                draft.isNew()
+                                    ? setPOSTPayload(draft.draftPayload)
+                                    : setPUTPayload(draft.draftPayload);
+                            } else {
+                                if (window.confirm('In order to save or publish subsets, you must be logged in. Do you want to log in?')) {
+                                    history.push('/auth/create');
+                                }
+                            }
                         }
-                        }>{t('Save')}
+                        }>{ t('Save') }
                     </Button>
                 </div>
 
-                <div style={{float: 'right'}}>
+                <div style={{ float: 'right' }}>
                     <Button
                         disabled={ post !== null || Object.values(draft.errors).flat().length > 0}
                         onClick={() => {
-                            draft.isNew()
-                                ? setPOSTPayload(draft.publishPayload)
-                                : setPUTPayload(draft.publishPayload)
+                            if (location.pathname === '/auth/create') {
+                                draft.isNew()
+                                    ? setPOSTPayload(draft.publishPayload)
+                                    : setPUTPayload(draft.publishPayload)
+                            } else {
+                                if (window.confirm('In order to save or publish subsets, you must be logged in. Do you want to log in?')) {
+                                    history.push('/auth/create');
+                                }
+                            }
                         }
-                        }>{t('Publish')}
+                        }>{ t('Publish') }
                     </Button>
                 </div>
 
-                <br style={{clear: 'both'}}/>
+                <br style={{ clear: 'both' }}/>
             </div>
 
             <br/><br/>
