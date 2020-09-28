@@ -57,8 +57,8 @@ export const Classification = ({item = {}, includible}) => {
                 }
 
             }}>
-            <div style={{display: 'flex'}}>
-                <div style={{width: '400px'}}>{item?.name || metadata?.name}</div>
+            <div style={{ display: 'flex' }}>
+                <div style={{width: '400px'}}>{ item?.name || metadata?.name }</div>
 
                 {item.error &&
                     <button onClick={() => setShow(prev => ({alert: !prev.alert}))}>
@@ -67,7 +67,7 @@ export const Classification = ({item = {}, includible}) => {
                 }
 
                 <button onClick={() =>
-                    setShow(prev => ({codes: !prev.codes}))}>
+                    setShow(prev => ({ codes: !prev.codes }))}>
                     { isLoadingCodes
                         ? <Spinner/>
                         : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
@@ -75,7 +75,7 @@ export const Classification = ({item = {}, includible}) => {
                 </button>
 
                 <button onClick={() =>
-                    setShow(prev => ({info: !prev.info}))}>
+                    setShow(prev => ({ info: !prev.info }))}>
                     { isLoadingMetadata
                         ? <Spinner/>
                         : <Info color={metadata ? '#2D6975' : '#C3DCDC'}/>
@@ -136,7 +136,7 @@ export const Classification = ({item = {}, includible}) => {
 
             { show.codes &&
                 <Codes
-                    codes={codes?.codes?.map(code => ({
+                    codes={ codes?.codes?.map(code => ({
                     ...code,
                     classificationId: id,
                     validFromInRequestedRange: draft.versionValidFrom,
@@ -150,7 +150,7 @@ export const Classification = ({item = {}, includible}) => {
     );
 };
 
-export const Codes = ({codes = []}) => {
+export const Codes = ({ codes = [] }) => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
@@ -170,17 +170,17 @@ export const Codes = ({codes = []}) => {
     const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
 
     return (
-        <div style={{backgroundColor: 'AliceBlue'}}
+        <div style={{ backgroundColor: 'AliceBlue' }}
              className='panel'>
             <div className='ssb-checkbox-group'>
-                <div className='checkbox-group-header'>{t('Codes')}
+                <div className='checkbox-group-header'>{ t('Codes')}
                     {from || to
                         ? `: ${ t('from')} ${ from || '...' } ${t('to')} ${ to || '...' }`
                         : `. ${ t('Period is not set') }`
                     }</div>
-                {!codes || codes.length === 0
+                { !codes || codes.length === 0
                     ? <Text>{t('No codes found for this validity period')}</Text>
-                    : <>{!draft.isPublished &&
+                    : <>{ !draft.isPublished &&
                             <div style={{padding: '5px'}}>
                                 <button onClick={() => dispatch({
                                     action: 'codes_include',
@@ -197,11 +197,11 @@ export const Codes = ({codes = []}) => {
                             </div>
                         }
 
-                        {codes.map(code =>
-                            <CodeInfo key={code.urn + draft.isChosenCode(code.urn)}
-                                      item={code}
-                                      notes={codesWithNotes.find(c => c.code === code.code)?.notes}
-                                      isLoadingVersion={isLoadingVersion}
+                        { codes.map(code =>
+                            <CodeInfo key={ code.urn + code.name + draft.isChosenCode(code.urn) }
+                                      item={ code }
+                                      notes={ codesWithNotes.find(c => c.code === code.code)?.notes }
+                                      isLoadingVersion={ isLoadingVersion }
                             />)
                         }
                     </>
