@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Accordion,
     Paragraph,
     Title,
@@ -7,7 +7,10 @@ import { Accordion,
 import { useTranslation } from 'react-i18next';
 import { Code } from './Code';
 import { eu } from '../utils/strings';
-import {Brief, Id} from "./SubsetBrief";
+import { Brief, Id } from './SubsetBrief';
+import { useHistory } from 'react-router-dom';
+import { AppContext } from '../controllers/context';
+import { Edit } from 'react-feather';
 
 export const SubsetPreview = ({ subset }) => {
     const { t } = useTranslation();
@@ -62,26 +65,41 @@ export const SubsetPreview = ({ subset }) => {
     );
 };
 
-export const SubsetBanner = ({subset}) => {
+export const SubsetBanner = ({subsetData}) => {
     const { t } = useTranslation();
+    let history = useHistory();
+    const { subset } = useContext(AppContext);
+
 
     // FIXME: translate placeholders
     // TODO: smart language choice
     return (
         <div style={{margin: '50px 0'}}>
-            <SsbLink href={`/subsets/${subset?.id}`} linkType='profiled'>
-                {subset?.name?.find(name => name.languageCode === 'nb')?.languageText || t('No name')}
+            <SsbLink href={`/subsets/${subsetData?.id}`}
+                     linkType='profiled'>
+                { subsetData?.name?.find(name => name.languageCode === 'nb')?.languageText
+                    || t('No name')
+                }
             </SsbLink>
+            <Edit style={{
+                color: '#ED5935',
+                margin: '0 10px',
+                cursor: 'pointer'
+            }}
+                onClick={() => {
+                    subset.dispatch({ action: 'edit', data: subsetData });
+                    history.push('/create');
+            }}/>
             <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
                 <Brief
-                    id={ <Id>{ subset?.id || '-' }</Id> }
-                    version={ subset?.version }
-                    lastUpdatedDate={ subset?.lastUpdatedDate }
-                    status={ t(subset?.administrativeStatus) }
+                    id={ <Id>{ subsetData?.id || '-' }</Id> }
+                    version={ subsetData?.version }
+                    lastUpdatedDate={ subsetData?.lastUpdatedDate }
+                    status={ t(subsetData?.administrativeStatus) }
                 />
             </p>
             <p style={{ fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0' }}>
-                { subset?.description?.find(
+                { subsetData?.description?.find(
                     desc => desc.languageCode === 'nb')?.languageText
                     || t('No description')
                 }
@@ -93,7 +111,9 @@ export const SubsetBanner = ({subset}) => {
 export const Subsets = ({items}) => {
     return (
         <>{items?.length > 0 &&
-            items.map((subset, i) => (<SubsetBanner key={i} subset={subset} />))}
+            items.map((subset, i) => (
+                <SubsetBanner key={i}
+                              subsetData={subset} /> ))}
         </>
     );
 };

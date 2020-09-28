@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/pages.css';
-import {Dropdown, Paragraph, Title} from '@statisticsnorway/ssb-component-library';
+import { Dropdown, Paragraph, Title } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/subsets-service';
 import { Subsets } from '../Subset';
@@ -30,7 +30,7 @@ export default function SearchSubsetsPage() {
                     searchible={ (item) => item[0].languageText}/>
 
             <h3>{ t('Search results') }
-            <button ariaLabel="Set up result filtering and sorting"
+            <button aria-label='Set up result filtering and sorting'
                     title='Filters'
                     onClick={ () => setShowSettings(!showSettings) }
                 ><Sliders size='20' color='#62919A'/>

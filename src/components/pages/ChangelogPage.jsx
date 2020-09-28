@@ -28,6 +28,7 @@ export default function ChangelogPage() {
            <Paragraph>Changed date-to-string format.</Paragraph>
            <Paragraph>Bugfix KF-400: after saving or publishing a version redirect to this particular version.</Paragraph>
            <Paragraph>Filter settings <Sliders size='20' color='#62919A' /> on subset search page.</Paragraph>
+           <Paragraph>Edit button to each search result.</Paragraph>
 
            <Title size={4}>v0.5.5</Title>
            <Paragraph><code>versionValidFrom</code> and <code>versionValidUntil</code> flow corrected.</Paragraph>
