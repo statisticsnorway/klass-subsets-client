@@ -23,6 +23,9 @@ export default function ChangelogPage() {
 
            <Title size={2}>{ t('Changelog') }</Title>
 
+           <Title size={4}>v0.5.8</Title>
+           <Paragraph>Fix for duplicate codes with same name.</Paragraph>
+
            <Title size={4}>v0.5.7</Title>
            <Paragraph>Public access to subset form (subset editing), but not saving or publishing.</Paragraph>
 

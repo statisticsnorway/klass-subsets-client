@@ -19,29 +19,29 @@ import Spinner from '../Spinner';
 import keys from '../../utils/keys';
 import { AppContext } from '../../controllers/context';
 
-export const Classification = ({item = {}, includible}) => {
+export const Classification = ({ item = {}, includible }) => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
 
-    const {id, path, codesPath} = URN.toURL(
+    const { id, path, codesPath } = URN.toURL(
         item?.urn,
         draft.versionValidFrom,
         draft.versionValidUntil
     );
 
     // TODO use fallback, loader, error
-    const [metadata, isLoadingMetadata,,,] = useGet(path);
+    const [ metadata, isLoadingMetadata,,, ] = useGet(path);
 
     // TODO use fallback, loader, error
-    const [codes, isLoadingCodes,,,] = useGet(codesPath);
+    const [ codes, isLoadingCodes,,, ] = useGet(codesPath);
 
-    const [show, setShow] = useState({none: true});
+    const [ show, setShow ] = useState({none: true});
 
     return (
-        <li style={{padding: '5px', width: '600px'}}
+        <li style={{ padding: '5px', width: '600px' }}
             tabIndex='0'
-            onKeyDown={(event) => {
+            onKeyDown={ (event) => {
                 switch (event.which) {
                     case keys.DOWN: {
                         event.preventDefault();
@@ -55,12 +55,11 @@ export const Classification = ({item = {}, includible}) => {
                     }
                     default: break;
                 }
-
             }}>
             <div style={{ display: 'flex' }}>
-                <div style={{width: '400px'}}>{ item?.name || metadata?.name }</div>
+                <div style={{ width: '400px' }}>{ item?.name || metadata?.name }</div>
 
-                {item.error &&
+                { item.error &&
                     <button onClick={() => setShow(prev => ({alert: !prev.alert}))}>
                         <Alert color='orange'/>
                     </button>
@@ -99,7 +98,7 @@ export const Classification = ({item = {}, includible}) => {
                                         data: item.urn
                                     });
                             } else {
-                                setShow(prev => ({cannot: !prev.cannot}));
+                                setShow(prev => ({ cannot: !prev.cannot }));
                             }
                         }}>
                             {!codes || codes?.codes?.length === 0
@@ -198,7 +197,7 @@ export const Codes = ({ codes = [] }) => {
                         }
 
                         { codes.map(code =>
-                            <CodeInfo key={ code.urn + code.name + draft.isChosenCode(code.urn) }
+                            <CodeInfo key={ code.urn + code.name + code.validFromInRequestedRange + (code.validToInRequestedRange || 'none') + draft.isChosenCode(code.urn) }
                                       item={ code }
                                       notes={ codesWithNotes.find(c => c.code === code.code)?.notes }
                                       isLoadingVersion={ isLoadingVersion }
