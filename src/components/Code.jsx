@@ -11,9 +11,9 @@ export const Code = ({ origin }) => {
 
     return (
         <Accordion
-            header={!origin?.name && isLoadingVersion
+            header={ !origin?.name && isLoadingVersion
                 ? <Spinner/>
-                : `${origin?.code || URN.toURL(origin).code || codeData?.code || '-'} ${origin?.name || codeData?.name || '-'}`}
+                : `${ origin?.code || URN.toURL(origin).code || codeData?.code || '-'} ${origin?.name || codeData?.name || '-'}` }
             subHeader={`${origin.rank}`}
         >
             <p><strong>{ t('Short name')} :</strong> {origin?.shortName || codeData?.shortName || '-'}</p>

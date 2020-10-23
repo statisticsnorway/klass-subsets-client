@@ -138,9 +138,9 @@ export const Classification = ({ item = {}, includible }) => {
                     codes={ codes?.codes?.map(code => ({
                     ...code,
                     classificationId: id,
-                    validFromInRequestedRange: draft.versionValidFrom,
-                    validToInRequestedRange: draft.versionValidUntil,
-                    urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
+                    validFromInRequestedRange: code.validFromInRequestedRange || draft.versionValidFrom,
+                    validToInRequestedRange: code.validToInRequestedRange || draft.versionValidUntil,
+                    urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}:encodedName:${encodeURI(code.name)}`
             }))}/>}
 
             { show.info

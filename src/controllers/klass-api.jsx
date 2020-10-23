@@ -8,7 +8,7 @@ export const URN = {
     // FIXME sanitize input - XSS is a threat!!!
     // For now it accepts letters, digits, % & # _ - . , etc
     // the code will be used to fetch data from the Klass API
-    codePattern: /urn:ssb:klass-api:classifications:[0-9]+:code:[-]?[\w]+/i,
+    codePattern: /urn:ssb:klass-api:classifications:[0-9]+:code:[-]?[\w]+:encodedName:[\w]+/i,
     classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
 
     isCodePattern(urn) {
@@ -31,10 +31,11 @@ export const URN = {
     // TESTME
     toURL(urn, from, to) {
         if (this.codePattern.test(urn)) {
-            const [,,,service,id,,code] = urn.split(':');
+            const [,,,service,id,,code,,encodedName] = urn.split(':');
 
             return {
                 code,
+                name: decodeURI(encodedName),
                 service,
                 classificationId: id,
                 classificationURN: `urn:ssb:klass-api:classifications:${ id }`,
@@ -98,7 +99,7 @@ export const URL = {
         const classificationPattern = /https:\/\/data.ssb.no\/api\/klass\/v1\/classifications\/[0-9]+/i;
 
         if (classificationPattern.test(url)) {
-            const [protocol,, domain, api, klass, version, service, id] = url.split('/');
+            const [ protocol,, domain, api, klass, version, service, id ] = url.split('/');
 
             return {
                 service,
@@ -174,62 +175,16 @@ export function useGet(url = null) {
     return [ data, isLoading, error, setPath ];
 }
 
-export function useCodeName(origin) {
-    const { code, classificationId, path, url } = URN.toURL(
-        origin?.urn,
-        origin?.validFromInRequestedRange,
-        origin?.validToInRequestedRange);
-
-    const [codeData, setCodeData] = useState({
-        ...origin,
-        code,
-        classificationId,
-        _links: {
-            self: {
-                href: url
-            }
-        },
-        error: null
-    });
-
-    const [targetCode, isLoadingTargetCode, errorTargetCode ] = useGet(origin?.name ? null : path);
-    useEffect(() => {
-        targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
-            return {
-                ...prevCodeData,
-                ...targetCode.codes[0]
-            };
-        });
-
-        targetCode?.error && setCodeData(prevCodeData => {
-            return {
-                ...prevCodeData,
-                ...targetCode?.error
-            };
-        });
-    }, [ targetCode ]);
-
-    useEffect(() => {
-        errorTargetCode && setCodeData(prevCodeData => {
-            return {
-                ...prevCodeData,
-                error: errorTargetCode.message
-            };
-        });
-    }, [ errorTargetCode ]);
-
-    return { codeData, isLoadingTargetCode };
-}
-
 export function useCode(origin) {
-    const {code, classificationId, path, url} = URN.toURL(
+    const { code, name, classificationId, path, url } = URN.toURL(
         origin?.urn,
         origin?.validFromInRequestedRange,
         origin?.validToInRequestedRange);
 
-    const [codeData, setCodeData] = useState({
+    const [ codeData, setCodeData ] = useState({
         ...origin,
         code,
+        name,
         classificationId,
         _links: {
             self: {
@@ -239,14 +194,31 @@ export function useCode(origin) {
     });
 
     // FIXME handle errors
-    const [targetCode] = useGet(origin?.name ? null : path);
+    const [ targetCode ] = useGet(origin?.name ? null : path);
     useEffect(() => {
-        targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
-            return {...prevCodeData, ...targetCode.codes[0]};
-        });
-    }, [targetCode]);
+        if (targetCode?.codes?.length > 0) {
 
-    const {metadata, codesWithNotes, isLoadingVersion} = useClassification(classificationId);
+
+
+            // TODO: do better
+            const matchedName = targetCode.codes.filter(c => c.name === name);
+            console.log({matchedName});
+            if (matchedName.length > 1) {
+                matchedName.forEach(c => {
+                    matchedName[0].validFromInRequestedRange += c.validFromInRequestedRange;
+                    matchedName[0].validToInRequestedRange += c.validToInRequestedRange;
+                })
+            }
+
+
+
+            setCodeData(prevCodeData => {
+                return {...prevCodeData, ...matchedName[0]};
+            });
+        }
+    }, [ targetCode ]);
+
+    const { metadata, codesWithNotes, isLoadingVersion } = useClassification(classificationId);
 
     useEffect(() => {
         metadata?.name && setCodeData(prevCodeData => {
@@ -271,11 +243,11 @@ export function useCode(origin) {
 }
 
 export function useClassification(id = null) {
-    const [metadata, setMetadata] = useState({});
-    const [versions, setVersions] = useState([]);
-    const [codesWithNotes, setCodesWithNotes] = useState([]);
+    const [ metadata, setMetadata ] = useState({});
+    const [ versions, setVersions ] = useState([]);
+    const [ codesWithNotes, setCodesWithNotes ] = useState([]);
 
-    const [info] = useGet(
+    const [ info ] = useGet(
         !id || metadata.versions?.length > 0 ? null : `classifications/${id}`);
     useEffect(() => {
         info && setMetadata(info);
@@ -283,10 +255,10 @@ export function useClassification(id = null) {
 
     useEffect(() =>
             setVersions(metadata.versions),
-        [metadata, setVersions]); // force update: all codes have to be fetch again
+        [ metadata, setVersions ]); // force update: all codes have to be fetch again
 
     // FIXME handle errors
-    const [version, isLoadingVersion, errorVersion, setVersionPath] = useGet();
+    const [ version, isLoadingVersion, errorVersion, setVersionPath ] = useGet();
     // Fetch codes for one of the version without codes (codes are undefined)
     // If codes defined as empty array, the attempt to fetch the codes will not fire
     // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
@@ -368,7 +340,7 @@ export function useClassification(id = null) {
             }
             return notes;
         }
-    }, [version, setCodesWithNotes]);
+    }, [ version, setCodesWithNotes ]);
 
     /*
         useEffect(() => console.debug({metadata}), [metadata]);
