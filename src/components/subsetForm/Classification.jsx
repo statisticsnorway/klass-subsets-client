@@ -175,7 +175,7 @@ export const Codes = ({ codes = [] }) => {
             <div className='ssb-checkbox-group'>
                 <div className='checkbox-group-header'>{ t('Codes') }
                     { draft.versionValidFrom || draft.versionValidUntil
-                        ? `: ${ t('from')} ${ draft.versionValidFrom || '...' } ${t('to')} ${ draft.versionValidUntil || '...' }`
+                        ? `: ${ t('from')} ${ draft.versionValidFrom || '...' } ${ t('to') } ${ draft.versionValidUntil || '...' }`
                         : `. ${ t('Period is not set') }`
                     }</div>
                 { !codes || codes.length === 0
@@ -217,6 +217,7 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
     const { draft, dispatch } = subset;
 
     const [showNotes, setShowNotes] = useState(false);
+    const [showInfo, setShowInfo] = useState(false);
 
     return (
         <>
@@ -249,6 +250,9 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                         </label>
                     </div>
                 }
+                <button onClick={() => setShowInfo(prevShowInfo => (!prevShowInfo))}>
+                    <Info color={'#2D6975'}/>
+                </button>
                 <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
                     { isLoadingVersion
                         ? <Spinner />
@@ -256,8 +260,12 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                 </button>
             </div>
 
+            { showInfo && <Paragraph>
+                ValidInRange: { item.validFromInRequestedRange } - { item.validToInRequestedRange }
+            </Paragraph>
+            }
+
             { showNotes && <div>
-                <Paragraph>ValidInRange: { item.validFromInRequestedRange } - { item.validToInRequestedRange }</Paragraph>
                 { notes.length === 0
                     ? <Text>{ t('No notes found.') }</Text>
                     : notes.map((note, i) => (
@@ -284,7 +292,7 @@ export const CodelistInfo = ({id, info}) => {
     const {t} = useTranslation();
 
     return (
-        <div style={{backgroundColor: '#eff4f5'}}
+        <div style={{ backgroundColor: '#eff4f5' }}
              className='panel'>
             <Title size={4}>{t('Code list info')}</Title>
             <Paragraph><strong>Id:</strong> {id}</Paragraph>
@@ -295,7 +303,7 @@ export const CodelistInfo = ({id, info}) => {
                     <th>{t('To')}</th>
                     <th>{t('Version')}</th>
                 </tr>
-                {info.versions
+                { info.versions
                     .sort((a, b) => (a.validFrom > b.validFrom ? -1 : 0))
                     .map((version, i) => (
                     <tr key={i}>
@@ -306,7 +314,7 @@ export const CodelistInfo = ({id, info}) => {
                 ))}
                 </tbody>
             </table>
-            <Paragraph><strong>{t('Description')}:</strong> { info.description || '-' }</Paragraph>
+            <Paragraph><strong>{ t('Description') }:</strong> { info.description || '-' }</Paragraph>
         </div>
     );
 };
