@@ -10,7 +10,7 @@ import {
     XSquare,
     RefreshCw
 } from 'react-feather';
-import { Paragraph, Text, Title } from '@statisticsnorway/ssb-component-library';
+import {Accordion, Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import { useGet, URN, useClassification } from '../../controllers/klass-api';
 import '../../css/panel.css';
 import { useTranslation } from 'react-i18next';
@@ -260,9 +260,14 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                 </button>
             </div>
 
-            { showInfo && <Paragraph>
-                ValidInRange: { item.validFromInRequestedRange } - { item.validToInRequestedRange }
-            </Paragraph>
+            { showInfo && <div>
+                <p><strong>{ t('Short name')} :</strong> { item?.shortName || '-' }</p>
+                <p><strong>{ t('Valid') }:</strong> { item.validFromInRequestedRange } - { item.validToInRequestedRange|| '...' }</p>
+                <p><strong>{ t('Level') }:</strong> {item?.level}</p>
+                { item?.parentCode && <p><strong>{ t('Parent code') }:</strong> { item?.parentCode }</p>}
+                <p><strong>{ t('URL') }:</strong> { item?._links?.self?.href || '-' }</p>
+                <p><strong>{ t('URN')}:</strong> { item.urn || '-' }</p>
+             </div>
             }
 
             { showNotes && <div>
@@ -278,7 +283,7 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                                  dangerouslySetInnerHTML={{ __html: replaceRef(note.note) }}
                             />
                             <Text small>
-                                ({t('valid')}: { note.validFrom || '...'} - { note.validTo || '...' })
+                                ({ t('Valid') }: { note.validFrom || '...'} - { note.validTo || '...' })
                             </Text>
                         </div>))
                 }
