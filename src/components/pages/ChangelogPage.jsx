@@ -10,7 +10,7 @@ export default function ChangelogPage() {
 
    return (
        <div className='page'>
-           <Title size={2}> {t('Feedback') }</Title>
+           <Title size={2}>{ t('Feedback') }</Title>
 
            <Paragraph>{ t('The application is under development.') }</Paragraph>
            <Paragraph>{ t('You can report an issue or suggest an improvement here') } <a
