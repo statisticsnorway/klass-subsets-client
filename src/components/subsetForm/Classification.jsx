@@ -156,48 +156,49 @@ export const Codes = ({ codes = [] }) => {
 
     // DOCME
     // FIXME: magic number 35
-    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(35, codes.length)));
+    const [ renderedCodes, setRenderedCodes ] = useState(codes.slice(0, Math.min(35, codes.length)));
     useEffect(() => {
         if (renderedCodes?.length < codes.length){
             setTimeout(() => setRenderedCodes(codes),0);
         }
     });
 
-    const {codesWithNotes, isLoadingVersion} = useClassification(codes?.length > 0 && codes[0].classificationId);
-
-    const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
-    const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
+    const { codesWithNotes, isLoadingVersion } = useClassification(codes?.length > 0 && {
+        classificationId: codes[0].classificationId,
+        versionValidFrom: draft.versionValidFrom,
+        versionValidUntil: draft.versionValidUntil
+    });
 
     return (
         <div style={{ backgroundColor: 'AliceBlue' }}
              className='panel'>
             <div className='ssb-checkbox-group'>
-                <div className='checkbox-group-header'>{ t('Codes')}
-                    {from || to
-                        ? `: ${ t('from')} ${ from || '...' } ${t('to')} ${ to || '...' }`
+                <div className='checkbox-group-header'>{ t('Codes') }
+                    { draft.versionValidFrom || draft.versionValidUntil
+                        ? `: ${ t('from')} ${ draft.versionValidFrom || '...' } ${t('to')} ${ draft.versionValidUntil || '...' }`
                         : `. ${ t('Period is not set') }`
                     }</div>
                 { !codes || codes.length === 0
-                    ? <Text>{t('No codes found for this validity period')}</Text>
+                    ? <Text>{ t('No codes found for this validity period') }</Text>
                     : <>{ !draft.isPublished &&
                             <div style={{padding: '5px'}}>
                                 <button onClick={() => dispatch({
                                     action: 'codes_include',
                                     data: codes
                                 })}
-                                >{t('All')}
+                                >{ t('All') }
                                 </button>
-                                <button onClick={() => dispatch({
+                                <button onClick={ () => dispatch({
                                     action: 'codes_exclude',
                                     data: codes
                                 })}
-                                >{t('None')}
+                                >{ t('None') }
                                 </button>
                             </div>
                         }
 
                         { codes.map(code =>
-                            <CodeInfo key={ code.urn + code.name + code.validFromInRequestedRange + (code.validToInRequestedRange || 'none') + draft.isChosenCode(code.urn) }
+                            <CodeInfo key={ code.urn + code.name + code.validFromInRequestedRange }
                                       item={ code }
                                       notes={ codesWithNotes.find(c => c.code === code.code)?.notes }
                                       isLoadingVersion={ isLoadingVersion }
@@ -255,8 +256,8 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                 </button>
             </div>
 
-            {showNotes && <div>
-                {notes.length === 0
+            { showNotes && <div>
+                { notes.length === 0
                     ? <Text>{ t('No notes found.') }</Text>
                     : notes.map((note, i) => (
                         <div key={i} style={{ padding: '10px 50px 20px 50px' }}>
@@ -268,9 +269,10 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                                  dangerouslySetInnerHTML={{ __html: replaceRef(note.note) }}
                             />
                             <Text small>
-                                ({t('valid')}: { note.validFrom || '...'} - {note.validTo || '...' })
+                                ({t('valid')}: { note.validFrom || '...'} - { note.validTo || '...' })
                             </Text>
-                        </div>))}
+                        </div>))
+                }
             </div>
             }
         </>
