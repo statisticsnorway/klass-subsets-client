@@ -36,7 +36,7 @@ export const Classification = ({ item = {}, includible }) => {
     // TODO use fallback, loader, error
     const [ codes, isLoadingCodes,,, ] = useGet(codesPath);
 
-    const [ show, setShow ] = useState({none: true});
+    const [ show, setShow ] = useState({ none: true } );
 
     return (
         <li style={{ padding: '5px', width: '600px' }}
@@ -216,8 +216,7 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
 
-    const [showNotes, setShowNotes] = useState(false);
-    const [showInfo, setShowInfo] = useState(false);
+    const [ show, setShow ] = useState({ none: true } );
 
     return (
         <>
@@ -227,7 +226,7 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                         <Text style={{ margin: '5px' }}><strong>{ item.code }</strong> { item.name }</Text>
                       </div>
                     : <div className='ssb-checkbox'>
-                        <input id={item.urn}
+                        <input id={ item.urn }
                                className='checkbox'
                                type='checkbox' name='include'
                                checked={ draft.isChosenCode(item.urn) }
@@ -250,17 +249,17 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                         </label>
                     </div>
                 }
-                <button onClick={() => setShowInfo(prevShowInfo => (!prevShowInfo))}>
+                <button onClick={() => setShow(prev => ({ info: !prev.codes }))}>
                     <Info color={'#2D6975'}/>
                 </button>
-                <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
+                <button onClick={() => setShow(prev => ({ notes: !prev.codes }))}>
                     { isLoadingVersion
                         ? <Spinner />
                         : <MessageSquare color={ notes.length > 0 ? '#62919A' : '#C3DCDC' }/>}
                 </button>
             </div>
 
-            { showInfo && <div>
+            { show.info && <div>
                 <p><strong>{ t('Short name')} :</strong> { item?.shortName || '-' }</p>
                 <p><strong>{ t('Valid') }:</strong> { item.validFromInRequestedRange } - { item.validToInRequestedRange|| '...' }</p>
                 <p><strong>{ t('Level') }:</strong> {item?.level}</p>
@@ -270,9 +269,9 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
              </div>
             }
 
-            { showNotes && <div>
+            { show.notes && <div>
                 { notes.length === 0
-                    ? <Text>{ t('No notes found.') }</Text>
+                    ? <Paragraph>{ t('No notes found.') }</Paragraph>
                     : notes.map((note, i) => (
                         <div key={i} style={{ padding: '10px 50px 20px 50px' }}>
                             <Title size={4}>{ t('Notes') }</Title>
