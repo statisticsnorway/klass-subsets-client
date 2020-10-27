@@ -69,7 +69,7 @@ export const Classification = ({ item = {}, includible }) => {
                     setShow(prev => ({ codes: !prev.codes }))}>
                     { isLoadingCodes
                         ? <Spinner/>
-                        : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
+                        : <ListIcon color={ codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC' } />
                     }
                 </button>
 
@@ -87,7 +87,7 @@ export const Classification = ({ item = {}, includible }) => {
                         ?
                         <button onClick={() => {
                             if (draft.hasOrigin(item.urn) || codes?.codes?.length > 0) {
-                                setShow({none: true});
+                                setShow({ none: true });
                                 draft.hasOrigin(item.urn)
                                     ? dispatch({
                                         action: 'codelist_exclude',
@@ -109,7 +109,7 @@ export const Classification = ({ item = {}, includible }) => {
                         </button>
                         :
                         <button onClick={() => {
-                            setShow({none: true});
+                            setShow({ none: true });
                             dispatch({
                                 action: 'codelist_exclude',
                                 data: item.urn
@@ -249,10 +249,10 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                         </label>
                     </div>
                 }
-                <button onClick={() => setShow(prev => ({ info: !prev.codes }))}>
+                <button onClick={() => setShow(prev => ({ info: !prev.info }))}>
                     <Info color={'#2D6975'}/>
                 </button>
-                <button onClick={() => setShow(prev => ({ notes: !prev.codes }))}>
+                <button onClick={() => setShow(prev => ({ notes: !prev.notes }))}>
                     { isLoadingVersion
                         ? <Spinner />
                         : <MessageSquare color={ notes.length > 0 ? '#62919A' : '#C3DCDC' }/>}
@@ -264,8 +264,8 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                 <p><strong>{ t('Valid') }:</strong> { item.validFromInRequestedRange } - { item.validToInRequestedRange|| '...' }</p>
                 <p><strong>{ t('Level') }:</strong> {item?.level}</p>
                 { item?.parentCode && <p><strong>{ t('Parent code') }:</strong> { item?.parentCode }</p>}
-                <p><strong>{ t('URL') }:</strong> { item?._links?.self?.href || '-' }</p>
                 <p><strong>{ t('URN')}:</strong> { item.urn || '-' }</p>
+                <p><strong>{ t('URL') }:</strong> { item?._links?.self?.href || '-' }</p>
              </div>
             }
 
