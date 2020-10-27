@@ -31,16 +31,16 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
           reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
-      - task: SonarQubePrepare@4
-        inputs:
-          SonarQube: 'bipSonarQube'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: $(Build.DefinitionName)
-          cliProjectName: $(Build.Repository.Name)
-          cliSources: '.'
-      - task: SonarQubeAnalyze@4
-      - task: SonarQubePublish@4
+#       - task: SonarQubePrepare@4
+#         inputs:
+#           SonarQube: 'bipSonarQube'
+#           scannerMode: 'CLI'
+#           configMode: 'manual'
+#           cliProjectKey: $(Build.DefinitionName)
+#           cliProjectName: $(Build.Repository.Name)
+#           cliSources: '.'
+#       - task: SonarQubeAnalyze@4
+#       - task: SonarQubePublish@4
       - task: Docker@2
         displayName: 'Docker Build'
         inputs:
