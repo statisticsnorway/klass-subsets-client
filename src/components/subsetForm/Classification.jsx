@@ -250,13 +250,14 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                     </div>
                 }
                 <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
-                    {isLoadingVersion
+                    { isLoadingVersion
                         ? <Spinner />
                         : <MessageSquare color={ notes.length > 0 ? '#62919A' : '#C3DCDC' }/>}
                 </button>
             </div>
 
             { showNotes && <div>
+                <Paragraph>ValidInRange: { item.validFromInRequestedRange } - { item.validToInRequestedRange }</Paragraph>
                 { notes.length === 0
                     ? <Text>{ t('No notes found.') }</Text>
                     : notes.map((note, i) => (
