@@ -5,7 +5,7 @@ steps:
   - name: install
     image: node:current-alpine
     commands:
-      - yarn install
+      - yarn install --audit
     when:
       event:
         - pull_request
