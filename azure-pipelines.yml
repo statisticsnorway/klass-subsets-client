@@ -14,7 +14,7 @@ jobs:
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
       - script: |
-          npm install
+          npm install --only=prod
           CI=true npm test -- --coverage --watchAll=false
         displayName: 'Tests'
   - job: mergeToMaster
@@ -23,7 +23,7 @@ jobs:
     steps:
       # Treating warnings as errors because process.env.CI = true.
       - script: |
-          npm install
+          npm install --only=prod
           CI=true npm test -- --coverage --watchAll=false
           CI=false npm run build 
         displayName: 'Build'
