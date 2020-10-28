@@ -33,6 +33,9 @@ jobs:
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
           reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
       - task: SonarQubePrepare@4
+      # Task condition: We have community edition of SonarQube which only scans master-branch so
+      # it makes no sense running this tag when branch is other than master
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
         inputs:
           SonarQube: 'bipSonarQube-Klass'
           scannerMode: 'CLI'
@@ -41,7 +44,13 @@ jobs:
           cliProjectName: $(Build.Repository.Name)
           cliSources: '.'
       - task: SonarQubeAnalyze@4
+      # Task condition: We have community edition of SonarQube which only scans master-branch so
+      # it makes no sense running this tag when branch is other than master
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       - task: SonarQubePublish@4
+      # Task condition: We have community edition of SonarQube which only scans master-branch so
+      # it makes no sense running this tag when branch is other than master
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       - task: Docker@2
         displayName: 'Docker Build'
         inputs:
