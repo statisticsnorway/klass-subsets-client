@@ -6,7 +6,7 @@ parameters:
   - name: 'gcrSpace'
     default: 'eu.gcr.io'
   - name: 'gcrName'
-    default: 'prod-bip/ssb/klass'
+    default: 'prod-bip/klass'
 
 jobs:
   - job: pullRequest
@@ -48,7 +48,7 @@ jobs:
           repository: '${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'build'
           Dockerfile: 'Dockerfile'
-          tags: 'imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+          tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: Docker@2
         displayName: 'Docker Login'
         inputs:
@@ -60,7 +60,7 @@ jobs:
           repository: '${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'push'
           containerRegistry: gcrServiceConnection
-          tags: 'imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+          tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: DownloadSecureFile@1
         name: gcrJsonKey
         inputs:
