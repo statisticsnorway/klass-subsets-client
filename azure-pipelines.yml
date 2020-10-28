@@ -73,12 +73,12 @@ jobs:
           projectId: 'prod-bip'
           imageHost: 'https://eu.gcr.io/'
           image: '${{ parameters.gcrName }}/${{ parameters.appName }}'
-          imageTag: 'imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+          imageTag: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
           timeBetweenRetries: '10000'
       - script: |
           cat $(gcrJsonKey.secureFilePath) | docker login -u _json_key --password-stdin https://eu.gcr.io/
-          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:${{ parameters.imageTag }}
-          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
+          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:${{ parameters.imageTag }}
+          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
           docker push ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}
         displayName: 'Retag Image'
         condition: succeeded()
