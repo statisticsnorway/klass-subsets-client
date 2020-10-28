@@ -34,7 +34,7 @@ jobs:
           reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
       - task: SonarQubePrepare@4
         inputs:
-          SonarQube: 'bipSonarQube'
+          SonarQube: 'bipSonarQube-Klass'
           scannerMode: 'CLI'
           configMode: 'manual'
           cliProjectKey: $(Build.DefinitionName)
