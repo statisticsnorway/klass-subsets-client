@@ -6,7 +6,7 @@ parameters:
   - name: 'gcrSpace'
     default: 'eu.gcr.io'
   - name: 'gcrName'
-    default: 'prod-bip/klass'
+    default: 'prod-bip/ssb/klass'
 
 jobs:
   - job: pullRequest
