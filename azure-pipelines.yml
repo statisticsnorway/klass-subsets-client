@@ -15,7 +15,7 @@ jobs:
     steps:
       - script: |
           npm install --only=prod
-          CI=true npm test -- --coverage --watchAll=false
+          CI=true npm test -- --coverage --watchAll=false --ci
         displayName: 'Tests'
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
@@ -24,14 +24,20 @@ jobs:
       # Treating warnings as errors because process.env.CI = true.
       - script: |
           npm install --only=prod
-          CI=true npm test -- --coverage --watchAll=false
-          CI=false npm run build 
+          CI=true npm test -- --coverage --watchAll=false --ci
+          CI=false npm run build
         displayName: 'Build'
+      - task: PublishTestResults@2
+        displayName: "Publish test results"
+        inputs:
+          testResultsFormat: "JUnit"
+          testResultsFiles: "$(Build.SourcesDirectory)/test-report.xml"
       - task: PublishCodeCoverageResults@1
+        displayName: "Publish coverage results"
         inputs:
           codeCoverageTool: Cobertura
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
-          reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+          summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
+          reportDirectory: '$(Build.SourcesDirectory)/src'
       - task: SonarQubePrepare@4
       # Task condition: We have community edition of SonarQube which only scans master-branch so
       # it makes no sense running this tag when branch is other than master
