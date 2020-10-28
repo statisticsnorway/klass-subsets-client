@@ -14,8 +14,8 @@ jobs:
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
       - script: |
-          yarn
-          CI=false yarn coverage
+          npm install
+          CI=true npm test -- --coverage --watchAll=false
         displayName: 'Tests'
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
@@ -23,9 +23,9 @@ jobs:
     steps:
       # Treating warnings as errors because process.env.CI = true.
       - script: |
-          yarn
-          CI=false yarn coverage
-          CI=false yarn build 
+          npm install
+          CI=true npm test -- --coverage --watchAll=false
+          CI=false npm run build 
         displayName: 'Build'
       - task: PublishCodeCoverageResults@1
         inputs:
