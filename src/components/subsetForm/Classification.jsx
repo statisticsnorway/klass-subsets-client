@@ -10,7 +10,7 @@ import {
     XSquare,
     RefreshCw
 } from 'react-feather';
-import { Paragraph, Text, Title } from '@statisticsnorway/ssb-component-library';
+import {Accordion, Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import { useGet, URN, useClassification } from '../../controllers/klass-api';
 import '../../css/panel.css';
 import { useTranslation } from 'react-i18next';
@@ -19,29 +19,29 @@ import Spinner from '../Spinner';
 import keys from '../../utils/keys';
 import { AppContext } from '../../controllers/context';
 
-export const Classification = ({item = {}, includible}) => {
+export const Classification = ({ item = {}, includible }) => {
     const { t } = useTranslation();
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
 
-    const {id, path, codesPath} = URN.toURL(
+    const { id, path, codesPath } = URN.toURL(
         item?.urn,
         draft.versionValidFrom,
         draft.versionValidUntil
     );
 
     // TODO use fallback, loader, error
-    const [metadata, isLoadingMetadata,,,] = useGet(path);
+    const [ metadata, isLoadingMetadata,,, ] = useGet(path);
 
     // TODO use fallback, loader, error
-    const [codes, isLoadingCodes,,,] = useGet(codesPath);
+    const [ codes, isLoadingCodes,,, ] = useGet(codesPath);
 
-    const [show, setShow] = useState({none: true});
+    const [ show, setShow ] = useState({ none: true } );
 
     return (
-        <li style={{padding: '5px', width: '600px'}}
+        <li style={{ padding: '5px', width: '600px' }}
             tabIndex='0'
-            onKeyDown={(event) => {
+            onKeyDown={ (event) => {
                 switch (event.which) {
                     case keys.DOWN: {
                         event.preventDefault();
@@ -55,12 +55,11 @@ export const Classification = ({item = {}, includible}) => {
                     }
                     default: break;
                 }
-
             }}>
             <div style={{ display: 'flex' }}>
-                <div style={{width: '400px'}}>{ item?.name || metadata?.name }</div>
+                <div style={{ width: '400px' }}>{ item?.name || metadata?.name }</div>
 
-                {item.error &&
+                { item.error &&
                     <button onClick={() => setShow(prev => ({alert: !prev.alert}))}>
                         <Alert color='orange'/>
                     </button>
@@ -70,7 +69,7 @@ export const Classification = ({item = {}, includible}) => {
                     setShow(prev => ({ codes: !prev.codes }))}>
                     { isLoadingCodes
                         ? <Spinner/>
-                        : <ListIcon color={codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC'} />
+                        : <ListIcon color={ codes?.codes?.length > 0 ? '#3396D2' : '#C3DCDC' } />
                     }
                 </button>
 
@@ -88,7 +87,7 @@ export const Classification = ({item = {}, includible}) => {
                         ?
                         <button onClick={() => {
                             if (draft.hasOrigin(item.urn) || codes?.codes?.length > 0) {
-                                setShow({none: true});
+                                setShow({ none: true });
                                 draft.hasOrigin(item.urn)
                                     ? dispatch({
                                         action: 'codelist_exclude',
@@ -99,7 +98,7 @@ export const Classification = ({item = {}, includible}) => {
                                         data: item.urn
                                     });
                             } else {
-                                setShow(prev => ({cannot: !prev.cannot}));
+                                setShow(prev => ({ cannot: !prev.cannot }));
                             }
                         }}>
                             {!codes || codes?.codes?.length === 0
@@ -110,7 +109,7 @@ export const Classification = ({item = {}, includible}) => {
                         </button>
                         :
                         <button onClick={() => {
-                            setShow({none: true});
+                            setShow({ none: true });
                             dispatch({
                                 action: 'codelist_exclude',
                                 data: item.urn
@@ -139,9 +138,9 @@ export const Classification = ({item = {}, includible}) => {
                     codes={ codes?.codes?.map(code => ({
                     ...code,
                     classificationId: id,
-                    validFromInRequestedRange: draft.versionValidFrom,
-                    validToInRequestedRange: draft.versionValidUntil,
-                    urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}`
+                    validFromInRequestedRange: code.validFromInRequestedRange || draft.versionValidFrom,
+                    validToInRequestedRange: code.validToInRequestedRange || draft.versionValidUntil,
+                    urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}:encodedName:${encodeURI(code.name)}`
             }))}/>}
 
             { show.info
@@ -157,48 +156,49 @@ export const Codes = ({ codes = [] }) => {
 
     // DOCME
     // FIXME: magic number 35
-    const [renderedCodes, setRenderedCodes] = useState(codes.slice(0, Math.min(35, codes.length)));
+    const [ renderedCodes, setRenderedCodes ] = useState(codes.slice(0, Math.min(35, codes.length)));
     useEffect(() => {
         if (renderedCodes?.length < codes.length){
             setTimeout(() => setRenderedCodes(codes),0);
         }
     });
 
-    const {codesWithNotes, isLoadingVersion} = useClassification(codes?.length > 0 && codes[0].classificationId);
-
-    const from = codes?.length > 0 ? codes[0].validFromInRequestedRange : null;
-    const to = codes?.length > 0 ? codes[0].validToInRequestedRange : null;
+    const { codesWithNotes, isLoadingVersion } = useClassification(codes?.length > 0 && {
+        classificationId: codes[0].classificationId,
+        versionValidFrom: draft.versionValidFrom,
+        versionValidUntil: draft.versionValidUntil
+    });
 
     return (
         <div style={{ backgroundColor: 'AliceBlue' }}
              className='panel'>
             <div className='ssb-checkbox-group'>
-                <div className='checkbox-group-header'>{ t('Codes')}
-                    {from || to
-                        ? `: ${ t('from')} ${ from || '...' } ${t('to')} ${ to || '...' }`
+                <div className='checkbox-group-header'>{ t('Codes') }
+                    { draft.versionValidFrom || draft.versionValidUntil
+                        ? `: ${ t('from')} ${ draft.versionValidFrom || '...' } ${ t('to') } ${ draft.versionValidUntil || '...' }`
                         : `. ${ t('Period is not set') }`
                     }</div>
                 { !codes || codes.length === 0
-                    ? <Text>{t('No codes found for this validity period')}</Text>
+                    ? <Text>{ t('No codes found for this validity period') }</Text>
                     : <>{ !draft.isPublished &&
                             <div style={{padding: '5px'}}>
                                 <button onClick={() => dispatch({
                                     action: 'codes_include',
                                     data: codes
                                 })}
-                                >{t('All')}
+                                >{ t('All') }
                                 </button>
-                                <button onClick={() => dispatch({
+                                <button onClick={ () => dispatch({
                                     action: 'codes_exclude',
                                     data: codes
                                 })}
-                                >{t('None')}
+                                >{ t('None') }
                                 </button>
                             </div>
                         }
 
                         { codes.map(code =>
-                            <CodeInfo key={ code.urn + code.name + draft.isChosenCode(code.urn) }
+                            <CodeInfo key={ code.urn + code.name + code.validFromInRequestedRange }
                                       item={ code }
                                       notes={ codesWithNotes.find(c => c.code === code.code)?.notes }
                                       isLoadingVersion={ isLoadingVersion }
@@ -216,7 +216,7 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
     const { subset } = useContext(AppContext);
     const { draft, dispatch } = subset;
 
-    const [showNotes, setShowNotes] = useState(false);
+    const [ show, setShow ] = useState({ none: true } );
 
     return (
         <>
@@ -226,7 +226,7 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                         <Text style={{ margin: '5px' }}><strong>{ item.code }</strong> { item.name }</Text>
                       </div>
                     : <div className='ssb-checkbox'>
-                        <input id={item.urn}
+                        <input id={ item.urn }
                                className='checkbox'
                                type='checkbox' name='include'
                                checked={ draft.isChosenCode(item.urn) }
@@ -249,16 +249,29 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                         </label>
                     </div>
                 }
-                <button onClick={() => setShowNotes(prevShowNotes => (!prevShowNotes))}>
-                    {isLoadingVersion
+                <button onClick={() => setShow(prev => ({ info: !prev.info }))}>
+                    <Info color={'#2D6975'}/>
+                </button>
+                <button onClick={() => setShow(prev => ({ notes: !prev.notes }))}>
+                    { isLoadingVersion
                         ? <Spinner />
                         : <MessageSquare color={ notes.length > 0 ? '#62919A' : '#C3DCDC' }/>}
                 </button>
             </div>
 
-            {showNotes && <div>
-                {notes.length === 0
-                    ? <Text>{ t('No notes found.') }</Text>
+            { show.info && <div>
+                <p><strong>{ t('Short name')} :</strong> { item?.shortName || '-' }</p>
+                <p><strong>{ t('Valid') }:</strong> { item.validFromInRequestedRange } - { item.validToInRequestedRange|| '...' }</p>
+                <p><strong>{ t('Level') }:</strong> {item?.level}</p>
+                { item?.parentCode && <p><strong>{ t('Parent code') }:</strong> { item?.parentCode }</p>}
+                <p><strong>{ t('URN')}:</strong> { item.urn || '-' }</p>
+                <p><strong>{ t('URL') }:</strong> { item?._links?.self?.href || '-' }</p>
+             </div>
+            }
+
+            { show.notes && <div>
+                { notes.length === 0
+                    ? <Paragraph>{ t('No notes found.') }</Paragraph>
                     : notes.map((note, i) => (
                         <div key={i} style={{ padding: '10px 50px 20px 50px' }}>
                             <Title size={4}>{ t('Notes') }</Title>
@@ -269,9 +282,10 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
                                  dangerouslySetInnerHTML={{ __html: replaceRef(note.note) }}
                             />
                             <Text small>
-                                ({t('valid')}: { note.validFrom || '...'} - {note.validTo || '...' })
+                                ({ t('Valid') }: { note.validFrom || '...'} - { note.validTo || '...' })
                             </Text>
-                        </div>))}
+                        </div>))
+                }
             </div>
             }
         </>
@@ -282,7 +296,7 @@ export const CodelistInfo = ({id, info}) => {
     const {t} = useTranslation();
 
     return (
-        <div style={{backgroundColor: '#eff4f5'}}
+        <div style={{ backgroundColor: '#eff4f5' }}
              className='panel'>
             <Title size={4}>{t('Code list info')}</Title>
             <Paragraph><strong>Id:</strong> {id}</Paragraph>
@@ -293,7 +307,7 @@ export const CodelistInfo = ({id, info}) => {
                     <th>{t('To')}</th>
                     <th>{t('Version')}</th>
                 </tr>
-                {info.versions
+                { info.versions
                     .sort((a, b) => (a.validFrom > b.validFrom ? -1 : 0))
                     .map((version, i) => (
                     <tr key={i}>
@@ -304,7 +318,7 @@ export const CodelistInfo = ({id, info}) => {
                 ))}
                 </tbody>
             </table>
-            <Paragraph><strong>{t('Description')}:</strong> { info.description || '-' }</Paragraph>
+            <Paragraph><strong>{ t('Description') }:</strong> { info.description || '-' }</Paragraph>
         </div>
     );
 };

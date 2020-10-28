@@ -10,7 +10,7 @@ export default function ChangelogPage() {
 
    return (
        <div className='page'>
-           <Title size={2}> {t('Feedback') }</Title>
+           <Title size={2}>{ t('Feedback') }</Title>
 
            <Paragraph>{ t('The application is under development.') }</Paragraph>
            <Paragraph>{ t('You can report an issue or suggest an improvement here') } <a
@@ -22,6 +22,10 @@ export default function ChangelogPage() {
            </Paragraph>
 
            <Title size={2}>{ t('Changelog') }</Title>
+
+           <Title size={4}>v0.5.8</Title>
+           <Paragraph>Fix for duplicate codes with same name (encodedName).</Paragraph>
+           <Paragraph>Info panel for each code on "Choose codes".</Paragraph>
 
            <Title size={4}>v0.5.7</Title>
            <Paragraph>Public access to subset form (subset editing), but not saving or publishing.</Paragraph>

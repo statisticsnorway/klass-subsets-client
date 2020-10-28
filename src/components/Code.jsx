@@ -11,9 +11,9 @@ export const Code = ({ origin }) => {
 
     return (
         <Accordion
-            header={!origin?.name && isLoadingVersion
+            header={ !origin?.name && isLoadingVersion
                 ? <Spinner/>
-                : `${origin?.code || URN.toURL(origin).code || codeData?.code || '-'} ${origin?.name || codeData?.name || '-'}`}
+                : `${ origin?.code || URN.toURL(origin).code || codeData?.code || '-'} ${origin?.name || codeData?.name || '-'}` }
             subHeader={`${origin.rank}`}
         >
             <p><strong>{ t('Short name')} :</strong> {origin?.shortName || codeData?.shortName || '-'}</p>
@@ -25,8 +25,8 @@ export const Code = ({ origin }) => {
             <p><strong>{ 'validToInRequestedRange' }:</strong> {origin?.validToInRequestedRange || codeData?.validToInRequestedRange || '-'}</p>
             <p><strong>{ t('Level') }:</strong> {origin?.level || codeData?.level}</p>
             {(origin?.parentCode || codeData?.parentCode) &&
-            <p><strong>{t('Parent code')}:</strong> {origin?.parentCode || codeData?.parentCode}</p>}
-            <div><strong>{t('Notes')}: </strong>
+            <p><strong>{ t('Parent code') }:</strong> {origin?.parentCode || codeData?.parentCode}</p>}
+            <div><strong>{ t('Notes') }: </strong>
             {isLoadingVersion
                 ? <Spinner/>
                 : !codeData?.notes
@@ -39,7 +39,7 @@ export const Code = ({ origin }) => {
                                 // FIXME: find another way
                                  dangerouslySetInnerHTML={ {__html: replaceRef(note.note) } } />
                             <Text small>
-                                {t('Note is valid for version')} «{note.versionName}» ({note.validFrom || '...'} - {note.validTo || '...'})</Text>
+                                { t('Note is valid for version') } «{note.versionName}» ({note.validFrom || '...'} - {note.validTo || '...'})</Text>
                         </div>))
             }</div>
         </Accordion>

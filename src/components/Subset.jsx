@@ -21,16 +21,16 @@ export const SubsetPreview = ({ subset }) => {
 
     return (
         <>
-            <Title size={2}>{subset.name[0]?.languageText || t('Subset has got no title yet')}</Title>
-            <Paragraph><strong>ID:</strong> {subset.id || '-'}</Paragraph>
-            <Paragraph><strong>{t('Subsets validity period')}</strong>
+            <Title size={2}>{ subset.name[0]?.languageText || t('Subset has got no title yet') }</Title>
+            <Paragraph><strong>ID:</strong> { subset.id || '-' }</Paragraph>
+            <Paragraph><strong>{ t('Subsets validity period') }</strong>
                 { subset?.validFrom || subset?.validUntil
                     ? `: ${ t('from') } ${ eu(subset?.validFrom) || '...' } ${
                         t('to')} ${ eu(subset?.validUntil) || '...' }`
                     : `. ${ t('Period is not set') }.`
                 }
             </Paragraph>
-            <Paragraph><strong>{t('Versions validity period')}</strong>
+            <Paragraph><strong>{ t('Versions validity period') }</strong>
                 { subset?.versionValidFrom || subset?.versionValidUntil
                     ? `: ${ t('from') } ${ eu(subset?.versionValidFrom) || '...' } ${
                         t('to')} ${ eu(subset?.versionValidUntil) || '...' }`
@@ -38,13 +38,13 @@ export const SubsetPreview = ({ subset }) => {
                 }
             </Paragraph>
 
-            <Paragraph>{subset.description[0]?.languageText || t('No description')}</Paragraph>
+            <Paragraph>{ subset.description[0]?.languageText || t('No description') }</Paragraph>
 
-            <Paragraph><strong>{t('Owner')}:</strong> {subset.createdBy || '-'}</Paragraph>
+            <Paragraph><strong>{ t('Owner') }:</strong> { subset.createdBy || '-' }</Paragraph>
 
-            <Paragraph><strong>{t('Subject')}:</strong> {subset.subject || '-'}</Paragraph>
+            <Paragraph><strong>{ t('Subject') }:</strong> { subset.subject || '-' }</Paragraph>
 
-            <Paragraph><strong>{t('Version')}:</strong> {subset.version || '-'}</Paragraph>
+            <Paragraph><strong>{ t('Version') }:</strong> { subset.version || '-' }</Paragraph>
 
             <Title size={3}>{t('Codes')}: </Title>
             { subset.codes

@@ -8,14 +8,14 @@ export const URN = {
     // FIXME sanitize input - XSS is a threat!!!
     // For now it accepts letters, digits, % & # _ - . , etc
     // the code will be used to fetch data from the Klass API
-    codePattern: /urn:ssb:klass-api:classifications:[0-9]+:code:[-]?[\w]+/i,
+    codePattern: /urn:ssb:klass-api:classifications:[0-9]+:code:[\w-.]+:encodedName:[\w%-,.]+/i,
     classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
 
     isCodePattern(urn) {
         if (!urn) return false;
 
         if (!this.codePattern.test(urn)) {
-            console.warn('Unexpected code URN pattern', urn);
+            console.warn('isCodePattern: Unexpected code URN pattern', urn);
         }
         return this.codePattern.test(urn);
     },
@@ -31,10 +31,11 @@ export const URN = {
     // TESTME
     toURL(urn, from, to) {
         if (this.codePattern.test(urn)) {
-            const [,,,service,id,,code] = urn.split(':');
+            const [,,,service,id,,code,,encodedName] = urn.split(':');
 
             return {
                 code,
+                name: decodeURI(encodedName),
                 service,
                 classificationId: id,
                 classificationURN: `urn:ssb:klass-api:classifications:${ id }`,
@@ -98,7 +99,7 @@ export const URL = {
         const classificationPattern = /https:\/\/data.ssb.no\/api\/klass\/v1\/classifications\/[0-9]+/i;
 
         if (classificationPattern.test(url)) {
-            const [protocol,, domain, api, klass, version, service, id] = url.split('/');
+            const [ protocol,, domain, api, klass, version, service, id ] = url.split('/');
 
             return {
                 service,
@@ -174,62 +175,16 @@ export function useGet(url = null) {
     return [ data, isLoading, error, setPath ];
 }
 
-export function useCodeName(origin) {
-    const { code, classificationId, path, url } = URN.toURL(
-        origin?.urn,
-        origin?.validFromInRequestedRange,
-        origin?.validToInRequestedRange);
-
-    const [codeData, setCodeData] = useState({
-        ...origin,
-        code,
-        classificationId,
-        _links: {
-            self: {
-                href: url
-            }
-        },
-        error: null
-    });
-
-    const [targetCode, isLoadingTargetCode, errorTargetCode ] = useGet(origin?.name ? null : path);
-    useEffect(() => {
-        targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
-            return {
-                ...prevCodeData,
-                ...targetCode.codes[0]
-            };
-        });
-
-        targetCode?.error && setCodeData(prevCodeData => {
-            return {
-                ...prevCodeData,
-                ...targetCode?.error
-            };
-        });
-    }, [ targetCode ]);
-
-    useEffect(() => {
-        errorTargetCode && setCodeData(prevCodeData => {
-            return {
-                ...prevCodeData,
-                error: errorTargetCode.message
-            };
-        });
-    }, [ errorTargetCode ]);
-
-    return { codeData, isLoadingTargetCode };
-}
-
 export function useCode(origin) {
-    const {code, classificationId, path, url} = URN.toURL(
+    const { code, name, classificationId, path, url } = URN.toURL(
         origin?.urn,
         origin?.validFromInRequestedRange,
         origin?.validToInRequestedRange);
 
-    const [codeData, setCodeData] = useState({
+    const [ codeData, setCodeData ] = useState({
         ...origin,
         code,
+        name,
         classificationId,
         _links: {
             self: {
@@ -239,14 +194,31 @@ export function useCode(origin) {
     });
 
     // FIXME handle errors
-    const [targetCode] = useGet(origin?.name ? null : path);
+    const [ targetCode ] = useGet(origin?.name ? null : path);
     useEffect(() => {
-        targetCode?.codes?.length > 0 && setCodeData(prevCodeData => {
-            return {...prevCodeData, ...targetCode.codes[0]};
-        });
-    }, [targetCode]);
+        if (targetCode?.codes?.length > 0) {
+            console.log('useCode', {targetCode})
 
-    const {metadata, codesWithNotes, isLoadingVersion} = useClassification(classificationId);
+
+            // TODO: do better
+            const matchedName = targetCode.codes.filter(c => c.name === name);
+            console.log({matchedName});
+            if (matchedName.length > 1) {
+                matchedName.forEach(c => {
+                    matchedName[0].validFromInRequestedRange += c.validFromInRequestedRange;
+                    matchedName[0].validToInRequestedRange += c.validToInRequestedRange;
+                })
+            }
+
+
+
+            setCodeData(prevCodeData => {
+                return {...prevCodeData, ...matchedName[0]};
+            });
+        }
+    }, [ targetCode ]);
+
+    const { metadata, codesWithNotes, isLoadingVersion } = useClassification(classificationId);
 
     useEffect(() => {
         metadata?.name && setCodeData(prevCodeData => {
@@ -270,34 +242,48 @@ export function useCode(origin) {
     return {codeData, isLoadingVersion};
 }
 
-export function useClassification(id = null) {
-    const [metadata, setMetadata] = useState({});
-    const [versions, setVersions] = useState([]);
-    const [codesWithNotes, setCodesWithNotes] = useState([]);
+export function useClassification({
+        classificationId = null,
+        versionValidFrom = null,
+        versionValidUntil =  null
+    }) {
 
-    const [info] = useGet(
-        !id || metadata.versions?.length > 0 ? null : `classifications/${id}`);
+    const [ metadata, setMetadata ] = useState({});
+    const [ versions, setVersions ] = useState([]);
+    const [ codesWithNotes, setCodesWithNotes ] = useState([]);
+
+    const [ info ] = useGet(
+        !classificationId || metadata.versions?.length > 0 ? null : `classifications/${classificationId}`);
     useEffect(() => {
         info && setMetadata(info);
-    }, [info, setMetadata]);
+    }, [ info, setMetadata ]);
 
     useEffect(() =>
             setVersions(metadata.versions),
-        [metadata, setVersions]); // force update: all codes have to be fetch again
+        [ metadata, setVersions ]); // force update: all codes have to be fetch again
 
     // FIXME handle errors
-    const [version, isLoadingVersion, errorVersion, setVersionPath] = useGet();
+    const [ version, isLoadingVersion, errorVersion, setVersionPath ] = useGet();
     // Fetch codes for one of the version without codes (codes are undefined)
     // If codes defined as empty array, the attempt to fetch the codes will not fire
     // FIXME: DoS vulnerable. Solution: setup counter for number of attempts per version in versions
     useEffect(() => {
-            const missesCodes = versions?.find(v => !v.codes);
+            const missesCodes = versions?.find(v => {
+
+                if (!v.codes &&
+                    ((new Date(v.validFrom) >= new Date(versionValidFrom) && new Date(v.validFrom) < (versionValidUntil ? new Date(versionValidUntil) : new Date()))
+                        || (new Date(v.validTo) >= new Date(versionValidFrom) && new Date(v.validTo) < (versionValidUntil? new Date(versionValidUntil) : new Date()))
+                        )
+                    ) {
+                    return v;
+                }
+            });
             if (missesCodes) {
                 // TODO: Use links delivered by API, do not parse - less coupling
                 const vid = missesCodes._links.self.href.split('/').pop();
                 setVersionPath(`/versions/${vid}`);
             }
-    }, [versions, errorVersion, setVersionPath]);
+    }, [ versions, errorVersion, setVersionPath ]);
 
     useEffect(() => {
         // Assert a version always has classificationItems returned, even it is an empty array.
@@ -312,63 +298,63 @@ export function useClassification(id = null) {
                 return [...prevVersions];
             }); // force update
         }
-    }, [version, setVersions]);
+    }, [ version, setVersions ]);
 
     useEffect(() => {
         // Assert a version always has classificationItems returned, even it is an empty array.
         // If a version arrived without classification items, its integrity was violated,
         // data will not be processed.
         if (version?.classificationItems) {
-            const extended = extendNotesWithVersionData(version);
+            const extended = extendNotesWithVersionData({...version});
             setCodesWithNotes(prevCodesWithNotes => {
                 return mergeCodesByName(prevCodesWithNotes, extended);
             });
         }
+    }, [ version, setCodesWithNotes ]);
 
-        function extendNotesWithVersionData(versionData) {
-            return versionData?.classificationItems?.map(item => {
-                if (item.notes) {
-                    return {
-                        ...item,
-                        notes: [{
-                            note: item.notes,
-                            versionName: versionData.name,
-                            validFrom: versionData.validFrom,
-                            validTo: versionData.validTo
-                        }]
-                    };
+    function extendNotesWithVersionData(versionData) {
+        return versionData?.classificationItems?.map(item => {
+            if (item.notes) {
+                return {
+                    ...item,
+                    notes: [{
+                        note: item.notes,
+                        versionName: versionData.name,
+                        validFrom: versionData.validFrom,
+                        validTo: versionData.validTo
+                    }]
+                };
+            }
+            return {...item, notes: []};
+        });
+    }
+
+    function mergeCodesByName(codes = [], classificationItems = []) {
+        const merged = [...codes];
+
+        if (classificationItems) {
+            classificationItems.forEach(item => {
+                const exists = merged.find(c => c.code === item.code && c.name === item.name);
+                if (exists && item.code.notes) {
+                    exists.notes = mergeNotesByVersionName(exists.notes || [], item.code.notes);
+                } else {
+                    merged.push({...item});
                 }
-                return {...item, notes: []};
             });
         }
+        return merged;
+    }
 
-        function mergeCodesByName(codes = [], classificationItems = []) {
-            const merged = [...codes];
-
-            if (classificationItems) {
-                classificationItems.forEach(item => {
-                    const exists = merged.find(c => c.code === item.code);
-                    if (exists && item.code.notes) {
-                        exists.notes = mergeNotesByVersionName(exists.notes || [], item.code.notes);
-                    } else {
-                        merged.push({...item});
-                    }
-                });
+    function mergeNotesByVersionName(notes = [], newNotes = []) {
+        if (newNotes) {
+            // Assert new notes is always an array of 1 element or empty
+            const exists = notes.find(n => n.versionName === newNotes[0].versionName);
+            if (!exists) {
+                return [...notes, newNotes[0]];
             }
-            return merged;
         }
-
-        function mergeNotesByVersionName(notes = [], newNotes = []) {
-            if (newNotes) {
-                // Assert new notes is always an array of 1 element or empty
-                const exists = notes.find(n => n.versionName === newNotes[0].versionName);
-                if (!exists) {
-                    return [...notes, newNotes[0]];
-                }
-            }
-            return notes;
-        }
-    }, [version, setCodesWithNotes]);
+        return notes;
+    }
 
     /*
         useEffect(() => console.debug({metadata}), [metadata]);
