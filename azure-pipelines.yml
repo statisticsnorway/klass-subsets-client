@@ -6,7 +6,7 @@ parameters:
   - name: 'gcrSpace'
     default: 'eu.gcr.io'
   - name: 'gcrName'
-    default: 'prod-bip/ssb/klass'
+    default: 'prod-bip/klass'
 
 jobs:
   - job: pullRequest
@@ -15,16 +15,17 @@ jobs:
     steps:
       - script: |
           yarn
-          CI=true yarn coverage
+          CI=false yarn coverage
         displayName: 'Tests'
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     steps:
+      # Treating warnings as errors because process.env.CI = true.
       - script: |
           yarn
-          CI=true yarn coverage
-          CI=true yarn build
+          CI=false yarn coverage
+          CI=false yarn build 
         displayName: 'Build'
       - task: PublishCodeCoverageResults@1
         inputs:
@@ -47,7 +48,7 @@ jobs:
           repository: '${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'build'
           Dockerfile: 'Dockerfile'
-          tags: 'imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+          tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: Docker@2
         displayName: 'Docker Login'
         inputs:
@@ -59,7 +60,7 @@ jobs:
           repository: '${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'push'
           containerRegistry: gcrServiceConnection
-          tags: 'imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+          tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: DownloadSecureFile@1
         name: gcrJsonKey
         inputs:
@@ -72,12 +73,12 @@ jobs:
           projectId: 'prod-bip'
           imageHost: 'https://eu.gcr.io/'
           image: '${{ parameters.gcrName }}/${{ parameters.appName }}'
-          imageTag: 'imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+          imageTag: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
           timeBetweenRetries: '10000'
       - script: |
           cat $(gcrJsonKey.secureFilePath) | docker login -u _json_key --password-stdin https://eu.gcr.io/
-          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:${{ parameters.imageTag }}
-          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:imagescan-$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
+          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:${{ parameters.imageTag }}
+          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
           docker push ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}
         displayName: 'Retag Image'
         condition: succeeded()
