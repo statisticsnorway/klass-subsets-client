@@ -1,0 +1,213 @@
+{
+  "$ref": "#/definitions/ClassificationSubset",
+  "definitions": {
+    "MultilingualText": {
+      "type": "object",
+      "properties": {
+        "languageText": {
+          "displayName": "",
+          "description": "The text (e.g. label, title, description)",
+          "type": "string"
+        },
+        "languageCode": {
+          "displayName": "",
+          "description": "The language code. Use only ISO 639-1 codes.",
+          "type": "string",
+          "enum": [
+            "en",
+            "nb",
+            "nn"
+          ]
+        }
+      },
+      "required": [
+        "languageCode",
+        "languageText"
+      ]
+    },
+    "AdministrativeDetails": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "displayName": "",
+          "description": "One or more values (a list) for this administrativeDetailType.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "administrativeDetailType": {
+          "displayName": "",
+          "description": "The type (key) of the AdministrativeDetails-attribute.",
+          "type": "string",
+          "enum": [
+            "ALIAS",
+            "ANNOTATION",
+            "DEFAULTLANGUAGE",
+            "DOCUMENTATION",
+            "LOCALID",
+            "ORIGIN",
+            "URL"
+          ]
+        }
+      },
+      "required": [
+        "administrativeDetailType",
+        "values"
+      ]
+    },
+    "RankedUrnDetails": {
+      "type": "object",
+      "properties": {
+        "urn": {
+          "displayName": "",
+          "description": "An URN",
+          "type": "string"
+        },
+        "rank": {
+          "displayName": "",
+          "description": "Position in the list"
+        }
+      },
+      "required": [
+        "rank",
+        "urn"
+      ]
+    },
+    "ClassificationSubset": {
+      "displayName": "",
+      "description": "A subset of classification codes",
+      "type": "object",
+      "properties": {
+        "codes": {
+          "displayName": "",
+          "description": "List of urns to classification subsets",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RankedUrnDetails"
+          }
+        },
+        "lastUpdatedBy": {
+          "displayName": "",
+          "description": "Last updated by.",
+          "type": "string"
+        },
+        "agentInRoles": {
+          "displayName": "",
+          "description": "Agent(s) acting in the Role(s) for this information object.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "_link_property_agentInRoles": {
+          "type": "object",
+          "properties": {
+            "AgentInRole": {
+              "type": "null"
+            }
+          }
+        },
+        "administrativeStatus": {
+          "displayName": "",
+          "description": "Indicator for access to an item.",
+          "type": "string",
+          "enum": [
+            "DEPRECATED",
+            "DRAFT",
+            "INTERNAL",
+            "OPEN"
+          ]
+        },
+        "description": {
+          "displayName": "",
+          "description": "The description of the information object",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MultilingualText"
+          }
+        },
+        "validFrom": {
+          "displayName": "",
+          "format": "date-time",
+          "description": "The date on which the information object is effective or valid. Set this date only once (constant). The same date for all versions of this information object.",
+          "type": "string"
+        },
+        "version": {
+          "displayName": "",
+          "description": "Formal versioning of the information object. The version designator of the information object assigned by the owner agency. \"major.minor.patch\", e.g. \"1.12.5\".",
+          "type": "string"
+        },
+        "versionValidFrom": {
+          "displayName": "",
+          "format": "date-time",
+          "description": "The date on which the current version of the infomation object is effective or valid.",
+          "type": "string"
+        },
+        "versionRationale": {
+          "displayName": "",
+          "description": "The reason for making this version of the information object."
+        },
+        "lastUpdatedDate": {
+          "displayName": "",
+          "format": "date-time",
+          "description": "The date on which the object was last updated.",
+          "type": "string"
+        },
+        "createdDate": {
+          "displayName": "",
+          "format": "date-time",
+          "description": "The date on which the information object was created",
+          "type": "string"
+        },
+        "createdBy": {
+          "displayName": "",
+          "description": "Information object created by.",
+          "type": "string"
+        },
+        "name": {
+          "displayName": "",
+          "description": "A term which designates a concept, in this case an information object. The identifying name will be the preferred designation. There will be many terms to designate the same information object, such as synonyms and terms in other languages.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MultilingualText"
+          }
+        },
+        "validUntil": {
+          "displayName": "",
+          "format": "date-time",
+          "description": "The date on which the information object is no longer effective or valid.",
+          "type": "string"
+        },
+        "id": {
+          "displayName": "",
+          "description": "The global unique identifier (GUID) of the information object assigned by the owner agency.",
+          "type": "string"
+        },
+        "shortName": {
+          "displayName": "",
+          "description": "A short technical name. (Avoid special characters not supported as variable names in common programming languages).",
+          "type": "string"
+        },
+        "administrativeDetails": {
+          "displayName": "",
+          "description": "Administrative details (e.g. default language, documentation, localID, ...).",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdministrativeDetails"
+          }
+        }
+      },
+      "required": [
+        "codes",
+        "createdBy",
+        "createdDate",
+        "id",
+        "name",
+        "validFrom",
+        "versionValidFrom"
+      ]
+    }
+  },
+  "#schema": "http://json-schema.org/draft-04/schema#"
+}

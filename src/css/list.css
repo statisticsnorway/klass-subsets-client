@@ -1,0 +1,7 @@
+.list {
+  list-style-type: none;
+}
+
+.list li:hover {
+  background-color: #ecfeed;
+}

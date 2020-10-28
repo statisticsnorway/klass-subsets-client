@@ -1,0 +1,84 @@
+parameters:
+  - name: 'appName'
+    default: 'subsets-client'
+  - name: 'imageTag'
+    default: '$(Build.SourceVersion)'
+  - name: 'gcrSpace'
+    default: 'eu.gcr.io'
+  - name: 'gcrName'
+    default: 'prod-bip/ssb/klass'
+
+jobs:
+  - job: pullRequest
+    displayName: 'Run tests'
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+    steps:
+      - script: |
+          npm install --only=prod
+          CI=true npm test -- --coverage --watchAll=false
+        displayName: 'Tests'
+  - job: mergeToMaster
+    displayName: 'Analyze code and build and push Docker image'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    steps:
+      # Treating warnings as errors because process.env.CI = true.
+      - script: |
+          npm install --only=prod
+          CI=true npm test -- --coverage --watchAll=false
+          CI=false npm run build 
+        displayName: 'Build'
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+          reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+      - task: SonarQubePrepare@4
+        inputs:
+          SonarQube: 'bipSonarQube-Klass'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: $(Build.DefinitionName)
+          cliProjectName: $(Build.Repository.Name)
+          cliSources: '.'
+      - task: SonarQubeAnalyze@4
+      - task: SonarQubePublish@4
+      - task: Docker@2
+        displayName: 'Docker Build'
+        inputs:
+          repository: '${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}'
+          command: 'build'
+          Dockerfile: 'Dockerfile'
+          tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+      - task: Docker@2
+        displayName: 'Docker Login'
+        inputs:
+          command: 'login'
+          containerRegistry: gcrServiceConnection
+      - task: Docker@2
+        displayName: 'Docker Push'
+        inputs:
+          repository: '${{ parameters.gcrName }}/${{ parameters.appName }}'
+          command: 'push'
+          containerRegistry: gcrServiceConnection
+          tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+      - task: DownloadSecureFile@1
+        name: gcrJsonKey
+        inputs:
+          secureFile: 'gcr-key.json'
+      - script: |
+          echo "##vso[task.setvariable variable=GOOGLE_APPLICATION_CREDENTIALS]$(gcrJsonKey.secureFilePath)"
+        displayName: 'Set GCR Key'
+      - task: gcr-vulneralbility-check@0
+        inputs:
+          projectId: 'prod-bip'
+          imageHost: 'https://eu.gcr.io/'
+          image: '${{ parameters.gcrName }}/${{ parameters.appName }}'
+          imageTag: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
+          timeBetweenRetries: '10000'
+      - script: |
+          cat $(gcrJsonKey.secureFilePath) | docker login -u _json_key --password-stdin https://eu.gcr.io/
+          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:${{ parameters.imageTag }}
+          docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
+          docker push ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}
+        displayName: 'Retag Image'
+        condition: succeeded()

@@ -16,7 +16,7 @@ Download and install a modern browser of your choice.<br>
 Recommend to use Chrome, the most secure browser today.
 
 ## Source code (development branch)
-this repo
+This repo
 
 ## Start local server
 Install dependencies for the project (production build):
@@ -69,7 +69,7 @@ Updating your build tooling is typically a daunting and time-consuming task. Whe
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
 Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
@@ -105,7 +105,4 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 
 This section has moved [here:](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-# klass-subsets-web
-
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4d3a5df8180b405aaa18131b975f7acd)](https://app.codacy.com/app/alina-lapina/klass-subsets-web?utm_source=github.com&utm_medium=referral&utm_content=statisticsnorway/klass-subsets-web&utm_campaign=Badge_Grade_Settings)
-
