@@ -15,7 +15,7 @@ jobs:
     steps:
       - script: |
           npm install --only=prod
-          CI=true npm test -- --coverage --watchAll=false --ci
+          CI=true npm test -- --coverage --watchAll=false
         displayName: 'Tests'
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
@@ -24,8 +24,8 @@ jobs:
       # Treating warnings as errors because process.env.CI = true.
       - script: |
           npm install --only=prod
-          CI=true npm test -- --coverage --watchAll=false --ci
-          CI=false npm run build
+          CI=true npm test -- --coverage --watchAll=false --testResultsProcessor ./node_modules/jest-junit-reporter
+          CI=false npm run build 
         displayName: 'Build'
       - task: PublishTestResults@2
         displayName: "Publish test results"
