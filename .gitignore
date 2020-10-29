@@ -79,3 +79,22 @@ typings/
 .env.test.local
 .env.production.local
 
+.idea/.gitignore
+.idea/codeStyles/
+.idea/eslintPlugin.xml
+.idea/inspectionProfiles/
+.idea/jsLibraryMappings.xml
+.idea/jsLinters/
+.idea/klass-subsets-web.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/shelf/
+.idea/sonarIssues.xml
+.idea/sonarlint/
+.idea/vcs.xml
+3.1.0
+9.0.0
+dist/
+package-lock.json
+test-report.xml
+yarn.lock
