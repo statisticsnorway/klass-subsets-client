@@ -9,31 +9,39 @@ parameters:
     default: 'prod-bip/ssb/klass'
 
 jobs:
-  - job: pullRequest
-    displayName: 'Run tests'
-    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+  - job:
+    displayName: 'Test, analyze, and build image'
     steps:
       - script: |
-          npm install --only=prod
-          CI=true npm test -- --coverage --watchAll=false
-        displayName: 'Tests'
-  - job: mergeToMaster
-    displayName: 'Analyze code and build and push Docker image'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    steps:
-      # Treating warnings as errors because process.env.CI = true.
-      - script: |
+          npm install react-scripts@latest
           npm install
-          CI=false npm run test:ci
-          CI=false npm run build 
-        displayName: 'Build'
+          npm audit fix --force
+          CI=true npm run test:ci
+          CI=false npm run build
+        # Treating warnings as errors because process.env.CI = true.
+        displayName: 'Tests med coverage'
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+      - script: |
+          npm install react-scripts@latest
+          npm install --only=prod
+          npm audit fix --forcelatest
+          CI=true npm test
+          CI=false npm run build
+        displayName: 'Dev build'
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+      - script: |
+          CI=false npm run build
+        displayName: 'Prod build'
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       - task: PublishTestResults@2
         displayName: "Publish test results"
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
         inputs:
           testResultsFormat: "JUnit"
           testResultsFiles: "$(Build.SourcesDirectory)/test-report.xml"
       - task: PublishCodeCoverageResults@1
         displayName: "Publish coverage results"
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
@@ -59,6 +67,7 @@ jobs:
         condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       - task: Docker@2
         displayName: 'Docker Build'
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           repository: '${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'build'
@@ -66,11 +75,13 @@ jobs:
           tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: Docker@2
         displayName: 'Docker Login'
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           command: 'login'
           containerRegistry: gcrServiceConnection
       - task: Docker@2
         displayName: 'Docker Push'
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           repository: '${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'push'
@@ -78,12 +89,15 @@ jobs:
           tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: DownloadSecureFile@1
         name: gcrJsonKey
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           secureFile: 'gcr-key.json'
       - script: |
           echo "##vso[task.setvariable variable=GOOGLE_APPLICATION_CREDENTIALS]$(gcrJsonKey.secureFilePath)"
         displayName: 'Set GCR Key'
       - task: gcr-vulneralbility-check@0
+        displayName: 'GCR Vulnerability chqck'
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           projectId: 'prod-bip'
           imageHost: 'https://eu.gcr.io/'
@@ -96,4 +110,4 @@ jobs:
           docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
           docker push ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}
         displayName: 'Retag Image'
-        condition: succeeded()
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
