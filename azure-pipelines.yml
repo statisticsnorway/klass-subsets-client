@@ -24,7 +24,7 @@ jobs:
       # Treating warnings as errors because process.env.CI = true.
       - script: |
           npm install --only=prod
-          CI=true npm run test:ci
+          CI=true npm run test -- --coverage --watchAll=false --testResultsProcessor ./node_modules/jest-junit-reporter
           CI=false npm run build 
         displayName: 'Build'
       - task: PublishTestResults@2
