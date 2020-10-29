@@ -23,7 +23,7 @@ jobs:
     steps:
       # Treating warnings as errors because process.env.CI = true.
       - script: |
-          npm install --only=prod
+          npm install
           CI=false npm run test:ci
           CI=false npm run build 
         displayName: 'Build'
