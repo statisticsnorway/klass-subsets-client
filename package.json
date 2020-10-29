@@ -39,7 +39,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:ci": "jest --coverage -ci",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -59,5 +58,12 @@
   },
   "devDependencies": {
     "jest-junit-reporter": "^1.1.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageReporters": ["text", "cobertura"]
   }
 }
