@@ -9,7 +9,7 @@ parameters:
     default: 'prod-bip/ssb/klass'
 
 jobs:
-  - job:
+  - job: 'codeCheck'
     displayName: 'Test, analyze, and build image'
     steps:
       - script: |
@@ -44,6 +44,9 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
           reportDirectory: '$(Build.SourcesDirectory)/src'
+  - job: 'sonarQube'
+      displayName: 'Analyze the code quality'
+      steps:
       - task: SonarQubePrepare@4
       # Task condition: We have community edition of SonarQube which only scans master-branch so
       # it makes no sense running this tag when branch is other than master
@@ -63,9 +66,12 @@ jobs:
       # Task condition: We have community edition of SonarQube which only scans master-branch so
       # it makes no sense running this tag when branch is other than master
         condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  - job: 'deploy'
+      displayName: 'Build Docker image and publish to GCR (development)'
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
+      steps:
       - task: Docker@2
         displayName: 'Docker Build'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           repository: '${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'build'
@@ -73,13 +79,11 @@ jobs:
           tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: Docker@2
         displayName: 'Docker Login'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           command: 'login'
           containerRegistry: gcrServiceConnection
       - task: Docker@2
         displayName: 'Docker Push'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           repository: '${{ parameters.gcrName }}/${{ parameters.appName }}'
           command: 'push'
@@ -87,16 +91,13 @@ jobs:
           tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
       - task: DownloadSecureFile@1
         name: gcrJsonKey
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           secureFile: 'gcr-key.json'
       - script: |
           echo "##vso[task.setvariable variable=GOOGLE_APPLICATION_CREDENTIALS]$(gcrJsonKey.secureFilePath)"
         displayName: 'Set GCR Key'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
       - task: gcr-vulneralbility-check@0
         displayName: 'GCR Vulnerability chqck'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
         inputs:
           projectId: 'prod-bip'
           imageHost: 'https://eu.gcr.io/'
@@ -109,4 +110,3 @@ jobs:
           docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
           docker push ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}
         displayName: 'Retag Image'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
