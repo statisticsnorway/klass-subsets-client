@@ -13,7 +13,6 @@ jobs:
     displayName: 'Test, analyze, and build image'
     steps:
       - script: |
-          npm install react-scripts@latest
           npm install
           npm audit fix --force
           CI=true npm run test:ci
@@ -22,7 +21,6 @@ jobs:
         displayName: 'Tests med coverage'
         condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
       - script: |
-          npm install react-scripts@latest
           npm install --only=prod
           npm audit fix --force
           CI=true npm test
