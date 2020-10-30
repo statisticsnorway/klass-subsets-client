@@ -83,9 +83,6 @@ jobs:
           command: 'push'
           containerRegistry: gcrServiceConnection
           tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
-  - job: 'jsonKey'
-    displayName: 'Download Secure File'
-    steps:
       - task: DownloadSecureFile@1
         name: gcrJsonKey
         inputs:
@@ -101,12 +98,10 @@ jobs:
           image: '${{ parameters.gcrName }}/${{ parameters.appName }}'
           imageTag: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
           timeBetweenRetries: '10000'
-          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
       - script: |
           cat $(gcrJsonKey.secureFilePath) | docker login -u _json_key --password-stdin https://eu.gcr.io/
           docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:${{ parameters.imageTag }}
           docker tag ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:$(Build.SourceBranchName)-${{ parameters.imageTag }} ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}:latest
           docker push ${{ parameters.gcrSpace }}/${{ parameters.gcrName }}/${{ parameters.appName }}
         displayName: 'Retag Image'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
 
