@@ -85,6 +85,7 @@ jobs:
           tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
   - job: 'jsonKey'
       displayName: 'Download Secure File'
+      steps:
       - task: DownloadSecureFile@1
         name: gcrJsonKey
         inputs:
