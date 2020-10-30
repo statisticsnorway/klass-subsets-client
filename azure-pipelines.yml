@@ -64,6 +64,12 @@ jobs:
     displayName: 'Build Docker image and publish to GCR (staging)'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
     steps:
+      - script: |
+          npm install --only=prod
+          npm audit fix --force
+          CI=true npm test
+          CI=false npm run build
+        displayName: 'Dev build'
       - task: Docker@2
         displayName: 'Docker Build'
         inputs:
