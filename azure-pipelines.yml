@@ -51,7 +51,7 @@ jobs:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     steps:
       - task: SonarQubePrepare@4
-              inputs:
+        inputs:
           SonarQube: 'bipSonarQube-Klass'
           scannerMode: 'CLI'
           configMode: 'manual'
