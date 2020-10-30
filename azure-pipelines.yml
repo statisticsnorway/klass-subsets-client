@@ -22,13 +22,13 @@ jobs:
         condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
       - script: |
           npm install --only=prod
-          npm audit fix --forcelatest
+          npm audit fix --force
           CI=true npm test
           CI=false npm run build
         displayName: 'Dev build'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
       - script: |
-          CI=false npm run build
+          CI=true npm run build
         displayName: 'Prod build'
         condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       - task: PublishTestResults@2
@@ -46,12 +46,12 @@ jobs:
           reportDirectory: '$(Build.SourcesDirectory)/src'
   - job: 'sonarQube'
       displayName: 'Analyze the code quality'
-      steps:
-      - task: SonarQubePrepare@4
       # Task condition: We have community edition of SonarQube which only scans master-branch so
       # it makes no sense running this tag when branch is other than master
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-        inputs:
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      steps:
+      - task: SonarQubePrepare@4
+              inputs:
           SonarQube: 'bipSonarQube-Klass'
           scannerMode: 'CLI'
           configMode: 'manual'
@@ -59,13 +59,7 @@ jobs:
           cliProjectName: $(Build.Repository.Name)
           cliSources: '.'
       - task: SonarQubeAnalyze@4
-      # Task condition: We have community edition of SonarQube which only scans master-branch so
-      # it makes no sense running this tag when branch is other than master
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       - task: SonarQubePublish@4
-      # Task condition: We have community edition of SonarQube which only scans master-branch so
-      # it makes no sense running this tag when branch is other than master
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   - job: 'deploy'
       displayName: 'Build Docker image and publish to GCR (development)'
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
@@ -97,7 +91,7 @@ jobs:
           echo "##vso[task.setvariable variable=GOOGLE_APPLICATION_CREDENTIALS]$(gcrJsonKey.secureFilePath)"
         displayName: 'Set GCR Key'
       - task: gcr-vulneralbility-check@0
-        displayName: 'GCR Vulnerability chqck'
+        displayName: 'GCR Vulnerability check'
         inputs:
           projectId: 'prod-bip'
           imageHost: 'https://eu.gcr.io/'
