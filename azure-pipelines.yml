@@ -45,11 +45,11 @@ jobs:
           summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
           reportDirectory: '$(Build.SourcesDirectory)/src'
   - job: 'sonarQube'
-      displayName: 'Analyze the code quality'
-      # Task condition: We have community edition of SonarQube which only scans master-branch so
-      # it makes no sense running this tag when branch is other than master
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-      steps:
+    displayName: 'Analyze the code quality'
+    # Task condition: We have community edition of SonarQube which only scans master-branch so
+    # it makes no sense running this tag when branch is other than master
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    steps:
       - task: SonarQubePrepare@4
               inputs:
           SonarQube: 'bipSonarQube-Klass'
@@ -61,9 +61,9 @@ jobs:
       - task: SonarQubeAnalyze@4
       - task: SonarQubePublish@4
   - job: 'deployStaging'
-      displayName: 'Build Docker image and publish to GCR (staging)'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
-      steps:
+    displayName: 'Build Docker image and publish to GCR (staging)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
+    steps:
       - task: Docker@2
         displayName: 'Docker Build'
         inputs:
@@ -84,8 +84,8 @@ jobs:
           containerRegistry: gcrServiceConnection
           tags: '$(Build.SourceBranchName)-${{ parameters.imageTag }}'
   - job: 'jsonKey'
-      displayName: 'Download Secure File'
-      steps:
+    displayName: 'Download Secure File'
+    steps:
       - task: DownloadSecureFile@1
         name: gcrJsonKey
         inputs:
