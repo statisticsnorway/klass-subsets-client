@@ -53,10 +53,12 @@ export const versionable = (state = {}) => ({
         state._validUntil = null;
     },
 
-    switchToVersion(chosenVersion = '') {
+    switchToVersion(chosenVersionFrom = '') {
         //console.debug('switchToVersion', chosenVersion);
 
-        const exists = state.previousVersions.find(v => v.version === chosenVersion);
+        const exists = state.previousVersions.find(v => v.versionValidFrom === chosenVersionFrom);
+
+        // TODO: show error if the version does not found
         if (exists) {
 
             state._version = exists.version;
