@@ -3,18 +3,16 @@ import { AppContext } from '../controllers/context';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { SubsetIdForm } from './subsetForm/Step_1_Metadata';
+import { eu, euTime} from '../utils/strings';
 
-export const Brief = ({ id, version, lastUpdatedDate, status }) => {
+export const Brief = ({ id, versionValidFrom, lastUpdatedDate, status }) => {
     const { t } = useTranslation();
 
     return (
         <Text small style={{ margin: '50px 0' }}>
             { id || '-'}
-            { t('Version') }: <strong>{ version || '-' }  </strong>
-            { t('Updated') }: <strong>{ 
-                (lastUpdatedDate && new Date(lastUpdatedDate).toLocaleString('ru-RU')) 
-                || '-' 
-            }  </strong>
+            { t('Version valid from') }: <strong>{ eu(versionValidFrom) || '-' }  </strong>
+            { t('Updated') }: <strong>{ euTime(lastUpdatedDate) || '-' }  </strong>
             { t('Status') }: <strong>{ t(status) || '-' }  </strong>
         </Text>
     );
@@ -22,15 +20,15 @@ export const Brief = ({ id, version, lastUpdatedDate, status }) => {
 
 export const SubsetBrief = ({editable = false}) => {
     const { subset } = useContext(AppContext);
-    const { id, version, lastUpdatedDate, administrativeStatus } = subset?.draft;
+    const { id, versionValidFrom, lastUpdatedDate, administrativeStatus } = subset?.draft;
 
     return (
         <Brief
-            id={ editable && subset.draft.isEditableId()
+            id={ editable && subset?.draft?.isEditableId()
                 ? <SubsetIdForm/>
                 : <Id>{ id || '-' }</Id>
             }
-            version={ version }
+            versionValidFrom={ versionValidFrom }
             lastUpdatedDate={ lastUpdatedDate }
             status={ administrativeStatus }
         />

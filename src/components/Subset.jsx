@@ -65,7 +65,7 @@ export const SubsetPreview = ({ subset }) => {
     );
 };
 
-export const SubsetBanner = ({subsetData}) => {
+export const SubsetBanner = ({ subsetData }) => {
     const { t } = useTranslation();
     let history = useHistory();
     const { subset } = useContext(AppContext);
@@ -75,7 +75,7 @@ export const SubsetBanner = ({subsetData}) => {
     // TODO: smart language choice
     return (
         <div style={{margin: '50px 0'}}>
-            <SsbLink href={`/subsets/${subsetData?.id}`}
+            <SsbLink href={ `/subsets/${subsetData?.id}` }
                      linkType='profiled'>
                 { subsetData?.name?.find(name => name.languageCode === 'nb')?.languageText
                     || t('No name')
@@ -93,7 +93,7 @@ export const SubsetBanner = ({subsetData}) => {
             <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
                 <Brief
                     id={ <Id>{ subsetData?.id || '-' }</Id> }
-                    version={ subsetData?.version }
+                    versionValidFrom={ subsetData?.versionValidFrom }
                     lastUpdatedDate={ subsetData?.lastUpdatedDate }
                     status={ t(subsetData?.administrativeStatus) }
                 />

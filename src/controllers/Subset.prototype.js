@@ -365,12 +365,6 @@ const editable = (state = {}) => ({
             && state.version === '1';
     },
 
-    isNewVersion() {
-        //console.debug('isNewVersion', state.administrativeStatus === 'INTERNAL' && state.version !== '1');
-
-        return state.administrativeStatus === 'INTERNAL'
-            && state.version !== '1';
-    },
 
     isLatestSavedVersion() {
         //console.debug('isLatestSavedVersion');
@@ -379,6 +373,12 @@ const editable = (state = {}) => ({
             return null;
         }
         return state.latestVersion?.version === state.version;
+    },
+    isNewVersion() {
+        //console.debug('isNewVersion', state.administrativeStatus === 'INTERNAL' && state.version !== '1');
+
+        return state.administrativeStatus === 'INTERNAL'
+            && state.version !== '1';
     },
 
     isAfterCoveredPeriod(date) {
@@ -458,7 +458,9 @@ const editable = (state = {}) => ({
         //console.debug('isEditableVersionValidUntil');
 
         return (state.isLatestSavedVersion()
-                && !state.latestVersion?.validUntil
+                && (!state.latestVersion?.validUntil
+                    || state.latestVersion?.administrativeStatus !== 'OPEN'
+                )
             )
             || (state.isNew()
                 && state.isInAcceptablePeriod(state._versionValidFrom)

@@ -54,12 +54,11 @@ export const VersionSwitcher = () => {
 
                                ...draft.previousVersions.map(v => ({
                                    ...v,
-                                    title: `${ t('Version') } ${ 
-                                       v.version }: ${ 
+                                    title: `${ t('Version') }: ${ 
                                        v.versionValidFrom?.substr(0, 10)} ${ 
                                        t(v.administrativeStatus) 
                                    }`,
-                                    id: `${ v.version }`
+                                    id: `${ v.versionValidFrom }`
                                 })),
 
                                 {
@@ -72,7 +71,7 @@ export const VersionSwitcher = () => {
                         }
                         placeholder={ t('Select a version') }
                         disabledText={ t(draft.administrativeStatus) }
-                        selected={ draft.version }
+                        selected={ draft.versionValidFrom || '-' }
                         onSelect={ (option) => {
                             dispatch({
                                 action: 'version_switch',
@@ -129,7 +128,7 @@ export const VersionValidFromForm = () => {
                    htmlFor='version_from_date'
             >{ t('Version valid from') }
                 <Help>
-                    <strong>{ `${t('Version valid from')} *` }. </strong>
+                    <strong>{ `${t('Version valid from') } *` }. </strong>
                     { t('Version valid from help') }
                 </Help>
             </label>
@@ -161,8 +160,7 @@ export const VersionValidFromForm = () => {
 };
 
 export const VersionValidUntilForm = () => {
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft, dispatch } } = useContext(AppContext);
     const { t } = useTranslation();
     const [ showErrors, setShowErrors ] = useState(false);
 
@@ -175,7 +173,7 @@ export const VersionValidUntilForm = () => {
                    style={{ display: 'block' }}
                    value={ draft.versionValidUntil || '' }
                    disabled={ !draft.isEditableVersionValidUntil() }
-                   onChange={event => dispatch({
+                   onChange={ event => dispatch({
                        action: 'version_to',
                        data: event.target.value === ''
                            ? null
