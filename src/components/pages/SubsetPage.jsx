@@ -28,8 +28,8 @@ export const SubsetPage = () => {
                 ? <div style={{ margin: 'auto', width: '20%' }}><Spinner/></div>
                 : !subsetData
                     ? <p>{ version
-                        ? t('Subset version for subset with id does not exist', {version, id})
-                        : t('Subset with id does not exist', {id}) }.
+                        ? t('Subset version for subset with id does not exist', { version, id })
+                        : t('Subset with id does not exist', { id }) }.
                       </p>
                     : <div>
                         <Title size={3}>
@@ -62,19 +62,19 @@ export const SubsetPage = () => {
                         </Paragraph>
 
                         <Paragraph>
-                            <strong>{t('Owner')}:</strong> { subsetData.createdBy || '-' }
+                            <strong>{ t('Owner') }:</strong> { subsetData.createdBy || '-' }
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Valid from')}:</strong> { subsetData.validFrom?.substr(0, 10) || '-' }
+                            <strong>{ t('Valid from') }:</strong> { subsetData.validFrom?.substr(0, 10) || '-' }
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Valid to')}:</strong> { subsetData.validUntil?.substr(0, 10)  || '-' }
+                            <strong>{ t('Valid to') }:</strong> { subsetData.validUntil?.substr(0, 10)  || '-' }
                         </Paragraph>
                         <Paragraph>
-                            <strong>{t('Subject')}:</strong> { subsetData.subject || '-' }
+                            <strong>{ t('Subject') }:</strong> { subsetData.subject || '-' }
                         </Paragraph>
 
-                        <Title size={3}>{t('Codes')}: </Title>
+                        <Title size={3}>{ t('Codes') }: </Title>
                         { subsetData.codes
                             ? subsetData.codes
                                 .sort((a,b) => a.rank - b.rank)

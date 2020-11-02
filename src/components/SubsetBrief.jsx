@@ -3,6 +3,7 @@ import { AppContext } from '../controllers/context';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { SubsetIdForm } from './subsetForm/Step_1_Metadata';
+import {eu, euTime} from '../utils/strings';
 
 export const Brief = ({ id, version, lastUpdatedDate, status }) => {
     const { t } = useTranslation();
@@ -12,7 +13,7 @@ export const Brief = ({ id, version, lastUpdatedDate, status }) => {
             { id || '-'}
             { t('Version') }: <strong>{ version || '-' }  </strong>
             { t('Updated') }: <strong>{ 
-                (lastUpdatedDate && new Date(lastUpdatedDate).toLocaleString('ru-RU')) 
+                (lastUpdatedDate && euTime(lastUpdatedDate))
                 || '-' 
             }  </strong>
             { t('Status') }: <strong>{ t(status) || '-' }  </strong>
@@ -26,7 +27,7 @@ export const SubsetBrief = ({editable = false}) => {
 
     return (
         <Brief
-            id={ editable && subset.draft.isEditableId()
+            id={ editable && subset?.draft?.isEditableId()
                 ? <SubsetIdForm/>
                 : <Id>{ id || '-' }</Id>
             }
