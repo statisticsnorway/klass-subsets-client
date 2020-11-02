@@ -40,10 +40,10 @@ export default function SearchSubsetsPage() {
                         header={t('Sort by')}
                         selectedItem={{title: t('Last updated'), id: 'Last'}}
                         items={[
-                            {title: t('Last updated'), id: 'last'},
-                            {title: t('Subset name'), id: 'name'},
-                            {title: t('Owner'), id: 'owner'},
-                            {title: t('Valid to'), id: 'validto'},
+                            { title: t('Last updated'), id: 'last' },
+                            { title: t('Subset name'), id: 'name' },
+                            { title: t('Owner'), id: 'owner' },
+                            { title: t('Valid to'), id: 'validto' },
                         ]}
                     />
                 }

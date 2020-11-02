@@ -15,9 +15,9 @@ export const Search = ({ resource = [],
 
     const dom = useRef(null);
 
-    const [searchInput, setSearchInput] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-    const [active, setActive] = useState(-1);
+    const [ searchInput, setSearchInput ] = useState('');
+    const [ suggestions, setSuggestions ] = useState([]);
+    const [ active, setActive ] = useState(-1);
 
     const handleInput = (e) => {
         setSearchInput(e.target.value);
