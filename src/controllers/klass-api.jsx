@@ -281,6 +281,7 @@ export function useClassification({
             if (missesCodes) {
                 // TODO: Use links delivered by API, do not parse - less coupling
                 const vid = missesCodes._links.self.href.split('/').pop();
+                missesCodes.codes = [];
                 setVersionPath(`/versions/${vid}`);
             }
     }, [ versions, errorVersion, setVersionPath ]);

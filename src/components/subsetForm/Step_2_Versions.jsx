@@ -129,7 +129,7 @@ export const VersionValidFromForm = () => {
                    htmlFor='version_from_date'
             >{ t('Version valid from') }
                 <Help>
-                    <strong>{ `${t('Version valid from')} *` }. </strong>
+                    <strong>{ `${t('Version valid from') } *` }. </strong>
                     { t('Version valid from help') }
                 </Help>
             </label>
@@ -161,8 +161,7 @@ export const VersionValidFromForm = () => {
 };
 
 export const VersionValidUntilForm = () => {
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft, dispatch } } = useContext(AppContext);
     const { t } = useTranslation();
     const [ showErrors, setShowErrors ] = useState(false);
 

@@ -23,6 +23,10 @@ export default function ChangelogPage() {
 
            <Title size={2}>{ t('Changelog') }</Title>
 
+           <Title size={4}>v0.5.9</Title>
+           <Paragraph>Version valid until field is editable for drafts.</Paragraph>
+           <Paragraph>React v17.0.1.</Paragraph>
+
            <Title size={4}>v0.5.8</Title>
            <Paragraph>Fix for duplicate codes with same name (encodedName).</Paragraph>
            <Paragraph>Info panel for each code on "Choose codes".</Paragraph>
