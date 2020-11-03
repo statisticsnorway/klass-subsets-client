@@ -19,14 +19,14 @@ export default function Header() {
              * No current state (active language) is shown.
              * TODO: language choice should affect the url ?
              */}
-            <div className='global-links' style={{float: 'right', paddingTop: '30px'}}>
+            <div className='global-links' style={{ float: 'right', paddingTop: '30px' }}>
                 <button onClick={() => i18n.changeLanguage('no')}
-                        style={{background: 'none', border: 'none'}}>
+                        style={{ background: 'none', border: 'none' }}>
                         <span className='ssb-link'>
                             Bokmål</span>
                 </button>
                 <button onClick={() => i18n.changeLanguage('en')}
-                        style={{background: 'none', border: 'none'}}>
+                        style={{ background: 'none', border: 'none' }}>
                         <span className="ssb-link">
                             English</span>
                 </button>
@@ -34,11 +34,15 @@ export default function Header() {
                             <Link href=' '>Login</Link> */}
             </div>
 
-            <div className='top-row flex-row justify-space-between flex-wrap' style={{width: '100%'}}>
+            <div className='top-row flex-row justify-space-between flex-wrap'
+                 style={{ width: '100%' }}>
                 <Link to='/'>
                     <Title size={3}>
-                        <img src={logo} style={{height: '4vmin', paddingRight: '30px'}} className='App-logo' alt='SSB-logo'/>
-                        {t('Klass uttrekk')} <Text small> | v{process.env.REACT_APP_VERSION} </Text>
+                        <img src={ logo }
+                             style={{ height: '4vmin', paddingRight: '30px' }}
+                             className='App-logo' alt='SSB-logo'
+                        />
+                        { t('Klass uttrekk') } <Text small> | v{ process.env.REACT_APP_VERSION } </Text>
                     </Title>
                 </Link>
             </div>
@@ -52,9 +56,9 @@ export default function Header() {
                           history.push(path);
                       }}
                       items={[
-                          {title: t('Search subsets'), path: '/'},
-                          {title: t('Create subset'), path: '/create'},
-                          {title: t('Changelog'), path: '/changelog'},
+                          { title: t('Search subsets'), path: '/' },
+                          { title: t('Create subset'), path: '/create' },
+                          { title: t('Changelog'), path: '/changelog' },
                       ]}/>
                 <Divider/>
             </div>

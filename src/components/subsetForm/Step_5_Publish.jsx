@@ -15,8 +15,8 @@ export const Step5Publish = () => {
     let history = useHistory();
     let location = useLocation();
 
-    const [post, setPOSTPayload,, errorPost] = usePost();
-    const [update, setPUTPayload,, errorUpdate] = usePut(draft.id);
+    const [ post, setPOSTPayload,, errorPost ] = usePost();
+    const [ update, setPUTPayload,, errorUpdate ] = usePut(draft.id);
 
     useEffect(() => {
         if (post || update) {
@@ -39,7 +39,7 @@ return (
             <SubsetPreview subset={ draft }/>
 
             { Object.values(draft.errors).flat().length > 0 &&
-                <FormError title={t('Some fields are not right')}
+                <FormError title={ t('Some fields are not right') }
                            errorMessages={Object.values(draft.errors).flat().map(e => t(e))}
                 />
             }
@@ -50,15 +50,10 @@ return (
                     <Button
                         disabled={ update !== null || draft.isPublished }
                         onClick={() => {
-                            if (location.pathname === '/auth/create') {
-                                draft.isNew()
-                                    ? setPOSTPayload(draft.draftPayload)
-                                    : setPUTPayload(draft.draftPayload);
-                            } else {
-                                if (window.confirm('In order to save or publish subsets, you must be logged in. Do you want to log in?')) {
-                                    history.push('/auth/create');
-                                }
-                            }
+                            history.push(`/auth/create${location.search}`);
+                            draft.isNew()
+                                ? setPOSTPayload(draft.draftPayload)
+                                : setPUTPayload(draft.draftPayload);
                         }
                         }>{ t('Save') }
                     </Button>
@@ -68,15 +63,10 @@ return (
                     <Button
                         disabled={ post !== null || Object.values(draft.errors).flat().length > 0}
                         onClick={() => {
-                            if (location.pathname === '/auth/create') {
-                                draft.isNew()
-                                    ? setPOSTPayload(draft.publishPayload)
-                                    : setPUTPayload(draft.publishPayload)
-                            } else {
-                                if (window.confirm('In order to save or publish subsets, you must be logged in. Do you want to log in?')) {
-                                    history.push('/auth/create');
-                                }
-                            }
+                            history.push(`/auth/create${location.search}`);
+                            draft.isNew()
+                                ? setPOSTPayload(draft.publishPayload)
+                                : setPUTPayload(draft.publishPayload)
                         }
                         }>{ t('Publish') }
                     </Button>

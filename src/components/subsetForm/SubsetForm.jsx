@@ -14,21 +14,11 @@ export default function SubsetForm() {
     return (
         <div className='page'>
             <Navigation>
-                <Step label={ t('Metadata') }>
-                    <Step1Metadata/>
-                </Step>
-                <Step label={ t('Versions') }>
-                    <Step2Versions/>
-                </Step>
-                <Step label={ t('Choose codes') }>
-                    <Step3ChooseCodes />
-                </Step>
-                <Step label={ t('Reorder codes') }>
-                    <Step4Reorder  />
-                </Step>
-                <Step label={ t('Review and publish') }>
-                    <Step5Publish />
-                </Step>
+                <Step label={ t('Metadata') } component={ Step1Metadata } />
+                <Step label={ t('Versions') } component={ Step2Versions } />
+                <Step label={ t('Choose codes') } component={ Step3ChooseCodes }/>
+                <Step label={ t('Reorder codes') } component={ Step4Reorder } />
+                <Step label={ t('Review and publish') } component={ Step5Publish } />
             </Navigation>
         </div>
     );

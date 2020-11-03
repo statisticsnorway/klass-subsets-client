@@ -40,7 +40,7 @@ export const SubsetIdForm = () => {
     }, [ subset.draft.id ]);
 
     return (
-        <div>
+        <div style={{display: 'inline-block'}}>
             <label htmlFor='shortName'>ID:</label>
             <input type='text'
                    id='shortName'
