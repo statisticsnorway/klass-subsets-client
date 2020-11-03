@@ -26,6 +26,7 @@ export default function ChangelogPage() {
            <Title size={4}>v0.5.9</Title>
            <Paragraph>Version valid until field is editable for drafts.</Paragraph>
            <Paragraph>React v17.0.1.</Paragraph>
+           <Paragraph>Fix for KF-417 save or publish with no redirection</Paragraph>
            <Paragraph>Fix for KF-418</Paragraph>
            <Paragraph>Fix for version switch dropdown (KF-418): show version valid from instead of version number.</Paragraph>
 
