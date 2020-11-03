@@ -9,12 +9,14 @@ export const Brief = ({ id, versionValidFrom, lastUpdatedDate, status }) => {
     const { t } = useTranslation();
 
     return (
-        <Text small style={{ margin: '50px 0' }}>
-            { id || '-'}
-            { t('Version valid from') }: <strong>{ eu(versionValidFrom) || '-' }  </strong>
-            { t('Updated') }: <strong>{ euTime(lastUpdatedDate) || '-' }  </strong>
-            { t('Status') }: <strong>{ t(status) || '-' }  </strong>
-        </Text>
+        <div style={{ margin: '0 0 30px 0'}}>
+            <Text small style={{ margin: '50px 0' }}>
+                { id || '-'}
+                { t('Version valid from') }: <strong>{ eu(versionValidFrom) || '-' }  </strong>
+                { t('Updated') }: <strong>{ euTime(lastUpdatedDate) || '-' }  </strong>
+                { t('Status') }: <strong>{ t(status) || '-' }  </strong>
+            </Text>
+        </div>
     );
 };
 
