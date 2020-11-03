@@ -25,14 +25,18 @@ export function Navigation({ children }) {
                 children.find(c => c.props.label === query.get('step'))
                 || children[0]
             }</div>
-            <GoTo disabled={ step < 1 }
-                  query={`?step=${children[step - 1]?.props.label}`}
-                >{ t('Previous') }
-            </GoTo>
-            <GoTo disabled={ step > children.length - 1 }
-                  query={`?step=${children[step + 1]?.props.label}`}
-                >{ t('Next') }
-            </GoTo>
+            <div style={{ textAlign: 'center', paddingBottom: '30px' }}>
+                    <GoTo disabled={ step < 1 }
+                          query={`?step=${children[step - 1]?.props.label}`}
+                          iconLeft='&#10094;'
+                    >{ t('Previous') }
+                    </GoTo>
+                    <GoTo disabled={ step > children.length - 2 }
+                          query={`?step=${children[step + 1]?.props.label}`}
+                          iconRight='&#10095;'
+                    >{ t('Next') }
+                    </GoTo>
+            </div>
         </>
     );
 }
@@ -65,11 +69,18 @@ export const ProgressBar = ({ steps }) => {
     );
 };
 
-export const GoTo = ({ query = '', disabled, children }) => {
+export const GoTo = ({ query = '', disabled, iconLeft, iconRight, children }) => {
     return (<>{
         !disabled &&
-        <Link to={query}
-            area-labal='step the form'
-        >{ children }</Link>}
+            <>
+                <span style={{color: '#1A9D49', padding: '10px'}}>{iconLeft}</span>
+                <Link to={query}
+                      area-labal='step the form'
+                      className='ssb-link'
+                    >{children}
+                </Link>
+                <span style={{color: '#1A9D49', padding: '10px'}}>{iconRight}</span>
+        </>
+    }
     </>);
 };
