@@ -8,7 +8,6 @@ import { Edit } from 'react-feather';
 import { AppContext } from '../../controllers/context';
 import Spinner from '../Spinner';
 import { Brief, Id } from '../SubsetBrief';
-import {eu} from "../../utils/strings";
 
 export const SubsetPage = () => {
     const { t } = useTranslation();

@@ -1,72 +1,75 @@
-import React, { useState } from 'react';
-import { Button } from '@statisticsnorway/ssb-component-library';
-import '../../css/pointer.css';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, NavLink, useHistory } from 'react-router-dom';
+import { useQuery } from '../../utils/useQuery';
 
-// TODO: add api to navigate to particular steps from inside og the form.
-// For instance from the last (preview) page.
-export function Navigation({children}) {
-    const [step, setStep] = useState(0);
+export function Navigation({ children }) {
+    const { t } = useTranslation();
+    let query = useQuery();
+    let history = useHistory();
+    const [ step, setStep ] = useState(0);
+
+    useEffect(() => {
+        setStep(children.findIndex(c => c.props.label === query.get('step')) || 0);
+    }, [ query ]);
+
+    useEffect( () => {
+        if (!children.find(c => c.props.label === query.get('step'))) {
+            history.push(`?step=${children[0]?.props.label}`);
+        }
+    }, []);
 
     return (<>
-            <ProgressBar steps={children}
-                         handleClick={setStep}
-                         activeStep={step} />
-
-            <div>{children[step]}</div>
-
-            <PrevNext min={step===0}
-                      max={step===children.length-1}
-                      handleClick={setStep} />
+            <ProgressBar steps={ children } />
+            <div>{
+                children.find(c => c.props.label === query.get('step'))
+                || children[0]
+            }</div>
+            <GoTo disabled={ step < 1 }
+                  query={`?step=${children[step - 1]?.props.label}`}
+                >{ t('Previous') }
+            </GoTo>
+            <GoTo disabled={ step > children.length - 1 }
+                  query={`?step=${children[step + 1]?.props.label}`}
+                >{ t('Next') }
+            </GoTo>
         </>
     );
 }
 
-export const Step = ({children}) => {
-    return <>{children}</>;
+export const Step = ({ label, component }) => {
+    return (<>{component()}</>);
 };
 
-export const ProgressBar = ({steps, handleClick, activeStep}) => {
+export const ProgressBar = ({ steps }) => {
+    let query = useQuery();
 
     return (
-        <div>
-            {steps.map((step, index) => (
-                <div key={step.props.label} style={{display: 'inline-block'}}>
-                    <button 
-                        onClick={ () => handleClick(index) }
-                        className={activeStep === index ? 'pointer-active' : 'pointer'}
-                        >{step.props.label}
-                    </button>
+        <div style={{ textAlign: 'center', paddingBottom: '30px' }}>
+            { steps.map(step => (
+                <div key={ step.props.label }
+                     style={{ display: 'inline-block' }}
+                >
+                    <NavLink to={`?step=${step.props.label}`}
+                             area-current='step'
+                             className='ssb-link'
+                             activeStyle={{ color: 'black', textDecoration: 'none'}}
+                             activeClassName='link-text with-icon profiled'
+                             isActive={() => query.get('step') === step.props.label }
+                        >{ step.props.label }
+                    </NavLink>
+                    <span style={{ color: '#1A9D49', padding: '10px' }}>&#10095;</span>
                 </div>
             ))}
         </div>
     );
 };
 
-export const PrevNext = ({min, max, handleClick}) => {
-    const { t } = useTranslation();
-
-    const next = () => {
-        handleClick((state) => (state+1));
-        window.scrollTo(0, 0);
-    };
-
-    const prev = () => {
-        handleClick((state) => (state-1));
-        window.scrollTo(0, 0);
-    };
-
-    // TODO: place buttons on the same place on the each step page -> on the side, not bottom
-    // It should be possible to click forward and backward without scrolling
-    return (
-        <div style={{margin: '5px 0 5px 0', width: '60%'}}>
-            <div style={{float: 'left', marginRight: '20px', padding: '0'}}>
-                <Button primary disabled={min} onClick={ prev }>{t('Previous')}</Button>
-            </div>
-            <div style={{float: 'right'}}>
-                <Button primary disabled={max} onClick={ next }>{t('Next')}</Button>
-            </div>
-            <br style={{clear: 'both'}}/>
-        </div>
-    );
+export const GoTo = ({ query = '', disabled, children }) => {
+    return (<>{
+        !disabled &&
+        <Link to={query}
+            area-labal='step the form'
+        >{ children }</Link>}
+    </>);
 };
