@@ -23,11 +23,17 @@ export default function ChangelogPage() {
 
            <Title size={2}>{ t('Changelog') }</Title>
 
+           <Title size={4}>v0.5.10</Title>
+           <Paragraph>Form navigation is synced with browser history (browser's back and forward buttons can be used).</Paragraph>
+           <Paragraph>Bolder font for the form navigation labels (KF-424).</Paragraph>
+           <Paragraph>New tab icon.</Paragraph>
+           <Paragraph>Extra form step (protected) for sending data to the server (KF-417).</Paragraph>
+
            <Title size={4}>v0.5.9</Title>
            <Paragraph>Version valid until field is editable for drafts.</Paragraph>
            <Paragraph>React v17.0.1.</Paragraph>
-           <Paragraph>Fix for KF-417 save or publish with no redirection</Paragraph>
-           <Paragraph>Fix for KF-418</Paragraph>
+           <Paragraph>Fix for KF-417: save or publish with no redirection</Paragraph>
+           <Paragraph>Fix for KF-418: show <code>versionValidFrom</code> instead of version number.</Paragraph>
            <Paragraph>Fix for version switch dropdown (KF-418): show version valid from instead of version number.</Paragraph>
 
            <Title size={4}>v0.5.8</Title>
