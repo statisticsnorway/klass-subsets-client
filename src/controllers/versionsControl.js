@@ -59,7 +59,7 @@ export const versionable = (state = {}) => ({
         const exists = state.previousVersions.find(v => v.versionValidFrom === chosenVersionFrom);
 
         // TODO: show error if the version does not found
-        if (exists) {
+if (exists) {
 
             state._version = exists.version;
             state._versionRationale = exists.versionRationale?.length > 0

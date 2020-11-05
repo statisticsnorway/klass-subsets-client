@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/App.css';
-import { BrowserRouter, Link, Route, Switch, Redirect, useRouteMatch, useParams } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { ContextProvider } from '../controllers/context';
 import Header from './Header';
 import Footer from './Footer';
@@ -8,6 +8,7 @@ import ChangelogPage from './pages/ChangelogPage';
 import SearchSubsetsPage from './pages/SearchSubsetsPage';
 import SubsetForm from './subsetForm/SubsetForm';
 import { SubsetPage } from './pages/SubsetPage';
+import { Step6Publish } from './subsetForm/Step_6_Publish';
 
 export default function App() {
     return (
@@ -24,7 +25,7 @@ export default function App() {
                     <Switch>
                         <Route path='/' exact component={ SearchSubsetsPage }/>
                         {/*<Redirect push from='/create' to='/auth/create' />*/}
-                        <Route path='/auth/create' component={ SubsetForm }/>
+                        <Route path='/auth/save' component={ Step6Publish }/>
                         <Route path='/create' component={ SubsetForm }/>
                         <Route path='/changelog' exact component={ ChangelogPage }/>
                         <Route path='/subsets/:id' exact component={ SubsetPage }/>
@@ -43,7 +44,7 @@ export default function App() {
 export function NoMatch({location}) {
     return (
         <div className='page'>
-            <h3>No match for <code>{location.pathname}</code>.</h3>
+            <h3>No match for <code>{ location.pathname }</code>.</h3>
             <p>Back to <Link to='/'>home page</Link></p>
         </div>
     );

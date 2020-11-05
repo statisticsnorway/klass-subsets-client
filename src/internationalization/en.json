@@ -110,7 +110,11 @@
   "No description": "No description",
   "Raw JSON": "Raw JSON",
   "Some fields are not right": "Some fields are not right",
-  "Update failed": "Update failed",
+
+  "Sending data to the server": "Sending data to the server",
+  "Update failed": "Update failed for subset with ID={{id}} version={{version}}",
+  "Success": "Success",
+  "Data is sent": "Data is sent",
 
   "Feedback": "Feedback",
   "The application is under development.": "The application is under development.",
