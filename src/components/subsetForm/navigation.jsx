@@ -9,15 +9,15 @@ export function Navigation({ children }) {
     let history = useHistory();
     const [ step, setStep ] = useState(0);
 
-    useEffect(() => {
-        setStep(children.findIndex(c => c.props.label === query.get('step')) || 0);
-    }, [ query ]);
-
     useEffect( () => {
         if (!children.find(c => c.props.label === query.get('step'))) {
             history.push(`?step=${children[0]?.props.label}`);
         }
     }, []);
+
+    useEffect(() => {
+        setStep(children.findIndex(c => c.props.label === query.get('step')) || 0);
+    }, [ query ]);
 
     return (<>
             <ProgressBar steps={ children } />
@@ -26,16 +26,16 @@ export function Navigation({ children }) {
                 || children[0]
             }</div>
             <div style={{ textAlign: 'center', paddingBottom: '30px' }}>
-                    <GoTo disabled={ step < 1 }
-                          query={`?step=${children[step - 1]?.props.label}`}
-                          iconLeft='&#10094;'
-                    >{ t('Previous') }
-                    </GoTo>
-                    <GoTo disabled={ step > children.length - 2 }
-                          query={`?step=${children[step + 1]?.props.label}`}
-                          iconRight='&#10095;'
-                    >{ t('Next') }
-                    </GoTo>
+                <GoTo disabled={ step < 1 }
+                      query={`?step=${children[step - 1]?.props.label}`}
+                      iconLeft='&#10094;'
+                >{ t('Previous') }
+                </GoTo>
+                <GoTo disabled={ step > children.length - 2 }
+                      query={`?step=${children[step + 1]?.props.label}`}
+                      iconRight='&#10095;'
+                >{ t('Next') }
+                </GoTo>
             </div>
         </>
     );
@@ -54,12 +54,12 @@ export const ProgressBar = ({ steps }) => {
                 <div key={ step.props.label }
                      style={{ display: 'inline-block' }}
                 >
-                    <NavLink to={`?step=${step.props.label}`}
+                    <NavLink to={ `?step=${step.props.label}` }
                              area-current='step'
-                             className='ssb-link'
+                             className='ssb-link profiled'
                              activeStyle={{ color: 'black', textDecoration: 'none'}}
                              activeClassName='link-text with-icon profiled'
-                             isActive={() => query.get('step') === step.props.label }
+                             isActive={ () => query.get('step') === step.props.label }
                         >{ step.props.label }
                     </NavLink>
                     <span style={{ color: '#1A9D49', padding: '10px' }}>&#10095;</span>
@@ -73,13 +73,13 @@ export const GoTo = ({ query = '', disabled, iconLeft, iconRight, children }) =>
     return (<>{
         !disabled &&
             <>
-                <span style={{color: '#1A9D49', padding: '10px'}}>{iconLeft}</span>
+                <span style={{ color: '#1A9D49', padding: '10px' }}>{iconLeft}</span>
                 <Link to={query}
                       area-labal='step the form'
                       className='ssb-link'
                     >{children}
                 </Link>
-                <span style={{color: '#1A9D49', padding: '10px'}}>{iconRight}</span>
+                <span style={{ color: '#1A9D49', padding: '10px' }}>{iconRight}</span>
         </>
     }
     </>);

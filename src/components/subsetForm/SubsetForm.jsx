@@ -5,7 +5,7 @@ import { Step1Metadata } from './Step_1_Metadata';
 import { Step2Versions } from './Step_2_Versions';
 import { Step3ChooseCodes } from './Step_3_ChooseCodes';
 import { Step4Reorder } from './Step_4_Reorder';
-import { Step5Publish } from './Step_5_Publish';
+import { Step5Review } from './Step_5_Review';
 import { useTranslation } from 'react-i18next';
 
 export default function SubsetForm() {
@@ -18,7 +18,7 @@ export default function SubsetForm() {
                 <Step label={ t('Versions') } component={ Step2Versions } />
                 <Step label={ t('Choose codes') } component={ Step3ChooseCodes }/>
                 <Step label={ t('Reorder codes') } component={ Step4Reorder } />
-                <Step label={ t('Review and publish') } component={ Step5Publish } />
+                <Step label={ t('Review and publish') } component={ Step5Review } />
             </Navigation>
         </div>
     );

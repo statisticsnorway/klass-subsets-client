@@ -141,5 +141,11 @@ export function usePut(url = '') {
 
     }, [ payload ]);
 
+/*
+    useEffect(() => {
+        console.debug({path, data, payload, error})
+    }, [path, data, payload, error])
+*/
+
     return [ data, setPayload, isLoading, error, setPath ];
 }
