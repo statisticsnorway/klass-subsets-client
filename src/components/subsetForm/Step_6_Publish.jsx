@@ -28,8 +28,10 @@ export const Step6Publish = () => {
 
     useEffect(() => {
         if (post || update) {
-            dispatch({ action: 'reset' });
-            setTimeout(history.push(`/subsets/${draft.id}/versions/${draft.version}`), 2000);
+            setTimeout( () => {
+                history.push(`/subsets/${draft.id}/versions/${draft.version}`);
+                dispatch({ action: 'reset' });
+            }, 2000);
         }
     }, [ dispatch, draft.id, draft.version, history, post, update ])
 
