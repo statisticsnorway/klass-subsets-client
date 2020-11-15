@@ -5,7 +5,7 @@ import { usePost, usePut } from '../../controllers/subsets-service';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../../controllers/context';
 import { CheckCircle } from 'react-feather';
-import { useQuery } from "../../utils/useQuery";
+import { useQuery } from '../../utils/useQuery';
 
 export const Step6Publish = () => {
     const { subset: { draft, dispatch } } = useContext(AppContext);

@@ -1,16 +1,16 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import english from './en.json';
-import bokmaal from './no.json';
+import bokmaal from './nb.json';
 import nynorsk from './nn.json';
 
 // the translations
 // (tip move them in a JSON file and import them)
-const resources = {
+export const resources = {
     en: {
         translation: english
     },
-    no: {
+    nb: {
         translation: bokmaal
     },
     nn: {
@@ -22,7 +22,7 @@ i18n
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({
         resources,
-        lng: 'no',
+        lng: 'nb',
         fallbackLng: 'en',
 
         keySeparator: false, // we do not use keys in form messages.welcome

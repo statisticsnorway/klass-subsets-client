@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/App.css';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
 import { ContextProvider } from '../controllers/context';
 import Header from './Header';
 import Footer from './Footer';
@@ -19,23 +19,22 @@ export default function App() {
              * for protected routes (like '/create').
             */}
             <BrowserRouter forceRefresh={true}>
-                <div className='app'>
-                    <Header/>
-                <div className='app-content'>
-                    <Switch>
-                        <Route path='/' exact component={ SearchSubsetsPage }/>
-                        {/*<Redirect push from='/create' to='/auth/create' />*/}
-                        <Route path='/auth/save' component={ Step6Publish }/>
-                        <Route path='/create' component={ SubsetForm }/>
-                        <Route path='/changelog' exact component={ ChangelogPage }/>
-                        <Route path='/subsets/:id' exact component={ SubsetPage }/>
-                        <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>
-                        <Route path='/subsets/:id/versions/:version' exact component={ SubsetPage }/>
-                        <Route component={NoMatch}/>
-                    </Switch>
-                </div>
-                    <Footer/>
-                </div>
+                <Header/>
+                <Switch>
+
+                    <Redirect push from='/' exact to='/search' />
+
+                    <Route path='/search' exact component={ SearchSubsetsPage }/>
+                    {/*<Redirect push from='/create' to='/auth/create' />*/}
+                    <Route path='/auth/save' component={ Step6Publish }/>
+                    <Route path='/create' component={ SubsetForm }/>
+                    <Route path='/changelog' exact component={ ChangelogPage }/>
+                    <Route path='/subsets/:id' exact component={ SubsetPage }/>
+                    <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>
+                    <Route path='/subsets/:id/versions/:version' exact component={ SubsetPage }/>
+                    <Route component={ NoMatch }/>
+                </Switch>
+                <Footer/>
             </BrowserRouter>
         </ContextProvider>
     );
