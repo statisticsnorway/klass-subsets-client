@@ -114,7 +114,7 @@ export default function ChangelogPage() {
            <Title size={4}>v0.3.4</Title>
            <Paragraph>Bugfix: some codes could not show its name.</Paragraph>
            <Paragraph>Reorder: show codes in a scrollbar window.</Paragraph>
-           <Paragraph><em>/changelog</em>  instead of <em>/about</em>.</Paragraph>
+           <Paragraph><em>/changelog</em> instead of <em>/about</em>.</Paragraph>
 
            <Title size={4}>v0.3.3</Title>
            <Paragraph>Form validation:</Paragraph>
@@ -124,12 +124,12 @@ export default function ChangelogPage() {
                </ul>
            <Paragraph>Limited name length to 250 symbols.</Paragraph>
            <Paragraph>Corrected field name for <code>valid to</code> field to be exclusive.</Paragraph>
-           <Paragraph>Navigation between code lists in search results by using <code>UP</code> and <code>DOWN</code> on "Choose classification" form step.</Paragraph>
+           <Paragraph>Navigation between code lists in search results by using <kbd>UP</kbd> and <kbd>DOWN</kbd> on "Choose classification" form step.</Paragraph>
            <Paragraph>Retry button <RefreshCw size='20' color='#62919A'/> for code lists in search result to repeat Klass API call to retrieve codes and metadata.</Paragraph>
            <Paragraph>Reorder button <Repeat color='#62919A'/> works properly now.</Paragraph>
-           <Paragraph>No scrolling to page bottom, when selecting codes with <code>SPACE</code>.</Paragraph>
-           <Paragraph><code>ESC</code> in rank input field to reset rank.</Paragraph>
-           <Paragraph><code>ESC</code> on table to unselect all selected codes.</Paragraph>
+           <Paragraph>No scrolling to page bottom, when selecting codes with <kbd>SPACE</kbd>.</Paragraph>
+           <Paragraph><kbd>ESC</kbd> in rank input field to reset rank.</Paragraph>
+           <Paragraph><kbd>ESC</kbd> on table to unselect all selected codes.</Paragraph>
            <Paragraph>Some styles are corrected:</Paragraph>
                 <ul>
                    <li><Spinner /> when loading data from services.</li>
@@ -143,13 +143,13 @@ export default function ChangelogPage() {
            <ul>
                <li>better edge case for drag and drop;</li>
                <li>keyboard controls for moving items
-                   (<code>SPACE</code>, <code>ESC</code>, <code>UP</code>, <code>DOWN</code>,
-                   <code>CTRL</code>+<code>UP</code>, <code>CTRL</code>+<code>DOWN</code>);
+                   (<kbd>SPACE</kbd>, <kbd>ESC</kbd>, <kbd>UP</kbd>, <kbd>DOWN</kbd>,
+                   <kbd>CTRL</kbd>+<kbd>UP</kbd>, <kbd>CTRL</kbd>+<kbd>DOWN</kbd>);
                </li>
-               <li>better input field control (button and <code>ENTER</code>);</li>
+               <li>better input field control (button and <kbd>ENTER</kbd>);</li>
                <li>highlighting of updated items;</li>
                <li>fixed item deleting (was broken in v0.3);</li>
-               <li>list item focus (<code>TAB</code>, <code>UP</code>, <code>DOWN</code>);</li>
+               <li>list item focus (<kbd>TAB</kbd>, <kbd>UP</kbd>, <kbd>DOWN</kbd>);</li>
                <li>more detailed help note <HelpCircle color='#2D6975'/>;</li>
                <li>arrow to move an item one step up or down.</li>
            </ul>
