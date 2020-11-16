@@ -4,15 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { LanguageSwitch } from './LanguageSwitch';
 import { Menu } from './Menu';
 import { Logo } from './Logo';
-import { AppName } from './AppName';
+import { AppTitle } from './AppTitle';
+import '../css/header.css';
 
 export default function Header() {
     const { t } = useTranslation();
 
     return (
         <>
+        <header>
             <Logo/>
-            <AppName />
+            <AppTitle />
             <LanguageSwitch/>
             <Menu items={[
                 {
@@ -25,7 +27,8 @@ export default function Header() {
                     title: t('Changelog'),
                     path: '/changelog'},
             ]}/>
-            <Divider/>
-        </>
-    );
+        </header>
+    <Divider/>
+    </>
+);
 }

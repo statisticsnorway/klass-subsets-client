@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu as MenuIcon } from 'react-feather';
+import '../css/menu.css';
 
 export const Menu = ({ items = [] }) => {
     return (
@@ -21,13 +22,13 @@ export const Menu = ({ items = [] }) => {
 
 export const MenuItem = ({title = 'Choice', path=''}) => {
     return (
-        <h2>
+        <div className='MenuItem h3'>
             <NavLink
                 to={ path }
                 activeClassName='active'
                 exact={ true }
             >{ title }
             </NavLink>
-        </h2>
+        </div>
     )
 }
