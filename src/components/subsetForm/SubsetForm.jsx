@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import '../../css/pages.css';
+import '../../css/form-container.css';
 import { Navigation, Step } from './navigation';
 import { Step1Metadata } from './Step_1_Metadata';
 import { Step2Versions } from './Step_2_Versions';
@@ -7,7 +7,7 @@ import { Step3ChooseCodes } from './Step_3_ChooseCodes';
 import { Step4Reorder } from './Step_4_Reorder';
 import { Step5Review } from './Step_5_Review';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 export default function SubsetForm() {
     const { t } = useTranslation();
@@ -21,7 +21,8 @@ export default function SubsetForm() {
     }, [ location.hash ]);
 
     return (
-        <div className='page'>
+        <div id='form-container'>
+        <div id='form-step'>
             <Navigation>
                 <Step label={ t('Metadata') } component={ Step1Metadata } />
                 <Step label={ t('Versions') } component={ Step2Versions } />
@@ -29,6 +30,7 @@ export default function SubsetForm() {
                 <Step label={ t('Reorder codes') } component={ Step4Reorder } />
                 <Step label={ t('Review and publish') } component={ Step5Review } />
             </Navigation>
+        </div>
         </div>
     );
 }

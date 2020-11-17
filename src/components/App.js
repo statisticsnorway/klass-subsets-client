@@ -1,5 +1,4 @@
 import React from 'react';
-import '../css/App.css';
 import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
 import { ContextProvider } from '../controllers/context';
 import Header from './Header';
@@ -21,9 +20,7 @@ export default function App() {
             <BrowserRouter forceRefresh={true}>
                 <Header/>
                 <Switch>
-
                     <Redirect push from='/' exact to='/search' />
-
                     <Route path='/search' exact component={ SearchSubsetsPage }/>
                     {/*<Redirect push from='/create' to='/auth/create' />*/}
                     <Route path='/auth/save' component={ Step6Publish }/>

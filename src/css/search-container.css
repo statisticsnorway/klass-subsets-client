@@ -1,0 +1,29 @@
+#search-zone { grid-area: search-zone; }
+#results { grid-area: results; }
+
+@media only screen and (max-width: 1345px) {
+
+  #search-container {
+    grid-template-areas:
+    'search-zone'
+    'results';
+    display: grid;
+    justify-content: center;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+}
+
+@media only screen and (min-width: 1346px) {
+
+  #search-container {
+    grid-template-areas:
+    'search-zone'
+    'results';
+    display: grid;
+    grid-template-columns: 800px;
+    justify-content: center;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+}
