@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import '../../css/form-container.css';
+import '../../css/container.css';
 import { Navigation, Step } from './navigation';
 import { Step1Metadata } from './Step_1_Metadata';
 import { Step2Versions } from './Step_2_Versions';
@@ -21,16 +21,16 @@ export default function SubsetForm() {
     }, [ location.hash ]);
 
     return (
-        <div id='form-container'>
-        <div id='form-step'>
-            <Navigation>
-                <Step label={ t('Metadata') } component={ Step1Metadata } />
-                <Step label={ t('Versions') } component={ Step2Versions } />
-                <Step label={ t('Choose codes') } component={ Step3ChooseCodes }/>
-                <Step label={ t('Reorder codes') } component={ Step4Reorder } />
-                <Step label={ t('Review and publish') } component={ Step5Review } />
-            </Navigation>
-        </div>
+        <div className='container'>
+            <div className='content'>
+                <Navigation>
+                    <Step label={ t('Metadata') } component={ Step1Metadata } />
+                    <Step label={ t('Versions') } component={ Step2Versions } />
+                    <Step label={ t('Choose codes') } component={ Step3ChooseCodes }/>
+                    <Step label={ t('Reorder codes') } component={ Step4Reorder } />
+                    <Step label={ t('Review and publish') } component={ Step5Review } />
+                </Navigation>
+            </div>
         </div>
     );
 }

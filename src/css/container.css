@@ -1,10 +1,10 @@
-#form-step { grid-area: form-step; }
+.content { grid-area: content; }
 
 @media only screen and (max-width: 1345px) {
 
-  #form-container {
+  .container {
     grid-template-areas:
-    'form-step';
+    'content';
     display: grid;
     justify-content: center;
     grid-gap: 10px;
@@ -14,9 +14,9 @@
 
 @media only screen and (min-width: 1346px) {
 
-  #form-container {
+  .container {
     grid-template-areas:
-    'form-step';
+    'content';
     display: grid;
     grid-template-columns: 800px;
     justify-content: center;

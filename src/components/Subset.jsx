@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 import { Accordion,
-    Paragraph,
-    Title,
     Link as SsbLink
 } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
@@ -12,54 +10,73 @@ import { useHistory } from 'react-router-dom';
 import { AppContext } from '../controllers/context';
 import { Edit } from 'react-feather';
 
-export const SubsetPreview = ({ subset }) => {
+export const SubsetPreview = ({ subset, edit }) => {
     const { t } = useTranslation();
 
-    // FIXME: show title in selected language, not just first in the name array.
-    // TODO: show subset in other languages - switch button for language?
+    // TODO: show subset in other languages - switch button for language? smart language choice?
     // TODO: show versions?
 
     return (
         <>
-            <Title size={2}>{ subset.name[0]?.languageText || t('Subset has got no title yet') }</Title>
-            <Paragraph><strong>ID:</strong> { subset.id || '-' }</Paragraph>
-            <Paragraph><strong>{ t('Subsets validity period') }</strong>
+            <h2>{ subset.name?.find(name => name.languageCode === 'nb')?.languageText
+                || t('No name') }
+                {
+                    edit &&
+                    <Edit
+                        style={{
+                            color: '#ED5935',
+                            margin: '0 10px',
+                            cursor: 'pointer'
+                        }}
+                        onClick={edit}/>
+                }
+            </h2>
+            <Brief
+                id={ <Id>{ subset.id || '-' }</Id> }
+                versionValidFrom={ subset?.versionValidFrom }
+                lastUpdatedDate={ subset?.lastUpdatedDate }
+                status={ subset?.administrativeStatus }
+            />
+            <p><strong>{ t('Subsets validity period') }</strong>
                 { subset?.validFrom || subset?.validUntil
                     ? `: ${ t('from') } ${ eu(subset?.validFrom) || '...' } ${
                         t('to')} ${ eu(subset?.validUntil) || '...' }`
                     : `. ${ t('Period is not set') }.`
                 }
-            </Paragraph>
-            <Paragraph><strong>{ t('Versions validity period') }</strong>
+            </p>
+            <p><strong>{ t('Versions validity period') }</strong>
                 { subset?.versionValidFrom || subset?.versionValidUntil
                     ? `: ${ t('from') } ${ eu(subset?.versionValidFrom) || '...' } ${
                         t('to')} ${ eu(subset?.versionValidUntil) || '...' }`
                     : `. ${ t('Period is not set') }.`
                 }
-            </Paragraph>
+            </p>
 
-            <Paragraph>{ subset.description[0]?.languageText || t('No description') }</Paragraph>
+            <p>{ subset.description?.find(desc => desc.languageCode === 'nb')?.languageText
+                || t('No description') }
+            </p>
 
-            <Paragraph><strong>{ t('Owner') }:</strong> { subset.createdBy || '-' }</Paragraph>
+            <p><strong>{ t('Owner') }:</strong> { subset.createdBy || '-' }</p>
 
-            <Paragraph><strong>{ t('Subject') }:</strong> { subset.subject || '-' }</Paragraph>
+            <p><strong>{ t('Subject') }:</strong> { subset.subject || '-' }</p>
 
-            <Paragraph><strong>{ t('Version') }:</strong> { subset.version || '-' }</Paragraph>
+            <p><strong>{ t('Version') }:</strong> { subset.version || '-' }</p>
 
-            <Title size={3}>{t('Codes')}: </Title>
+            <h3>{ t('Codes') }: </h3>
+            {/* FIXME: check the validity period is set correctly*/}
             { subset.codes
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
                     <Code key={i}
                           origin={{
                               ...code,
-                              validFromInRequestedRange: subset.versionValidFrom,
-                              validToInRequestedRange: subset.versionValidUntil || ''
+                              validFromInRequestedRange: subset.versionValidFrom?.substr(0, 10),
+                              validToInRequestedRange: subset.versionValidUntil?.substr(0, 10) || ''
                           }}
                     />))}
 
-            <Accordion header={t('Raw JSON')}>
-                <pre>{ JSON.stringify(subset.payload, null, 4) }</pre>
+            <Accordion header={ t('Raw JSON') }>
+                <pre>{ JSON.stringify(subset.payload || subset, null, 4) }</pre>
             </Accordion>
         </>
     );

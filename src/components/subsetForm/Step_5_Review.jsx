@@ -14,7 +14,6 @@ export const Step5Review = () => {
 return (
         <>
             <Title size={3}>{ t('Review and publish') }</Title>
-            <SubsetBrief />
 
             <SubsetPreview subset={ draft }/>
 
