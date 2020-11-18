@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './subsetForm/form.css';
 import { Paragraph } from '@statisticsnorway/ssb-component-library';
 import { HelpCircle } from 'react-feather';
 
@@ -15,7 +14,7 @@ export const Help = ({ children }) => {
                 }}>
                 <HelpCircle color='#2D6975'/>
             </button>
-            {showHelp &&
+            { showHelp &&
                 <div style={{
                     background: '#274247',
                     color: 'white',
