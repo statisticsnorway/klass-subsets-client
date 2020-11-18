@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/changelog-container.css';
 import { useTranslation } from 'react-i18next';
 import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
-import Spinner from '../components/Spinner';
+import { Spinner } from '../components/Spinner';
 
 export default function ChangelogPage() {
    const { t } = useTranslation();

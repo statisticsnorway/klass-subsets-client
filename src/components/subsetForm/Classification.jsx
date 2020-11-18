@@ -12,10 +12,10 @@ import {
 } from 'react-feather';
 import {Accordion, Paragraph, Text, Title} from '@statisticsnorway/ssb-component-library';
 import { useGet, URN, useClassification } from '../../controllers/klass-api';
-import '../../css/panel.css';
+import './panel.css';
 import { useTranslation } from 'react-i18next';
 import { replaceRef } from '../../utils/strings';
-import Spinner from '../Spinner';
+import { Spinner } from '../Spinner';
 import keys from '../../utils/keys';
 import { AppContext } from '../../controllers/context';
 

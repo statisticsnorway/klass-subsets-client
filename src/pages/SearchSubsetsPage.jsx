@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useGet } from '../controllers/subsets-service';
 import { Subsets } from '../components/Subset/Subset';
 import { Search } from '../controllers/Search';
-import Spinner from '../components/Spinner';
+import { Spinner } from '../components/Spinner';
 import { Sliders } from 'react-feather';
 import '../css/search-container.css';
 

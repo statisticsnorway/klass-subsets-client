@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Accordion, Text } from '@statisticsnorway/ssb-component-library';
 import { replaceRef } from '../utils/strings';
 import { useCode, URN } from '../controllers/klass-api';
-import Spinner from './Spinner';
+import { Spinner } from './Spinner';
 
 export const Code = ({ origin }) => {
     const { t } = useTranslation();

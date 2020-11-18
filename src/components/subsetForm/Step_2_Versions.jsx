@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Title} from '@statisticsnorway/ssb-component-library';
 import { Dropdown, TextLanguageFieldset } from './forms';
 import { useGet } from '../../controllers/subsets-service';
-import Spinner from '../Spinner';
 import { SubsetBrief } from '../Subset/SubsetBrief';
 import { AppContext } from '../../controllers/context';
 import { subsetDraft } from '../../controllers/defaults';
 import { Help } from '../Help';
+import { Spinner } from '../Spinner';
 
 export const Step2Versions = () => {
     const { t } = useTranslation();
@@ -42,7 +42,7 @@ export const VersionSwitcher = () => {
 
     return (
         <>{ isLoadingVersions
-            ? <Spinner/>
+            ? <Spinner />
             : <Dropdown label={ t('Version') }
                         options={ draft.previousVersions
                            ? [

@@ -5,7 +5,7 @@ import { Classification } from './Classification';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/klass-api';
 import { URL } from '../../controllers/klass-api';
-import '../../css/list.css';
+import './list.css';
 import { SubsetBrief } from '../Subset/SubsetBrief';
 import { AppContext } from '../../controllers/context';
 import { eu } from '../../utils/strings';
