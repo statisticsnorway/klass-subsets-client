@@ -13,10 +13,12 @@ pre {
   border: 1px solid silver;
   padding: 10px 20px;
   margin: 20px;
+  overflow: auto;
 }
 
 code {
   background-color: ghostwhite;
+  overflow: auto;
 }
 
 .active {

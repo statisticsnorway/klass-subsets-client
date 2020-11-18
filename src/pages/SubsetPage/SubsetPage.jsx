@@ -5,7 +5,7 @@ import { useGet } from '../../controllers/subsets-service';
 import { AppContext } from '../../controllers/context';
 import { Spinner } from '../../components/Spinner';
 import './container.css';
-import { SubsetPreview } from '../../components/Subset/Subset';
+import { SubsetPreview } from '../../components/Subset/SubsetPreview';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
