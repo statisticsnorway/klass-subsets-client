@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Button, Title, FormError } from '@statisticsnorway/ssb-component-library';
 import { SubsetPreview } from '../Subset';
 import { useHistory } from 'react-router-dom';
-import { SubsetBrief } from '../SubsetBrief';
 import { AppContext } from '../../controllers/context';
 
 export const Step5Review = () => {
@@ -14,7 +13,6 @@ export const Step5Review = () => {
 return (
         <>
             <Title size={3}>{ t('Review and publish') }</Title>
-            <SubsetBrief />
 
             <SubsetPreview subset={ draft }/>
 

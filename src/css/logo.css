@@ -1,0 +1,15 @@
+
+@media only screen and (max-width: 767px) {
+  #logo-full {
+    display: none;
+  }
+  #logo-symbol {
+    max-width: 55px;
+    height: auto;
+  }
+}
+@media only screen and (min-width: 768px) {
+  #logo-symbol {
+    display: none;
+  }
+}

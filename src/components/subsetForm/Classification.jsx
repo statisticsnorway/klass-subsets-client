@@ -293,7 +293,7 @@ export const CodeInfo = ({item, notes = [], isLoadingVersion}) => {
 };
 
 export const CodelistInfo = ({id, info}) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <div style={{ backgroundColor: '#eff4f5' }}

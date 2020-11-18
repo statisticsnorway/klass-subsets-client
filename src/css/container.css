@@ -1,0 +1,26 @@
+.content { grid-area: content; }
+
+@media only screen and (max-width: 1345px) {
+
+  .container {
+    grid-template-areas:
+    'content';
+    display: grid;
+    justify-content: center;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+}
+
+@media only screen and (min-width: 1346px) {
+
+  .container {
+    grid-template-areas:
+    'content';
+    display: grid;
+    grid-template-columns: 800px;
+    justify-content: center;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+}
