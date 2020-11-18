@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Title, FormError } from '@statisticsnorway/ssb-component-library';
-import { SubsetPreview } from '../Subset/SubsetPreview';
+import { Preview } from '../Subset/Preview';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../../controllers/context';
 
@@ -14,7 +14,7 @@ return (
         <>
             <Title size={3}>{ t('Review and publish') }</Title>
 
-            <SubsetPreview subset={ draft }/>
+            <Preview subset={ draft }/>
 
             { Object.values(draft.errors).flat().length > 0 &&
                 <FormError title={ t('Some fields are not right') }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/subsets-service';
-import { Subsets } from '../../components/Subset';
+import { List } from '../../components/Subset';
 import { Search } from '../../controllers/Search';
 import { Spinner } from '../../components/Spinner';
 import { Sliders } from 'react-feather';
@@ -63,7 +63,7 @@ export const SearchSubsets = () => {
                             </p>
                             : !searchResults || searchResults.length === 0
                                 ? <p>{ t('Nothing is found') }</p>
-                                : <Subsets items={ searchResults
+                                : <List items={ searchResults
                                     .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate
                                         ? 0
                                         : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />

@@ -5,7 +5,7 @@ import { useGet } from '../../controllers/subsets-service';
 import { AppContext } from '../../controllers/context';
 import { Spinner } from '../../components/Spinner';
 import './container.css';
-import { SubsetPreview } from '../../components/Subset/SubsetPreview';
+import { Preview } from '../../components/Subset/Preview';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
@@ -28,8 +28,8 @@ export const SubsetPage = () => {
                             ? t('Subset version for subset with id does not exist', { version, id })
                             : t('Subset with id does not exist', { id }) }.
                           </p>
-                        : <SubsetPreview subset={ subsetData }
-                                         edit={() => {
+                        : <Preview subset={ subsetData }
+                                   edit={() => {
                                              subset.dispatch({action: 'edit', data: subset});
                                              history.push('/create');
                                          }}

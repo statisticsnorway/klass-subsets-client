@@ -3,7 +3,8 @@ import { Tabs, Divider } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { Code } from '../Code';
 import { eu } from '../../utils/strings';
-import { Brief, Id } from './SubsetBrief';
+import { Brief } from './Brief';
+import { Id } from './Id';
 import { Edit } from 'react-feather';
 
 const tabCode = [
@@ -16,7 +17,7 @@ const tabCode = [
     },
 ];
 
-export const SubsetPreview = ({ subset, edit }) => {
+export const Preview = ({ subset, edit }) => {
     const { t } = useTranslation();
     const [ activeCodeTab, changeCodeTab ] = useState(tabCode[0].path);
     const tabCodeClicked = e => changeCodeTab(e);

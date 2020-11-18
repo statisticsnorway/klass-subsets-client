@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../../controllers/context';
 import { Link as SsbLink } from "@statisticsnorway/ssb-component-library";
-import { Brief, Id } from './SubsetBrief';
+import { Brief } from './Brief';
+import { Id } from './Id';
 import { Edit } from 'react-feather';
 
 export const SubsetBanner = ({ subsetData }) => {

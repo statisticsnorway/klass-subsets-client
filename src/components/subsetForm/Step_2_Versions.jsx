@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Title} from '@statisticsnorway/ssb-component-library';
 import { Dropdown, TextLanguageFieldset } from './forms';
 import { useGet } from '../../controllers/subsets-service';
-import { SubsetBrief } from '../Subset/SubsetBrief';
+import { Brief } from '../Subset';
 import { AppContext } from '../../controllers/context';
 import { subsetDraft } from '../../controllers/defaults';
 import { Help } from '../Help';
@@ -15,7 +15,7 @@ export const Step2Versions = () => {
     return (
         <>
             <Title size={3}>{ t('Versions') }</Title>
-            <SubsetBrief />
+            <Brief />
             <VersionSwitcher />
             <VersionPeriod />
             <VersionRationale />

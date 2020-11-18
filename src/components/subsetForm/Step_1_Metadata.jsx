@@ -5,7 +5,7 @@ import { subsetDraft } from '../../controllers/defaults';
 import { Title } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/klass-api';
-import { SubsetBrief } from '../Subset/SubsetBrief';
+import { BriefContextual } from '../Subset';
 import { AppContext } from '../../controllers/context';
 import { useGet as useGetSubset } from '../../controllers/subsets-service';
 import { Help } from '../Help';
@@ -15,8 +15,8 @@ export const Step1Metadata = () => {
 
     return (
         <>
-            <Title size={3}>{t('Metadata')}</Title>
-            <SubsetBrief editable />
+            <Title size={3}>{ t('Metadata') }</Title>
+            <BriefContextual editable />
             <SubsetNameForm />
             <SubsetValidityForm />
             <SubsetSectionForm />

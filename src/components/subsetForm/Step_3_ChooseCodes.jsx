@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/klass-api';
 import { URL } from '../../controllers/klass-api';
 import './list.css';
-import { SubsetBrief } from '../Subset/SubsetBrief';
+import { Brief } from '../Subset';
 import { AppContext } from '../../controllers/context';
 import { eu } from '../../utils/strings';
 
@@ -16,7 +16,7 @@ export const Step3ChooseCodes = () => {
     /* TODO: tooltips for classification icons */
     return (<>
             <Title size={3}>{t('Choose classifications and code lists')}</Title>
-            <SubsetBrief />
+            <Brief />
             <SearchForm />
             <IncludedCodeLists/>
         </>

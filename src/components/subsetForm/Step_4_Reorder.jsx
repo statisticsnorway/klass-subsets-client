@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Title } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { Reorderable } from './reorderable';
-import { SubsetBrief } from '../Subset/SubsetBrief';
+import { Brief } from '../Subset';
 import { AppContext } from '../../controllers/context';
 
 export const Step4Reorder = () => {
@@ -12,7 +12,7 @@ export const Step4Reorder = () => {
 
     return (<>
         <Title size={3}>{t('Reorder codes')}</Title>
-        <SubsetBrief />
+        <Brief />
 
         { draft.codes?.length === 0
             ? <p>{t('No items to sort')}</p>

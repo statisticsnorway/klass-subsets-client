@@ -1,6 +1,6 @@
-import { SubsetBanner } from './SubsetsBanner';
+import { SubsetBanner } from './Banner';
 
-export const Subsets = ({items}) => {
+export const List = ({items}) => {
     return (
         <>{items?.length > 0 &&
         items.map((subset, i) => (
