@@ -8,12 +8,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*code {
-  font-family: 'Lucida Console', monospace;
-  background-color: #dbdbdb;
-  border: 1px solid gray;
-  padding: 3px;
-}*/
+pre {
+  background-color: ghostwhite;
+  border: 1px solid silver;
+  padding: 10px 20px;
+  margin: 20px;
+}
+
+code {
+  background-color: ghostwhite;
+}
 
 .active {
   color: darkgreen;

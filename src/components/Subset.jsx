@@ -7,8 +7,6 @@ import { Brief, Id } from './SubsetBrief';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../controllers/context';
 import { Edit } from 'react-feather';
-import '../css/json.css';
-import { colorizeJson } from '../utils/strings';
 
 const tabCode = [
     {
@@ -53,12 +51,9 @@ export const SubsetPreview = ({ subset, edit }) => {
                 <Tabs activeOnInit={ tabCode[0].path } items={ tabCode } onClick={ tabCodeClicked } />
                 <Divider light />
                 { activeCodeTab === 'json'
-                    &&
-
-                <pre>{ JSON.stringify(subset.payload || subset, null, 4)}</pre>
-
-                //<pre><code>{ colorizeJson.prettyPrint(subset.payload || subset) }</code></pre>
-                }
+                    && <pre>
+                        { JSON.stringify(subset.payload || subset, null, 4)}
+                    </pre> }
                 { activeCodeTab === 'html'
                     && (
                         <>
