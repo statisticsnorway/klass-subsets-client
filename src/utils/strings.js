@@ -44,3 +44,25 @@ export const euTime = (dateString) => {
 };
 
 export const datePattern = /^((?:18|19|20|21|22)\d{2})-((?:0[1-9])|(?:1[0-2]))-((?:0[0-9])|(?:[1-2][0-9])|(?:3[0-1]))T\d{2}:\d{2}:\d{2}.\d{3}Z$/i //2020-09-21T00:00:00.000Z
+
+// TESTME!!!
+export const colorizeJson = {
+    replacer: function(match, pIndent, pKey, pVal, pEnd) {
+        const key = '<span class=json-key>';
+        const val = '<span class=json-value>';
+        const str = '<span class=json-string>';
+        let r = pIndent || '';
+        if (pKey)
+            r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+        if (pVal)
+            r = r + (pVal[0] === '"' ? str : val) + pVal + '</span>';
+        return r + (pEnd || '');
+    },
+    prettyPrint: function(obj) {
+        const jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+        return JSON.stringify(obj, null, 3)
+            .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+            .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(jsonLine, this.replacer);
+    }
+};

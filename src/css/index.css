@@ -8,12 +8,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
+/*code {
   font-family: 'Lucida Console', monospace;
   background-color: #dbdbdb;
   border: 1px solid gray;
   padding: 3px;
-}
+}*/
 
 .active {
   color: darkgreen;

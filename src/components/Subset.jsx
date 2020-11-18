@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
-import { Accordion,
-    Link as SsbLink
-} from '@statisticsnorway/ssb-component-library';
+import React, { useContext, useState } from 'react';
+import { Tabs, Divider, Link as SsbLink} from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { Code } from './Code';
 import { eu } from '../utils/strings';
@@ -9,9 +7,23 @@ import { Brief, Id } from './SubsetBrief';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../controllers/context';
 import { Edit } from 'react-feather';
+import '../css/json.css';
+import { colorizeJson } from '../utils/strings';
+
+const tabCode = [
+    {
+        title: 'Html',
+        path: 'html',
+    }, {
+        title: 'JSON',
+        path: 'json',
+    },
+];
 
 export const SubsetPreview = ({ subset, edit }) => {
     const { t } = useTranslation();
+    const [ activeCodeTab, changeCodeTab ] = useState(tabCode[0].path);
+    const tabCodeClicked = e => changeCodeTab(e);
 
     // TODO: show subset in other languages - switch button for language? smart language choice?
     // TODO: show versions?
@@ -37,47 +49,60 @@ export const SubsetPreview = ({ subset, edit }) => {
                 lastUpdatedDate={ subset?.lastUpdatedDate }
                 status={ subset?.administrativeStatus }
             />
-            <p><strong>{ t('Subsets validity period') }</strong>
-                { subset?.validFrom || subset?.validUntil
-                    ? `: ${ t('from') } ${ eu(subset?.validFrom) || '...' } ${
-                        t('to')} ${ eu(subset?.validUntil) || '...' }`
-                    : `. ${ t('Period is not set') }.`
+            <div>
+                <Tabs activeOnInit={ tabCode[0].path } items={ tabCode } onClick={ tabCodeClicked } />
+                <Divider light />
+                { activeCodeTab === 'json'
+                    &&
+
+                <pre>{ JSON.stringify(subset.payload || subset, null, 4)}</pre>
+
+                //<pre><code>{ colorizeJson.prettyPrint(subset.payload || subset) }</code></pre>
                 }
-            </p>
-            <p><strong>{ t('Versions validity period') }</strong>
-                { subset?.versionValidFrom || subset?.versionValidUntil
-                    ? `: ${ t('from') } ${ eu(subset?.versionValidFrom) || '...' } ${
-                        t('to')} ${ eu(subset?.versionValidUntil) || '...' }`
-                    : `. ${ t('Period is not set') }.`
+                { activeCodeTab === 'html'
+                    && (
+                        <>
+                            <p><strong>{ t('Subsets validity period') }</strong>
+                            { subset?.validFrom || subset?.validUntil
+                                ? `: ${ t('from') } ${ eu(subset?.validFrom) || '...' } ${
+                                    t('to')} ${ eu(subset?.validUntil) || '...' }`
+                                : `. ${ t('Period is not set') }.`
+                            }
+                            </p>
+                            <p><strong>{ t('Versions validity period') }</strong>
+                            { subset?.versionValidFrom || subset?.versionValidUntil
+                                ? `: ${ t('from') } ${ eu(subset?.versionValidFrom) || '...' } ${
+                                    t('to')} ${ eu(subset?.versionValidUntil) || '...' }`
+                                : `. ${ t('Period is not set') }.`
+                            }
+                            </p>
+
+                            <p>{ subset.description?.find(desc => desc.languageCode === 'nb')?.languageText
+                        || t('No description') }
+                            </p>
+
+                            <p><strong>{ t('Owner') }:</strong> { subset.createdBy || '-' }</p>
+
+                            <p><strong>{ t('Subject') }:</strong> { subset.subject || '-' }</p>
+
+                            <p><strong>{ t('Version') }:</strong> { subset.version || '-' }</p>
+
+                            <h3>{ t('Codes') }: </h3>
+                        {/* FIXME: check the validity period is set correctly*/}
+                        { subset.codes
+                            .sort((a,b) => (a.rank - b.rank))
+                            .map((code, i) => (
+                            <Code key={i}
+                            origin={{
+                            ...code,
+                            validFromInRequestedRange: subset.versionValidFrom?.substr(0, 10),
+                            validToInRequestedRange: subset.versionValidUntil?.substr(0, 10) || ''
+                        }}
+                            />))
+                        }
+                </>)
                 }
-            </p>
-
-            <p>{ subset.description?.find(desc => desc.languageCode === 'nb')?.languageText
-                || t('No description') }
-            </p>
-
-            <p><strong>{ t('Owner') }:</strong> { subset.createdBy || '-' }</p>
-
-            <p><strong>{ t('Subject') }:</strong> { subset.subject || '-' }</p>
-
-            <p><strong>{ t('Version') }:</strong> { subset.version || '-' }</p>
-
-            <h3>{ t('Codes') }: </h3>
-            {/* FIXME: check the validity period is set correctly*/}
-            { subset.codes
-                .sort((a,b) => (a.rank - b.rank))
-                .map((code, i) => (
-                    <Code key={i}
-                          origin={{
-                              ...code,
-                              validFromInRequestedRange: subset.versionValidFrom?.substr(0, 10),
-                              validToInRequestedRange: subset.versionValidUntil?.substr(0, 10) || ''
-                          }}
-                    />))}
-
-            <Accordion header={ t('Raw JSON') }>
-                <pre>{ JSON.stringify(subset.payload || subset, null, 4) }</pre>
-            </Accordion>
+            </div>
         </>
     );
 };
