@@ -2,9 +2,9 @@ import React from 'react';
 import { Divider } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitch } from '../LanguageSwitch';
-import { Menu } from '../Menu';
-import { Logo } from '../Logo';
-import { AppTitle } from '../AppTitle';
+import { Menu } from './Menu';
+import { Logo } from './Logo';
+import { AppTitle } from './AppTitle';
 import './header.css';
 
 export const Header = () => {

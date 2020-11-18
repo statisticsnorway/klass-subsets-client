@@ -1,6 +1,6 @@
 import React from 'react';
-import SsbLogo from '../../images/SsbLogo.svg';
-import SsbLogoS from '../../images/SsbLogoS.svg';
+import SsbLogo from '../../../images/SsbLogo.svg';
+import SsbLogoS from '../../../images/SsbLogoS.svg';
 import './logo.css';
 
 export const Logo = () => {

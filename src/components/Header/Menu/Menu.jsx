@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu as MenuIcon } from 'react-feather';
-import '../css/menu.css';
+import './menu.css';
 
 export const Menu = ({ items = [] }) => {
     return (
