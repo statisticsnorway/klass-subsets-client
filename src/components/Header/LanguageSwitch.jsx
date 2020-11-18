@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { languages } from '../controllers/defaults';
+import { languages } from '../../controllers/defaults';
 
 export const LanguageSwitch = () => {
     const { i18n } = useTranslation();

@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState } from 'react';
-import '../../css/form.css';
+import './form.css';
 import { useTranslation } from 'react-i18next';
 import { Title} from '@statisticsnorway/ssb-component-library';
 import { Dropdown, TextLanguageFieldset } from './forms';
 import { useGet } from '../../controllers/subsets-service';
 import Spinner from '../Spinner';
-import { SubsetBrief } from '../SubsetBrief';
+import { SubsetBrief } from '../Subset/SubsetBrief';
 import { AppContext } from '../../controllers/context';
 import { subsetDraft } from '../../controllers/defaults';
 import { Help } from '../Help';

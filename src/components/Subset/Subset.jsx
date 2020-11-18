@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Tabs, Divider, Link as SsbLink} from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
-import { Code } from './Code';
-import { eu } from '../utils/strings';
+import { Code } from '../Code';
+import { eu } from '../../utils/strings';
 import { Brief, Id } from './SubsetBrief';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from '../controllers/context';
+import { AppContext } from '../../controllers/context';
 import { Edit } from 'react-feather';
 
 const tabCode = [

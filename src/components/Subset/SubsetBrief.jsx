@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../controllers/context';
+import { AppContext } from '../../controllers/context';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@statisticsnorway/ssb-component-library';
-import { SubsetIdForm } from './subsetForm/Step_1_Metadata';
-import { eu, euTime} from '../utils/strings';
+import { SubsetIdForm } from '../subsetForm/Step_1_Metadata';
+import { eu, euTime} from '../../utils/strings';
 
 export const Brief = ({ id, versionValidFrom, lastUpdatedDate, status }) => {
     const { t } = useTranslation();

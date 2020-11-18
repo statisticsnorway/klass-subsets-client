@@ -8,7 +8,7 @@ import {
     HelpCircle
 } from 'react-feather';
 import { Paragraph, LeadParagraph } from '@statisticsnorway/ssb-component-library';
-import '../../css/form.css';
+import './form.css';
 import keys from '../../utils/keys';
 import Spinner from '../Spinner';
 import { URN } from '../../controllers/klass-api';

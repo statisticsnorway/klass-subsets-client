@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Title, FormError } from '@statisticsnorway/ssb-component-library';
-import { SubsetPreview } from '../Subset';
+import { SubsetPreview } from '../Subset/Subset';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../../controllers/context';
 

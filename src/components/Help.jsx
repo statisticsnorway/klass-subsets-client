@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/form.css';
+import './subsetForm/form.css';
 import { Paragraph } from '@statisticsnorway/ssb-component-library';
 import { HelpCircle } from 'react-feather';
 
