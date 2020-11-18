@@ -1,12 +1,11 @@
 #Logo { grid-area: logo; }
 #AppTitle { grid-area: title; }
-#AppVersion { grid-area: version; }
 #LanguageSwitch { grid-area: languages; }
 #Menu { grid-area: menu; }
-.ssb-divider { grid-area: divider; }
 
 @media only screen and (max-width: 767px) {
 
+  /* mobile first */
   header {
     grid-template-areas:
     'languages languages languages languages'
@@ -24,7 +23,6 @@
   #Logo, #LanguageSwitch, #Menu {
     text-align: right;
   }
-
 }
 
 @media only screen and (min-width: 768px) {

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
-import { useGet } from '../../controllers/subsets-service';
-import { AppContext } from '../../controllers/context';
-import Spinner from '../Spinner';
-import '../../css/container.css';
-import { SubsetPreview } from '../Subset';
+import { useGet } from '../controllers/subsets-service';
+import { AppContext } from '../controllers/context';
+import Spinner from '../components/Spinner';
+import '../css/container.css';
+import { SubsetPreview } from '../components/Subset';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
