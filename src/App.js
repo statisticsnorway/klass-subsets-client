@@ -3,10 +3,8 @@ import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
 import { ContextProvider } from './controllers/context';
 import { Header } from './components/Header';
 import Footer from './components/Footer';
-import ChangelogPage from './pages/ChangelogPage';
-import SearchSubsetsPage from './pages/SearchSubsetsPage';
-import SubsetForm from './components/subsetForm/SubsetForm';
-import { SubsetPage } from './pages/SubsetPage';
+import { Changelog, SearchSubsets, SubsetPage } from './pages';
+import { SubsetForm } from './components/subsetForm/SubsetForm';
 import { Step6Publish } from './components/subsetForm/Step_6_Publish';
 
 export default function App() {
@@ -21,11 +19,11 @@ export default function App() {
                 <Header/>
                 <Switch>
                     <Redirect push from='/' exact to='/search' />
-                    <Route path='/search' exact component={ SearchSubsetsPage }/>
+                    <Route path='/search' exact component={ SearchSubsets }/>
                     {/*<Redirect push from='/create' to='/auth/create' />*/}
                     <Route path='/auth/save' component={ Step6Publish }/>
                     <Route path='/create' component={ SubsetForm }/>
-                    <Route path='/changelog' exact component={ ChangelogPage }/>
+                    <Route path='/changelog' exact component={ Changelog }/>
                     <Route path='/subsets/:id' exact component={ SubsetPage }/>
                     <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>
                     <Route path='/subsets/:id/versions/:version' exact component={ SubsetPage }/>

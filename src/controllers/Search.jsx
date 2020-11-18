@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import '../css/autosuggest.css';
+import './autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
 import keys from '../utils/keys';
 

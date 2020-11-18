@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import '../../css/container.css';
+import './container.css';
 import { Navigation, Step } from './navigation';
 import { Step1Metadata } from './Step_1_Metadata';
 import { Step2Versions } from './Step_2_Versions';
@@ -9,7 +9,7 @@ import { Step5Review } from './Step_5_Review';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-export default function SubsetForm() {
+export const SubsetForm = () => {
     const { t } = useTranslation();
     let location = useLocation();
 
