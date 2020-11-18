@@ -24,14 +24,16 @@ export default function ChangelogPage() {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.5.11</h4>
+               <p>Responsive header and menu.</p>
+               <p>Html and Json format are tabs in subset preview.</p>
+               <p>Subset preview is now a shared component between the "Review and save" and Subset page.</p>
+
                <h4>v0.5.10</h4>
                <p>Form navigation is synced with browser history (browser's back and forward buttons can be used).</p>
                <p>Bolder font for the form navigation labels (KF-424).</p>
                <p>New tab icon.</p>
                <p>Extra form step (protected) for sending data to the server (KF-417).</p>
-               <p>Responsive header and menu.</p>
-               <p>Html and Json format are tabs in subset preview.</p>
-               <p>Subset preview is now a shared component between the "Review and save" and Subset page.</p>
 
                <h4>v0.5.9</h4>
                <p>Version valid until field is editable for drafts.</p>
