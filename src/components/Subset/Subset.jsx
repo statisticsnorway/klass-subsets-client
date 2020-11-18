@@ -1,16 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { Tabs, Divider, Link as SsbLink} from '@statisticsnorway/ssb-component-library';
+import React, { useState } from 'react';
+import { Tabs, Divider } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { Code } from '../Code';
 import { eu } from '../../utils/strings';
 import { Brief, Id } from './SubsetBrief';
-import { useHistory } from 'react-router-dom';
-import { AppContext } from '../../controllers/context';
 import { Edit } from 'react-feather';
 
 const tabCode = [
     {
-        title: 'Html',
+        title: 'HTML',
         path: 'html',
     }, {
         title: 'JSON',
@@ -98,59 +96,6 @@ export const SubsetPreview = ({ subset, edit }) => {
                 </>)
                 }
             </div>
-        </>
-    );
-};
-
-export const SubsetBanner = ({ subsetData }) => {
-    const { t } = useTranslation();
-    let history = useHistory();
-    const { subset } = useContext(AppContext);
-
-
-    // FIXME: translate placeholders
-    // TODO: smart language choice
-    return (
-        <div style={{margin: '50px 0'}}>
-            <SsbLink href={ `/subsets/${subsetData?.id}` }
-                     linkType='profiled'>
-                { subsetData?.name?.find(name => name.languageCode === 'nb')?.languageText
-                    || t('No name')
-                }
-            </SsbLink>
-            <Edit style={{
-                color: '#ED5935',
-                margin: '0 10px',
-                cursor: 'pointer'
-            }}
-                onClick={() => {
-                    subset.dispatch({ action: 'edit', data: subsetData });
-                    history.push('/create');
-            }}/>
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
-                <Brief
-                    id={ <Id>{ subsetData?.id || '-' }</Id> }
-                    versionValidFrom={ subsetData?.versionValidFrom }
-                    lastUpdatedDate={ subsetData?.lastUpdatedDate }
-                    status={ t(subsetData?.administrativeStatus) }
-                />
-            </p>
-            <p style={{ fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0' }}>
-                { subsetData?.description?.find(
-                    desc => desc.languageCode === 'nb')?.languageText
-                    || t('No description')
-                }
-            </p>
-        </div>
-    );
-};
-
-export const Subsets = ({items}) => {
-    return (
-        <>{items?.length > 0 &&
-            items.map((subset, i) => (
-                <SubsetBanner key={i}
-                              subsetData={subset} /> ))}
         </>
     );
 };

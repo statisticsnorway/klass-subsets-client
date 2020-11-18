@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/subsets-service';
-import { Subsets } from '../../components/Subset/Subset';
+import { Subsets } from '../../components/Subset';
 import { Search } from '../../controllers/Search';
 import { Spinner } from '../../components/Spinner';
 import { Sliders } from 'react-feather';
