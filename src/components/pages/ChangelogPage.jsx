@@ -29,6 +29,9 @@ export default function ChangelogPage() {
                <p>Bolder font for the form navigation labels (KF-424).</p>
                <p>New tab icon.</p>
                <p>Extra form step (protected) for sending data to the server (KF-417).</p>
+               <p>Responsive header and menu.</p>
+               <p>Html and Json format are tabs in subset preview.</p>
+               <p>Subset preview is now a shared component between the "Review and save" and Subset page.</p>
 
                <h4>v0.5.9</h4>
                <p>Version valid until field is editable for drafts.</p>
