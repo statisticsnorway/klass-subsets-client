@@ -86,7 +86,8 @@ export const Table = ({ list = [], rerank, remove, update, disabled }) => {
                                             </Paragraph>
                                         </li>
                                     </ul>
-                                </>}
+                                </>
+                        }
                     </td>
                 </tr>
                 }
