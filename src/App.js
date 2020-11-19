@@ -2,10 +2,8 @@ import React from 'react';
 import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
 import { ContextProvider } from './controllers/context';
 import { Header } from './components/Header';
-import Footer from './components/Footer';
-import { Changelog, SearchSubsets, SubsetPage } from './pages';
-import { SubsetForm } from './components/subsetForm/SubsetForm';
-import { Step6Publish } from './components/subsetForm/Step_6_Publish';
+import { Footer } from './components/Footer';
+import { Changelog, SearchSubsets, SubsetPage, SubsetForm, Step6Publish } from './pages';
 
 export default function App() {
     return (

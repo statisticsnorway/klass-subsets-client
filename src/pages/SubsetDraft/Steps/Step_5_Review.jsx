@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button, Title, FormError } from '@statisticsnorway/ssb-component-library';
-import { Preview } from '../Subset/Preview';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from '../../controllers/context';
+import { useTranslation } from 'react-i18next';
+import { Button, FormError } from '@statisticsnorway/ssb-component-library';
+import { Preview } from '../../../components/Subset';
+import { AppContext } from '../../../controllers/context';
 
 export const Step5Review = () => {
     const { subset: { draft } } = useContext(AppContext);
@@ -12,7 +12,7 @@ export const Step5Review = () => {
 
 return (
         <>
-            <Title size={3}>{ t('Review and publish') }</Title>
+            <h3>{ t('Review and publish') }</h3>
 
             <Preview subset={ draft }/>
 

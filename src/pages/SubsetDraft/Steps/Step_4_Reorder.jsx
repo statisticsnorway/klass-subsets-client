@@ -1,21 +1,19 @@
 import React, { useContext } from 'react';
-import { Title } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
-import { Reorderable } from './reorderable';
-import { Brief } from '../Subset';
-import { AppContext } from '../../controllers/context';
+import { Table as Reorderable } from '../../../components/Reorderable';
+import { BriefContextual } from '../../../components/Subset';
+import { AppContext } from '../../../controllers/context';
 
 export const Step4Reorder = () => {
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft, dispatch } } = useContext(AppContext);
     const { t } = useTranslation();
 
     return (<>
-        <Title size={3}>{t('Reorder codes')}</Title>
-        <Brief />
+        <h3>{ t('Reorder codes') }</h3>
+        <BriefContextual />
 
         { draft.codes?.length === 0
-            ? <p>{t('No items to sort')}</p>
+            ? <p>{ t('No items to sort') }</p>
             : <Reorderable list={draft.codes}
                            rerank={ (codes, rank) => dispatch({
                                action: 'codes_rerank',
@@ -29,7 +27,7 @@ export const Step4Reorder = () => {
                                action: 'codes_cache',
                                data: code})
                            }
-                           disabled={draft.administrativeStatus === 'OPEN'}
+                           disabled={ draft.administrativeStatus === 'OPEN' }
             />
         }
      </>);

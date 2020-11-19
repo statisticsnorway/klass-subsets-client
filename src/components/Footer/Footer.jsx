@@ -6,21 +6,21 @@ import {
     Rss,
     Twitter
 } from 'react-feather';
-import ssbLogo from '../images/SsbLogo.svg';
+import SsbLogo from '../../images/SsbLogo.svg';
 import { Link, Button, Footer as SsbFooter} from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 
 
-export default function Footer() {
+export const Footer = () => {
     const { t } = useTranslation();
 
     return (
         <SsbFooter>
                 <div className='bottom-row flex-row justify-space-between flex-wrap' style={{margin: '0px'}}>
-                    <img src={ssbLogo} style={{filter: 'invert(100%)'}} alt='ssb-logo' />
+                    <img src={ SsbLogo } style={{ filter: 'invert(100%)' }} alt='ssb-logo' />
                     <Button negative
                             onClick={() => window.scroll({ top: 0, behavior: 'smooth' })}
-                    > {t('To Top')}
+                    > { t('To Top') }
                     </Button>
                     <div className="global-links">
                         <Link href='https://www.ssb.no/' isExternal negative>Statistisk sentralbyrå © 2020</Link>

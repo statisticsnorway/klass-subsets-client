@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import './container.css';
-import { Navigation, Step } from './navigation';
-import { Step1Metadata } from './Step_1_Metadata';
-import { Step2Versions } from './Step_2_Versions';
-import { Step3ChooseCodes } from './Step_3_ChooseCodes';
-import { Step4Reorder } from './Step_4_Reorder';
-import { Step5Review } from './Step_5_Review';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import './container.css';
+import { Navigation, Step } from '../../components/Navigation';
+import { useTranslation } from 'react-i18next';
+import {
+    Step1Metadata,
+    Step2Versions,
+    Step3ChooseCodes,
+    Step4Reorder,
+    Step5Review } from './Steps';
 
 export const SubsetForm = () => {
     const { t } = useTranslation();

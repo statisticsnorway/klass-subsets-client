@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../../controllers/context';
-import { SubsetIdForm } from '../subsetForm/Step_1_Metadata';
+import { IdForm } from '../SubsetMetadata';
 import { Brief } from './Brief';
 import { Id } from './Id';
 
@@ -11,7 +11,7 @@ export const BriefContextual = ({ editable = false }) => {
     return (
         <Brief
             id={ editable && subset?.draft?.isEditableId()
-                ? <SubsetIdForm/>
+                ? <IdForm/>
                 : <Id>{ id || '-' }</Id>
             }
             versionValidFrom={ versionValidFrom }
