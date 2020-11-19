@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Paragraph } from '@statisticsnorway/ssb-component-library';
 import { AppContext } from '../../controllers/context';
 import { useGet } from '../../controllers/klass-api';
 import { Classification } from '../Classification';
 import { eu } from '../../utils/strings';
 import { Search } from '../../controllers/Search';
+import { URL } from '../../controllers/klass-api';
 
 export const SearchFormContextual = () => {
     const { subset } = useContext(AppContext);
@@ -19,14 +19,14 @@ export const SearchFormContextual = () => {
 
     return (
         <>
-            <Paragraph>
+            <p>
                 { t('Search results are restricted by versions validity period')}
                 { versionValidFrom || versionValidUntil
                     ? `: ${ t('from') } ${ eu(versionValidFrom) || '...' } ${
                         t('to')} ${ eu(versionValidUntil) || '...' }`
                     : `. ${ t('Period is not set') }.`
                 }
-            </Paragraph>
+            </p>
             <Search resource={ classifications?._embedded?.classifications || []}
                     setChosen={ items => setSearchResult(items) }
                     placeholder={ t('Type classification name') }
