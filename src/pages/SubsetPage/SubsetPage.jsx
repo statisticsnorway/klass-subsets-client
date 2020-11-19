@@ -5,7 +5,7 @@ import { useGet } from '../../controllers/subsets-service';
 import { AppContext } from '../../controllers/context';
 import { Spinner } from '../../components/Spinner';
 import './container.css';
-import { Preview } from '../../components/Subset/Preview';
+import { Preview } from '../../components/Subset';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
@@ -30,7 +30,9 @@ export const SubsetPage = () => {
                           </p>
                         : <Preview subset={ subsetData }
                                    edit={() => {
-                                             subset.dispatch({action: 'edit', data: subset});
+                                             subset.dispatch({
+                                                 action: 'edit',
+                                                 data: subsetData});
                                              history.push('/create');
                                          }}
                         />
