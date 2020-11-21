@@ -91,8 +91,6 @@
   "Drag and drop": "Dra og slipp",
   "Code rank help drag-and-drop": "Velg elementene som skal flyttes, og dra dem dit du vil ha dem. Du kan velge flere elementer og flytte dem samtidig. Hvis du dobbeltklikker på ett av disse elementene, vil de opprinnelig valgte elementene, ikke lenger være valgt.",
   "Input field": "   Bruk av nummer-felt",
-  "Code rank help input": "Type a desired rank number in the corresponding input field and press ENTER or ",
-  "Code rank help input reset": "To reset click outside the input filed or ECS.",
   "Code rank help input": "Sett inn tallet som viser hvilket nummer i rekkefølgen elementet skal ha, og trykk på ENTER eller ",
   "Code rank help input reset": "For å gjøre om på valget, klikker du utenfor nummer-feltet eller bruker ESC.",
   "Arrows": "Piler",
