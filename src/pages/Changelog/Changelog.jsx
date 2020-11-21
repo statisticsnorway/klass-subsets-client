@@ -24,6 +24,9 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.5.12</h4>
+               <p>Translated help info for Code's Order form step.</p>
+
                <h4>v0.5.11</h4>
                <p>Responsive header and menu.</p>
                <p>Html and Json format are tabs in subset preview.</p>
