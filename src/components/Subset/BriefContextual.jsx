@@ -6,7 +6,7 @@ import { Id } from './Id';
 
 export const BriefContextual = ({ editable = false }) => {
     const { subset } = useContext(AppContext);
-    const { id, versionValidFrom, lastUpdatedDate, administrativeStatus } = subset?.draft;
+    const { id, versionValidFrom, lastModified, administrativeStatus } = subset?.draft;
 
     return (
         <Brief
@@ -15,7 +15,7 @@ export const BriefContextual = ({ editable = false }) => {
                 : <Id>{ id || '-' }</Id>
             }
             versionValidFrom={ versionValidFrom }
-            lastUpdatedDate={ lastUpdatedDate }
+            lastModified={ lastModified }
             status={ administrativeStatus }
         />
     );

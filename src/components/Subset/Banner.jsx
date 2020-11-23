@@ -31,11 +31,11 @@ export const SubsetBanner = ({ subsetData }) => {
                       subset.dispatch({ action: 'edit', data: subsetData });
                       history.push('/create');
                   }}/>
-            <p style={{fontSize: 'calc(10px + 0.3vmin)'}}>
+            <p style={{ fontSize: 'calc(10px + 0.3vmin)' }}>
                 <Brief
                     id={ <Id>{ subsetData?.id || '-' }</Id> }
                     versionValidFrom={ subsetData?.versionValidFrom }
-                    lastUpdatedDate={ subsetData?.lastUpdatedDate }
+                    lastModified={ subsetData?.lastModified }
                     status={ t(subsetData?.administrativeStatus) }
                 />
             </p>

@@ -43,7 +43,7 @@ export const Preview = ({ subset, edit }) => {
             <Brief
                 id={ <Id>{ subset.id || '-' }</Id> }
                 versionValidFrom={ subset?.versionValidFrom }
-                lastUpdatedDate={ subset?.lastUpdatedDate }
+                lastModified={ subset?.lastModified }
                 status={ subset?.administrativeStatus }
             />
             <div>
