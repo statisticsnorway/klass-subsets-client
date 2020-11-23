@@ -42,7 +42,7 @@ export const SearchSubsets = () => {
                     { showSettings &&
                     <Dropdown
                         header={t('Sort by')}
-                        selectedItem={{title: t('Last updated'), id: 'Last'}}
+                        selectedItem={{ title: t('Last updated'), id: 'Last' }}
                         items={[
                             { title: t('Last updated'), id: 'last' },
                             { title: t('Subset name'), id: 'name' },
@@ -64,9 +64,9 @@ export const SearchSubsets = () => {
                             : !searchResults || searchResults.length === 0
                                 ? <p>{ t('Nothing is found') }</p>
                                 : <List items={ searchResults
-                                    .sort((a,b) => (a.lastUpdatedDate === b.lastUpdatedDate
+                                    .sort((a,b) => (a.lastModified === b.lastModified
                                         ? 0
-                                        : a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1))} />
+                                        : a.lastModified > b.lastModified ? -1 : 1))} />
                     }
                 </h2>
 
