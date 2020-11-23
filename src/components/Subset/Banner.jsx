@@ -6,6 +6,7 @@ import { Link as SsbLink } from "@statisticsnorway/ssb-component-library";
 import { Brief } from './Brief';
 import { Id } from './Id';
 import { Edit } from 'react-feather';
+import { Description } from './Description';
 
 export const SubsetBanner = ({ subsetData }) => {
     const { t } = useTranslation();
@@ -31,20 +32,17 @@ export const SubsetBanner = ({ subsetData }) => {
                       subset.dispatch({ action: 'edit', data: subsetData });
                       history.push('/create');
                   }}/>
-            <p style={{ fontSize: 'calc(10px + 0.3vmin)' }}>
-                <Brief
-                    id={ <Id>{ subsetData?.id || '-' }</Id> }
-                    versionValidFrom={ subsetData?.versionValidFrom }
-                    lastModified={ subsetData?.lastModified }
-                    status={ t(subsetData?.administrativeStatus) }
-                />
-            </p>
-            <p style={{ fontSize: 'calc(10px + 0.8vmin)', margin: '-5px 0' }}>
-                { subsetData?.description?.find(
-                    desc => desc.languageCode === 'nb')?.languageText
+            <Brief
+                id={ <Id>{ subsetData?.id || '-' }</Id> }
+                versionValidFrom={ subsetData?.versionValidFrom }
+                lastModified={ subsetData?.lastModified }
+                status={ t(subsetData?.administrativeStatus) }
+            />
+            <Description text={
+                subsetData?.description?.find(
+                desc => desc.languageCode === 'nb')?.languageText
                 || t('No description')
-                }
-            </p>
+            }/>
         </div>
     );
 };
