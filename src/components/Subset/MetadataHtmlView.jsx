@@ -3,23 +3,28 @@ import { eu } from '../../utils/strings';
 import { useTranslation } from 'react-i18next';
 import { languages as defaultLanguages } from '../../defaults';
 import { GlobeButton } from '../GlobeButton';
+import { orderByValidFromAsc } from '../../utils/arrays';
 
 export const MetadataHtmlView = ({
-    id = '-',
-    description = [],
-    owningSection = '-',
-    classificationFamily = '-',
-    validFrom = null,
-    validUntil = null,
-    versionsCount = 0,
-    createdDate = null,
-    lastModified = null,
-    shortName = '-',
-    statisticalUnits = []
+    subset: {
+        id,
+        description,
+        owningSection,
+        classificationFamily,
+        versions,
+        createdDate,
+        lastModified,
+        shortName,
+        statisticalUnits
+    }
 }) => {
     const { t } = useTranslation();
     const [ langIndex, setLangIndex ] = useState(0);
     const languages = defaultLanguages.filter(l => l.draft);
+    const validFrom = versions?.length > 0
+        && orderByValidFromAsc([...versions])[0].validFrom;
+    const validUntil = versions?.length > 0
+        && orderByValidFromAsc([...versions])[versions.length - 1].validUntil;
 
     return (
         <>
@@ -52,7 +57,7 @@ export const MetadataHtmlView = ({
                 }
             </p>
             <p><strong>{ t('Owner') }:</strong> { owningSection }</p>
-            <p><strong>{ t('Number of published versions') }:</strong> { versionsCount }</p>
+            <p><strong>{ t('Number of published versions') }:</strong> { versions?.length }</p>
             <p><strong>{ t('Created') }:</strong> { eu(createdDate) }</p>
             <p><strong>{ t('Last updated') }:</strong> { eu(lastModified) }</p>
         </>
