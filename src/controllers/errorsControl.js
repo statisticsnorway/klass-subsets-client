@@ -1,4 +1,4 @@
-import { acceptablePeriod } from './defaults';
+import { acceptablePeriod } from '../defaults';
 import { eu } from '../utils/strings';
 
 export const errorsControl = (state = {}) => ({

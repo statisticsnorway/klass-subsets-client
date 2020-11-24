@@ -18,6 +18,15 @@
   "Last updated": "Last updated",
   "Name": "Name",
 
+  "Toggle language": "Toggle language",
+  "Edit metadata": "Edit metadata",
+  "Edit versions": "Edit versions",
+  "Edit codes": "Edit codes",
+  "Download": "Download",
+  "Metadata info": "Metadata is valid for all subset versions",
+  "Subset validity period info": "Validity period for a subset is autocalculated based on published versions and could be changed over time by adding or removing versions",
+  "Owning section info": "Owning section is responsible for updates of the subset metadata and versions. In order to correct or add a version, please, contact the owning section",
+
   "Create subset": "Create subset",
   "Previous": "Previous",
   "Next": "Next",

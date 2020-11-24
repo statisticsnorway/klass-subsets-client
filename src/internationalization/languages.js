@@ -1,4 +1,4 @@
-import { languages as defaultLanguages } from '../controllers/defaults';
+import { languages as defaultLanguages } from '../defaults';
 import { clone } from '../utils/arrays';
 
 export function availableLanguages() {
@@ -17,5 +17,5 @@ export function nextDefaultName(items) {
 }
 
 export function disableUsed(languages, used) {
-    return languages.forEach(l => l.disabled = used.includes(l.languageCode));
+    return languages.forEach(l => (l.disabled = used.includes(l.languageCode)));
 }

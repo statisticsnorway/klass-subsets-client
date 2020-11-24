@@ -56,6 +56,10 @@ p, .p {
   font-weight: normal;
 }
 
+p.lead, .p .lead {
+  font-size: 20px;
+}
+
 p.small, .p .small {
   font-size: 14px;
 }

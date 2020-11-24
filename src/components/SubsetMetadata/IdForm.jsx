@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../controllers/context';
 import { useGet } from '../../controllers/subsets-service';
-import { subsetDraft } from '../../controllers/defaults';
+import { subsetDraft } from '../../defaults';
 
 export const IdForm = () => {
     const { subset } = useContext(AppContext);

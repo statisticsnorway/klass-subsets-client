@@ -1,4 +1,4 @@
-import { subsetDraft, STATUS_ENUM, languages, acceptablePeriod } from './defaults';
+import { subsetDraft, STATUS_ENUM, languages, acceptablePeriod } from '../defaults';
 import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
 import { errorsControl } from './errorsControl';

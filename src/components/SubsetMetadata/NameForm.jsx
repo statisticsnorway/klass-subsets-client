@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextLanguageFieldset } from '../Forms';
 import { AppContext } from '../../controllers/context';
-import { subsetDraft } from '../../controllers/defaults';
+import { subsetDraft } from '../../defaults';
 
 export const NameForm = () => {
     const { t } = useTranslation();

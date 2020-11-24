@@ -2,21 +2,27 @@ import React, { useState } from 'react';
 import { Tabs, Divider } from '@statisticsnorway/ssb-component-library';
 import { Brief } from './Brief';
 import { Id } from './Id';
-import { JsonView } from './JsonView';
-import {HtmlView} from "./HtmlView";
-import {Title} from "./Title";
+import { useTranslation } from 'react-i18next';
+import { Metadata } from './Metadata';
+import { Versions } from './Versions';
+
 
 const tabCode = [
     {
-        title: 'HTML',
-        path: 'html',
+        title: 'Metadata',
+        path: 'metadata',
     }, {
-        title: 'JSON',
-        path: 'json',
-    },
+        title: 'Versions',
+        path: 'versions',
+    }, {
+        title: 'Codes',
+        path: 'codes',
+    }
 ];
 
 export const Preview = ({ subset, edit }) => {
+    const { t } = useTranslation();
+
     const [ activeCodeTab, changeCodeTab ] = useState(tabCode[0].path);
     const tabCodeClicked = e => changeCodeTab(e);
 
@@ -25,10 +31,9 @@ export const Preview = ({ subset, edit }) => {
 
     return (
         <>
-            <Title
-                edit={ edit }
-                name={ subset.name?.find(desc => desc.languageCode === 'nb')?.languageText }
-            />
+            <h1>{ subset.name?.find(desc => desc.languageCode === 'nb')?.languageText
+                || t('No name') }
+            </h1>
             <Brief
                 id={ <Id>{ subset.id || '-' }</Id> }
                 versionValidFrom={ subset?.versionValidFrom }
@@ -39,17 +44,19 @@ export const Preview = ({ subset, edit }) => {
                 <Tabs activeOnInit={ tabCode[0].path }
                       items={ tabCode }
                       onClick={ tabCodeClicked } />
-                <Divider light />
-                { activeCodeTab === 'json' &&
-                    <JsonView data={ subset.payload || subset } />
-                }
-                { activeCodeTab === 'html' &&
-                    <HtmlView
-                        description={ subset.description }
-                        owningSection={ subset.owningSection }
-                        classificationFamily={ subset.classificationFamily }
-                        versions={ subset.versions }
+                <Divider dark />
+                { activeCodeTab === 'metadata' &&
+                    <Metadata
+                        edit={ edit }
+                        subset={ subset }
                     />
+                }
+                { activeCodeTab === 'versions' &&
+                    <Versions
+                        versions={ subset.versions } />
+                }
+                { activeCodeTab === 'codes' &&
+                    <h2>Codes</h2>
                 }
             </div>
         </>

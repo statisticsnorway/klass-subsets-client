@@ -17,6 +17,15 @@
   "Sort by": "Sorter etter",
   "Last updated": "Sist oppdatert",
 
+  "Toggle language": "Roter språket",
+  "Edit metadata": "Rediger metadata",
+  "Edit versions": "Rediger versjoner",
+  "Edit codes": "Rediger koder",
+  "Download": "Last ned",
+  "Metadata info": "Metadata gjelder alle publiserte versjoner i uttrekket",
+  "Subset validity period info": "Gyldighetsperioden kalkuleres automatisk basert på publiserte versjoner. Den kan endres ved å legge til eller fjerne publiserte versjoner",
+  "Owning section info": "Ansvarlig seksjon skal oppdatere og skape nye versjoner for uttrekke. Ved behov for endringer ta kontakt med ansvarlig seksjon",
+
   "Create subset": "Lag uttrekk",
   "Previous": "Forrige",
   "Next": "Neste",
