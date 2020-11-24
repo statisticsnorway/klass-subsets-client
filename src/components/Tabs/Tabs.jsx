@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Divider, Tabs as SsbTabs } from "@statisticsnorway/ssb-component-library";
 
 export const Tabs = ({ dark, light, children }) => {
-    const [ activeCodeTab, changeCodeTab ] = useState(children[0].path);
+    const [ activeCodeTab, changeCodeTab ] = useState(children[0].props.path);
     const tabClicked = e => changeCodeTab(e);
 
     return (

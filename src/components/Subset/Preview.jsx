@@ -1,33 +1,13 @@
-import React, { useState } from 'react';
-import { Tabs, Divider } from '@statisticsnorway/ssb-component-library';
+import React from 'react';
 import { Brief } from './Brief';
 import { Id } from './Id';
 import { useTranslation } from 'react-i18next';
 import { Metadata } from './Metadata';
 import { Versions } from './Versions';
-
-
-const tabCode = [
-    {
-        title: 'Metadata',
-        path: 'metadata',
-    }, {
-        title: 'Versions',
-        path: 'versions',
-    }, {
-        title: 'Codes',
-        path: 'codes',
-    }
-];
+import { Tab, Tabs } from '../Tabs';
 
 export const Preview = ({ subset, edit }) => {
     const { t } = useTranslation();
-
-    const [ activeCodeTab, changeCodeTab ] = useState(tabCode[0].path);
-    const tabCodeClicked = e => changeCodeTab(e);
-
-    // TODO: show subset in other languages - switch button for language? smart language choice?
-    // TODO: show versions?
 
     return (
         <>
@@ -40,25 +20,17 @@ export const Preview = ({ subset, edit }) => {
                 lastModified={ subset?.lastModified }
                 status={ subset?.administrativeStatus }
             />
-            <div>
-                <Tabs activeOnInit={ tabCode[0].path }
-                      items={ tabCode }
-                      onClick={ tabCodeClicked } />
-                <Divider dark />
-                { activeCodeTab === 'metadata' &&
-                    <Metadata
-                        edit={ edit }
-                        subset={ subset }
-                    />
-                }
-                { activeCodeTab === 'versions' &&
-                    <Versions
-                        versions={ subset.versions } />
-                }
-                { activeCodeTab === 'codes' &&
+            <Tabs dark>
+                <Tab title='Metadata' path='metadata'>
+                    <Metadata edit={ edit } subset={ subset }/>
+                </Tab>
+                <Tab title='Versions' path='versions'>
+                    <Versions versions={ subset.versions } />
+                </Tab>
+                <Tab title='Codes' path='codes'>
                     <h2>Codes</h2>
-                }
-            </div>
+                </Tab>
+            </Tabs>
         </>
     );
 };

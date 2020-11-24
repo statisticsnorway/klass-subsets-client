@@ -53,8 +53,7 @@ export const MetadataHtmlView = ({
             <p><strong>{ t('Short name') }:</strong> { shortName }</p>
             <p><strong>{ t('Subject') }:</strong> { classificationFamily }</p>
             <p><strong>{ t('Statistical units') }:</strong> {
-                statisticalUnits.map(u => <span key={ u } className='p'> { u } </span>)
-                }
+                statisticalUnits.map(u => <span key={ u } className='p'> { u } </span>)}
             </p>
             <p><strong>{ t('Owner') }:</strong> { owningSection }</p>
             <p><strong>{ t('Number of published versions') }:</strong> { versions?.length }</p>
