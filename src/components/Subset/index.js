@@ -8,3 +8,5 @@ export * from './JsonView';
 export * from './List';
 export * from './Metadata';
 export * from './Preview';
+export * from './Title';
+export * from './Versions';

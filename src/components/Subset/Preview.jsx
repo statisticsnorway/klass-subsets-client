@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Tabs, Divider } from '@statisticsnorway/ssb-component-library';
-import { useTranslation } from 'react-i18next';
 import { Brief } from './Brief';
 import { Id } from './Id';
-import { Edit } from 'react-feather';
 import { JsonView } from './JsonView';
 import {HtmlView} from "./HtmlView";
+import {Title} from "./Title";
 
 const tabCode = [
     {
@@ -18,7 +17,6 @@ const tabCode = [
 ];
 
 export const Preview = ({ subset, edit }) => {
-    const { t } = useTranslation();
     const [ activeCodeTab, changeCodeTab ] = useState(tabCode[0].path);
     const tabCodeClicked = e => changeCodeTab(e);
 
@@ -27,19 +25,10 @@ export const Preview = ({ subset, edit }) => {
 
     return (
         <>
-            <h1>{ subset.name?.find(name => name.languageCode === 'nb')?.languageText
-                || t('No name') }
-                {
-                    edit &&
-                    <Edit
-                        style={{
-                            color: '#ED5935',
-                            margin: '0 10px',
-                            cursor: 'pointer'
-                        }}
-                        onClick={edit}/>
-                }
-            </h1>
+            <Title
+                edit={ edit }
+                name={ subset.name?.find(desc => desc.languageCode === 'nb')?.languageText }
+            />
             <Brief
                 id={ <Id>{ subset.id || '-' }</Id> }
                 versionValidFrom={ subset?.versionValidFrom }
@@ -51,8 +40,17 @@ export const Preview = ({ subset, edit }) => {
                       items={ tabCode }
                       onClick={ tabCodeClicked } />
                 <Divider light />
-                { activeCodeTab === 'json' && <JsonView data={ subset.payload || subset } /> }
-                { activeCodeTab === 'html' && <HtmlView subset={ subset } /> }
+                { activeCodeTab === 'json' &&
+                    <JsonView data={ subset.payload || subset } />
+                }
+                { activeCodeTab === 'html' &&
+                    <HtmlView
+                        description={ subset.description }
+                        owningSection={ subset.owningSection }
+                        classificationFamily={ subset.classificationFamily }
+                        versions={ subset.versions }
+                    />
+                }
             </div>
         </>
     );
