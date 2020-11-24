@@ -2,20 +2,20 @@ import { languages as defaultLanguages } from '../controllers/defaults';
 import { clone } from '../utils/arrays';
 
 export function availableLanguages() {
-    return clone(defaultLanguages);
+    return clone(defaultLanguages.filter(l => l.draft));
 }
 
 export function nextDefaultName(items) {
     if (items.length < 1) {
         return {
             languageText: '',
-            languageCode: availableLanguages().find(lang => lang.default).languageCode};
+            languageCode: availableLanguages().languages.find(l => l.default).languageCode};
     }
     const used = items.map(item => item.languageCode);
-    const unused = availableLanguages().find(lang => !used.includes(lang.languageCode));
+    const unused = availableLanguages().find(l => !used.includes(l.languageCode));
     return unused ? {languageText: '', languageCode: unused.languageCode} : null;
 }
 
 export function disableUsed(languages, used) {
-    return languages.forEach((lang) => lang.disabled = used.includes(lang.languageCode));
+    return languages.forEach(l => l.disabled = used.includes(l.languageCode));
 }
