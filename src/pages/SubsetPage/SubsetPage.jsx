@@ -12,11 +12,9 @@ export const SubsetPage = () => {
 
     let { id, version } = useParams();
     let history = useHistory();
-    const { subset } = useContext(AppContext);
+    const { subset: { dispatch } } = useContext(AppContext);
 
-    const [ subsetData, isLoadingSubsetData ] = useGet(version
-        ? `${id}/versions/${version}`
-        : id);
+    const [ subsetData, isLoadingSubsetData ] = useGet(id);
 
     return(
         <div className='container'>
@@ -30,7 +28,7 @@ export const SubsetPage = () => {
                           </p>
                         : <Preview subset={ subsetData }
                                    edit={() => {
-                                             subset.dispatch({
+                                             dispatch({
                                                  action: 'edit',
                                                  data: subsetData});
                                              history.push('/create');

@@ -41,7 +41,7 @@ export const SearchSubsets = () => {
                     </button>
                     { showSettings &&
                     <Dropdown
-                        header={t('Sort by')}
+                        header={ t('Sort by') }
                         selectedItem={{ title: t('Last updated'), id: 'Last' }}
                         items={[
                             { title: t('Last updated'), id: 'last' },

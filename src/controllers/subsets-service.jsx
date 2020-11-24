@@ -20,7 +20,7 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpoint }${ path }?includeFuture=true&includeDrafts=true`);
+                const response = await fetch(`${ subsetsServiceEndpoint }${ path }?includeFuture=true&includeDrafts=true&includeFullVersions=true`);
                 let json = await response.json();
                 if (_mounted && response.status >= 200 && response.status <= 299) {
                     setData(json);
