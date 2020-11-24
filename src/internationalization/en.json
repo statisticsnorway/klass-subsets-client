@@ -24,8 +24,11 @@
   "Edit codes": "Edit codes",
   "Download": "Download",
   "Metadata info": "Metadata is valid for all subset versions",
-  "Subset validity period info": "Validity period for a subset is autocalculated based on published versions and could be changed over time by adding or removing versions",
+  "Subset validity period info": "Validity period for a subset is auto calculated based on published versions and could be changed over time by adding or removing versions",
   "Owning section info": "Owning section is responsible for updates of the subset metadata and versions. In order to correct or add a version, please, contact the owning section",
+  "Statistical units": "Statistical units",
+  "Number of published versions": "Number of published versions",
+  "Created": "Created",
 
   "Create subset": "Create subset",
   "Previous": "Previous",

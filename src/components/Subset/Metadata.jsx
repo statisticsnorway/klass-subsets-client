@@ -48,7 +48,10 @@ export const Metadata = ({
                 }
                 { activeCodeTab === 'html' &&
                     <MetadataHtmlView
+                        id={ subset.id }
                         description={ subset.description }
+                        shortName={ subset.shortName }
+                        statisticalUnits={ subset.statisticalUnits }
                         owningSection={ subset.owningSection }
                         classificationFamily={ subset.classificationFamily }
                         validFrom={ subset.versions?.length > 0
@@ -57,6 +60,9 @@ export const Metadata = ({
                         validUntil={ subset.versions?.length > 0
                             && orderByValidFromAsc(subset.versions)[subset.versions.length - 1].validUntil
                         }
+                        createdDate={ subset.createdDate }
+                        lastModified={ subset.lastModified }
+                        versionsCount={ subset.versions?.length }
                     />
                 }
             </div>

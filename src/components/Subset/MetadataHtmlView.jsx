@@ -5,12 +5,18 @@ import { languages as defaultLanguages } from '../../defaults';
 import { GlobeButton } from '../GlobeButton';
 
 export const MetadataHtmlView = ({
-                             description = [],
-                             owningSection = '-',
-                             classificationFamily = '-',
-                            validFrom = null,
-                            validUntil = null,
-                         }) => {
+    id = '-',
+    description = [],
+    owningSection = '-',
+    classificationFamily = '-',
+    validFrom = null,
+    validUntil = null,
+    versionsCount = 0,
+    createdDate = null,
+    lastModified = null,
+    shortName = '-',
+    statisticalUnits = []
+}) => {
     const { t } = useTranslation();
     const [ langIndex, setLangIndex ] = useState(0);
     const languages = defaultLanguages.filter(l => l.draft);
@@ -38,8 +44,17 @@ export const MetadataHtmlView = ({
                 }
             </p>
 
-            <p><strong>{ t('Owner') }:</strong> { owningSection }</p>
+            <p><strong>{ t('ID') }:</strong> { id }</p>
+            <p><strong>{ t('Short name') }:</strong> { shortName }</p>
             <p><strong>{ t('Subject') }:</strong> { classificationFamily }</p>
+            <p><strong>{ t('Statistical units') }:</strong> {
+                statisticalUnits.map(u => <span key={ u } className='p'> { u } </span>)
+                }
+            </p>
+            <p><strong>{ t('Owner') }:</strong> { owningSection }</p>
+            <p><strong>{ t('Number of published versions') }:</strong> { versionsCount }</p>
+            <p><strong>{ t('Created') }:</strong> { eu(createdDate) }</p>
+            <p><strong>{ t('Last updated') }:</strong> { eu(lastModified) }</p>
         </>
     );
 };
