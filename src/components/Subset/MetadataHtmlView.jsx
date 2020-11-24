@@ -38,8 +38,7 @@ export const MetadataHtmlView = ({
                 description?.find(desc => desc.languageCode === languages[langIndex].languageCode)?.languageText
                 ||
                 <span style={{ color: 'red'}}>{
-                    t('No description for this language')}: {languages[langIndex].full
-                }</span>
+                    t('No description in this language')}: { languages[langIndex].full}</span>
             }</p>
 
             <p><strong>{ t('Subsets validity period') }: </strong>
