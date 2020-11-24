@@ -1,4 +1,4 @@
-import { subsetDraft, STATUS_ENUM, LANGUAGE_CODE_ENUM, acceptablePeriod } from './defaults';
+import { subsetDraft, STATUS_ENUM, languages, acceptablePeriod } from './defaults';
 import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
 import { errorsControl } from './errorsControl';
@@ -496,7 +496,9 @@ const restrictable = (state = {}) => ({
     },
 
     isAcceptableLanguageCode(lang) {
-        return LANGUAGE_CODE_ENUM.includes(lang);
+        return (-1 !== languages
+            .filter(l => l.draft)
+            .findIndex(l => l.languageCode === lang));
     }
 });
 
@@ -505,7 +507,7 @@ const nameControl = (state = {}) => ({
     addName(name = nextDefaultName(state.name)) {
 
         if (state.isEditableName()
-            && state.name?.length < LANGUAGE_CODE_ENUM.length)
+            && state.name?.length < languages.filter(l => l.draft).length)
         {
             //console.debug('addName', name);
 
@@ -560,7 +562,7 @@ const descriptionControl = (state = {}) => ({
 
     addDescription(description = nextDefaultName(state.description)) {
         if (state.isEditableDescription()
-            && state.description?.length < LANGUAGE_CODE_ENUM.length) {
+            && state.description?.length < languages.filter(l => l.draft).length) {
             //console.debug('addDescription', description);
 
             state.description = [...state.description, description];
@@ -611,7 +613,7 @@ const versionRationaleControl = (state = {}) => ({
 
     addVersionRationale(versionRationale = nextDefaultName(state.versionRationale)) {
         if (state.isEditableVersionRationale()
-            && state.versionRationale?.length < LANGUAGE_CODE_ENUM.length)
+            && state.versionRationale?.length < languages.filter(l => l.draft).length)
         {
             //console.debug('addVersionRationale', versionRationale);
 

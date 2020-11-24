@@ -1,7 +1,23 @@
 export const languages = [
-    { languageCode: 'nb', IETF: 'nb-NO', full: 'Norsk bokmål', default: true },
-  //  { languageCode: 'nn', IETF: 'nn-NO', full: 'Nynorsk' },
-    { languageCode: 'en', IETF: 'en-US', full: 'English' }
+    { languageCode: 'nb',
+        IETF: 'nb-NO',
+        full: 'Norsk bokmål',
+        default: true,
+        site: true,
+        draft: true
+    },
+    { languageCode: 'nn',
+        IETF: 'nn-NO',
+        full: 'Nynorsk',
+        site: false,
+        draft: true
+    },
+    { languageCode: 'en',
+        IETF: 'en-US',
+        full: 'English',
+        site: true,
+        draft: true
+    }
 ];
 
 export const subsetDraft = {
@@ -20,12 +36,6 @@ export const STATUS_ENUM = [
     'DRAFT',
     'INTERNAL',
     'OPEN'
-];
-
-export const LANGUAGE_CODE_ENUM = [
-    'en',
-    'nb',
-    'nn'
 ];
 
 export const acceptablePeriod = {
