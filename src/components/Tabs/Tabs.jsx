@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Divider, Tabs as SsbTabs } from "@statisticsnorway/ssb-component-library";
 
 export const Tabs = ({ dark, light, children }) => {
-    const [ activeCodeTab, changeCodeTab ] = useState(children[0].props.path);
-    const tabClicked = e => changeCodeTab(e);
+    const [ activeTab, changeTab ] = useState(children[0].props.path);
+    const tabClicked = e => changeTab(e);
 
     return (
         <div>
@@ -14,7 +14,7 @@ export const Tabs = ({ dark, light, children }) => {
             { light && <Divider light /> }
             { dark && <Divider dark /> }
             {
-                children.find(ch => ch.props.path === activeCodeTab)
+                children.find(ch => ch.props.path === activeTab)
             }
         </div>
     );
