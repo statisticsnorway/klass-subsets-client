@@ -1,8 +1,8 @@
 import { useReducer, useEffect } from 'react';
 import { Subset } from './Subset.prototype';
 
-function subsetReducer(state, {action, data = {}}) {
-    console.info({action, data});
+function subsetReducer( state, { action, data = {} }) {
+    console.info({ action, data });
     switch (action) {
         case 'edit': {
             return Subset({...data,
@@ -144,7 +144,7 @@ export const useSubset = (init = Subset()) => {
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
     // Error: A cross-origin error was thrown. React doesn't have access to the actual error object in development.
     // FIX: try catch
-     const [draft, dispatch] = useReducer(subsetReducer, initialize());
+     const [ draft, dispatch ] = useReducer(subsetReducer, initialize());
 
     // FIXME: runs on every draft update, should run once the hook is initialized in the context
     // FIXME: discard on non-valid draft and return init
@@ -155,7 +155,7 @@ export const useSubset = (init = Subset()) => {
 
     useEffect(() => {
         sessionStorage.setItem('draft', JSON.stringify(draft));
-    }, [draft]);
+    }, [ draft ]);
 
-    return {draft, dispatch};
+    return { draft, dispatch };
 };

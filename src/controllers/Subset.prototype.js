@@ -6,28 +6,28 @@ import { versionable } from './versionsControl';
 import { toId, sanitize, datePattern } from '../utils/strings';
 
 export function Subset (data) {
-
     const subset = {
         // step 1 Metadata
+
         _id: data?.id || data?._id || '',
         _shortName: data?.shortName || data?._shortName || '',
         _name: data?.name || data?._name || [],
+        _classificationFamily: data?.classificationFamily || data?._classificationFamily,
+        _owningSection: data?.owningSection || data?._owningSection || '',
+        _description: data?.description || data?._description || [],
+
+        // oldies
+
         _administrativeStatus: data?.administrativeStatus || data?._administrativeStatus || 'INTERNAL',
         _validFrom: data?.validFrom || data?._validFrom || null,
         _validUntil: data?.validUntil || data?._validUntil || null,
-        _createdBy: data?.createdBy || data?._createdBy || '',
         _administrativeDetails: data?.administrativeDetails || data?._administrativeDetails
             || [
-            {
-                administrativeDetailType: 'ANNOTATION',
-                values: ['']
-            },
-            {
-                administrativeDetailType: 'ORIGIN',
-                values: []
-            }
-        ],
-        _description: data?.description || data?._description || [],
+                {
+                    administrativeDetailType: 'ORIGIN',
+                    values: []
+                }
+            ],
 
         // step 2 Versions
         _version: data?.version || data?._version || '1',
@@ -104,41 +104,23 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'createdBy', {
-        get: () => { return subset._createdBy; },
+        get: () => { return subset._owningSection; },
         set: (createdBy = '') => {
             //console.debug('Set createdBy', createdBy, subset.isEditableCreatedBy());
 
             if (subset.isEditableCreatedBy()) {
-                subset._createdBy = createdBy;
-            }
-        }
-    });
-
-    Object.defineProperty(subset, 'administrativeDetails', {
-        get: () => { return subset._administrativeDetails; },
-        set: (administrativeDetails = []) => {
-            //console.debug('Set administrativeDetails', administrativeDetails,
-            //    subset.isEditableSubject() && subset.isEditableOrigin());
-
-            if (subset.isEditableSubject()
-                && subset.isEditableOrigin())
-            {
-                subset._administrativeDetails = administrativeDetails;
+                subset._owningSection = createdBy;
             }
         }
     });
 
     Object.defineProperty(subset, 'subject', {
-        get: () => { return subset._administrativeDetails
-            .find(d => d.administrativeDetailType === 'ANNOTATION').values[0];
-        },
+        get: () => { return subset._classificationFamily; },
         set: (subject = '') => {
             //console.debug('Set subject', subject, subset.isEditableSubject());
 
             if (subset.isEditableSubject()) {
-                subset._administrativeDetails
-                    .find(d => d.administrativeDetailType === 'ANNOTATION')
-                    .values[0] = subject;
+                subset._classificationFamily = subject;
             }
         }
     });
@@ -180,7 +162,7 @@ export function Subset (data) {
             return datePattern.test(subset._validUntil)
                 ? subset._validUntil
                 : null;
-            },
+        },
         set: (date = null) => {
             //console.debug('Set validUntil', date, subset.isEditableValidUntil());
 
@@ -200,8 +182,8 @@ export function Subset (data) {
                 return null;
             }
             return subset.previousVersions.sort((a,b) =>
-            a.versionValidFrom < b.versionValidFrom ? 1 :
-                a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0]; }
+                a.versionValidFrom < b.versionValidFrom ? 1 :
+                    a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0]; }
     });
 
     Object.defineProperty(subset, 'previousVersion', {
@@ -319,8 +301,9 @@ export function Subset (data) {
                 administrativeStatus: subset._administrativeStatus,
                 validFrom: subset._validFrom,
                 validUntil: subset._validUntil,
-                createdBy: subset._createdBy,
+                owningSection: subset._owningSection,
                 administrativeDetails: subset._administrativeDetails,
+                classificationFamily: subset._classificationFamily,
                 description: subset._description,
                 version: subset._version,
                 versionRationale: subset._versionRationale,
@@ -386,7 +369,7 @@ const editable = (state = {}) => ({
 
         return date
             && (date >= state.latestVersion?.validUntil
-            || date > state.latestVersion?.versionValidFrom);
+                || date > state.latestVersion?.versionValidFrom);
     },
 
     isBeforeCoveredPeriod(date) {
@@ -535,7 +518,7 @@ const nameControl = (state = {}) => ({
 
     updateNameTextByIndex(index = -1, text = '') {
         if (state.isEditableName()
-            && index >= 0 && index < state.name?.length) 
+            && index >= 0 && index < state.name?.length)
         {
             //console.debug('updateNameTextByIndex', index, text);
 
@@ -549,7 +532,7 @@ const nameControl = (state = {}) => ({
     updateNameLanguageByIndex(index = -1, lang = '') {
         if (state.isEditableName()
             && index >= 0 && index < state.name?.length
-            && state.isAcceptableLanguageCode(lang)) 
+            && state.isAcceptableLanguageCode(lang))
         {
             //console.debug('updateNameLanguageByIndex', index, lang);
 
@@ -589,7 +572,7 @@ const descriptionControl = (state = {}) => ({
 
     updateDescriptionTextByIndex(index = -1, text = '') {
         if (state.isEditableDescription()
-            && index >= 0 && index < state.description?.length) 
+            && index >= 0 && index < state.description?.length)
         {
             //console.debug('updateDescriptionTextByIndex', index, text);
 
@@ -600,7 +583,7 @@ const descriptionControl = (state = {}) => ({
     updateDescriptionLanguageByIndex(index = -1, lang = '') {
         if (state.isEditableDescription()
             && index >= 0 && index < state.description?.length
-            && state.isAcceptableLanguageCode(lang)) 
+            && state.isAcceptableLanguageCode(lang))
         {
             //console.debug('updateDescriptionLanguageByIndex', index, lang);
 
@@ -688,7 +671,7 @@ const originControl = (state = {}) => ({
         //console.debug('verifyOrigin');
 
         // TESTME
-    // TODO: if origin values are not empty, check if all values are valid URNs
+        // TODO: if origin values are not empty, check if all values are valid URNs
 
         const updated = new Set(state.origin);
         state.codes.forEach(c => updated.add(URN.toURL(c.urn).classificationURN));
