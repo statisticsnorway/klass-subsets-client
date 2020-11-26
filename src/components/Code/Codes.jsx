@@ -3,12 +3,25 @@ import { CodeDumb} from './CodeDumb';
 import { useTranslation } from 'react-i18next';
 import { Datepicker } from '../Forms';
 import { flatten } from '../../utils/arrays';
+import { DownloadButton } from '../DownloadButton';
+import { EditButton } from '../EditButton';
 
-export const Codes = ({ data }) => {
+export const Codes = ({ data = [], edit = () => {} }) => {
     const { t } = useTranslation();
 
     return (
         <>
+            <h2>{ t('Codes') }
+                <DownloadButton title={ t('Download') }/>
+
+                { edit && <EditButton
+                    title={ t('Edit metadata') }
+                    clickHandler={ edit }
+                />}
+            </h2>
+            <p>{ t('Metadata info') }.</p>
+            <p>{ t('Subset validity period info') }.</p>
+            <p>{ t('Owning section info') }.</p>
             <section style={{ margin: '5px 0 5px 0' }}>
                 <div style={{ float: 'left',
                     position: 'relative',

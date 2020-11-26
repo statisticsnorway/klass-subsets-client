@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { Version, VersionSwitcher } from '../Subset';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from '../../utils/arrays';
+import { EditButton } from '../EditButton';
+import { DownloadButton } from '../DownloadButton';
 
 
-export const Versions = ({ data = []}) => {
+export const Versions = ({ data = [], edit = () => {}}) => {
     const { t } = useTranslation();
 
     const [ version, setVersion ] = useState( data[0]
@@ -16,7 +18,14 @@ export const Versions = ({ data = []}) => {
 
     return (
         <>
-            <h2>{ t('Versions') } </h2>
+            <h2>{ t('Versions') }
+                <DownloadButton title={ t('Download') }/>
+
+                { edit && <EditButton
+                    title={ t('Edit metadata') }
+                    clickHandler={ edit }
+                />}
+            </h2>
 
             <p>{ t('Version info') }.</p>
 

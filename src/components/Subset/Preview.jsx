@@ -34,10 +34,10 @@ export const Preview = ({ subset, edit }) => {
                     <Metadata edit={ edit } subset={ subset }/>
                 </Tab>
                 <Tab title='Versions' path='versions'>
-                    <Versions data={ subset.versions } />
+                    <Versions edit={ edit }  data={ subset.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
-                    <Codes data={ subset.versions }/>
+                    <Codes edit={ edit }  data={ subset.versions }/>
                 </Tab>
             </Tabs>
         </>
