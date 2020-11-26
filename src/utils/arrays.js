@@ -9,3 +9,9 @@ export function orderByValidFromAsc(array) {
         a.validFrom < b.validFrom ? 1 :
             a.validFrom > b.validFrom ? -1 : 0);
 }
+
+export function orderByValidFromDesc(array) {
+    return array.sort((a,b) =>
+        a.validFrom < b.validFrom ? -1 :
+            a.validFrom > b.validFrom ? 1 : 0);
+}

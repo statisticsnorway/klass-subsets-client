@@ -8,7 +8,7 @@ import { Tabs, Tab } from '../Tabs';
 
 export const Metadata = ({
                              edit = () => {},
-                             subset = {},
+                             subset = {}
                          }) => {
     const { t } = useTranslation();
 

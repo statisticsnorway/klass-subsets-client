@@ -1,48 +1,31 @@
 import React from 'react';
-import {Dropdown} from "../Forms";
+import { Dropdown } from '../Forms';
+import { useTranslation } from 'react-i18next';
 
-export const VersionSwitcher = ({ data = {}}) => {
+export const VersionSwitcher = ({
+                                    versions = [],
+                                    onSelect = () => {}
+}) => {
+    const { t } = useTranslation();
 
     return (
         <>
-{/*            <Dropdown label={ t('Version') }
-                      options={ draft.previousVersions
-                          ? [
-                              {
-                                  title: `${ t('Create previous version') }`,
-                                  id: 'Create previous version',
-                                  disabled: draft.isNewVersion()
-                              },
-
-                              ...draft.previousVersions.map(v => ({
+            <Dropdown label={ t('Version') }
+                      options={[
+                                  ...versions.map(v => ({
                                   ...v,
                                   title: `${ t('Version') }: ${
-                                      v.versionValidFrom?.substr(0, 10)} ${
+                                      v.validFrom} ${
                                       t(v.administrativeStatus)
                                   }`,
-                                  id: `${ v.versionValidFrom }`
-                              })),
-
-                              {
-                                  title: `${ t('Create next version') }`,
-                                  id: 'Create next version',
-                                  disabled: draft.isNewVersion()
-                              }
+                                  id: `${ v.version }`
+                              }))
                           ]
-                          : []
                       }
                       placeholder={ t('Select a version') }
-                      disabledText={ t(draft.administrativeStatus) }
-                      selected={ draft.versionValidFrom || '-' }
-                      onSelect={ (option) => {
-                          dispatch({
-                              action: 'version_switch',
-                              data: option.id
-                          });
-                      }}
-                      errorMessages={ draft.errors?.version }
+                      selected={ versions[0].version || '-' }
+                      onSelect={ (option) => onSelect(option) }
             />
-            <Version />*/}
         </>
     );
 };

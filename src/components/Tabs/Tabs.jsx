@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Divider, Tabs as SsbTabs } from "@statisticsnorway/ssb-component-library";
+import React, { useState } from 'react';
+import { Divider, Tabs as SsbTabs } from '@statisticsnorway/ssb-component-library';
 
 export const Tabs = ({ dark, light, children }) => {
     const [ activeTab, changeTab ] = useState(children[0].props.path);

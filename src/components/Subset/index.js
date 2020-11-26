@@ -8,5 +8,7 @@ export * from './List';
 export * from './Metadata';
 export * from './MetadataHtmlView';
 export * from './Preview';
+export * from './Version';
+export * from './VersionHtmlView';
 export * from './Versions';
 export * from './VersionSwitcher';

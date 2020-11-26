@@ -1,39 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Version, VersionSwitcher } from '../Subset';
+import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
+import { orderByValidFromDesc } from '../../utils/arrays';
 
 
-export const Versions = ({ versions = []}) => {
+export const Versions = ({ data = []}) => {
     const { t } = useTranslation();
+
+    const [ version, setVersion ] = useState( data[0]
+        //orderByValidFromDesc(versions
+        //.filter(v => v.administrativStatus != 'OPEN')
+        //.filter(v => v.validFrom > new Date().toJSON()))[0] || null
+    );
 
     return (
         <>
             <h2>{ t('Versions') } </h2>
-            {/*
-            "administrativeStatus": "DRAFT",
-            "createdDate": "2020-11-23",
-            "lastModified": "2020-11-23T12:35:34Z",
-            "seriesId": "2",
-            "validFrom": "2020-10-19",
-            "validUntil": "2021-10-19",
-            "version": "750105e2-586b-4682-abbe-d462d29a9750",
-            "statisticalUnits": [
-                "Region"
-            ],
-            "codes": [],
-            "versionRationale": [
-            */}
-            {/* FIXME: check the validity period is set correctly*/}
-            {/*{ subset.codes
-                .sort((a,b) => (a.rank - b.rank))
-                .map((code, i) => (
-                    <Code key={i}
-                          origin={{
-                              ...code,
-                              validFromInRequestedRange: subset.versionValidFrom?.substr(0, 10),
-                              validToInRequestedRange: subset.versionValidUntil?.substr(0, 10) || ''
-                          }}
-                    />))
-            }*/}
+
+            <p>{ t('Metadata info') }.</p>
+            <p>{ t('Subset validity period info') }.</p>
+            <p>{ t('Owning section info') }.</p>
+
+            <VersionSwitcher versions={ data } onSelect={ (option) => setVersion(option)}/>
+
+            <CheckboxGroup
+                header={ t('Filters') }
+                onChange={() => {}}
+                orientation='column'
+                selectedValue='includeFuture'
+                items={[
+                    { label: 'includeFuture', value: 'includeFuture' },
+                    { label: 'includeDrafts', value: 'includeDrafts' },
+                    { label: 'includeDeprecated', value: 'includeDeprecated' }
+                ]}
+            />
+
+            {version
+                ? <Version data={ version }/>
+                : <p>{ t('No published versions') }.</p>
+            }
+
         </>
     );
 };

@@ -1,9 +1,6 @@
-import React, {useState} from 'react';
-import { Brief } from './Brief';
-import { Id } from './Id';
+import React, { useState } from 'react';
+import { Brief, Id, Metadata, Versions } from '../Subset';
 import { useTranslation } from 'react-i18next';
-import { Metadata } from './Metadata';
-import { Versions } from './Versions';
 import { Tab, Tabs } from '../Tabs';
 import { GlobeButton } from '../GlobeButton';
 import { languages as defaultLanguages } from '../../defaults';
@@ -36,7 +33,7 @@ export const Preview = ({ subset, edit }) => {
                     <Metadata edit={ edit } subset={ subset }/>
                 </Tab>
                 <Tab title='Versions' path='versions'>
-                    <Versions versions={ subset.versions } />
+                    <Versions data={ subset.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
                     <h2>Codes</h2>
