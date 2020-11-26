@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../Tabs';
 import { GlobeButton } from '../GlobeButton';
 import { languages as defaultLanguages } from '../../defaults';
+import { Codes } from '../Code';
 
 export const Preview = ({ subset, edit }) => {
     const { t } = useTranslation();
@@ -36,7 +37,7 @@ export const Preview = ({ subset, edit }) => {
                     <Versions data={ subset.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
-                    <h2>Codes</h2>
+                    <Codes data={ subset.versions }/>
                 </Tab>
             </Tabs>
         </>

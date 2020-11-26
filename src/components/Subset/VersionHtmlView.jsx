@@ -59,7 +59,7 @@ export const VersionHtmlView = ({
             { codes
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
-                    <CodeDumb key={i} origin={code} />
+                    <CodeDumb key={ i } origin={ code } />
                     )
                 )
             }
