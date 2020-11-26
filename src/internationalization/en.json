@@ -28,6 +28,7 @@
   "Metadata info": "Metadata is valid for all subset versions",
   "Subset validity period info": "Validity period for a subset is auto calculated based on published versions and could be changed over time by adding or removing versions",
   "Owning section info": "Owning section is responsible for updates of the subset metadata and versions. In order to correct or add a version, please, contact the owning section",
+  "Version info": "On this page you can see an overview of the versions. Choose one in the dropdown below to get more information and codes",
   "Statistical units": "Statistical units",
   "Number of published versions": "Number of published versions",
   "Created": "Created",

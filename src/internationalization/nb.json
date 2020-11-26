@@ -27,6 +27,7 @@
   "Metadata info": "Metadata gjelder alle publiserte versjoner i uttrekket",
   "Subset validity period info": "Gyldighetsperioden kalkuleres automatisk basert på publiserte versjoner. Den kan endres ved å legge til eller fjerne publiserte versjoner",
   "Owning section info": "Ansvarlig seksjon skal oppdatere og skape nye versjoner for uttrekke. Ved behov for endringer ta kontakt med ansvarlig seksjon",
+  "Version info": "Her kan du få en oversikt over alle versjoner av uttrekket. For å få mer opplysninger om versjonen velg den i nedtrekksmenuen",
   "Statistical units": "Statistiske enheter",
   "Number of published versions": "Antall publiserte versjoner",
   "Created": "Opprettet",

@@ -18,9 +18,7 @@ export const Versions = ({ data = []}) => {
         <>
             <h2>{ t('Versions') } </h2>
 
-            <p>{ t('Metadata info') }.</p>
-            <p>{ t('Subset validity period info') }.</p>
-            <p>{ t('Owning section info') }.</p>
+            <p>{ t('Version info') }.</p>
 
             <VersionSwitcher versions={ data } onSelect={ (option) => setVersion(option)}/>
 
