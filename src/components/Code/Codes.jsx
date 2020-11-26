@@ -19,20 +19,16 @@ export const Codes = ({ data = [], edit = () => {} }) => {
                     clickHandler={ edit }
                 />}
             </h2>
-            <p>{ t('Metadata info') }.</p>
-            <p>{ t('Subset validity period info') }.</p>
-            <p>{ t('Owning section info') }.</p>
+            <p>{ t('Codes filter info') }.</p>
+
             <section style={{ margin: '5px 0 5px 0' }}>
-                <div style={{ float: 'left',
-                    position: 'relative',
-                    padding: '20px'
+                <div style={{ float: 'left', padding: '20px'
                 }}>
-                    <Datepicker />
+                    <Datepicker label={ t('Valid from') }/>
                 </div>
-                <div style={{ float: 'left',
-                    padding: '20px'
+                <div style={{ float: 'left', padding: '20px'
                 }}>
-                    <Datepicker />
+                    <Datepicker label={ t('Valid to') }/>
                 </div>
                 <br style={{ clear: 'both' }}/>
             </section>
