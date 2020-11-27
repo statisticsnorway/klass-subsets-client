@@ -40,7 +40,7 @@ export function Subset (data) {
         _codes: data?.codes || data?._codes || [],
 
         // not protected
-        lastUpdatedDate: data?.lastUpdatedDate || null,
+        lastModified: data?.lastModified || null,
         createdDate: data?.createdDate || null
     };
 
