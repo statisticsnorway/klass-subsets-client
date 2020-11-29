@@ -9,6 +9,7 @@ import { toId } from '../../utils/strings';
 import { Required } from '../Required';
 import { TextareaPrefixed } from './TextareaPrefixed';
 import {PlusButton} from "../Buttons/PlusButton";
+import {TrashButton} from "../Buttons";
 
 export const TextLanguageFieldset = ({ title, items = [],
                                          size = {cols: 40, rows: 1},
@@ -28,7 +29,7 @@ export const TextLanguageFieldset = ({ title, items = [],
 
     return (
         <div className='ssb-text-area'
-             style={{width: '55%', padding: '15px 0 0 0'}}
+             style={{ width: '55%', padding: '15px 0 0 0' }}
         >
             <label htmlFor={ toId(title) }
                    style={{display: 'block'}}
@@ -61,18 +62,16 @@ export const TextLanguageFieldset = ({ title, items = [],
                         clickHandler={ add }
                     />
 
-                    <button
+                    <TrashButton
                         title={ t('Remove the field') }
                         disabled={ index === 0 }
-                        onClick={() => remove(index)}>
-                        <Trash2 color={ index > 0 ? '#ED5935' : '#C3DCDC' }/>
-                    </button>
+                        clickHandler={() => remove(index)} />
                 </div>))
             }
             { items.length === 0 &&
-            <button onClick={add}>
-                <PlusSquare color='#1A9D49'/>
-            </button>
+                <button onClick={add}>
+                    <PlusSquare color='#1A9D49'/>
+                </button>
             }
         </div>
     );
