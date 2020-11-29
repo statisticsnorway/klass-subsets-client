@@ -3,13 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { availableLanguages, disableUsed } from '../../internationalization/languages';
 import { LanguageSelect } from './LanguageSelect';
 import './form.css';
-import { PlusSquare, Trash2 } from 'react-feather';
 import { ErrorTooltip } from '../Error';
 import { toId } from '../../utils/strings';
 import { Required } from '../Required';
 import { TextareaPrefixed } from './TextareaPrefixed';
-import {PlusButton} from "../Buttons/PlusButton";
-import {TrashButton} from "../Buttons";
+import { PlusButton, TrashButton } from '../Buttons';
 
 export const TextLanguageFieldset = ({ title, items = [],
                                          size = {cols: 40, rows: 1},
@@ -25,7 +23,7 @@ export const TextLanguageFieldset = ({ title, items = [],
     const { t } = useTranslation();
 
     const languages = availableLanguages();
-    disableUsed(languages, items.map(name => name.languageCode));
+    disableUsed( languages, items.map(name => name.languageCode) );
 
     return (
         <div className='ssb-text-area'
@@ -51,9 +49,9 @@ export const TextLanguageFieldset = ({ title, items = [],
 
                     <ErrorTooltip messages={ errorMessages }/>
 
-                    <LanguageSelect languages={languages}
-                                    selected={item.languageCode}
-                                    onChange={(e) => handleLang(index, e.target.value)}
+                    <LanguageSelect languages={ languages }
+                                    selected={ item.languageCode }
+                                    onChange={ (e) => handleLang(index, e.target.value) }
                     />
 
                     <PlusButton
@@ -66,12 +64,14 @@ export const TextLanguageFieldset = ({ title, items = [],
                         title={ t('Remove the field') }
                         disabled={ index === 0 }
                         clickHandler={() => remove(index)} />
-                </div>))
-            }
+                </div>
+                )
+            )}
             { items.length === 0 &&
-                <button onClick={add}>
-                    <PlusSquare color='#1A9D49'/>
-                </button>
+                <PlusButton
+                    title={ t('Add field for another language') }
+                    clickHandler={ add }
+                />
             }
         </div>
     );
