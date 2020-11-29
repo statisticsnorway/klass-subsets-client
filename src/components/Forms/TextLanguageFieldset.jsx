@@ -27,7 +27,7 @@ export const TextLanguageFieldset = ({ title, items = [],
 
     return (
         <div className='ssb-text-area'
-             style={{ width: '55%', padding: '15px 0 0 0' }}
+             style={{ padding: '15px 0 0 0' }}
         >
             <label htmlFor={ toId(title) }
                    style={{display: 'block'}}

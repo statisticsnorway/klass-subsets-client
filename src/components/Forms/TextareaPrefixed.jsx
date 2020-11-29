@@ -8,10 +8,10 @@ export const TextareaPrefixed = ({ id,
                                     onChange,
                                     prefix = '',
                                     maxLength
-                                     }) => {
-
+}) => {
     return (
-        <textarea cols={ cols } rows={ rows }
+        <textarea rows={ rows }
+                  cols={ cols }
                   maxLength={ maxLength }
                   style={{ height: `${ rows * 44}px` }}
                   id={ id }

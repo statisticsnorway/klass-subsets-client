@@ -18,14 +18,24 @@ export const Dropdown = ({
     const { t } = useTranslation();
 
     return (
-        <div className='ssb-dropdown' style={{ padding: '15px 0' }}>
+        <div style={{
+                 padding: '15px 0',
+                 fontFamily: 'Roboto',
+                 fontStretch: 'normal',
+                 fontWeight: 'normal',
+                 display: 'flex',
+                 flexDirection: 'column',
+                 transition: 'all .25s ease-in-out',
+                 minWidth: '150px',
+                 position: 'relative'
+             }}>
             <label htmlFor={ toId(label) } style={{ fontSize: '16px' }}>
                 { t(label) }{ required && <Required /> }
             </label>
             <select className='dropdown-interactive-area focused'
                     id={ toId(label) }
                     style={{
-                        width: '595px',
+                        width: '100%',
                         border: '1px solid black',
                         padding: '10px',
                         fontSize: '16px',
