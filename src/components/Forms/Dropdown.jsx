@@ -29,7 +29,9 @@ export const Dropdown = ({
                  minWidth: '150px',
                  position: 'relative'
              }}>
-            <label htmlFor={ toId(label) } style={{ fontSize: '16px' }}>
+            <label htmlFor={ toId(label) }
+                   style={{ fontSize: '16px' }}
+            >
                 { t(label) }{ required && <Required /> }
             </label>
             <select className='dropdown-interactive-area focused'

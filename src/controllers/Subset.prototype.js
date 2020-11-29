@@ -215,10 +215,10 @@ export function Subset (data) {
             }
         }*/
     });
-/*
+
     Object.defineProperty(subset, 'versionValidUntil', {
-        get: () => { return subset._versionValidUntil?.substr(0, 10) || null; },
-        set: (date = null) => {
+        get: () => { return subset._currentVersion?.validUntil?.substr(0, 10) || null; },
+        /*set: (date = null) => {
             //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
             if (subset.isEditableVersionValidUntil()) {
@@ -227,9 +227,10 @@ export function Subset (data) {
                 subset._versionValidUntil = date;
                 subset.updateValidityPeriod();
             }
-        }
-    });
+        }*/
 
+    });
+/*
     Object.defineProperty(subset, 'versionRationale', {
         get: () => { return subset._versionRationale; },
         set: (versionRationale = []) => {

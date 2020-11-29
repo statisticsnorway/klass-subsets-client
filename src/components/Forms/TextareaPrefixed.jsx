@@ -24,8 +24,10 @@ export const TextareaPrefixed = ({ id,
                       && e.preventDefault()
                   }
                   onKeyDown={(e) =>
-                      ((e.which === keys.BACKSPACE && e.target.selectionStart <= prefix.length)
-                          || (e.which === keys.DELETE && e.target.selectionStart < prefix.length))
+                      ((e.which === keys.BACKSPACE
+                          && e.target.selectionStart <= prefix.length)
+                          || (e.which === keys.DELETE
+                              && e.target.selectionStart < prefix.length))
                       && e.preventDefault()
                   }
                   onCut={(e) =>

@@ -10,7 +10,7 @@ export const Step2Versions = () => {
     return (
         <>
             <h3>{ t('Versions') }</h3>
-            <BriefContextual />
+            <BriefContextual metadata currentVersion />
             <VersionSwitcher />
             <VersionPeriod />
             <VersionRationale />
