@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Version, Switcher } from '../Version';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from '../../../utils/arrays';
-import { EditButton } from '../../EditButton';
-import { DownloadButton } from '../../DownloadButton';
-
+import { EditButton, DownloadButton } from '../../Buttons';
 
 export const Versions = ({ data = [], edit = () => {}}) => {
     const { t } = useTranslation();

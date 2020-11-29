@@ -2,8 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { JsonView } from '../../JsonView';
 import { HtmlView } from './HtmlView';
-import { EditButton } from '../../EditButton';
-import { DownloadButton } from '../../DownloadButton';
+import { EditButton, DownloadButton } from '../../Buttons';
 import { Tabs, Tab } from '../../Tabs';
 
 export const Metadata = ({

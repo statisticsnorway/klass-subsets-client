@@ -1,10 +1,9 @@
 import React from 'react';
-import { DownloadButton } from '../../DownloadButton';
-import { EditButton } from '../../EditButton';
+import { DownloadButton, EditButton } from '../../Buttons';
 import { Tab, Tabs } from '../../Tabs';
 import { JsonView } from '../../JsonView';
 import { useTranslation } from 'react-i18next';
-import {Brief as BriefVersion, Brief} from '../../Subset/Version';
+import { Brief} from './Brief';
 import { HtmlView } from './HtmlView';
 
 export const Version = ({

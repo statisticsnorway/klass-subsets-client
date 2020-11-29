@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { eu } from '../../../utils/strings';
 import { useTranslation } from 'react-i18next';
-import { languages as defaultLanguages } from '../../../defaults';
-import { GlobeButton } from '../../GlobeButton';
 import { orderByValidFromAsc } from '../../../utils/arrays';
-import {TitledBlock} from "../../TitledBlock";
+import { TitledBlock } from '../../TitledBlock';
 
 export const HtmlView = ({
     subset: {

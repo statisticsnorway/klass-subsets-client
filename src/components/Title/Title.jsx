@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GlobeButton } from '../GlobeButton';
+import { GlobeButton } from '../Buttons';
 import { languages as defaultLanguages } from '../../defaults';
 
 export const Title = ({

@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GlobeButton } from '../../GlobeButton';
+import { GlobeButton } from '../../Buttons';
 import { eu } from '../../../utils/strings';
 import { languages as defaultLanguages } from '../../../defaults';
 import { CodeDumb } from '../../Code';
 
-export const HtmlView = ({
-                                     version: {
-                                         administrativeStatus,
-                                         createdDate,
-                                         lastModified,
-                                         seriesId,
-                                         validFrom,
-                                         validUntil,
-                                         version,
-                                         statisticalUnits,
-                                         codes,
-                                         versionRationale
-                                     }
-                                 }) => {
+export const HtmlView = ({version: {
+                             administrativeStatus,
+                             createdDate,
+                             lastModified,
+                             seriesId,
+                             validFrom,
+                             validUntil,
+                             version,
+                             statisticalUnits,
+                             codes,
+                             versionRationale
+}}) => {
+
     const { t } = useTranslation();
     const [ langIndex, setLangIndex ] = useState(0);
     const languages = defaultLanguages.filter(l => l.draft);

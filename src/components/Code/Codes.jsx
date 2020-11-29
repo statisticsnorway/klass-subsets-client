@@ -3,8 +3,7 @@ import { CodeDumb} from './CodeDumb';
 import { useTranslation } from 'react-i18next';
 import { Datepicker } from '../Forms';
 import { flatten } from '../../utils/arrays';
-import { DownloadButton } from '../DownloadButton';
-import { EditButton } from '../EditButton';
+import { DownloadButton, EditButton } from '../Buttons';
 
 export const Codes = ({ data = [], edit = () => {} }) => {
     const { t } = useTranslation();
