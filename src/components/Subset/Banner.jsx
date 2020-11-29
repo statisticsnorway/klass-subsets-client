@@ -2,13 +2,11 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../../controllers/context';
-import { Link as SsbLink } from "@statisticsnorway/ssb-component-library";
-import { Brief } from './Brief';
-import { Id } from './Id';
+import { Link as SsbLink } from '@statisticsnorway/ssb-component-library';
+import { Brief, Id, Description } from '../Subset';
 import { Edit } from 'react-feather';
-import { Description } from './Description';
 
-export const SubsetBanner = ({ subsetData }) => {
+export const Banner = ({ data }) => {
     const { t } = useTranslation();
     let history = useHistory();
     const { subset } = useContext(AppContext);
@@ -17,9 +15,9 @@ export const SubsetBanner = ({ subsetData }) => {
     // TODO: smart language choice
     return (
         <div style={{margin: '50px 0'}}>
-            <SsbLink href={ `/subsets/${subsetData?.id}` }
+            <SsbLink href={ `/subsets/${data?.id}` }
                      linkType='profiled'>
-                { subsetData?.name?.find(name => name.languageCode === 'nb')?.languageText
+                { data?.name?.find(name => name.languageCode === 'nb')?.languageText
                 || t('No name')
                 }
             </SsbLink>
@@ -29,17 +27,17 @@ export const SubsetBanner = ({ subsetData }) => {
                 cursor: 'pointer'
             }}
                   onClick={() => {
-                      subset.dispatch({ action: 'edit', data: subsetData });
+                      subset.dispatch({ action: 'edit', data });
                       history.push('/create');
                   }}/>
             <Brief
-                id={ <Id>{ subsetData?.id || '-' }</Id> }
-                versionValidFrom={ subsetData?.versionValidFrom }
-                lastModified={ subsetData?.lastModified }
-                status={ t(subsetData?.administrativeStatus) }
+                id={ <Id>{ data?.id || '-' }</Id> }
+                versionValidFrom={ data?.versionValidFrom }
+                lastModified={ data?.lastModified }
+                status={ t(data?.administrativeStatus) }
             />
             <Description text={
-                subsetData?.description?.find(
+                data?.description?.find(
                 desc => desc.languageCode === 'nb')?.languageText
                 || t('No description')
             }/>

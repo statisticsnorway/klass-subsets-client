@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Version, VersionSwitcher } from '../Subset';
+import { Version, Switcher } from '../Version';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
-import { orderByValidFromDesc } from '../../utils/arrays';
-import { EditButton } from '../EditButton';
-import { DownloadButton } from '../DownloadButton';
+import { orderByValidFromDesc } from '../../../utils/arrays';
+import { EditButton } from '../../EditButton';
+import { DownloadButton } from '../../DownloadButton';
 
 
 export const Versions = ({ data = [], edit = () => {}}) => {
@@ -29,7 +29,7 @@ export const Versions = ({ data = [], edit = () => {}}) => {
 
             <p>{ t('Version info') }.</p>
 
-            <VersionSwitcher versions={ data } onSelect={ (option) => setVersion(option)}/>
+            <Switcher versions={ data } onSelect={ (option) => setVersion(option)}/>
 
             <CheckboxGroup
                 header={ t('Filters') }

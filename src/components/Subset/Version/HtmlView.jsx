@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GlobeButton } from '../GlobeButton';
-import { eu } from '../../utils/strings';
-import { languages as defaultLanguages } from '../../defaults';
-import { CodeDumb } from '../Code';
+import { GlobeButton } from '../../GlobeButton';
+import { eu } from '../../../utils/strings';
+import { languages as defaultLanguages } from '../../../defaults';
+import { CodeDumb } from '../../Code';
 
-export const VersionHtmlView = ({
+export const HtmlView = ({
                                      version: {
                                          administrativeStatus,
                                          createdDate,

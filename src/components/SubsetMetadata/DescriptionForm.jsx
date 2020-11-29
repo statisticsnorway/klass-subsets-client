@@ -1,41 +1,41 @@
-import { useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useContext, useEffect } from 'react';
 import { TextLanguageFieldset } from '../Forms';
 import { AppContext } from '../../controllers/context';
 import { subsetDraft } from '../../defaults';
 
 export const DescriptionForm = () => {
-    const { t } = useTranslation();
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft: {
+        description,
+        errors
+    }, dispatch
+    } } = useContext(AppContext);
 
     useEffect(() => {
-        draft.description?.length === 0
-        && dispatch({action: 'description_add'});
+        description?.length === 0
+        && dispatch({ action: 'description_add' });
 
         return () => {
-            dispatch({action: 'remove_empty'});
+            dispatch({ action: 'remove_empty' });
         };
     }, []);
 
-    // DOCME: max description length
     return (
-        <TextLanguageFieldset title={t('Description')}
-                              items={draft.description}
+        <TextLanguageFieldset title='Description'
+                              items={ description }
                               add={() => dispatch({
                                   action: 'description_add'})}
-                              remove={(index) => dispatch({
+                              remove={ (index) => dispatch({
                                   action: 'description_remove',
-                                  data: index})}
-                              handleText={(index, text) => dispatch({
+                                  data: index })}
+                              handleText={ (index, text) => dispatch({
                                   action: 'description_text',
-                                  data: {index, text}})}
-                              handleLang={(index, lang) => dispatch({
+                                  data: { index, text }})}
+                              handleLang={ (index, lang) => dispatch({
                                   action: 'description_lang',
-                                  data: {index, lang}})}
-                              size = {{cols: 65, rows: 4}}
-                              errorMessages={draft.errors?.description}
-                              maxLength={subsetDraft.maxLengthDescription}
+                                  data: { index, lang } })}
+                              size={{ cols: 65, rows: 4 }}
+                              errorMessages={ errors?.description }
+                              maxLength={ subsetDraft.maxLengthDescription }
         />
     );
 };

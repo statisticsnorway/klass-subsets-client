@@ -1,12 +1,11 @@
 import React from 'react';
-import { DownloadButton } from '../DownloadButton';
-import { EditButton } from '../EditButton';
-import { Tab, Tabs } from '../Tabs';
-import { JsonView } from './JsonView';
+import { DownloadButton } from '../../DownloadButton';
+import { EditButton } from '../../EditButton';
+import { Tab, Tabs } from '../../Tabs';
+import { JsonView } from '../../JsonView';
 import { useTranslation } from 'react-i18next';
-import { Brief } from './Brief';
-import { Id } from './Id';
-import { VersionHtmlView } from './VersionHtmlView';
+import {Brief as BriefVersion, Brief} from '../../Subset/Version';
+import { HtmlView } from './HtmlView';
 
 export const Version = ({
                             edit = () => {},
@@ -25,15 +24,17 @@ export const Version = ({
                 />}
             </h2>
             <Brief
-                id={ <Id>{ data.version || '-' }</Id> }
-                versionValidFrom={ data.validFrom }
+                id={ data.version }
                 lastModified={ data.lastModified }
+                created={ data.createdDate }
+                validFrom={ data.validFrom }
+                validUntil={ data.validUntil }
                 status={ data.administrativeStatus }
             />
 
             <Tabs light>
                 <Tab title='HTML' path='html'>
-                    <VersionHtmlView version={ data } />
+                    <HtmlView version={ data } />
                 </Tab>
                 <Tab title='JSON' path='json'>
                     <JsonView data={ data } />

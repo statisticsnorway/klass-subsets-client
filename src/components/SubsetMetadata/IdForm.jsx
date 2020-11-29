@@ -1,53 +1,56 @@
 import React, { useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../controllers/context';
 import { useGet } from '../../controllers/subsets-service';
 import { subsetDraft } from '../../defaults';
+import { ErrorTooltip } from '../Error';
 
 export const IdForm = () => {
-    const { subset } = useContext(AppContext);
-    const { t } = useTranslation();
+    const { subset:
+        { draft: {
+            id,
+            errors,
+            isNew
+        }, dispatch
+    } } = useContext(AppContext);
 
-    const [exist,,, setPathExist] = useGet();
+    const [ exist,,, setPathExist ] = useGet();
 
     useEffect(() => {
-        subset.draft.isNew()
-        && subset.draft.id?.length > 0
-        && setPathExist(subset.draft.id);
-    }, [ subset.draft.id ]);
+        if (!isNew() || id?.length === 0) {
+            setPathExist(id)
+        }
+    }, [ id ]);
 
     return (
-        <div style={{display: 'inline-block'}}>
+        <div style={{ display: 'inline-block' }}>
             <label htmlFor='shortName'>ID:</label>
             <input type='text'
                    id='shortName'
                    name='shortName'
-                   value={subset.draft.id}
+                   value={ id }
                    maxLength={ subsetDraft.maxLengthId }
-                   onChange={(event) => {
+                   onChange={ event => {
                        setPathExist(event.target.value);
-                       subset.dispatch({
+                       dispatch({
                            action: 'shortName_update',
                            data: event.target.value
                        });
                    }}
-                   style={{margin: '0 5px'}}
-                   disabled={ !subset.draft.isNew() }
+                   style={{ margin: '0 5px' }}
+                   disabled={ !isNew() }
             />
-            { exist && !exist.error &&
-            <div className='ssb-input-error ' style={{width: '25%', position: 'absolute'}}>
-                <span style={{padding: '0 10px 0 0'}}>{ t('Already used ID') }</span>
-            </div>
-            }
 
-            { subset.draft?.errors?.id?.length > 0
-            && subset.draft?.id?.length > 0 &&
-            <div className='ssb-input-error ' style={{width: '25%', position: 'absolute'}}>
-                {subset.draft?.errors?.id.map(error => (
-                    <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
-                ))}
-            </div>
-            }
+            {/* FIXME should be Subset.prototype responsibility to set errors */}
+            <ErrorTooltip
+                messages={['Already used ID']}
+                visible={ exist && !exist.error && id?.length > 0 }
+            />
+
+            <ErrorTooltip
+                messages={ errors?.id }
+                visible={ id?.length > 0 }
+            />
+
         </div>
     );
 };

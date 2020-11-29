@@ -1,43 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Brief, Id, Metadata, Versions } from '../Subset';
-import { useTranslation } from 'react-i18next';
 import { Tab, Tabs } from '../Tabs';
-import { GlobeButton } from '../GlobeButton';
-import { languages as defaultLanguages } from '../../defaults';
 import { Codes } from '../Code';
+import { Subset } from '../../controllers/Subset.prototype';
+import { Title } from '../Title';
 
-export const Preview = ({ subset, edit }) => {
-    const { t } = useTranslation();
-    const [ langIndex, setLangIndex ] = useState(0);
-    const languages = defaultLanguages.filter(l => l.draft);
+export const Preview = ({ data, edit }) => {
+    const subset = new Subset(data);
 
     return (
         <>
-            <h1>{ subset.name?.find(desc =>
-                    desc.languageCode === languages[langIndex].languageCode)?.languageText
-                ||
-                <span style={{ color: 'red'}}>{
-                    t('No name in this language') }: { languages[langIndex].full }</span> }
-                <GlobeButton
-                    title={ t('Toggle language')}
-                    clickHandler={ () => setLangIndex( (langIndex + 1) % languages.length)}
-                />
-            </h1>
+            <Title translatable texts={ subset.name }
+                   className='h1'
+            />
             <Brief
-                id={ <Id>{ subset.id || '-' }</Id> }
-                versionValidFrom={ subset?.versionValidFrom }
+                id={ <Id>{ subset?.id || '-' }</Id> }
                 lastModified={ subset?.lastModified }
-                status={ subset?.administrativeStatus }
+                created={ subset?.createdDate }
+                published={ subset?.publishedVersions?.length }
+                drafts={ subset?.drafts?.length }
+                validFrom={ subset?.validFrom }
+                validUntil={ subset?.validUntil }
             />
             <Tabs dark>
                 <Tab title='Metadata' path='metadata'>
-                    <Metadata edit={ edit } subset={ subset }/>
+                    <Metadata edit={ edit } subset={ data }/>
                 </Tab>
                 <Tab title='Versions' path='versions'>
-                    <Versions edit={ edit }  data={ subset.versions } />
+                    <Versions edit={ edit }  data={ data?.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
-                    <Codes edit={ edit }  data={ subset.versions }/>
+                    <Codes edit={ edit }  data={ data?.versions }/>
                 </Tab>
             </Tabs>
         </>

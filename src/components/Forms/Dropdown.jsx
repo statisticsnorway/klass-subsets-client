@@ -1,9 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './form.css';
+import { toId } from '../../utils/strings';
+import {Required} from "../Required";
+import {ErrorTooltip} from "../Error";
 
 export const Dropdown = ({
                              label='Select',
+                             required = false,
                              options = [{ title: ' ', id: ' ', disabled: false }],
                              placeholder = 'Select',
                              disabledText = 'Outdated',
@@ -15,11 +19,11 @@ export const Dropdown = ({
 
     return (
         <div className='ssb-dropdown' style={{ padding: '15px 0' }}>
-            <label htmlFor={ label } style={{ fontSize: '16px' }}>
-                { label }
+            <label htmlFor={ toId(label) } style={{ fontSize: '16px' }}>
+                { t(label) }{ required && <Required /> }
             </label>
             <select className='dropdown-interactive-area focused'
-                    id={ label }
+                    id={ toId(label) }
                     style={{
                         width: '595px',
                         border: '1px solid black',
@@ -31,12 +35,12 @@ export const Dropdown = ({
                         onSelect(options.find(o => o.id === e.target.value))
                     }
             >
-                <option value='' hidden>{ placeholder }</option>
+                <option value='' hidden>{ t(placeholder) }</option>
                 { selected.length > 0 && !options.find(s => s.id === selected)
                     && (<option key='outdated'
                                 disabled
                                 value={ selected }
-                                >{ selected } ({ disabledText })
+                                >{ selected } ({ t(disabledText) })
                     </option>)
                 }
                 { options.map((option) => (
@@ -46,13 +50,10 @@ export const Dropdown = ({
                     </option>
                 ))}
             </select>
-            { errorMessages?.length > 0 && selected.length > 0 &&
-                <div className='ssb-input-error '>
-                    { errorMessages.map(error => (
-                        <span key={ error } style={{ padding: '0 10px 0 0' }}>{ t(error) }.</span>
-                    ))}
-                </div>
-            }
+
+            <ErrorTooltip visible={ selected.length > 0 }
+                          messages={ errorMessages }
+            />
         </div>
     );
 };
