@@ -30,6 +30,7 @@
   "Version info": "Her kan du få en oversikt over alle versjoner av uttrekket. For å få mer opplysninger om versjonen velg den i nedtrekksmenuen",
   "Statistical units": "Statistiske enheter",
   "Number of published versions": "Antall publiserte versjoner",
+  "Number of drafts": "Antall utkast",
   "Created": "Opprettet",
   "Version rationale": "Versjonens begrunnelse",
   "No published versions": "Ingen publiserte versioner",
@@ -39,6 +40,7 @@
   "Create subset": "Lag uttrekk",
   "Previous": "Forrige",
   "Next": "Neste",
+  "Required": "Påkrevd",
 
   "Metadata": "Metadata",
   "Already used ID": "Allerede brukt ID",

@@ -31,6 +31,7 @@
   "Version info": "On this page you can see an overview of the versions. Choose one in the dropdown below to get more information and codes",
   "Statistical units": "Statistical units",
   "Number of published versions": "Number of published versions",
+  "Number of drafts": "Drafts",
   "Created": "Created",
   "Version rationale": "Version rationale",
   "No published versions": "No published versions",
@@ -40,6 +41,7 @@
   "Create subset": "Create subset",
   "Previous": "Previous",
   "Next": "Next",
+  "Required": "Required",
 
   "Metadata": "Metadata",
   "Already used ID": "Already used ID",
