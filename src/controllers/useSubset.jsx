@@ -5,9 +5,7 @@ function subsetReducer( state, { action, data = {} }) {
     console.info({ action, data });
     switch (action) {
         case 'edit': {
-            return Subset({...data,
-                administrativeStatus: data?.administrativeStatus || 'DRAFT'
-            });
+            return Subset({...data });
         }
         case 'name_text': {
             state.updateNameTextByIndex(data.index, data.text);

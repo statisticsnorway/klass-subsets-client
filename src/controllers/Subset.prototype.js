@@ -4,6 +4,7 @@ import { URN } from './klass-api';
 import { errorsControl } from './errorsControl';
 import { versionable } from './versionsControl';
 import { toId, sanitize, datePattern } from '../utils/strings';
+import {orderByValidFromAsc, orderByValidFromDesc} from "../utils/arrays";
 
 export function Subset (data) {
     const subset = {
@@ -15,29 +16,11 @@ export function Subset (data) {
         _classificationFamily: data?.classificationFamily || data?._classificationFamily,
         _owningSection: data?.owningSection || data?._owningSection || '',
         _description: data?.description || data?._description || [],
+        _versions: data?.versions || data?._versions || [],
 
-        // oldies
-
-        _administrativeStatus: data?.administrativeStatus || data?._administrativeStatus || 'INTERNAL',
-        _validFrom: data?.validFrom || data?._validFrom || null,
-        _validUntil: data?.validUntil || data?._validUntil || null,
-        _administrativeDetails: data?.administrativeDetails || data?._administrativeDetails
-            || [
-                {
-                    administrativeDetailType: 'ORIGIN',
-                    values: []
-                }
-            ],
-
-        // step 2 Versions
-        _version: data?.version || data?._version || '1',
-        _previousVersions: data?._previousVersions || null,
-        _versionRationale: data?.versionRationale || data?._versionRationale || [],
-        _versionValidFrom: data?.versionValidFrom || data?._versionValidFrom || null,
-        _versionValidUntil: data?._versionValidUntil || data?.validUntil || null,
-
-        // Step 3 and 4 Codes
-        _codes: data?.codes || data?._codes || [],
+        // internal control
+        // FIXME: default - a version valid at loading date
+        _currentVersion: data?._currentVersion || data?.versions[0] || {},
 
         // not protected
         lastModified: data?.lastModified || null,
@@ -48,14 +31,14 @@ export function Subset (data) {
         subset,
         editable(subset),
         restrictable(subset),
-        versionable(subset),
+        /*versionable(subset), */
 
         nameControl(subset),
         descriptionControl(subset),
         versionRationaleControl(subset),
-        originControl(subset),
+        /*originControl(subset),
         codesControl(subset),
-        errorsControl(subset)
+        errorsControl(subset)*/
     );
 
     Object.defineProperty(subset, 'id', {
@@ -92,17 +75,6 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'administrativeStatus', {
-        get: () => { return subset._administrativeStatus; },
-        set: (status = '') => {
-            // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
-
-            if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
-                subset._administrativeStatus = status;
-            }
-        }
-    });
-
     Object.defineProperty(subset, 'createdBy', {
         get: () => { return subset._owningSection; },
         set: (createdBy = '') => {
@@ -125,10 +97,6 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'isPublished', {
-        get: () => { return subset._administrativeStatus  === 'OPEN';},
-    });
-
 
     Object.defineProperty(subset, 'description', {
         get: () => { return subset._description; },
@@ -142,37 +110,60 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'validFrom', {
-        get: () => { return subset._validFrom; },
-        set: (date = null) => {
-            //console.debug('Set validFrom', date, subset.isEditableValidFrom());
-
-            if (subset.isEditableValidFrom()) {
-
-                subset._validFrom = date;
-
-                if (subset.isNew()) {
-                    subset._versionValidFrom = subset.validFrom;
-                }
-            }
-        }
+        get: () => { return subset.earliestPublishedVersion?.validFrom; }
     });
 
     Object.defineProperty(subset, 'validUntil', {
-        get: () => {
-            return datePattern.test(subset._validUntil)
-                ? subset._validUntil
-                : null;
-        },
-        set: (date = null) => {
-            //console.debug('Set validUntil', date, subset.isEditableValidUntil());
-
-            if (subset.isEditableValidUntil()) {
-                subset._validUntil = date;
-            }
-        }
+        get: () => { return subset.latestPublishedVersion?.validUntil }
     });
 
-    Object.defineProperty(subset, 'version', {
+    Object.defineProperty(subset, 'publishedVersions', {
+        get: () => { return subset?._versions?.filter(v => v.administrativeStatus === 'OPEN'); },
+    });
+
+    Object.defineProperty(subset, 'earliestPublishedVersion', {
+        get: () => { return orderByValidFromAsc(subset?.publishedVersions)[0]; },
+    });
+
+    Object.defineProperty(subset, 'latestPublishedVersion', {
+        get: () => { return orderByValidFromDesc(subset?.publishedVersions)[0]; },
+    });
+
+    Object.defineProperty(subset, 'drafts', {
+        get: () => { return subset?._versions?.filter(v => v.administrativeStatus === 'DRAFT'); },
+    });
+
+    Object.defineProperty(subset, 'versionCreatedDate', {
+        get: () => { return subset?._currentVersion.createdDate; },
+    });
+
+    Object.defineProperty(subset, 'versionLastModified', {
+        get: () => { return subset?._currentVersion.lastModified; },
+    });
+
+    // FIXME not implemented yet
+    Object.defineProperty(subset, 'versionToBeSaved', {
+        get: () => { return subset?._currentVersion.toBeSaved; },
+    });
+
+    Object.defineProperty(subset, 'administrativeStatus', {
+            get: () => { return subset._currentVersion.administrativeStatus; },
+/*            set: (status = '') => {
+                // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
+
+                if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
+                    subset._administrativeStatus = status;
+                }
+            }*/
+    });
+    /*
+        Object.defineProperty(subset, 'isPublished', {
+            get: () => { return subset._administrativeStatus  === 'OPEN';},
+        });*/
+
+
+
+ /*   Object.defineProperty(subset, 'version', {
         get: () => { return subset._version; }
     });
 
@@ -210,10 +201,10 @@ export function Subset (data) {
             }
         }
     });
-
+*/
     Object.defineProperty(subset, 'versionValidFrom', {
-        get: () => { return subset._versionValidFrom?.substr(0, 10); },
-        set: (date = null) => {
+        get: () => { return subset._currentVersion?.validFrom?.substr(0, 10); },
+/*        set: (date = null) => {
             //console.debug('Set versionValidFrom', date);
 
             if (subset.isEditableVersionValidFrom) {
@@ -222,9 +213,9 @@ export function Subset (data) {
                 subset._versionValidFrom = date;
                 subset.updateValidityPeriod();
             }
-        }
+        }*/
     });
-
+/*
     Object.defineProperty(subset, 'versionValidUntil', {
         get: () => { return subset._versionValidUntil?.substr(0, 10) || null; },
         set: (date = null) => {
@@ -334,7 +325,7 @@ export function Subset (data) {
                 administrativeStatus: 'OPEN'
             };
         }
-    });
+    });*/
 
     return subset;
 }
@@ -344,8 +335,7 @@ const editable = (state = {}) => ({
     isNew() {
         //console.debug('isNew', state.administrativeStatus === 'INTERNAL' && state.version === '1');
 
-        return state.administrativeStatus === 'INTERNAL'
-            && state.version === '1';
+        return !state.createdDate;
     },
 
 
@@ -357,6 +347,7 @@ const editable = (state = {}) => ({
         }
         return state.latestVersion?.version === state.version;
     },
+
     isNewVersion() {
         //console.debug('isNewVersion', state.administrativeStatus === 'INTERNAL' && state.version !== '1');
 

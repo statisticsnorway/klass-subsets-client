@@ -26,7 +26,7 @@ export const SubsetPage = () => {
                             ? t('Subset version for subset with id does not exist', { version, id })
                             : t('Subset with id does not exist', { id }) }.
                           </p>
-                        : <Preview subset={ subsetData }
+                        : <Preview data={ subsetData }
                                    edit={() => {
                                              dispatch({
                                                  action: 'edit',
