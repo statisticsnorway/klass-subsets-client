@@ -3,13 +3,15 @@ import { Edit } from 'react-feather';
 
 export const EditButton = ({
                                 title = 'Edit button',
-                                clickHandler = () => {}
+                                clickHandler = () => {},
+                                disabled = false
                             }) => {
 
     return (
         <button
             title={ title }
             onClick={ clickHandler }
+            disabled={ disabled }
         >
             <Edit style={{
                 color: '#ED5935',

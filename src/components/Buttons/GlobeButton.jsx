@@ -3,13 +3,15 @@ import { Globe } from 'react-feather';
 
 export const GlobeButton = ({
     title = 'Globe button',
-    clickHandler = () => {}
+    clickHandler = () => {},
+    disabled = false
 }) => {
 
     return (
         <button
             title={ title }
             onClick={ clickHandler }
+            disabled={ disabled }
         >
             <Globe style={{
                 color: 'lightblue',

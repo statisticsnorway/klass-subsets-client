@@ -8,6 +8,7 @@ import { ErrorTooltip } from '../Error';
 import { toId } from '../../utils/strings';
 import { Required } from '../Required';
 import { TextareaPrefixed } from './TextareaPrefixed';
+import {PlusButton} from "../Buttons/PlusButton";
 
 export const TextLanguageFieldset = ({ title, items = [],
                                          size = {cols: 40, rows: 1},
@@ -54,19 +55,17 @@ export const TextLanguageFieldset = ({ title, items = [],
                                     onChange={(e) => handleLang(index, e.target.value)}
                     />
 
-                    <button
+                    <PlusButton
                         title={ t('Add field for another language') }
                         disabled={!(index === items.length - 1 && index < languages.length - 1)}
-                        onClick={ add }>
-                        <PlusSquare color={(index === items.length - 1 && index < languages.length - 1)
-                            ? '#1A9D49' : '#C3DCDC'}/>
-                    </button>
+                        clickHandler={ add }
+                    />
 
                     <button
                         title={ t('Remove the field') }
                         disabled={ index === 0 }
                         onClick={() => remove(index)}>
-                        <Trash2 color={index > 0 ? '#ED5935' : '#C3DCDC'}/>
+                        <Trash2 color={ index > 0 ? '#ED5935' : '#C3DCDC' }/>
                     </button>
                 </div>))
             }

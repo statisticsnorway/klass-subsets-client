@@ -1,8 +1,8 @@
 import React from 'react';
-import { Download } from 'react-feather';
+import { PlusSquare } from 'react-feather';
 
-export const DownloadButton = ({
-                                title = 'Download button',
+export const PlusButton = ({
+                                title = 'Add',
                                 clickHandler = () => {},
                                 disabled = false
                             }) => {
@@ -13,8 +13,8 @@ export const DownloadButton = ({
             onClick={ clickHandler }
             disabled={ disabled }
         >
-            <Download style={{
-                color: 'lightblue',
+            <PlusSquare style={{
+                color: disabled ? '#C3DCDC' : '#1A9D49',
                 margin: '0 10px',
                 cursor: 'pointer'
             }}
