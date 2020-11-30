@@ -18,7 +18,7 @@ export const toId = text => {
         .replace(/[^a-z0-9-_]*/g, '');
 };
 
-// TODO: deview letter whitelist
+// TODO: review letter whitelist
 export const sanitize = (text, maxLength) => {
     return text && text
         .substring(0, Math.min(maxLength, text.length))

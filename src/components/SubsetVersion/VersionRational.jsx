@@ -21,13 +21,18 @@ export const VersionRationale = () => {
     return (
         <TextLanguageFieldset title={ t('Version rationale') }
                               items={ draft.versionRationale }
-                              add={ () => dispatch({action: 'version_rationale_add'}) }
-                              remove={ index => dispatch({action: 'version_rationale_remove', data: index}) }
+                              add={ () => dispatch({
+                                  action: 'version_rationale_add'}) }
+                              remove={ index => dispatch({
+                                  action: 'version_rationale_remove',
+                                  data: index}) }
                               handleText={ (index, text) => dispatch({
-                                  action: 'version_rationale_text', data: {index, text}
+                                  action: 'version_rationale_text',
+                                  data: {index, text}
                               })}
                               handleLang={ (index, lang) => dispatch({
-                                  action: 'version_rationale_lang', data: {index, lang}
+                                  action: 'version_rationale_lang',
+                                  data: {index, lang}
                               })}
                               size={{ cols: 65, rows: 4 }}
                               maxLength={ subsetDraft.maxLengthVersionRationale }

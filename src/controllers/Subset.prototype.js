@@ -4,12 +4,10 @@ import { URN } from './klass-api';
 import { errorsControl } from './errorsControl';
 import { versionable } from './versionsControl';
 import { toId, sanitize, datePattern } from '../utils/strings';
-import {orderByValidFromAsc, orderByValidFromDesc} from "../utils/arrays";
+import { orderByValidFromAsc, orderByValidFromDesc, sanitizeArray } from '../utils/arrays';
 
 export function Subset (data) {
     const subset = {
-        // step 1 Metadata
-
         _id: data?.id || data?._id || '',
         _shortName: data?.shortName || data?._shortName || '',
         _name: data?.name || data?._name || [],
@@ -142,13 +140,11 @@ export function Subset (data) {
             // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
 
             subset._currentVersion = subset.versions.find(v => v.version === chosen.version) || {};
-            /*state._versionRationale = exists.versionRationale?.length > 0
-                ? exists.versionRationale
-                : [ nextDefaultName([]) ];
-    */
+            if (subset.versionRationale?.length !== 0) {
+                subset.versionRationale = [ nextDefaultName([]) ];
+            }
         }
     });
-
 
     Object.defineProperty(subset, 'versionLastModified', {
         get: () => { return subset?._currentVersion.lastModified; },
@@ -247,103 +243,107 @@ export function Subset (data) {
         }*/
 
     });
-/*
+
+    // FIXME sanitize input
     Object.defineProperty(subset, 'versionRationale', {
-        get: () => { return subset._versionRationale; },
+        get: () => { return subset._currentVersion.versionRationale; },
         set: (versionRationale = []) => {
             //console.debug('Set versionRationale', versionRationale);
 
-            if (subset.isEditableVersionRationale()) {
-                subset._versionRationale = versionRationale;
+            if (subset.isEditableVersionRationale() && versionRationale?.length > 0) {
+                subset._currentVersion.versionRationale = sanitizeArray(
+                    versionRationale,
+                    subsetDraft.maxLengthVersionRationale
+                );
             }
         }
     });
+    /*
+        Object.defineProperty(subset, 'origin', {
+            get: () => {
+                return subset._administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ORIGIN').values;
+            },
+            set: (origin = []) => {
+                //console.debug('Set origin', origin, subset.isEditableOrigin());
 
-    Object.defineProperty(subset, 'origin', {
-        get: () => {
-            return subset._administrativeDetails
-                .find(d => d.administrativeDetailType === 'ORIGIN').values;
-        },
-        set: (origin = []) => {
-            //console.debug('Set origin', origin, subset.isEditableOrigin());
+                if (subset.isEditableOrigin()) {
+                    subset._administrativeDetails
+                        .find(d => d.administrativeDetailType === 'ORIGIN')
+                        .values = origin.filter(o => URN.isClassificationPattern(o));
 
-            if (subset.isEditableOrigin()) {
-                subset._administrativeDetails
-                    .find(d => d.administrativeDetailType === 'ORIGIN')
-                    .values = origin.filter(o => URN.isClassificationPattern(o));
-
-                //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
+                    //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
+                }
             }
-        }
-    });
+        });
 
-    Object.defineProperty(subset, 'codes', {
-        get: () => { return subset._codes; },
-        set: (codes = []) => {
-            // console.debug('Set codes and update origin', codes);
+        Object.defineProperty(subset, 'codes', {
+            get: () => { return subset._codes; },
+            set: (codes = []) => {
+                // console.debug('Set codes and update origin', codes);
 
-            if (subset.isEditableCodes()) {
-                subset._codes = codes;
-                subset.reorderCodes();
-                subset.rerankCodes();
-                subset.verifyOrigin();
+                if (subset.isEditableCodes()) {
+                    subset._codes = codes;
+                    subset.reorderCodes();
+                    subset.rerankCodes();
+                    subset.verifyOrigin();
+                }
             }
-        }
-    });
+        });
 
-    Object.defineProperty(subset, 'errors', {
-        get: () => {
-            //console.debug('Get errors', subset._errors);
+        Object.defineProperty(subset, 'errors', {
+            get: () => {
+                //console.debug('Get errors', subset._errors);
 
-            return subset.validate();
-        }
-    });
+                return subset.validate();
+            }
+        });
 
-    Object.defineProperty(subset, 'payload', {
-        // TESTME
-        // DOCME
-        get: () => {
-            const payload = {
-                id: subset._id,
-                shortName: subset._shortName,
-                name: subset._name,
-                administrativeStatus: subset._administrativeStatus,
-                validFrom: subset._validFrom,
-                validUntil: subset._validUntil,
-                owningSection: subset._owningSection,
-                administrativeDetails: subset._administrativeDetails,
-                classificationFamily: subset._classificationFamily,
-                description: subset._description,
-                version: subset._version,
-                versionRationale: subset._versionRationale,
-                versionValidFrom: subset._versionValidFrom,
-                codes: subset._codes
-            };
-            Object.keys(payload).forEach((key) => (
-                (!payload[key] || payload[key] === '')
-                && delete payload[key])
-            );
-            return payload;
-        }
-    });
+        Object.defineProperty(subset, 'payload', {
+            // TESTME
+            // DOCME
+            get: () => {
+                const payload = {
+                    id: subset._id,
+                    shortName: subset._shortName,
+                    name: subset._name,
+                    administrativeStatus: subset._administrativeStatus,
+                    validFrom: subset._validFrom,
+                    validUntil: subset._validUntil,
+                    owningSection: subset._owningSection,
+                    administrativeDetails: subset._administrativeDetails,
+                    classificationFamily: subset._classificationFamily,
+                    description: subset._description,
+                    version: subset._version,
+                    versionRationale: subset._versionRationale,
+                    versionValidFrom: subset._versionValidFrom,
+                    codes: subset._codes
+                };
+                Object.keys(payload).forEach((key) => (
+                    (!payload[key] || payload[key] === '')
+                    && delete payload[key])
+                );
+                return payload;
+            }
+        });
 
-    Object.defineProperty(subset, 'draftPayload', {
-        get: () => {
-            return {
-                ...subset.payload,
-                administrativeStatus: 'DRAFT'
-            };
-        }
-    });
+        Object.defineProperty(subset, 'draftPayload', {
+            get: () => {
+                return {
+                    ...subset.payload,
+                    administrativeStatus: 'DRAFT'
+                };
+            }
+        });
 
-    Object.defineProperty(subset, 'publishPayload', {
-        get: () => {
-            return {
-                ...subset.payload,
-                administrativeStatus: 'OPEN'
-            };
-        }
-    });*/
+        Object.defineProperty(subset, 'publishPayload', {
+            get: () => {
+                return {
+                    ...subset.payload,
+                    administrativeStatus: 'OPEN'
+                };
+            }
+        });*/
 
     return subset;
 }
@@ -617,9 +617,9 @@ const versionRationaleControl = (state = {}) => ({
         if (state.isEditableVersionRationale()
             && index >= 0 && index < state.versionRationale?.length)
         {
-            //console.debug('removeVersionRationaleByIndex', index);
+            console.debug('removeVersionRationaleByIndex', index);
 
-            state.versionRationale = state.versionRationale?.filter((item, i) => i !== index)
+            state.versionRationale = state._currentVersion.versionRationale?.filter((item, i) => i !== index)
         }
     },
 
@@ -638,7 +638,7 @@ const versionRationaleControl = (state = {}) => ({
         {
             //console.debug('updateVersionRationaleTextByIndex', index, text);
 
-            state._versionRationale[index].languageText = sanitize(text, subsetDraft?.maxLengthDescription);
+            state._currentVersion.versionRationale[index].languageText = sanitize(text, subsetDraft?.maxLengthDescription);
         }
     },
 
@@ -649,7 +649,7 @@ const versionRationaleControl = (state = {}) => ({
         {
             //console.debug('updateVersionRationaleLanguageByIndex', index, lang);
 
-            state._versionRationale[index].languageCode = lang;
+            state._currentVersion.versionRationale[index].languageCode = lang;
         }
     }
 });
