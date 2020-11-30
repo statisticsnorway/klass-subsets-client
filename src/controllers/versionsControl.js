@@ -1,8 +1,9 @@
 import { nextDefaultName } from '../internationalization/languages';
+import { sanitize } from '../utils/strings';
 
 export const versionable = (state = {}) => ({
 
-    calculateNextVersionNumber() {
+ /*   calculateNextVersionNumber() {
         //console.debug('calculateNextVersionNumber');
 
         return Math.max(...state.previousVersions.map(v => v.version)) + 1;
@@ -51,32 +52,9 @@ export const versionable = (state = {}) => ({
         state._versionValidFrom = state.latestVersion?.validUntil || null;
         state._versionValidUntil = null;
         state._validUntil = null;
-    },
+    },*/
 
-    switchToVersion(chosenVersionFrom = '') {
-        //console.debug('switchToVersion', chosenVersion);
-
-        const exists = state.previousVersions.find(v => v.versionValidFrom === chosenVersionFrom);
-
-        // TODO: show error if the version does not found
-if (exists) {
-
-            state._version = exists.version;
-            state._versionRationale = exists.versionRationale?.length > 0
-                ? exists.versionRationale
-                : [ nextDefaultName([]) ];
-            state.codes = exists.codes || [];
-            state._versionValidFrom = exists.versionValidFrom;
-            state._administrativeStatus = exists.administrativeStatus;
-
-            state._validFrom = exists.validFrom;
-            state._validUntil = exists.validUntil;
-
-            state._versionValidUntil = state.calculateVersionValidUntil();
-        }
-    },
-
-    resetValidityPeriod() {
+ /*   resetValidityPeriod() {
         //console.debug('resetValidityPeriod');
 
         if (state.latestVersion) {
@@ -109,7 +87,7 @@ if (exists) {
     },
 
     isNewPreviousVersion() {
-        /*console.debug('isNewPreviousVersion');*/
+        /!*console.debug('isNewPreviousVersion');*!/
 
         return state.isNewVersion()
             && state._versionValidUntil === state.latestVersion?.validFrom
@@ -135,6 +113,6 @@ if (exists) {
                 (state.isInAcceptablePeriod(state._versionValidUntil) //4
                     && state._versionValidUntil > state._versionValidFrom)
             )
-    },
+    }*/
 
 });

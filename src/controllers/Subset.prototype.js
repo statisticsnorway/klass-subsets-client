@@ -31,7 +31,7 @@ export function Subset (data) {
         subset,
         editable(subset),
         restrictable(subset),
-        /*versionable(subset), */
+        versionable(subset),
 
         nameControl(subset),
         descriptionControl(subset),
@@ -117,6 +117,10 @@ export function Subset (data) {
         get: () => { return subset.latestPublishedVersion?.validUntil }
     });
 
+    Object.defineProperty(subset, 'versions', {
+        get: () => { return subset?._versions; },
+    });
+
     Object.defineProperty(subset, 'publishedVersions', {
         get: () => { return subset?._versions?.filter(v => v.administrativeStatus === 'OPEN'); },
     });
@@ -133,12 +137,25 @@ export function Subset (data) {
         get: () => { return subset?._versions?.filter(v => v.administrativeStatus === 'DRAFT'); },
     });
 
-    Object.defineProperty(subset, 'versionCreatedDate', {
-        get: () => { return subset?._currentVersion.createdDate; },
+    Object.defineProperty(subset, 'currentVersion', {
+        set: (chosen = {}) => {
+            // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
+
+            subset._currentVersion = subset.versions.find(v => v.version === chosen.version) || {};
+            /*state._versionRationale = exists.versionRationale?.length > 0
+                ? exists.versionRationale
+                : [ nextDefaultName([]) ];
+    */
+        }
     });
+
 
     Object.defineProperty(subset, 'versionLastModified', {
         get: () => { return subset?._currentVersion.lastModified; },
+    });
+
+    Object.defineProperty(subset, 'version', {
+        get: () => { return subset?._currentVersion.version; },
     });
 
     // FIXME not implemented yet

@@ -1,67 +1,57 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../controllers/context';
 import { Dropdown } from '../Forms';
-import { Spinner } from '../Spinner';
-import { useGet } from '../../controllers/subsets-service';
 
 export const VersionSwitcher = () => {
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft: {
+        versions,
+        isNewVersion,
+        administrativeStatus,
+        versionValidFrom,
+        errors
+    }, dispatch
+    } } = useContext(AppContext);
+
     const { t } = useTranslation();
 
-    const [ versions, isLoadingVersions ] = useGet(`${draft.id}/versions`);
-
-    useEffect(() => {
-        if (versions && !versions.error) {
-            dispatch({
-                action: 'previous_versions',
-                data: versions
-            });
-        }
-    }, [ versions, dispatch ]);
-
-
     return (
-        <>{ isLoadingVersions
-            ? <Spinner />
-            : <Dropdown label={ t('Version') }
-                        options={ draft.previousVersions
+        <Dropdown label={ t('Version') }
+                        options={ versions
                             ? [
                                 {
                                     title: `${ t('Create previous version') }`,
                                     id: 'Create previous version',
-                                    disabled: draft.isNewVersion()
+                                    disabled: isNewVersion()
                                 },
 
-                                ...draft.previousVersions.map(v => ({
+                                ...versions.map(v => ({
                                     ...v,
                                     title: `${ t('Version') }: ${
-                                        v.versionValidFrom?.substr(0, 10)} ${
+                                        v.validFrom?.substr(0, 10)} ${
                                         t(v.administrativeStatus)
                                     }`,
-                                    id: `${ v.versionValidFrom }`
+                                    id: `${ v.version }`
                                 })),
 
                                 {
                                     title: `${ t('Create next version') }`,
                                     id: 'Create next version',
-                                    disabled: draft.isNewVersion()
+                                    disabled: isNewVersion()
                                 }
                             ]
                             : []
                         }
                         placeholder={ t('Select a version') }
-                        disabledText={ t(draft.administrativeStatus) }
-                        selected={ draft.versionValidFrom || '-' }
+                        disabledText={ t(administrativeStatus) }
+                        selected={ versionValidFrom || '-' }
                         onSelect={ (option) => {
                             dispatch({
                                 action: 'version_switch',
-                                data: option.id
+                                data: option
                             });
                         }}
-                        errorMessages={ draft.errors?.version }
+                        errorMessages={ errors?.version }
             />
-        } </>
     );
 };
