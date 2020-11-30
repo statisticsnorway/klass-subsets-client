@@ -1,29 +1,34 @@
-import { useTranslation } from 'react-i18next';
-import { eu, euTime } from '../../../utils/strings';
 import React from 'react';
+import { eu, euTime } from '../../../utils/strings';
+import { BlockExpandable } from '../../BlockExpandable';
 
 export const Brief = ({ id,
                           created,
                           lastModified,
                           validFrom,
                           validUntil,
+                          available = null,
                           published = null,
                           drafts = null,
-                          locals = null,
-                          toBeSaved = null
+                          locals = 0,
+                          toBeSaved = 0
 }) => {
-    const { t } = useTranslation();
 
+    // FIXME: decide whether it should be focusable
     return (
-        <p className='small'>
-            { id || '-'}
-            { created && t('Created') }: <strong>{ eu(created) || '-' }  </strong>
-            { t('Updated') }: <strong>{ euTime(lastModified) || '-' }  </strong>
-            { t('Subsets validity period') }: <strong>{ eu(validFrom) || '...' } - { eu(validUntil) || '...' } </strong>
-            { t('Number of published versions') }: <strong>{ published }  </strong>
-            { drafts && <span>{ t('Number of drafts') }: <strong>{ drafts }  </strong></span> }
-            { locals && <span>{ t('Local drafts') }: <strong>{ locals }  </strong></span> }
-            { toBeSaved && <span>{ t('To be saved') }: <strong>{ toBeSaved } </strong></span> }
-        </p>
+        <div title='Brief subset status' style={{ fontSize: '12px'}}>
+            <BlockExpandable label={ 'Subset ID' } text={ id.props.id || '-' }  />
+            <BlockExpandable label={ 'Subset created' } text={ eu(created) || '-' }  />
+            <BlockExpandable label={ 'Subset updated' } text={ euTime(lastModified) || '-' } />
+            <BlockExpandable label={ 'Subsets validity period' } text={
+                `${ eu(validFrom) || '...' } - ${ eu(validUntil) || '...' }`
+            } />
+            { available && <BlockExpandable label={'Number of published versions'} text={ available }/>}
+            { published && <BlockExpandable label={'Number of published versions'} text={ published }/>}
+            { drafts && <BlockExpandable label={'Number of drafts'} text={ drafts }/>}
+            { locals > 0 && <BlockExpandable label={ 'Local drafts' } text={ locals } /> }
+            { toBeSaved > 0 && <BlockExpandable label={ 'To be saved' } text={ toBeSaved } /> }
+            <br style={{ clear: 'both' }}/>
+        </div>
     );
 };

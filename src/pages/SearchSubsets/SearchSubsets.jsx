@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/subsets-service';
-import { List } from '../../components/Subset';
+import { BannerList } from '../../components/Subset';
 import { Search } from '../../controllers/Search';
 import { Spinner } from '../../components/Spinner';
 import { Sliders } from 'react-feather';
@@ -37,9 +37,10 @@ export const SearchSubsets = () => {
                     <button aria-label='Set up result filtering and sorting'
                             title='Filters'
                             onClick={ () => setShowSettings(!showSettings) }
-                    ><Sliders size='20' color='#62919A'/>
+                        ><Sliders size='20' color='#62919A'/>
                     </button>
-                    { showSettings &&
+                </h2>
+                { showSettings &&
                     <Dropdown
                         header={ t('Sort by') }
                         selectedItem={{ title: t('Last updated'), id: 'Last' }}
@@ -63,13 +64,11 @@ export const SearchSubsets = () => {
                             </p>
                             : !searchResults || searchResults.length === 0
                                 ? <p>{ t('Nothing is found') }</p>
-                                : <List items={ searchResults
+                                : <BannerList items={ searchResults
                                     .sort((a,b) => (a.lastModified === b.lastModified
                                         ? 0
                                         : a.lastModified > b.lastModified ? -1 : 1))} />
                     }
-                </h2>
-
 
             </div>
         </div>

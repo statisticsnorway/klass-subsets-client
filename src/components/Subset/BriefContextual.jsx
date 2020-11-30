@@ -34,21 +34,20 @@ export const BriefContextual = ({
         { metadata &&
             <BriefMetadata
                 id={ editable && isEditableId()
-                    ? <IdForm/>
-                    : <Id>{ id || '-' }</Id>
+                    ? <IdForm id={ id }/>
+                    : <Id id={ id }>{ id || '-' }</Id>
                 }
                 created={ createdDate }
                 lastModified={ lastModified }
+                validFrom={ validFrom }
+                validUntil={ validUntil }
                 published={ publishedVersions?.length }
                 drafts={ drafts?.length }
                 locals={ versions?.filter(v => v.administrativeStatus === 'INITIAL')?.length }
-                validFrom={ validFrom }
-                validUntil={ validUntil }
                 toBeSaved={ versions?.filter(v => v.toBeSaved).length }
             />
         }
-        {
-            currentVersion &&
+        { currentVersion &&
             <BriefVersion
                 id={ version }
                 lastModified={ versionLastModified }

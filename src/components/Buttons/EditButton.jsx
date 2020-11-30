@@ -14,7 +14,7 @@ export const EditButton = ({
             disabled={ disabled }
         >
             <Edit style={{
-                color: '#ED5935',
+                color: disabled ? 'gray' : '#ED5935',
                 margin: '0 10px',
                 cursor: 'pointer'
             }}

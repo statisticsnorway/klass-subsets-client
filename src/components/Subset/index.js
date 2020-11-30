@@ -2,7 +2,7 @@ export * from './Banner';
 export * from './BriefContextual';
 export * from './Description';
 export * from './Id';
-export * from './List';
+export * from './BannerList';
 export * from './Metadata/Metadata';
 export * from './Metadata/Brief';
 export * from './Preview';

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../../controllers/context';
 import { Link as SsbLink } from '@statisticsnorway/ssb-component-library';
-import { Brief, Id, Description } from '../Subset';
-import { Edit } from 'react-feather';
+import { Brief, Description } from '../Subset';
+import { EditButton } from '../Buttons';
 
 export const Banner = ({ data }) => {
     const { t } = useTranslation();
@@ -14,27 +14,25 @@ export const Banner = ({ data }) => {
     // FIXME: translate placeholders
     // TODO: smart language choice
     return (
-        <div style={{margin: '50px 0'}}>
+        <div style={{ margin: '50px 0' }}>
             <SsbLink href={ `/subsets/${data?.id}` }
                      linkType='profiled'>
                 { data?.name?.find(name => name.languageCode === 'nb')?.languageText
                 || t('No name')
                 }
             </SsbLink>
-            <Edit style={{
-                color: '#ED5935',
-                margin: '0 10px',
-                cursor: 'pointer'
-            }}
-                  onClick={() => {
-                      subset.dispatch({ action: 'edit', data });
-                      history.push('/create');
-                  }}/>
+            <EditButton disabled
+                        clickHandler={() => {
+                            subset.dispatch({ action: 'edit', data });
+                            history.push('/create');
+                        }}
+            />
             <Brief
-                id={ <Id>{ data?.id || '-' }</Id> }
+                id={{ props: {id: data?.id} }}
                 versionValidFrom={ data?.versionValidFrom }
                 lastModified={ data?.lastModified }
                 status={ t(data?.administrativeStatus) }
+                available={ data?.versions?.length }
             />
             <Description text={
                 data?.description?.find(
