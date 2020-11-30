@@ -3,15 +3,15 @@ import { eu, euTime } from '../../../utils/strings';
 import { BlockExpandable } from '../../BlockExpandable';
 
 export const Brief = ({ id,
-                          created,
-                          lastModified,
-                          validFrom,
-                          validUntil,
-                          available = null,
-                          published = null,
-                          drafts = null,
-                          locals = 0,
-                          toBeSaved = 0
+                      created,
+                      lastModified,
+                      validFrom,
+                      validUntil,
+                      available = -1,
+                      published = -1,
+                      drafts = -1,
+                      locals = -1,
+                      toBeSaved = -1
 }) => {
 
     // FIXME: decide whether it should be focusable
@@ -23,9 +23,9 @@ export const Brief = ({ id,
             <BlockExpandable label={ 'Subsets validity period' } text={
                 `${ eu(validFrom) || '...' } - ${ eu(validUntil) || '...' }`
             } />
-            { available && <BlockExpandable label={'Number of published versions'} text={ available }/>}
-            { published && <BlockExpandable label={'Number of published versions'} text={ published }/>}
-            { drafts && <BlockExpandable label={'Number of drafts'} text={ drafts }/>}
+            { available >= 0 && <BlockExpandable label={'Number of available versions'} text={ available }/> }
+            { published >= 0 && <BlockExpandable label={'Number of published versions'} text={ published }/> }
+            { drafts >= 0 && <BlockExpandable label={'Number of drafts'} text={ drafts }/> }
             { locals > 0 && <BlockExpandable label={ 'Local drafts' } text={ locals } /> }
             { toBeSaved > 0 && <BlockExpandable label={ 'To be saved' } text={ toBeSaved } /> }
             <br style={{ clear: 'both' }}/>

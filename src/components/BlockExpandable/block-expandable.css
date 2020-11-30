@@ -1,4 +1,4 @@
-.grow {
+.expand {
   color: darkslategrey;
   padding: 4px 8px;
   border-radius: 4px;
@@ -14,11 +14,11 @@
   padding: 0 8px;
 }
 
-.grow .label {
+.expand .label {
   display: none;
 }
 
-.grow:hover .label {
+.expand:hover .label {
   display: inline-block;
   border-radius: 4px;
 }

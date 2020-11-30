@@ -5,7 +5,7 @@ import './block-expandable.css';
 export const BlockExpandable = ({ label, text, color, light }) => {
     const { t } = useTranslation();
     return (
-        <div className='grow'
+        <div className='expand'
              style={{ backgroundColor: color || '#C3DCDC' }}
         >
             <span className='label'

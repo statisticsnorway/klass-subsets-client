@@ -14,7 +14,7 @@ export const Preview = ({ data, edit }) => {
                    className='h1'
             />
             <Brief
-                id={ <Id>{ subset?.id || '-' }</Id> }
+                id={{ props: {id: subset?.id} }}
                 lastModified={ subset?.lastModified }
                 created={ subset?.createdDate }
                 published={ subset?.publishedVersions?.length }
@@ -30,7 +30,7 @@ export const Preview = ({ data, edit }) => {
                     <Versions edit={ edit }  data={ data?.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
-                    <Codes edit={ edit }  data={ data?.versions }/>
+                    <Codes edit={ edit } data={ data?.versions }/>
                 </Tab>
             </Tabs>
         </>
