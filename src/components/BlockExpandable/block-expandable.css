@@ -1,0 +1,26 @@
+.grow {
+  color: darkslategrey;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: 2px;
+  float: left;
+  text-align: center;
+  background-color: lightblue;
+  /*
+ TODO: make transition smooth https://jsfiddle.net/gknLstpt/9/
+  */
+}
+
+.label {
+  background-color: lightgray;
+  padding: 0 8px;
+}
+
+.grow .label {
+  display: none;
+}
+
+.grow:hover .label {
+  display: inline-block;
+  border-radius: 4px;
+}
