@@ -2,7 +2,7 @@ import React from 'react';
 import { Trash2 } from 'react-feather';
 
 export const TrashButton = ({
-                               title = 'Add',
+                               title = 'Remove',
                                clickHandler = () => {},
                                disabled = false
                            }) => {
