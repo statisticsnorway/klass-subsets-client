@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { eu, euTime } from '../../../utils/strings';
 import React from 'react';
-import { BlockExpandable } from '../../BlockExpandable';
+import { BlockExpandable } from '../../BoxExpandable';
 
 export const Brief = ({ id,
                         created,

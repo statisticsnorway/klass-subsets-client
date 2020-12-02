@@ -15,8 +15,8 @@ export const ErrorTooltip = ({ messages = [], visible = true }) => {
                  }}
                  title='error'
             >{
-                messages.map( msg => (
-                    <span key={ msg } style={{ padding: '0 10px 0 0' }}
+                messages.map( (msg, i) => (
+                    <span key={ msg + i } style={{ padding: '0 10px 0 0' }}
                     >{ t(msg) }.
                     </span>
                 ))

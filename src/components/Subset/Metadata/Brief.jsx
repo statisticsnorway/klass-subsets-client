@@ -1,6 +1,6 @@
 import React from 'react';
 import { eu, euTime } from '../../../utils/strings';
-import { BlockExpandable } from '../../BlockExpandable';
+import { BlockExpandable } from '../../BoxExpandable';
 
 export const Brief = ({ id,
                       created,

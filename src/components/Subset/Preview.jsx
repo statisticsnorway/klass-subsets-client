@@ -1,5 +1,5 @@
 import React from 'react';
-import { Brief, Id, Metadata, Versions } from '../Subset';
+import { Brief, Metadata, Versions } from '../Subset';
 import { Tab, Tabs } from '../Tabs';
 import { Codes } from '../Code';
 import { Subset } from '../../controllers/Subset.prototype';
@@ -10,9 +10,7 @@ export const Preview = ({ data, edit }) => {
 
     return (
         <>
-            <Title translatable texts={ subset.name }
-                   className='h1'
-            />
+            <Title translates={ subset.name } tag='h1' />
             <Brief
                 id={{ props: {id: subset?.id} }}
                 lastModified={ subset?.lastModified }

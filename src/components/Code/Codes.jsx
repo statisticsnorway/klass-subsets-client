@@ -1,36 +1,29 @@
 import React from 'react';
-import { CodeDumb} from './CodeDumb';
+import { CodeDumb } from './CodeDumb';
 import { useTranslation } from 'react-i18next';
 import { Datepicker } from '../Forms';
 import { flatten } from '../../utils/arrays';
-import { DownloadButton, EditButton } from '../Buttons';
+import { Title, Introduction } from '../../components';
 
 export const Codes = ({ data = [], edit = () => {} }) => {
     const { t } = useTranslation();
 
     return (
         <>
-            <h2>{ t('Codes') }
-                <DownloadButton title={ t('Download') }/>
+            <Title text='Codes' edit={ edit } download />
 
-                { edit && <EditButton
-                    title={ t('Edit metadata') }
-                    clickHandler={ edit }
-                />}
-            </h2>
-            <p>{ t('Codes filter info') }.</p>
+            <Introduction texts={[ 'Codes filter info' ]} />
 
-            <section style={{ margin: '5px 0 5px 0' }}>
-                <div style={{ float: 'left', padding: '20px'
-                }}>
-                    <Datepicker label={ t('Valid from') }/>
-                </div>
-                <div style={{ float: 'left', padding: '20px'
-                }}>
-                    <Datepicker label={ t('Valid to') }/>
-                </div>
+            <div className='period' style={{ display: 'flex'}}>
+
+                <Datepicker label='Valid from'
+                            style={{ float: 'left' }}
+                />
+                <Datepicker label='Valid to'
+                            style={{ float: 'right'}}/>
+
                 <br style={{ clear: 'both' }}/>
-            </section>
+            </div>
 
             <h3>{ t('Codes valid in the specified period') }: 01.01.2020 - ...</h3>
             {/* FIXME: check the validity period is set correctly*/}

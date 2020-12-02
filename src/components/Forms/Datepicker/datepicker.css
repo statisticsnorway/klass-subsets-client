@@ -2,13 +2,28 @@ input:disabled {
   border: none;
 }
 
+.period {
+  display: flex;
+  justify-content: space-between;
+}
+
 .datepicker {
+  width: 100%;
+}
+
+.datepicker input {
   font-size: 16px;
-  font-family: 'Open Sans', Arial, 'DejaVu Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   border: 1px solid black;
-  padding: 8px 4px;
   margin: 5px 0;
-  display: block;
+  padding: 8px 0;
   text-align: center;
-  width: 275px;
+  width: 98%;
+  float: inherit;
+}
+
+.datepicker label {
+  display: block;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
 }

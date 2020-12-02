@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { JsonView } from '../../JsonView';
 import { HtmlView } from './HtmlView';
-import { EditButton, DownloadButton } from '../../Buttons';
 import { Tabs, Tab } from '../../Tabs';
+import { Title } from '../../Title';
 
 export const Metadata = ({
                              edit = () => {},
@@ -13,14 +13,7 @@ export const Metadata = ({
 
     return (
         <>
-            <h2>{ t('Metadata') }
-                <DownloadButton title={ t('Download') }/>
-
-                { edit && <EditButton
-                    title={ t('Edit metadata') }
-                    clickHandler={ edit }
-                />}
-            </h2>
+            <Title text='Metadata' edit={ edit } download />
             <p>{ t('Metadata info') }.</p>
             <p>{ t('Subset validity period info') }.</p>
             <p>{ t('Owning section info') }.</p>
