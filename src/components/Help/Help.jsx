@@ -7,7 +7,9 @@ export const Help = ({ message = '', visible = false }) => {
     return (
         <>
             { visible && message?.length > 0 &&
-                <p className='small' >{ t(message) }</p>
+                <p className='small'
+                   style={{ padding: '10px 10px' }}
+                >{ t(message) }</p>
             }
         </>
     );

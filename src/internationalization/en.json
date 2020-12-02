@@ -72,6 +72,7 @@
   "A valid version from date is required": "A valid version from date is required",
   "Version valid from help": "This field is dependent on previous version's validity period. Choose the previous version to change it. Don't forget to save changes.",
   "Version valid until": "Version valid until",
+  "Version valid until help": "This field is not mandatory. It could be corrected after publishing.",
   "Select a version": "Select a version",
   "New version": "New version",
   "Create previous version": "Create previous version",

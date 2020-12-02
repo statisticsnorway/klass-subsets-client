@@ -13,6 +13,7 @@ export const VersionValidUntilForm = () => {
         return (
             <Datepicker label='Version valid until'
                         style={{ float: 'right'}}
+                        usage='Version valid until help'
                         value={ versionValidUntil || '' }
                         disabled={ !isEditableVersionValidUntil() }
                         onChange={ event => dispatch({
