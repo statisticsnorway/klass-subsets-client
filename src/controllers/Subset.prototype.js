@@ -124,11 +124,20 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'earliestPublishedVersion', {
-        get: () => { return orderByValidFromAsc(subset?.publishedVersions)[0]; },
+        get: () => {
+            if (!subset?.versions) {
+                return null;
+            }
+            return orderByValidFromAsc(subset?.publishedVersions)[0]; },
     });
 
     Object.defineProperty(subset, 'latestPublishedVersion', {
-        get: () => { return orderByValidFromDesc(subset?.publishedVersions)[0]; },
+        get: () => {
+            if (!subset?.versions) {
+                return null;
+            }
+            return orderByValidFromDesc(subset?.publishedVersions)[0];
+       },
     });
 
     Object.defineProperty(subset, 'drafts', {
@@ -147,11 +156,11 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionLastModified', {
-        get: () => { return subset?._currentVersion.lastModified; },
+        get: () => { return subset?._currentVersion?.lastModified; },
     });
 
     Object.defineProperty(subset, 'version', {
-        get: () => { return subset?._currentVersion.version; },
+        get: () => { return subset?._currentVersion?.version; },
     });
 
     // FIXME not implemented yet
@@ -160,7 +169,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'administrativeStatus', {
-            get: () => { return subset._currentVersion.administrativeStatus; },
+            get: () => { return subset?._currentVersion?.administrativeStatus; },
 /*            set: (status = '') => {
                 // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
 
@@ -172,23 +181,8 @@ export function Subset (data) {
     /*
         Object.defineProperty(subset, 'isPublished', {
             get: () => { return subset._administrativeStatus  === 'OPEN';},
-        });*/
+        });
 
-
-
- /*   Object.defineProperty(subset, 'version', {
-        get: () => { return subset._version; }
-    });
-
-    Object.defineProperty(subset, 'latestVersion', {
-        get: () => {
-            if (!subset.previousVersions) {
-                return null;
-            }
-            return subset.previousVersions.sort((a,b) =>
-                a.versionValidFrom < b.versionValidFrom ? 1 :
-                    a.versionValidFrom > b.versionValidFrom ? -1 : 0)[0]; }
-    });
 
     Object.defineProperty(subset, 'previousVersion', {
         get: () => {
@@ -357,7 +351,7 @@ const editable = (state = {}) => ({
     },
 
 
-    isLatestSavedVersion() {
+    isLatestPublishedVersion() {
         //console.debug('isLatestSavedVersion');
 
         if (!state.previousVersions) {
@@ -373,7 +367,7 @@ const editable = (state = {}) => ({
             && state.version !== '1';
     },
 
-    isAfterCoveredPeriod(date) {
+/*    isAfterCoveredPeriod(date) {
         //console.debug('isAfterCoveredPeriod');
 
         return date
@@ -399,7 +393,7 @@ const editable = (state = {}) => ({
             : end === state.latestVersion?.versionValidFrom
                 ? date >= start && date <= end
                 : date >= start && date < end;
-    },
+    },*/
 
     isEditableId() {
         return state.isNew();
@@ -425,40 +419,32 @@ const editable = (state = {}) => ({
         return true;
     },
 
-    isEditableValidFrom() {
-        return state.isNew() || state.isNewVersion();
-    },
-
-    isEditableValidUntil() {
-        return true;
-    },
-
     isEditableVersionValidFrom() {
         //console.debug('isEditableVersionValidFrom');
 
         return state.isNew()
             || (state.isNewVersion() && !state._versionValidFrom)
             || (state.isNewVersion()
-                && state._versionValidFrom !== state.latestVersion?.validUntil)
+                && state._versionValidFrom !== state.latestPublishedVersion?.validUntil)
             || (state.isNewVersion()
-                && state._versionValidFrom === state.latestVersion?.validUntil
-                && state._versionValidUntil === state.latestVersion?.validFrom
+                && state._versionValidFrom === state.latestPublishedVersion?.validUntil
+                && state._versionValidUntil === state.latestPublishedVersion?.validFrom
             )
     },
 
     isEditableVersionValidUntil() {
         //console.debug('isEditableVersionValidUntil');
 
-        return (state.isLatestSavedVersion()
-                && (!state.latestVersion?.validUntil
-                    || state.latestVersion?.administrativeStatus !== 'OPEN'
+        return (state.isLatestPublishedVersion()
+                && (!state.latestPublishedVersion?.validUntil
+                    || state.latestPublishedVersion?.administrativeStatus !== 'OPEN'
                 )
             )
             || (state.isNew()
                 && state.isInAcceptablePeriod(state._versionValidFrom)
             )
             || (state.isNewVersion()
-                && state._versionValidUntil !== state.latestVersion?.validFrom
+                && state._versionValidUntil !== state.latestPublishedVersion?.validFrom
                 && state.isInAcceptablePeriod(state._versionValidFrom)
             )
     },
@@ -483,8 +469,8 @@ const editable = (state = {}) => ({
 const restrictable = (state = {}) => ({
 
     isInAcceptablePeriod(date) {
-        return date >= acceptablePeriod.from
-            && date < acceptablePeriod.until;
+        return date >= acceptablePeriod?.from
+            && date < acceptablePeriod?.until;
     },
 
     isAcceptableLanguageCode(lang) {
@@ -496,10 +482,10 @@ const restrictable = (state = {}) => ({
 
 const nameControl = (state = {}) => ({
 
-    addName(name = nextDefaultName(state.name)) {
+    addName(name = nextDefaultName(state?.name)) {
 
         if (state.isEditableName()
-            && state.name?.length < languages.filter(l => l.draft).length)
+            && state?.name?.length < languages.filter(l => l.draft).length)
         {
             //console.debug('addName', name);
 
@@ -521,7 +507,7 @@ const nameControl = (state = {}) => ({
         if (state.isEditableName()) {
             //console.debug('removeEmptyNames');
 
-            state.name = state.name.filter(item => item.languageText?.length > 0);
+            state.name = state.name?.filter(item => item.languageText?.length > 0);
         }
     },
 
