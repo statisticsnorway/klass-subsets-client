@@ -11,7 +11,7 @@ export const VersionValidFromForm = () => {
     } } = useContext(AppContext);
 
     return (
-        <Datepicker label='Version valid until'
+        <Datepicker label='Version valid from'
                     required
                     usage='Version valid from help'
                     style={{ float: 'left'}}

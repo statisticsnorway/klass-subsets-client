@@ -1,5 +1,4 @@
-import { nextDefaultName } from '../internationalization/languages';
-import { sanitize } from '../utils/strings';
+import { sanitize, nextDefaultName } from '../utils';
 
 export const versionable = (state = {}) => ({
 
@@ -26,33 +25,55 @@ export const versionable = (state = {}) => ({
         }
         return state.validUntil;
     },
-
-    createNewVersion() {
-        //console.debug('createNewVersion');
-
-        state._version = `${ state.calculateNextVersionNumber() }`;
-        state.administrativeStatus = 'INTERNAL';
-        state.versionRationale = [ nextDefaultName([]) ];
-        state.resetValidityPeriod();
-    },
-
+*/
 
     createPreviousVersion() {
-        //console.debug('createPreviousVersion');
+        // console.debug('createPreviousVersion');
 
-        state.createNewVersion();
-        state._versionValidFrom = null;
-        state._versionValidUntil = state.latestVersion?.validFrom || state.validFrom;
+        const newVersion = {
+            version: `${ state.versions?.length }`,
+            administrativeStatus: 'INTERNAL',
+            validUntil: state.earliestPublishedVersion?.validFrom || null,
+            /*            administrativeDetails: [{
+                            administrativeDetailType: 'ORIGIN',
+                            values: [ ...state.administrativeDetails.values ]
+                            },
+                        ],*/
+            codes: [ ...state.codes ]
+        }
+
+        state.versions = [
+            newVersion,
+            ...state.versions
+        ];
+
+        state.currentVersions = newVersion;
     },
 
     createNextVersion() {
-        //console.debug('createNextVersion');
+        // console.debug('createNextVersion');
 
-        state.createNewVersion();
-        state._versionValidFrom = state.latestVersion?.validUntil || null;
-        state._versionValidUntil = null;
-        state._validUntil = null;
-    },*/
+        const newVersion = {
+            version: `${ state.versions?.length + 1 }`,
+            administrativeStatus: 'INTERNAL',
+            validFrom: state.latestPublishedVersion?.validUntil || null,
+/*            administrativeDetails: [{
+                administrativeDetailType: 'ORIGIN',
+                values: [ ...state.administrativeDetails.values ]
+                },
+            ],*/
+            codes: [ ...state.codes ]
+        }
+
+        state.versions = [
+            ...state.versions,
+            newVersion
+        ];
+
+        state.currentVersion = newVersion;
+    },
+
+
 
  /*   resetValidityPeriod() {
         //console.debug('resetValidityPeriod');

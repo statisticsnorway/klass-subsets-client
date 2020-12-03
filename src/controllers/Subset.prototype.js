@@ -1,10 +1,8 @@
 import { subsetDraft, STATUS_ENUM, languages, acceptablePeriod } from '../defaults';
-import { nextDefaultName } from '../internationalization/languages';
 import { URN } from './klass-api';
 import { errorsControl } from './errorsControl';
 import { versionable } from './versionsControl';
-import { toId, sanitize, datePattern } from '../utils/strings';
-import { orderByValidFromAsc, orderByValidFromDesc, sanitizeArray } from '../utils/arrays';
+import { toId, sanitize, datePattern, nextDefaultName, orderByValidFromAsc, orderByValidFromDesc, sanitizeArray } from '../utils';
 
 export function Subset (data) {
     const subset = {
@@ -117,6 +115,11 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'versions', {
         get: () => { return subset?._versions; },
+        set: ( versions = [] ) => {
+            // console.debug('Set versions', versions);
+
+            subset._versions = [ ...versions ]
+        }
     });
 
     Object.defineProperty(subset, 'publishedVersions', {
@@ -145,10 +148,10 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'currentVersion', {
-        set: (chosen = {}) => {
-            // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
+        set: ( chosen = {} ) => {
+            // console.debug('Set currentVersion', chosen);
 
-            subset._currentVersion = subset.versions.find(v => v.version === chosen.version) || {};
+            subset._currentVersion = subset.versions?.find(v => v.version === chosen?.version) || {};
             if (subset.versionRationale?.length !== 0) {
                 subset.versionRationale = [ nextDefaultName([]) ];
             }
@@ -210,7 +213,11 @@ export function Subset (data) {
     });
 */
     Object.defineProperty(subset, 'versionValidFrom', {
-        get: () => { return subset._currentVersion?.validFrom?.substr(0, 10); },
+        get: () => {
+            // console.debug('get versionValidFrom')
+
+            return subset._currentVersion?.validFrom?.substr(0, 10);
+            },
 /*        set: (date = null) => {
             //console.debug('Set versionValidFrom', date);
 
@@ -224,7 +231,11 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionValidUntil', {
-        get: () => { return subset._currentVersion?.validUntil?.substr(0, 10) || null; },
+        get: () => {
+            // console.debug('get versionValidUntil')
+
+            return subset._currentVersion?.validUntil?.substr(0, 10) || null;
+            },
         /*set: (date = null) => {
             //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
@@ -270,14 +281,15 @@ export function Subset (data) {
                 }
             }
         });
+        */
 
         Object.defineProperty(subset, 'codes', {
-            get: () => { return subset._codes; },
+            get: () => { return subset._currentVersion?.codes; },
             set: (codes = []) => {
                 // console.debug('Set codes and update origin', codes);
 
                 if (subset.isEditableCodes()) {
-                    subset._codes = codes;
+                    subset._currentVersion.codes = codes;
                     subset.reorderCodes();
                     subset.rerankCodes();
                     subset.verifyOrigin();
@@ -285,13 +297,13 @@ export function Subset (data) {
             }
         });
 
-        Object.defineProperty(subset, 'errors', {
+/*        Object.defineProperty(subset, 'errors', {
             get: () => {
                 //console.debug('Get errors', subset._errors);
 
                 return subset.validate();
             }
-        });
+        });*/
 
         Object.defineProperty(subset, 'payload', {
             // TESTME
@@ -337,7 +349,7 @@ export function Subset (data) {
                     administrativeStatus: 'OPEN'
                 };
             }
-        });*/
+        });
 
     return subset;
 }
