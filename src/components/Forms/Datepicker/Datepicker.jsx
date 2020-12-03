@@ -34,17 +34,16 @@ export const Datepicker = ({
             <input type='date'
                    id={ toId(label)}
                    name={ toId(label)}
+                   className='datepicker'
                    value={ value }
                    disabled={ disabled}
-                   onChange={ () => {
-                   }}
-                   className='datepicker'
+                   onChange={ (e) => onChange(e) }
                    onBlur={() => setShowErrors(true)}
                    onFocus={() => setShowErrors(false)}
             />
             <ErrorTooltip
-                messages={errorMessages}
-                visible={showErrors && value}
+                messages={ errorMessages }
+                visible={ showErrors && value }
             />
             <Help message={ usage } visible={ showHelp } />
         </div>

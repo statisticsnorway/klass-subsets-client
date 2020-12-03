@@ -27,20 +27,12 @@ function subsetReducer( state, { action, data = {} }) {
             state.shortName = data;
             return Subset({...state});
         }
-        case 'from': {
-            state.validFrom = data;
-            return Subset({...state});
-        }
         case 'version_from': {
             state.versionValidFrom = data;
             return Subset({...state});
         }
         case 'version_to': {
             state.versionValidUntil = data;
-            return Subset({...state});
-        }
-        case 'previous_versions': {
-            state.previousVersions = data;
             return Subset({...state});
         }
         case 'version_rationale_add': {
@@ -66,10 +58,6 @@ function subsetReducer( state, { action, data = {} }) {
                 : data?.id === 'Create previous version'
                     ? state.createPreviousVersion()
                     : data;
-            return Subset({...state});
-        }
-        case 'to': {
-            state.validUntil = data;
             return Subset({...state});
         }
         case 'createdBy': {
