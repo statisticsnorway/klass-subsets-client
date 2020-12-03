@@ -27,7 +27,10 @@ export const Versions = ({ data = [], edit = () => {}}) => {
 
             <p>{ t('Version info') }.</p>
 
-            <Switcher versions={ data } onSelect={ (option) => setVersion(option)}/>
+            <Switcher versions={ data }
+                      onSelect={ (option) => setVersion(option) }
+                      selected={ version }
+            />
 
             <CheckboxGroup
                 header={ t('Filters') }

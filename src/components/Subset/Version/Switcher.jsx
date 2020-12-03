@@ -3,8 +3,9 @@ import { Dropdown } from '../../Forms';
 import { useTranslation } from 'react-i18next';
 
 export const Switcher = ({
-                                    versions = [],
-                                    onSelect = () => {}
+                             versions = [],
+                             onSelect = () => {},
+                             selected = {}
 }) => {
     const { t } = useTranslation();
 
@@ -23,7 +24,7 @@ export const Switcher = ({
                           ]
                       }
                       placeholder={ t('Select a version') }
-                      selected={ versions[0].version || '-' }
+                      selected={ selected.version || '-' }
                       onSelect={ (option) => onSelect(option) }
             />
         </>
