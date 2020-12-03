@@ -47,7 +47,7 @@ export const versionable = (state = {}) => ({
             ...state.versions
         ];
 
-        state.currentVersions = newVersion;
+        return newVersion;
     },
 
     createNextVersion() {
@@ -70,7 +70,7 @@ export const versionable = (state = {}) => ({
             newVersion
         ];
 
-        state.currentVersion = newVersion;
+        return newVersion;
     },
 
 

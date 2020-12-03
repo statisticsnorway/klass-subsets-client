@@ -1,9 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './form.css';
-import { toId } from '../../utils/strings';
-import {Required} from "../Required";
-import {ErrorTooltip} from "../Error";
+import { toId } from '../../utils';
+import { Required, ErrorTooltip } from '../../components';
 
 export const Dropdown = ({
                              label='Select',

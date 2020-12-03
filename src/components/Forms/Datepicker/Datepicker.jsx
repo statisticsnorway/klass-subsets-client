@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import './datepicker.css';
-import { today, toId } from '../../../utils/strings';
+import { today, toId } from '../../../utils';
 import { useTranslation } from 'react-i18next';
-import { Required, ErrorTooltip, Help } from '../../../components';
-import { HelpButton } from '../../Buttons';
+import { Required, ErrorTooltip, Help, HelpButton } from '../../../components';
 
 export const Datepicker = ({
                                label = '',
                                required,
                                 usage,
                                errorMessages = [],
-                               value = today,
+                               value = today(),
                                disabled = false,
                                onChange = () => {},
                             ...props
@@ -18,7 +17,6 @@ export const Datepicker = ({
     const { t } = useTranslation();
     const [ showErrors, setShowErrors ] = useState(false);
     const [ showHelp, setShowHelp ] = useState(false);
-
 
     return (
         <div className='datepicker' style={props.style}>
@@ -36,7 +34,7 @@ export const Datepicker = ({
             <input type='date'
                    id={ toId(label)}
                    name={ toId(label)}
-                   value={ new Date(value)?.toJSON()?.substr(0, 10)}
+                   value={ value }
                    disabled={ disabled}
                    onChange={ () => {
                    }}
