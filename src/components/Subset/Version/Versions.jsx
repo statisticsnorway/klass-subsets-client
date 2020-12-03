@@ -44,7 +44,7 @@ export const Versions = ({ data = [], edit = () => {}}) => {
                 ]}
             />
 
-            {version
+            { version
                 ? <Version data={ version }/>
                 : <p>{ t('No published versions') }.</p>
             }

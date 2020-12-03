@@ -181,12 +181,12 @@ export function Subset (data) {
                 }
             }*/
     });
-    /*
+
         Object.defineProperty(subset, 'isPublished', {
-            get: () => { return subset._administrativeStatus  === 'OPEN';},
+            get: () => { return subset.administrativeStatus  === 'OPEN';},
         });
 
-
+/*
     Object.defineProperty(subset, 'previousVersion', {
         get: () => {
             if (!subset.previousVersions) {
@@ -362,10 +362,10 @@ const editable = (state = {}) => ({
     isLatestPublishedVersion() {
         //console.debug('isLatestSavedVersion');
 
-        if (!state.previousVersions) {
+        if (!state.versions) {
             return null;
         }
-        return state.latestVersion?.version === state.version;
+        return state.latestPublishedVersion?.version === state.version;
     },
 
     isNewVersion() {
@@ -430,31 +430,13 @@ const editable = (state = {}) => ({
     isEditableVersionValidFrom() {
         //console.debug('isEditableVersionValidFrom');
 
-        return state.isNew()
-            || (state.isNewVersion() && !state._versionValidFrom)
-            || (state.isNewVersion()
-                && state._versionValidFrom !== state.latestPublishedVersion?.validUntil)
-            || (state.isNewVersion()
-                && state._versionValidFrom === state.latestPublishedVersion?.validUntil
-                && state._versionValidUntil === state.latestPublishedVersion?.validFrom
-            )
+        return !state.isPublished
     },
 
     isEditableVersionValidUntil() {
         //console.debug('isEditableVersionValidUntil');
 
-        return (state.isLatestPublishedVersion()
-                && (!state.latestPublishedVersion?.validUntil
-                    || state.latestPublishedVersion?.administrativeStatus !== 'OPEN'
-                )
-            )
-            || (state.isNew()
-                && state.isInAcceptablePeriod(state._versionValidFrom)
-            )
-            || (state.isNewVersion()
-                && state._versionValidUntil !== state.latestPublishedVersion?.validFrom
-                && state.isInAcceptablePeriod(state._versionValidFrom)
-            )
+        return !state.isPublished || state.isLatestPublishedVersion();
     },
 
     isEditableOrigin() {
