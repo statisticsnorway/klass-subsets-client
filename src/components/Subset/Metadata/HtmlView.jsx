@@ -38,11 +38,11 @@ export const HtmlView = ({
             <p><strong>{ t('Short name') }:</strong> { shortName }</p>
             <p><strong>{ t('Subject') }:</strong> { classificationFamily }</p>
             <p><strong>{ t('Statistical units') }:</strong> {
-                statisticalUnits.map(u => <span key={ u } className='p'> { u } </span>)}
+                statisticalUnits?.map(u => <span key={ u } className='p'> { u } </span>)}
             </p>
             <p><strong>{ t('Owner') }:</strong> { owningSection }</p>
             <p><strong>{ t('Number of published versions') }:</strong> {
-                versions.filter(v => v.administrativeStatus === 'OPEN')?.length }
+                versions?.filter(v => v.administrativeStatus === 'OPEN')?.length }
             </p>
             <p><strong>{ t('Number of drafts') }:</strong> {
                 versions?.filter(v => v.administrativeStatus === 'DRAFT')?.length }

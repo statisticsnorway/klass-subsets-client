@@ -32,9 +32,9 @@ export function Subset (data) {
         nameControl(subset),
         descriptionControl(subset),
         versionRationaleControl(subset),
-        /*originControl(subset),
+        originControl(subset),
         codesControl(subset),
-        errorsControl(subset)*/
+        errorsControl(subset)
     );
 
     Object.defineProperty(subset, 'id', {
@@ -258,17 +258,18 @@ export function Subset (data) {
             }
         }
     });
-    /*
+
+    // FIXME: Replace with Set / Map
         Object.defineProperty(subset, 'origin', {
             get: () => {
-                return subset._administrativeDetails
+                return subset._currentVersion.administrativeDetails
                     .find(d => d.administrativeDetailType === 'ORIGIN').values;
             },
             set: (origin = []) => {
                 //console.debug('Set origin', origin, subset.isEditableOrigin());
 
                 if (subset.isEditableOrigin()) {
-                    subset._administrativeDetails
+                    subset._currentVersion.administrativeDetails
                         .find(d => d.administrativeDetailType === 'ORIGIN')
                         .values = origin.filter(o => URN.isClassificationPattern(o));
 
@@ -276,7 +277,6 @@ export function Subset (data) {
                 }
             }
         });
-        */
 
         Object.defineProperty(subset, 'codes', {
             get: () => { return subset._currentVersion?.codes; },
@@ -292,25 +292,23 @@ export function Subset (data) {
             }
         });
 
-/*        Object.defineProperty(subset, 'errors', {
+        Object.defineProperty(subset, 'errors', {
             get: () => {
                 //console.debug('Get errors', subset._errors);
 
                 return subset.validate();
             }
-        });*/
+        });
 
         Object.defineProperty(subset, 'payload', {
             // TESTME
             // DOCME
             get: () => {
                 const payload = {
-                    id: subset._id,
-                    shortName: subset._shortName,
-                    name: subset._name,
-                    administrativeStatus: subset._administrativeStatus,
-                    validFrom: subset._validFrom,
-                    validUntil: subset._validUntil,
+                    id: subset.id,
+                    shortName: subset.shortName,
+                    name: subset.name,
+                    administrativeStatus: subset.administrativeStatus,
                     owningSection: subset._owningSection,
                     administrativeDetails: subset._administrativeDetails,
                     classificationFamily: subset._classificationFamily,
@@ -356,7 +354,6 @@ const editable = (state = {}) => ({
 
         return !state.createdDate;
     },
-
 
     isLatestPublishedVersion() {
         //console.debug('isLatestSavedVersion');
@@ -646,7 +643,7 @@ const originControl = (state = {}) => ({
         if (URN.isClassificationPattern(origin)) {
             state.origin = state.origin.filter(urn => urn !== origin);
             // TODO: move to defineProperty 'origin
-            state.codes = state._codes.filter(c => !c.urn.startsWith(origin));
+            state.codes = state._currentVersion.codes.filter(c => !c.urn.startsWith(origin));
         }
     },
 

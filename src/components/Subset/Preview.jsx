@@ -7,10 +7,10 @@ import { Title } from '../Title';
 
 export const Preview = ({ data, edit }) => {
     const subset = new Subset(data);
-
+    console.log({data, subset})
     return (
         <>
-            <Title translates={ subset.name } tag='h1' />
+            <Title translates={ subset?.name } tag='h1' />
             <Brief
                 id={{ props: {id: subset?.id} }}
                 lastModified={ subset?.lastModified }
