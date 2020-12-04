@@ -27,36 +27,13 @@ export const versionable = (state = {}) => ({
     },
 */
 
-    createPreviousVersion() {
-        // console.debug('createPreviousVersion');
-
-        const newVersion = {
-            version: `${ state.versions?.length }`,
-            administrativeStatus: 'INTERNAL',
-            validUntil: state.earliestPublishedVersion?.validFrom || null,
-            /*            administrativeDetails: [{
-                            administrativeDetailType: 'ORIGIN',
-                            values: [ ...state.administrativeDetails.values ]
-                            },
-                        ],*/
-            codes: [ ...state.codes ]
-        }
-
-        state.versions = [
-            newVersion,
-            ...state.versions
-        ];
-
-        return newVersion;
-    },
-
-    createNextVersion() {
+    createNewVersion() {
         // console.debug('createNextVersion');
 
         const newVersion = {
             version: `${ state.versions?.length + 1 }`,
             administrativeStatus: 'INTERNAL',
-            validFrom: state.latestPublishedVersion?.validUntil || null,
+            versionRationale: [],
 /*            administrativeDetails: [{
                 administrativeDetailType: 'ORIGIN',
                 values: [ ...state.administrativeDetails.values ]
@@ -66,8 +43,8 @@ export const versionable = (state = {}) => ({
         }
 
         state.versions = [
-            ...state.versions,
-            newVersion
+            newVersion,
+            ...state.versions
         ];
 
         return newVersion;

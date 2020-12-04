@@ -152,7 +152,7 @@ export function Subset (data) {
             // console.debug('Set currentVersion', chosen);
 
             subset._currentVersion = subset.versions?.find(v => v.version === chosen?.version) || {};
-            if (subset.versionRationale?.length !== 0) {
+            if (subset._currentVersion?.versionRationale?.length === 0) {
                 subset.versionRationale = [ nextDefaultName([]) ];
             }
         }
@@ -245,7 +245,6 @@ export function Subset (data) {
 
     });
 
-    // FIXME sanitize input
     Object.defineProperty(subset, 'versionRationale', {
         get: () => { return subset._currentVersion.versionRationale; },
         set: (versionRationale = []) => {
@@ -593,7 +592,7 @@ const versionRationaleControl = (state = {}) => ({
         if (state.isEditableVersionRationale()
             && index >= 0 && index < state.versionRationale?.length)
         {
-            console.debug('removeVersionRationaleByIndex', index);
+            //console.debug('removeVersionRationaleByIndex', index);
 
             state.versionRationale = state._currentVersion.versionRationale?.filter((item, i) => i !== index)
         }
@@ -606,7 +605,6 @@ const versionRationaleControl = (state = {}) => ({
             state.versionRationale = state.versionRationale.filter(item => item.languageText?.length > 0);
         }
     },
-
 
     updateVersionRationaleTextByIndex(index = -1, text = '') {
         if (state.isEditableVersionRationale()

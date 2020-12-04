@@ -74,9 +74,7 @@
   "Version valid until": "Version valid until",
   "Version valid until help": "This field is not mandatory. It could be corrected after publishing.",
   "Select a version": "Select a version",
-  "New version": "New version",
-  "Create previous version": "Create previous version",
-  "Create next version": "Create next version",
+  "Create new version": "Create new version",
 
   "Choose codes": "Choose codes",
   "Choose classifications and code lists": "Choose classifications and code lists",

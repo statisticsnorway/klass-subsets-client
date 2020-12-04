@@ -19,8 +19,8 @@ export const VersionSwitcher = () => {
                 options={ versions
                     ? [
                         {
-                            title: `${ t('Create previous version') }`,
-                            id: 'Create previous version',
+                            title: `${ t('Create new version') }`,
+                            id: 'Create new version',
                         },
 
                         ...versions.map(v => ({
@@ -30,12 +30,7 @@ export const VersionSwitcher = () => {
                                 t(v.administrativeStatus)
                             }`,
                             id: `${ v.version }`
-                        })),
-
-                        {
-                            title: `${ t('Create next version') }`,
-                            id: 'Create next version',
-                        }
+                        }))
                     ]
                     : []
                 }

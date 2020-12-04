@@ -73,9 +73,7 @@
   "Version valid until": "Versjon gyldig til",
   "Version valid until help": "Dette feltet er ikke obligatorisk og kan bli korrigert etter publisering",
   "Select a version": "Velg en versjon",
-  "New version": "Ny versjon",
-  "Create previous version": "Opprett tidligere versjon",
-  "Create next version": "Opprett neste versjon",
+  "Create new version": "Opprett ny versjon",
 
   "Choose codes": "Velg koder",
   "Choose classifications and code lists": "Velg kodeverk",
