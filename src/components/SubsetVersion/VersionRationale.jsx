@@ -5,12 +5,14 @@ import { TextLanguageFieldset } from '../Forms';
 import { subsetDraft } from '../../defaults';
 
 export const VersionRationale = () => {
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft: {
+        versionRationale,
+        errors
+    }, dispatch } } = useContext(AppContext);
     const { t } = useTranslation();
 
     useEffect(() => {
-        draft.versionRationale?.length === 0
+        versionRationale?.length === 0
         && dispatch({action: 'version_rationale_add'});
 
         return () => {
@@ -20,7 +22,7 @@ export const VersionRationale = () => {
 
     return (
         <TextLanguageFieldset title={ t('Version rationale') }
-                              items={ draft.versionRationale }
+                              items={ versionRationale }
                               add={ () => dispatch({
                                   action: 'version_rationale_add'}) }
                               remove={ index => dispatch({
@@ -36,6 +38,6 @@ export const VersionRationale = () => {
                               })}
                               size={{ cols: 65, rows: 4 }}
                               maxLength={ subsetDraft.maxLengthVersionRationale }
-                              errorMessages={ draft.errors?.versionRationale }
+                              errorMessages={ errors?.versionRationale }
         />);
 };
