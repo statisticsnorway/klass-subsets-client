@@ -37,7 +37,7 @@ export const VersionRationale = () => {
                                   data: {index, lang}
                               })}
                               size={{ cols: 65, rows: 4 }}
-                              maxLength={ subsetDraft.maxLengthVersionRationale }
+                              maxLength={ subsetDraft?.maxLengthVersionRationale }
                               errorMessages={ errors?.versionRationale }
         />);
 };
