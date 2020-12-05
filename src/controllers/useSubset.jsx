@@ -61,9 +61,9 @@ function subsetReducer( state, { action, data = {} }) {
             state.owningSection = data;
             return  Subset({...state});
         }
-        case 'subject': {
+        case 'classificationFamily': {
             // FIXME: mutable change
-            state.subject = data;
+            state.classificationFamily = data;
             return Subset({...state});
         }
         case 'description_text': {

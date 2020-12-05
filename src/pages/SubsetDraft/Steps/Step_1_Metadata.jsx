@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { BriefContextual } from '../../../components/Subset';
 import { DescriptionForm, NameForm, SectionForm,
-    SubjectForm } from '../../../components/SubsetMetadata';
+    ClassificationFamilyForm } from '../../../components/SubsetMetadata';
 
 export const Step1Metadata = () => {
     const { t } = useTranslation();
@@ -13,7 +13,7 @@ export const Step1Metadata = () => {
             <BriefContextual editable />
             <NameForm />
             <SectionForm />
-            <SubjectForm />
+            <ClassificationFamilyForm />
             <DescriptionForm />
         </>
     );

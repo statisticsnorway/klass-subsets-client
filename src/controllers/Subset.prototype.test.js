@@ -29,8 +29,8 @@ describe('Subset prototype: default values', () => {
         expect(Subset().owningSection).toBe('');
     });
 
-    it('should by default set subject to empty string', () => {
-        expect(Subset().subject).toBe('');
+    it('should by default set classificationFamily to empty string', () => {
+        expect(Subset().classificationFamily).toBe('');
     });
 
     it('should by default set description to empty array', () => {

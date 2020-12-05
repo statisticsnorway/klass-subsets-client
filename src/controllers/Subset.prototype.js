@@ -82,13 +82,13 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'subject', {
+    Object.defineProperty(subset, 'classificationFamily', {
         get: () => { return subset._classificationFamily; },
-        set: (subject = '') => {
-            //console.debug('Set subject', subject, subset.isEditableSubject());
+        set: (classificationFamily = '') => {
+            //console.debug('Set classificationFamily', classificationFamily, subset.isEditableClassificationFamily());
 
-            if (subset.isEditableSubject()) {
-                subset._classificationFamily = subject;
+            if (subset.isEditableClassificationFamily()) {
+                subset._classificationFamily = classificationFamily;
             }
         }
     });
@@ -419,7 +419,7 @@ const editable = (state = {}) => ({
         return true;
     },
 
-    isEditableSubject() {
+    isEditableClassificationFamily() {
         return true;
     },
 

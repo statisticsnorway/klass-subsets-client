@@ -3,9 +3,9 @@ import { Dropdown } from '../Forms';
 import { AppContext } from '../../controllers/context';
 import { useGet } from '../../controllers/klass-api';
 
-export const SubjectForm = () => {
+export const ClassificationFamilyForm = () => {
     const { subset: { draft: {
-        subject,
+        classificationFamily,
         errors
     }, dispatch
     } } = useContext(AppContext);
@@ -22,12 +22,12 @@ export const SubjectForm = () => {
                     || []
                   }
                   placeholder='Select a classification family...'
-                  selected={ subject || '' }
+                  selected={ classificationFamily || '' }
                   onSelect={ (option) => dispatch({
-                      action: 'subject',
+                      action: 'classificationFamily',
                       data: option.title
                   })}
-                  errorMessages={ errors?.subject }
+                  errorMessages={ errors?.classificationFamily }
         />
     );
 };
