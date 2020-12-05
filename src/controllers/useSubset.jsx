@@ -57,8 +57,8 @@ function subsetReducer( state, { action, data = {} }) {
                 : data;
             return Subset({...state});
         }
-        case 'createdBy': {
-            state.createdBy = data;
+        case 'owningSection': {
+            state.owningSection = data;
             return  Subset({...state});
         }
         case 'subject': {

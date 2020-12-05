@@ -6,7 +6,7 @@ import { useGet } from '../../controllers/klass-api';
 export const SectionForm = () => {
     const { subset:
         { draft: {
-            createdBy,
+            owningSection,
             errors
         }, dispatch
         } } = useContext(AppContext);
@@ -23,11 +23,11 @@ export const SectionForm = () => {
                       }))
                       : []}
                   placeholder='Select a responsible department...'
-                  selected={ createdBy }
+                  selected={ owningSection }
                   onSelect={ (option) => dispatch({
-                      action: 'createdBy',
+                      action: 'owningSection',
                       data: option.title })}
-                  errorMessages={ errors?.createdBy }
+                  errorMessages={ errors?.owningSection }
         />
     );
 };

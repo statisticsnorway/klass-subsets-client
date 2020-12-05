@@ -71,13 +71,13 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'createdBy', {
+    Object.defineProperty(subset, 'owningSection', {
         get: () => { return subset._owningSection; },
-        set: (createdBy = '') => {
-            //console.debug('Set createdBy', createdBy, subset.isEditableCreatedBy());
+        set: (owningSection = '') => {
+            //console.debug('Set owningSection', owningSection, subset.isEditableowningSection());
 
-            if (subset.isEditableCreatedBy()) {
-                subset._owningSection = createdBy;
+            if (subset.isEditableOwningSection()) {
+                subset._owningSection = owningSection;
             }
         }
     });
@@ -415,7 +415,7 @@ const editable = (state = {}) => ({
         return true;
     },
 
-    isEditableCreatedBy() {
+    isEditableOwningSection() {
         return true;
     },
 

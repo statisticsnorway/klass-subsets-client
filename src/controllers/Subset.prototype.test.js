@@ -25,8 +25,8 @@ describe('Subset prototype: default values', () => {
         expect(Subset().validUntil).toBeNull();
     });
 
-    it('should by default set createdBy to empty string', () => {
-        expect(Subset().createdBy).toBe('');
+    it('should by default set owningSection to empty string', () => {
+        expect(Subset().owningSection).toBe('');
     });
 
     it('should by default set subject to empty string', () => {

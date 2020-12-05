@@ -1,5 +1,5 @@
 import { acceptablePeriod } from '../defaults';
-import { eu } from '../utils/strings';
+import { eu } from '../utils';
 
 export const errorsControl = (state = {}) => ({
 
@@ -94,8 +94,8 @@ export const errorsControl = (state = {}) => ({
                 } are acceptable`];
     },
 
-    validateCreatedBy() {
-        return state.createdBy?.length > 0 ? [] : ['Owner is required'];
+    validateOwningSection() {
+        return state.owningSection?.length > 0 ? [] : ['Owner is required'];
     },
 
     validateCodes() {
@@ -111,7 +111,7 @@ export const errorsControl = (state = {}) => ({
             validFrom: state.validateValidFrom(),
             validUntil: state.validateValidUntil(),
             period: state.validateSubsetPeriod(),
-            createdBy: state.validateCreatedBy(),
+            owningSection: state.validateOwningSection(),
             annotation: [],
             description: [],
             origin: [],
