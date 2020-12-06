@@ -9,17 +9,23 @@ export const versionable = (state = {}) => ({
             version: `${ state.versions?.length + 1 }`,
             administrativeStatus: 'INTERNAL',
             versionRationale: [],
+            validFrom: null,
+            validUntil: null,
 /*            administrativeDetails: [{
                 administrativeDetailType: 'ORIGIN',
                 values: [ ...state.administrativeDetails.values ]
                 },
             ],*/
-            codes: [ ...state.codes ]
+            administrativeDetails: [{
+                    administrativeDetailType: 'ORIGIN',
+                    values: []
+                }],
+            codes: state?.codes ? [ ...state?.codes ] : []
         }
 
         state.versions = [
             newVersion,
-            ...state.versions
+            ...state?.versions
         ];
 
         return newVersion;

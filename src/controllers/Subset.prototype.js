@@ -9,7 +9,7 @@ export function Subset (data) {
         _id: data?.id || data?._id || '',
         _shortName: data?.shortName || data?._shortName || '',
         _name: data?.name || data?._name || [],
-        _classificationFamily: data?.classificationFamily || data?._classificationFamily,
+        _classificationFamily: data?.classificationFamily || data?._classificationFamily || '',
         _owningSection: data?.owningSection || data?._owningSection || '',
         _description: data?.description || data?._description || [],
         _versions: data?.versions || data?._versions || [],
@@ -149,7 +149,7 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'currentVersion', {
         set: ( chosen = {} ) => {
-            // console.debug('Set currentVersion', chosen);
+            console.debug('Set currentVersion', chosen);
 
             subset._currentVersion = subset.versions?.find(v => v.version === chosen?.version) || {};
             if (subset._currentVersion?.versionRationale?.length === 0) {
@@ -168,7 +168,7 @@ export function Subset (data) {
 
     // FIXME not implemented yet
     Object.defineProperty(subset, 'versionToBeSaved', {
-        get: () => { return subset?._currentVersion.toBeSaved; },
+        get: () => { return true; },
     });
 
     Object.defineProperty(subset, 'administrativeStatus', {
@@ -182,36 +182,10 @@ export function Subset (data) {
             }*/
     });
 
-        Object.defineProperty(subset, 'isPublished', {
-            get: () => { return subset.administrativeStatus  === 'OPEN';},
-        });
-
-/*
-    Object.defineProperty(subset, 'previousVersion', {
-        get: () => {
-            if (!subset.previousVersions) {
-                return null;
-            }
-            return subset.previousVersions?.find(v => v.version === `${parseInt(subset.version) - 1}`);
-        }
+    Object.defineProperty(subset, 'isPublished', {
+        get: () => { return subset.administrativeStatus  === 'OPEN';},
     });
 
-    Object.defineProperty(subset, 'previousVersions', {
-        get: () => { return subset._previousVersions; },
-        set: (list = []) => {
-            //console.debug('Set previousVersions', list);
-
-            // FIXME: restrict, validate the list
-            subset._previousVersions = list.sort((a, b) =>
-                a.versionValidFrom < b.versionValidFrom ? -1 :
-                    a.versionValidFrom > b.versionValidFrom ? 1 : 0);
-
-            if (!subset.isNewVersion() && !subset.isNew()) {
-                subset.versionValidUntil = subset.calculateVersionValidUntil();
-            }
-        }
-    });
-*/
     Object.defineProperty(subset, 'versionValidFrom', {
         get: () => {
             // console.debug('get versionValidFrom')
@@ -260,89 +234,89 @@ export function Subset (data) {
     });
 
     // FIXME: Replace with Set / Map
-        Object.defineProperty(subset, 'origin', {
-            get: () => {
-                return subset._currentVersion.administrativeDetails
-                    .find(d => d.administrativeDetailType === 'ORIGIN').values;
-            },
-            set: (origin = []) => {
-                //console.debug('Set origin', origin, subset.isEditableOrigin());
+    Object.defineProperty(subset, 'origin', {
+        get: () => {
+            return subset._currentVersion.administrativeDetails
+                .find(d => d.administrativeDetailType === 'ORIGIN').values;
+        },
+        set: (origin = []) => {
+            //console.debug('Set origin', origin, subset.isEditableOrigin());
 
-                if (subset.isEditableOrigin()) {
-                    subset._currentVersion.administrativeDetails
-                        .find(d => d.administrativeDetailType === 'ORIGIN')
-                        .values = origin.filter(o => URN.isClassificationPattern(o));
+            if (subset.isEditableOrigin()) {
+                subset._currentVersion.administrativeDetails
+                    .find(d => d.administrativeDetailType === 'ORIGIN')
+                    .values = origin.filter(o => URN.isClassificationPattern(o));
 
-                    //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
-                }
+                //subset._codes = subset.codes.filter(c => subset.origin.includes(URN.toURL(c.urn).classificationURN));
             }
-        });
+        }
+    });
 
-        Object.defineProperty(subset, 'codes', {
-            get: () => { return subset._currentVersion?.codes; },
-            set: (codes = []) => {
-                // console.debug('Set codes and update origin', codes);
+    Object.defineProperty(subset, 'codes', {
+        get: () => { return subset._currentVersion?.codes; },
+        set: (codes = []) => {
+            // console.debug('Set codes and update origin', codes);
 
-                if (subset.isEditableCodes()) {
-                    subset._currentVersion.codes = codes;
-                    subset.reorderCodes();
-                    subset.rerankCodes();
-                    subset.verifyOrigin();
-                }
+            if (subset.isEditableCodes()) {
+                subset._currentVersion.codes = codes;
+                subset.reorderCodes();
+                subset.rerankCodes();
+                subset.verifyOrigin();
             }
-        });
+        }
+    });
 
-        Object.defineProperty(subset, 'errors', {
-            get: () => {
-                //console.debug('Get errors', subset._errors);
+    Object.defineProperty(subset, 'errors', {
+        get: () => {
+            //console.debug('Get errors', subset._errors);
 
-                return subset.validate();
-            }
-        });
+            return subset.validate();
+        }
+    });
 
-        Object.defineProperty(subset, 'payload', {
-            // TESTME
-            // DOCME
-            get: () => {
-                const payload = {
-                    id: subset.id,
-                    shortName: subset.shortName,
-                    name: subset.name,
-                    administrativeStatus: subset.administrativeStatus,
-                    owningSection: subset._owningSection,
-                    administrativeDetails: subset._administrativeDetails,
-                    classificationFamily: subset._classificationFamily,
-                    description: subset._description,
-                    version: subset._version,
-                    versionRationale: subset._versionRationale,
-                    versionValidFrom: subset._versionValidFrom,
-                    codes: subset._codes
-                };
-                Object.keys(payload).forEach((key) => (
-                    (!payload[key] || payload[key] === '')
-                    && delete payload[key])
-                );
-                return payload;
-            }
-        });
+    Object.defineProperty(subset, 'payload', {
+        // TESTME
+        // DOCME
+        get: () => {
+            const payload = {
+                id: subset.id,
+                shortName: subset.shortName,
+                name: subset.name,
+                administrativeStatus: subset.administrativeStatus,
+                owningSection: subset._owningSection,
+                administrativeDetails: subset._administrativeDetails,
+                classificationFamily: subset._classificationFamily,
+                description: subset._description,
+                version: subset._version,
+                versionRationale: subset._versionRationale,
+                versionValidFrom: subset._versionValidFrom,
+                codes: subset._codes
+            };
+            Object.keys(payload).forEach((key) => (
+                (!payload[key] || payload[key] === '')
+                && delete payload[key])
+            );
+            return payload;
+        }
+    });
 
-        Object.defineProperty(subset, 'draftPayload', {
-            get: () => {
-                return {
-                    ...subset.payload,
-                    administrativeStatus: 'DRAFT'
-                };
-            }
-        });
+    Object.defineProperty(subset, 'draftPayload', {
+        get: () => {
+            return {
+                ...subset.payload,
+                administrativeStatus: 'DRAFT'
+            };
+        }
+    });
 
-        Object.defineProperty(subset, 'publishPayload', {
-            get: () => {
-                return {
-                    ...subset.payload,
-                    administrativeStatus: 'OPEN'
-                };
-            }
-        });
+    Object.defineProperty(subset, 'publishPayload', {
+        get: () => {
+            return {
+                ...subset.payload,
+                administrativeStatus: 'OPEN'
+            };
+        }
+    });
 
     return subset;
 }

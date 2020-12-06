@@ -10,7 +10,7 @@ export const Step4Reorder = () => {
 
     return (<>
         <h3>{ t('Reorder codes') }</h3>
-        <BriefContextual />
+        <BriefContextual metadata currentVersion />
 
         { draft.codes?.length === 0
             ? <p>{ t('No items to sort') }</p>

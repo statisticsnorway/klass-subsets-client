@@ -52,7 +52,8 @@ function subsetReducer( state, { action, data = {} }) {
             return Subset({...state});
         }
         case 'version_switch': {
-            state.currentVersion = data?.id === 'Create new version'
+            state.currentVersion =
+                data?.id === 'Create new version'
                 ? state.createNewVersion()
                 : data;
             return Subset({...state});

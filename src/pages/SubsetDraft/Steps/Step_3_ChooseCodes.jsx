@@ -12,7 +12,7 @@ export const Step3ChooseCodes = () => {
     /* TODO: tooltips for classification icons */
     return (<>
             <h3>{ t('Choose classifications and code lists') }</h3>
-            <BriefContextual />
+            <BriefContextual metadata currentVersion />
             <SearchFormContextual />
             <IncludedCodeLists/>
         </>

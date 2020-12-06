@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../controllers/context';
 import { Dropdown } from '../Forms';
@@ -13,6 +13,14 @@ export const VersionSwitcher = () => {
     } } = useContext(AppContext);
 
     const { t } = useTranslation();
+
+    useEffect(() => {
+        versions?.length === 0
+        && dispatch({
+            action: 'version_switch',
+            data: { id: 'Create new version' }
+        });
+    }, []);
 
     return (
         <Dropdown label={ t('Version') }
