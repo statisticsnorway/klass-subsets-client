@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../controllers/context';
 import { TextLanguageFieldset } from '../Forms';
 import { subsetDraft } from '../../defaults';
@@ -9,7 +8,6 @@ export const VersionRationale = () => {
         versionRationale,
         errors
     }, dispatch } } = useContext(AppContext);
-    const { t } = useTranslation();
 
     useEffect(() => {
         versionRationale?.length === 0
@@ -21,7 +19,7 @@ export const VersionRationale = () => {
     }, []);
 
     return (
-        <TextLanguageFieldset title={ t('Version rationale') }
+        <TextLanguageFieldset title='Version rationale'
                               items={ versionRationale }
                               add={ () => dispatch({
                                   action: 'version_rationale_add'}) }
