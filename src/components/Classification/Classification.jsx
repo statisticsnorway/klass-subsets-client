@@ -9,7 +9,7 @@ import {
     XSquare,
     RefreshCw
 } from 'react-feather';
-import { useGet, URN } from '../../controllers/klass-api';
+import { useGet, URL } from '../../controllers/klass-api';
 import './panel.css';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../Spinner';
@@ -18,13 +18,12 @@ import { AppContext } from '../../controllers/context';
 import { Codes } from './Codes';
 import { CodelistInfo } from './CodelistInfo';
 
-export const Classification = ({ item = {}, includible }) => {
+export const Classification = ({ item = {}, includible = false }) => {
     const { t } = useTranslation();
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft, dispatch } } = useContext(AppContext);
 
-    const { id, path, codesPath } = URN.toURL(
-        item?.urn,
+    const { path, codesPath } = URL.toClassificationURL(
+        item?.id,
         draft.versionValidFrom,
         draft.versionValidUntil
     );
@@ -127,7 +126,7 @@ export const Classification = ({ item = {}, includible }) => {
             </div> }
 
             { show.cannot &&
-            <div style={{backgroundColor: '#ECE6FE'}}
+            <div style={{ backgroundColor: '#ECE6FE'}}
                  className='panel'>
                 <p>{ t('Code list cannot be added to the subset due to lack of codes') }</p>
             </div>}
@@ -136,14 +135,14 @@ export const Classification = ({ item = {}, includible }) => {
                 <Codes
                     codes={ codes?.codes?.map(code => ({
                     ...code,
-                    classificationId: id,
+                    classificationId: item.id,
                     validFromInRequestedRange: code.validFromInRequestedRange || draft.versionValidFrom,
                     validToInRequestedRange: code.validToInRequestedRange || draft.versionValidUntil,
-                    urn: code.urn || `urn:ssb:klass-api:classifications:${id}:code:${code.code}:encodedName:${encodeURI(code.name)}`
+                    urn: code.urn || `urn:ssb:klass-api:classifications:${item.id}:code:${code.code}:encodedName:${encodeURI(code.name)}`
             }))}/>}
 
             { show.info
-                && <CodelistInfo id={id} info={metadata}/> }
+                && <CodelistInfo id={item.id} info={metadata}/> }
         </li>
     );
 };

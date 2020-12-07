@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { URN } from '../../controllers/klass-api';
-import keys from '../../utils/keys';
+import keys from '../../../utils/keys';
 import {
     Trash2,
     Repeat,
@@ -19,7 +18,6 @@ export const Item = ({item = {}, remove, update,
     const [ background, setBackground ] = useState('#ECFEED');
 
     // TODO: cache fetched data in session storage
-    const { code, name, classificationId } = URN.toURL(item.urn);
 
     useEffect(() => {
             function fade() { setBackground('white'); }
@@ -72,9 +70,9 @@ export const Item = ({item = {}, remove, update,
                 event.currentTarget.style.backgroundColor = 'white'
             }
         >
-            <td>{ code || item.code || '-' }</td>
-            <td style={{ textAlign: 'right' }}>{ classificationId || item.classificationId }</td>
-            <td style={{ width: '65%'}} onClick={() => toggleDragTarget(item)}>{ name || item.name || item.urn }</td>
+            <td>{ item.code || '-' }</td>
+            <td style={{ textAlign: 'right' }}>{ item.classificationId }</td>
+            <td style={{ width: '65%'}} onClick={() => toggleDragTarget(item)}>{ item.name }</td>
             { !disabled &&
             <td>
                         <span style={{display: 'inline-block', width: '40px'}}>

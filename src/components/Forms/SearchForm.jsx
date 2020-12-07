@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../controllers/context';
 import { useGet } from '../../controllers/klass-api';
 import { Classification } from '../Classification';
-import { eu } from '../../utils/strings';
+import { eu } from '../../utils';
 import { Search } from '../../controllers/Search';
 import { URL } from '../../controllers/klass-api';
 

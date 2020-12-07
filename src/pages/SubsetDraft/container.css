@@ -18,7 +18,7 @@
     grid-template-areas:
     'content';
     display: grid;
-    grid-template-columns: 800px;
+    grid-template-columns: 1000px;
     justify-content: center;
     grid-gap: 10px;
     padding: 20px;

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Table as Reorderable } from '../../../components/Reorderable';
+import { Table as Reorderable } from '../../../components/Lists';
 import { BriefContextual } from '../../../components/Subset';
 import { AppContext } from '../../../controllers/context';
 

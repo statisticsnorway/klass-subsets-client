@@ -1,93 +1,62 @@
 import { useState, useEffect } from 'react';
-import { today } from '../utils/strings';
+import { today } from '../utils';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
-export const URN = {
+export const URL = {
+    service: 'classifications',
 
-    // FIXME sanitize input - XSS is a threat!!!
-    // For now it accepts letters, digits, % & # _ - . , etc
-    // the code will be used to fetch data from the Klass API
-    codePattern: /urn:ssb:klass-api:classifications:[0-9]+:code:[\w-.]+:encodedName:[\w%-,.]+/i,
-    classificationPattern: /urn:ssb:klass-api:classifications:[0-9]+/i,
-
-    isCodePattern(urn) {
-        if (!urn) return false;
-
-        if (!this.codePattern.test(urn)) {
-            console.warn('isCodePattern: Unexpected code URN pattern', urn);
-        }
-        return this.codePattern.test(urn);
-    },
-
-    isClassificationPattern(urn) {
-        if (!urn) return false;
-
-        if (!this.classificationPattern.test(urn)) {
-            console.warn('Unexpected classification URN pattern', urn);
-        }
-        return this.classificationPattern.test(urn);
-    },
     // TESTME
-    toURL(urn, from, to) {
-        if (this.codePattern.test(urn)) {
-            const [,,,service,id,,code,,encodedName] = urn.split(':');
+    toCodeURL(classificationId, code, from, to, encodedName) {
 
-            return {
-                code,
-                name: decodeURI(encodedName),
-                service,
-                classificationId: id,
-                classificationURN: `urn:ssb:klass-api:classifications:${ id }`,
-                path: from && to
-                    ? `/${service}/${id}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
-                    : from && !to
-                        ? `/${service}/${id}/codes.json?from=${ from }&selectCodes=${ code }`
-                        : !from && to
-                            ? `/${service}/${id}/codes.json?to=${ to }&selectCodes=${ code }`
-                            : `/${service}/${id}/codesAt.json?date=${ today() }&selectCodes=${ code }`
-                ,
-                url: from && to
-                ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
-                    : from && !to
-                        ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?from=${ from }&selectCodes=${ code }`
-                        : !from && to
-                            ? `${klassApiServiceEndpoint}/${service}/${id}/codes.json?to=${ to }&selectCodes=${ code }`
-                            : `${klassApiServiceEndpoint}/${service}/${id}/codesAt.json?date=${ today() }&selectCodes=${ code }`
-            };
-        }
+        return {
+            code,
+            name: decodeURI(encodedName),
+            service: this.service,
+            classificationId: classificationId,
+            classificationURN: `urn:ssb:klass-api:classifications:${ classificationId }`,
+            path: from && to
+                ? `/${this.service}/${classificationId}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
+                : from && !to
+                    ? `/${this.service}/${classificationId}/codes.json?from=${ from }&selectCodes=${ code }`
+                    : !from && to
+                        ? `/${this.service}/${classificationId}/codes.json?to=${ to }&selectCodes=${ code }`
+                        : `/${this.service}/${classificationId}/codesAt.json?date=${ today() }&selectCodes=${ code }`
+            ,
+            url: from && to
+            ? `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
+                : from && !to
+                    ? `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codes.json?from=${ from }&selectCodes=${ code }`
+                    : !from && to
+                        ? `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codes.json?to=${ to }&selectCodes=${ code }`
+                        : `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codesAt.json?date=${ today() }&selectCodes=${ code }`
+        };
+    },
 
-        if (this.classificationPattern.test(urn)) {
-            const [,,, service, id] = urn.split(':');
-
-            return {
-                service,
-                id,
-                path: `/${service}/${id}`,
-                codesPath: from && to
-                    ? `/${service}/${id}/codes.json?from=${from}&to=${to}`
-                    : from && !to
-                        ? `/${service}/${id}/codes.json?from=${ from }`
-                        : !from && to
-                            ? `/${service}/${id}/codes.json?to=${ to }`
-                            : `/${service}/${id}/codesAt.json?date=${ today() }`,
-                url: `${klassApiServiceEndpoint}/${ service }/${ id }`,
-                codesUrl: from && to
-                    ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?from=${ from }&to=${ to }`
-                    : from && !to
-                        ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?from=${ from }`
-                        : !from && to
-                            ? `${klassApiServiceEndpoint}/${ service }/${ id }/codes.json?to=${ to }`
-                            : `${klassApiServiceEndpoint}/${ service }/${ id }/codesAt.json?date=${ today() }`
-            };
-        }
-
-        console.warn('Unexpected URN pattern:', urn);
-
-        return {};
+    toClassificationURL(id, from, to) {
+        return {
+            service: this.service,
+            id,
+            path: `/${ this.service }/${id}`,
+            codesPath: from && to
+                ? `/${ this.service }/${id}/codes.json?from=${ from }&to=${to}`
+                : from && !to
+                    ? `/${ this.service }/${id}/codes.json?from=${ from }`
+                    : !from && to
+                        ? `/${ this.service }/${id}/codes.json?to=${ to }`
+                        : `/${ this.service }/${id}/codesAt.json?date=${ today() }`,
+            url: `${klassApiServiceEndpoint}/${ this.service }/${ id }`,
+            codesUrl: from && to
+                ? `${klassApiServiceEndpoint}/${ this.service }/${ id }/codes.json?from=${ from }&to=${ to }`
+                : from && !to
+                    ? `${klassApiServiceEndpoint}/${ this.service }/${ id }/codes.json?from=${ from }`
+                    : !from && to
+                        ? `${klassApiServiceEndpoint}/${ this.service }/${ id }/codes.json?to=${ to }`
+                        : `${klassApiServiceEndpoint}/${ this.service }/${ id }/codesAt.json?date=${ today() }`
+        };
     }
 };
-
+/*
 export const URL = {
 
     toURN: (url, from, to) => {
@@ -117,7 +86,7 @@ export const URL = {
         }
         return {};
     }
-};
+};*/
 
 // TODO: error handling using global and private error handlers
 export function useGet(url = null) {
@@ -176,16 +145,14 @@ export function useGet(url = null) {
 }
 
 export function useCode(origin) {
-    const { code, name, classificationId, path, url } = URN.toURL(
-        origin?.urn,
+    const { path, url } = URL.toCodeURL(
+        origin?.classificationId,
+        origin?.code,
         origin?.validFromInRequestedRange,
         origin?.validToInRequestedRange);
 
     const [ codeData, setCodeData ] = useState({
         ...origin,
-        code,
-        name,
-        classificationId,
         _links: {
             self: {
                 href: url
@@ -201,7 +168,7 @@ export function useCode(origin) {
 
 
             // TODO: do better
-            const matchedName = targetCode.codes.filter(c => c.name === name);
+            const matchedName = targetCode.codes.filter(c => c.name === origin.name);
             console.log({matchedName});
             if (matchedName.length > 1) {
                 matchedName.forEach(c => {
@@ -218,7 +185,7 @@ export function useCode(origin) {
         }
     }, [ targetCode ]);
 
-    const { metadata, codesWithNotes, isLoadingVersion } = useClassification(classificationId);
+    const { metadata, codesWithNotes, isLoadingVersion } = useClassification(origin.classificationId);
 
     useEffect(() => {
         metadata?.name && setCodeData(prevCodeData => {
@@ -230,14 +197,14 @@ export function useCode(origin) {
     }, [metadata]);
 
     useEffect(() => {
-        const exists = codesWithNotes.find(c => c.code === code);
+        const exists = codesWithNotes.find(c => c.code === origin.code);
         codesWithNotes && setCodeData(prevCodeData => {
             return {
                 ...prevCodeData,
                 ...exists
             };
         });
-    }, [codesWithNotes, setCodeData, code]);
+    }, [codesWithNotes, setCodeData, origin.code]);
 
     return {codeData, isLoadingVersion};
 }

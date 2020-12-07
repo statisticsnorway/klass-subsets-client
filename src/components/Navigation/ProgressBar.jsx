@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '../../utils/useQuery';
+import { useQuery } from '../../utils';
 import { NavLink } from 'react-router-dom';
 
 export const ProgressBar = ({ steps }) => {

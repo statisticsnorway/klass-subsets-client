@@ -8,9 +8,8 @@ import {
 } from 'react-feather';
 import { Paragraph, LeadParagraph } from '@statisticsnorway/ssb-component-library';
 import './form.css';
-import keys from '../../utils/keys';
-import { Item } from "./Item";
-import {ProgressBar} from "../Navigation";
+import keys from '../../../utils/keys';
+import { Item } from './Item';
 
 export const Table = ({ list = [], rerank, remove, update, disabled }) => {
     const { t } = useTranslation();
