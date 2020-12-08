@@ -1,32 +1,19 @@
-import React, {useContext, useState} from 'react';
-import { URL, useGet } from '../../controllers/klass-api';
+import React, { useState} from 'react';
 import { Panel } from '../../components';
 import { CodelistInfo } from './CodelistInfo';
 import { InfoButton, ListButton } from '../Buttons';
 import { useTranslation } from 'react-i18next';
-import { AppContext } from '../../controllers/context';
 import { Codes } from './Codes';
 
-export const CodeList = ({ item: { id } }) => {
+export const CodeList = ({ id, codes, metadata, includible = false, ...props }) => {
     const { t } = useTranslation();
-    const { subset: { draft: {
-        versionValidFrom,
-        versionValidUntil
-    }, dispatch }
-    } = useContext(AppContext);
-
-    const { path, codesPath } = URL.toClassificationURL(
-        id,
-        versionValidFrom,
-        versionValidUntil
-    );
-    const [ metadata, isLoadingMetadata,,, ] = useGet(path);
-    const [ codes, isLoadingCodes,,, ] = useGet(codesPath);
     const [ show, setShow ] = useState({ none: true } );
+
+    console.log({props})
 
     return (
         <>
-            <div style={{ display: 'flex', padding: '15px' }}>
+            <div style={{ display: 'flex' }}>
                 <p>{ metadata?.name }</p>
 
                 <ListButton
@@ -45,7 +32,7 @@ export const CodeList = ({ item: { id } }) => {
 
             <Panel visible={ show.codes }>
                 {
-                    isLoadingCodes
+                    codes?.isLoading
                         ? <p>Loading...</p>
                         : <Codes codes={ codes?.codes?.map(code => ({
                                 ...code,
@@ -57,7 +44,7 @@ export const CodeList = ({ item: { id } }) => {
 
             <Panel visible={ show.info }>
                 {
-                    isLoadingMetadata
+                    metadata?.isLoading
                         ? <p>Loading...</p>
                         : <CodelistInfo id={ id } info={ metadata }/>
                 }

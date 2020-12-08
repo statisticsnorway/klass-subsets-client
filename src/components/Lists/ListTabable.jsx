@@ -3,12 +3,11 @@ import './list.css';
 import keys from '../../utils/keys';
 
 export const ListTabable = ({
-                                      items = [],
-                                      placeholder = 'No items to show',
-                                      component = () => {}
-                                  }
-) => {
-
+                              items = [],
+                              placeholder = 'No items to show',
+                              component = () => {}
+}) => {
+    console.log({items})
     return (
         <>
             { items?.length === 0

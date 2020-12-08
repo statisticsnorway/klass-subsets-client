@@ -54,12 +54,9 @@ export const URL = {
                         ? `${klassApiServiceEndpoint}/${ this.service }/${ id }/codes.json?to=${ to }`
                         : `${klassApiServiceEndpoint}/${ this.service }/${ id }/codesAt.json?date=${ today() }`
         };
-    }
-};
-/*
-export const URL = {
+    },
 
-    toURN: (url, from, to) => {
+    info: (url, from, to) => {
 
         // FIXME sanitize input - XSS is a threat!!!
         // For now it accepts letters, digits, % & # _ - . , etc
@@ -86,7 +83,7 @@ export const URL = {
         }
         return {};
     }
-};*/
+};
 
 // TODO: error handling using global and private error handlers
 export function useGet(url = null) {

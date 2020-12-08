@@ -57,11 +57,11 @@ export const Search = ({ resource = [],
     }
 
     function highlight(origin, substring) {
-        const i = origin.toLowerCase().indexOf(substring.toLowerCase());
+        const i = origin?.toLowerCase()?.indexOf(substring?.toLowerCase());
         return <>
-            <span>{origin.substr(0, i)}</span>
-            <span style={{ backgroundColor: '#62919A' }}>{origin.substr(i, substring.length)}</span>
-            <span>{origin.substr(i + substring.length, origin.length)}</span>
+            <span>{origin?.substr(0, i)}</span>
+            <span style={{ backgroundColor: '#62919A' }}>{origin?.substr(i, substring?.length)}</span>
+            <span>{origin?.substr(i + substring?.length, origin?.length)}</span>
         </>;
     }
 
@@ -69,7 +69,7 @@ export const Search = ({ resource = [],
     // FIXME: sanitize input !!!!
     // TODO: async fetch ?
     return (
-        <div className='ssb-input '>
+        <div className='ssb-input ' style={{ maxWidth: '100%'}}>
             <div className="input-wrapper" style={{ width: '100%' }}>
                 <input type='search' className='with-icon'
                     name='classificationSearch'

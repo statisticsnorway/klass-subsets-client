@@ -9,7 +9,7 @@ export const Help = ({ message = '', visible = false }) => {
             { visible && message?.length > 0 &&
                 <p className='small'
                    style={{
-                       padding: '10px 10px',
+                       padding: '10px 0',
                        color: '#2D6975' }}
                 >{ t(message) }</p>
             }

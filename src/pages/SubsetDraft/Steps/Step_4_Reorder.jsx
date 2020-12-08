@@ -9,7 +9,7 @@ export const Step4Reorder = () => {
     const { t } = useTranslation();
 
     return (<>
-        <h3>{ t('Reorder codes') }</h3>
+        <h2>{ t('Reorder codes') }</h2>
         <BriefContextual metadata currentVersion />
 
         { draft.codes?.length === 0

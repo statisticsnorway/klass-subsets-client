@@ -12,7 +12,7 @@ export const Step5Review = () => {
 
 return (
         <>
-            <h3>{ t('Review and publish') }</h3>
+            <h2>{ t('Review and publish') }</h2>
 
             <Preview data={ draft }/>
 
