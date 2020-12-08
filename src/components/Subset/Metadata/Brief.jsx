@@ -1,5 +1,5 @@
 import React from 'react';
-import { eu, euTime } from '../../../utils/strings';
+import { eu, euTime } from '../../../utils';
 import { BlockExpandable } from '../../BoxExpandable';
 
 export const Brief = ({ id,
@@ -11,9 +11,11 @@ export const Brief = ({ id,
                       published = -1,
                       drafts = -1,
                       locals = -1,
-                      toBeSaved = -1
+                      toBeSaved = -1,
+                      metadatatoBeSaved = false
 }) => {
 
+    console.log({toBeSaved})
     // FIXME: decide whether it should be focusable
     return (
         <div title='Brief subset status' style={{ fontSize: '12px'}}>
@@ -28,6 +30,10 @@ export const Brief = ({ id,
             { drafts >= 0 && <BlockExpandable label={'Number of drafts'} text={ drafts }/> }
             { locals > 0 && <BlockExpandable label={ 'Local drafts' } text={ locals } /> }
             { toBeSaved > 0 && <BlockExpandable label={ 'To be saved' } text={ toBeSaved } /> }
+            { metadatatoBeSaved && <BlockExpandable label='Metadata has been changed locally'
+                                            text='Modified locally'
+                                            color='bisque'
+            />}
             <br style={{ clear: 'both' }}/>
         </div>
     );

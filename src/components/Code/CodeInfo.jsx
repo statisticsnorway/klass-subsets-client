@@ -1,16 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '../Spinner';
-import { replaceRef } from '../../utils';
-import {
-    Info,
-    MessageSquare
-} from 'react-feather';
-import {CodeCheckbox} from "./CodeCheckbox";
+import { Spinner, Panel, ListTabable } from '../../components';
+import { Info, MessageSquare } from 'react-feather';
+import { CodeCheckbox, Note } from '../Code';
 
 export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
     const { t } = useTranslation();
-
     const [ show, setShow ] = useState({ none: true } );
 
     return (
@@ -29,33 +24,27 @@ export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
                 </button>
             </div>
 
-            { show.info && <div>
-                <p className='small'><strong>{ t('Short name')} :</strong> { item?.shortName || '-' }</p>
-                <p className='small'><strong>{ t('Valid') }:</strong> { item.validFromInRequestedRange } - { item.validToInRequestedRange|| '...' }</p>
-                <p className='small'><strong>{ t('Level') }:</strong> {item?.level}</p>
-                { item?.parentCode && <p className='small'><strong>{ t('Parent code') }:</strong> { item?.parentCode }</p>}
-            </div>
-            }
+            <Panel visible={ show.info }>
 
-            { show.notes && <div>
-                { notes.length === 0
-                    ? <p>{ t('No notes found.') }</p>
-                    : notes.map((note, i) => (
-                        <div key={i} style={{ padding: '10px 50px 20px 50px' }}>
-                            <h4>{ t('Notes') }</h4>
-                            <div style={{ fontSize: '14px' }}
-                                 className='ssb-paragraph small'
-                                // DOCME
-                                // FIXME: find another way
-                                 dangerouslySetInnerHTML={{ __html: replaceRef(note.note) }}
-                            />
-                            <p className='small'>
-                                ({ t('Valid') }: { note.validFrom || '...'} - { note.validTo || '...' })
-                            </p>
-                        </div>))
-                }
-            </div>
-            }
+                <p className='small'>
+                    <strong>{ t('Short name') } :</strong> { item?.shortName || '-' }
+                </p>
+                <p className='small'>
+                    <strong>{ t('Valid') }:</strong> { item.validFromInRequestedRange } - { item.validToInRequestedRange|| '...' }
+                </p>
+                <p className='small'>
+                    <strong>{ t('Level') }:</strong> {item?.level}
+                </p>
+                { item?.parentCode && <p className='small'><strong>{ t('Parent code') }:</strong> { item?.parentCode }</p>}
+            </Panel>
+
+            <Panel visible={ show.notes }>
+                <ListTabable items={ notes.map((note, id) => ({ id, ...note })) }
+                             placeholder={ t('No notes found') }
+                             component={ Note }
+                />
+            </Panel>
+
         </>
     );
 };

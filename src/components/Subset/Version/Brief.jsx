@@ -39,7 +39,7 @@ export const Brief = ({ id,
             />}
             { toBeSaved && <BlockExpandable label='Version has been changed locally'
                                                 text={ t('Modified locally') }
-                                                color='#B6E8B8'
+                                                color='bisque'
             />}
             <br style={{ clear: 'both' }}/>
         </div>

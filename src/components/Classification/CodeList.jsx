@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import { URL, useGet } from '../../controllers/klass-api';
-import { Panel } from './Panel';
+import { Panel } from '../../components';
 import { CodelistInfo } from './CodelistInfo';
 import { InfoButton, ListButton } from '../Buttons';
 import { useTranslation } from 'react-i18next';

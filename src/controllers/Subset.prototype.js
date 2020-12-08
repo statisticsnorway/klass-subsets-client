@@ -71,6 +71,11 @@ export function Subset (data) {
         }
     });
 
+    Object.defineProperty(subset, 'metadataToBeSaved', {
+        // FIXME: hardcoded workaround
+        get: () => { return subset?.name[0]?.languageText?.endsWith('111'); },
+    });
+
     Object.defineProperty(subset, 'owningSection', {
         get: () => { return subset._owningSection; },
         set: (owningSection = '') => {
@@ -149,7 +154,7 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'currentVersion', {
         set: ( chosen = {} ) => {
-            console.debug('Set currentVersion', chosen);
+            // console.debug('Set currentVersion', chosen);
 
             subset._currentVersion = subset.versions?.find(v => v.version === chosen?.version) || {};
             if (subset._currentVersion?.versionRationale?.length === 0) {
@@ -167,8 +172,9 @@ export function Subset (data) {
     });
 
     // FIXME not implemented yet
+    // FIXME: hardcoded workaround
     Object.defineProperty(subset, 'versionToBeSaved', {
-        get: () => { return true; },
+        get: () => { return subset.isNewVersion() || subset?.versionRationale[0]?.languageText?.endsWith('111'); },
     });
 
     Object.defineProperty(subset, 'administrativeStatus', {

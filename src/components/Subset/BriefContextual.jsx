@@ -26,9 +26,10 @@ export const BriefContextual = ({
         versionValidFrom,
         versionValidUntil,
         administrativeStatus,
+        metadataToBeSaved,
         versionToBeSaved
     } } } = useContext(AppContext);
-
+console.log({versions})
     return (
         <>
         { metadata &&
@@ -44,7 +45,10 @@ export const BriefContextual = ({
                 published={ publishedVersions?.length }
                 drafts={ drafts?.length }
                 locals={ versions?.filter(v => v.administrativeStatus === 'INITIAL')?.length }
-                toBeSaved={ versions?.filter(v => v.toBeSaved).length }
+                // toBeSaved={ versions?.filter(v => v.toBeSaved).length }
+                // FIXME: hardcoded workaround
+                toBeSaved={ versions?.filter(v => v.versionRationale[0]?.languageText?.endsWith('111')).length }
+                metadatatoBeSaved={ metadataToBeSaved }
             />
         }
         { currentVersion &&

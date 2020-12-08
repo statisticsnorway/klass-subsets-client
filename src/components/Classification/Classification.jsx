@@ -10,7 +10,6 @@ import {
     RefreshCw
 } from 'react-feather';
 import { useGet, URL } from '../../controllers/klass-api';
-import './panel.css';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '../Spinner';
 import keys from '../../utils/keys';
