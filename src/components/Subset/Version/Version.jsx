@@ -1,5 +1,5 @@
 import React from 'react';
-import { DownloadButton, EditButton } from '../../Buttons';
+import {DownloadButton, EditButton, SaveButton} from '../../Buttons';
 import { Tab, Tabs } from '../../Tabs';
 import { JsonView } from '../../JsonView';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,8 @@ import { HtmlView } from './HtmlView';
 
 export const Version = ({
                             edit = () => {},
-                            data = {}
+                            data = {},
+                            save = false
 }) => {
     const { t } = useTranslation();
 
@@ -18,7 +19,12 @@ export const Version = ({
                 <DownloadButton title={ t('Download') }/>
 
                 { edit && <EditButton
-                    title={ t('Edit metadata') }
+                    title={ t('Edit version') }
+                    clickHandler={ edit }
+                />}
+
+                { save && <SaveButton
+                    title={ t('Save version') }
                     clickHandler={ edit }
                 />}
             </h2>
@@ -29,6 +35,7 @@ export const Version = ({
                 validFrom={ data.validFrom }
                 validUntil={ data.validUntil }
                 status={ data.administrativeStatus }
+                toBeSaved={ data?.versionRationale[0]?.languageText?.endsWith('111') }
             />
 
             <Tabs light>

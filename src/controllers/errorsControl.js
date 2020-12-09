@@ -106,7 +106,7 @@ export const errorsControl = (state = {}) => ({
         //console.debug('validate');
 
         return {
-            id: state.validateId(),
+/*            id: state.validateId(),
             name: state.validateName(),
             validFrom: state.validateValidFrom(),
             validUntil: state.validateValidUntil(),
@@ -119,7 +119,7 @@ export const errorsControl = (state = {}) => ({
             versionValidFrom: state.validateVersionValidFrom(),
             versionValidUntil: state.validateVersionValidUntil(),
             versionPeriod: state.validateVersionPeriod(),
-            codes: state.validateCodes()
+            codes: state.validateCodes()*/
         };
     }
 

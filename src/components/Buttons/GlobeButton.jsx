@@ -4,7 +4,8 @@ import { Globe } from 'react-feather';
 export const GlobeButton = ({
     title = 'Globe button',
     clickHandler = () => {},
-    disabled = false
+    disabled = false,
+    active = true
 }) => {
 
     return (
@@ -14,7 +15,7 @@ export const GlobeButton = ({
             disabled={ disabled }
         >
             <Globe style={{
-                color: 'lightblue',
+                color: disabled || !active ? '#C3DCDC' : 'lightblue',
                 margin: '0 10px',
                 cursor: 'pointer'
             }}

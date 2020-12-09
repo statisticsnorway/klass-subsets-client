@@ -5,12 +5,12 @@ import { Codes } from '../Code';
 import { Subset } from '../../controllers/Subset.prototype';
 import { Title } from '../Title';
 
-export const Preview = ({ data, edit }) => {
+export const Preview = ({ data, edit, save = false }) => {
     const subset = new Subset(data);
-    console.log({data, subset})
+
     return (
         <>
-            <Title translates={ subset?.name } tag='h1' />
+            <Title translates={ subset?.name } tag='h1' save={ save } />
             <Brief
                 id={{ props: {id: subset?.id} }}
                 lastModified={ subset?.lastModified }
@@ -19,13 +19,14 @@ export const Preview = ({ data, edit }) => {
                 drafts={ subset?.drafts?.length }
                 validFrom={ subset?.validFrom }
                 validUntil={ subset?.validUntil }
+                metadatatoBeSaved={ subset?.name[0].languageText?.endsWith('111') }
             />
             <Tabs dark>
                 <Tab title='Metadata' path='metadata'>
-                    <Metadata edit={ edit } subset={ data }/>
+                    <Metadata edit={ edit } save={ save && subset?.name[0].languageText?.endsWith('111') } subset={ data }/>
                 </Tab>
                 <Tab title='Versions' path='versions'>
-                    <Versions edit={ edit }  data={ data?.versions } />
+                    <Versions edit={ edit } save={ save } data={ data?.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
                     <Codes edit={ edit } data={ data?.versions }/>

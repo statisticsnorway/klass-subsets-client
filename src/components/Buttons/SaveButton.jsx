@@ -1,8 +1,8 @@
 import React from 'react';
-import { PlusSquare } from 'react-feather';
+import { Save } from 'react-feather';
 
-export const PlusButton = ({
-                                title = 'Add',
+export const SaveButton = ({
+                                title = 'Save',
                                 clickHandler = () => {},
                                 disabled = false,
                                 active = true
@@ -14,7 +14,7 @@ export const PlusButton = ({
             onClick={ clickHandler }
             disabled={ disabled }
         >
-            <PlusSquare style={{
+            <Save style={{
                 color: disabled || !active ? '#C3DCDC' : '#1A9D49',
                 margin: '0 10px',
                 cursor: 'pointer'

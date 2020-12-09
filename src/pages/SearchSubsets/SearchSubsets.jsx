@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dropdown } from '@statisticsnorway/ssb-component-library';
+import {CheckboxGroup, Dropdown} from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/subsets-service';
 import { BannerList } from '../../components/Subset';
@@ -41,17 +41,30 @@ export const SearchSubsets = () => {
                     </button>
                 </h2>
                 { showSettings &&
-                    <Dropdown
-                        header={ t('Sort by') }
-                        selectedItem={{ title: t('Last updated'), id: 'Last' }}
-                        items={[
-                            { title: t('Last updated'), id: 'last' },
-                            { title: t('Subset name'), id: 'name' },
-                            { title: t('Owner'), id: 'owner' },
-                            { title: t('Valid to'), id: 'validto' },
-                        ]}
-                    />
-                    }
+                    <>
+                        <Dropdown
+                            header={ t('Sort by') }
+                            selectedItem={{ title: t('Last updated'), id: 'Last' }}
+                            items={[
+                                { title: t('Last updated'), id: 'last' },
+                                { title: t('Subset name'), id: 'name' },
+                                { title: t('Owner'), id: 'owner' },
+                                { title: t('Valid to'), id: 'validto' },
+                            ]}
+                        />
+                        <CheckboxGroup
+                            header={ t('Filters') }
+                            onChange={() => {}}
+                            orientation='column'
+                            selectedValue='includeFuture'
+                            items={[
+                                { label: 'includeFuture', value: 'includeFuture' },
+                                { label: 'includeDrafts', value: 'includeDrafts' },
+                                { label: 'includeDeprecated', value: 'includeDeprecated' }
+                            ]}
+                        />
+                    </>
+                }
 
                     { isLoadingSubsets
                         ? <div style={{ marginTop: '15px' }}><Spinner/></div>

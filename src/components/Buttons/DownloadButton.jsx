@@ -4,7 +4,8 @@ import { Download } from 'react-feather';
 export const DownloadButton = ({
                                 title = 'Download button',
                                 clickHandler = () => {},
-                                disabled = false
+                                disabled = false,
+                                active = true
                             }) => {
 
     return (
@@ -14,7 +15,7 @@ export const DownloadButton = ({
             disabled={ disabled }
         >
             <Download style={{
-                color: 'lightblue',
+                color: disabled || !active ? '#C3DCDC' : 'lightblue',
                 margin: '0 10px',
                 cursor: 'pointer'
             }}

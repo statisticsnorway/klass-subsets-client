@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DownloadButton, EditButton, GlobeButton } from '../Buttons';
+import {DownloadButton, EditButton, GlobeButton, SaveButton} from '../Buttons';
 import { languages as defaultLanguages } from '../../defaults';
 import { Tag } from '../HtmlTag';
 
@@ -10,6 +10,7 @@ export const Title = ({
                           translates = [],
                           download = null,
                           edit = null,
+                          save = false,
                           tag = 'h2'
                       }) => {
 
@@ -32,7 +33,7 @@ export const Title = ({
                     }
                 </span>
                     <GlobeButton
-                    title={t('Toggle language')}
+                    title={ t('Toggle language') }
                     clickHandler={() => setLangIndex((langIndex + 1) % languages.length)}
                     />
                 </>
@@ -46,6 +47,11 @@ export const Title = ({
                 title={ t('Edit metadata') }
                 clickHandler={ edit }
             />}
+
+            { save && <SaveButton
+                title={ t('Save subset') }
+                active={save}/>
+            }
         </Tag>
     );
 };

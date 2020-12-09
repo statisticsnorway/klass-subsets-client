@@ -4,8 +4,9 @@ import { AlertTriangle } from 'react-feather';
 export const AlertButton = ({
                                    title = 'Alert button',
                                    clickHandler = () => {},
-                                   disabled = false
-                               }) => {
+                                   disabled = false,
+                                active = true
+                            }) => {
 
     return (
         <button
@@ -14,7 +15,7 @@ export const AlertButton = ({
             disabled={ disabled }
         >
             <AlertTriangle style={{
-                color: 'orange',
+                color: disabled || !active ? '#C3DCDC' : 'orange',
                 margin: '0 10px',
                 cursor: 'pointer'
             }}

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BriefContextual } from '../../../components/Subset';
 import { SearchFormContextual } from '../../../components/Forms'
-import { ListTabable } from '../../../components/Lists';
+import { ListTabable } from '../../../components';
 import { AppContext } from '../../../controllers/context';
 import { CodeListContextual } from '../../../components/Classification';
 import { Divider } from '@statisticsnorway/ssb-component-library';
@@ -14,6 +14,7 @@ export const Step3ChooseCodes = () => {
     /* TODO: tooltips for classification icons */
     return (<>
             <h2>{ t('Choose classifications and code lists') }</h2>
+
             <BriefContextual metadata currentVersion />
             <SearchFormContextual />
 

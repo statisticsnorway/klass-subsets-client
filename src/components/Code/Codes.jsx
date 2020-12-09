@@ -2,7 +2,7 @@ import React from 'react';
 import { CodeDumb } from './CodeDumb';
 import { useTranslation } from 'react-i18next';
 import { Datepicker } from '../Forms';
-import { flatten } from '../../utils/arrays';
+import { flatten } from '../../utils';
 import { Title, Introduction } from '../../components';
 
 export const Codes = ({ data = [], edit = () => {} }) => {

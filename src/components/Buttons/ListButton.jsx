@@ -15,7 +15,7 @@ export const ListButton = ({
             disabled={ disabled }
         >
             <List style={{
-                color: disabled || !active ? 'gray' : '#3396D2',
+                color: disabled || !active ? '#C3DCDC' : '#3396D2',
                 margin: '0 10px',
                 cursor: 'pointer'
             }}

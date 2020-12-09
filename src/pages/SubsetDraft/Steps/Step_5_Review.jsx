@@ -14,7 +14,7 @@ return (
         <>
             <h2>{ t('Review and publish') }</h2>
 
-            <Preview data={ draft }/>
+            <Preview data={ draft } edit save />
 
             { Object.values(draft?.errors).flat().length > 0 &&
                 <FormError title={ t('Some fields are not right') }

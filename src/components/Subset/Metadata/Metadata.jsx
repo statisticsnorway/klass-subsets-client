@@ -7,16 +7,17 @@ import { Title } from '../../Title';
 
 export const Metadata = ({
                              edit = () => {},
+                            save,
                              subset = {}
                          }) => {
     const { t } = useTranslation();
 
     return (
         <>
-            <Title text='Metadata' edit={ edit } download />
-            <p>{ t('Metadata info') }.</p>
-            <p>{ t('Subset validity period info') }.</p>
-            <p>{ t('Owning section info') }.</p>
+            <Title text='Metadata' edit={ edit } save={ save } download />
+            <p className='small'>{ t('Metadata info') }.</p>
+            <p className='small'>{ t('Subset validity period info') }.</p>
+            <p className='small'>{ t('Owning section info') }.</p>
             <Tabs light>
                 <Tab title='HTML' path='html'>
                     <HtmlView subset={ subset } />

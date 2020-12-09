@@ -15,7 +15,7 @@ export const InfoButton = ({
             disabled={ disabled }
         >
             <Info style={{
-                color: disabled || !active ? 'gray' : '#2D6975',
+                color: disabled || !active ? '#C3DCDC' : '#2D6975',
                 margin: '0 10px',
                 cursor: 'pointer'
             }}

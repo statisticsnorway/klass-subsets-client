@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Version, Switcher } from '../Version';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from '../../../utils/arrays';
-import { EditButton, DownloadButton } from '../../Buttons';
+import {EditButton, DownloadButton, SaveButton} from '../../Buttons';
 
-export const Versions = ({ data = [], edit = () => {}}) => {
+export const Versions = ({ data = [], edit = () => {}, save }) => {
     const { t } = useTranslation();
 
     const [ version, setVersion ] = useState( data[0]
@@ -20,12 +20,17 @@ export const Versions = ({ data = [], edit = () => {}}) => {
                 <DownloadButton title={ t('Download') }/>
 
                 { edit && <EditButton
-                    title={ t('Edit metadata') }
+                    title={ t('Edit versions') }
+                    clickHandler={ edit }
+                />}
+
+                { save && <SaveButton
+                    title={ t('Save all modified versions') }
                     clickHandler={ edit }
                 />}
             </h2>
 
-            <p>{ t('Version info') }.</p>
+            <p className='small'>{ t('Version info') }.</p>
 
             <Switcher versions={ data }
                       onSelect={ (option) => setVersion(option) }
@@ -45,7 +50,7 @@ export const Versions = ({ data = [], edit = () => {}}) => {
             />
 
             { version
-                ? <Version data={ version }/>
+                ? <Version data={ version } edit save={ save } />
                 : <p>{ t('No published versions') }.</p>
             }
 

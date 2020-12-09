@@ -6,4 +6,5 @@ export * from './InfoButton';
 export * from './ListButton';
 export * from './GlobeButton';
 export * from './PlusButton';
+export * from './SaveButton';
 export * from './TrashButton';
