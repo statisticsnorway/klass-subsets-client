@@ -1,5 +1,5 @@
 import React from 'react';
-import { CodeDumb } from './CodeDumb';
+import { Code } from './Code';
 import { useTranslation } from 'react-i18next';
 import { Datepicker } from '../Forms';
 import { flatten } from '../../utils';
@@ -29,7 +29,7 @@ export const Codes = ({ data = [], edit = () => {} }) => {
             {/* FIXME: check the validity period is set correctly*/}
             { flatten(data.map(version => version.codes))
                 .map((code, i) => (
-                        <CodeDumb key={i} origin={code} />
+                        <Code key={ i } origin={ code } />
                     )
                 )
             }

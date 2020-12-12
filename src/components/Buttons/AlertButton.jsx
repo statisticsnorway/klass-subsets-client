@@ -9,18 +9,21 @@ export const AlertButton = ({
                             }) => {
 
     return (
-        <button
-            title={ title }
-            onClick={ clickHandler }
-            disabled={ disabled }
-        >
-            <AlertTriangle style={{
-                color: disabled || !active ? '#C3DCDC' : 'orange',
-                margin: '0 10px',
-                cursor: 'pointer'
-            }}
-            />
-        </button>
+        <>
+        { active &&
+            <button
+                title={title}
+                onClick={clickHandler}
+                disabled={disabled}
+            >
+                <AlertTriangle style={{
+                    color: disabled || !active ? '#C3DCDC' : 'orange',
+                    margin: '0 10px',
+                    cursor: 'pointer'
+                }}
+                />
+            </button>
+}</>
     );
 };
 

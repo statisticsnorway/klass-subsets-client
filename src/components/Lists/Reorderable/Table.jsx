@@ -53,19 +53,19 @@ export const Table = ({ list = [], rerank, remove, update, disabled }) => {
                                     <ul>
                                         <li>
                                             <Paragraph negative>
-                                                <strong>{t('Drag and drop')}. </strong>
-                                                {t('Code rank help drag-and-drop')}
+                                                <strong>{ t('Drag and drop') }. </strong>
+                                                { t('Code rank help drag-and-drop') }
                                             </Paragraph>
                                         </li>
                                         <li>
                                             <Paragraph negative>
                                                 <input className='rank' name='example'
                                                        style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
-                                                       value='25' disabled/>
+                                                       value='25' disabled />
                                                 <strong>{t('Input field')}. </strong>
-                                                {t('Code rank help input')}
+                                                { t('Code rank help input') }
                                                 <Repeat color='#62919A'/>
-                                                {t('Code rank help input reset')}
+                                                { t('Code rank help input reset') }
                                             </Paragraph>
                                         </li>
                                         <li>

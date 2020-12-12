@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GlobeButton } from '../../Buttons';
-import { eu } from '../../../utils/strings';
+import { eu } from '../../../utils';
 import { languages as defaultLanguages } from '../../../defaults';
-import { CodeDumb } from '../../Code';
+import { Code } from '../../Code';
 
 export const HtmlView = ({version: {
                              administrativeStatus,
@@ -58,7 +58,7 @@ export const HtmlView = ({version: {
             { codes
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
-                    <CodeDumb key={ i } origin={ code } />
+                    <Code key={ i } origin={ code } />
                     )
                 )
             }

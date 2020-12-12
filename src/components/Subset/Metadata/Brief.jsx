@@ -12,7 +12,7 @@ export const Brief = ({ id,
                       drafts = -1,
                       locals = -1,
                       toBeSaved = -1,
-                      metadatatoBeSaved = false
+                      metadataToBeSaved = false
 }) => {
 
     console.log({toBeSaved})
@@ -30,7 +30,7 @@ export const Brief = ({ id,
             { drafts >= 0 && <BlockExpandable label={'Number of drafts'} text={ drafts }/> }
             { locals > 0 && <BlockExpandable label={ 'Local drafts' } text={ locals } /> }
             { toBeSaved > 0 && <BlockExpandable label={ 'To be saved' } text={ toBeSaved } /> }
-            { metadatatoBeSaved && <BlockExpandable label='Metadata has been changed locally'
+            { metadataToBeSaved && <BlockExpandable label='Metadata has been changed locally'
                                             text='Modified locally'
                                             color='bisque'
             />}
