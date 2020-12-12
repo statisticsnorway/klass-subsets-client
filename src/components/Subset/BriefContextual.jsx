@@ -27,7 +27,8 @@ export const BriefContextual = ({
         versionValidUntil,
         administrativeStatus,
         metadataToBeSaved,
-        versionToBeSaved
+        versionToBeSaved,
+        codes
     } } } = useContext(AppContext);
 console.log({versions})
     return (
@@ -58,6 +59,7 @@ console.log({versions})
                 created={ versionCreatedDate }
                 validFrom={ versionValidFrom }
                 validUntil={ versionValidUntil }
+                codes={ codes?.length }
                 status={ administrativeStatus }
                 toBeSaved={ versionToBeSaved }
             />

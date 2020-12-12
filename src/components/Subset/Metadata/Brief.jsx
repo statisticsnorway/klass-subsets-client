@@ -17,7 +17,7 @@ export const Brief = ({ id,
 
     // FIXME: decide whether it should be focusable
     return (
-        <div title='Brief subset status' style={{ fontSize: '12px'}}>
+        <div title='Brief subset status' style={{ fontSize: '12px' }}>
             <BlockExpandable label={ 'Subset ID' } text={ id.props.id || '-' }  />
             <BlockExpandable label={ 'Subset created' } text={ eu(created) || '-' }  />
             <BlockExpandable label={ 'Subset updated' } text={ euTime(lastModified) || '-' } />

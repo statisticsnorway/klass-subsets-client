@@ -10,6 +10,9 @@ export const eu = (dateString) => {
 };
 
 export const euTime = (dateString) => {
+
+    //console.debug('euTime', {dateString}, {result: new Date(dateString)?.toLocaleString('ru-RU')?.substr(0, 17)});
+
     if (!dateString || dateString?.length < 0) {
         return null;
     }
@@ -24,7 +27,7 @@ export const isInPeriod = (date = null, start = null, end = null) => {
     if (!date || !start) {
         return false;
     }
-    // console.debug('isInPublish', !end ? date >= start : date >= start && date <= end)
+    // console.debug('isInPublish', !end ? date >= start : date >= start && date <= end);
 
     return !end
         ? date >= start

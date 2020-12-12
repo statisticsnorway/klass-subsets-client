@@ -168,6 +168,11 @@ export function Subset (data) {
         get: () => { return subset?._currentVersion?.lastModified; },
     });
 
+    Object.defineProperty(subset, 'versionCreatedDate', {
+        get: () => { return subset?._currentVersion?.createdDate; },
+    });
+
+
     Object.defineProperty(subset, 'version', {
         get: () => { return subset?._currentVersion?.version; },
     });

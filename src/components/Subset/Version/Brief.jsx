@@ -8,6 +8,7 @@ export const Brief = ({ id,
                         lastModified,
                         validFrom,
                         validUntil,
+                        codes = 0,
                         status,
                         toBeSaved
 }) => {
@@ -30,6 +31,10 @@ export const Brief = ({ id,
             />
             <BlockExpandable label='Versions validity period'
                              text={`${ eu(validFrom) || '...' } - ${ eu(validUntil) || '...' }`}
+                             color='#B6E8B8'
+            />
+            <BlockExpandable label='Amount of codes'
+                             text={ codes }
                              color='#B6E8B8'
             />
             { status && <BlockExpandable label='Version status'

@@ -1,9 +1,9 @@
 import React from 'react';
-import {DownloadButton, EditButton, SaveButton} from '../../Buttons';
+import { DownloadButton, EditButton, SaveButton } from '../../Buttons';
 import { Tab, Tabs } from '../../Tabs';
 import { JsonView } from '../../JsonView';
 import { useTranslation } from 'react-i18next';
-import { Brief} from './Brief';
+import { Brief } from './Brief';
 import { HtmlView } from './HtmlView';
 
 export const Version = ({
