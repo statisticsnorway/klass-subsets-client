@@ -24,14 +24,35 @@ export const Brief = ({ id,
             <BlockExpandable label={ 'Subsets validity period' } text={
                 `${ eu(validFrom) || '...' } - ${ eu(validUntil) || '...' }`
             } />
-            { available >= 0 && <BlockExpandable label={'Number of available versions'} text={ available }/> }
-            { published >= 0 && <BlockExpandable label={'Number of published versions'} text={ published }/> }
-            { drafts >= 0 && <BlockExpandable label={'Number of drafts'} text={ drafts }/> }
-            { locals > 0 && <BlockExpandable label={ 'Local drafts' } text={ locals } /> }
-            { toBeSaved > 0 && <BlockExpandable label={ 'To be saved' } text={ toBeSaved } /> }
-            { metadataToBeSaved && <BlockExpandable label='Metadata has been changed locally'
-                                            text='Modified locally'
-                                            color='bisque'
+            { available >= 0 && <BlockExpandable
+                label='Number of available versions'
+                text={ available }/>
+            }
+            { published >= 0 && <BlockExpandable
+                label='Number of published versions'
+                text={ published }
+                color='#9272FC'
+                light
+            /> }
+            { drafts >= 0 && <BlockExpandable
+                label='Number of drafts'
+                text={ drafts }
+                color='#ED5935'
+                light
+            /> }
+            { locals > 0 && <BlockExpandable
+                label='Local drafts'
+                text={ locals }
+                color='bisque'
+            /> }
+            { toBeSaved > 0 && <BlockExpandable
+                label='To be saved'
+                text={ toBeSaved } />
+            }
+            { metadataToBeSaved && <BlockExpandable
+                label='Metadata has been changed locally'
+                text='Modified locally'
+                color='bisque'
             />}
             <br style={{ clear: 'both' }}/>
         </div>
