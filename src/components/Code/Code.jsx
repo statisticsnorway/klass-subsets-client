@@ -11,18 +11,18 @@ export const Code = ({ origin: {
     classificationId,
     validFromInRequestedRange,
     validToInRequestedRange,
-    valid,
     level,
     parentCode,
     notes
-} }) => {
+}, valid = true
+}) => {
     const { t } = useTranslation();
 
-    return (
+        return (
         <Accordion
             header={ <span>{`${ code || '-'} ${ name || '-'}`}<AlertButton
                 title='The codes validity period does not match the version period'
-                active={ valid } /></span> }
+                active={ !valid } /></span> }
             subHeader={`${ rank }`}
         >
             <p><strong>{ t('Short name')} :</strong> { shortName || '-' }</p>

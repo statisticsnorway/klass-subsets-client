@@ -48,7 +48,7 @@ console.log({versions})
                 // toBeSaved={ versions?.filter(v => v.toBeSaved).length }
                 // FIXME: hardcoded workaround
                 toBeSaved={ versions?.filter(v => v.versionRationale[0]?.languageText?.endsWith('111')).length }
-                metadatatoBeSaved={ metadataToBeSaved }
+                metadataToBeSaved={ metadataToBeSaved }
             />
         }
         { currentVersion &&

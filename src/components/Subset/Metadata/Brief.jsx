@@ -15,7 +15,6 @@ export const Brief = ({ id,
                       metadataToBeSaved = false
 }) => {
 
-    console.log({toBeSaved})
     // FIXME: decide whether it should be focusable
     return (
         <div title='Brief subset status' style={{ fontSize: '12px'}}>

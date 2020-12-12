@@ -29,7 +29,7 @@ export const Codes = ({ data = [], edit = () => {} }) => {
             {/* FIXME: check the validity period is set correctly*/}
             { flatten(data.map(version => version.codes))
                 .map((code, i) => (
-                        <Code key={ i } origin={ code } />
+                        <Code key={ i } origin={ code }  />
                     )
                 )
             }

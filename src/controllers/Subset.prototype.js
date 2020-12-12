@@ -71,6 +71,7 @@ export function Subset (data) {
         }
     });
 
+    // FIXME: demo workaround
     Object.defineProperty(subset, 'metadataToBeSaved', {
         // FIXME: hardcoded workaround
         get: () => { return subset?.name[0]?.languageText?.endsWith('111'); },

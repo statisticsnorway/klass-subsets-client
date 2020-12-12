@@ -5,9 +5,8 @@ export const AlertButton = ({
                                    title = 'Alert button',
                                    clickHandler = () => {},
                                    disabled = false,
-                                active = true
+                                    active = true
                             }) => {
-
     return (
         <>
         { active &&
@@ -23,7 +22,7 @@ export const AlertButton = ({
                 }}
                 />
             </button>
-}</>
+        }</>
     );
 };
 

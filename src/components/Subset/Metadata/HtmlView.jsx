@@ -1,7 +1,6 @@
 import React from 'react';
-import { eu } from '../../../utils/strings';
 import { useTranslation } from 'react-i18next';
-import { orderByValidFromAsc } from '../../../utils/arrays';
+import { eu, orderByValidFromAsc } from '../../../utils';
 import { TitledBlock } from '../../TitledBlock';
 
 export const HtmlView = ({

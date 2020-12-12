@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GlobeButton } from '../../Buttons';
-import { eu } from '../../../utils';
+import {eu, isInPeriod} from '../../../utils';
 import { languages as defaultLanguages } from '../../../defaults';
 import { Code } from '../../Code';
 
-export const HtmlView = ({version: {
+export const HtmlView = ({ version: {
                              administrativeStatus,
                              createdDate,
                              lastModified,
@@ -33,7 +33,7 @@ export const HtmlView = ({version: {
             <p className='lead'>{
                 versionRationale?.find(desc => desc.languageCode === languages[langIndex].languageCode)?.languageText
                 ||
-                <span style={{ color: 'red'}}>{
+                <span style={{ color: 'red' }}>{
                     t('No description in this language')}: { languages[langIndex].full}</span>
             }</p>
 
@@ -54,12 +54,13 @@ export const HtmlView = ({version: {
             </p>
 
             <h3>{ t('Codes') }</h3>
-            {/* FIXME: check the validity period is set correctly*/}
             { codes
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
-                    <Code key={ i } origin={ code } />
-                    )
+                    <Code key={ i } origin={ code } valid={
+                        isInPeriod(code.validFromInRequestedRange, validFrom, validUntil )
+                        || isInPeriod(code.validToInRequestedRange, validFrom, validUntil )
+                    } />)
                 )
             }
         </>
