@@ -153,6 +153,9 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'currentVersion', {
+        get: () => {
+            return subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId);
+        },
         set: ( chosen = {} ) => {
             // console.debug('Set currentVersion', chosen);
 
@@ -190,38 +193,30 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'versionValidFrom', {
         get: () => {
-            //console.debug('Get versionValidFrom', subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validFrom)
+            //console.debug('Get versionValidFrom', subset.currentVersion?.validFrom)
 
-            return subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validFrom;
+            return subset.currentVersion?.validFrom;
             },
         set: (date = null) => {
             //console.debug('Set versionValidFrom', date);
 
             if (subset.isEditableVersionValidFrom) {
-
-                const exists = subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId);
-                if (exists) {
-                    exists.validFrom = new Date(date)?.toJSON().substr(0, 10) || null;
-                }
+                subset.currentVersion.validFrom = new Date(date)?.toJSON().substr(0, 10) || null;
             }
         }
     });
 
     Object.defineProperty(subset, 'versionValidUntil', {
         get: () => {
-            console.debug('Get versionValidUntil', subset?._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validUntil)
+            //console.debug('Get versionValidUntil', subset.currentVersion?.validUntil)
 
-            return subset?._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validUntil;
+            return subset.currentVersion?.validUntil;
         },
         set: (date = null) => {
-            console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
+            //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
             if (subset.isEditableVersionValidUntil()) {
-
-                const exists = subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId);
-                if (exists) {
-                    exists.validUntil = new Date(date)?.toJSON().substr(0, 10) || null;
-                }
+                subset.currentVersion.validUntil = new Date(date)?.toJSON().substr(0, 10) || null;
             }
         }
     });
