@@ -1,12 +1,11 @@
 import React, {useContext, useState} from 'react';
-import { Panel, InfoButton, ListButton, MinusButton, PlusButton, XButton } from '../../components';
+import {Panel, InfoButton, ListButton, MinusButton, PlusButton, XButton, AlertButton} from '../../components';
 import { CodelistInfo } from './CodelistInfo';
 import { useTranslation } from 'react-i18next';
 import { Codes } from './Codes';
 import { AppContext } from '../../controllers/context';
 
-export const CodeList = ({ id, codes, metadata, ...props }) => {
-    console.log('Codelist ', id);
+export const CodeList = ({ id, codes, metadata, errors, ...props }) => {
     const { t } = useTranslation();
     const [ show, setShow ] = useState({ none: true } );
     const { subset: { draft: {
@@ -17,6 +16,13 @@ export const CodeList = ({ id, codes, metadata, ...props }) => {
         <>
             <div style={{ display: 'flex' }}>
                 <p style={{ width: '85%'}}>{ metadata?.name || 'Name'}</p>
+
+                <AlertButton
+                    title={ t('Error')}
+                    visible={ errors?.metadataError?.message?.length > 0
+                        || errors?.codesError?.message?.length > 0}
+                    clickHandler={ () => setShow(prev => ({  alert: !prev.alert }))}
+                />
 
                 <ListButton
                     title={ t('Codes') }
@@ -61,6 +67,11 @@ export const CodeList = ({ id, codes, metadata, ...props }) => {
                 />
 
             </div>
+
+            <Panel visible={ show.alert }>
+                <p>{ errors.metadataError?.message }</p>
+                <p>{ errors.codesError?.message }</p>
+            </Panel>
 
             <Panel visible={ show.cannot }>
                 <p>{ t('Code list cannot be added to the subset due to lack of codes') }</p>

@@ -30,7 +30,7 @@ export const Table = ({ list = [], rerank, remove, update, disabled }) => {
                 </tr>
                 { list.sort((a, b) => (a.rank - b.rank -1))
                     .map((item, i) => (
-                        <Item key={ item.code+item.name+item.validFromInRequestedRange }
+                        <Item key={ item.code+item.classificationId+item.name+item.validFromInRequestedRange }
                                item={ item }
                                remove={ remove }
                                rerank={ rerank }

@@ -11,8 +11,6 @@ import { Help } from '../Help';
 import { HelpButton } from '../Buttons';
 
 export const SearchFormContextual = () => {
-    console.log('SearchFormContextual');
-
     const { subset: {
         draft: {
             versionValidFrom,

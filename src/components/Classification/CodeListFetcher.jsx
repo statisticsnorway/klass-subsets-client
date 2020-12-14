@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
-import {URL, useGet, useSWRGet} from '../../controllers/klass-api';
+import { URL, useSWRGet} from '../../controllers/klass-api';
 import { AppContext } from '../../controllers/context';
 import { CodeList } from './CodeList';
 
 export const CodeListFetcher = ({ item: { id }}) => {
-    console.log('CodeListFetcher ', id);
-
     const { subset:
         { draft: {
             versionValidFrom,
@@ -19,11 +17,11 @@ export const CodeListFetcher = ({ item: { id }}) => {
         versionValidUntil
     );
 
+    // TODO: setup NO RETRY when failed
     const [ metadata, metadataError ] = useSWRGet(url);
     const [ codes, codesError ] = useSWRGet(codesUrl);
 
     return (
-        <>
             <CodeList
                 id={ id }
                 codes={{
@@ -34,7 +32,7 @@ export const CodeListFetcher = ({ item: { id }}) => {
                         isLoading: !metadataError && !metadata,
                         ...metadata
                     }}
+                errors={ {metadataError, codesError} }
             />
-        </>
     )
 };

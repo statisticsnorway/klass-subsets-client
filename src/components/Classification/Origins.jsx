@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import keys from "../../utils/keys";
 
 export const Origins = () => {
-    console.log('Origins');
     const { t } = useTranslation();
     const { subset: { draft: { origins }} } = useContext(AppContext);
 
