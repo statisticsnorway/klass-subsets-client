@@ -12,7 +12,7 @@ export const VersionValidUntilForm = () => {
 
         return (
             <Datepicker label='Version valid until'
-                        style={{ float: 'right'}}
+                        style={{ float: 'right' }}
                         usage='Version valid until help'
                         value={ versionValidUntil || '' }
                         disabled={ !isEditableVersionValidUntil() }
@@ -20,7 +20,7 @@ export const VersionValidUntilForm = () => {
                             action: 'version_to',
                             data: event.target.value === ''
                                 ? null
-                                : new Date(event.target.value)?.toJSON()
+                                : new Date(event.target.value)?.toJSON().substr(0, 10)
                         })}
                         errorMessages={ errors?.versionValidUntil }
             />

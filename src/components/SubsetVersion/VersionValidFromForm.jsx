@@ -21,7 +21,7 @@ export const VersionValidFromForm = () => {
                         action: 'version_from',
                         data: event.target.value === ''
                             ? null
-                            : new Date(event.target.value)?.toJSON()
+                            : new Date(event.target.value)?.toJSON().substr(0, 10)
                     })}
                     errorMessages={ errors?.versionValidFrom }
         />

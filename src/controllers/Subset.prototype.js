@@ -74,7 +74,7 @@ export function Subset (data) {
     // FIXME: demo workaround
     Object.defineProperty(subset, 'metadataToBeSaved', {
         // FIXME: hardcoded workaround
-        get: () => { return subset?.name[0]?.languageText?.endsWith('111'); },
+        get: () => { return subset.isNew(); },
     });
 
     Object.defineProperty(subset, 'owningSection', {
@@ -98,7 +98,6 @@ export function Subset (data) {
             }
         }
     });
-
 
     Object.defineProperty(subset, 'description', {
         get: () => { return subset._description; },
@@ -172,7 +171,6 @@ export function Subset (data) {
         get: () => { return subset?._currentVersion?.createdDate; },
     });
 
-
     Object.defineProperty(subset, 'versionId', {
         get: () => { return subset?._currentVersion?.versionId; },
     });
@@ -183,14 +181,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'administrativeStatus', {
-            get: () => { return subset?._currentVersion?.administrativeStatus; },
-/*            set: (status = '') => {
-                // console.debug('Set administrativeStatus', status, subset.isEditableStatus(), STATUS_ENUM.includes(status));
-
-                if (subset.isEditableStatus() && STATUS_ENUM.includes(status)) {
-                    subset._administrativeStatus = status;
-                }
-            }*/
+        get: () => { return subset?._currentVersion?.administrativeStatus; },
     });
 
     Object.defineProperty(subset, 'isPublished', {
@@ -199,33 +190,38 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'versionValidFrom', {
         get: () => {
-            console.debug('get versionValidFrom', subset._currentVersion?.validFrom?.substr(0, 10))
+            //console.debug('Get versionValidFrom', subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validFrom)
 
-            return subset._currentVersion?.validFrom?.substr(0, 10);
+            return subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validFrom;
             },
         set: (date = null) => {
-            console.debug('Set versionValidFrom', date);
+            //console.debug('Set versionValidFrom', date);
 
             if (subset.isEditableVersionValidFrom) {
 
-                subset._currentVersion.validFrom = new Date(date)?.toJSON().substr(0, 10) || null;
-
+                const exists = subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId);
+                if (exists) {
+                    exists.validFrom = new Date(date)?.toJSON().substr(0, 10) || null;
+                }
             }
         }
     });
 
     Object.defineProperty(subset, 'versionValidUntil', {
         get: () => {
-            // console.debug('get versionValidUntil')
+            console.debug('Get versionValidUntil', subset?._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validUntil)
 
-            return subset._currentVersion?.validUntil || null;
+            return subset?._versions?.find(v => v.versionId === subset._currentVersion?.versionId)?.validUntil;
         },
         set: (date = null) => {
-            //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
+            console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
             if (subset.isEditableVersionValidUntil()) {
 
-                subset._currentVersion.validUntil = new Date(date)?.toJSON().substr(0, 10) || null;
+                const exists = subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId);
+                if (exists) {
+                    exists.validUntil = new Date(date)?.toJSON().substr(0, 10) || null;
+                }
             }
         }
     });
