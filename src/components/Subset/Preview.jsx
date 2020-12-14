@@ -2,7 +2,7 @@ import React from 'react';
 import { Brief, Metadata, Versions } from '../Subset';
 import { Tab, Tabs } from '../Tabs';
 import { Codes } from '../Code';
-import { Subset } from '../../controllers/Subset.prototype';
+import { Subset } from '../../controllers/subset/Subset.prototype';
 import { Title } from '../Title';
 
 export const Preview = ({ data, edit, save = false }) => {

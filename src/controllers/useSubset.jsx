@@ -1,5 +1,5 @@
 import { useReducer, useEffect } from 'react';
-import { Subset } from './Subset.prototype';
+import { Subset } from './subset/Subset.prototype';
 
 function subsetReducer( state, { action, data = {} }) {
     console.info({ action, data });

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { today } from '../utils';
-import useSWR from "swr";
+import useSWR from 'swr';
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 

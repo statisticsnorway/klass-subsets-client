@@ -1,5 +1,3 @@
-import { sanitize, nextDefaultName } from '../utils';
-
 export const versionable = (state = {}) => ({
 
     createNewVersion() {
