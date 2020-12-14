@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {DownloadButton, EditButton, GlobeButton, SaveButton} from '../Buttons';
+import {DownloadButton, EditButton, GlobeButton, HelpButton, SaveButton} from '../Buttons';
 import { languages as defaultLanguages } from '../../defaults';
 import { Tag } from '../HtmlTag';
 
@@ -11,7 +11,8 @@ export const Title = ({
                           download = null,
                           edit = null,
                           save = false,
-                          tag = 'h2'
+                          tag = 'h2',
+                          help = null
                       }) => {
 
     const { t } = useTranslation();
@@ -52,6 +53,11 @@ export const Title = ({
                 title={ t('Save subset') }
                 active={save}/>
             }
+
+            <HelpButton
+                visible={ help }
+                clickHandler={ help }
+            />
         </Tag>
     );
 };

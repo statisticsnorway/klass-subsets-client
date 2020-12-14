@@ -23,7 +23,7 @@ export const Preview = ({ data, edit, save = false }) => {
             />
             <Tabs dark>
                 <Tab title='Metadata' path='metadata'>
-                    <Metadata edit={ edit } save={ save && subset?.metadataToBeSaved } subset={ data }/>
+                    <Metadata edit={ edit } save={ save } subset={ data }/>
                 </Tab>
                 <Tab title='Versions' path='versions'>
                     <Versions edit={ edit } save={ save } data={ data?.versions } />
