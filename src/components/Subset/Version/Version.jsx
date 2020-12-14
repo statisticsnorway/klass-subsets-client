@@ -29,13 +29,14 @@ export const Version = ({
                 />}
             </h2>
             <Brief
-                id={ data.version }
-                lastModified={ data.lastModified }
-                created={ data.createdDate }
-                validFrom={ data.validFrom }
-                validUntil={ data.validUntil }
-                status={ data.administrativeStatus }
-                toBeSaved={ data?.versionRationale[0]?.languageText?.endsWith('111') }
+                id={ data?.versionId }
+                lastModified={ data?.lastModified }
+                created={ data?.createdDate }
+                validFrom={ data?.validFrom }
+                validUntil={ data?.validUntil }
+                status={ data?.administrativeStatus }
+                toBeSaved={ false }
+                codes={ data?.codes?.length }
             />
 
             <Tabs light>

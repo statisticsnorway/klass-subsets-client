@@ -19,12 +19,12 @@ export const Switcher = ({
                                       v.validFrom} ${
                                       t(v.administrativeStatus)
                                   }`,
-                                  id: `${ v.version }`
+                                  id: `${ v.versionId }`
                               }))
                           ]
                       }
                       placeholder={ t('Select a version') }
-                      selected={ selected.version || '-' }
+                      selected={ selected.versionId || '-' }
                       onSelect={ (option) => onSelect(option) }
             />
         </>
