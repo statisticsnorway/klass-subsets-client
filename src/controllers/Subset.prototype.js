@@ -222,12 +222,16 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionRationale', {
-        get: () => { return subset._currentVersion.versionRationale; },
+        get: () => {
+            // console.debug('Get versionRationale', subset.currentVersion?.versionRationale);
+
+            return subset.currentVersion?.versionRationale;
+            },
         set: (versionRationale = []) => {
-            //console.debug('Set versionRationale', versionRationale);
+            // console.debug('Set versionRationale', versionRationale);
 
             if (subset.isEditableVersionRationale() && versionRationale?.length > 0) {
-                subset._currentVersion.versionRationale = sanitizeArray(
+                subset.currentVersion.versionRationale = sanitizeArray(
                     versionRationale,
                     subsetDraft.maxLengthVersionRationale
                 );
@@ -238,26 +242,26 @@ export function Subset (data) {
     Object.defineProperty(subset, 'origins', {
         get: () => {
             return new Set([...subset?._origins,
-                ...subset?._currentVersion?.codes?.map(c => c.classificationId)
+                ...subset?.currentVersion?.codes?.map(c => c.classificationId)
             ]);
         }
     });
 
     Object.defineProperty(subset, 'codesMap', {
         get: () => {
-            return new Map(subset?._currentVersion.codes?.map(code => [
+            return new Map(subset?.currentVersion.codes?.map(code => [
                 `${code.classificationId}:${code.code}:${encodeURI(code.name)}`,
                 code
             ])); },
     });
 
     Object.defineProperty(subset, 'codes', {
-        get: () => { return subset?._currentVersion?.codes },
+        get: () => { return subset?.currentVersion?.codes },
         set: (codes = []) => {
             // console.debug('Set codes', codes);
 
             if (subset.isEditableCodes()) {
-                subset._currentVersion.codes = codes;
+                subset.currentVersion.codes = codes;
                 subset.reorderCodes();
                 subset.rerankCodes();
             }
@@ -416,11 +420,11 @@ const editable = (state = {}) => ({
     },
 
     isEditableVersionRationale() {
-        return true;
+        return !state.isPublished;
     },
 
     isEditableCodes() {
-        return true;
+        return !state.isPublished;
     }
 });
 
@@ -563,7 +567,7 @@ const versionRationaleControl = (state = {}) => ({
         {
             //console.debug('removeVersionRationaleByIndex', index);
 
-            state.versionRationale = state._currentVersion.versionRationale?.filter((item, i) => i !== index)
+            state.versionRationale = state.currentVersion.versionRationale?.filter((item, i) => i !== index)
         }
     },
 
@@ -581,7 +585,7 @@ const versionRationaleControl = (state = {}) => ({
         {
             //console.debug('updateVersionRationaleTextByIndex', index, text);
 
-            state._currentVersion.versionRationale[index].languageText = sanitize(text, subsetDraft?.maxLengthDescription);
+            state.currentVersion.versionRationale[index].languageText = sanitize(text, subsetDraft?.maxLengthDescription);
         }
     },
 
@@ -592,7 +596,7 @@ const versionRationaleControl = (state = {}) => ({
         {
             //console.debug('updateVersionRationaleLanguageByIndex', index, lang);
 
-            state._currentVersion.versionRationale[index].languageCode = lang;
+            state.currentVersion.versionRationale[index].languageCode = lang;
         }
     }
 });
