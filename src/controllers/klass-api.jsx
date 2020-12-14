@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { today } from '../utils';
+import useSWR from "swr";
 
 const klassApiServiceEndpoint = process.env.REACT_APP_KLASS_API;
 
@@ -205,6 +206,16 @@ export function useCode(origin) {
     }, [codesWithNotes, setCodeData, origin.code]);
 
     return {codeData, isLoadingVersion};
+}
+
+export const fetcher = (...args) => fetch(...args).then(res => res.json());
+
+
+export function useSWRGet(url) {
+
+    const { data, error } = useSWR(url, fetcher)
+    return [ data, error ];
+
 }
 
 export function useClassification({

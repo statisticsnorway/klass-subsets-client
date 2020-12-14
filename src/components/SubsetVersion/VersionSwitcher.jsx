@@ -7,7 +7,7 @@ export const VersionSwitcher = () => {
     const { subset: { draft: {
         versions,
         administrativeStatus,
-        version,
+        versionId,
         errors
     }, dispatch
     } } = useContext(AppContext);
@@ -37,14 +37,14 @@ export const VersionSwitcher = () => {
                                 v.validFrom?.substr(0, 10) || '-' } ${
                                 t(v.administrativeStatus)
                             }`,
-                            id: `${ v.version }`
+                            id: `${ v.versionId }`
                         }))
                     ]
                     : []
                 }
                 placeholder={ t('Select a version') }
                 disabledText={ t(administrativeStatus) }
-                selected={ version || '-' }
+                selected={ versionId || '-' }
                 onSelect={ option => {
                     dispatch({
                         action: 'version_switch',

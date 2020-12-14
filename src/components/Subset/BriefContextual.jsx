@@ -20,7 +20,7 @@ export const BriefContextual = ({
         validUntil,
         versions,
         isEditableId,
-        version,
+        versionId,
         versionLastModified,
         versionCreatedDate,
         versionValidFrom,
@@ -54,7 +54,7 @@ export const BriefContextual = ({
         }
         { currentVersion &&
             <BriefVersion
-                id={ version }
+                id={ versionId }
                 lastModified={ versionLastModified }
                 created={ versionCreatedDate }
                 validFrom={ versionValidFrom }

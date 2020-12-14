@@ -173,14 +173,13 @@ export function Subset (data) {
     });
 
 
-    Object.defineProperty(subset, 'version', {
-        get: () => { return subset?._currentVersion?.version; },
+    Object.defineProperty(subset, 'versionId', {
+        get: () => { return subset?._currentVersion?.versionId; },
     });
 
     // FIXME not implemented yet
-    // FIXME: hardcoded workaround
     Object.defineProperty(subset, 'versionToBeSaved', {
-        get: () => { return subset.isNewVersion() || subset?.versionRationale[0]?.languageText?.endsWith('111'); },
+        get: () => { return subset.isNewVersion() },
     });
 
     Object.defineProperty(subset, 'administrativeStatus', {
@@ -247,8 +246,8 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'origins', {
         get: () => {
-            return new Set([...subset._origins,
-                ...subset._currentVersion.codes?.map(c => c.classificationId)
+            return new Set([...subset?._origins,
+                ...subset?._currentVersion?.codes?.map(c => c.classificationId)
             ]);
         }
     });

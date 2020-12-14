@@ -6,6 +6,7 @@ import { Codes } from './Codes';
 import { AppContext } from '../../controllers/context';
 
 export const CodeList = ({ id, codes, metadata, ...props }) => {
+    console.log('Codelist ', id);
     const { t } = useTranslation();
     const [ show, setShow ] = useState({ none: true } );
     const { subset: { draft: {
@@ -15,7 +16,7 @@ export const CodeList = ({ id, codes, metadata, ...props }) => {
     return (
         <>
             <div style={{ display: 'flex' }}>
-                <p style={{ width: '85%'}}>{ metadata?.name }</p>
+                <p style={{ width: '85%'}}>{ metadata?.name || 'Name'}</p>
 
                 <ListButton
                     title={ t('Codes') }
