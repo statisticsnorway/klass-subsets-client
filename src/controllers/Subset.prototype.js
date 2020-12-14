@@ -167,11 +167,11 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'versionLastModified', {
-        get: () => { return subset?._currentVersion?.lastModified; },
+        get: () => { return subset?.currentVersion?.lastModified; },
     });
 
     Object.defineProperty(subset, 'versionCreatedDate', {
-        get: () => { return subset?._currentVersion?.createdDate; },
+        get: () => { return subset?.currentVersion?.createdDate; },
     });
 
     Object.defineProperty(subset, 'versionId', {
@@ -184,7 +184,7 @@ export function Subset (data) {
     });
 
     Object.defineProperty(subset, 'administrativeStatus', {
-        get: () => { return subset?._currentVersion?.administrativeStatus; },
+        get: () => { return subset?.currentVersion?.administrativeStatus; },
     });
 
     Object.defineProperty(subset, 'isPublished', {
@@ -412,7 +412,7 @@ const editable = (state = {}) => ({
     },
 
     isEditableOrigin() {
-        return true;
+        return !state.isPublished;
     },
 
     isEditableDescription() {
@@ -424,6 +424,7 @@ const editable = (state = {}) => ({
     },
 
     isEditableCodes() {
+        console.debug('isEditableCodes ', !state.isPublished)
         return !state.isPublished;
     }
 });

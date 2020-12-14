@@ -24,34 +24,33 @@ export const Table = ({ list = [], rerank, remove, update, disabled }) => {
                     <th>{ t('Code name') }</th>
                     <th style={{ textAlign: 'center' }}
                         colSpan='2'>
-                        { t('Rank')}
+                        { t('Rank') }
                     </th>
                     { !disabled && <th className='for_screen_readers'>{ t('Remove') }</th> }
                 </tr>
                 { list.sort((a, b) => (a.rank - b.rank -1))
                     .map((item, i) => (
-                        <Item key={ item.urn + i }
-                                       item={ item }
+                        <Item key={ item.code+item.name+item.validFromInRequestedRange }
+                               item={ item }
+                               remove={ remove }
+                               rerank={ rerank }
+                               rerankDragTargets={ (rank) => rerank(dragTargets, rank) }
+                               update={ update }
 
-                                       remove={ remove }
-                                       rerank={ rerank }
-                                       rerankDragTargets={ (rank) => rerank(dragTargets, rank) }
-                                       update={ update }
+                               onDragEnter={ target => setDropTarget(target) }
+                               onDragEnd={ () => rerank(dragTargets, dropTarget.rank) }
 
-                                       onDragEnter={ target => setDropTarget(target) }
-                                       onDragEnd={ () => rerank(dragTargets, dropTarget.rank) }
+                               isDragTarget={ dragTargets.find(t => t.urn === item.urn) }
+                               toggleDragTarget={ dragTarget =>
+                                   setDragTargets(prevTargets => {
+                                       return prevTargets.find(t => t.urn === dragTarget.urn)
+                                           ? prevTargets.filter(t => t.urn !== dragTarget.urn)
+                                           : [...prevTargets, dragTarget];
+                                   })
+                               }
+                               setDragTarget={ dragTarget => setDragTargets(prev => [...prev, dragTarget]) }
 
-                                       isDragTarget={ dragTargets.find(t => t.urn === item.urn) }
-                                       toggleDragTarget={ dragTarget =>
-                                           setDragTargets(prevTargets => {
-                                               return prevTargets.find(t => t.urn === dragTarget.urn)
-                                                   ? prevTargets.filter(t => t.urn !== dragTarget.urn)
-                                                   : [...prevTargets, dragTarget];
-                                           })
-                                       }
-                                       setDragTarget={ dragTarget => setDragTargets(prev => [...prev, dragTarget]) }
-
-                                       disabled={ disabled }
+                               disabled={ disabled }
                         />
                     ))
                 }

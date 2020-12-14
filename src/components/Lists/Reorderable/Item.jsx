@@ -26,7 +26,7 @@ export const Item = ({item = {}, remove, update,
     );
 
     return (
-        <tr style={{background: isDragTarget ? '#B6E8B8' : background}}
+        <tr style={{ background: isDragTarget ? '#B6E8B8' : background }}
             onMouseOver={() => setBackground('#ECFEED')}
             onMouseOut={() => setBackground('white')}
 
@@ -137,7 +137,7 @@ export const Item = ({item = {}, remove, update,
                     </button>
                 </td>
             }
-            {!disabled &&
+            { !disabled &&
             <td>
                 <button onClick={() => remove([item])}>
                     <Trash2 color='#ED5935'/>
