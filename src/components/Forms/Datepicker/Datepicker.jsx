@@ -32,8 +32,8 @@ export const Datepicker = ({
             </label>
 
             <input type='date'
-                   id={ toId(label)}
-                   name={ toId(label)}
+                   id={ toId(label) }
+                   name={ toId(label) }
                    className='datepicker'
                    value={ value }
                    disabled={ disabled}
