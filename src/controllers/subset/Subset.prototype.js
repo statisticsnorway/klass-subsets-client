@@ -1,9 +1,12 @@
 import { subsetDraft, STATUS_ENUM, languages, acceptablePeriod } from '../../defaults';
-import { nameControl } from './nameControl';
-import { errorsControl } from './errorsControl';
-import { versionable } from './versionsControl';
-import { descriptionControl } from './descriptionControl';
-import { toId, sanitize, nextDefaultName, orderByValidFromAsc, orderByValidFromDesc, sanitizeArray } from '../../utils';
+import { toId, sanitize, nextDefaultName,
+    orderByValidFromAsc, orderByValidFromDesc,
+    sanitizeArray
+} from '../../utils';
+import { nameControl, errorsControl, versionable,
+    descriptionControl, versionRationaleControl,
+    originsControl, codesControl, editable, restrictable
+} from '../subset';
 
 export function Subset (data) {
     const subset = {
@@ -34,7 +37,7 @@ export function Subset (data) {
         nameControl(subset),
         descriptionControl(subset),
         versionRationaleControl(subset),
-        originControl(subset),
+        originsControl(subset),
         codesControl(subset),
         errorsControl(subset)
     );
@@ -325,243 +328,6 @@ export function Subset (data) {
     return subset;
 }
 
-const editable = (state = {}) => ({
 
-    isNew() {
-        //console.debug('isNew', state.administrativeStatus === 'INTERNAL' && state.version === '1');
 
-        return !state.createdDate;
-    },
 
-    isLatestPublishedVersion() {
-        //console.debug('isLatestSavedVersion');
-
-        if (!state.versions) {
-            return null;
-        }
-        return state.latestPublishedVersion?.version === state.version;
-    },
-
-    isNewVersion() {
-        //console.debug('isNewVersion', state.administrativeStatus === 'INTERNAL' && state.version !== '1');
-
-        return state.administrativeStatus === 'INTERNAL'
-            && state.version !== '1';
-    },
-
-/*    isAfterCoveredPeriod(date) {
-        //console.debug('isAfterCoveredPeriod');
-
-        return date
-            && (date >= state.latestVersion?.validUntil
-                || date > state.latestVersion?.versionValidFrom);
-    },
-
-    isBeforeCoveredPeriod(date) {
-        //console.debug('isBeforeCoveredPeriod');
-
-        return date
-            && state.isInAcceptablePeriod(date)
-            && date < state.validFrom;
-    },
-
-    isInCoveredPeriod(date) {
-        const start = state.latestVersion?.validFrom || state._validFrom;
-        const end = state.latestVersion
-            ? state.latestVersion?.validUntil || state.latestVersion?.versionValidFrom
-            : state._validUntil;
-        return !end
-            ? date === start
-            : end === state.latestVersion?.versionValidFrom
-                ? date >= start && date <= end
-                : date >= start && date < end;
-    },*/
-
-    isEditableId() {
-        return state.isNew();
-    },
-
-    isEditableShortName() {
-        return true;
-    },
-
-    isEditableName() {
-        return true;
-    },
-
-    isEditableStatus() {
-        return true;
-    },
-
-    isEditableOwningSection() {
-        return true;
-    },
-
-    isEditableClassificationFamily() {
-        return true;
-    },
-
-    isEditableVersionValidFrom() {
-        //console.debug('isEditableVersionValidFrom');
-
-        return !state.isPublished
-    },
-
-    isEditableVersionValidUntil() {
-        //console.debug('isEditableVersionValidUntil');
-
-        return !state.isPublished || state.isLatestPublishedVersion();
-    },
-
-    isEditableOrigin() {
-        return !state.isPublished;
-    },
-
-    isEditableDescription() {
-        return true;
-    },
-
-    isEditableVersionRationale() {
-        return !state.isPublished;
-    },
-
-    isEditableCodes() {
-        console.debug('isEditableCodes ', !state.isPublished)
-        return !state.isPublished;
-    }
-});
-
-const restrictable = (state = {}) => ({
-
-    isInAcceptablePeriod(date) {
-        return date >= acceptablePeriod?.from
-            && date < acceptablePeriod?.until;
-    },
-
-    isAcceptableLanguageCode(lang) {
-        return (-1 !== languages
-            .filter(l => l.draft)
-            .findIndex(l => l.languageCode === lang));
-    }
-});
-
-const versionRationaleControl = (state = {}) => ({
-
-    addVersionRationale(versionRationale = nextDefaultName(state.versionRationale)) {
-        if (state.isEditableVersionRationale()
-            && state.versionRationale?.length < languages.filter(l => l.draft).length)
-        {
-            //console.debug('addVersionRationale', versionRationale);
-
-            state.versionRationale = [...state.versionRationale, versionRationale];
-        }
-    },
-
-    removeVersionRationaleByIndex(index) {
-        if (state.isEditableVersionRationale()
-            && index >= 0 && index < state.versionRationale?.length)
-        {
-            //console.debug('removeVersionRationaleByIndex', index);
-
-            state.versionRationale = state.currentVersion.versionRationale?.filter((item, i) => i !== index)
-        }
-    },
-
-    removeEmptyVersionRationales() {
-        if (state.isEditableVersionRationale()) {
-            //console.debug('removeEmptyVersionRationales');
-
-            state.versionRationale = state.versionRationale.filter(item => item.languageText?.length > 0);
-        }
-    },
-
-    updateVersionRationaleTextByIndex(index = -1, text = '') {
-        if (state.isEditableVersionRationale()
-            && index >= 0 && index < state.versionRationale?.length)
-        {
-            //console.debug('updateVersionRationaleTextByIndex', index, text);
-
-            state.currentVersion.versionRationale[index].languageText = sanitize(text, subsetDraft?.maxLengthDescription);
-        }
-    },
-
-    updateVersionRationaleLanguageByIndex(index = -1, lang = '') {
-        if (state.isEditableVersionRationale()
-            && index >= 0 && index < state.versionRationale?.length
-            && state.isAcceptableLanguageCode(lang))
-        {
-            //console.debug('updateVersionRationaleLanguageByIndex', index, lang);
-
-            state.currentVersion.versionRationale[index].languageCode = lang;
-        }
-    }
-});
-
-const originControl = (state = {}) => ({
-
-    addOrigin(id = '') {
-        //console.debug('addOrigin', classificationId);
-
-        state._origins = [id, ...state._origins];
-    },
-
-    removeOrigin(id = '') {
-        //console.debug('removeOrigin', classificationId);
-
-        state._origins = state._origins?.filter(o => o !== id);
-        state.removeCodesWithClassificationId(id);
-    }
-});
-
-const codesControl = (state = {}) => ({
-
-    prependCodes(codes = []) {
-        // console.debug('prependCodes', codes);
-
-        const addition = codes.map(code => [
-            `${code.classificationId}:${code.code}:${encodeURI(code.name)}`,
-            { ...code, rank: -new Date().getTime() }
-        ]);
-
-        const merged = new Map([...addition, ...state.codesMap]);
-        state.codes = [ ...merged.values() ];
-    },
-
-    removeCodes(codes = []) {
-        //console.debug('deleteCodes', codes);
-
-        const updated = state.codesMap;
-        codes?.forEach(code => updated.delete(`${code.classificationId}:${code.code}:${encodeURI(code.name)}`));
-        state.codes = [ ...updated.values() ];
-    },
-
-    removeCodesWithClassificationId(id) {
-        state.codes = state.codes.filter(c => c.classificationId !== id);
-    },
-
-    reorderCodes() {
-        //console.debug('reorderCodes');
-
-        state._currentVersion.codes.sort((a, b) => (a.rank - b.rank -1));
-    },
-
-    rerankCodes() {
-        //console.debug('rerankCodes');
-
-        state._currentVersion.codes.forEach((item, i) => {
-            item.rank = i + 1
-        });
-    },
-
-    changeRank(rank, codes) {
-        //console.debug('changeRank', rank, codes);
-
-        if (rank && rank !== '-') {
-            state._currentVersion.codes = state._currentVersion.codes.map(c => codes.find(i => i.urn === c.urn)
-                ? {...c, rank}
-                : c
-            )
-        }
-    }
-
-});
