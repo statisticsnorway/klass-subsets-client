@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next';
 export const Switcher = ({
                              versions = [],
                              onSelect = () => {},
-                             selected = {}
-}) => {
+                             selected = {},
+                             errorMessages= [],
+                         }) => {
     const { t } = useTranslation();
 
     return (
@@ -15,17 +16,20 @@ export const Switcher = ({
                       options={[
                                   ...versions.map(v => ({
                                   ...v,
-                                  title: `${ t('Version') }: ${
-                                      v.validFrom} ${
+                                  title: v.title
+                                      || `${ t('Version') }: ${
+                                      v.validFrom || '-' } ${
                                       t(v.administrativeStatus)
                                   }`,
-                                  id: `${ v.versionId }`
+                                  id: `${ v.id 
+                                      || v.versionId }`
                               }))
                           ]
                       }
                       placeholder={ t('Select a version') }
                       selected={ selected.versionId || '-' }
-                      onSelect={ (option) => onSelect(option) }
+                      onSelect={ option => onSelect(option) }
+                      errorMessages={ errorMessages }
             />
         </>
     );

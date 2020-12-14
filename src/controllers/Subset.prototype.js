@@ -157,7 +157,7 @@ export function Subset (data) {
         set: ( chosen = {} ) => {
             // console.debug('Set currentVersion', chosen);
 
-            subset._currentVersion = subset.versions?.find(v => v.version === chosen?.version) || {};
+            subset._currentVersion = subset.versions?.find(v => v.versionId === chosen?.versionId) || {};
             if (subset._currentVersion?.versionRationale?.length === 0) {
                 subset.versionRationale = [ nextDefaultName([]) ];
             }

@@ -6,7 +6,7 @@ export const versionable = (state = {}) => ({
         // console.debug('createNextVersion');
 
         const newVersion = {
-            version: `${ state.versions?.length + 1 }`,
+            versionId: `${ state.versions?.length + 1 }`,
             administrativeStatus: 'INTERNAL',
             versionRationale: [],
             validFrom: null,
