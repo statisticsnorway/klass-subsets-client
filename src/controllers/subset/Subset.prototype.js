@@ -2,6 +2,7 @@ import { subsetDraft, STATUS_ENUM, languages, acceptablePeriod } from '../../def
 import { nameControl } from './nameControl';
 import { errorsControl } from './errorsControl';
 import { versionable } from './versionsControl';
+import { descriptionControl } from './descriptionControl';
 import { toId, sanitize, nextDefaultName, orderByValidFromAsc, orderByValidFromDesc, sanitizeArray } from '../../utils';
 
 export function Subset (data) {
