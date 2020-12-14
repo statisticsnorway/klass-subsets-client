@@ -199,16 +199,17 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'versionValidFrom', {
         get: () => {
-            // console.debug('get versionValidFrom')
+            console.debug('get versionValidFrom', subset._currentVersion?.validFrom?.substr(0, 10))
 
             return subset._currentVersion?.validFrom?.substr(0, 10);
             },
         set: (date = null) => {
-            //console.debug('Set versionValidFrom', date);
+            console.debug('Set versionValidFrom', date);
 
             if (subset.isEditableVersionValidFrom) {
 
-                subset._currentVersion.validFrom = date;
+                subset._currentVersion.validFrom = new Date(date)?.toJSON().substr(0, 10) || null;
+
             }
         }
     });
@@ -217,17 +218,16 @@ export function Subset (data) {
         get: () => {
             // console.debug('get versionValidUntil')
 
-            return subset._currentVersion?.validUntil?.substr(0, 10) || null;
+            return subset._currentVersion?.validUntil || null;
         },
         set: (date = null) => {
             //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
             if (subset.isEditableVersionValidUntil()) {
 
-                subset._currentVersion.validUntil = date;
+                subset._currentVersion.validUntil = new Date(date)?.toJSON().substr(0, 10) || null;
             }
         }
-
     });
 
     Object.defineProperty(subset, 'versionRationale', {
