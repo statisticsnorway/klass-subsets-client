@@ -1,5 +1,5 @@
-import {nextDefaultName, sanitize, toId} from "../../utils";
-import {languages, subsetDraft} from "../../defaults";
+import { nextDefaultName, sanitize, toId } from '../../utils';
+import { languages, subsetDraft } from '../../defaults';
 
 export const nameControl = (state = {}) => ({
 
