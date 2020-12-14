@@ -3,8 +3,7 @@ import {CheckboxGroup, Dropdown} from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { useGet } from '../../controllers/subsets-service';
 import { BannerList } from '../../components/Subset';
-import { Search } from '../../controllers/Search';
-import { Spinner } from '../../components/Spinner';
+import { Search, Spinner } from '../../components';
 import { Sliders } from 'react-feather';
 import './search-container.css';
 

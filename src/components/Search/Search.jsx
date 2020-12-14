@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './autosuggest.css';
 import { Search as SearchIcon } from 'react-feather';
-import keys from '../utils/keys';
+import keys from '../../utils/keys';
 
 export const Search = ({ resource = [],
     setChosen = () => {},

@@ -9,6 +9,7 @@ export * from './Lists/index';
 export * from './Navigation/index';
 export * from './Panel/index';
 export * from './Required/index';
+export * from './Search/index';
 export * from './Spinner/index';
 export * from './Tabs/index';
 export * from './Title/index';
