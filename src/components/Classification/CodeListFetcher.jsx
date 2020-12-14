@@ -1,14 +1,14 @@
-import React, {useContext } from 'react';
+import React, { useContext } from 'react';
 import { URL, useGet } from '../../controllers/klass-api';
 import { AppContext } from '../../controllers/context';
 import { CodeList } from './CodeList';
 
-export const CodeListContextual = ({ item: { id }}) => {
+export const CodeListFetcher = ({ item: { id }}) => {
     const { subset:
         { draft: {
             versionValidFrom,
             versionValidUntil
-        }, dispatch }
+        }}
     } = useContext(AppContext);
 
     const { path, codesPath } = URL.toClassificationURL(

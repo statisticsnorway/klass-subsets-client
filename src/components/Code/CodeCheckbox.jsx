@@ -3,7 +3,7 @@ import { AppContext } from '../../controllers/context';
 import { Text } from '@statisticsnorway/ssb-component-library';
 
 
-export const CodeCheckbox = ({ item }) => {
+export const CodeCheckbox = ({ item, ...props }) => {
     const { subset: {
                 draft: {
                     isPublished,
@@ -15,7 +15,7 @@ export const CodeCheckbox = ({ item }) => {
     const mapKey = `${item.classificationId}:${item.code}:${encodeURI(item.name)}`;
 
     return (
-        <div className='ssb-checkbox'>
+        <div className='ssb-checkbox' style={ props.style }>
             <input id={ mapKey }
                    type='checkbox' name='include'
                    checked={ codesMap.has(mapKey) }

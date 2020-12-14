@@ -30,7 +30,7 @@ export const BriefContextual = ({
         versionToBeSaved,
         codes
     } } } = useContext(AppContext);
-console.log({versions})
+
     return (
         <>
         { metadata &&

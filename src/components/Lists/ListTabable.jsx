@@ -7,7 +7,7 @@ export const ListTabable = ({
                               placeholder = 'No items to show',
                               component = () => {}
 }) => {
-    console.log({items})
+
     return (
         <>
             { items?.length === 0

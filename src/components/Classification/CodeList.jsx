@@ -1,20 +1,21 @@
-import React, { useState} from 'react';
-import { Panel } from '../../components';
+import React, {useContext, useState} from 'react';
+import { Panel, InfoButton, ListButton, MinusButton, PlusButton, XButton } from '../../components';
 import { CodelistInfo } from './CodelistInfo';
-import { InfoButton, ListButton } from '../Buttons';
 import { useTranslation } from 'react-i18next';
 import { Codes } from './Codes';
+import { AppContext } from '../../controllers/context';
 
-export const CodeList = ({ id, codes, metadata, includible = false, ...props }) => {
+export const CodeList = ({ id, codes, metadata, ...props }) => {
     const { t } = useTranslation();
     const [ show, setShow ] = useState({ none: true } );
-
-    console.log({props})
+    const { subset: { draft: {
+        origins
+    }, dispatch } } = useContext(AppContext);
 
     return (
         <>
             <div style={{ display: 'flex' }}>
-                <p>{ metadata?.name }</p>
+                <p style={{ width: '85%'}}>{ metadata?.name }</p>
 
                 <ListButton
                     title={ t('Codes') }
@@ -28,7 +29,41 @@ export const CodeList = ({ id, codes, metadata, includible = false, ...props }) 
                     clickHandler={ () => setShow(prev => ({ info: !prev.info })) }
                 />
 
+                <XButton
+                    title={ t('Cannot be added') }
+                    visible={ !codes || codes?.codes?.length === 0 }
+                    clickHandler={ () => setShow(prev => ({ cannot: !prev.cannot })) }
+                />
+
+                <MinusButton
+                    title={ t('Remove code list from version') }
+                    visible={ codes && codes?.codes?.length > 0 && origins.has(id) }
+                    clickHandler={ () => {
+                        setShow({ none: true });
+                        dispatch({
+                            action: 'codelist_exclude',
+                            data: id
+                        });
+                    }}
+                />
+
+                <PlusButton
+                    title={ t('Add code lit to version') }
+                    visible={ codes && codes?.codes?.length > 0 && !origins.has(id) }
+                    clickHandler={ () => {
+                        setShow({ none: true });
+                        dispatch({
+                            action: 'codelist_include',
+                            data: id
+                        });
+                    } }
+                />
+
             </div>
+
+            <Panel visible={ show.cannot }>
+                <p>{ t('Code list cannot be added to the subset due to lack of codes') }</p>
+            </Panel>
 
             <Panel visible={ show.codes }>
                 {

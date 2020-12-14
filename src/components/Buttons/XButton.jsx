@@ -1,14 +1,13 @@
 import React from 'react';
-import { Save } from 'react-feather';
+import { XSquare } from 'react-feather';
 
-export const SaveButton = ({
-                                title = 'Save',
+export const XButton = ({
+                                title = 'Cross button',
                                 clickHandler = () => {},
                                 disabled = false,
                                 active = true,
                                 visible = true
                             }) => {
-
     return (
         <>{ visible &&
             <button
@@ -16,8 +15,8 @@ export const SaveButton = ({
                 onClick={clickHandler}
                 disabled={disabled}
             >
-                <Save style={{
-                    color: disabled || !active ? '#C3DCDC' : '#1A9D49',
+                <XSquare style={{
+                    color: disabled || !active ? '#C3DCDC' : '#9272FC',
                     margin: '0 10px',
                     cursor: 'pointer'
                 }}

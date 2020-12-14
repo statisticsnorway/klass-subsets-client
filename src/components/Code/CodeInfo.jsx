@@ -11,9 +11,7 @@ export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
     return (
         <>
             <div style={{ display: 'flex' }}>
-
-                <CodeCheckbox item={ item } />
-
+                <CodeCheckbox item={ item } style={{ width: '95%'}}/>
                 <button onClick={() => setShow(prev => ({ info: !prev.info }))}>
                     <Info color={'#2D6975'}/>
                 </button>

@@ -161,12 +161,13 @@ export function useCode(origin) {
     const [ targetCode ] = useGet(origin?.name ? null : path);
     useEffect(() => {
         if (targetCode?.codes?.length > 0) {
-            console.log('useCode', {targetCode})
+
+
+
 
 
             // TODO: do better
             const matchedName = targetCode.codes.filter(c => c.name === origin.name);
-            console.log({matchedName});
             if (matchedName.length > 1) {
                 matchedName.forEach(c => {
                     matchedName[0].validFromInRequestedRange += c.validFromInRequestedRange;

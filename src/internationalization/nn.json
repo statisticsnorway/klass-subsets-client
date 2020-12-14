@@ -105,6 +105,9 @@
 
   "Classification": "Kodeverk",
   "Code list cannot be added to the subset due to lack of codes": "Kodeverk uten koder kan ikke inngå i uttrekket",
+  "Cannot be added": "Kan ikke legges til",
+  "Remove code list from version": "Fjern kodeverk fra versjonen",
+  "Add code list to version": "Legg kodeverk til versjonen",
   "From": "Fra",
   "To": "Til",
   "Code list info": "Informasjon om kodeverket",

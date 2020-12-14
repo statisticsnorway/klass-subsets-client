@@ -1,8 +1,8 @@
 import React from 'react';
-import { PlusSquare } from 'react-feather';
+import { MinusSquare } from 'react-feather';
 
-export const PlusButton = ({
-                                title = 'Add button',
+export const MinusButton = ({
+                                title = 'Minus button',
                                 clickHandler = () => {},
                                 disabled = false,
                                 active = true,
@@ -15,8 +15,8 @@ export const PlusButton = ({
                     onClick={clickHandler}
                     disabled={disabled}
                 >
-                    <PlusSquare style={{
-                        color: disabled || !active ? '#C3DCDC' : '#1A9D49',
+                    <MinusSquare style={{
+                        color: disabled || !active ? '#C3DCDC' : '#B6E8B8',
                         margin: '0 10px',
                         cursor: 'pointer'
                     }}

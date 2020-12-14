@@ -4,7 +4,7 @@ import { AppContext } from '../../controllers/context';
 import { useClassification } from '../../controllers/klass-api';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { CodeInfo } from '../Code';
-import {ListTabable} from "../Lists";
+import { ListTabable } from '../Lists';
 import {CodeList} from "./CodeList";
 
 export const Codes = ({ codes = [] }) => {
@@ -32,7 +32,7 @@ export const Codes = ({ codes = [] }) => {
     });*/
 
     return (
-            <div >
+            <div>
                 <h3>{ t('Codes') }
                     { versionValidFrom || versionValidUntil
                         ? `: ${ t('from')} ${ versionValidFrom || '...' } ${ t('to') } ${ versionValidUntil || '...' }`
@@ -41,7 +41,7 @@ export const Codes = ({ codes = [] }) => {
                 </h3>
                 { !codes || codes.length === 0
                     ? <Text>{ t('No codes found for this validity period') }</Text>
-                    : <div className='ssb-checkbox-group'>
+                    : <div>
                         { !isPublished &&
                             <div style={{ padding: '5px' }}>
                                 <button onClick={() => dispatch({

@@ -5,22 +5,25 @@ export const DownloadButton = ({
                                 title = 'Download button',
                                 clickHandler = () => {},
                                 disabled = false,
-                                active = true
+                                active = true,
+                                   visible = true
                             }) => {
 
     return (
-        <button
-            title={ title }
-            onClick={ clickHandler }
-            disabled={ disabled }
-        >
-            <Download style={{
-                color: disabled || !active ? '#C3DCDC' : 'lightblue',
-                margin: '0 10px',
-                cursor: 'pointer'
-            }}
-            />
-        </button>
+        <>{ visible &&
+            <button
+                title={title}
+                onClick={clickHandler}
+                disabled={disabled}
+            >
+                <Download style={{
+                    color: disabled || !active ? '#C3DCDC' : 'lightblue',
+                    margin: '0 10px',
+                    cursor: 'pointer'
+                }}
+                />
+            </button>
+        }</>
     );
 };
 

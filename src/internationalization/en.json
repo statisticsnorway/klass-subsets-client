@@ -105,6 +105,9 @@
 
   "Classification": "Classification",
   "Code list cannot be added to the subset due to lack of codes": "Code list cannot be added to the subset due to lack of codes",
+  "Cannot be added": "Cannot be added",
+  "Remove code list from version": "Remove code list from version",
+  "Add code list to version": "Add code list to version",
   "From": "From",
   "To": "To",
   "Code list info": "Code list info",

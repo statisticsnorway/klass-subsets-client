@@ -16,7 +16,7 @@ export function Subset (data) {
         // internal controls
         // FIXME: default - a version valid at loading date
         _currentVersion: data?._currentVersion || data?.versions[0] || {},
-        _origins: new Set(),
+        _origins: data?._origins || [],
 
         // not protected
         lastModified: data?.lastModified || null,
@@ -247,8 +247,9 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'origins', {
         get: () => {
-            subset._currentVersion.codes.forEach(c => subset._origins.add(c.classificationId));
-            return [...subset._origins];
+            return new Set([...subset._origins,
+                ...subset._currentVersion.codes?.map(c => c.classificationId)
+            ]);
         }
     });
 
@@ -608,21 +609,17 @@ const versionRationaleControl = (state = {}) => ({
 
 const originControl = (state = {}) => ({
 
-    addOrigin(classificationId = '') {
-        //console.debug('addOrigin', origin);
+    addOrigin(id = '') {
+        //console.debug('addOrigin', classificationId);
 
-        state._origins?.add(classificationId);
+        state._origins = [id, ...state._origins];
     },
 
-    removeOrigin(classificationId = '') {
+    removeOrigin(id = '') {
         //console.debug('removeOrigin', classificationId);
 
-        state._origins?.delete(classificationId);
-        state.removeCodesWithClassificationId(classificationId);
-    },
-
-    hasOrigin(classificationId = '') {
-        return state._origins?.has(classificationId);
+        state._origins = state._origins?.filter(o => o !== id);
+        state.removeCodesWithClassificationId(id);
     }
 });
 

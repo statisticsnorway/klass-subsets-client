@@ -5,11 +5,12 @@ export const AlertButton = ({
                                    title = 'Alert button',
                                    clickHandler = () => {},
                                    disabled = false,
-                                    active = true
+                                    active = true,
+                                    visible = true
                             }) => {
     return (
         <>
-        { active &&
+        { visible &&
             <button
                 title={title}
                 onClick={clickHandler}

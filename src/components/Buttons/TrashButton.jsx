@@ -5,10 +5,12 @@ export const TrashButton = ({
                                title = 'Remove',
                                clickHandler = () => {},
                                disabled = false,
-                                active = true
+                                active = true,
+                                visible = true
                            }) => {
 
     return (
+        <>{ visible &&
         <button
             title={ title }
             onClick={ clickHandler }
@@ -21,6 +23,7 @@ export const TrashButton = ({
             }}
             />
         </button>
+        }</>
     );
 };
 

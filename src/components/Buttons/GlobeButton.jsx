@@ -5,14 +5,16 @@ export const GlobeButton = ({
     title = 'Globe button',
     clickHandler = () => {},
     disabled = false,
-    active = true
+    active = true,
+    visible = true
 }) => {
 
     return (
+        <>{visible &&
         <button
-            title={ title }
-            onClick={ clickHandler }
-            disabled={ disabled }
+            title={title}
+            onClick={clickHandler}
+            disabled={disabled}
         >
             <Globe style={{
                 color: disabled || !active ? '#C3DCDC' : 'lightblue',
@@ -21,6 +23,7 @@ export const GlobeButton = ({
             }}
             />
         </button>
+        }</>
     );
 };
 
