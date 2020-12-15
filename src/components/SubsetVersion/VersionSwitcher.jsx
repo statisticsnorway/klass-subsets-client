@@ -19,7 +19,7 @@ export const VersionSwitcher = () => {
             action: 'version_switch',
             data: { id: 'Create new version' }
         });
-    }, [versions?.length, dispatch]);
+    }, []);
 
     return (
         <Switcher versions={ versions

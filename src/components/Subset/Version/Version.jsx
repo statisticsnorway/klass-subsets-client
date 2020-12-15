@@ -12,7 +12,6 @@ export const Version = ({
                             save = null
 }) => {
     const { t } = useTranslation();
-console.log({save});
     return (
         <>
             <h2>{ t('Version') } { t(data.validFrom) }

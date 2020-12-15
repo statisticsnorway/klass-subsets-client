@@ -23,7 +23,7 @@ export const Step6Publish = () => {
 
     const [ post, setPOSTPayload, posting, errorPost ] = usePost();
     const [ update, setPUTPayload, updating, errorUpdate ] = usePut(id);
-    const [ postVersion, setPOSTPayloadVersion, postingVersion, errorPostVersion ] = usePost(`${id}/versions/${versionId}`);
+    const [ postVersion, setPOSTPayloadVersion, postingVersion, errorPostVersion ] = usePost(`${id}/versions`);
     const [ updateVersion, setPUTPayloadVersion, updatingVersion, errorUpdateVersion ] = usePut(`${id}/versions/${versionId}`);
 
     useEffect(() => {
@@ -33,20 +33,35 @@ export const Step6Publish = () => {
                 ? metadataPayload
                 : versionPayload;
 
-        isNew()
-            ? setPOSTPayload(payload)
-            : query.get('metadata')
-                ? setPUTPayload(payload)
-                : isNewVersion()
-                    ? setPOSTPayloadVersion(payload)
-                    : setPUTPayloadVersion(payload);
+        if (isNew() && query.get('metadata')) {
+            console.log('New subset ', isNew());
+            setPOSTPayload(payload);
+        }
+        if (!isNew() && query.get('metadata')) {
+            console.log('Save metadata ', isNew());
+            setPUTPayload(payload);
+        }
+        if (isNewVersion() && query.get('version')) {
+            console.log('New version ', isNewVersion());
+            setPOSTPayloadVersion(payload);
+        }
+        if (!isNewVersion() && query.get('version')) {
+            console.log('Update version ', isNewVersion());
+            setPUTPayloadVersion(payload);
+        }
 
     }, [])
 
     useEffect(() => {
-        if (post || update || postVersion || updateVersion) {
+        if (post || update) {
             setTimeout(() => {
-                history.push(`/subsets/${id}/versions/${versionId}`);
+                history.push(`/create?step=Metadata`);
+                dispatch({action: 'reset'});
+            }, 2000);
+        }
+        if (postVersion || updateVersion) {
+            setTimeout(() => {
+                history.push(`/create?step=Versjoner`);
                 dispatch({action: 'reset'});
             }, 2000);
         }
@@ -71,6 +86,7 @@ export const Step6Publish = () => {
                 })
                 }>
                     {`${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
+                    { }
                 </Dialog>
             </div>
             }
@@ -81,6 +97,15 @@ export const Step6Publish = () => {
             }
             <button onClick={ () => history.push(`/create?step=Metadata`) }>
                 { t('Back to metadata') }
+            </button>
+            <button onClick={ () => history.push(`/create?step=Versjoner`) }>
+                { t('Back to versions') }
+            </button>
+            <button onClick={ () => history.push(`/create?step=Lagre`) }>
+                { t('Back to review') }
+            </button>
+            <button onClick={ () => history.push(`/subsets/${id}`) }>
+                { t('Out of edition mode') }
             </button>
         </div>
     );
