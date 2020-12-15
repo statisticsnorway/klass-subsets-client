@@ -46,6 +46,7 @@ export const Changelog = () => {
                    <li>No form validating.</li>
                    <li>No publishing.</li>
                    <li>No code notes.</li>
+                   <li>No green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
                    <li>Codes reorder on "Reorder" form step.</li>
                    <li>Modification aggregation (signal if a subset has been locally modified).</li>
                    <li>No unit tests for subset prototype.</li>
