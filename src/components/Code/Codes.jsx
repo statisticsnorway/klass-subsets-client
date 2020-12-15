@@ -10,7 +10,7 @@ export const Codes = ({ data = [], edit = () => {} }) => {
 
     return (
         <>
-            <Title text='Codes' edit={ edit } download />
+            <Title text='Codes' edit={ edit } />
 
             <Introduction texts={[ 'Codes filter info' ]} />
 

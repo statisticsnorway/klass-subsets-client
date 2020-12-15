@@ -1,5 +1,5 @@
 import React from 'react';
-import { DownloadButton, EditButton, SaveButton } from '../../Buttons';
+import { EditButton, SaveButton } from '../../Buttons';
 import { Tab, Tabs } from '../../Tabs';
 import { JsonView } from '../../JsonView';
 import { useTranslation } from 'react-i18next';
@@ -15,8 +15,6 @@ export const Version = ({
     return (
         <>
             <h2>{ t('Version') } { t(data.validFrom) }
-                <DownloadButton title={ t('Download') }/>
-
                 { edit && <EditButton
                     title={ t('Edit version') }
                     clickHandler={ edit }

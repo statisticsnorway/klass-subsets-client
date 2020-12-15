@@ -18,7 +18,6 @@ export const Metadata = ({
                    edit={ edit }
                    save={ save }
                    help={ () => setShowHelp(prev => !prev)}
-                   download
             />
 
             <Help visible={ showHelp }>

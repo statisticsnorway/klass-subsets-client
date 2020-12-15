@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {DownloadButton, EditButton, GlobeButton, HelpButton, SaveButton} from '../Buttons';
+import { EditButton, GlobeButton, HelpButton, SaveButton} from '../Buttons';
 import { languages as defaultLanguages } from '../../defaults';
 import { Tag } from '../HtmlTag';
 
@@ -38,10 +38,6 @@ export const Title = ({
                     clickHandler={() => setLangIndex((langIndex + 1) % languages.length)}
                     />
                 </>
-            }
-
-            { download &&
-                <DownloadButton title={ t('Download') }/>
             }
 
             { edit && <EditButton
