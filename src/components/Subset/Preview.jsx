@@ -6,7 +6,7 @@ import { Subset } from '../../controllers/subset/Subset.prototype';
 import { Title } from '../Title';
 import { useHistory } from 'react-router-dom';
 
-export const Preview = ({ data, edit, save = false }) => {
+export const Preview = ({ data, edit = null, save = false }) => {
     const subset = new Subset(data);
     let history = useHistory();
 
@@ -28,13 +28,13 @@ export const Preview = ({ data, edit, save = false }) => {
             />
             <Tabs dark>
                 <Tab title='Metadata' path='metadata'>
-                    <Metadata edit={ edit } save={ save ? saveMetadata : null } subset={ data }/>
+                    <Metadata edit={ edit || null } save={ save ? saveMetadata : null } subset={ data }/>
                 </Tab>
                 <Tab title='Versions' path='versions'>
-                    <Versions edit={ edit } save={ save ? saveVersion : null } data={ data?.versions } />
+                    <Versions edit={ edit || null } save={ save ? saveVersion : null } data={ data?.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
-                    <Codes edit={ edit } data={ data?.versions }/>
+                    <Codes edit={ edit || null } data={ data?.versions }/>
                 </Tab>
             </Tabs>
         </>
