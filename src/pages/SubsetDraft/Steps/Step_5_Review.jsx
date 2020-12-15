@@ -24,7 +24,7 @@ return (
 
             <div style={{ margin: '5px 0 5px 0', width: '60%' }}>
 
-                <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
+                {/*<div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
                     <Button
                         disabled={ draft?.isPublished }
                         onClick={() => history.push(`/auth/save`) }>{ t('Save') }
@@ -36,7 +36,7 @@ return (
                         disabled={ Object.values(draft.errors).flat().length > 0}
                         onClick={() => history.push(`/auth/save?publish=true`) }>{ t('Publish') }
                     </Button>
-                </div>
+                </div>*/}
                 {/*{ frame && <iframe src='/auth/save'
                                    title='Sending data to the server'
                                    style={{ width: '100%', height: '30%', border: 'none'}}

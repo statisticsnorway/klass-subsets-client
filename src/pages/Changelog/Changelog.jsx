@@ -24,6 +24,14 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.6.0</h4>
+               <p>Consume Subsets API v2.</p>
+               <p>Save metadata separately from versions.</p>
+               <p>Save one version at a time separately from metadata.</p>
+               <p>Use tabs: "Metadata" and "Versions" in subset preview page and Save step in the form.</p>
+               <p>No form validating (temporary).</p>
+               <p>No publishing (temporary).</p>
+
                <h4>v0.5.12</h4>
                <p>Translated help info for Code's Order form step.</p>
 
