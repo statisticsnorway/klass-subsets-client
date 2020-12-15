@@ -1,11 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { TextLanguageFieldset } from '../Forms';
 import { AppContext } from '../../controllers/context';
-import { subsetDraft } from '../../controllers/defaults';
+import { subsetDraft } from '../../defaults';
 
 export const NameForm = () => {
-    const { t } = useTranslation();
     const { subset: { draft, dispatch } } = useContext(AppContext);
 
     useEffect(() => {
@@ -18,7 +16,8 @@ export const NameForm = () => {
     }, []);
 
     return (
-        <TextLanguageFieldset title={ `${t('Names')} *`}
+        <TextLanguageFieldset title='Names'
+                              required
                               items={ draft?.name }
                               add={() => dispatch({
                                   action: 'name_add'

@@ -1,13 +1,11 @@
 import { useReducer, useEffect } from 'react';
-import { Subset } from './Subset.prototype';
+import { Subset } from './subset/Subset.prototype';
 
-function subsetReducer(state, {action, data = {}}) {
-    console.info({action, data});
+function subsetReducer( state, { action, data = {} }) {
+    console.info({ action, data });
     switch (action) {
         case 'edit': {
-            return Subset({...data,
-                administrativeStatus: data?.administrativeStatus || 'DRAFT'
-            });
+            return Subset({...data });
         }
         case 'name_text': {
             state.updateNameTextByIndex(data.index, data.text);
@@ -29,20 +27,12 @@ function subsetReducer(state, {action, data = {}}) {
             state.shortName = data;
             return Subset({...state});
         }
-        case 'from': {
-            state.validFrom = data;
-            return Subset({...state});
-        }
         case 'version_from': {
             state.versionValidFrom = data;
             return Subset({...state});
         }
         case 'version_to': {
             state.versionValidUntil = data;
-            return Subset({...state});
-        }
-        case 'previous_versions': {
-            state.previousVersions = data;
             return Subset({...state});
         }
         case 'version_rationale_add': {
@@ -62,24 +52,19 @@ function subsetReducer(state, {action, data = {}}) {
             return Subset({...state});
         }
         case 'version_switch': {
-            data === 'Create next version'
-                ? state.createNextVersion()
-                : data === 'Create previous version'
-                    ? state.createPreviousVersion()
-                    : state.switchToVersion(data);
+            state.currentVersion =
+                data?.id === 'Create new version'
+                ? state.createNewVersion()
+                : data;
             return Subset({...state});
         }
-        case 'to': {
-            state.validUntil = data;
-            return Subset({...state});
-        }
-        case 'createdBy': {
-            state.createdBy = data;
+        case 'owningSection': {
+            state.owningSection = data;
             return  Subset({...state});
         }
-        case 'subject': {
+        case 'classificationFamily': {
             // FIXME: mutable change
-            state.subject = data;
+            state.classificationFamily = data;
             return Subset({...state});
         }
         case 'description_text': {
@@ -144,7 +129,7 @@ export const useSubset = (init = Subset()) => {
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
     // Error: A cross-origin error was thrown. React doesn't have access to the actual error object in development.
     // FIX: try catch
-     const [draft, dispatch] = useReducer(subsetReducer, initialize());
+     const [ draft, dispatch ] = useReducer(subsetReducer, initialize());
 
     // FIXME: runs on every draft update, should run once the hook is initialized in the context
     // FIXME: discard on non-valid draft and return init
@@ -155,7 +140,7 @@ export const useSubset = (init = Subset()) => {
 
     useEffect(() => {
         sessionStorage.setItem('draft', JSON.stringify(draft));
-    }, [draft]);
+    }, [ draft ]);
 
-    return {draft, dispatch};
+    return { draft, dispatch };
 };

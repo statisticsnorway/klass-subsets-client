@@ -6,7 +6,7 @@ export const GoTo = ({ query = '', disabled, iconLeft, iconRight, children }) =>
         !disabled &&
         <>
             <span style={{ color: '#1A9D49', padding: '10px' }}>{ iconLeft }</span>
-            <Link to={query}
+            <Link to={ query }
                   area-labal='step the form'
                   className='ssb-link'
             >{ children }

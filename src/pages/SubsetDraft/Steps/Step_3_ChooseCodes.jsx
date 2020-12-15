@@ -1,40 +1,24 @@
-import React, { useContext } from 'react';
-import { Classification } from '../../../components/Classification';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import './list.css';
 import { BriefContextual } from '../../../components/Subset';
-import { AppContext } from '../../../controllers/context';
 import { SearchFormContextual } from '../../../components/Forms'
+import { Origins} from '../../../components/Classification';
+import { Divider } from '@statisticsnorway/ssb-component-library';
 
 export const Step3ChooseCodes = () => {
     const { t } = useTranslation();
 
     /* TODO: tooltips for classification icons */
     return (<>
-            <h3>{t('Choose classifications and code lists')}</h3>
-            <BriefContextual />
-            <SearchFormContextual />
-            <IncludedCodeLists/>
-        </>
-    );
-};
+                <h2>{ t('Choose classifications and code lists') }</h2>
 
-export const IncludedCodeLists = () => {
-    const { subset } = useContext(AppContext);
-    const { t } = useTranslation();
+                <BriefContextual metadata currentVersion />
+                <SearchFormContextual />
 
-    return (
-        <>
-            <h3>{ t('Choose codes from classifications') }</h3>
+                <Divider light />
 
-            { subset.draft.origin?.length === 0
-                ? <p>{ t('No classifications in the subset draft') }</p>
-                : <ul className='list'>
-                    { subset.draft.origin
-                        .map((urn, index) => <Classification key={ urn + index } item={{ urn }}/>)
-                    }
-                </ul>
-            }
-        </>
+                <h2>{ t('Choose codes from classifications') }</h2>
+                <Origins />
+            </>
     );
 };

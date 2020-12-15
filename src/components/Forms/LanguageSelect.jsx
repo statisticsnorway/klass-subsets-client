@@ -1,9 +1,9 @@
 import React from 'react';
-import { availableLanguages } from '../../internationalization/languages';
 import './form.css';
+import { languages as defaultLanguages } from '../../defaults';
 
 export const LanguageSelect = ({
-                                   languages = availableLanguages(),
+                                   languages = defaultLanguages,
                                    selected = false,
                                    onChange = (e) => {}
                                }) => {

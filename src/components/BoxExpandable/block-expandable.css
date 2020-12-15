@@ -1,0 +1,28 @@
+.expand {
+  color: darkslategrey;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: 2px;
+  float: left;
+  text-align: center;
+  /*
+ TODO: make transition smooth https://jsfiddle.net/gknLstpt/9/
+  */
+}
+
+.label {
+  padding: 0 8px;
+}
+
+.expand .label {
+  display: none;
+}
+
+.expand:hover .label {
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.light {
+  color: white;
+}

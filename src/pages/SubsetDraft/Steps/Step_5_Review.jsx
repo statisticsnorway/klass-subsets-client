@@ -12,21 +12,21 @@ export const Step5Review = () => {
 
 return (
         <>
-            <h3>{ t('Review and publish') }</h3>
+            <h2>{ t('Review and publish') }</h2>
 
-            <Preview subset={ draft }/>
+            <Preview data={ draft } save />
 
-            { Object.values(draft.errors).flat().length > 0 &&
+            { Object.values(draft?.errors).flat().length > 0 &&
                 <FormError title={ t('Some fields are not right') }
-                           errorMessages={ Object.values(draft.errors).flat().map(e => t(e)) }
+                           errorMessages={ Object.values(draft?.errors).flat()?.map(e => t(e)) }
                 />
             }
 
             <div style={{ margin: '5px 0 5px 0', width: '60%' }}>
 
-                <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
+                {/*<div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
                     <Button
-                        disabled={ draft.isPublished }
+                        disabled={ draft?.isPublished }
                         onClick={() => history.push(`/auth/save`) }>{ t('Save') }
                     </Button>
                 </div>
@@ -36,7 +36,7 @@ return (
                         disabled={ Object.values(draft.errors).flat().length > 0}
                         onClick={() => history.push(`/auth/save?publish=true`) }>{ t('Publish') }
                     </Button>
-                </div>
+                </div>*/}
                 {/*{ frame && <iframe src='/auth/save'
                                    title='Sending data to the server'
                                    style={{ width: '100%', height: '30%', border: 'none'}}

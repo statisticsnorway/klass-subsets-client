@@ -2,7 +2,7 @@ import React from 'react';
 import './changelog-container.css';
 import { useTranslation } from 'react-i18next';
 import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
-import { Spinner } from '../../components/Spinner';
+import {AlertButton, GlobeButton, Spinner} from '../../components';
 
 export const Changelog = () => {
    const { t } = useTranslation();
@@ -23,6 +23,39 @@ export const Changelog = () => {
            </div>
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
+
+               <h4>v0.6.0</h4>
+               <p>Consume Subsets API v2: completely new internal subset prototype.</p>
+               <p>Save metadata separately from versions.</p>
+               <p>Save one version at a time separately from metadata.</p>
+               <p>Use tabs: "Metadata" and "Versions" in subset preview page and Save step in the form.</p>
+               <p>Separate brief for metadata.</p>
+               <p>Aggregation data in a metadata brief: amount of versions, published versions, drafts and local versions.</p>
+               <p>Separate brief for current version.</p>
+               <p>Aggregation data in a version brief: amount of codes, status.</p>
+               <p>New usage text style and more occurrences.</p>
+               <p>Versions validity period has no restrictions.</p>
+               <p>Code validity mismatch <AlertButton />.</p>
+               <p>Flow for published versions and drafts (not complete, need testing).</p>
+               <p>Accessibility title for each clickable element. To test hold mouse over the element or button.</p>
+               <p>Navigation on the save status page in case of saving failure.</p>
+               <p>Responsive form design.</p>
+               <p>Code refactoring: many common components, file structure, TODOs implemented.</p>
+               <p>Temporary multilingual text translations (name, description, version rationale).<GlobeButton/></p>
+               <ul>Temporary switched off:
+                   <li>No form validating.</li>
+                   <li>No publishing.</li>
+                   <li>No code notes.</li>
+                   <li>No green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
+                   <li>Codes reorder on "Reorder" form step.</li>
+                   <li>Modification aggregation (signal if a subset has been locally modified).</li>
+                   <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
+                   <li>No direct navigation from preview to form steps.</li>
+               </ul>
+
+               <h4>v0.5.12</h4>
+               <p>Translated help info for Code's Order form step.</p>
 
                <h4>v0.5.11</h4>
                <p>Responsive header and menu.</p>

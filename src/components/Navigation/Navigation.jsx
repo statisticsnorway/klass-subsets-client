@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useQuery } from '../../utils/useQuery';
+import { useQuery } from '../../utils';
 import { ProgressBar } from './ProgressBar';
 import { GoTo } from './GoTo';
 
@@ -42,4 +42,3 @@ export function Navigation({ children }) {
         </>
     );
 }
-

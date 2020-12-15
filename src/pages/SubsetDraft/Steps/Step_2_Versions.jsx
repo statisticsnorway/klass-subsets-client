@@ -9,8 +9,8 @@ export const Step2Versions = () => {
     const { t } = useTranslation();
     return (
         <>
-            <h3>{ t('Versions') }</h3>
-            <BriefContextual />
+            <h2>{ t('Versions') }</h2>
+            <BriefContextual metadata currentVersion />
             <VersionSwitcher />
             <VersionPeriod />
             <VersionRationale />

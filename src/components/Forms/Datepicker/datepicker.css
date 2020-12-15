@@ -1,0 +1,29 @@
+input:disabled {
+  border: none;
+}
+
+.period {
+  display: flex;
+  justify-content: space-between;
+}
+
+.datepicker {
+  width: 100%;
+}
+
+.datepicker input {
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+  border: 1px solid black;
+  margin: 5px 0;
+  padding: 8px 0;
+  text-align: center;
+  width: 98%;
+  float: inherit;
+}
+
+.datepicker label {
+  display: block;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}

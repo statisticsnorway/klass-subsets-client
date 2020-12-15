@@ -1,12 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { availableLanguages, disableUsed } from '../../internationalization/languages';
-import keys from '../../utils/keys';
-import { LanguageSelect } from './LanguageSelect';
+import { disableUsed, toId } from '../../utils';
+import { languages } from '../../defaults';
+import { LanguageSelect, TextareaPrefixed } from '../Forms';
+import { ErrorTooltip, Required, PlusButton, TrashButton  } from '../../components';
 import './form.css';
-import { PlusSquare, Trash2 } from 'react-feather';
 
-export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows: 1},
+export const TextLanguageFieldset = ({ title, items = [],
+                                         size = {cols: 40, rows: 1},
+                                        required = false,
                                          prefix = '',
                                          handleText = (index, text) => {},
                                          handleLang = (index, lang) => {},
@@ -17,62 +19,53 @@ export const TextLanguageFieldset = ({title, items = [], size = {cols: 40, rows:
                                      }) => {
     const { t } = useTranslation();
 
-    const languages = availableLanguages();
-    disableUsed(languages, items.map(name => name.languageCode));
-
     return (
-        <div className='ssb-text-area' style={{width: '55%', padding: '15px 0 0 0'}}>
-            <label htmlFor={title} style={{display: 'block'}}
-            >{title}</label>
+        <div className='ssb-text-area'
+             style={{ padding: '15px 0 0 0' }}
+        >
+            <label htmlFor={ toId(title) }
+                   style={{ display: 'block' }}
+                >{ t(title) }{ required && <Required /> }
+            </label>
 
-            {items.map((item, index) => (
-                <div key={index} style={{padding: '0 0 15px 0'}}>
-                    <textarea cols={size.cols} rows={size.rows}
-                              maxLength={maxLength}
-                              style={{height: `${size.rows * 44}px`}}
-                              id={title}
-                              value={item.languageText || prefix}
-                              onChange={(e) => handleText(index, e.target.value)}
-                              onKeyPress={(e) =>
-                                  e.which !== 0 && e.target.selectionStart < prefix.length && e.preventDefault()}
-                              onKeyDown={(e) =>
-                                  ((e.which === keys.BACKSPACE && e.target.selectionStart <= prefix.length)
-                                      || (e.which === keys.DELETE && e.target.selectionStart < prefix.length))
-                                  && e.preventDefault()}
-                              onCut={(e) =>
-                                  e.target.selectionStart < prefix.length && e.preventDefault()}
-                              onPaste={(e) =>
-                                  e.target.selectionStart < prefix.length && e.preventDefault()}
-                    />
-                    {errorMessages?.length > 0 &&
-                    <div className='ssb-input-error '>
-                        {errorMessages.map(error => (
-                            <span key={error} style={{padding: '0 10px 0 0'}}>{t(error)}.</span>
-                        ))}
-                    </div>
-                    }
+            { items.map((item, index) => (
+                <div key={ index }
+                     style={{ padding: '0 0 15px 0' }}>
 
-                    <LanguageSelect languages={languages}
-                                    selected={item.languageCode}
-                                    onChange={(e) => handleLang(index, e.target.value)}
+                    <TextareaPrefixed cols={ size.cols }
+                                     rows={ size.rows }
+                                     maxLength={ maxLength }
+                                     id={ toId(title) }
+                                     value={ item.languageText }
+                                     prefix={ prefix }
+                                     onChange={(e) => handleText(index, e.target.value)}
+                                     />
+
+                    <ErrorTooltip messages={ errorMessages }/>
+
+                    <LanguageSelect languages={ disableUsed( languages, items.map(name => name.languageCode) ) }
+                                    selected={ item.languageCode }
+                                    onChange={ (e) => handleLang(index, e.target.value) }
                     />
 
-                    <button disabled={!(index === items.length - 1 && index < languages.length - 1)}
-                            onClick={add}>
-                        <PlusSquare color={(index === items.length - 1 && index < languages.length - 1)
-                            ? '#1A9D49' : '#C3DCDC'}/>
-                    </button>
+                    <PlusButton
+                        title={ t('Add field for another language') }
+                        disabled={!(index === items.length - 1 && index < languages.length - 1)}
+                        clickHandler={ add }
+                    />
 
-                    <button disabled={index === 0}
-                            onClick={() => remove(index)}>
-                        <Trash2 color={index > 0 ? '#ED5935' : '#C3DCDC'}/>
-                    </button>
-                </div>))
-            }
+                    <TrashButton
+                        title={ t('Remove the field') }
+                        disabled={ index === 0 }
+                        clickHandler={() => remove(index)} />
+                </div>
+                )
+            )}
             { items.length === 0 &&
-            <button onClick={add}>
-                <PlusSquare color='#1A9D49'/>
-            </button>
+                <PlusButton
+                    title={ t('Add field for another language') }
+                    clickHandler={ add }
+                />
             }
         </div>
     );

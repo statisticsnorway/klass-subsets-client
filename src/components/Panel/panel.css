@@ -1,0 +1,6 @@
+.panel {
+  padding: 15px;
+  overflow: auto;
+  max-height: 450px;
+  background: #F0F8F9;
+}

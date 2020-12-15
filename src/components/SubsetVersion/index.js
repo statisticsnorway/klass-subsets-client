@@ -1,4 +1,4 @@
-export * from './VersionRational';
+export * from './VersionRationale';
 export * from './VersionValidFromForm';
 export * from './VersionValidUntilForm';
 export * from './VersionPeriod';

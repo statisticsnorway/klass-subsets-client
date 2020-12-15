@@ -52,8 +52,16 @@ h3, .h3 {
 
 p, .p {
   font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: normal;
+}
+
+p.lead, .p .lead {
+  font-size: 20px;
+}
+
+p.small, .p .small {
+  font-size: 14px;
 }
 
 button {

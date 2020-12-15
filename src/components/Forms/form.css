@@ -8,22 +8,11 @@ textarea {
 section {
   border-color: #f1f1f1;
   margin: 10px 0 10px 0;
-  max-width: 650px;
+ /* max-width: 650px;*/
 }
 
 input:disabled {
   border: none;
-}
-
-.datepicker {
-  font-size: 16px;
-  font-family: 'Open Sans', Arial, 'DejaVu Sans', sans-serif;
-  border: 1px solid black;
-  padding: 8px 4px;
-  margin: 5px 0;
-  display: block;
-  text-align: center;
-  width: 275px;
 }
 
 /* #56 disable input type number arrows

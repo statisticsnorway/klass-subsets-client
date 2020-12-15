@@ -1,0 +1,8 @@
+.help p, p.help {
+  font-size: 14px;
+}
+
+.help {
+  color: #2D6975;
+  padding: 10px 0;
+}

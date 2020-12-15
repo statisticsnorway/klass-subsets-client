@@ -1,0 +1,49 @@
+import React from 'react';
+import { EditButton, SaveButton } from '../../Buttons';
+import { Tab, Tabs } from '../../Tabs';
+import { JsonView } from '../../JsonView';
+import { useTranslation } from 'react-i18next';
+import { Brief } from './Brief';
+import { HtmlView } from './HtmlView';
+
+export const Version = ({
+                            edit = () => {},
+                            data = {},
+                            save = null
+}) => {
+    const { t } = useTranslation();
+    return (
+        <>
+            <h2>{ t('Version') } { t(data.validFrom) }
+                { edit && <EditButton
+                    title={ t('Edit version') }
+                    clickHandler={ edit }
+                />}
+
+                { save && <SaveButton
+                    title={ t('Save version') }
+                    clickHandler={ save }
+                />}
+            </h2>
+            <Brief
+                id={ data?.versionId }
+                lastModified={ data?.lastModified }
+                created={ data?.createdDate }
+                validFrom={ data?.validFrom }
+                validUntil={ data?.validUntil }
+                status={ data?.administrativeStatus }
+                toBeSaved={ false }
+                codes={ data?.codes?.length }
+            />
+
+            <Tabs light>
+                <Tab title='HTML' path='html'>
+                    <HtmlView version={ data } />
+                </Tab>
+                <Tab title='JSON' path='json'>
+                    <JsonView data={ data } />
+                </Tab>
+            </Tabs>
+        </>
+    );
+}

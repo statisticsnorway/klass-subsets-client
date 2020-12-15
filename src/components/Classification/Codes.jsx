@@ -4,11 +4,17 @@ import { AppContext } from '../../controllers/context';
 import { useClassification } from '../../controllers/klass-api';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { CodeInfo } from '../Code';
+import { ListTabable } from '../Lists';
+import {CodeList} from "./CodeList";
 
 export const Codes = ({ codes = [] }) => {
     const { t } = useTranslation();
-    const { subset } = useContext(AppContext);
-    const { draft, dispatch } = subset;
+    const { subset: { draft: {
+        versionValidFrom,
+        versionValidUntil,
+        isPublished,
+        codesMap
+    }, dispatch } } = useContext(AppContext);
 
     // DOCME
     // FIXME: magic number 35
@@ -19,50 +25,56 @@ export const Codes = ({ codes = [] }) => {
         }
     });
 
-    const { codesWithNotes, isLoadingVersion } = useClassification(codes?.length > 0 && {
+/*    const { codesWithNotes, isLoadingVersion } = useClassification(codes?.length > 0 && {
         classificationId: codes[0].classificationId,
         versionValidFrom: draft.versionValidFrom,
         versionValidUntil: draft.versionValidUntil
-    });
+    });*/
 
     return (
-        <div style={{ backgroundColor: 'AliceBlue' }}
-             className='panel'>
-            <div className='ssb-checkbox-group'>
-                <div className='checkbox-group-header'>{ t('Codes') }
-                    { draft.versionValidFrom || draft.versionValidUntil
-                        ? `: ${ t('from')} ${ draft.versionValidFrom || '...' } ${ t('to') } ${ draft.versionValidUntil || '...' }`
+            <div>
+                <h3>{ t('Codes') }
+                    { versionValidFrom || versionValidUntil
+                        ? `: ${ t('from')} ${ versionValidFrom || '...' } ${ t('to') } ${ versionValidUntil || '...' }`
                         : `. ${ t('Period is not set') }`
-                    }</div>
+                    }
+                </h3>
                 { !codes || codes.length === 0
                     ? <Text>{ t('No codes found for this validity period') }</Text>
-                    : <>{ !draft.isPublished &&
-                    <div style={{padding: '5px'}}>
-                        <button onClick={() => dispatch({
-                            action: 'codes_include',
-                            data: codes
-                        })}
-                        >{ t('All') }
-                        </button>
-                        <button onClick={ () => dispatch({
-                            action: 'codes_exclude',
-                            data: codes
-                        })}
-                        >{ t('None') }
-                        </button>
-                    </div>
-                    }
+                    : <div>
+                        { !isPublished &&
+                            <div style={{ padding: '5px' }}>
+                                <button onClick={() => dispatch({
+                                    action: 'codes_include',
+                                    data: codes
+                                })}
+                                >{ t('All') }
+                                </button>
+                                <button onClick={ () => dispatch({
+                                    action: 'codes_exclude',
+                                    data: codes
+                                })}
+                                >{ t('None') }
+                                </button>
+                            </div>
+                        }
 
-                        { codes.map(code =>
-                            <CodeInfo key={ code.urn + code.name + code.validFromInRequestedRange }
+                        <ListTabable items={
+                                        codes.map(code => ({
+                                            id: `${code.code}:${code.name}:${code.validFromInRequestedRange}`,
+                                            ...code })) }
+                                     placeholder={ t('No classifications in the subset draft') }
+                                     component={ CodeInfo }
+                        />
+{/*                        { codes.map(code =>
+                            <CodeInfo key={ code.code + code.name + code.validFromInRequestedRange }
                                       item={ code }
-                                      notes={ codesWithNotes.find(c => c.code === code.code)?.notes }
+                                    notes={ codesWithNotes.find(c => c.code === code.code)?.notes }
                                       isLoadingVersion={ isLoadingVersion }
                             />)
-                        }
-                    </>
+                        }*/}
+                    </div>
                 }
             </div>
-        </div>
     );
 };

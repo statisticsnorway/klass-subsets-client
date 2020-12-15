@@ -1,38 +1,28 @@
-import React, { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useContext } from 'react';
 import { AppContext } from '../../controllers/context';
+import { Datepicker } from '../Forms';
 
 export const VersionValidUntilForm = () => {
-    const { subset: { draft, dispatch } } = useContext(AppContext);
-    const { t } = useTranslation();
-    const [ showErrors, setShowErrors ] = useState(false);
+    const { subset: { draft: {
+        versionValidUntil,
+        isEditableVersionValidUntil,
+        errors
+    }, dispatch
+} } = useContext(AppContext);
 
-    return (
-        <>
-            <label style={{ display: 'block', fontSize: '16px', fontFamily: 'Roboto' }}
-                   htmlFor='version_to_date'>{ t('Version valid until') } </label>
-            <input type='date'
-                   id='version_to_date'
-                   style={{ display: 'block' }}
-                   value={ draft.versionValidUntil || '' }
-                   disabled={ !draft.isEditableVersionValidUntil() }
-                   onChange={ event => dispatch({
-                       action: 'version_to',
-                       data: event.target.value === ''
-                           ? null
-                           : new Date(event.target.value)?.toJSON()
-                   })}
-                   className='datepicker'
-                   onBlur={ () => setShowErrors(true) }
-                   onFocus={ () => setShowErrors(false) }
+        return (
+            <Datepicker label='Version valid until'
+                        style={{ float: 'right' }}
+                        usage='Version valid until help'
+                        value={ versionValidUntil || '' }
+                        disabled={ !isEditableVersionValidUntil() }
+                        onChange={ event => dispatch({
+                            action: 'version_to',
+                            data: event.target.value === ''
+                                ? null
+                                : new Date(event.target.value)?.toJSON().substr(0, 10)
+                        })}
+                        errorMessages={ errors?.versionValidUntil }
             />
-            { showErrors && draft.errors?.versionValidUntil?.length > 0 &&
-            <div className='ssb-input-error '>
-                { draft.errors.versionValidUntil.map((error, i) => (
-                    <span key={ error + i } style={{padding: '0 10px 0 0'}}>{ t(error) }.</span>
-                ))}
-            </div>
-            }
-        </>
     );
 };

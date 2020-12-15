@@ -28,11 +28,11 @@ export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister([]);
 
     const subset = useSubset();
-    useEffect(() => console.info({ newState: subset.draft }),[subset.draft]);
+    useEffect(() => console.info({ newState: subset.draft }),[ subset.draft ]);
 
     return (
-        <AppContext.Provider value={{subset, errorRegister}}>
-            {children}
+        <AppContext.Provider value={{ subset, errorRegister }}>
+            { children }
         </AppContext.Provider>
     );
 };

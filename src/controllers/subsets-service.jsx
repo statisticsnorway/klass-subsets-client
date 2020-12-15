@@ -20,7 +20,7 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpoint }${ path }?includeFuture=true&includeDrafts=true`);
+                const response = await fetch(`${ subsetsServiceEndpoint }${ path }?includeFuture=true&includeDrafts=true&includeFullVersions=true`);
                 let json = await response.json();
                 if (_mounted && response.status >= 200 && response.status <= 299) {
                     setData(json);
@@ -56,12 +56,14 @@ export function useGet(url = null) {
     return [ data, isLoading, error, setPath ];
 }
 
-export function usePost() {
-    const [ path, setPath ] = useState('');
+export function usePost(url = '') {
+    const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ payload, setPayload ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
+
+    useEffect(() => console.debug({payload, path}), [payload, path]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -105,6 +107,8 @@ export function usePut(url = '') {
     const [ payload, setPayload ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
+
+    useEffect(() => console.debug({payload, path}), [payload, path]);
 
     useEffect(() => {
         const fetchData = async () => {
