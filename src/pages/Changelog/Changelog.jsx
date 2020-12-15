@@ -2,7 +2,7 @@ import React from 'react';
 import './changelog-container.css';
 import { useTranslation } from 'react-i18next';
 import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
-import {AlertButton, Spinner} from '../../components';
+import {AlertButton, GlobeButton, Spinner} from '../../components';
 
 export const Changelog = () => {
    const { t } = useTranslation();
@@ -40,7 +40,8 @@ export const Changelog = () => {
                <p>Accessibility title for each clickable element. To test hold mouse over the element or button.</p>
                <p>Navigation on the save status page in case of saving failure.</p>
                <p>Responsive form design.</p>
-               <p>Code refactoring: many common components, file structure.</p>
+               <p>Code refactoring: many common components, file structure, TODOs implemented.</p>
+               <p>Temporary multilingual text translations (name, description, version rationale).<GlobeButton/></p>
                <ul>Temporary switched off:
                    <li>No form validating.</li>
                    <li>No publishing.</li>
@@ -48,6 +49,7 @@ export const Changelog = () => {
                    <li>Codes reorder on "Reorder" form step.</li>
                    <li>Modification aggregation (signal if a subset has been locally modified).</li>
                    <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
                </ul>
 
                <h4>v0.5.12</h4>
