@@ -9,7 +9,7 @@ import { HtmlView } from './HtmlView';
 export const Version = ({
                             edit = () => {},
                             data = {},
-                            save = false
+                            save = null
 }) => {
     const { t } = useTranslation();
 
@@ -25,7 +25,7 @@ export const Version = ({
 
                 { save && <SaveButton
                     title={ t('Save version') }
-                    clickHandler={ edit }
+                    clickHandler={ save }
                 />}
             </h2>
             <Brief

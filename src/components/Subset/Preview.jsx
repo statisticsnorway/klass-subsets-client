@@ -4,13 +4,18 @@ import { Tab, Tabs } from '../Tabs';
 import { Codes } from '../Code';
 import { Subset } from '../../controllers/subset/Subset.prototype';
 import { Title } from '../Title';
+import { useHistory } from 'react-router-dom';
 
 export const Preview = ({ data, edit, save = false }) => {
     const subset = new Subset(data);
+    let history = useHistory();
 
+    const saveMetadata = () => history.push(`/auth/save?metadata=true`);
+    const saveVersion = () => history.push(`/auth/save?version=true`);
+    const publishVersion = () => history.push(`/auth/save?version=true&publish=true`);
     return (
         <>
-            <Title translates={ subset?.name } tag='h1' save={ save } />
+            <Title translates={ subset?.name } tag='h1' />
             <Brief
                 id={{ props: {id: subset?.id} }}
                 lastModified={ subset?.lastModified }
@@ -23,10 +28,10 @@ export const Preview = ({ data, edit, save = false }) => {
             />
             <Tabs dark>
                 <Tab title='Metadata' path='metadata'>
-                    <Metadata edit={ edit } save={ save } subset={ data }/>
+                    <Metadata edit={ edit } save={ save ? saveMetadata : null } subset={ data }/>
                 </Tab>
                 <Tab title='Versions' path='versions'>
-                    <Versions edit={ edit } save={ save } data={ data?.versions } />
+                    <Versions edit={ edit } save={ save ? saveVersion : null } data={ data?.versions } />
                 </Tab>
                 <Tab title='Codes' path='codes'>
                     <Codes edit={ edit } data={ data?.versions }/>

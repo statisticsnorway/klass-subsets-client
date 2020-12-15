@@ -6,7 +6,7 @@ import { Tabs, Tab, Title, Help } from '../../../components';
 
 export const Metadata = ({
                              edit = () => {},
-                            save,
+                             save = () => {},
                              subset = {}
                          }) => {
     const { t } = useTranslation();

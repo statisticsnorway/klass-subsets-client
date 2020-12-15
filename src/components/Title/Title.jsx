@@ -10,7 +10,7 @@ export const Title = ({
                           translates = [],
                           download = null,
                           edit = null,
-                          save = false,
+                          save = null,
                           tag = 'h2',
                           help = null
                       }) => {
@@ -51,7 +51,9 @@ export const Title = ({
 
             { save && <SaveButton
                 title={ t('Save subset') }
-                active={save}/>
+                active={ save }
+                clickHandler={ save }
+            />
             }
 
             <HelpButton

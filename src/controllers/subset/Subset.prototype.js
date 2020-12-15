@@ -281,22 +281,39 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'payload', {
+    Object.defineProperty(subset, 'metadataPayload', {
         // TESTME
         // DOCME
         get: () => {
             const payload = {
                 id: subset.id,
+                classificationType: 'Subset',
                 shortName: subset.shortName,
                 name: subset.name,
-                administrativeStatus: subset.administrativeStatus,
                 owningSection: subset.owningSection,
-                administrativeDetails: subset.administrativeDetails,
                 classificationFamily: subset.classificationFamily,
                 description: subset.description,
-                version: subset.version,
+            };
+            Object.keys(payload).forEach((key) => (
+                (!payload[key] || payload[key] === '')
+                && delete payload[key])
+            );
+            return payload;
+        }
+    });
+
+    Object.defineProperty(subset, 'versionPayload', {
+        // TESTME
+        // DOCME
+        get: () => {
+            const payload = {
+                versionId: subset.currentVersion.versionId,
+                subsetId: subset.id,
+                administrativeStatus: 'DRAFT',
+                //administrativeDetails: subset.administrativeDetails,
                 versionRationale: subset.versionRationale,
-                versionValidFrom: subset.versionValidFrom,
+                validFrom: subset.versionValidFrom,
+                validUntil: subset.versionValidUntil,
                 codes: subset.codes
             };
             Object.keys(payload).forEach((key) => (
@@ -307,19 +324,10 @@ export function Subset (data) {
         }
     });
 
-    Object.defineProperty(subset, 'draftPayload', {
+    Object.defineProperty(subset, 'publishVersionPayload', {
         get: () => {
             return {
-                ...subset.payload,
-                administrativeStatus: 'DRAFT'
-            };
-        }
-    });
-
-    Object.defineProperty(subset, 'publishPayload', {
-        get: () => {
-            return {
-                ...subset.payload,
+                ...subset.versionPayload,
                 administrativeStatus: 'OPEN'
             };
         }
