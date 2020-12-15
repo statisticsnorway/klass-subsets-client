@@ -27,7 +27,7 @@ export const Switcher = ({
                           ]
                       }
                       placeholder={ t('Select a version') }
-                      selected={ selected.versionId || '-' }
+                      selected={ selected.versionId }
                       onSelect={ option => onSelect(option) }
                       errorMessages={ errorMessages }
             />
