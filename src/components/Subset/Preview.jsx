@@ -33,9 +33,9 @@ export const Preview = ({ data, edit = null, save = false }) => {
                 <Tab title='Versions' path='versions'>
                     <Versions edit={ edit || null } save={ save ? saveVersion : null } data={ data?.versions } />
                 </Tab>
-                <Tab title='Codes' path='codes'>
+                {/*<Tab title='Codes' path='codes'>
                     <Codes edit={ edit || null } data={ data?.versions }/>
-                </Tab>
+                </Tab>*/}
             </Tabs>
         </>
     );

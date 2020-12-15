@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Version, Switcher } from '../Version';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from '../../../utils/arrays';
-import {Help, Title} from '../../../components';
+import { Help, Title } from '../../../components';
 
 export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
     const { t } = useTranslation();
@@ -38,7 +38,6 @@ export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
                     ]}
                 />
             </Help>
-
 
             <Switcher versions={ data }
                       onSelect={ option => setVersion(option) }
