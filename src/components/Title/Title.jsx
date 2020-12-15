@@ -41,12 +41,12 @@ export const Title = ({
             }
 
             { edit && <EditButton
-                title={ t('Edit metadata') }
+                title={ `${t('Edit')} ${ t(text) }` }
                 clickHandler={ edit }
             />}
 
             { save && <SaveButton
-                title={ t('Save subset') }
+                title={ `${t('Save')} ${ t(text) }` }
                 active={ save }
                 clickHandler={ save }
             />

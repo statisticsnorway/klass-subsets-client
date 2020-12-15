@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Version, Switcher } from '../Version';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from '../../../utils/arrays';
-import { Title } from '../../../components';
+import {Help, Title} from '../../../components';
 
 export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
     const { t } = useTranslation();
@@ -13,28 +13,36 @@ export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
         //.filter(v => v.administrativStatus != 'OPEN')
         //.filter(v => v.validFrom > new Date().toJSON()))[0] || null
     );
+    const [ showHelp, setShowHelp ] = useState(false);
+
 
     return (
         <>
-            <Title text={ t('Versions') } tag='h2' edit={edit} />
+            <Title text={ t('Versions') }
+                   tag='h2'
+                   edit={edit}
+                   help={ () => setShowHelp( prev => !prev) }
+            />
 
-            <p className='small'>{ t('Version info') }.</p>
+            <Help visible={ showHelp }>
+                <p>{ t('Version info') }.</p>
+                <CheckboxGroup
+                    header={ t('Filters') }
+                    onChange={() => {}}
+                    orientation='column'
+                    selectedValue='includeFuture'
+                    items={[
+                        { label: 'includeFuture', value: 'includeFuture' },
+                        { label: 'includeDrafts', value: 'includeDrafts' },
+                        { label: 'includeDeprecated', value: 'includeDeprecated' }
+                    ]}
+                />
+            </Help>
+
 
             <Switcher versions={ data }
                       onSelect={ option => setVersion(option) }
                       selected={ version }
-            />
-
-            <CheckboxGroup
-                header={ t('Filters') }
-                onChange={() => {}}
-                orientation='column'
-                selectedValue='includeFuture'
-                items={[
-                    { label: 'includeFuture', value: 'includeFuture' },
-                    { label: 'includeDrafts', value: 'includeDrafts' },
-                    { label: 'includeDeprecated', value: 'includeDeprecated' }
-                ]}
             />
 
             { version
