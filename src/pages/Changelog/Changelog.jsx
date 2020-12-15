@@ -51,6 +51,7 @@ export const Changelog = () => {
                    <li>Modification aggregation (signal if a subset has been locally modified).</li>
                    <li>No unit tests for subset prototype.</li>
                    <li>Broken internationalisation.</li>
+                   <li>No direct navigation from preview to form steps.</li>
                </ul>
 
                <h4>v0.5.12</h4>
