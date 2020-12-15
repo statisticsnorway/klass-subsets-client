@@ -307,7 +307,6 @@ export function Subset (data) {
         // DOCME
         get: () => {
             const payload = {
-                versionId: subset.currentVersion.versionId,
                 subsetId: subset.id,
                 administrativeStatus: 'DRAFT',
                 //administrativeDetails: subset.administrativeDetails,

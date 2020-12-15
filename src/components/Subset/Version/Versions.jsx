@@ -5,7 +5,7 @@ import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from '../../../utils/arrays';
 import { Title } from '../../../components';
 
-export const Versions = ({ data = [], edit = () => {}, save }) => {
+export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
     const { t } = useTranslation();
 
     const [ version, setVersion ] = useState( data[0]

@@ -14,7 +14,8 @@ export const Step6Publish = () => {
         publishVersionPayload,
         metadataPayload,
         versionPayload,
-        isNew
+        isNew,
+        isNewVersion
     }, dispatch} } = useContext(AppContext);
     const { t } = useTranslation();
     let history = useHistory();
@@ -22,6 +23,8 @@ export const Step6Publish = () => {
 
     const [ post, setPOSTPayload, posting, errorPost ] = usePost();
     const [ update, setPUTPayload, updating, errorUpdate ] = usePut(id);
+    const [ postVersion, setPOSTPayloadVersion, postingVersion, errorPostVersion ] = usePost(`${id}/versions/${versionId}`);
+    const [ updateVersion, setPUTPayloadVersion, updatingVersion, errorUpdateVersion ] = usePut(`${id}/versions/${versionId}`);
 
     useEffect(() => {
         const payload = query.get('publish')
@@ -32,11 +35,16 @@ export const Step6Publish = () => {
 
         isNew()
             ? setPOSTPayload(payload)
-            : setPUTPayload(payload);
+            : query.get('metadata')
+                ? setPUTPayload(payload)
+                : isNewVersion()
+                    ? setPOSTPayloadVersion(payload)
+                    : setPUTPayloadVersion(payload);
+
     }, [])
 
     useEffect(() => {
-        if (post || update) {
+        if (post || update || postVersion || updateVersion) {
             setTimeout(() => {
                 history.push(`/subsets/${id}/versions/${versionId}`);
                 dispatch({action: 'reset'});
@@ -46,10 +54,12 @@ export const Step6Publish = () => {
 
     return (
         <div style={{ minHeight: '350px', display: 'flex', justifyContent: 'center'}}>
-            { (!errorPost && !errorUpdate && !post && !update) &&
+            { (!errorPost && !errorUpdate && !post && !update
+                && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion
+            ) &&
                 <p>{ t('Sending data to the server')}...</p>
             }
-            { (errorPost || errorUpdate) &&
+            { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
             <div style={{
                 width: '50%',
                 height: '30%',
@@ -57,14 +67,14 @@ export const Step6Publish = () => {
             }}>
                 <Dialog type='warning' title={ t('Update failed', {
                     id,
-                    versionId
+                    version: versionId
                 })
                 }>
-                    {`${errorPost || errorUpdate}`}
+                    {`${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
                 </Dialog>
             </div>
             }
-            { (post || update) &&
+            { (post || update || postVersion || updateVersion) &&
             <p style={{color: 'green'}}>
                 <CheckCircle color='green'/> {t('Success')}. {t('Data is sent')}.
             </p>
