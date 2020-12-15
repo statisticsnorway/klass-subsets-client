@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Version, Switcher } from '../Version';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from '../../../utils/arrays';
-import {EditButton, DownloadButton, SaveButton} from '../../Buttons';
+import { Title } from '../../../components';
 
 export const Versions = ({ data = [], edit = () => {}, save }) => {
     const { t } = useTranslation();
@@ -16,24 +16,12 @@ export const Versions = ({ data = [], edit = () => {}, save }) => {
 
     return (
         <>
-            <h2>{ t('Versions') }
-                <DownloadButton title={ t('Download') }/>
-
-                { edit && <EditButton
-                    title={ t('Edit versions') }
-                    clickHandler={ edit }
-                />}
-
-                { save && <SaveButton
-                    title={ t('Save all modified versions') }
-                    clickHandler={ edit }
-                />}
-            </h2>
+            <Title text={ t('Versions') } tag='h2' edit={edit} />
 
             <p className='small'>{ t('Version info') }.</p>
 
             <Switcher versions={ data }
-                      onSelect={ (option) => setVersion(option) }
+                      onSelect={ option => setVersion(option) }
                       selected={ version }
             />
 
