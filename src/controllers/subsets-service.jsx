@@ -72,7 +72,7 @@ export function usePost(url = '') {
             setData(null);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -117,7 +117,7 @@ export function usePut(url = '') {
             setData(null);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),

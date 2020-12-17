@@ -53,16 +53,10 @@ export const Step6Publish = () => {
     }, [])
 
     useEffect(() => {
-        if (post || update) {
+        if (post || update || postVersion || updateVersion) {
             setTimeout(() => {
-                history.push(`/create?step=Metadata`);
-                dispatch({action: 'reset'});
-            }, 2000);
-        }
-        if (postVersion || updateVersion) {
-            setTimeout(() => {
-                history.push(`/create?step=Versjoner`);
-                dispatch({action: 'reset'});
+                history.push(`/create?step=Lagre`);
+                //dispatch({action: 'reset'});
             }, 2000);
         }
     }, [ dispatch, id, versionId, history, post, update ])

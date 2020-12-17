@@ -2,7 +2,7 @@ import React from 'react';
 import { Save } from 'react-feather';
 
 export const SaveButton = ({
-                                title = 'Save',
+                                title = 'Save button',
                                 clickHandler = () => {},
                                 disabled = false,
                                 active = true,

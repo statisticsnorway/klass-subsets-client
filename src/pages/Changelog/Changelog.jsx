@@ -24,6 +24,9 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.6.1</h4>
+               <p>After successful saving redirect to Save step again.</p>
+
                <h4>v0.6.0</h4>
                <p>Consume Subsets API v2: completely new internal subset prototype.</p>
                <p>Save metadata separately from versions.</p>
