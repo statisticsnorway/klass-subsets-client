@@ -61,7 +61,7 @@ export const Codes = ({ codes = [] }) => {
 
                         <ListTabable items={
                                         codes.map(code => ({
-                                            id: `${code.code}:${code.name}:${code.validFromInRequestedRange}`,
+                                            id: `${code.classificationId}:${code.code}:${code.name}:${code.validFromInRequestedRange}`,
                                             ...code })) }
                                      placeholder={ t('No classifications in the subset draft') }
                                      component={ CodeInfo }

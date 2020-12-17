@@ -25,26 +25,26 @@ export const codesControl = (state = {}) => ({
     },
 
     reorderCodes() {
-        //console.debug('reorderCodes');
+        // console.debug('reorderCodes', state.codes);
 
-        state._currentVersion.codes.sort((a, b) => (a.rank - b.rank -1));
+        state.codes.sort((a, b) => (a.rank - b.rank -1));
     },
 
     rerankCodes() {
-        //console.debug('rerankCodes');
+        // console.debug('rerankCodes1', state.codes);
 
-        state._currentVersion.codes.forEach((item, i) => {
+        state.codes.forEach((item, i) => {
             item.rank = i + 1
         });
     },
 
     changeRank(rank, codes) {
-        //console.debug('changeRank', rank, codes);
+        // console.debug('changeRank', rank, codes);
 
         if (rank && rank !== '-') {
-            state._currentVersion.codes = state._currentVersion.codes.map(c => codes.find(i => i.urn === c.urn)
-                ? {...c, rank}
-                : c
+            state.codes = state.codes.map(c => codes.find(i => i.id === c.id)
+                    ? {...c, rank}
+                    : c
             )
         }
     }
