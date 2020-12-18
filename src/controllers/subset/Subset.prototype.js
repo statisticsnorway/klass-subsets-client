@@ -246,6 +246,12 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'origins', {
         get: () => {
+            // console.debug({origins: subset._origins});
+
+            if (subset?._origins?.length === 0) {
+                subset.initOrigins();
+            }
+
             return new Set([...subset?._origins,
                 ...subset?.currentVersion?.codes?.map(c => c.classificationId)
             ]);
@@ -254,7 +260,7 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'codesMap', {
         get: () => {
-            return new Map(subset?.currentVersion.codes?.map(code => [
+            return new Map(subset?.currentVersion?.codes?.map(code => [
                 `${code.classificationId}:${code.code}:${encodeURI(code.name)}`,
                 code
             ])); },
