@@ -263,7 +263,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'codes', {
         get: () => { return subset?.currentVersion?.codes },
         set: (codes = []) => {
-            console.debug('Set codes', codes);
+            // console.debug('Set codes', codes);
 
             if (subset.isEditableCodes()) {
                 subset.currentVersion.codes = codes;

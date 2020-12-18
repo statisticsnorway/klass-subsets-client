@@ -40,11 +40,11 @@ export const Table = ({ list = [], rerank, remove, update, disabled }) => {
                                onDragEnter={ target => setDropTarget(target) }
                                onDragEnd={ () => rerank(dragTargets, dropTarget.rank) }
 
-                               isDragTarget={ dragTargets.find(t => t.urn === item.urn) }
+                               isDragTarget={ dragTargets.find(t => t.id === item.id) }
                                toggleDragTarget={ dragTarget =>
                                    setDragTargets(prevTargets => {
-                                       return prevTargets.find(t => t.urn === dragTarget.urn)
-                                           ? prevTargets.filter(t => t.urn !== dragTarget.urn)
+                                       return prevTargets.find(t => t.id === dragTarget.id)
+                                           ? prevTargets.filter(t => t.id !== dragTarget.id)
                                            : [...prevTargets, dragTarget];
                                    })
                                }
