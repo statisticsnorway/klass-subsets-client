@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, FormError } from '@statisticsnorway/ssb-component-library';
-import { Preview } from '../../../components/Subset';
-import { AppContext } from '../../../controllers/context';
+import { Preview } from 'components/Subset';
+import { AppContext } from 'controllers';
 
 export const Step5Review = () => {
     const { subset: { draft } } = useContext(AppContext);

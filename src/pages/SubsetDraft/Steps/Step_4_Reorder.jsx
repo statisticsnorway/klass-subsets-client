@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReorderableTable as Reorderable } from '../../../components/Lists';
-import { BriefContextual } from '../../../components/Subset';
-import { AppContext } from '../../../controllers/context';
-import { Help, HelpButton } from '../../../components';
+import { ReorderableTable as Reorderable } from 'components/Lists';
+import { BriefContextual } from 'components/Subset';
+import { AppContext } from 'controllers/context';
+import { Help, HelpButton } from 'components';
 import {
     Repeat,
     ChevronUp,

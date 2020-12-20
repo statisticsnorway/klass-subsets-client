@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { BriefContextual } from '../../../components/Subset';
-import { SearchFormContextual } from '../../../components/Forms'
-import { Origins} from '../../../components/Classification';
+import { BriefContextual } from 'components/Subset';
+import { SearchFormContextual } from 'components/Forms'
+import { Origins} from 'components/Classification';
 import { Divider } from '@statisticsnorway/ssb-component-library';
 
 export const Step3ChooseCodes = () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
-import { ContextProvider } from './controllers/context';
+import { ContextProvider } from './controllers';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { Changelog, SearchSubsets, SubsetPage, SubsetForm, Step6Publish } from './pages';
+import { Changelog, SearchSubsets, SubsetPage, SubsetForm, Step6Publish, NoMatch } from './pages';
 import './pages/SubsetDraft/container.css';
 
 export default function App() {
@@ -31,16 +31,5 @@ export default function App() {
                 <Footer/>
             </BrowserRouter>
         </ContextProvider>
-    );
-}
-
-export function NoMatch({location}) {
-    return (
-        <div className='container'>
-            <div className='content'>
-                <h3>No match for <code>{ location.pathname }</code>.</h3>
-                <p>Back to <Link to='/'>home page</Link></p>
-            </div>
-        </div>
     );
 }
