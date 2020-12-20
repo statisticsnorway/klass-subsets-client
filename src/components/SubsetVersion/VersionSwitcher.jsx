@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppContext } from '../../controllers/context';
-import { Switcher } from '../Subset';
+import { AppContext } from 'controllers';
+import { Switcher } from 'components/Subset';
 
 export const VersionSwitcher = () => {
     const { subset: { draft: {

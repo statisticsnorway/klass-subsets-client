@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useQuery } from '../../utils';
-import { ProgressBar } from './ProgressBar';
-import { GoTo } from './GoTo';
+import { useQuery } from 'utils';
+import { ProgressBar, GoTo } from 'components';
 
 export function Navigation({ children }) {
     const { t } = useTranslation();

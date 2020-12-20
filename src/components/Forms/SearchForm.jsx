@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppContext } from '../../controllers/context';
-import { useGet, URL } from '../../controllers/klass-api';
-import { CodeListFetcher } from '../Classification';
-import { eu } from '../../utils';
-import { ListTabable } from '../Lists';
-import { Search, Help, HelpButton } from '../../components';
+import { AppContext } from 'controllers';
+import { useGet, URL } from 'controllers/klass-api';
+import { CodeListFetcher } from 'components/Classification';
+import { eu } from 'utils';
+import { Search, Help, HelpButton, ListTabable } from 'components';
 
 export const SearchFormContextual = () => {
     const { subset: {

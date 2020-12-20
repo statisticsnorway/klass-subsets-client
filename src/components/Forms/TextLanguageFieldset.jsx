@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { disableUsed, toId } from '../../utils';
-import { languages } from '../../defaults';
+import { disableUsed, toId } from 'utils';
+import { languages } from 'defaults';
 import { LanguageSelect, TextareaPrefixed } from '../Forms';
-import { ErrorTooltip, Required, PlusButton, TrashButton  } from '../../components';
+import { ErrorTooltip, Required, PlusButton, TrashButton  } from 'components';
 import './form.css';
 
 export const TextLanguageFieldset = ({ title, items = [],

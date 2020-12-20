@@ -1,9 +1,8 @@
 import React from 'react';
-import { Brief, Metadata, Versions } from '../Subset';
-import { Tab, Tabs } from '../Tabs';
+import { Brief, Metadata, Versions } from 'components/Subset';
+import { Tab, Tabs, Title } from 'components';
 import { Codes } from '../Code';
-import { Subset } from '../../controllers/subset/Subset.prototype';
-import { Title } from '../Title';
+import { Subset } from 'controllers/subset/Subset.prototype';
 import { useHistory } from 'react-router-dom';
 
 export const Preview = ({ data, edit = null, save = false }) => {

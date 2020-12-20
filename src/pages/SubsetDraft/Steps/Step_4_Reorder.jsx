@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Table as Reorderable } from '../../../components/Lists';
+import { ReorderableTable as Reorderable } from '../../../components/Lists';
 import { BriefContextual } from '../../../components/Subset';
 import { AppContext } from '../../../controllers/context';
 import { Help, HelpButton } from '../../../components';
@@ -79,10 +79,6 @@ export const Step4Reorder = () => {
                            remove={ codes => dispatch({
                                action: 'codes_exclude',
                                data: codes})
-                           }
-                           update={ code => dispatch({
-                               action: 'codes_cache',
-                               data: code})
                            }
                            disabled={ !isEditableCodes() }
             />

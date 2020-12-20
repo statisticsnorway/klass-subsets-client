@@ -6,7 +6,7 @@ import {
     Rss,
     Twitter
 } from 'react-feather';
-import SsbLogo from '../../images/SsbLogo.svg';
+import SsbLogo from 'images/SsbLogo.svg';
 import { Link, Button, Footer as SsbFooter} from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 

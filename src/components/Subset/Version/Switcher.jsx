@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown } from '../../Forms';
+import { Dropdown } from 'components/Forms';
 import { useTranslation } from 'react-i18next';
 
 export const Switcher = ({

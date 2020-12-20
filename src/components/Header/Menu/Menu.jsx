@@ -20,7 +20,7 @@ export const Menu = ({ items = [] }) => {
     );
 }
 
-export const MenuItem = ({title = 'Choice', path=''}) => {
+export const MenuItem = ({ title = 'Choice', path='' }) => {
     return (
         <div className='MenuItem h3'>
             <NavLink

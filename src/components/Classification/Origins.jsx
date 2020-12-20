@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { ListTabable } from '../../components';
-import { AppContext } from '../../controllers/context';
-import { CodeListFetcher } from '../../components/Classification';
+import { ListTabable } from 'components';
+import { AppContext } from 'controllers';
+import { CodeListFetcher } from 'components/Classification';
 import { useTranslation } from 'react-i18next';
-import keys from "../../utils/keys";
+import keys from 'utils/keys';
 
 export const Origins = () => {
     const { t } = useTranslation();

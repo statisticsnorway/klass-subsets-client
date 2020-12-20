@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './form.css';
-import keys from '../../../utils/keys';
+import keys from 'utils/keys';
 import { Item } from './Item';
 
-export const Table = ({ list = [], rerank, remove, update, disabled }) => {
+export const ReorderableTable = ({ list = [], rerank, remove, disabled }) => {
     const { t } = useTranslation();
 
     const [ dropTarget, setDropTarget] = useState({});
@@ -35,7 +35,6 @@ export const Table = ({ list = [], rerank, remove, update, disabled }) => {
                                remove={ remove }
                                rerank={ rerank }
                                rerankDragTargets={ (rank) => rerank(dragTargets, rank) }
-                               update={ update }
 
                                onDragEnter={ target => setDropTarget(target) }
                                onDragEnd={ () => rerank(dragTargets, dropTarget.rank) }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import keys from '../../../utils/keys';
+import keys from 'utils/keys';
 import {
     Trash2,
     Repeat,
@@ -7,7 +7,7 @@ import {
     ChevronDown
 } from 'react-feather';
 
-export const Item = ({item = {}, remove, update,
+export const Item = ({item = {}, remove,
                                   rerank, rerankDragTargets,
                                   onDragEnd, onDragEnter,
                                   toggleDragTarget, isDragTarget,

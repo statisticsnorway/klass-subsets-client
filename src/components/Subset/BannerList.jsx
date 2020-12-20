@@ -1,5 +1,5 @@
 import React from 'react';
-import { Banner } from './Banner';
+import { Banner } from 'components/Subset';
 
 export const BannerList = ({ items }) => {
     return (

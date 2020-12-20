@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './datepicker.css';
-import { today, toId } from '../../../utils';
+import { today, toId } from 'utils';
 import { useTranslation } from 'react-i18next';
-import { Required, ErrorTooltip, Help, HelpButton } from '../../../components';
+import { Required, ErrorTooltip, Help, HelpButton } from 'components';
 
 export const Datepicker = ({
                                label = '',

@@ -3,7 +3,7 @@ import {Panel, InfoButton, ListButton, MinusButton, PlusButton, XButton, AlertBu
 import { CodelistInfo } from './CodelistInfo';
 import { useTranslation } from 'react-i18next';
 import { Codes } from './Codes';
-import { AppContext } from '../../controllers/context';
+import { AppContext } from 'controllers/context';
 
 export const CodeList = ({ id, codes, metadata, errors, ...props }) => {
     const { t } = useTranslation();

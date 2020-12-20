@@ -1,11 +1,11 @@
 import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '@statisticsnorway/ssb-component-library';
-import { usePost, usePut } from '../../../controllers/subsets-service';
+import { usePost, usePut } from 'controllers/subsets-service';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from '../../../controllers/context';
+import { AppContext } from 'controllers';
 import { CheckCircle } from 'react-feather';
-import { useQuery } from '../../../utils';
+import { useQuery } from 'utils';
 
 export const Step6Publish = () => {
     const { subset: { draft: {

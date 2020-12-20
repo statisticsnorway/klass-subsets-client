@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { TextLanguageFieldset } from '../Forms';
-import { AppContext } from '../../controllers/context';
-import { subsetDraft } from '../../defaults';
+import { TextLanguageFieldset } from 'components/Forms';
+import { AppContext } from 'controllers';
+import { subsetDraft } from 'defaults';
 
 export const NameForm = () => {
     const { subset: { draft, dispatch } } = useContext(AppContext);

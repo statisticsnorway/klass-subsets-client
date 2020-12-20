@@ -1,5 +1,5 @@
 import React from 'react';
-import { replaceRef } from '../../utils';
+import { replaceRef } from 'utils';
 import { useTranslation } from 'react-i18next';
 
 export const Note = ({ item: { note, validFrom, validTo } }) => {

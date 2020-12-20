@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppContext } from '../../controllers/context';
-import { useClassification } from '../../controllers/klass-api';
+import { AppContext, useClassification } from 'controllers';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { CodeInfo } from '../Code';
-import { ListTabable } from '../Lists';
-import {CodeList} from "./CodeList";
+import { ListTabable } from 'components';
+import { CodeList } from "./CodeList";
 
 export const Codes = ({ codes = [] }) => {
     const { t } = useTranslation();

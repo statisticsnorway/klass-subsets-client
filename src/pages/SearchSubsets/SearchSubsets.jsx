@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {CheckboxGroup, Dropdown} from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
-import { useGet } from '../../controllers/subsets-service';
-import { BannerList } from '../../components/Subset';
-import { Search, Spinner } from '../../components';
+import { useGet } from 'controllers/subsets-service';
+import { BannerList } from 'components/Subset';
+import { Search, Spinner } from 'components';
 import { Sliders } from 'react-feather';
 import './search-container.css';
 

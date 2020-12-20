@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../controllers/context';
-import { VersionValidFromForm, VersionValidUntilForm } from '../SubsetVersion';
-import { ErrorTooltip } from '../Error';
+import { AppContext } from 'controllers';
+import { VersionValidFromForm, VersionValidUntilForm } from 'components/SubsetVersion';
+import { ErrorTooltip } from 'components';
 
 export const VersionPeriod = () => {
     const { subset: { draft: { errors }} } = useContext(AppContext);

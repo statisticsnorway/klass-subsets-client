@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Spinner, Panel, ListTabable } from '../../components';
+import { Spinner, Panel, ListTabable } from 'components';
 import { Info, MessageSquare } from 'react-feather';
 import { CodeCheckbox, Note } from '../Code';
 

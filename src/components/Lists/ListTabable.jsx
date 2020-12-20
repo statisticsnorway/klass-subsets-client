@@ -1,6 +1,6 @@
 import React from 'react';
 import './list.css';
-import keys from '../../utils/keys';
+import keys from 'utils/keys';
 
 export const ListTabable = ({
                               items = [],

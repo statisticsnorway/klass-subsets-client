@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordion } from '@statisticsnorway/ssb-component-library';
-import { AlertButton } from '../Buttons';
+import { AlertButton } from 'components';
 
 export const Code = ({ origin: {
     code,

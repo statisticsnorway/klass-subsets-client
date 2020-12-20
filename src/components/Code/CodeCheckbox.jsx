@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../controllers/context';
+import { AppContext } from 'controllers/context';
 import { Text } from '@statisticsnorway/ssb-component-library';
 
 

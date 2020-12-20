@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../../controllers/context';
-import { TextLanguageFieldset } from '../Forms';
-import { subsetDraft } from '../../defaults';
+import { AppContext } from 'controllers';
+import { TextLanguageFieldset } from 'components/Forms';
+import { subsetDraft } from 'defaults';
 
 export const VersionRationale = () => {
     const { subset: { draft: {

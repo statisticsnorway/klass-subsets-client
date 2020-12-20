@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { BriefContextual } from '../../../components/Subset';
+import { BriefContextual } from 'components/Subset';
 import { DescriptionForm, NameForm, SectionForm,
-    ClassificationFamilyForm } from '../../../components/SubsetMetadata';
+    ClassificationFamilyForm } from 'components/SubsetMetadata';
 
 export const Step1Metadata = () => {
     const { t } = useTranslation();

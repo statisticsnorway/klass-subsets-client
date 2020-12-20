@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { Dropdown } from '../Forms';
-import { AppContext } from '../../controllers/context';
-import { useGet } from '../../controllers/klass-api';
+import { Dropdown } from 'components/Forms';
+import { AppContext } from 'controllers';
+import { useGet } from 'controllers/klass-api';
 
 export const ClassificationFamilyForm = () => {
     const { subset: { draft: {

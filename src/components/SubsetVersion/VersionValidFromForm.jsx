@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../controllers/context';
-import { Datepicker } from '../Forms';
+import { AppContext } from 'controllers';
+import { Datepicker } from 'components/Forms';
 
 export const VersionValidFromForm = () => {
     const { subset: { draft: {

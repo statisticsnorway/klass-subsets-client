@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../controllers/context';
-import { IdForm } from '../SubsetMetadata';
+import { AppContext } from 'controllers/context';
+import { IdForm } from 'components/SubsetMetadata';
 import { Brief as BriefMetadata } from './Metadata';
 import { Brief as BriefVersion } from './Version';
 import { Id } from './Id';

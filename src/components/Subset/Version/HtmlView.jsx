@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GlobeButton } from '../../Buttons';
-import {eu, isInPeriod} from '../../../utils';
-import { languages as defaultLanguages } from '../../../defaults';
-import { Code } from '../../Code';
+import { GlobeButton } from 'components';
+import { eu, isInPeriod } from 'utils';
+import { languages as defaultLanguages } from 'defaults';
+import { Code } from 'components/Code';
 
 export const HtmlView = ({ version: {
                              administrativeStatus,

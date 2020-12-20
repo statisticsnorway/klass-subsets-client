@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Version, Switcher } from '../Version';
+import { Version, Switcher } from 'components/Subset/Version';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
-import { orderByValidFromDesc } from '../../../utils/arrays';
-import { Help, Title } from '../../../components';
+import { orderByValidFromDesc } from 'utils';
+import { Help, Title } from 'components';
 
 export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
     const { t } = useTranslation();

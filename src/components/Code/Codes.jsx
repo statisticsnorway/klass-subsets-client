@@ -2,8 +2,8 @@ import React from 'react';
 import { Code } from './Code';
 import { useTranslation } from 'react-i18next';
 import { Datepicker } from '../Forms';
-import { flatten } from '../../utils';
-import { Title, Introduction } from '../../components';
+import { flatten } from 'utils';
+import { Title, Introduction } from 'components';
 
 export const Codes = ({ data = [], edit = () => {} }) => {
     const { t } = useTranslation();

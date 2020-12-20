@@ -1,6 +1,6 @@
 import React from 'react';
-import { eu, euTime } from '../../../utils';
-import { BlockExpandable } from '../../BoxExpandable';
+import { eu, euTime } from 'utils';
+import { BoxExpandable } from 'components';
 
 export const Brief = ({ id,
                       created,
@@ -18,38 +18,38 @@ export const Brief = ({ id,
     // FIXME: decide whether it should be focusable
     return (
         <div title='Brief subset status' style={{ fontSize: '12px' }}>
-            <BlockExpandable label={ 'Subset ID' } text={ id.props.id || '-' }  />
-            <BlockExpandable label={ 'Subset created' } text={ eu(created) || '-' }  />
-            <BlockExpandable label={ 'Subset updated' } text={ euTime(lastModified) || '-' } />
-            <BlockExpandable label={ 'Subsets validity period' } text={
+            <BoxExpandable label={ 'Subset ID' } text={ id.props.id || '-' }  />
+            <BoxExpandable label={ 'Subset created' } text={ eu(created) || '-' }  />
+            <BoxExpandable label={ 'Subset updated' } text={ euTime(lastModified) || '-' } />
+            <BoxExpandable label={ 'Subsets validity period' } text={
                 `${ eu(validFrom) || '...' } - ${ eu(validUntil) || '...' }`
             } />
-            { available >= 0 && <BlockExpandable
+            { available >= 0 && <BoxExpandable
                 label='Number of available versions'
                 text={ available }/>
             }
-            { published >= 0 && <BlockExpandable
+            { published >= 0 && <BoxExpandable
                 label='Number of published versions'
                 text={ published }
                 color='#9272FC'
                 light
             /> }
-            { drafts >= 0 && <BlockExpandable
+            { drafts >= 0 && <BoxExpandable
                 label='Number of drafts'
                 text={ drafts }
                 color='#ED5935'
                 light
             /> }
-            { locals > 0 && <BlockExpandable
+            { locals > 0 && <BoxExpandable
                 label='Local drafts'
                 text={ locals }
                 color='bisque'
             /> }
-            { toBeSaved > 0 && <BlockExpandable
+            { toBeSaved > 0 && <BoxExpandable
                 label='To be saved'
                 text={ toBeSaved } />
             }
-            { metadataToBeSaved && <BlockExpandable
+            { metadataToBeSaved && <BoxExpandable
                 label='Metadata has been changed locally'
                 text='Modified locally'
                 color='bisque'

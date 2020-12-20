@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { JsonView } from '../../JsonView';
 import { HtmlView } from './HtmlView';
-import { Tabs, Tab, Title, Help } from '../../../components';
+import { Tabs, Tab, Title, Help, JsonView } from 'components';
 
 export const Metadata = ({
                              edit = () => {},

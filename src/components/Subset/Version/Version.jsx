@@ -1,10 +1,7 @@
 import React from 'react';
-import { EditButton, SaveButton } from '../../Buttons';
-import { Tab, Tabs } from '../../Tabs';
-import { JsonView } from '../../JsonView';
 import { useTranslation } from 'react-i18next';
-import { Brief } from './Brief';
-import { HtmlView } from './HtmlView';
+import { Tab, Tabs, JsonView, EditButton, SaveButton  } from 'components';
+import { Brief, HtmlView } from '../Version';
 
 export const Version = ({
                             edit = () => {},

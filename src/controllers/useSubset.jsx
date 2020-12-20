@@ -111,10 +111,6 @@ function subsetReducer( state, { action, data = {} }) {
             state.changeRank(data.rank, data.codes)
             return Subset({...state});
         }
-        case 'codes_cache': {
-            state.codes = state.codes.map(s => s.urn !== data.urn ? s : {...s, ...data});
-            return state;
-        }
         case 'reset': {
             sessionStorage.removeItem('draft');
             return Subset();

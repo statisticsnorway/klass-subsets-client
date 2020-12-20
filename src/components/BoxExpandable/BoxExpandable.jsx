@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './block-expandable.css';
 
-export const BlockExpandable = ({ label, text, color, light }) => {
+export const BoxExpandable = ({ label, text, color, light }) => {
     const { t } = useTranslation();
     return (
         <div className='expand'

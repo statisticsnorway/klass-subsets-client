@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../../controllers/context';
-import { useGet } from '../../controllers/subsets-service';
-import { subsetDraft } from '../../defaults';
-import { ErrorTooltip } from '../Error';
+import { AppContext } from 'controllers';
+import { useGet } from 'controllers/subsets-service';
+import { subsetDraft } from 'defaults';
+import { ErrorTooltip } from 'components';
 
 export const IdForm = () => {
     const { subset:

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { URL, useSWRGet} from '../../controllers/klass-api';
-import { AppContext } from '../../controllers/context';
+import { URL, useSWRGet, AppContext } from 'controllers';
 import { CodeList } from './CodeList';
 
 export const CodeListFetcher = ({ item: { id }}) => {
