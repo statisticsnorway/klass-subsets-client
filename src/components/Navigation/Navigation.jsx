@@ -14,11 +14,11 @@ export function Navigation({ children }) {
         if (!children.find(c => c.props.label === query.get('step'))) {
             history.push(`?step=${children[0]?.props.label}`);
         }
-    }, []);
+    }, [ children, history, query ]);
 
     useEffect(() => {
         setStep(children.findIndex(c => c.props.label === query.get('step')) || 0);
-    }, [ query ]);
+    }, [ children, query ]);
 
     return (<>
             <ProgressBar steps={ children } />

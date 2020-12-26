@@ -1,12 +1,17 @@
-import { subsetDraft, STATUS_ENUM } from '../../defaults';
+import { subsetDraft, STATUS_ENUM } from 'defaults';
 import { toId, sanitize, nextDefaultName,
     orderByValidFromAsc, orderByValidFromDesc,
     sanitizeArray
-} from '../../utils';
+} from 'utils';
 import { nameControl, errorsControl, versionable,
     descriptionControl, versionRationaleControl,
     originsControl, codesControl, editable, restrictable
 } from '../subset';
+
+// FIXME: decide which version should be the default one
+function defaultVersion(versions) {
+    return versions?.length > 0 ? versions[0] : null;
+}
 
 export function Subset (data) {
     const subset = {
@@ -20,7 +25,7 @@ export function Subset (data) {
 
         // internal controls
         // FIXME: default - a version valid at loading date
-        _currentVersion: data?._currentVersion || data?.versions[0] || {},
+        _currentVersion: data?._currentVersion || defaultVersion(data?.versions),
         _origins: data?._origins || [],
 
         // not protected
@@ -252,9 +257,13 @@ export function Subset (data) {
                 subset.initOrigins();
             }
 
-            return new Set([...subset?._origins,
-                ...subset?.currentVersion?.codes?.map(c => c.classificationId)
-            ]);
+            if (subset.currentVersion?.codes) {
+                return new Set([...subset?._origins,
+                    ...subset?.currentVersion?.codes?.map(c => c.classificationId)
+                ]);
+            }
+
+            return new Set([...subset?._origins]);
         }
     });
 

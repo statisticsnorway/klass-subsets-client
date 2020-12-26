@@ -14,6 +14,8 @@ export const originsControl = (state = {}) => ({
     },
 
     initOrigins() {
-        state._origins = [...new Set(state?.currentVersion?.codes?.map(c => c.classificationId))];
+        state._origins = state.currentVersion?.codes
+            ? [...new Set(state?.currentVersion?.codes?.map(c => c.classificationId))]
+            : [];
     }
 });
