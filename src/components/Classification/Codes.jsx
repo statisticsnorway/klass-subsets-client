@@ -28,7 +28,7 @@ export const Codes = ({ codes = [] }) => {
         classificationId: codes[0].classificationId,
         versionValidFrom: draft.versionValidFrom,
         versionValidUntil: draft.versionValidUntil
-    });*/
+    });*/d
 
     return (
             <div>

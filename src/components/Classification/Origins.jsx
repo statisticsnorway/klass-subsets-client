@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { ListTabable } from 'components';
 import { AppContext } from 'controllers';
 import { CodeListFetcher } from 'components/Classification';
 import { useTranslation } from 'react-i18next';

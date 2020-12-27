@@ -75,6 +75,11 @@ function subsetReducer( state, { action, data = {} }) {
             state.updateDescriptionLanguageByIndex(data.index, data.lang);
             return Subset({...state});
         }
+        case 'description_init': {
+            if (state.description?.length !== 0) return state;
+            state.addDescription();
+            return Subset({...state});
+        }
         case 'description_add': {
             state.addDescription();
             return Subset({...state});

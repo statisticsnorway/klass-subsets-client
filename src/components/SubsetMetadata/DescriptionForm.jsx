@@ -11,13 +11,9 @@ export const DescriptionForm = () => {
     } } = useContext(AppContext);
 
     useEffect(() => {
-        description?.length === 0
-        && dispatch({ action: 'description_add' });
-
-        return () => {
-            dispatch({ action: 'remove_empty' });
-        };
-    }, []);
+        dispatch({ action: 'description_init' });
+        return () => dispatch({ action: 'remove_empty' });
+    }, [ dispatch ]);
 
     return (
         <TextLanguageFieldset title='Description'
