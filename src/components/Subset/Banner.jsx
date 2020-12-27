@@ -28,7 +28,7 @@ export const Banner = ({ data }) => {
                         }}
             />
             <Brief
-                id={{ props: {id: data?.id} }}
+                id={ data?.id }
                 versionValidFrom={ data?.versionValidFrom }
                 lastModified={ data?.lastModified }
                 status={ t(data?.administrativeStatus) }

@@ -10,7 +10,7 @@ export const Step1Metadata = () => {
     return (
         <>
             <h2>{ t('Metadata') }</h2>
-            <BriefContextual editable />
+            <BriefContextual metadata editable />
             <NameForm />
             <SectionForm />
             <ClassificationFamilyForm />

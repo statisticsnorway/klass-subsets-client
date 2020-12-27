@@ -16,7 +16,7 @@ export const Preview = ({ data, edit = null, save = false }) => {
         <>
             <Title translates={ subset?.name } tag='h1' />
             <Brief
-                id={{ props: {id: subset?.id} }}
+                id={ subset?.id }
                 lastModified={ subset?.lastModified }
                 created={ subset?.createdDate }
                 published={ subset?.publishedVersions?.length }

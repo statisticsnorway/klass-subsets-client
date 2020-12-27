@@ -1,7 +1,7 @@
 export const editable = (state = {}) => ({
 
     isNew() {
-        //console.debug('isNew', state.administrativeStatus === 'INTERNAL' && state.version === '1');
+        // console.debug('isNew', !state.createdDate);
 
         return !state.createdDate;
     },

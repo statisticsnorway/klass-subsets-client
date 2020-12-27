@@ -1,8 +1,10 @@
 import React from 'react';
 import { eu, euTime } from 'utils';
 import { BoxExpandable } from 'components';
+import { IdForm } from '../../SubsetMetadata';
 
 export const Brief = ({ id,
+                      editable,
                       created,
                       lastModified,
                       validFrom,
@@ -17,8 +19,11 @@ export const Brief = ({ id,
 
     // FIXME: decide whether it should be focusable
     return (
-        <div title='Brief subset status' style={{ fontSize: '12px' }}>
-            <BoxExpandable label={ 'Subset ID' } text={ id.props.id || '-' }  />
+        <div title='Brief subset status' style={{ fontSize: '12px',  display: 'flex'}}>
+            { editable
+                ? <IdForm id={ id }/>
+                : <BoxExpandable label={'Subset ID'} text={ id || '-' }/>
+            }
             <BoxExpandable label={ 'Subset created' } text={ eu(created) || '-' }  />
             <BoxExpandable label={ 'Subset updated' } text={ euTime(lastModified) || '-' } />
             <BoxExpandable label={ 'Subsets validity period' } text={

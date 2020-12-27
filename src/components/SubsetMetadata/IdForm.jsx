@@ -36,7 +36,7 @@ export const IdForm = () => {
                            data: event.target.value
                        });
                    }}
-                   style={{ margin: '0 5px' }}
+                   style={{ margin: '0 5px', height: '21px' }}
                    disabled={ !isNew() }
             />
 

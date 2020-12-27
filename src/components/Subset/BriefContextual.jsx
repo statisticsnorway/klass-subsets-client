@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import { AppContext } from 'controllers/context';
-import { IdForm } from 'components/SubsetMetadata';
 import { Brief as BriefMetadata } from './Metadata';
 import { Brief as BriefVersion } from './Version';
-import { Id } from './Id';
 
 export const BriefContextual = ({
                                     editable = false,
@@ -35,10 +33,8 @@ export const BriefContextual = ({
         <>
         { metadata &&
             <BriefMetadata
-                id={ editable && isEditableId()
-                    ? <Id id={ id }>{ id || '-' }</Id>
-                    : <IdForm id={ id }/>
-                }
+                id={ id }
+                editable={ editable && isEditableId() }
                 created={ createdDate }
                 lastModified={ lastModified }
                 validFrom={ validFrom }
@@ -65,4 +61,3 @@ export const BriefContextual = ({
     </>
     );
 };
-
