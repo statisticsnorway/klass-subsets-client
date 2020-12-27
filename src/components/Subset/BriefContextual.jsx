@@ -28,7 +28,7 @@ export const BriefContextual = ({
         administrativeStatus,
         metadataToBeSaved,
         versionToBeSaved,
-        codes
+        codes,
     } } } = useContext(AppContext);
 
     return (
@@ -36,8 +36,8 @@ export const BriefContextual = ({
         { metadata &&
             <BriefMetadata
                 id={ editable && isEditableId()
-                    ? <IdForm id={ id }/>
-                    : <Id id={ id }>{ id || '-' }</Id>
+                    ? <Id id={ id }>{ id || '-' }</Id>
+                    : <IdForm id={ id }/>
                 }
                 created={ createdDate }
                 lastModified={ lastModified }
@@ -46,9 +46,7 @@ export const BriefContextual = ({
                 published={ publishedVersions?.length }
                 drafts={ drafts?.length }
                 locals={ versions?.filter(v => v.administrativeStatus === 'INITIAL')?.length }
-                // toBeSaved={ versions?.filter(v => v.toBeSaved).length }
-                // FIXME: hardcoded workaround
-                toBeSaved={ versions?.filter(v => v.versionRationale[0]?.languageText?.endsWith('111')).length }
+                // toBeSaved={ versions?.filter(v => v.versionToBeSaved).length }
                 metadataToBeSaved={ metadataToBeSaved }
             />
         }
@@ -67,3 +65,4 @@ export const BriefContextual = ({
     </>
     );
 };
+
