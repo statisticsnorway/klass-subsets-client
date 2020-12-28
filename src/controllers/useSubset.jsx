@@ -40,6 +40,11 @@ function subsetReducer( state, { action, data = {} }) {
             state.versionValidUntil = data;
             return Subset({...state});
         }
+        case 'version_rationale_init': {
+            if (state.versionRationale?.length !== 0) return state;
+            state.addVersionRationale();
+            return Subset({...state});
+        }
         case 'version_rationale_add': {
             state.addVersionRationale();
             return Subset({...state});

@@ -10,13 +10,9 @@ export const VersionRationale = () => {
     }, dispatch } } = useContext(AppContext);
 
     useEffect(() => {
-        versionRationale?.length === 0
-        && dispatch({action: 'version_rationale_add'});
-
-        return () => {
-            dispatch({action: 'remove_empty'});
-        };
-    }, []);
+        dispatch({action: 'version_rationale_init'});
+        return () => dispatch({action: 'remove_empty'});
+    }, [ dispatch ]);
 
     return (
         <TextLanguageFieldset title='Version rationale'
