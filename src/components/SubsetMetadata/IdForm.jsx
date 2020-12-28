@@ -15,11 +15,9 @@ export const IdForm = () => {
 
     const [ exist,,, setPathExist ] = useGet();
 
-    useEffect(() => {
-        if (!isNew() || id?.length === 0) {
-            setPathExist(id)
-        }
-    }, [ id ]);
+    useEffect(() => setPathExist(id),
+        [id, setPathExist]
+    );
 
     return (
         <div style={{ display: 'inline-block' }}>
