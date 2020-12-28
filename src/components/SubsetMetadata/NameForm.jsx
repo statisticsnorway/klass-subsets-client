@@ -7,13 +7,9 @@ export const NameForm = () => {
     const { subset: { draft, dispatch } } = useContext(AppContext);
 
     useEffect(() => {
-        draft.name?.length === 0
-        && dispatch({ action: 'name_add' });
-
-        return () => {
-            dispatch({ action: 'remove_empty' });
-        };
-    }, []);
+        dispatch({ action: 'name_init' });
+        return () => dispatch({ action: 'remove_empty' });
+    }, [ dispatch ]);
 
     return (
         <TextLanguageFieldset title='Names'

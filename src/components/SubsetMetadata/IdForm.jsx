@@ -9,7 +9,7 @@ export const IdForm = () => {
         { draft: {
             id,
             errors,
-            isNew
+            isEditableId
         }, dispatch
     } } = useContext(AppContext);
 
@@ -35,7 +35,7 @@ export const IdForm = () => {
                        });
                    }}
                    style={{ margin: '0 5px', height: '21px' }}
-                   disabled={ !isNew() }
+                   disabled={ !isEditableId() }
             />
 
             {/* FIXME should be Subset.prototype responsibility to set errors */}

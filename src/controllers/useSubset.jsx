@@ -15,6 +15,11 @@ function subsetReducer( state, { action, data = {} }) {
             state.updateNameLanguageByIndex(data.index, data.lang);
             return Subset({...state});
         }
+        case 'name_init': {
+            if (state.name?.length !== 0) return state;
+            state.addName();
+            return Subset({...state});
+        }
         case 'name_add': {
             state.addName();
             return Subset({...state});
