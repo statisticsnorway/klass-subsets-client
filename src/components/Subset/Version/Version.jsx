@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tab, Tabs, JsonView, EditButton, SaveButton  } from 'components';
+import { Tab, Tabs, JsonView, EditButton, SaveButton, UploadButton } from 'components';
 import { Brief, HtmlView } from '../Version';
 
 export const Version = ({
@@ -21,6 +21,11 @@ export const Version = ({
                 { save && <SaveButton
                     title={ t('Save version') }
                     clickHandler={ save }
+                />}
+
+                { publish && <UploadButton
+                    title={ t('Publish version') }
+                    clickHandler={ publish }
                 />}
             </h2>
             <Brief

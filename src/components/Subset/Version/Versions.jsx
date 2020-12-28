@@ -24,7 +24,7 @@ export const Versions = ({ data = [],
         <>
             <Title text={ t('Versions') }
                    tag='h2'
-                   edit={edit}
+                   edit={ edit }
                    help={ () => setShowHelp( prev => !prev) }
             />
 

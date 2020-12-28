@@ -8,4 +8,5 @@ export * from './GlobeButton';
 export * from './PlusButton';
 export * from './SaveButton';
 export * from './TrashButton';
+export * from './UploadButton';
 export * from './XButton';

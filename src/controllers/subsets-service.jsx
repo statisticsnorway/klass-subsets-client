@@ -57,6 +57,7 @@ export function useGet(url = null) {
 }
 
 export function usePost(url = '') {
+    console.log({url});
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ payload, setPayload ] = useState(null);

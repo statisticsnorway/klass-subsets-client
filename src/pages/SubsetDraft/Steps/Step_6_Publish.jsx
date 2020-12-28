@@ -21,6 +21,8 @@ export const Step6Publish = () => {
     let history = useHistory();
     let query = useQuery();
 
+
+
     const [ post, setPOSTPayload, posting, errorPost ] = usePost();
     const [ update, setPUTPayload, updating, errorUpdate ] = usePut(id);
     const [ postVersion, setPOSTPayloadVersion, postingVersion, errorPostVersion ] = usePost(`${id}/versions`);
@@ -32,6 +34,8 @@ export const Step6Publish = () => {
             : query.get('metadata')
                 ? metadataPayload
                 : versionPayload;
+
+        console.log({payload});
 
         if (isNew() && query.get('metadata')) {
             console.log('New subset ', isNew());
@@ -66,7 +70,7 @@ export const Step6Publish = () => {
             { (!errorPost && !errorUpdate && !post && !update
                 && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion
             ) &&
-                <p>{ t('Sending data to the server')}...</p>
+                <p>{ t('Sending data to the server') }...</p>
             }
             { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
             <div style={{
@@ -74,10 +78,11 @@ export const Step6Publish = () => {
                 height: '30%',
                 border: 'none'
             }}>
-                <Dialog type='warning' title={ t('Update failed', {
-                    id,
-                    version: versionId
-                })
+                <Dialog type='warning'
+                        title={ t('Update failed', {
+                                    id,
+                                    version: versionId
+                                })
                 }>
                     {`${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
                     { }
