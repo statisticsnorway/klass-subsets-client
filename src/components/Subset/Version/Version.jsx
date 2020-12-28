@@ -4,9 +4,10 @@ import { Tab, Tabs, JsonView, EditButton, SaveButton  } from 'components';
 import { Brief, HtmlView } from '../Version';
 
 export const Version = ({
-                            edit = () => {},
                             data = {},
-                            save = null
+                            edit = () => {},
+                            save = () => {},
+                            publish = () => {}
 }) => {
     const { t } = useTranslation();
     return (

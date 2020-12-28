@@ -24,11 +24,11 @@ export const VersionRationale = () => {
                                   data: index}) }
                               handleText={ (index, text) => dispatch({
                                   action: 'version_rationale_text',
-                                  data: {index, text}
+                                  data: { index, text }
                               })}
                               handleLang={ (index, lang) => dispatch({
                                   action: 'version_rationale_lang',
-                                  data: {index, lang}
+                                  data: { index, lang }
                               })}
                               size={{ cols: 65, rows: 4 }}
                               maxLength={ subsetDraft?.maxLengthVersionRationale }

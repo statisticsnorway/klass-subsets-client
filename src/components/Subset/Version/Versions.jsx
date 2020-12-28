@@ -5,7 +5,11 @@ import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { orderByValidFromDesc } from 'utils';
 import { Help, Title } from 'components';
 
-export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
+export const Versions = ({ data = [],
+                           edit = () => {},
+                           save = () => {},
+                           publish = () => {}
+}) => {
     const { t } = useTranslation();
 
     const [ version, setVersion ] = useState( data[0]
@@ -45,7 +49,11 @@ export const Versions = ({ data = [], edit = () => {}, save = () => {}}) => {
             />
 
             { version
-                ? <Version data={ version } edit save={ save } />
+                ? <Version data={ version }
+                           edit={ edit }
+                           save={ save }
+                           publish={ publish }
+                />
                 : <p>{ t('No published versions') }.</p>
             }
 
