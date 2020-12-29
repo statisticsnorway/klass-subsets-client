@@ -75,7 +75,7 @@ export const Item = ({item = {}, remove,
             <td style={{ width: '65%'}} onClick={() => toggleDragTarget(item)}>{ item.name }</td>
             { !disabled &&
             <td>
-                        <span style={{display: 'inline-block', width: '40px'}}>
+                         <span style={{display: 'inline-block', width: '40px'}}>
 
                             <button onClick={ (event) => {
                                 event.stopPropagation();

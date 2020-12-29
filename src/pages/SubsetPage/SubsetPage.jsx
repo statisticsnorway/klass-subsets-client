@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useGet } from 'controllers/subsets-service';
+import { useGet } from 'controllers/subsets-api';
 import { Spinner } from 'components';
 import './container.css';
-import { Preview } from 'components/Subset';
+import { Preview } from 'views';
 
 export const SubsetPage = () => {
     const { t } = useTranslation();
