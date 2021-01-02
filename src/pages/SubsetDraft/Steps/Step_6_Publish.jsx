@@ -59,7 +59,7 @@ export const Step6Publish = () => {
     useEffect(() => {
         if (post || update || postVersion || updateVersion) {
             setTimeout(() => {
-                history.push(`/create?step=Lagre`);
+                history.push(`/create?step=Review%20and%20publish`);
                 //dispatch({action: 'reset'});
             }, 2000);
         }
@@ -85,22 +85,21 @@ export const Step6Publish = () => {
                                 })
                 }>
                     {`${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
-                    { }
                 </Dialog>
             </div>
             }
             { (post || update || postVersion || updateVersion) &&
-            <p style={{color: 'green'}}>
-                <CheckCircle color='green'/> {t('Success')}. {t('Data is sent')}.
+            <p style={{ color: 'green' }}>
+                <CheckCircle color='green'/> { t('Success') }. { t('Data is sent') }.
             </p>
             }
             <button onClick={ () => history.push(`/create?step=Metadata`) }>
                 { t('Back to metadata') }
             </button>
-            <button onClick={ () => history.push(`/create?step=Versjoner`) }>
+            <button onClick={ () => history.push(`/create?step=Versions`) }>
                 { t('Back to versions') }
             </button>
-            <button onClick={ () => history.push(`/create?step=Lagre`) }>
+            <button onClick={ () => history.push(`/create?step=Review%20and%20publish`) }>
                 { t('Back to review') }
             </button>
             <button onClick={ () => history.push(`/subsets/${id}`) }>

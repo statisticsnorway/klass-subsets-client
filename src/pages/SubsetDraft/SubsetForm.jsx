@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './container.css';
-import { Navigation, Step } from '../../components/Navigation';
-import { useTranslation } from 'react-i18next';
+import { Navigation, Step } from 'components';
 import {
     Step1Metadata,
     Step2Versions,
@@ -11,7 +10,6 @@ import {
     Step5Review } from './Steps';
 
 export const SubsetForm = () => {
-    const { t } = useTranslation();
     let location = useLocation();
 
     useEffect(() => {
@@ -25,11 +23,11 @@ export const SubsetForm = () => {
         <div className='container'>
             <div className='content'>
                 <Navigation>
-                    <Step label={ t('Metadata') } component={ Step1Metadata } />
-                    <Step label={ t('Versions') } component={ Step2Versions } />
-                    <Step label={ t('Choose codes') } component={ Step3ChooseCodes }/>
-                    <Step label={ t('Reorder codes') } component={ Step4Reorder } />
-                    <Step label={ t('Review and publish') } component={ Step5Review } />
+                    <Step label='Metadata' component={ Step1Metadata } />
+                    <Step label='Versions' component={ Step2Versions } />
+                    <Step label='Choose codes' component={ Step3ChooseCodes }/>
+                    <Step label='Reorder codes' component={ Step4Reorder } />
+                    <Step label='Review and publish' component={ Step5Review } />
                 </Navigation>
             </div>
         </div>
