@@ -1,9 +1,30 @@
 import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { fetcher } from 'utils';
 
 // DOCME
 const subsetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;
 // DOCME
 const subsetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
+// DOCME
+const defaultQuery = 'includeFuture=true&includeDrafts=true&language=nb';
+const fullVersions = 'includeFullVersions=true';
+
+export function useSubsets() {
+    const { data, error } = useSWR(
+        `${ subsetsServiceEndpoint }?${ defaultQuery }`,
+        fetcher, { refreshInterval: 5000 }
+    );
+    return [ data, error ];
+}
+
+export function useSubset(id) {
+    const { data, error } = useSWR(
+        id ? `${ subsetsServiceEndpoint }${ id }?${ defaultQuery }&${ fullVersions }` : null,
+        fetcher, { shouldRetryOnError: false }
+        );
+    return [ data, error ];
+}
 
 export function useGet(url = null) {
     const [ path, setPath ] = useState(url);
@@ -20,7 +41,7 @@ export function useGet(url = null) {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpoint }${ path }?includeFuture=true&includeDrafts=true&includeFullVersions=true&language=nb`);
+                const response = await fetch(`${ subsetsServiceEndpoint }${ path }?${ defaultQuery }&${ fullVersions }`);
                 let json = await response.json();
                 if (_mounted && response.status >= 200 && response.status <= 299) {
                     setData(json);

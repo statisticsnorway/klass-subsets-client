@@ -52,7 +52,7 @@ export function Subset (data) {
         set: (id = '') => {
             //console.debug('Set id', id);
 
-            if (subset.isEditableId()) {
+            if (subset?.isEditableId()) {
                 subset._id = sanitize(toId(id), subsetDraft?.maxLengthId);
             }
         }

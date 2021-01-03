@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckboxGroup, Dropdown } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
-import { useGet } from 'controllers/subsets-api';
+import { useSubsets} from 'controllers';
 import { BannerList } from 'views';
 import { Search, Spinner } from 'components';
 import { Sliders } from 'react-feather';
@@ -11,11 +11,11 @@ import './search-container.css';
 export const SearchSubsets = () => {
 
     const { t } = useTranslation();
-    const [ subsets, isLoadingSubsets, errorSubsets ] = useGet('');
+    const [ subsets, errorSubsets ] = useSubsets();
     const [ searchResults, setSearchResults ] = useState([]);
     const [ showSettings, setShowSettings ] = useState(false);
 
-    useEffect(() => setSearchResults(subsets), [subsets]);
+    useEffect(() => setSearchResults(subsets), [ subsets ]);
 
     return (
         <div id='search-container'>
@@ -66,9 +66,9 @@ export const SearchSubsets = () => {
                     </>
                 }
 
-                { isLoadingSubsets
+                { !subsets && !errorSubsets
                     ? <div style={{ marginTop: '15px' }}><Spinner/></div>
-                    : errorSubsets || subsets?.error
+                    : errorSubsets
                         ? <p style={{ color: 'red' }}>{ t('Failed to connect to the server: ') }{
                             errorSubsets?.message
                             || subsets?.error?.message
