@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { Panel, InfoButton, ListButton, MinusButton, PlusButton, XButton, AlertButton } from 'components';
 import { CodeListInfo, Codes } from 'views';
 import { useTranslation } from 'react-i18next';

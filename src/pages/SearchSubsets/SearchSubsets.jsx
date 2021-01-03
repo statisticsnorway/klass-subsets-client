@@ -7,6 +7,7 @@ import { Search, Spinner } from 'components';
 import { Sliders } from 'react-feather';
 import './search-container.css';
 
+// TODO: split to smaller components
 export const SearchSubsets = () => {
 
     const { t } = useTranslation();
@@ -65,22 +66,22 @@ export const SearchSubsets = () => {
                     </>
                 }
 
-                    { isLoadingSubsets
-                        ? <div style={{ marginTop: '15px' }}><Spinner/></div>
-                        : errorSubsets || subsets?.error
-                            ? <p style={{ color: 'red' }}>{ t('Failed to connect to the server: ') }{
-                                errorSubsets?.message
-                                || subsets?.error?.message
-                                || subsets?.error
-                                || subsets?.message}
-                            </p>
-                            : !searchResults || searchResults.length === 0
-                                ? <p>{ t('Nothing is found') }</p>
-                                : <BannerList items={ searchResults
-                                    .sort((a,b) => (a.lastModified === b.lastModified
-                                        ? 0
-                                        : a.lastModified > b.lastModified ? -1 : 1))} />
-                    }
+                { isLoadingSubsets
+                    ? <div style={{ marginTop: '15px' }}><Spinner/></div>
+                    : errorSubsets || subsets?.error
+                        ? <p style={{ color: 'red' }}>{ t('Failed to connect to the server: ') }{
+                            errorSubsets?.message
+                            || subsets?.error?.message
+                            || subsets?.error
+                            || subsets?.message}
+                        </p>
+                        : !searchResults || searchResults.length === 0
+                            ? <p>{ t('Nothing is found') }</p>
+                            : <BannerList items={ searchResults
+                                .sort((a,b) => (a.lastModified === b.lastModified
+                                    ? 0
+                                    : a.lastModified > b.lastModified ? -1 : 1))} />
+                }
 
             </div>
         </div>

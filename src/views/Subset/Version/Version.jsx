@@ -15,7 +15,7 @@ export const Version = ({
             <h2>{ t('Version') } { t(data.validFrom) }
                 { edit && <EditButton
                     title={ t('Edit version') }
-                    clickHandler={ edit }
+                    clickHandler={ () => edit(data?.versionId) }
                 />}
 
                 { save && <SaveButton

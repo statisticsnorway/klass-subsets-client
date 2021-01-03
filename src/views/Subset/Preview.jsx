@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { BriefMetadata, Metadata, Versions, SearchCodes } from 'views';
 import { Tab, Tabs, Title } from 'components';
 import { Subset } from 'models';
@@ -12,11 +12,9 @@ export const Preview = ({ data,
 }) => {
     const subset = new Subset(data);
     let history = useHistory();
-    const { subset: { dispatch } } = useContext(AppContext);
-    const editSubset = () => {
-        dispatch({ action: 'edit', data });
-        history.push('/create');
-    }
+
+    const editMetadata = () => history.push(`/create?step=Metadata&subsetId=${ data?.id }`);
+    const editVersion = (versionId) => history.push(`/create?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
     const saveMetadata = () => history.push(`/auth/save?metadata=true`);
     const saveVersion = () => history.push(`/auth/save?version=true`);
     const publishVersion = () => history.push(`/auth/save?version=true&publish=true`);
@@ -36,13 +34,13 @@ export const Preview = ({ data,
             />
             <Tabs dark>
                 <Tab title='Versions' path='versions'>
-                    <Versions edit={ edit ? editSubset : null }
+                    <Versions edit={ edit ? editVersion : null }
                               save={ save ? saveVersion : null }
                               publish={ publish ? publishVersion : null }
                               data={ data?.versions } />
                 </Tab>
                 <Tab title='Metadata' path='metadata'>
-                    <Metadata edit={ edit ? editSubset : null }
+                    <Metadata edit={ edit ? editMetadata : null }
                               save={ save ? saveMetadata : null }
                               subset={ data }/>
                 </Tab>
