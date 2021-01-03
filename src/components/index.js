@@ -17,3 +17,4 @@ export * from './Spinner/index';
 export * from './Tabs/index';
 export * from './Title/index';
 export * from './TitledBlock/index';
+export * from './Warning/index';
