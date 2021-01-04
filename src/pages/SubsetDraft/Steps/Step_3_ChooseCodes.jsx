@@ -1,8 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { BriefContextual } from 'components/Subset';
-import { SearchFormContextual } from 'components/Forms'
-import { Origins} from 'components/Classification';
+import { SearchCodeLists, Origins, BriefContextual } from 'views'
 import { Divider } from '@statisticsnorway/ssb-component-library';
 
 export const Step3ChooseCodes = () => {
@@ -13,7 +11,7 @@ export const Step3ChooseCodes = () => {
                 <h2>{ t('Choose classifications and code lists') }</h2>
 
                 <BriefContextual metadata currentVersion />
-                <SearchFormContextual />
+                <SearchCodeLists />
 
                 <Divider light />
 

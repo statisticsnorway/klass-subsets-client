@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {CheckboxGroup, Dropdown} from '@statisticsnorway/ssb-component-library';
+import { CheckboxGroup, Dropdown } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
-import { useGet } from 'controllers/subsets-service';
-import { BannerList } from 'components/Subset';
+import { useSubsets } from 'controllers';
+import { BannerList } from 'views';
 import { Search, Spinner } from 'components';
 import { Sliders } from 'react-feather';
 import './search-container.css';
 
+// TODO: split to smaller components
 export const SearchSubsets = () => {
 
     const { t } = useTranslation();
-    const [ subsets, isLoadingSubsets, errorSubsets ] = useGet('');
+    const [ subsets, errorSubsets ] = useSubsets();
     const [ searchResults, setSearchResults ] = useState([]);
     const [ showSettings, setShowSettings ] = useState(false);
 
-    useEffect(() => setSearchResults(subsets), [subsets]);
+    useEffect(() => setSearchResults(subsets), [ subsets ]);
 
     return (
         <div id='search-container'>
@@ -65,22 +66,22 @@ export const SearchSubsets = () => {
                     </>
                 }
 
-                    { isLoadingSubsets
-                        ? <div style={{ marginTop: '15px' }}><Spinner/></div>
-                        : errorSubsets || subsets?.error
-                            ? <p style={{ color: 'red' }}>{ t('Failed to connect to the server: ') }{
-                                errorSubsets?.message
-                                || subsets?.error?.message
-                                || subsets?.error
-                                || subsets?.message}
-                            </p>
-                            : !searchResults || searchResults.length === 0
-                                ? <p>{ t('Nothing is found') }</p>
-                                : <BannerList items={ searchResults
-                                    .sort((a,b) => (a.lastModified === b.lastModified
-                                        ? 0
-                                        : a.lastModified > b.lastModified ? -1 : 1))} />
-                    }
+                { !subsets && !errorSubsets
+                    ? <div style={{ marginTop: '15px' }}><Spinner/></div>
+                    : errorSubsets
+                        ? <p style={{ color: 'red' }}>{ t('Failed to connect to the server: ') }{
+                            errorSubsets?.message
+                            || subsets?.error?.message
+                            || subsets?.error
+                            || subsets?.message}
+                        </p>
+                        : !searchResults || searchResults.length === 0
+                            ? <p>{ t('Nothing is found') }</p>
+                            : <BannerList items={ searchResults
+                                .sort((a,b) => (a.lastModified === b.lastModified
+                                    ? 0
+                                    : a.lastModified > b.lastModified ? -1 : 1))} />
+                }
 
             </div>
         </div>

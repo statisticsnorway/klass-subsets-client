@@ -20,7 +20,8 @@ export const Header = () => {
                     path: '/search'},
                 {
                     title: t('Create subset'),
-                    path: '/create#new', clickHandle: () => sessionStorage.removeItem('draft')},
+                    path: '/editor',
+                    clickHandler: () => sessionStorage.removeItem('draft')},
                 {
                     title: t('Changelog'),
                     path: '/changelog'},

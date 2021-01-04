@@ -1,5 +1,5 @@
 import React, { createContext, useEffect } from 'react';
-import { useSubset } from './useSubset';
+import { useSubsetDraft } from 'controllers';
 import { useErrorRegister } from './useErrorRegister';
 
 /** Context Principles
@@ -19,7 +19,7 @@ import { useErrorRegister } from './useErrorRegister';
  * - language settings
  * - search filters
  * - style preferences
- *
+ * - fetch cache (swr)
  */
 
 export const AppContext = createContext({});
@@ -27,7 +27,7 @@ export const AppContext = createContext({});
 export const ContextProvider = ({ children }) => {
     const errorRegister = useErrorRegister([]);
 
-    const subset = useSubset();
+    const subset = useSubsetDraft();
     useEffect(() => console.info({ newState: subset.draft }),[ subset.draft ]);
 
     return (

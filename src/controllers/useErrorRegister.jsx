@@ -1,5 +1,7 @@
 import { useReducer } from 'react';
 
+
+// FIXME: abandoned function - either use or remove
 export const useErrorRegister = (init) => {
 
     function subsetReducer(state, {action, data}) {

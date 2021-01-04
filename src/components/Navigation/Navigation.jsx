@@ -12,7 +12,7 @@ export function Navigation({ children }) {
 
     useEffect( () => {
         if (!children.find(c => c.props.label === query.get('step'))) {
-            history.push(`?step=${children[0]?.props.label}`);
+            history.push(`?${ query.update('step', children[0]?.props.label) }`);
         }
     }, [ children, history, query ]);
 
@@ -28,12 +28,12 @@ export function Navigation({ children }) {
             }</div>
             <div style={{ textAlign: 'center', paddingBottom: '30px' }}>
                 <GoTo disabled={ step < 1 }
-                      query={`?step=${children[step - 1]?.props.label}`}
+                      query={`?${ query.update('step', children[step - 1]?.props.label) }`}
                       iconLeft='&#10094;'
                 >{ t('Previous') }
                 </GoTo>
                 <GoTo disabled={ step > children.length - 2 }
-                      query={`?step=${children[step + 1]?.props.label}`}
+                      query={`?${ query.update('step', children[step + 1]?.props.label) }`}
                       iconRight='&#10095;'
                 >{ t('Next') }
                 </GoTo>

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, FormError } from '@statisticsnorway/ssb-component-library';
-import { Preview } from 'components/Subset';
+import { Preview } from 'views';
 import { AppContext } from 'controllers';
 
 export const Step5Review = () => {
@@ -14,7 +14,11 @@ return (
         <>
             <h2>{ t('Review and publish') }</h2>
 
-            <Preview data={ draft } save />
+            <Preview data={ draft }
+                     save
+                     publish
+                     syncQuery
+            />
 
             { Object.values(draft?.errors).flat().length > 0 &&
                 <FormError title={ t('Some fields are not right') }

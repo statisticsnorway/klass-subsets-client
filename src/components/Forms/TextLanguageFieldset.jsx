@@ -28,7 +28,7 @@ export const TextLanguageFieldset = ({ title, items = [],
                 >{ t(title) }{ required && <Required /> }
             </label>
 
-            { items.map((item, index) => (
+            { items?.map((item, index) => (
                 <div key={ index }
                      style={{ padding: '0 0 15px 0' }}>
 
@@ -61,7 +61,7 @@ export const TextLanguageFieldset = ({ title, items = [],
                 </div>
                 )
             )}
-            { items.length === 0 &&
+            { items?.length === 0 &&
                 <PlusButton
                     title={ t('Add field for another language') }
                     clickHandler={ add }
