@@ -6,9 +6,12 @@ import { useHistory } from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 
 export const Preview = ({ data,
+                          current = '',
                           edit = false,
                           save = false,
-                          publish = false
+                          publish = false,
+                          syncParams = false,
+                          syncQuery = false
 }) => {
     const subset = new Subset(data);
     let history = useHistory();
@@ -39,7 +42,9 @@ export const Preview = ({ data,
                     <Versions edit={ edit ? editVersion : null }
                               save={ save ? saveVersion : null }
                               publish={ publish ? publishVersion : null }
-                              data={ data?.versions } />
+                              data={ data?.versions }
+                              current={ current }
+                    />
                 </Tab>
                 <Tab title={ t('Metadata') } path='metadata'>
                     <Metadata edit={ edit ? editMetadata : null }

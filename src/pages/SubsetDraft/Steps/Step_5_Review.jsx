@@ -4,17 +4,23 @@ import { useTranslation } from 'react-i18next';
 import { Button, FormError } from '@statisticsnorway/ssb-component-library';
 import { Preview } from 'views';
 import { AppContext } from 'controllers';
+import { useQuery } from 'utils';
 
 export const Step5Review = () => {
     const { subset: { draft } } = useContext(AppContext);
     const { t } = useTranslation();
+    let query = useQuery();
     let history = useHistory();
 
 return (
         <>
             <h2>{ t('Review and publish') }</h2>
 
-            <Preview data={ draft } save publish />
+            <Preview data={ draft }
+                     current={ query.get('versionId') }
+                     save
+                     publish
+            />
 
             { Object.values(draft?.errors).flat().length > 0 &&
                 <FormError title={ t('Some fields are not right') }

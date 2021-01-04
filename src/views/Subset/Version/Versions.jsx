@@ -8,11 +8,13 @@ import { Help, Title } from 'components';
 export const Versions = ({ data = [],
                            edit = () => {},
                            save = () => {},
-                           publish = () => {}
+                           publish = () => {},
+                           current = ''
 }) => {
     const { t } = useTranslation();
 
-    const [ version, setVersion ] = useState( data[0]
+    const [ version, setVersion ] = useState(
+        data?.find(v => v.versionId === current)
         //orderByValidFromDesc(versions
         //.filter(v => v.administrativStatus != 'OPEN')
         //.filter(v => v.validFrom > new Date().toJSON()))[0] || null
@@ -24,7 +26,6 @@ export const Versions = ({ data = [],
         <>
             <Title text={ t('Versions') }
                    tag='h2'
-                   edit={ edit }
                    help={ () => setShowHelp( prev => !prev) }
             />
 
@@ -48,13 +49,12 @@ export const Versions = ({ data = [],
                       selected={ version }
             />
 
-            { version
-                ? <Version data={ version }
+            { version &&
+                <Version data={ version }
                            edit={ edit }
                            save={ save }
                            publish={ publish }
                 />
-                : <p>{ t('No published versions') }.</p>
             }
 
         </>
