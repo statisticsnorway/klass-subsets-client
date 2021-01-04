@@ -1,6 +1,6 @@
 Classification subsets web application
 Statistics Norway
-2019
+2019-2021
 
 # Installation guide for local environment
 
