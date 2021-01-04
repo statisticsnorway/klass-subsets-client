@@ -44,7 +44,9 @@ export const Preview = ({ data,
                               publish={ publish ? publishVersion : null }
                               data={ data?.versions }
                               current={ current }
-                    />
+                              syncParams={ syncParams }
+                              syncQuery={ syncQuery }
+                />
                 </Tab>
                 <Tab title={ t('Metadata') } path='metadata'>
                     <Metadata edit={ edit ? editMetadata : null }

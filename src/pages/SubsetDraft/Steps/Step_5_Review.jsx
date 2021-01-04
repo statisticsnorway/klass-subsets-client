@@ -4,12 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { Button, FormError } from '@statisticsnorway/ssb-component-library';
 import { Preview } from 'views';
 import { AppContext } from 'controllers';
-import { useQuery } from 'utils';
 
 export const Step5Review = () => {
     const { subset: { draft } } = useContext(AppContext);
     const { t } = useTranslation();
-    let query = useQuery();
     let history = useHistory();
 
 return (
@@ -17,9 +15,9 @@ return (
             <h2>{ t('Review and publish') }</h2>
 
             <Preview data={ draft }
-                     current={ query.get('versionId') }
                      save
                      publish
+                     syncQuery
             />
 
             { Object.values(draft?.errors).flat().length > 0 &&

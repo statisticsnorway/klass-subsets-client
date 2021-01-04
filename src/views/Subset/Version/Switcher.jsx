@@ -21,8 +21,7 @@ export const Switcher = ({
                                       v.validFrom || '-' } ${
                                       t(v.administrativeStatus)
                                   }`,
-                                  id: `${ v.id 
-                                      || v.versionId }`
+                                  id: v.versionId
                               }))
                           ]
                       }
@@ -34,4 +33,3 @@ export const Switcher = ({
         </>
     );
 };
-

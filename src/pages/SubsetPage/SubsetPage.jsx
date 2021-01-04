@@ -1,12 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSubset } from 'controllers/subsets-api';
-import {Spinner, Warning} from 'components';
+import { Spinner, Warning } from 'components';
 import './container.css';
 import { Preview } from 'views';
 
 export const SubsetPage = () => {
-    let { id, version } = useParams();
+    let { id } = useParams();
     const [ subset, error ] = useSubset(id);
 
     return(
@@ -24,9 +24,8 @@ export const SubsetPage = () => {
                 }
                 { subset && <Preview
                     data={ subset }
-                    current={ version }
-                    edit
                     syncParams
+                    edit
                 />
                 }
             </div>

@@ -9,10 +9,10 @@ export const HtmlView = ({ version: {
                              administrativeStatus,
                              createdDate,
                              lastModified,
-                             seriesId,
+                             subsetId,
                              validFrom,
                              validUntil,
-                             version,
+                             versionId,
                              statisticalUnits,
                              codes,
                              versionRationale
@@ -44,8 +44,8 @@ export const HtmlView = ({ version: {
                 }
             </p>
 
-            <p><strong>{ t('Id') }:</strong> { version ? version : '-' }</p>
-            <p><strong>{ t('Subset') }:</strong> { seriesId ? seriesId : '-' }</p>
+            <p><strong>{ t('VersionId') }:</strong> { versionId || '-' }</p>
+            <p><strong>{ t('SubsetId') }:</strong> { subsetId || '-' }</p>
             <p><strong>{ t('Status') }:</strong> { administrativeStatus ? t(administrativeStatus) : '-' }</p>
             <p><strong>{ t('Created') }:</strong> { createdDate ? eu(createdDate) : '-' }</p>
             <p><strong>{ t('Updated') }:</strong> { lastModified ? eu(lastModified) :'-' }</p>

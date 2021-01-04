@@ -24,7 +24,7 @@ export default function App() {
                     <Route path='/changelog' exact component={ Changelog }/>
                     <Route path='/subsets/:id' exact component={ SubsetPage }/>
                     <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>
-                    <Route path='/subsets/:id/versions/:version' exact component={ SubsetPage }/>
+                    <Route path='/subsets/:id/versions/:versionId' exact component={ SubsetPage }/>
                     <Route component={ NoMatch }/>
                 </Switch>
                 <Footer/>
