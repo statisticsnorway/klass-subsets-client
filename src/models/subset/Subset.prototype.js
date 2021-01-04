@@ -167,7 +167,7 @@ export function Subset (data) {
             return subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId);
         },
         set: ( chosen = {} ) => {
-            // console.debug('Set currentVersion', chosen);
+            //console.debug('Set currentVersion', chosen);
 
             subset._currentVersion = subset.versions?.find(v => v.versionId === chosen?.versionId) || {};
             if (subset._currentVersion?.versionRationale?.length === 0) {

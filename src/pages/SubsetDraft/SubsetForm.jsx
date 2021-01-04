@@ -22,6 +22,13 @@ export const SubsetForm = () => {
         });
     }, [ subsetData, dispatch ])
 
+    useEffect(() => {
+        query.get('versionId') && dispatch({
+            action: 'version_switch',
+            data: { versionId: query.get('versionId') }
+        });
+    }, [ dispatch ])
+
     return (
         <div className='container'>
             <div className='content'>
