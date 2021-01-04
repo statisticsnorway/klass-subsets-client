@@ -13,13 +13,7 @@ export const SwitcherContextual = () => {
 
     const { t } = useTranslation();
 
-    useEffect(() => {
-        versions?.length === 0
-        && dispatch({
-            action: 'version_switch',
-            data: { id: 'Create new version' }
-        });
-    }, []);
+    useEffect(() => dispatch({ action: 'version_init' }), [ dispatch ]);
 
     return (
         <Switcher versions={ versions

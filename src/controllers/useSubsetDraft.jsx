@@ -5,6 +5,7 @@ function subsetReducer( state, { action, data = {} }) {
     console.info({ action, data });
     switch (action) {
         case 'edit': {
+            if (state.id === data.id ) return state;
             return Subset({...data });
         }
         case 'name_text': {
@@ -61,11 +62,16 @@ function subsetReducer( state, { action, data = {} }) {
             state.updateVersionRationaleLanguageByIndex(data.index, data.lang);
             return Subset({...state});
         }
+        case 'version_init': {
+            if (state.version?.length !== 0) return state;
+            state.currentVersion = state.createNewVersion();
+            return Subset({...state});
+        }
         case 'version_switch': {
             state.currentVersion =
                 data?.id === 'Create new version'
-                ? state.createNewVersion()
-                : data;
+                    ? state.createNewVersion()
+                    : data;
             return Subset({...state});
         }
         case 'owningSection': {
@@ -135,7 +141,7 @@ function subsetReducer( state, { action, data = {} }) {
     }
 }
 
-export const useSubset = (init = Subset()) => {
+export const useSubsetDraft = (init = Subset()) => {
 
     // FIXME: if the draft in session storage is undefined, the whole app crashes with error message:
     // Error: A cross-origin error was thrown. React doesn't have access to the actual error object in development.

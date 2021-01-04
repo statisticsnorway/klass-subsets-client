@@ -3,9 +3,8 @@ import { Banner } from 'views';
 
 export const BannerList = ({ items }) => {
     return (
-        <>{items?.length > 0 &&
-        items.map((subset, i) => (
-            <Banner key={ i } data={ subset } /> ))}
+        <>{ items?.map(subset => (
+            <Banner key={ subset.id } data={ subset } /> ))}
         </>
     );
 };

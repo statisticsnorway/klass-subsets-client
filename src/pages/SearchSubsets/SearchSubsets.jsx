@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckboxGroup, Dropdown } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
-import { useSubsets} from 'controllers';
+import { useSubsets } from 'controllers';
 import { BannerList } from 'views';
 import { Search, Spinner } from 'components';
 import { Sliders } from 'react-feather';

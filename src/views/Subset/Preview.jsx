@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BriefMetadata, Metadata, Versions, SearchCodes } from 'views';
 import { Tab, Tabs, Title } from 'components';
 import { Subset } from 'models';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from 'controllers';
 
 export const Preview = ({ data,
                           edit = false,
@@ -13,6 +12,7 @@ export const Preview = ({ data,
     const subset = new Subset(data);
     let history = useHistory();
 
+    // TODO: use simple Links instead of buttons
     const editMetadata = () => history.push(`/create?step=Metadata&subsetId=${ data?.id }`);
     const editVersion = (versionId) => history.push(`/create?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
     const saveMetadata = () => history.push(`/auth/save?metadata=true`);
@@ -45,7 +45,7 @@ export const Preview = ({ data,
                               subset={ data }/>
                 </Tab>
                 {/*<Tab title='Codes' path='codes'>
-                    <Codes edit={ edit || null } data={ data?.versions }/>
+                    <SearchCodes edit={ edit || null } data={ data?.versions }/>
                 </Tab>*/}
             </Tabs>
         </>

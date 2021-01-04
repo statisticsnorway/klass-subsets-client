@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog } from '@statisticsnorway/ssb-component-library';
-import {XButton} from "../Buttons";
+import { XButton } from '../Buttons';
 
 export const Warning = ({
                             title = 'Alert button',

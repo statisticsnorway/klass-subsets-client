@@ -1,7 +1,23 @@
-// A hooc that builds on useLocation to parse
-// the query string for you.
+// A hook that builds on useLocation to parse the query string
 import { useLocation } from 'react-router-dom';
 
 export function useQuery() {
-    return new URLSearchParams(useLocation().search);
+    return new Query(useLocation().search);
 }
+
+export function Query(search) {
+    const query = new URLSearchParams(search);
+    Object.assign(query, updatable(query));
+    return query;
+}
+
+export const updatable = (state = {}) => ({
+
+    update(k, v) {
+        const query = new URLSearchParams(state);
+        query.set(k, v);
+        console.debug('setKey', k, query);
+        return query;
+    }
+
+});

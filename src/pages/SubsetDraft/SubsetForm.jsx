@@ -1,27 +1,37 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
 import './container.css';
-import { Navigation, Step } from 'components';
+import { Navigation, Step, Warning } from 'components';
 import {
     Step1Metadata,
     Step2Versions,
     Step3ChooseCodes,
     Step4Reorder,
     Step5Review } from './Steps';
+import { useQuery } from 'utils';
+import { AppContext, useSubset } from 'controllers';
 
 export const SubsetForm = () => {
-    let location = useLocation();
+    let query = useQuery();
+    const [ subsetData, error ] = useSubset(query.get('subsetId') || null);
+    const { subset: { dispatch } } = useContext(AppContext);
 
     useEffect(() => {
-        if (location.hash === '#new') {
-            // dispatch({ action: 'reset' });
-            sessionStorage.removeItem('draft');
-        }
-    }, [ location.hash ]);
+        subsetData && dispatch({
+            action: 'edit',
+            data: subsetData
+        });
+    }, [ subsetData, dispatch ])
 
     return (
         <div className='container'>
             <div className='content'>
+                { error &&
+                    <Warning visible={ error }
+                             title='Fetch failed'>
+                        { error.message }
+                        { error.info }
+                    </Warning>
+                }
                 <Navigation>
                     <Step label='Metadata' component={ Step1Metadata } />
                     <Step label='Versions' component={ Step2Versions } />

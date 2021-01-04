@@ -86,7 +86,7 @@ export const editable = (state = {}) => ({
         return !state.isPublished || state.isLatestPublishedVersion();
     },
 
-    isEditableOrigin() {
+    isEditableOrigins() {
         return !state.isPublished;
     },
 
