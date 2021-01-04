@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useQuery } from '../../utils';
-import { ProgressBar } from './ProgressBar';
-import { GoTo } from './GoTo';
+import { useQuery } from 'utils';
+import { ProgressBar, GoTo } from 'components';
 
 export function Navigation({ children }) {
     const { t } = useTranslation();
@@ -13,13 +12,13 @@ export function Navigation({ children }) {
 
     useEffect( () => {
         if (!children.find(c => c.props.label === query.get('step'))) {
-            history.push(`?step=${children[0]?.props.label}`);
+            history.push(`?${ query.update('step', children[0]?.props.label) }`);
         }
-    }, []);
+    }, [ children, history, query ]);
 
     useEffect(() => {
         setStep(children.findIndex(c => c.props.label === query.get('step')) || 0);
-    }, [ query ]);
+    }, [ children, query ]);
 
     return (<>
             <ProgressBar steps={ children } />
@@ -29,12 +28,12 @@ export function Navigation({ children }) {
             }</div>
             <div style={{ textAlign: 'center', paddingBottom: '30px' }}>
                 <GoTo disabled={ step < 1 }
-                      query={`?step=${children[step - 1]?.props.label}`}
+                      query={`?${ query.update('step', children[step - 1]?.props.label) }`}
                       iconLeft='&#10094;'
                 >{ t('Previous') }
                 </GoTo>
                 <GoTo disabled={ step > children.length - 2 }
-                      query={`?step=${children[step + 1]?.props.label}`}
+                      query={`?${ query.update('step', children[step + 1]?.props.label) }`}
                       iconRight='&#10095;'
                 >{ t('Next') }
                 </GoTo>

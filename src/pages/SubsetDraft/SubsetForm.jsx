@@ -1,35 +1,50 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
 import './container.css';
-import { Navigation, Step } from '../../components/Navigation';
-import { useTranslation } from 'react-i18next';
+import { Navigation, Step, Warning } from 'components';
 import {
     Step1Metadata,
     Step2Versions,
     Step3ChooseCodes,
     Step4Reorder,
     Step5Review } from './Steps';
+import { useQuery } from 'utils';
+import { AppContext, useSubset } from 'controllers';
 
 export const SubsetForm = () => {
-    const { t } = useTranslation();
-    let location = useLocation();
+    let query = useQuery();
+    const [ subsetData, error ] = useSubset(query.get('subsetId') || null);
+    const { subset: { dispatch } } = useContext(AppContext);
 
     useEffect(() => {
-        if (location.hash === '#new') {
-            // dispatch({ action: 'reset' });
-            sessionStorage.removeItem('draft');
-        }
-    }, [ location.hash ]);
+        subsetData && dispatch({
+            action: 'edit',
+            data: subsetData
+        });
+    }, [ subsetData, dispatch ])
+
+    useEffect(() => {
+        query.get('versionId') && dispatch({
+            action: 'version_switch',
+            data: { versionId: query.get('versionId') }
+        });
+    }, [ dispatch ])
 
     return (
         <div className='container'>
             <div className='content'>
+                { error &&
+                    <Warning visible={ error }
+                             title='Fetch failed'>
+                        { error.message }
+                        { error.info }
+                    </Warning>
+                }
                 <Navigation>
-                    <Step label={ t('Metadata') } component={ Step1Metadata } />
-                    <Step label={ t('Versions') } component={ Step2Versions } />
-                    <Step label={ t('Choose codes') } component={ Step3ChooseCodes }/>
-                    <Step label={ t('Reorder codes') } component={ Step4Reorder } />
-                    <Step label={ t('Review and publish') } component={ Step5Review } />
+                    <Step label='Metadata' component={ Step1Metadata } />
+                    <Step label='Versions' component={ Step2Versions } />
+                    <Step label='Choose codes' component={ Step3ChooseCodes }/>
+                    <Step label='Reorder codes' component={ Step4Reorder } />
+                    <Step label='Review and publish' component={ Step5Review } />
                 </Navigation>
             </div>
         </div>

@@ -1,1 +1,1 @@
-export * from './BlockExpandable';
+export * from './BoxExpandable';

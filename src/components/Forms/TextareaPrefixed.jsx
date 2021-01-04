@@ -1,5 +1,5 @@
 import React from 'react';
-import keys from '../../utils/keys';
+import keys from 'utils/keys';
 
 export const TextareaPrefixed = ({ id,
                                     value,

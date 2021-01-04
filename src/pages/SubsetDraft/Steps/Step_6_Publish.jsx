@@ -1,11 +1,11 @@
 import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '@statisticsnorway/ssb-component-library';
-import { usePost, usePut } from '../../../controllers/subsets-service';
+import { usePost, usePut } from 'controllers/subsets-api';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from '../../../controllers/context';
+import { AppContext } from 'controllers';
 import { CheckCircle } from 'react-feather';
-import { useQuery } from '../../../utils';
+import { useQuery } from 'utils';
 
 export const Step6Publish = () => {
     const { subset: { draft: {
@@ -21,6 +21,8 @@ export const Step6Publish = () => {
     let history = useHistory();
     let query = useQuery();
 
+
+
     const [ post, setPOSTPayload, posting, errorPost ] = usePost();
     const [ update, setPUTPayload, updating, errorUpdate ] = usePut(id);
     const [ postVersion, setPOSTPayloadVersion, postingVersion, errorPostVersion ] = usePost(`${id}/versions`);
@@ -32,6 +34,8 @@ export const Step6Publish = () => {
             : query.get('metadata')
                 ? metadataPayload
                 : versionPayload;
+
+        console.log({payload});
 
         if (isNew() && query.get('metadata')) {
             console.log('New subset ', isNew());
@@ -55,7 +59,7 @@ export const Step6Publish = () => {
     useEffect(() => {
         if (post || update || postVersion || updateVersion) {
             setTimeout(() => {
-                history.push(`/create?step=Lagre`);
+                history.push(`/editor?step=Review%20and%20publish`);
                 //dispatch({action: 'reset'});
             }, 2000);
         }
@@ -66,7 +70,7 @@ export const Step6Publish = () => {
             { (!errorPost && !errorUpdate && !post && !update
                 && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion
             ) &&
-                <p>{ t('Sending data to the server')}...</p>
+                <p>{ t('Sending data to the server') }...</p>
             }
             { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
             <div style={{
@@ -74,28 +78,28 @@ export const Step6Publish = () => {
                 height: '30%',
                 border: 'none'
             }}>
-                <Dialog type='warning' title={ t('Update failed', {
-                    id,
-                    version: versionId
-                })
+                <Dialog type='warning'
+                        title={ t('Update failed', {
+                                    id,
+                                    version: versionId
+                                })
                 }>
                     {`${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
-                    { }
                 </Dialog>
             </div>
             }
             { (post || update || postVersion || updateVersion) &&
-            <p style={{color: 'green'}}>
-                <CheckCircle color='green'/> {t('Success')}. {t('Data is sent')}.
+            <p style={{ color: 'green' }}>
+                <CheckCircle color='green'/> { t('Success') }. { t('Data is sent') }.
             </p>
             }
-            <button onClick={ () => history.push(`/create?step=Metadata`) }>
+            <button onClick={ () => history.push(`/editor?step=Metadata`) }>
                 { t('Back to metadata') }
             </button>
-            <button onClick={ () => history.push(`/create?step=Versjoner`) }>
+            <button onClick={ () => history.push(`/editor?step=Versions`) }>
                 { t('Back to versions') }
             </button>
-            <button onClick={ () => history.push(`/create?step=Lagre`) }>
+            <button onClick={ () => history.push(`/editor?step=Review%20and%20publish`) }>
                 { t('Back to review') }
             </button>
             <button onClick={ () => history.push(`/subsets/${id}`) }>

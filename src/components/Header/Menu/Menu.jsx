@@ -14,15 +14,20 @@ export const Menu = ({ items = [] }) => {
                     key={ i.title }
                     title={ i.title }
                     path={ i.path }
+                    onClick={ i.clickHandler }
                 />) }
             </div>
         </nav>
     );
 }
 
-export const MenuItem = ({title = 'Choice', path=''}) => {
+export const MenuItem = ({
+                             title = 'Choice',
+                             path='',
+                             onClick = () => {}
+}) => {
     return (
-        <div className='MenuItem h3'>
+        <div className='MenuItem h3' onClick={ onClick }>
             <NavLink
                 to={ path }
                 activeClassName='active'

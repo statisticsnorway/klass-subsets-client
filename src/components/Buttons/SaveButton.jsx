@@ -12,9 +12,9 @@ export const SaveButton = ({
     return (
         <>{ visible &&
             <button
-                title={title}
-                onClick={clickHandler}
-                disabled={disabled}
+                title={ title }
+                onClick={ clickHandler }
+                disabled={ disabled }
             >
                 <Save style={{
                     color: disabled || !active ? '#C3DCDC' : '#1A9D49',

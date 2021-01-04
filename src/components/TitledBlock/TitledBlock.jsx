@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useTranslation } from 'react-i18next';
-import { GlobeButton } from '../Buttons';
-import { languages as defaultLanguages } from '../../defaults';
+import { GlobeButton } from 'components';
+import { languages as defaultLanguages } from 'defaults';
 
 export const TitledBlock = ({
                           title = '',

@@ -11,9 +11,9 @@ export const XButton = ({
     return (
         <>{ visible &&
             <button
-                title={title}
-                onClick={clickHandler}
-                disabled={disabled}
+                title={ title }
+                onClick={ clickHandler }
+                disabled={ disabled }
             >
                 <XSquare style={{
                     color: disabled || !active ? '#C3DCDC' : '#9272FC',

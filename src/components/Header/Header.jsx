@@ -2,9 +2,7 @@ import React from 'react';
 import { Divider } from '@statisticsnorway/ssb-component-library';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitch } from './LanguageSwitch';
-import { Menu } from './Menu';
-import { Logo } from './Logo';
-import { AppTitle } from './AppTitle';
+import { Menu, Logo, AppTitle } from '../Header';
 import './header.css';
 
 export const Header = () => {
@@ -22,7 +20,8 @@ export const Header = () => {
                     path: '/search'},
                 {
                     title: t('Create subset'),
-                    path: '/create#new', clickHandle: () => sessionStorage.removeItem('draft')},
+                    path: '/editor',
+                    clickHandler: () => sessionStorage.removeItem('draft')},
                 {
                     title: t('Changelog'),
                     path: '/changelog'},

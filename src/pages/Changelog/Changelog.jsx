@@ -2,7 +2,7 @@ import React from 'react';
 import './changelog-container.css';
 import { useTranslation } from 'react-i18next';
 import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
-import {AlertButton, GlobeButton, Spinner} from '../../components';
+import {AlertButton, GlobeButton, Spinner, UploadButton} from 'components';
 
 export const Changelog = () => {
    const { t } = useTranslation();
@@ -23,6 +23,25 @@ export const Changelog = () => {
            </div>
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
+
+               <h4>v0.6.2</h4>
+               <p>Client API uses params and queries.</p>
+               <p>Fixed multiple selection on Reorder form step.</p>
+               <p><code>/create</code> replaced by <code>/editor</code>.</p>
+               <p>Simplified file structure.</p>
+               <ul>Switched <strong>back on</strong>:
+                   <li>Direct navigation from preview to editor.</li>
+                   <li>Version publishing <UploadButton />.</li>
+                   <li>Codes reorder on "Reorder" form step.</li>
+               </ul>
+               <ul>Still temporary <strong>switched off</strong>:
+                   <li>No form validating.</li>
+                   <li>No code notes.</li>
+                   <li>No green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
+                   <li>Modification aggregation (signal if a subset has been locally modified).</li>
+                   <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
+               </ul>
 
                <h4>v0.6.1</h4>
                <p>After successful saving redirect to Save step again.</p>
@@ -45,16 +64,17 @@ export const Changelog = () => {
                <p>Responsive form design.</p>
                <p>Code refactoring: many common components, file structure, TODOs implemented.</p>
                <p>Temporary multilingual text translations (name, description, version rationale).<GlobeButton/></p>
-               <ul>Temporary switched off:
-                   <li>No form validating.</li>
-                   <li>No publishing.</li>
-                   <li>No code notes.</li>
-                   <li>No green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
+               <ul>Temporary <strong>switched off</strong>:
+                   <li>Form validating.</li>
+                   <li>Publishing.</li>
+                   <li>Code notes.</li>
+                   <li>Green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
                    <li>Codes reorder on "Reorder" form step.</li>
                    <li>Modification aggregation (signal if a subset has been locally modified).</li>
-                   <li>No unit tests for subset prototype.</li>
+                   <li>Unit tests for subset prototype.</li>
                    <li>Broken internationalisation.</li>
-                   <li>No direct navigation from preview to form steps.</li>
+                   <li>Direct navigation from preview to editor.</li>
+                   <li>Id form for new subsets.</li>
                </ul>
 
                <h4>v0.5.12</h4>

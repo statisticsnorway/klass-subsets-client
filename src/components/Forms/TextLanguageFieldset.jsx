@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { disableUsed, toId } from '../../utils';
-import { languages } from '../../defaults';
+import { disableUsed, toId } from 'utils';
+import { languages } from 'defaults';
 import { LanguageSelect, TextareaPrefixed } from '../Forms';
-import { ErrorTooltip, Required, PlusButton, TrashButton  } from '../../components';
+import { ErrorTooltip, Required, PlusButton, TrashButton  } from 'components';
 import './form.css';
 
 export const TextLanguageFieldset = ({ title, items = [],
@@ -28,7 +28,7 @@ export const TextLanguageFieldset = ({ title, items = [],
                 >{ t(title) }{ required && <Required /> }
             </label>
 
-            { items.map((item, index) => (
+            { items?.map((item, index) => (
                 <div key={ index }
                      style={{ padding: '0 0 15px 0' }}>
 
@@ -61,7 +61,7 @@ export const TextLanguageFieldset = ({ title, items = [],
                 </div>
                 )
             )}
-            { items.length === 0 &&
+            { items?.length === 0 &&
                 <PlusButton
                     title={ t('Add field for another language') }
                     clickHandler={ add }

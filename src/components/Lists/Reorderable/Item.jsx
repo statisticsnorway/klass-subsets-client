@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import keys from '../../../utils/keys';
+import keys from 'utils/keys';
 import {
     Trash2,
     Repeat,
@@ -7,7 +7,7 @@ import {
     ChevronDown
 } from 'react-feather';
 
-export const Item = ({item = {}, remove, update,
+export const Item = ({item = {}, remove,
                                   rerank, rerankDragTargets,
                                   onDragEnd, onDragEnter,
                                   toggleDragTarget, isDragTarget,
@@ -75,7 +75,7 @@ export const Item = ({item = {}, remove, update,
             <td style={{ width: '65%'}} onClick={() => toggleDragTarget(item)}>{ item.name }</td>
             { !disabled &&
             <td>
-                        <span style={{display: 'inline-block', width: '40px'}}>
+                         <span style={{display: 'inline-block', width: '40px'}}>
 
                             <button onClick={ (event) => {
                                 event.stopPropagation();

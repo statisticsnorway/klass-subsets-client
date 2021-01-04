@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EditButton, GlobeButton, HelpButton, SaveButton} from '../Buttons';
-import { languages as defaultLanguages } from '../../defaults';
-import { Tag } from '../HtmlTag';
+import { EditButton, GlobeButton, HelpButton, SaveButton, Tag } from 'components';
+import { languages as defaultLanguages } from 'defaults';
 
 // TESTME: if no text, if no translates..., if translates does not match default languages
 export const Title = ({

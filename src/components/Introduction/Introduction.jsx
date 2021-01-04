@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toId } from '../../utils/strings';
-import { Tag } from '../HtmlTag';
+import { toId } from 'utils';
+import { Tag } from 'components';
 
 export const Introduction = ({
                           texts = [],
