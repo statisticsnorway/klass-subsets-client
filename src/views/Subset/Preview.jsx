@@ -3,6 +3,7 @@ import { BriefMetadata, Metadata, Versions, SearchCodes } from 'views';
 import { Tab, Tabs, Title } from 'components';
 import { Subset } from 'models';
 import { useHistory } from 'react-router-dom';
+import {useTranslation} from "react-i18next";
 
 export const Preview = ({ data,
                           edit = false,
@@ -11,6 +12,7 @@ export const Preview = ({ data,
 }) => {
     const subset = new Subset(data);
     let history = useHistory();
+    const { t } = useTranslation();
 
     // TODO: use simple Links instead of buttons
     const editMetadata = () => history.push(`/editor?step=Metadata&subsetId=${ data?.id }`);
@@ -33,18 +35,18 @@ export const Preview = ({ data,
                 metadataToBeSaved={ subset?.metadataToBeSaved }
             />
             <Tabs dark>
-                <Tab title='Versions' path='versions'>
+                <Tab title={ t('Versions') } path='versions'>
                     <Versions edit={ edit ? editVersion : null }
                               save={ save ? saveVersion : null }
                               publish={ publish ? publishVersion : null }
                               data={ data?.versions } />
                 </Tab>
-                <Tab title='Metadata' path='metadata'>
+                <Tab title={ t('Metadata') } path='metadata'>
                     <Metadata edit={ edit ? editMetadata : null }
                               save={ save ? saveMetadata : null }
                               subset={ data }/>
                 </Tab>
-                {/*<Tab title='Codes' path='codes'>
+                {/*<Tab title='{ t(Codes') } path='codes'>
                     <SearchCodes edit={ edit || null } data={ data?.versions }/>
                 </Tab>*/}
             </Tabs>
