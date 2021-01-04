@@ -11,16 +11,16 @@ export default function App() {
             {/** TODO: find a better solution?
              * enabled 'forceRefresh' just to make
              * application redirect through the backend
-             * for protected routes (like '/create').
+             * for protected routes (like '/editor').
             */}
             <BrowserRouter forceRefresh={true}>
                 <Header/>
                 <Switch>
                     <Redirect push from='/' exact to='/search' />
                     <Route path='/search' exact component={ SearchSubsets }/>
-                    {/*<Redirect push from='/create' to='/auth/create' />*/}
+                    {/*<Redirect push from='/edit' to='/auth/editor' />*/}
                     <Route path='/auth/save' component={ Step6Publish }/>
-                    <Route path='/create' component={ SubsetForm }/>
+                    <Route path='/editor' component={ SubsetForm }/>
                     <Route path='/changelog' exact component={ Changelog }/>
                     <Route path='/subsets/:id' exact component={ SubsetPage }/>
                     <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>

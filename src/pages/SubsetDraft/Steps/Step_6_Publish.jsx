@@ -59,7 +59,7 @@ export const Step6Publish = () => {
     useEffect(() => {
         if (post || update || postVersion || updateVersion) {
             setTimeout(() => {
-                history.push(`/create?step=Review%20and%20publish`);
+                history.push(`/editor?step=Review%20and%20publish`);
                 //dispatch({action: 'reset'});
             }, 2000);
         }
@@ -93,13 +93,13 @@ export const Step6Publish = () => {
                 <CheckCircle color='green'/> { t('Success') }. { t('Data is sent') }.
             </p>
             }
-            <button onClick={ () => history.push(`/create?step=Metadata`) }>
+            <button onClick={ () => history.push(`/editor?step=Metadata`) }>
                 { t('Back to metadata') }
             </button>
-            <button onClick={ () => history.push(`/create?step=Versions`) }>
+            <button onClick={ () => history.push(`/editor?step=Versions`) }>
                 { t('Back to versions') }
             </button>
-            <button onClick={ () => history.push(`/create?step=Review%20and%20publish`) }>
+            <button onClick={ () => history.push(`/editor?step=Review%20and%20publish`) }>
                 { t('Back to review') }
             </button>
             <button onClick={ () => history.push(`/subsets/${id}`) }>

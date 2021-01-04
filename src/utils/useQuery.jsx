@@ -16,7 +16,6 @@ export const updatable = (state = {}) => ({
     update(k, v) {
         const query = new URLSearchParams(state);
         query.set(k, v);
-        console.debug('setKey', k, query);
         return query;
     }
 

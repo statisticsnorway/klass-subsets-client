@@ -20,7 +20,7 @@ export const Banner = ({ data }) => {
                 }
             </SsbLink>
             <EditButton disabled={ !data?.id }
-                        clickHandler={() => history.push(`/create?subsetId=${ data?.id }`)}
+                        clickHandler={() => history.push(`/editor?subsetId=${ data?.id }`)}
             />
             <BriefMetadata
                 id={ data?.id }

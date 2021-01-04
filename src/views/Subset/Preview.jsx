@@ -13,8 +13,8 @@ export const Preview = ({ data,
     let history = useHistory();
 
     // TODO: use simple Links instead of buttons
-    const editMetadata = () => history.push(`/create?step=Metadata&subsetId=${ data?.id }`);
-    const editVersion = (versionId) => history.push(`/create?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
+    const editMetadata = () => history.push(`/editor?step=Metadata&subsetId=${ data?.id }`);
+    const editVersion = (versionId) => history.push(`/editor?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
     const saveMetadata = () => history.push(`/auth/save?metadata=true`);
     const saveVersion = () => history.push(`/auth/save?version=true`);
     const publishVersion = () => history.push(`/auth/save?version=true&publish=true`);
