@@ -58,7 +58,7 @@ export const Versions = ({ data = [],
                                   ? pushQuery(option)
                                   : setVersion(option)
                       }
-                      selected={ version }
+                      selected={ versionId }
             />
 
             { version &&
