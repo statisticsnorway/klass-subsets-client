@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropdown } from 'components';
 import { useTranslation } from 'react-i18next';
+import { orderByValidFromAsc } from 'utils';
 
 export const Switcher = ({
                              versions = [],
@@ -13,8 +14,8 @@ export const Switcher = ({
     return (
         <>
             <Dropdown label={ t('Version') }
-                      options={[
-                                  ...versions.map(v => ({
+                      options={ orderByValidFromAsc([
+                          ...versions.map(v => ({
                                   ...v,
                                   title: v.title
                                       || `${ t('Version') }: ${
@@ -23,7 +24,7 @@ export const Switcher = ({
                                   }`,
                                   id: v.versionId
                               }))
-                          ]
+                          ])
                       }
                       placeholder={ t('Select a version') }
                       selected={ selected.versionId }
