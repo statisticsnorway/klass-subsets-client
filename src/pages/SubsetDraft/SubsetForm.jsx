@@ -27,7 +27,7 @@ export const SubsetForm = () => {
             action: 'version_switch',
             data: { versionId: query.get('versionId') }
         });
-    }, [ dispatch ])
+    }, [ subsetData, dispatch, query ])
 
     return (
         <div className='container'>
