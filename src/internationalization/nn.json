@@ -156,7 +156,8 @@
   "Sending data to the server": "Sender data til serveren",
   "Update failed": "Oppdatering mislykket for subset med ID={{id}} versjon={{version}}",
   "Success": "Vellykket",
-  "Data is sent": "Data er sendt",
+  "Metadata is sent": "Metadata er sendt",
+  "Version is sent": "Versjon er sendt",
 
   "Feedback": "Tilbakemeldinger",
   "The application is under development.": "Applikasjonen er under utvikling.",

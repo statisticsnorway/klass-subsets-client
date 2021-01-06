@@ -6,7 +6,6 @@ export * from './Forms/index';
 export * from './Header/index';
 export * from './Help/index';
 export * from './HtmlTag/index';
-export * from './Introduction/index';
 export * from './JsonView/index';
 export * from './Lists/index';
 export * from './Navigation/index';

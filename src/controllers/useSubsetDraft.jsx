@@ -2,11 +2,23 @@ import { useReducer, useEffect } from 'react';
 import { Subset } from 'models';
 
 function subsetReducer( state, { action, data = {} }) {
-    console.info({ action, data });
+    console.info({ action, data, state });
     switch (action) {
         case 'edit': {
-            if (state.id === data.id ) return state;
+            if (state.id === data.id) return state;
             return Subset({...data });
+        }
+        case 'metadata_sync': {
+            if (state.id === data.id) {
+                state.name = data.name;
+                state.lastModified = data.lastModified;
+                state.createdDate = data.createdDate;
+                state.shortName = data.shortName;
+                state.owningSection = data.owningSection;
+                state.classificationFamily = data.classificationFamily;
+                state.description = data.description;
+            }
+            return Subset({...state });
         }
         case 'name_text': {
             state.updateNameTextByIndex(data.index, data.text);
@@ -31,6 +43,42 @@ function subsetReducer( state, { action, data = {} }) {
         }
         case 'shortName_update': {
             state.shortName = data;
+            return Subset({...state});
+        }
+        case 'owningSection': {
+            state.owningSection = data;
+            return  Subset({...state});
+        }
+        case 'classificationFamily': {
+            // FIXME: mutable change
+            state.classificationFamily = data;
+            return Subset({...state});
+        }
+        case 'description_text': {
+            state.updateDescriptionTextByIndex(data.index, data.text);
+            return Subset({...state});
+        }
+        case 'description_lang': {
+            state.updateDescriptionLanguageByIndex(data.index, data.lang);
+            return Subset({...state});
+        }
+        case 'description_init': {
+            if (state.description?.length !== 0) return state;
+            state.addDescription();
+            return Subset({...state});
+        }
+        case 'description_add': {
+            state.addDescription();
+            return Subset({...state});
+        }
+        case 'description_remove': {
+            state.removeDescriptionByIndex(data);
+            return Subset({...state});
+        }
+        case 'remove_empty': {
+            state.removeEmptyNames();
+            state.removeEmptyDescriptions();
+            state.removeEmptyVersionRationales();
             return Subset({...state});
         }
         case 'version_from': {
@@ -69,46 +117,15 @@ function subsetReducer( state, { action, data = {} }) {
         }
         case 'version_switch': {
             if (state.currentVersion?.versionId === data?.versionId) return state;
+            console.log('changing current version)')
             state.currentVersion =
                 data?.versionId === `${ state.versions?.length + 1 }`
                     ? state.createNewVersion()
                     : data;
             return Subset({...state});
         }
-        case 'owningSection': {
-            state.owningSection = data;
-            return  Subset({...state});
-        }
-        case 'classificationFamily': {
-            // FIXME: mutable change
-            state.classificationFamily = data;
-            return Subset({...state});
-        }
-        case 'description_text': {
-            state.updateDescriptionTextByIndex(data.index, data.text);
-            return Subset({...state});
-        }
-        case 'description_lang': {
-            state.updateDescriptionLanguageByIndex(data.index, data.lang);
-            return Subset({...state});
-        }
-        case 'description_init': {
-            if (state.description?.length !== 0) return state;
-            state.addDescription();
-            return Subset({...state});
-        }
-        case 'description_add': {
-            state.addDescription();
-            return Subset({...state});
-        }
-        case 'description_remove': {
-            state.removeDescriptionByIndex(data);
-            return Subset({...state});
-        }
-        case 'remove_empty': {
-            state.removeEmptyNames();
-            state.removeEmptyDescriptions();
-            state.removeEmptyVersionRationales();
+        case 'version_sync': {
+            state.syncVersion(data.update, data.tempId);
             return Subset({...state});
         }
         // DOCME: if a codelist is chosen, but no codes are checked,

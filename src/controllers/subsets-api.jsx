@@ -78,23 +78,24 @@ export function useGet(url = null) {
 }
 
 export function usePost(url = '') {
-    console.log({url});
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ payload, setPayload ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
 
-    useEffect(() => console.debug({payload, path}), [payload, path]);
+    useEffect(() => console.debug({
+        method: 'POST',
+        payload, 
+        path
+    }), [payload, path]);
 
     useEffect(() => {
         const fetchData = async () => {
             setError(null);
-            setIsLoading(true);
             setData(null);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true&language=nb`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -102,7 +103,6 @@ export function usePost(url = '') {
                 let json = await response.json();
                 if (response.status >= 200 && response.status <= 299) {
                     setData(json);
-                    setIsLoading(false);
                 } else {
                     throw Error(`${ json.error } ${ json.message }`
                         || `${ response.status } ${ response.statusText }`);
@@ -110,7 +110,6 @@ export function usePost(url = '') {
             }
             catch (e) {
                 setError(e);
-                setIsLoading(false);
             }
         };
 
@@ -118,28 +117,30 @@ export function usePost(url = '') {
             fetchData();
         }
 
-    }, [ payload ]);
+    }, [payload]);
 
-    return [ data, setPayload, isLoading, error, setPath ];
+    return [ data, setPayload, error, setPath ];
 }
 
 export function usePut(url = '') {
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ payload, setPayload ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
 
-    useEffect(() => console.debug({payload, path}), [payload, path]);
+    useEffect(() => console.debug({
+        method: 'PUT', 
+        payload, 
+        path
+    }), [payload, path]);
 
     useEffect(() => {
         const fetchData = async () => {
             setError(null);
-            setIsLoading(true);
             setData(null);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true&language=nb`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -147,7 +148,6 @@ export function usePut(url = '') {
                 let json = await response.json();
                 if (response.status >= 200 && response.status <= 299) {
                     setData(json);
-                    setIsLoading(false);
                 } else {
                     throw Error(
                         `${ json.error } ${ json.message }`
@@ -157,7 +157,6 @@ export function usePut(url = '') {
             }
             catch (e) {
                 setError(e);
-                setIsLoading(false);
             }
         };
 
@@ -173,5 +172,5 @@ export function usePut(url = '') {
     }, [path, data, payload, error])
 */
 
-    return [ data, setPayload, isLoading, error, setPath ];
+    return [ data, setPayload, error, setPath ];
 }
