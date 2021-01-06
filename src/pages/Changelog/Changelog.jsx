@@ -24,6 +24,19 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.6.3</h4>
+               <ul>Switched <strong>back on</strong>:
+                   <li>Green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
+               </ul>
+               <ul>Still temporary <strong>switched off</strong>:
+                   <li>Form validating.</li>
+                   <li>Code notes.</li>
+                   <li>Modification aggregation (signal if a subset has been locally modified).</li>
+                   <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
+               </ul>
+               <p>Known bug: Version dropdown on 'Review and save' form step has a glitch. Refresh the page when it happens.</p>
+
                <h4>v0.6.2</h4>
                <p>Client API uses params and queries.</p>
                <p>Fixed multiple selection on Reorder form step.</p>
@@ -35,11 +48,11 @@ export const Changelog = () => {
                    <li>Codes reorder on "Reorder" form step.</li>
                </ul>
                <ul>Still temporary <strong>switched off</strong>:
-                   <li>No form validating.</li>
-                   <li>No code notes.</li>
-                   <li>No green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
+                   <li>Form validating.</li>
+                   <li>Code notes.</li>
+                   <li>Green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
                    <li>Modification aggregation (signal if a subset has been locally modified).</li>
-                   <li>No unit tests for subset prototype.</li>
+                   <li>Unit tests for subset prototype.</li>
                    <li>Broken internationalisation.</li>
                </ul>
 
