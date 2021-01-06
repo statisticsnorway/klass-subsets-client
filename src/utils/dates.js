@@ -26,7 +26,7 @@ export const isInPeriod = (date = null, start = null, end = null) => {
     if (!date || !start) {
         return false;
     }
-    // console.debug('isInPeriod', !end ? date >= start : date >= start && date <= end);
+    console.debug('isInPeriod', !end ? date >= start : date >= start && date <= end);
 
     return !end
         ? date >= start

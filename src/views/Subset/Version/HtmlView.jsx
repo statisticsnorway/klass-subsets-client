@@ -60,6 +60,8 @@ export const HtmlView = ({ version: {
                     <Code key={ i } origin={ code } valid={
                         isInPeriod(code.validFromInRequestedRange, validFrom, validUntil )
                         || isInPeriod(code.validToInRequestedRange, validFrom, validUntil )
+                        || isInPeriod( validFrom, code.validFromInRequestedRange, code.validToInRequestedRange )
+                        || isInPeriod( validUntil, code.validFromInRequestedRange, code.validToInRequestedRange )
                     } />)
                 )
             }
