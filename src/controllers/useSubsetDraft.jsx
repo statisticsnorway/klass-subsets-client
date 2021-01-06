@@ -117,6 +117,7 @@ function subsetReducer( state, { action, data = {} }) {
         }
         case 'version_switch': {
             if (state.currentVersion?.versionId === data?.versionId) return state;
+            console.log('changing current version)')
             state.currentVersion =
                 data?.versionId === `${ state.versions?.length + 1 }`
                     ? state.createNewVersion()

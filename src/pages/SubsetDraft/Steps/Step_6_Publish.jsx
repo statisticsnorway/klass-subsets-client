@@ -21,36 +21,44 @@ export const Step6Publish = () => {
     let history = useHistory();
     let query = useQuery();
 
-    const [ post, setPOSTPayload, posting, errorPost ] = usePost();
-    const [ update, setPUTPayload, updating, errorUpdate ] = usePut(id);
-    const [ postVersion, setPOSTPayloadVersion, postingVersion, errorPostVersion ] = usePost(`${id}/versions`);
-    const [ updateVersion, setPUTPayloadVersion, updatingVersion, errorUpdateVersion ] = usePut(`${id}/versions/${ versionId }`);
+    const [ post, setPOSTPayload,, errorPost ] = usePost();
+    const [ update, setPUTPayload,, errorUpdate ] = usePut(id);
+    const [ postVersion, setPOSTPayloadVersion,, errorPostVersion ] = usePost(`${id}/versions`);
+    const [ updateVersion, setPUTPayloadVersion,, errorUpdateVersion ] = usePut(`${id}/versions/${ versionId }`);
 
     useEffect(() => {
-        const payload = query.get('publish')
-            ? publishVersionPayload
-            : query.get('metadata')
-                ? metadataPayload
-                : versionPayload;
+        if (!post && !update) {
+            if ((query.get('metadata') || query.get('version')) && isNew()) {
+                console.debug('New subset ', isNew());
+                setPOSTPayload(metadataPayload);
+            }
+            if (query.get('metadata') && !isNew()) {
+                console.debug('Save metadata ', !isNew());
+                setPUTPayload(metadataPayload);
+            }
+            if (query.get('version') && isNewVersion() && !isNew()) {
+                console.debug('New version ', isNewVersion());
+                setPOSTPayloadVersion(query.get('publish')
+                    ? publishVersionPayload
+                    : versionPayload
+                );
+            }
+            if (query.get('version') && !isNewVersion()) {
+                console.debug('Update version ', !isNewVersion());
+                setPUTPayloadVersion(query.get('publish')
+                    ? publishVersionPayload
+                    : versionPayload
+                );
+            }
+        } else {
+                console.debug('New version when metadata is saved', isNewVersion());
+                setPOSTPayloadVersion(query.get('publish')
+                    ? publishVersionPayload
+                    : versionPayload
+                );
+        }
 
-        if (isNew() && query.get('metadata')) {
-            console.debug('New subset ', isNew());
-            setPOSTPayload(payload);
-        }
-        if (!isNew() && query.get('metadata')) {
-            console.debug('Save metadata ', isNew());
-            setPUTPayload(payload);
-        }
-        if (isNewVersion() && query.get('version')) {
-            console.debug('New version ', isNewVersion());
-            setPOSTPayloadVersion(payload);
-        }
-        if (!isNewVersion() && query.get('version')) {
-            console.debug('Update version ', isNewVersion());
-            setPUTPayloadVersion(payload);
-        }
-
-    }, []);
+    }, [ post, update ]);
 
     useEffect(() => {
         if (post || update) {
@@ -58,9 +66,6 @@ export const Step6Publish = () => {
                 action: 'metadata_sync',
                 data: post || update
             });
-/*            setTimeout(() => {
-                history.push(`/editor?step=Review%20and%20publish&subsetId=${ id }`);
-            }, 2000);*/
         }
     }, [ dispatch, post, update ]);
 
@@ -73,14 +78,12 @@ export const Step6Publish = () => {
                     tempId: versionId
                 }
             });
-/*            setTimeout(() => {
-                history.push(`/editor?step=Review%20and%20publish&subsetId=${ id }&versionId=${ postVersion.versionId }`);
-            }, 2000);*/
         }
-    }, [ dispatch, id, postVersion, updateVersion ]);
+    }, [ dispatch, postVersion, updateVersion ]);
 
     return (
-        <div style={{ minHeight: '350px', display: 'flex', justifyContent: 'center'}}>
+        <div style={{ minHeight: '350px', textAlign: 'center', margin: 'auto', width: '100%' }}>
+            
             { (!errorPost && !errorUpdate && !post && !update
                 && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion
             ) &&
@@ -88,9 +91,10 @@ export const Step6Publish = () => {
             }
             { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
             <div style={{
-                width: '50%',
+                width: '100%',
                 height: '30%',
-                border: 'none'
+                border: 'none',
+                margin: 'auto',
             }}>
                 <Dialog type='warning'
                         title={ t('Update failed', {
@@ -107,18 +111,20 @@ export const Step6Publish = () => {
                 <CheckCircle color='green'/> { t('Success') }. { t('Data is sent') }.
             </p>
             }
-            <button onClick={ () => history.push(`/editor?step=Metadata`) }>
-                { t('Back to metadata') }
-            </button>
-            <button onClick={ () => history.push(`/editor?step=Versions`) }>
-                { t('Back to versions') }
-            </button>
-            <button onClick={ () => history.push(`/editor?step=Review%20and%20publish`) }>
-                { t('Back to review') }
-            </button>
-            <button onClick={ () => history.push(`/subsets/${id}`) }>
-                { t('Out of edition mode') }
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <button onClick={ () => history.push(`/editor?step=Metadata`) }>
+                    { t('Back to metadata') }
+                </button>
+                <button onClick={ () => history.push(`/editor?step=Versions`) }>
+                    { t('Back to versions') }
+                </button>
+                <button onClick={ () => history.push(`/editor?step=Review%20and%20publish`) }>
+                    { t('Back to review') }
+                </button>
+                <button onClick={ () => history.push(`/subsets/${id}`) }>
+                    { t('Out of edition mode') }
+                </button>
+            </div>
         </div>
     );
 };

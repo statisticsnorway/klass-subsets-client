@@ -211,7 +211,7 @@ export function Subset (data) {
             //console.debug('Set versionValidFrom', date);
 
             if (subset.isEditableVersionValidFrom) {
-                subset.currentVersion.validFrom = new Date(date)?.toJSON().substr(0, 10) || null;
+                subset.currentVersion.validFrom = date ? new Date(date)?.toJSON().substr(0, 10) : null;
             }
         }
     });
@@ -226,7 +226,7 @@ export function Subset (data) {
             //console.debug('Set versionValidUntil', date, subset.isEditableVersionValidUntil());
 
             if (subset.isEditableVersionValidUntil()) {
-                subset.currentVersion.validUntil = new Date(date)?.toJSON().substr(0, 10) || null;
+                subset.currentVersion.validUntil = date ? new Date(date)?.toJSON().substr(0, 10) : null;
             }
         }
     });
