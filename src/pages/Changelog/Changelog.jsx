@@ -24,6 +24,9 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.6.4</h4>
+               <p>Better check for code validity.</p>
+
                <h4>v0.6.3</h4>
                <ul>Switched <strong>back on</strong>:
                    <li>Green buttons "Save" and "Publish" at the end of the form (need to be defined).</li>
