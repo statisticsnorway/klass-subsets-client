@@ -81,7 +81,6 @@ export function usePost(url = '') {
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ payload, setPayload ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
 
     useEffect(() => console.debug({
@@ -93,7 +92,6 @@ export function usePost(url = '') {
     useEffect(() => {
         const fetchData = async () => {
             setError(null);
-            setIsLoading(true);
             setData(null);
 
             try {
@@ -105,7 +103,6 @@ export function usePost(url = '') {
                 let json = await response.json();
                 if (response.status >= 200 && response.status <= 299) {
                     setData(json);
-                    setIsLoading(false);
                 } else {
                     throw Error(`${ json.error } ${ json.message }`
                         || `${ response.status } ${ response.statusText }`);
@@ -113,7 +110,6 @@ export function usePost(url = '') {
             }
             catch (e) {
                 setError(e);
-                setIsLoading(false);
             }
         };
 
@@ -123,14 +119,13 @@ export function usePost(url = '') {
 
     }, [payload]);
 
-    return [ data, setPayload, isLoading, error, setPath ];
+    return [ data, setPayload, error, setPath ];
 }
 
 export function usePut(url = '') {
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ payload, setPayload ] = useState(null);
-    const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
 
     useEffect(() => console.debug({
@@ -142,7 +137,6 @@ export function usePut(url = '') {
     useEffect(() => {
         const fetchData = async () => {
             setError(null);
-            setIsLoading(true);
             setData(null);
 
             try {
@@ -154,7 +148,6 @@ export function usePut(url = '') {
                 let json = await response.json();
                 if (response.status >= 200 && response.status <= 299) {
                     setData(json);
-                    setIsLoading(false);
                 } else {
                     throw Error(
                         `${ json.error } ${ json.message }`
@@ -164,7 +157,6 @@ export function usePut(url = '') {
             }
             catch (e) {
                 setError(e);
-                setIsLoading(false);
             }
         };
 
@@ -180,5 +172,5 @@ export function usePut(url = '') {
     }, [path, data, payload, error])
 */
 
-    return [ data, setPayload, isLoading, error, setPath ];
+    return [ data, setPayload, error, setPath ];
 }

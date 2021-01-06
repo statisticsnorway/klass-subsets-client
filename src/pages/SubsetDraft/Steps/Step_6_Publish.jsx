@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '@statisticsnorway/ssb-component-library';
 import { usePost, usePut } from 'controllers/subsets-api';
@@ -21,10 +21,10 @@ export const Step6Publish = () => {
     let history = useHistory();
     let query = useQuery();
 
-    const [ post, setPOSTPayload,, errorPost ] = usePost();
-    const [ update, setPUTPayload,, errorUpdate ] = usePut(id);
-    const [ postVersion, setPOSTPayloadVersion,, errorPostVersion ] = usePost(`${id}/versions`);
-    const [ updateVersion, setPUTPayloadVersion,, errorUpdateVersion ] = usePut(`${id}/versions/${ versionId }`);
+    const [ post, setPOSTPayload, errorPost ] = usePost();
+    const [ update, setPUTPayload, errorUpdate ] = usePut(id);
+    const [ postVersion, setPOSTPayloadVersion, errorPostVersion ] = usePost(`${id}/versions`);
+    const [ updateVersion, setPUTPayloadVersion, errorUpdateVersion ] = usePut(`${id}/versions/${ versionId }`);
 
     useEffect(() => {
         if (!post && !update) {
@@ -51,11 +51,13 @@ export const Step6Publish = () => {
                 );
             }
         } else {
+            if (query.get('version') && isNewVersion()) {
                 console.debug('New version when metadata is saved', isNewVersion());
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
                 );
+            }
         }
 
     }, [ post, update ]);
@@ -83,11 +85,12 @@ export const Step6Publish = () => {
 
     return (
         <div style={{ minHeight: '350px', textAlign: 'center', margin: 'auto', width: '100%' }}>
-            
-            { (!errorPost && !errorUpdate && !post && !update
-                && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion
-            ) &&
-                <p>{ t('Sending data to the server') }...</p>
+
+            { ( !errorPost && !errorUpdate && !post && !update ) &&
+                <p>{ t('Sending metadata to the server') }...</p>
+            }
+            { ( !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion ) &&
+                <p>{ t('Sending version to the server') }...</p>
             }
             { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
             <div style={{
@@ -97,19 +100,24 @@ export const Step6Publish = () => {
                 margin: 'auto',
             }}>
                 <Dialog type='warning'
-                        title={ t('Update failed', {
-                                    id,
-                                    version: versionId
-                                })
-                }>
-                    {`${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
+                        title='Update failed'
+                          //  {t('Update failed', {id, version: versionId})}
+                >
+                    {`Subset's ID: ${ id }`}
+                    {`Version's ID: ${ versionId }`}
+                    {`Error message: ${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
                 </Dialog>
             </div>
             }
-            { (post || update || postVersion || updateVersion) &&
-            <p style={{ color: 'green' }}>
-                <CheckCircle color='green'/> { t('Success') }. { t('Data is sent') }.
-            </p>
+            { (post || update) &&
+                <p style={{ color: 'green' }}>
+                    <CheckCircle color='green'/> { t('Success') }. { t('Metadata is sent') }.
+                </p>
+            }
+            { (postVersion || updateVersion) &&
+                <p style={{ color: 'green' }}>
+                    <CheckCircle color='green'/> { t('Success') }. { t('Version is sent') }.
+                </p>
             }
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <button onClick={ () => history.push(`/editor?step=Metadata`) }>
