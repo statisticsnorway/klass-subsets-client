@@ -18,7 +18,6 @@ function subsetReducer( state, { action, data = {} }) {
                 state.classificationFamily = data.classificationFamily;
                 state.description = data.description;
             }
-            console.info({ action: 'metadata_sync done', state });
             return Subset({...state });
         }
         case 'name_text': {

@@ -99,7 +99,7 @@ export const editable = (state = {}) => ({
     },
 
     isEditableCodes() {
-        console.debug('isEditableCodes ', !state.isPublished)
+        // console.debug('isEditableCodes ', !state.isPublished)
         return !state.isPublished;
     }
 });

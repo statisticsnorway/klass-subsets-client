@@ -33,22 +33,20 @@ export const Step6Publish = () => {
                 ? metadataPayload
                 : versionPayload;
 
-        console.log({payload});
-
         if (isNew() && query.get('metadata')) {
-            console.log('New subset ', isNew());
+            console.debug('New subset ', isNew());
             setPOSTPayload(payload);
         }
         if (!isNew() && query.get('metadata')) {
-            console.log('Save metadata ', isNew());
+            console.debug('Save metadata ', isNew());
             setPUTPayload(payload);
         }
         if (isNewVersion() && query.get('version')) {
-            console.log('New version ', isNewVersion());
+            console.debug('New version ', isNewVersion());
             setPOSTPayloadVersion(payload);
         }
         if (!isNewVersion() && query.get('version')) {
-            console.log('Update version ', isNewVersion());
+            console.debug('Update version ', isNewVersion());
             setPUTPayloadVersion(payload);
         }
 
