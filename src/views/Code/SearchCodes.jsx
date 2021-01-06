@@ -11,7 +11,7 @@ export const SearchCodes = ({ data = [], edit = () => {} }) => {
         <>
             <Title text='Codes' edit={ edit } />
 
-            <Introduction texts={[ 'Codes filter info' ]} />
+            <p>{ t('Codes filter info') }</p>
 
             <div className='period' style={{ display: 'flex'}}>
 
