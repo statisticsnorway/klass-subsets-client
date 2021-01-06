@@ -156,7 +156,8 @@
   "Sending data to the server": "Sending data to the server",
   "Update failed": "Update failed for subset with ID={{id}} version={{version}}",
   "Success": "Success",
-  "Data is sent": "Data is sent",
+  "Metadata is sent": "Metadata is sent",
+  "Version is sent": "Version is sent",
 
   "Feedback": "Feedback",
   "The application is under development.": "The application is under development.",

@@ -103,8 +103,8 @@ export const Step6Publish = () => {
                         title='Update failed'
                           //  {t('Update failed', {id, version: versionId})}
                 >
-                    {`Subset's ID: ${ id }`}
-                    {`Version's ID: ${ versionId }`}
+                    {`Subset's ID: ${ id }. `}
+                    {`Version's ID: ${ versionId }. `}
                     {`Error message: ${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
                 </Dialog>
             </div>
