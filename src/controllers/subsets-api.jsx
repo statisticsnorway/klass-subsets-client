@@ -78,14 +78,17 @@ export function useGet(url = null) {
 }
 
 export function usePost(url = '') {
-    console.log({url});
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ payload, setPayload ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
 
-    useEffect(() => console.debug({payload, path}), [payload, path]);
+    useEffect(() => console.debug({
+        method: 'POST',
+        payload, 
+        path
+    }), [payload, path]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -94,7 +97,7 @@ export function usePost(url = '') {
             setData(null);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true&language=nb`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -118,7 +121,7 @@ export function usePost(url = '') {
             fetchData();
         }
 
-    }, [ payload ]);
+    }, [payload]);
 
     return [ data, setPayload, isLoading, error, setPath ];
 }
@@ -130,7 +133,11 @@ export function usePut(url = '') {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ error, setError ] = useState(null);
 
-    useEffect(() => console.debug({payload, path}), [payload, path]);
+    useEffect(() => console.debug({
+        method: 'PUT', 
+        payload, 
+        path
+    }), [payload, path]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -139,7 +146,7 @@ export function usePut(url = '') {
             setData(null);
 
             try {
-                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true`, {
+                const response = await fetch(`${ subsetsServiceEndpointAUTH }${ path }?ignoreSuperfluousFields=true&language=nb`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),

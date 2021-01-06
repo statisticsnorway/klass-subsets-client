@@ -11,6 +11,7 @@ export const Versions = ({ data = [],
                            edit = () => {},
                            save = () => {},
                            publish = () => {},
+                            current = '',
                             syncParams = false,
                             syncQuery = false
 }) => {
@@ -19,7 +20,7 @@ export const Versions = ({ data = [],
     let query = useQuery();
     let { versionId } = useParams();
 
-    const [ version, setVersion ] = useState( data?.find(v => v.versionId === versionId || v.versionId === query.get('versionId'))
+    const [ version, setVersion ] = useState( data?.find(v => v.versionId === versionId || v.versionId === query.get('versionId') || current )
         //orderByValidFromDesc(versions
         //.filter(v => v.administrativStatus != 'OPEN')
         //.filter(v => v.validFrom > new Date().toJSON()))[0] || null
@@ -58,7 +59,7 @@ export const Versions = ({ data = [],
                                   ? pushQuery(option)
                                   : setVersion(option)
                       }
-                      selected={ versionId }
+                      selected={ version }
             />
 
             { version &&

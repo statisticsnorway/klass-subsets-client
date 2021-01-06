@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 
 export const Preview = ({ data,
-                          current = '',
                           edit = false,
                           save = false,
                           publish = false,
@@ -43,7 +42,7 @@ export const Preview = ({ data,
                               save={ save ? saveVersion : null }
                               publish={ publish ? publishVersion : null }
                               data={ data?.versions }
-                              current={ current }
+                              current={ data.versionId }
                               syncParams={ syncParams }
                               syncQuery={ syncQuery }
                 />

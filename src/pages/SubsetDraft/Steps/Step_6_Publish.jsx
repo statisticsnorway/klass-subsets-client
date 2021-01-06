@@ -21,12 +21,10 @@ export const Step6Publish = () => {
     let history = useHistory();
     let query = useQuery();
 
-
-
     const [ post, setPOSTPayload, posting, errorPost ] = usePost();
     const [ update, setPUTPayload, updating, errorUpdate ] = usePut(id);
     const [ postVersion, setPOSTPayloadVersion, postingVersion, errorPostVersion ] = usePost(`${id}/versions`);
-    const [ updateVersion, setPUTPayloadVersion, updatingVersion, errorUpdateVersion ] = usePut(`${id}/versions/${versionId}`);
+    const [ updateVersion, setPUTPayloadVersion, updatingVersion, errorUpdateVersion ] = usePut(`${id}/versions/${ versionId }`);
 
     useEffect(() => {
         const payload = query.get('publish')
@@ -54,16 +52,34 @@ export const Step6Publish = () => {
             setPUTPayloadVersion(payload);
         }
 
-    }, [])
+    }, []);
 
     useEffect(() => {
-        if (post || update || postVersion || updateVersion) {
-            setTimeout(() => {
-                history.push(`/editor?step=Review%20and%20publish`);
-                //dispatch({action: 'reset'});
-            }, 2000);
+        if (post || update) {
+            dispatch({
+                action: 'metadata_sync',
+                data: post || update
+            });
+/*            setTimeout(() => {
+                history.push(`/editor?step=Review%20and%20publish&subsetId=${ id }`);
+            }, 2000);*/
         }
-    }, [ dispatch, id, versionId, history, post, update ])
+    }, [ dispatch, post, update ]);
+
+    useEffect(() => {
+        if (postVersion || updateVersion) {
+            dispatch({
+                action: 'version_sync',
+                data: {
+                    update: postVersion || updateVersion,
+                    tempId: versionId
+                }
+            });
+/*            setTimeout(() => {
+                history.push(`/editor?step=Review%20and%20publish&subsetId=${ id }&versionId=${ postVersion.versionId }`);
+            }, 2000);*/
+        }
+    }, [ dispatch, id, postVersion, updateVersion ]);
 
     return (
         <div style={{ minHeight: '350px', display: 'flex', justifyContent: 'center'}}>
