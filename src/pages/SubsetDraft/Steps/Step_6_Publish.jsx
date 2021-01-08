@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '@statisticsnorway/ssb-component-library';
-import { usePost, usePut } from 'controllers/subsets-api';
+import { usePost, usePut, useAuthPut } from 'controllers/subsets-api';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from 'controllers';
 import { CheckCircle } from 'react-feather';
@@ -25,33 +25,39 @@ export const Step6Publish = () => {
     const [ update, setPUTPayload, errorUpdate ] = usePut(id);
     const [ postVersion, setPOSTPayloadVersion, errorPostVersion ] = usePost(`${id}/versions`);
     const [ updateVersion, setPUTPayloadVersion, errorUpdateVersion ] = usePut(`${id}/versions/${ versionId }`);
+    const [ updateVersionAuth, setAuthPUTPayloadVersion, errorUpdateVersionAuth ] = useAuthPut(`${id}/versions/${ versionId }`);
 
     useEffect(() => {
         if (!post && !update) {
-            if ((query.get('metadata') || query.get('version')) && isNew()) {
+            if ((query.get('metadata') || query.get('version')) && isNew() && !query.get('auth')) {
                 console.debug('New subset ', isNew());
                 setPOSTPayload(metadataPayload);
             }
-            if (query.get('metadata') && !isNew()) {
+            if (query.get('metadata') && !isNew() && !query.get('auth')) {
                 console.debug('Save metadata ', !isNew());
                 setPUTPayload(metadataPayload);
             }
-            if (query.get('version') && isNewVersion() && !isNew()) {
+            if (query.get('version') && isNewVersion() && !isNew() && !query.get('auth')) {
                 console.debug('New version ', isNewVersion());
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
                 );
             }
-            if (query.get('version') && !isNewVersion()) {
+            if (query.get('version') && !isNewVersion() && !query.get('auth')) {
                 console.debug('Update version ', !isNewVersion());
                 setPUTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
                 );
             }
+            // FIXME: remove (experimental: test auth endpoint on the backend)
+            if (query.get('version') && query.get('auth') && !isNewVersion()) {
+                console.debug('Update version via auth', !isNewVersion());
+                setAuthPUTPayloadVersion(versionPayload);
+            }
         } else {
-            if (query.get('version') && isNewVersion()) {
+            if (query.get('version') && isNewVersion() && !query.get('auth')) {
                 console.debug('New version when metadata is saved', isNewVersion());
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
@@ -72,7 +78,7 @@ export const Step6Publish = () => {
     }, [ dispatch, post, update ]);
 
     useEffect(() => {
-        if (postVersion || updateVersion) {
+        if (postVersion || updateVersion || updateVersionAuth) {
             dispatch({
                 action: 'version_sync',
                 data: {
@@ -81,7 +87,7 @@ export const Step6Publish = () => {
                 }
             });
         }
-    }, [ dispatch, postVersion, updateVersion ]);
+    }, [ dispatch, postVersion, updateVersion, updateVersionAuth ]);
 
     return (
         <div style={{ minHeight: '350px', textAlign: 'center', margin: 'auto', width: '100%' }}>
@@ -89,10 +95,10 @@ export const Step6Publish = () => {
             { ( !errorPost && !errorUpdate && !post && !update && query.get('metadata')) &&
                 <p>{ t('Sending metadata to the server') }...</p>
             }
-            { ( !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && query.get('version')) &&
+            { ( !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && query.get('version')) && !updateVersionAuth && !errorUpdateVersionAuth &&
                 <p>{ t('Sending version to the server') }...</p>
             }
-            { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
+            { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion || errorUpdateVersionAuth) &&
             <div style={{
                 width: '100%',
                 height: '30%',
@@ -105,7 +111,7 @@ export const Step6Publish = () => {
                 >
                     {`Subset's ID: ${ id }. `}
                     {`Version's ID: ${ versionId }. `}
-                    {`Error message: ${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion}`}
+                    {`Error message: ${errorPost || errorUpdate || errorPostVersion || errorUpdateVersion || errorUpdateVersionAuth}`}
                 </Dialog>
             </div>
             }
@@ -118,6 +124,11 @@ export const Step6Publish = () => {
                 <p style={{ color: 'green' }}>
                     <CheckCircle color='green'/> { t('Success') }. { t('Version is sent') }.
                 </p>
+            }
+            { (updateVersionAuth) &&
+            <p style={{ color: 'green' }}>
+                <CheckCircle color='green'/> { t('Success') }. { t('Version is sent via /auth/') }.
+            </p>
             }
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <button onClick={ () => history.push(`/editor?step=Metadata`) }>
