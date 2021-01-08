@@ -86,10 +86,10 @@ export const Step6Publish = () => {
     return (
         <div style={{ minHeight: '350px', textAlign: 'center', margin: 'auto', width: '100%' }}>
 
-            { ( !errorPost && !errorUpdate && !post && !update ) &&
+            { ( !errorPost && !errorUpdate && !post && !update && query.get('metadata')) &&
                 <p>{ t('Sending metadata to the server') }...</p>
             }
-            { ( !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion ) &&
+            { ( !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && query.get('version')) &&
                 <p>{ t('Sending version to the server') }...</p>
             }
             { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
