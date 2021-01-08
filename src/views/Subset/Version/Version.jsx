@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs, JsonView, EditButton, SaveButton, UploadButton } from 'components';
 import { BriefVersion, HtmlView } from '../Version';
+import { useHistory } from 'react-router-dom';
 
 export const Version = ({
                             data = {},
@@ -10,6 +11,8 @@ export const Version = ({
                             publish = () => {}
 }) => {
     const { t } = useTranslation();
+    let history = useHistory();
+
     return (
         <>
             <h2>{ t('Version') } { t(data.validFrom) }
@@ -21,6 +24,12 @@ export const Version = ({
                 { save && <SaveButton
                     title={ t('Save version') }
                     clickHandler={ save }
+                />}
+
+                { save && <SaveButton
+                    title={ t('Save version') }
+                    clickHandler={ () => history.push(`/auth/save?version=true&auth=true`) }
+                    active={ false }
                 />}
 
                 { publish && <UploadButton
