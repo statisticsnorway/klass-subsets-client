@@ -79,10 +79,11 @@ export const Step6Publish = () => {
 
     useEffect(() => {
         if (postVersion || updateVersion || updateVersionAuth) {
+            console.debug('Version is updated', { response: postVersion || updateVersion || updateVersionAuth });
             dispatch({
                 action: 'version_sync',
                 data: {
-                    update: postVersion || updateVersion,
+                    update: postVersion || updateVersion || updateVersionAuth,
                     tempId: versionId
                 }
             });
