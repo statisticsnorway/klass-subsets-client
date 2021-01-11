@@ -82,7 +82,7 @@ export const Step6Publish = () => {
             dispatch({
                 action: 'version_sync',
                 data: {
-                    update: postVersion || updateVersion,
+                    update: postVersion || updateVersion || updateVersionAuth,
                     tempId: versionId
                 }
             });
