@@ -101,9 +101,9 @@ export const Item = ({item = {}, remove,
                            className='for_screen_readers'
                     >Type a desired rank number
                     </label>
-                    <input type='number' className='rank' name='rank'
-                           style={{textAlign: 'left', width: '35px', padding: '7px 5px'}}
-                           value={rank}
+                    <input type='number' className='rank' id='rank' name='rank'
+                           style={{ textAlign: 'left', width: '35px', padding: '7px 5px' }}
+                           value={ rank }
                            onChange={(event) => setRank(event.target.value)}
                            onKeyDown={(event) => {
                                event.stopPropagation();

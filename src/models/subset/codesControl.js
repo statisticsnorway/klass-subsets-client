@@ -31,10 +31,10 @@ export const codesControl = (state = {}) => ({
     },
 
     rerankCodes() {
-        // console.debug('rerankCodes1', state.codes);
+        // console.debug('rerankCodes', state.codes);
 
         state.codes.forEach((item, i) => {
-            item.rank = i + 1
+            item.rank = i + 1;
         });
     },
 
