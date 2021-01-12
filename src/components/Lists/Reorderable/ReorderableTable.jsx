@@ -30,7 +30,7 @@ export const ReorderableTable = ({ list = [], rerank, remove, disabled }) => {
                 </tr>
                 { list.sort((a, b) => (a.rank - b.rank -1))
                     .map((item, i) => (
-                        <Item key={ item.id }
+                        <Item key={ item.id+item.rank }
                                item={ item }
                                remove={ remove }
                                rerank={ rerank }
