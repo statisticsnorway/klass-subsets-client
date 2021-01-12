@@ -2,7 +2,7 @@ import React from 'react';
 import './changelog-container.css';
 import { useTranslation } from 'react-i18next';
 import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
-import {AlertButton, GlobeButton, Spinner, UploadButton} from 'components';
+import { AlertButton, GlobeButton, SaveButton, Spinner, UploadButton } from 'components';
 
 export const Changelog = () => {
    const { t } = useTranslation();
@@ -24,8 +24,57 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.6.8</h4>
+               <p>Working request URL to reach Subsets API auth protected service.</p>
+               <p>Fixed code reordering table.</p>
+               <ul>Still temporary <strong>switched off</strong>:
+                   <li>Form validating.</li>
+                   <li>Code notes.</li>
+                   <li>Modification aggregation (signal if a subset has been locally modified).</li>
+                   <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
+               </ul>
+               <p>Known bug: Version dropdown on 'Review and save' form step has a glitch. Refresh the page when it happens.</p>
+
+               <h4>v0.6.7</h4>
+               <p>More log for a bug troubleshooting.</p>
+
+               <h4>v0.6.6</h4>
+               <p>Use Subsets API's services, which do not require authorisation for test purposes.</p>
+               <p>Auxiliary Save button for versions to test the use of Subsets API's services, which do not require authorisation. <SaveButton disabled={true} /></p>
+               <ul>Still temporary <strong>switched off</strong>:
+                   <li>Form validating.</li>
+                   <li>Code notes.</li>
+                   <li>Modification aggregation (signal if a subset has been locally modified).</li>
+                   <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
+                   <li>Broken code reordering.</li>
+               </ul>
+               <p>Known bug: Version dropdown on 'Review and save' form step has a glitch. Refresh the page when it happens.</p>
+
+               <h4>v0.6.5</h4>
+               <p>Use Subsets API's services, which require authorisation.</p>
+               <ul>Still temporary <strong>switched off</strong>:
+                   <li>Form validating.</li>
+                   <li>Code notes.</li>
+                   <li>Modification aggregation (signal if a subset has been locally modified).</li>
+                   <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
+                   <li>Broken code reordering.</li>
+               </ul>
+               <p>Known bug: Version dropdown on 'Review and save' form step has a glitch. Refresh the page when it happens.</p>
+
                <h4>v0.6.4</h4>
                <p>Better check for code validity.</p>
+               <ul>Still temporary <strong>switched off</strong>:
+                   <li>Form validating.</li>
+                   <li>Code notes.</li>
+                   <li>Modification aggregation (signal if a subset has been locally modified).</li>
+                   <li>No unit tests for subset prototype.</li>
+                   <li>Broken internationalisation.</li>
+                   <li>Broken code reordering.</li>
+               </ul>
+               <p>Known bug: Version dropdown on 'Review and save' form step has a glitch. Refresh the page when it happens.</p>
 
                <h4>v0.6.3</h4>
                <ul>Switched <strong>back on</strong>:
@@ -37,6 +86,7 @@ export const Changelog = () => {
                    <li>Modification aggregation (signal if a subset has been locally modified).</li>
                    <li>No unit tests for subset prototype.</li>
                    <li>Broken internationalisation.</li>
+                   <li>Broken code reordering.</li>
                </ul>
                <p>Known bug: Version dropdown on 'Review and save' form step has a glitch. Refresh the page when it happens.</p>
 
@@ -57,6 +107,7 @@ export const Changelog = () => {
                    <li>Modification aggregation (signal if a subset has been locally modified).</li>
                    <li>Unit tests for subset prototype.</li>
                    <li>Broken internationalisation.</li>
+                   <li>Broken code reordering.</li>
                </ul>
 
                <h4>v0.6.1</h4>
