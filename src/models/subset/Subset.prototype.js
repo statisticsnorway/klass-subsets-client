@@ -281,7 +281,10 @@ export function Subset (data) {
             // console.debug('Set codes', codes);
 
             if (subset.isEditableCodes()) {
-                subset.currentVersion.codes = codes;
+                subset.currentVersion.codes = codes.map(c => ({
+                    id: `${c.classificationId}:${c.code}:${encodeURI(c.name)}`,
+                    ...c
+                }));
                 subset.reorderCodes();
                 subset.rerankCodes();
             }
