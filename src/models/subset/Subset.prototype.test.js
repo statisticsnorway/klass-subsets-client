@@ -84,3 +84,147 @@ describe('Subset prototype: defined properties on an initial subset', () => {
         expect(subset.administrativeStatus).toBe('INTERNAL');
     });
 });
+
+describe('Subset prototype: published versions', () => {
+    // arrange
+    const given = Subset({
+        _versions: [
+            {
+                version: '1',
+                administrativeStatus: 'OPEN'
+            },
+            {
+                version: '2',
+                administrativeStatus: 'DRAFT'
+            },                {
+                version: '3',
+                administrativeStatus: 'OPEN'
+            },
+            {
+                version: '4',
+                administrativeStatus: 'INITIAL'
+            },
+            {
+                version: '5',
+                administrativeStatus: 'OPEN'
+            }
+        ]
+    });
+
+    // act
+    const result = given.publishedVersions;
+
+    it('should return all published versions available', () => {
+        // assert
+        expect(result.length).toBe(3);
+
+    });
+
+    it('should only return versions with status OPEN', () => {
+        // assert
+        const statuses = new Set(result.map(v => v.administrativeStatus));
+        expect(statuses.size).toBe(1);
+        expect([...statuses]).toEqual(expect.arrayContaining(['OPEN']));
+
+    });
+});
+
+describe('Subset prototype: earliest published version', () => {
+
+    it('should only return the earliest version with status OPEN', () => {
+
+        // arrange
+        const given = Subset({
+            _versions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '2001-01-01',
+                    validUntil: '2002-01-01'
+                },
+                {
+                    version: '2',
+                    administrativeStatus: 'DRAFT',
+                    validFrom: '2001-01-01',
+                    validUntil: '2005-01-01'
+                },                {
+                    version: '3',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '2000-01-01',
+                    validUntil: null
+                },
+                {
+                    version: '4',
+                    administrativeStatus: 'INITIAL',
+                    validFrom: '2002-01-01',
+                    validUntil: null
+                },
+                {
+                    version: '5',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '2002-01-01',
+                    validUntil: '2003-01-01'
+                }
+            ]
+        });
+
+        // act
+        const result = given.earliestPublishedVersion;
+
+        // assert
+        expect(result.version).toBe('3');
+        expect(result.validFrom).toBe('2000-01-01');
+        expect(result.administrativeStatus).toBe('OPEN');
+
+    });
+});
+
+describe('Subset prototype: latest published version', () => {
+
+    it('should only return the latest version with status OPEN', () => {
+
+        // arrange
+        const given = Subset({
+            _versions: [
+                {
+                    version: '1',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '2001-01-01',
+                    validUntil: '2002-01-01'
+                },
+                {
+                    version: '2',
+                    administrativeStatus: 'DRAFT',
+                    validFrom: '2001-01-01',
+                    validUntil: '2005-01-01'
+                },                {
+                    version: '3',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '2000-01-01',
+                    validUntil: null
+                },
+                {
+                    version: '4',
+                    administrativeStatus: 'INITIAL',
+                    validFrom: '2002-01-01',
+                    validUntil: null
+                },
+                {
+                    version: '5',
+                    administrativeStatus: 'OPEN',
+                    validFrom: '2002-01-01',
+                    validUntil: '2003-01-01'
+                }
+            ]
+        });
+
+        // act
+        const result = given.latestPublishedVersion;
+
+        // assert
+        expect(result.version).toBe('5');
+        expect(result.validFrom).toBe('2002-01-01');
+        expect(result.administrativeStatus).toBe('OPEN');
+
+    });
+});

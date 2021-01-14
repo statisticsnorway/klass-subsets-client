@@ -8,14 +8,14 @@ export function flatten(arr) {
 }
 
 // TESTME
-export function orderByValidFromAsc(array) {
+export function orderByValidFromDesc(array) {
     return array?.sort((a,b) =>
         a.validFrom < b.validFrom ? 1 :
             a.validFrom > b.validFrom ? -1 : 0);
 }
 
 // TESTME
-export function orderByValidFromDesc(array) {
+export function orderByValidFromAsc(array) {
     return array?.sort((a,b) =>
         a.validFrom < b.validFrom ? -1 :
             a.validFrom > b.validFrom ? 1 : 0);
