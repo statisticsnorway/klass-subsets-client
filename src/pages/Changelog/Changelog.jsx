@@ -28,6 +28,7 @@ export const Changelog = () => {
                <p>Bugfix: Subset's validity period calculates correctly.</p>
                <p>Bugfix: Version valid until field label is translated as "t.o.m" to Norwegian.</p>
                <p>Bugfix: Prefix for English subset names is set to "Subset for ".</p>
+               <p>Authorized Subsets API endpoints are used for saving anf publishing.</p>
 
                <h4>v0.6.9-v0.6.10</h4>
                <p>Experimental.</p>
