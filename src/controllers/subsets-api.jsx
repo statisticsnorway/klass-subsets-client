@@ -6,7 +6,6 @@ import { fetcher } from 'utils';
 const subsetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;
 // DOCME
 const subsetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
-const subsetsServiceEndpointAUTHAUTH = process.env.REACT_APP_SUBSETS_API_AUTH_AUTH;
 // DOCME
 const defaultQuery = 'includeFuture=true&includeDrafts=true&language=nb';
 const fullVersions = 'includeFullVersions=true';
@@ -73,7 +72,7 @@ export function useGet(url = null) {
             _mounted = false;
         };
 
-    }, [path]);
+    }, [ path ]);
 
     return [ data, isLoading, error, setPath ];
 }
@@ -88,7 +87,7 @@ export function usePost(url = '') {
         method: 'POST',
         payload, 
         path
-    }), [payload, path]);
+    }), [ payload, path ]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -118,7 +117,7 @@ export function usePost(url = '') {
             fetchData();
         }
 
-    }, [payload]);
+    }, [ payload ]);
 
     return [ data, setPayload, error, setPath ];
 }
@@ -176,55 +175,3 @@ export function usePut(url = '') {
     return [ data, setPayload, error, setPath ];
 }
 
-export function useAuthPut(url = '') {
-    const [ path, setPath ] = useState(url);
-    const [ data, setData ] = useState(null);
-    const [ payload, setPayload ] = useState(null);
-    const [ error, setError ] = useState(null);
-
-    useEffect(() => console.debug({
-        method: 'PUT',
-        payload,
-        path
-    }), [payload, path]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setError(null);
-            setData(null);
-
-            try {
-                const response = await fetch(`${ subsetsServiceEndpointAUTHAUTH }${ path }?ignoreSuperfluousFields=true&language=nb`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                });
-                let json = await response.json();
-                if (response.status >= 200 && response.status <= 299) {
-                    setData(json);
-                } else {
-                    throw Error(
-                        `${ json.error } ${ json.message }`
-                        || `${ response.status } ${ response.statusText }`
-                    );
-                }
-            }
-            catch (e) {
-                setError(e);
-            }
-        };
-
-        if (payload) {
-            fetchData();
-        }
-
-    }, [ payload ]);
-
-    /*
-        useEffect(() => {
-            console.debug({path, data, payload, error})
-        }, [path, data, payload, error])
-    */
-
-    return [ data, setPayload, error, setPath ];
-}
