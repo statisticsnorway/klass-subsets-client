@@ -13,14 +13,12 @@ export const HtmlView = ({
         createdDate,
         lastModified,
         shortName,
-        statisticalUnits
+        statisticalUnits,
+        validFrom,
+        validUntil
     }
 }) => {
     const { t } = useTranslation();
-    const validFrom = versions?.length > 0
-        && orderByValidFromAsc([...versions])[0].validFrom;
-    const validUntil = versions?.length > 0
-        && orderByValidFromAsc([...versions])[versions.length - 1].validUntil;
 
     return (
         <>

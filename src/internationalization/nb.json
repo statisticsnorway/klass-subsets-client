@@ -85,7 +85,7 @@
   "Version valid from": "Versjon gyldig f.o.m",
   "A valid version from date is required": "En gyldig versjons fra-dato er påkrevd",
   "Version valid from help": "Dette feltet er avhengig av den forrige versjonens gyldighetsperiode. Velg den forrige versjonen for å oppdatere den. Husk å lagre endringene.",
-  "Version valid until": "Versjon gyldig til",
+  "Version valid until": "Versjon gyldig t.o.m",
   "Version valid until help": "Dette feltet er ikke obligatorisk og kan bli korrigert etter publisering",
   "Select a version": "Velg en versjon",
   "Create new version": "Opprett ny versjon",

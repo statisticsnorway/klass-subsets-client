@@ -24,6 +24,13 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>v0.6.11</h4>
+               <p>Bugfix: Subset's validity period calculates correctly.</p>
+               <p>Bugfix: Version valid until field label is translated as "t.o.m" to Norwegian.</p>
+
+               <h4>v0.6.9-v0.6.10</h4>
+               <p>Experimental.</p>
+
                <h4>v0.6.8</h4>
                <p>Working request URL to reach Subsets API auth protected service.</p>
                <p>Fixed code reordering table.</p>

@@ -30,13 +30,11 @@ export const versionable = (state = {}) => ({
     },
 
     syncVersion(updatedVersion = {}, tempId = '') {
-        console.debug('syncVersion', updatedVersion);
+        // console.debug('syncVersion', updatedVersion);
 
         if (updatedVersion?.subsetId !== state?.id) return;
 
         const exists = state.versions?.find(v => v.versionId === tempId);
-        console.log({exists});
-
         if (exists) {
             exists.versionId = updatedVersion.versionId;
             exists.lastModified = updatedVersion.lastModified;
@@ -51,7 +49,6 @@ export const versionable = (state = {}) => ({
             state.versions = [ updatedVersion, ...state.versions ]
         }
 
-        console.log({stateVersions: state.versions})
         state.syncCurrentVersion(updatedVersion, tempId);
     },
 
