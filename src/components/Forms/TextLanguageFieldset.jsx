@@ -9,7 +9,7 @@ import './form.css';
 export const TextLanguageFieldset = ({ title, items = [],
                                          size = {cols: 40, rows: 1},
                                         required = false,
-                                         prefix = '',
+                                         prefix = [],
                                          handleText = (index, text) => {},
                                          handleLang = (index, lang) => {},
                                          add = () => {},
@@ -18,7 +18,7 @@ export const TextLanguageFieldset = ({ title, items = [],
                                          maxLength
                                      }) => {
     const { t } = useTranslation();
-
+console.log({prefix})
     return (
         <div className='ssb-text-area'
              style={{ padding: '15px 0 0 0' }}
@@ -37,7 +37,7 @@ export const TextLanguageFieldset = ({ title, items = [],
                                      maxLength={ maxLength }
                                      id={ toId(title) }
                                      value={ item.languageText }
-                                     prefix={ prefix }
+                                     prefix={ prefix.find(p => p.languageCode === item.languageCode)?.languageText }
                                      onChange={(e) => handleText(index, e.target.value)}
                                      />
 

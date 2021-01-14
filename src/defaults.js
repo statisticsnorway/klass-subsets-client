@@ -21,7 +21,11 @@ export const languages = [
 ];
 
 export const subsetDraft = {
-    namePrefix: 'Uttrekk for ',
+    namePrefix: [
+        { languageCode: 'nb', languageText: 'Uttrekk for ' },
+        { languageCode: 'nn', languageText: 'Uttrekk for ' },
+        { languageCode: 'en', languageText: 'Subset for ' }
+    ],
     maxLengthId: 128,
     maxLengthName: 250,
     maxLengthShortName: 250,
