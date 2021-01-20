@@ -22,7 +22,7 @@ export const datePattern = /^((?:18|19|20|21|22)\d{2})-((?:0[1-9])|(?:1[0-2]))-(
 
 // TODO: input validation (test date pattern)
 // TESTME
-export const isInPeriod = (date = null, start = null, end = null) => {
+export const isInPeriodInclEnd = (date = null, start = null, end = null) => {
     if (!date || !start) {
         return false;
     }
@@ -31,4 +31,30 @@ export const isInPeriod = (date = null, start = null, end = null) => {
     return !end
         ? date >= start
         : date >= start && date <= end;
+};
+
+// TODO: input validation (test date pattern)
+// TESTME
+export const isInPeriodExclEnd = (date = null, start = null, end = null) => {
+    if (!date || !start) {
+        return false;
+    }
+    // console.debug('isInPeriod', !end ? date >= start : date >= start && date <= end);
+
+    return !end
+        ? date >= start
+        : date >= start && date < end;
+};
+
+export const doPeriodsIntersect = (
+    from = null,
+    until = null,
+    validFrom = null,
+    validUntil = null
+) => {
+
+    isInPeriodExclEnd(from, validFrom, validUntil )
+    || isInPeriodInclEnd(until, validFrom, validUntil )
+    || isInPeriodExclEnd( validFrom, from, until )
+    || isInPeriodInclEnd( validUntil, from, until )
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GlobeButton } from 'components';
-import { eu, isInPeriod } from 'utils';
+import { doPeriodsIntersect, eu } from 'utils';
 import { languages as defaultLanguages } from 'defaults';
 import { Code } from 'views';
 
@@ -58,10 +58,7 @@ export const HtmlView = ({ version: {
                 .sort((a,b) => (a.rank - b.rank))
                 .map((code, i) => (
                     <Code key={ i } origin={ code } valid={
-                        isInPeriod(code.validFromInRequestedRange, validFrom, validUntil )
-                        || isInPeriod(code.validToInRequestedRange, validFrom, validUntil )
-                        || isInPeriod( validFrom, code.validFromInRequestedRange, code.validToInRequestedRange )
-                        || isInPeriod( validUntil, code.validFromInRequestedRange, code.validToInRequestedRange )
+                        doPeriodsIntersect(code.validFromInRequestedRange, code.validToInRequestedRange, validFrom, validUntil)
                     } />)
                 )
             }
