@@ -26,7 +26,8 @@ export const isInPeriodInclEnd = (date = null, start = null, end = null) => {
     if (!date || !start) {
         return false;
     }
-    // console.debug('isInPeriod', !end ? date >= start : date >= start && date <= end);
+    // console.debug('isInPeriodInclEnd', !end ? date >= start : date >= start && date <= end);
+    console.debug('isInPeriodInclEnd', date, !end ? date >= start : date >= start && date <= end);
 
     return !end
         ? date >= start
@@ -39,11 +40,24 @@ export const isInPeriodExclEnd = (date = null, start = null, end = null) => {
     if (!date || !start) {
         return false;
     }
-    // console.debug('isInPeriod', !end ? date >= start : date >= start && date <= end);
+    console.debug('isInPeriodExclEnd', date, !end ? date >= start : date >= start && date < end);
 
     return !end
         ? date >= start
         : date >= start && date < end;
+};
+
+// TODO: input validation (test date pattern)
+// TESTME
+export const isInPeriodExclStart = (date = null, start = null, end = null) => {
+    if (!date || !start) {
+        return false;
+    }
+    console.debug('isInPeriodExclStart', date, !end ? date > start : date > start && date <= end);
+
+    return !end
+        ? date > start
+        : date > start && date <= end;
 };
 
 export const doPeriodsIntersect = (
@@ -53,8 +67,10 @@ export const doPeriodsIntersect = (
     validUntil = null
 ) => {
 
-    isInPeriodExclEnd(from, validFrom, validUntil )
+    console.debug({ from, until, validFrom, validUntil})
+
+    return isInPeriodExclEnd(from, validFrom, validUntil )
     || isInPeriodInclEnd(until, validFrom, validUntil )
     || isInPeriodExclEnd( validFrom, from, until )
-    || isInPeriodInclEnd( validUntil, from, until )
+    || isInPeriodExclStart( validUntil, from, until )
 };
