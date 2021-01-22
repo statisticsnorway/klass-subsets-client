@@ -32,7 +32,7 @@ export const SubsetForm = () => {
     useEffect(() => {
         query.get('versionId') && dispatch({
             action: 'version_to_sync',
-            data: { version: subsetData.find(v => v.versionId === query.get('subsetId')) }
+            data: { version: subsetData?.versions?.find(v => v.versionId === query.get('subsetId')) }
         });
     }, [ subsetData, dispatch, query ])
 
