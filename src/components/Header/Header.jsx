@@ -17,7 +17,7 @@ export const Header = () => {
             <Menu items={[
                 {
                     title: t('Search subsets'),
-                    path: '/search'},
+                    path: '/subsets'},
                 {
                     title: t('Create subset'),
                     path: '/editor',
