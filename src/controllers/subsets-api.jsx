@@ -20,9 +20,21 @@ export function useSubsets() {
 
 export function useSubset(id) {
     const { data, error } = useSWR(
-        id ? `${ subsetsServiceEndpoint }${ id }?${ defaultQuery }&${ fullVersions }` : null,
+        id
+            ? `${ subsetsServiceEndpoint }${ id }?${ defaultQuery }&${ fullVersions }`
+            : null,
         fetcher, { shouldRetryOnError: false }
         );
+    return [ data, error ];
+}
+
+export function useVersion(id, versionId) {
+    const { data, error } = useSWR(
+        id && versionId
+            ? `${ subsetsServiceEndpoint }${ id }/versions/${ versionId }?${ defaultQuery }`
+            : null,
+        fetcher, { shouldRetryOnError: false }
+    );
     return [ data, error ];
 }
 

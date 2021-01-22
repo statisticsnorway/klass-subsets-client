@@ -1,8 +1,8 @@
 import React from 'react';
 import { Code } from 'views';
 import { useTranslation } from 'react-i18next';
-import {flatten, isInPeriod} from 'utils';
-import { Title, Introduction, Datepicker } from 'components';
+import { flatten, doPeriodsIntersect } from 'utils';
+import { Title, Datepicker } from 'components';
 
 export const SearchCodes = ({ data = [], edit = () => {} }) => {
     const { t } = useTranslation();
@@ -31,8 +31,7 @@ export const SearchCodes = ({ data = [], edit = () => {} }) => {
                 .map((code, i) => (
                         <Code key={ i }
                               origin={ code }
-                              /*valid={ isInPeriod(code.validFromInRequestedRange, validFrom, validUntil )
-                            || isInPeriod(code.validToInRequestedRange, validFrom, validUntil )}*/
+                              /*valid={ doPeriodsIntersect(code.validFromInRequestedRange, code.validToInRequestedRange, validFrom, validUntil) } */
                         />
                     )
                 )

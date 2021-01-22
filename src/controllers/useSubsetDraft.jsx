@@ -89,6 +89,10 @@ function subsetReducer( state, { action, data = {} }) {
             state.versionValidUntil = data;
             return Subset({...state});
         }
+        case 'version_to_sync': {
+            state.syncVersionValidUntil(data);
+            return Subset({...state});
+        }
         case 'version_rationale_init': {
             if (state.versionRationale?.length !== 0) return state;
             state.addVersionRationale();

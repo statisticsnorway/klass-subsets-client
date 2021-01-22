@@ -17,8 +17,8 @@ export const Preview = ({ data,
     const { t } = useTranslation();
 
     // TODO: use simple Links instead of buttons
-    const editMetadata = () => history.push(`/editor?step=Metadata&subsetId=${ data?.id }`);
-    const editVersion = (versionId) => history.push(`/editor?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
+    const editMetadata = () => history.push(`/auth/editor?step=Metadata&subsetId=${ data?.id }`);
+    const editVersion = (versionId) => history.push(`/auth/editor?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
     const saveMetadata = () => history.push(`/auth/save?metadata=true`);
     const saveVersion = () => history.push(`/auth/save?version=true`);
     const publishVersion = () => history.push(`/auth/save?version=true&publish=true`);

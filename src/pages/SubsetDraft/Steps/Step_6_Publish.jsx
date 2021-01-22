@@ -87,10 +87,13 @@ export const Step6Publish = () => {
     return (
         <div style={{ minHeight: '350px', textAlign: 'center', margin: 'auto', width: '100%' }}>
 
-            { ( !errorPost && !errorUpdate && !post && !update && query.get('metadata')) &&
+            { (!errorPost && !errorUpdate && !post && !update && query.get('metadata')) &&
                 <p>{ t('Sending metadata to the server') }...</p>
             }
-            { ( !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && query.get('version')) &&
+            { ((query.get('version') && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion)
+                ||
+              (query.get('metadata') && query.get('version') && !errorPost && !errorUpdate))
+                &&
                 <p>{ t('Sending version to the server') }...</p>
             }
             { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
@@ -121,13 +124,13 @@ export const Step6Publish = () => {
                 </p>
             }
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button onClick={ () => history.push(`/editor?step=Metadata`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Metadata`) }>
                     { t('Back to metadata') }
                 </button>
-                <button onClick={ () => history.push(`/editor?step=Versions`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Versions`) }>
                     { t('Back to versions') }
                 </button>
-                <button onClick={ () => history.push(`/editor?step=Review%20and%20publish`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Review%20and%20publish`) }>
                     { t('Back to review') }
                 </button>
                 <button onClick={ () => history.push(`/subsets/${id}`) }>
