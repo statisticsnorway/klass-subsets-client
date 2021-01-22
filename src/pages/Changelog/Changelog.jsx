@@ -30,6 +30,7 @@ export const Changelog = () => {
                <p>Protected <code>/creator</code>.</p>
                <p><code>/subsets</code> instead of <code>/search</code>.</p>
                <p>Version <code>validUntil</code> sync.</p>
+               <p>No notes for codes.</p>
 
                <h4>v0.6.11</h4>
                <p>Bugfix: Subset's validity period calculates correctly.</p>
