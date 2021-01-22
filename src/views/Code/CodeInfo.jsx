@@ -15,11 +15,11 @@ export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
                 <button onClick={() => setShow(prev => ({ info: !prev.info }))}>
                     <Info color={'#2D6975'}/>
                 </button>
-                <button onClick={() => setShow(prev => ({ notes: !prev.notes }))}>
+{/*                <button onClick={() => setShow(prev => ({ notes: !prev.notes }))}>
                     { isLoadingVersion
                         ? <Spinner />
                         : <MessageSquare color={ notes.length > 0 ? '#62919A' : '#C3DCDC' }/>}
-                </button>
+                </button>*/}
             </div>
 
             <Panel visible={ show.info }>
@@ -36,12 +36,12 @@ export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
                 { item?.parentCode && <p className='small'><strong>{ t('Parent code') }:</strong> { item?.parentCode }</p>}
             </Panel>
 
-            <Panel visible={ show.notes }>
+{/*            <Panel visible={ show.notes }>
                 <ListTabable items={ notes.map((note, id) => ({ id, ...note })) }
                              placeholder={ t('No notes found') }
                              component={ Note }
                 />
-            </Panel>
+            </Panel>*/}
 
         </>
     );
