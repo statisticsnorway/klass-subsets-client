@@ -20,10 +20,10 @@ export const Code = ({ origin: {
 
         return (
         <Accordion
-            header={ <span>{`${ code || '-'} ${ name || '-'}`}<AlertButton
+            header={ <span>{`${ name || '-'}`}<AlertButton
                 title='The codes validity period does not match the version period'
                 visible={ !valid } /></span> }
-            subHeader={`${ rank }`}
+            subHeader={ code || '-'}
         >
             <p><strong>{ t('Short name')} :</strong> { shortName || '-' }</p>
             <p><strong>{ t('Code') }:</strong> { code || '-' }</p>

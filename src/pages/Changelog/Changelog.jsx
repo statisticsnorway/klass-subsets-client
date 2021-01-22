@@ -31,6 +31,7 @@ export const Changelog = () => {
                <p><code>/subsets</code> instead of <code>/search</code>.</p>
                <p>Version <code>validUntil</code> sync.</p>
                <p>No notes for codes.</p>
+               <p>No rank for codes on accordion.</p>
 
                <h4>v0.6.11</h4>
                <p>Bugfix: Subset's validity period calculates correctly.</p>
