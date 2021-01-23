@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HtmlView } from './HtmlView';
-import {Tabs, Tab, Title, Help, JsonView, TitledBlock, Panel} from 'components';
-import {Accordion, Divider} from "@statisticsnorway/ssb-component-library";
-import {BriefMetadata} from "./BriefMetadata";
-import {CodeListInfo} from "../../CodeList";
+import { Tabs, Tab, Title, Help, JsonView } from 'components';
+import { Divider} from '@statisticsnorway/ssb-component-library';
+import { BriefMetadata } from './BriefMetadata';
 
 export const Metadata = ({
                              edit = () => {},

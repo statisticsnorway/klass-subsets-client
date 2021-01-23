@@ -34,7 +34,7 @@ export const HtmlView = ({ version: {
                 versionRationale?.find(desc => desc.languageCode === languages[langIndex].languageCode)?.languageText
                 ||
                 <span style={{ color: 'red' }}>{
-                    t('No description in this language')}: { languages[langIndex].full}</span>
+                    t('No text in this language')} { languages[langIndex].full }</span>
             }</p>
 
             <p><strong>{ t('Versions validity period') }: </strong>

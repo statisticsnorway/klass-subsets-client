@@ -1,10 +1,8 @@
 import React from 'react';
-import { BriefMetadata, Metadata, Versions, SearchCodes } from 'views';
-import { Tab, Tabs, Title } from 'components';
+import { Metadata, Versions } from 'views';
+import { Title } from 'components';
 import { Subset } from 'models';
 import { useHistory } from 'react-router-dom';
-import {useTranslation} from "react-i18next";
-import {Accordion} from "@statisticsnorway/ssb-component-library";
 
 export const Preview = ({ data,
                           edit = false,
@@ -15,7 +13,6 @@ export const Preview = ({ data,
 }) => {
     const subset = new Subset(data);
     let history = useHistory();
-    const { t } = useTranslation();
 
     // TODO: use simple Links instead of buttons
     const editMetadata = () => history.push(`/auth/editor?step=Metadata&subsetId=${ data?.id }`);

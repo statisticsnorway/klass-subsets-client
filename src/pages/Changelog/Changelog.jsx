@@ -25,7 +25,7 @@ export const Changelog = () => {
                <h2>{ t('Changelog') }</h2>
 
                <h4>v0.6.13</h4>
-               <p>Version <code>validUntil</code> sync.</p>
+               <p>Version <code>validUntil</code> sync. Corrected.</p>
                <p>Metadata is shown differently.</p>
 
                <h4>v0.6.12</h4>
