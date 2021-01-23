@@ -22,7 +22,9 @@ export const HtmlView = ({
 
     return (
         <>
+{/*
             <TitledBlock title='Description' translatable texts={ description } />
+*/}
 
             <p><strong>{ t('Subsets validity period') }: </strong>
                 { validFrom || validUntil

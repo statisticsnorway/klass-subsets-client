@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HtmlView } from './HtmlView';
-import { Tabs, Tab, Title, Help, JsonView } from 'components';
+import {Tabs, Tab, Title, Help, JsonView, TitledBlock, Panel} from 'components';
+import {Accordion, Divider} from "@statisticsnorway/ssb-component-library";
+import {BriefMetadata} from "./BriefMetadata";
+import {CodeListInfo} from "../../CodeList";
 
 export const Metadata = ({
                              edit = () => {},
@@ -10,12 +13,14 @@ export const Metadata = ({
                          }) => {
     const { t } = useTranslation();
     const [ showHelp, setShowHelp ] = useState(false);
+    const [ showInfo, setShowInfo ] = useState(false);
 
     return (
         <>
             <Title text='Metadata'
                    edit={ edit }
                    save={ save }
+                   info={ () => setShowInfo(prev => !prev)}
                    help={ () => setShowHelp(prev => !prev)}
             />
 
@@ -25,14 +30,30 @@ export const Metadata = ({
                 <p>{ t('Owning section info') }.</p>
             </Help>
 
-            <Tabs light>
-                <Tab title='HTML' path='html'>
-                    <HtmlView subset={ subset } />
-                </Tab>
-                <Tab title='JSON' path='json'>
-                    <JsonView data={ subset.payload || subset } />
-                </Tab>
-            </Tabs>
-    </>);
+            <BriefMetadata
+                id={ subset?.id }
+                lastModified={ subset?.lastModified }
+                created={ subset?.createdDate }
+                published={ subset?.publishedVersions?.length }
+                drafts={ subset?.drafts?.length }
+                validFrom={ subset?.validFrom }
+                validUntil={ subset?.validUntil }
+                metadataToBeSaved={ subset?.metadataToBeSaved }
+            />
+
+            <Title translates={ subset?.description } tag='p' />
+
+            { showInfo &&
+                <Tabs light>
+                    <Tab title='HTML' path='html'>
+                        <HtmlView subset={subset}/>
+                    </Tab>
+                    <Tab title='JSON' path='json'>
+                        <JsonView data={subset.payload || subset}/>
+                    </Tab>
+                </Tabs>
+            }
+            <Divider dark />
+        </>);
 };
 
