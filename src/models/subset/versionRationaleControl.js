@@ -3,17 +3,6 @@ import { languages, subsetDraft } from '../../defaults';
 
 export const versionRationaleControl = (state = {}) => ({
 
-    // DOCME: when the lastModified is updated it wont be possible to sync other fields
-    syncVersionValidUntil(version = {}) {
-        //console.debug('syncVersionValidUntil');
-
-        const exists = state.versions.find(v => v.versionId === version.versionId);
-        if (exists && version.lastModified > exists.lastModified) {
-            exists.validUntil = version.validUntil;
-            exists.lastModified = version.lastModified;
-        }
-    },
-
     addVersionRationale(versionRationale = nextDefaultName(state.versionRationale)) {
         if (state.isEditableVersionRationale()
             && state.versionRationale?.length < languages.filter(l => l.draft).length)

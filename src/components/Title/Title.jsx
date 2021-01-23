@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EditButton, GlobeButton, HelpButton, SaveButton, Tag } from 'components';
+import {EditButton, GlobeButton, HelpButton, InfoButton, SaveButton, Tag} from 'components';
 import { languages as defaultLanguages } from 'defaults';
 
 // TESTME: if no text, if no translates..., if translates does not match default languages
@@ -10,6 +10,7 @@ export const Title = ({
                           download = null,
                           edit = null,
                           save = null,
+                          info = null,
                           tag = 'h2',
                           help = null
                       }) => {
@@ -17,7 +18,6 @@ export const Title = ({
     const { t } = useTranslation();
     const [ langIndex, setLangIndex ] = useState(0);
     const languages = defaultLanguages.filter(l => l.draft);
-
 
     return (
         <Tag html={ tag }>{ text && t(text) }
@@ -27,7 +27,7 @@ export const Title = ({
                     translates?.find(desc =>
                         desc.languageCode === languages[langIndex].languageCode)?.languageText
                         || <span style={{color: 'red'}}>{
-                                t('No name in this language')}: {languages[langIndex].full
+                                t(`No text in this language`)} {languages[langIndex].full
                             }
                            </span>
                     }
@@ -39,6 +39,12 @@ export const Title = ({
                 </>
             }
 
+            { info && <InfoButton
+                title={ `${t('Info')} ${ t(text) }` }
+                active={ info }
+                clickHandler={ info }
+            />}
+
             { edit && <EditButton
                 title={ `${t('Edit')} ${ t(text) }` }
                 clickHandler={ edit }
@@ -48,8 +54,7 @@ export const Title = ({
                 title={ `${t('Save')} ${ t(text) }` }
                 active={ save }
                 clickHandler={ save }
-            />
-            }
+            />}
 
             <HelpButton
                 visible={ help }
