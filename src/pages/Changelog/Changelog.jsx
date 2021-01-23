@@ -25,7 +25,7 @@ export const Changelog = () => {
                <h2>{ t('Changelog') }</h2>
 
                <h4>v0.6.13</h4>
-               <p>Bugfix: Version synk corrected.</p>
+               <p>Bugfix: Version synk corrected</p>
 
                <h4>v0.6.12</h4>
                <p>Bugfix: Subset validity period calculates correctly.</p>
