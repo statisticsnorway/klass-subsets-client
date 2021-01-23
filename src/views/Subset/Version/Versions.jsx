@@ -21,7 +21,9 @@ export const Versions = ({ data = [],
     let { versionId } = useParams();
 
     // FIXME: does not work in Step 5 on several version switch
-    const [ version, setVersion ] = useState( data?.find(v => v.versionId === versionId || v.versionId === query.get('versionId') || v.versionId === current )
+    const [ version, setVersion ] = useState( data?.find(v => v.versionId === versionId
+        || v.versionId === query.get('versionId')
+        || v.versionId === current )
         //orderByValidFromDesc(versions
         //.filter(v => v.administrativStatus != 'OPEN')
         //.filter(v => v.validFrom > new Date().toJSON()))[0] || null
