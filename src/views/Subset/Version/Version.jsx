@@ -4,7 +4,7 @@ import { Tab, Tabs, JsonView, EditButton, SaveButton, UploadButton } from 'compo
 import { BriefVersion, HtmlView } from '../Version';
 
 export const Version = ({
-                            data = {},
+                            version = {},
                             edit = () => {},
                             save = () => {},
                             publish = () => {}
@@ -13,10 +13,10 @@ export const Version = ({
 
     return (
         <>
-            <h2>{ t('Version') } { t(data.validFrom) }
+            <h2>{ t('Version') } { t(version.validFrom) }
                 { edit && <EditButton
                     title={ t('Edit version') }
-                    clickHandler={ () => edit(data?.versionId) }
+                    clickHandler={ () => edit(version?.versionId) }
                 />}
 
                 { save && <SaveButton
@@ -30,22 +30,22 @@ export const Version = ({
                 />}
             </h2>
             <BriefVersion
-                id={ data?.versionId }
-                lastModified={ data?.lastModified }
-                created={ data?.createdDate }
-                validFrom={ data?.validFrom }
-                validUntil={ data?.validUntil }
-                status={ data?.administrativeStatus }
+                id={ version?.versionId }
+                lastModified={ version?.lastModified }
+                created={ version?.createdDate }
+                validFrom={ version?.validFrom }
+                validUntil={ version?.validUntil }
+                status={ version?.administrativeStatus }
                 toBeSaved={ false }
-                codes={ data?.codes?.length }
+                codes={ version?.codes?.length }
             />
 
             <Tabs light>
                 <Tab title='HTML' path='html'>
-                    <HtmlView version={ data } />
+                    <HtmlView version={ version } />
                 </Tab>
                 <Tab title='JSON' path='json'>
-                    <JsonView data={ data } />
+                    <JsonView data={ version } />
                 </Tab>
             </Tabs>
         </>

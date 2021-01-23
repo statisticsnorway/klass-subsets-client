@@ -45,10 +45,10 @@ export const Metadata = ({
             { showInfo &&
                 <Tabs light>
                     <Tab title='HTML' path='html'>
-                        <HtmlView subset={subset}/>
+                        <HtmlView subset={ subset }/>
                     </Tab>
                     <Tab title='JSON' path='json'>
-                        <JsonView data={subset.payload || subset}/>
+                        <JsonView data={ subset.metadataPayload || subset }/>
                     </Tab>
                 </Tabs>
             }
