@@ -90,7 +90,15 @@ function subsetReducer( state, { action, data = {} }) {
             return Subset({...state});
         }
         case 'version_to_sync': {
-            state.syncVersionValidUntil(data);
+            const exists = state.versions.find(v => v.versionId === data.versionId);
+            if (!exists
+                || exists.administrativeStatus !== 'OPEN'
+                || data.lastModified <= exists.lastModified
+            ) return state;
+
+            // DOCME: when the lastModified is updated it wont be possible to sync other fields
+            exists.validUntil = data.validUntil;
+            exists.lastModified = data.lastModified;
             return Subset({...state});
         }
         case 'version_rationale_init': {

@@ -26,6 +26,7 @@ export const Changelog = () => {
 
                <h4>v0.6.13</h4>
                <p>Version <code>validUntil</code> sync.</p>
+               <p>Metadata is shown differently.</p>
 
                <h4>v0.6.12</h4>
                <p>Bugfix: Subset validity period calculates correctly.</p>
