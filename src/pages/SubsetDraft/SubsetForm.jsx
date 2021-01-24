@@ -36,10 +36,6 @@ export const SubsetForm = () => {
         });
     }, [ subsetData, dispatch, query ])
 
-    useEffect(() => {
-        console.log({subsetData});
-    }, [ subsetData ])
-
     return (
         <div className='container'>
             <div className='content'>

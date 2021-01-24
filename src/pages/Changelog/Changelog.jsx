@@ -25,9 +25,10 @@ export const Changelog = () => {
                <h2>{ t('Changelog') }</h2>
 
                <h4>v0.6.13</h4>
-               <p>Version <code>validUntil</code> sync. Corrected</p>
+               <p>Version <code>validUntil</code> sync. Corrected. Dependent on URL correction, which comes on v0.6.14</p>
                <p>Metadata is shown differently.</p>
                <p>Corrected metadata JSON view.</p>
+               <p>Disabled refresh for subsets.</p>
 
                <h4>v0.6.12</h4>
                <p>Bugfix: Subset validity period calculates correctly.</p>

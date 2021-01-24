@@ -95,7 +95,6 @@ function subsetReducer( state, { action, data = {} }) {
             const exists = state.versions?.find(v => v.versionId === data.versionId);
             if (!exists || data.lastModified <= exists.lastModified) return state;
 
-            console.log({exists});
             // DOCME: when the lastModified is updated it wont be possible to sync other fields
             exists.validUntil = data.validUntil;
             exists.lastModified = data.lastModified;
@@ -129,7 +128,6 @@ function subsetReducer( state, { action, data = {} }) {
         }
         case 'version_switch': {
             if (state.currentVersion?.versionId === data?.versionId) return state;
-            console.log('changing current version)')
             state.currentVersion =
                 data?.versionId === `${ state.versions?.length + 1 }`
                     ? state.createNewVersion()
