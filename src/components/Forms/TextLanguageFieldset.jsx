@@ -46,6 +46,7 @@ console.log({prefix})
                     <LanguageSelect languages={ disableUsed( languages, items.map(name => name.languageCode) ) }
                                     selected={ item.languageCode }
                                     onChange={ (e) => handleLang(index, e.target.value) }
+                                    label={ `${toId(title)}_language`}
                     />
 
                     <PlusButton
