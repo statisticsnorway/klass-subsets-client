@@ -13,7 +13,7 @@ const fullVersions = 'includeFullVersions=true';
 export function useSubsets() {
     const { data, error } = useSWR(
         `${ subsetsServiceEndpoint }?${ defaultQuery }`,
-        fetcher, { revalidateOnReconnect: true }
+        fetcher
     );
     return [ data, error ];
 }
