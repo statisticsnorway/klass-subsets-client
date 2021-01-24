@@ -29,6 +29,7 @@ export const Changelog = () => {
                <p>Metadata is shown differently.</p>
                <p>Corrected metadata JSON view.</p>
                <p>Disabled refresh for subsets.</p>
+               <p>Keep search parameters in the editor throughout the saving process.</p>
 
                <h4>v0.6.12</h4>
                <p>Bugfix: Subset validity period calculates correctly.</p>
