@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs, JsonView, EditButton, SaveButton, UploadButton } from 'components';
 import { BriefVersion, HtmlView } from '../Version';
+import { useQuery } from 'utils';
 
 export const Version = ({
                             version = {},
@@ -10,6 +11,7 @@ export const Version = ({
                             publish = () => {}
 }) => {
     const { t } = useTranslation();
+    let query = useQuery();
 
     return (
         <>
@@ -21,12 +23,12 @@ export const Version = ({
 
                 { save && <SaveButton
                     title={ t('Save version') }
-                    clickHandler={ save }
+                    clickHandler={ () => save(query.toString()) }
                 />}
 
                 { publish && <UploadButton
                     title={ t('Publish version') }
-                    clickHandler={ publish }
+                    clickHandler={ () => publish(query.toString()) }
                 />}
             </h2>
             <BriefVersion
