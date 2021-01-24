@@ -17,9 +17,9 @@ export const Preview = ({ data,
     // TODO: use simple Links instead of buttons
     const editMetadata = () => history.push(`/auth/editor?step=Metadata&subsetId=${ data?.id }`);
     const editVersion = (versionId) => history.push(`/auth/editor?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
-    const saveMetadata = () => history.push(`/auth/save?metadata=true`);
-    const saveVersion = () => history.push(`/auth/save?version=true`);
-    const publishVersion = () => history.push(`/auth/save?version=true&publish=true`);
+    const saveMetadata = (query) => history.push(`/auth/save?metadata=true&${ query }`);
+    const saveVersion = (query) => history.push(`/auth/save?version=true&${ query }`);
+    const publishVersion = (query) => history.push(`/auth/save?version=true&publish=true&${ query }`);
 
     return (
         <>

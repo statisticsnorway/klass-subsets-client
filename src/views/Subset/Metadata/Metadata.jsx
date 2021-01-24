@@ -4,6 +4,7 @@ import { HtmlView } from './HtmlView';
 import { Tabs, Tab, Title, Help, JsonView } from 'components';
 import { Divider} from '@statisticsnorway/ssb-component-library';
 import { BriefMetadata } from './BriefMetadata';
+import { useQuery } from 'utils';
 
 export const Metadata = ({
                              edit = () => {},
@@ -13,12 +14,13 @@ export const Metadata = ({
     const { t } = useTranslation();
     const [ showHelp, setShowHelp ] = useState(false);
     const [ showInfo, setShowInfo ] = useState(false);
+    let query = useQuery();
 
     return (
         <>
             <Title text='Metadata'
                    edit={ edit }
-                   save={ save }
+                   save={ () => save(query.toString()) }
                    info={ () => setShowInfo(prev => !prev)}
                    help={ () => setShowHelp(prev => !prev)}
             />
