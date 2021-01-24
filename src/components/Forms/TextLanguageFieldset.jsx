@@ -18,7 +18,7 @@ export const TextLanguageFieldset = ({ title, items = [],
                                          maxLength
                                      }) => {
     const { t } = useTranslation();
-console.log({prefix})
+
     return (
         <div className='ssb-text-area'
              style={{ padding: '15px 0 0 0' }}
@@ -38,7 +38,7 @@ console.log({prefix})
                                      id={ toId(title) }
                                      value={ item.languageText }
                                      prefix={ prefix.find(p => p.languageCode === item.languageCode)?.languageText }
-                                     onChange={(e) => handleText(index, e.target.value)}
+                                     onChange={ (e) => handleText(index, e.target.value) }
                                      />
 
                     <ErrorTooltip messages={ errorMessages }/>
