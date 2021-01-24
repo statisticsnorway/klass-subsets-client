@@ -5,11 +5,18 @@ import { languages as defaultLanguages } from 'defaults';
 export const LanguageSelect = ({
                                    languages = defaultLanguages,
                                    selected = false,
-                                   onChange = (e) => {}
+                                   onChange = (e) => {},
+                                   label = 'language'
                                }) => {
 
     return (
-        <select name='language' style={{ padding: '2px', margin: '5px', position: 'relative', top: '-6px' }}
+        <>
+        <label htmlFor='language'
+               className='for_screen_readers'
+        >{ label }</label>
+        <select name='language'
+                id='language'
+                style={{ padding: '2px', margin: '5px', position: 'relative', top: '-6px' }}
                 value={ selected || languages.find(lang => lang.default) }
                 onChange={ (e) => onChange(e)}>
             {languages.map( (lang, i) => (
@@ -20,5 +27,6 @@ export const LanguageSelect = ({
                 </option>
             ))}
         </select>
+        </>
     );
 };
