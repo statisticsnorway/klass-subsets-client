@@ -7,7 +7,7 @@ import { Help, Title } from 'components';
 import { useHistory, useParams } from 'react-router-dom';
 
 // TODO: clean and simplify
-export const Versions = ({ data = [],
+export const Versions = ({ versions = [],
                            edit = () => {},
                            save = () => {},
                            publish = () => {},
@@ -21,7 +21,7 @@ export const Versions = ({ data = [],
     let { versionId } = useParams();
 
     // FIXME: does not work in Step 5 on several version switch
-    const [ version, setVersion ] = useState( data?.find(v => v.versionId === versionId
+    const [ version, setVersion ] = useState( versions?.find(v => v.versionId === versionId
         || v.versionId === query.get('versionId')
         || v.versionId === current )
         //orderByValidFromDesc(versions
@@ -54,7 +54,7 @@ export const Versions = ({ data = [],
                 />
             </Help>
 
-            <Switcher versions={ data }
+            <Switcher versions={ versions }
                       onSelect={ option =>
                           syncParams
                               ? pushParams(option)
@@ -66,7 +66,7 @@ export const Versions = ({ data = [],
             />
 
             { version &&
-                <Version data={ version }
+                <Version version={ version }
                            edit={ edit }
                            save={ save }
                            publish={ publish }

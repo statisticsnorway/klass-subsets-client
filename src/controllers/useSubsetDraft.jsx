@@ -91,9 +91,11 @@ function subsetReducer( state, { action, data = {} }) {
         }
         case 'version_to_sync': {
             if (data.administrativeStatus !== 'OPEN') return state;
+
             const exists = state.versions?.find(v => v.versionId === data.versionId);
             if (!exists || data.lastModified <= exists.lastModified) return state;
 
+            console.log({exists});
             // DOCME: when the lastModified is updated it wont be possible to sync other fields
             exists.validUntil = data.validUntil;
             exists.lastModified = data.lastModified;
