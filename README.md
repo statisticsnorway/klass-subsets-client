@@ -50,6 +50,7 @@
 ### GSIM schema 
 
 ### Internal
+The main data structure in the application is the Subset.prototype. It is responsible for holding all data about the subset draft and provide calculations and validation during editing.
 
 # API Guide
 
