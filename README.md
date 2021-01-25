@@ -1,4 +1,4 @@
-Classification subsets web application
+#Classification subsets web application
 Statistics Norway
 2019-2021
 
@@ -105,3 +105,105 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 
 This section has moved [here:](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+#System documentation
+Statistisk Sentralbyrå
+Experis Solutions
+
+## Table of Contents
+- [SSB Platform - Ansible](#system documentation)
+    - [Table of Contents](#table-of-contents)
+    - [Resources](#resources)
+    - [Python 3 virtual environment](#python-3-virtual-environment)
+        - [Traditional virtual environment](#traditional-virtual-environment)
+        - [Pipenv](#pipenv)
+
+
+Datastrukturer
+API Veiledning
+Tech stack
+Frontend
+API
+Context Management, no Redux
+Styling
+Tester
+Fetcher (SWR)
+SWR doc: https://swr.vercel.app/
+PWA (drag-and-drop)
+Språk (Internationalization)
+Backend
+Single page
+Logg
+Installasjonsdokumentasjon
+Miljøoversikt
+Miljø
+Endepunkt
+Platform
+Ansvar
+Produksjonsmiljø PROD
+https://subsets-service.prod-bip-app.ssb.no/v1/subsets
+BIP (Cloud)
+Team Klass, team Stratus
+Testmiljø STAGING
+https://subsets-service.staging-bip-app.ssb.no/v1/subsets
+BIP (Cloud)
+Team Klass, team Stratus
+Utviklingsmiljø / lokalt miljø
+http://localhost:3000/
+PC
+Hver utvikler er ansvarlig for å bygge, oppdatere og vedlikeholde sitt utviklingsmiljø.
+Mer info https://github.com/statisticsnorway/klass-subsets-client
+
+Miljøvariabler
+.env
+jsconfig.js (baseUrl)
+src/defaults.js
+src/serviceWorker.js + index.js (register/unregister)
+Package.json
+nginx.conf
+Dockerfile
+src/internationalisation/i18n.js
+swr
+Infrastruktur: Integrasjoner og avhengigheter
+Dataflytt
+Subset API v2
+SSB Component bibliotek
+LDS Klass
+Klass API
+Autentisering
+Autorisering
+Konsumenter
+Cybersikkerhet
+Konfidentialitet
+Integritet (Input validering, session storage)
+Tilgjengelighet
+Overvåkning og revisjon
+Autentisering
+Autorisering
+Sesjonsstyring
+Avvikshåndtering
+Konfigurasjonskontrol
+Forbedringsforslag / Teknisk gjeld
+Kjente feil
+Ikke støtter IE11
+Drag-and-drop fungerer ikke på moblile devices
+Internationalization is briken.
+Ønsket funsksjonalitet
+Modification aggregation (signal if a subset has been locally modified).
+Skjemavalidering with varsler;
+Kommentarer (notes);
+Nedlasting:
+Opplasting;
+Vise alle versjoner for ikke-autoriserte brukere
+Vise alle språk for ikke-autoriserte brukere
+Abonnere på uttrekks endringer
+Oversette seksjonsnavn og emneområde
+Automatiserte tester (unit-tester, integrasjonstester)
+Rendingsytelse: analyse og effektivisering
+Caching strategi (swr)
+GSIM-skjema for uttrekkversion, samt LDS lagring av versjoner
+Bedre brukeropplevelse (styling, plassering, ol.)
+TODOs, FIXMEs, DOCMEs
+Github issues
+Refactor
+Lagring- og publiseringsflow!
+Use SWR everywhere
