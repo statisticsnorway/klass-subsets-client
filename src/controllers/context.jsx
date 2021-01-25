@@ -1,6 +1,5 @@
 import React, { createContext, useEffect } from 'react';
 import { useSubsetDraft } from 'controllers';
-import { useErrorRegister } from './useErrorRegister';
 
 /** Context Principles
  *
@@ -25,13 +24,11 @@ import { useErrorRegister } from './useErrorRegister';
 export const AppContext = createContext({});
 
 export const ContextProvider = ({ children }) => {
-    const errorRegister = useErrorRegister([]);
-
     const subset = useSubsetDraft();
     useEffect(() => console.info({ newState: subset.draft }),[ subset.draft ]);
 
     return (
-        <AppContext.Provider value={{ subset, errorRegister }}>
+        <AppContext.Provider value={{ subset }}>
             { children }
         </AppContext.Provider>
     );
