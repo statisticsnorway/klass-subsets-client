@@ -27,11 +27,31 @@ export const Footer = () => {
                         <Link href='https://www.ssb.no/a-aa' isExternal negative>A-Å</Link>
                         <Link href='https://www.ssb.no/nettstedskart' isExternal negative>{t('Site map')}</Link>
 
-                        <Link href='https://github.com/statisticsnorway/klass-subsets-client' isExternal negative icon={<GitHub size={24} />} />
-                        <Link href='https://www.facebook.com/statistisksentralbyra/' isExternal negative icon={<Facebook size={24} />} />
-                        <Link href='https://twitter.com/ssbnytt' isExternal negative icon={<Twitter size={24} />} />
-                        <Link href='https://www.linkedin.com/company/statistics-norway/' isExternal negative icon={<Linkedin size={24} />} />
-                        <Link href='https://www.ssb.no/informasjon/rss' isExternal negative icon={<Rss size={24} />} />
+                        <Link href='https://github.com/statisticsnorway/klass-subsets-client'
+                              isExternal negative icon={<GitHub size={24}/>}
+                              ariaLabel='GitHub repository'
+                              title='GitHub repository'
+                        />
+                        <Link href='https://www.facebook.com/statistisksentralbyra/'
+                              isExternal negative icon={<Facebook size={24}/>}
+                              ariaLabel='Facebook SSB group'
+                              title='Facebook SSB group'
+                        />
+                        <Link href='https://twitter.com/ssbnytt'
+                              isExternal negative icon={<Twitter size={24}/>}
+                              ariaLabel='Twitter SSB news'
+                              title='Twitter SSB news'
+                        />
+                        <Link href='https://www.linkedin.com/company/statistics-norway/'
+                              isExternal negative icon={<Linkedin size={24}/>}
+                              ariaLabel='Linkedin SSB channel'
+                              title='Linkedin SSB channel'
+                        />
+                        <Link href='https://www.ssb.no/informasjon/rss'
+                              isExternal negative icon={<Rss size={24}/>}
+                              ariaLabel='SSB information portal'
+                              title='SSB information portal'
+                        />
                     </div>
                 </div>
         </SsbFooter>
