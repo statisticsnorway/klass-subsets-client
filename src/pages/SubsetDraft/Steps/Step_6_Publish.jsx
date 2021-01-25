@@ -122,13 +122,13 @@ export const Step6Publish = () => {
                 </p>
             }
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button onClick={ () => history.push(`/auth/editor?step=Metadata&subsetId=${ query.get('subsetId') }&versionId=${ query.get('versionId') }`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Metadata&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') }`) }>
                     { t('Back to metadata') }
                 </button>
-                <button onClick={ () => history.push(`/auth/editor?step=Versions&subsetId=${ query.get('subsetId') }&versionId=${ query.get('versionId') }`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Versions&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') }`) }>
                     { t('Back to versions') }
                 </button>
-                <button onClick={ () => history.push(`/auth/editor?step=Review%20and%20publish&subsetId=${ query.get('subsetId') }&versionId=${ query.get('versionId') }`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Review%20and%20publish&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') }`) }>
                     { t('Back to review') }
                 </button>
                 <button onClick={ () => history.push(`/subsets/${id}`) }>
