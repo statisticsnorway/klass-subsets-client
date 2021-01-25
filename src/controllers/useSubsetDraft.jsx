@@ -90,7 +90,7 @@ function subsetReducer( state, { action, data = {} }) {
             return Subset({...state});
         }
         case 'version_to_sync': {
-            if (data.administrativeStatus !== 'OPEN') return state;
+            if (!data || data.administrativeStatus !== 'OPEN') return state;
 
             const exists = state.versions?.find(v => v.versionId === data.versionId);
             if (!exists || data.lastModified <= exists.lastModified) return state;
