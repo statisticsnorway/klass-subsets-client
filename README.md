@@ -36,9 +36,47 @@
 - [Technical debt](#Technical-debt)
   - [Known bugs](#known-bugs)
 - [Performance](#performance)
-
-- [UX](#ux)
+- [User experience](#user-experience)
 - [Accessibility](#accessibility)
+
+# UI Usage
+
+# Data structures
+
+## Subsets API
+
+## Klass API
+
+### GSIM schema 
+
+### Internal
+
+# API Guide
+
+# Tech Stack
+
+## React web application
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Frontend
+
+## Context Management
+
+## Styling
+
+## Tests
+
+## Fetcher
+
+## PWA
+
+## Internationalization
+
+## Session management
+
+## Error handling
+
+## Cache
 
 # Backend
 
@@ -57,9 +95,6 @@
     Download and install a modern browser of your choice.<br>
     Recommend to use Chrome, the most secure browser today.
 
-#### Source code
-This repo
-
 #### Start local server
 Install dependencies for the project (production build):
 ```shell
@@ -70,13 +105,6 @@ In case you need to run a development build do: `$ npm install` instead of `$ np
 
 #### Start application in a browser
 [http://localhost:3000/](http://localhost:3000/)
-
-
-#Tech Stack
-
-## React web application
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 # Configuration
 
@@ -150,3 +178,14 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 ### `npm run build` fails to minify
 
 This section has moved [here:](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Integrations and dependencies
+## Data flow
+## Authentication
+## Authorisation]
+## Technical debt
+## Known bugs
+#Performance
+
+# User experience
+# Accessibility
