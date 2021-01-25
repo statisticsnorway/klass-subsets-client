@@ -1,10 +1,4 @@
-#Classification subsets web application
-Statistics Norway
-2019-2021
-
-#System documentation
-Statistisk Sentralbyrå
-Experis Solutions
+# Classification subsets web application
 
 ## Table of Contents
 - [UI Usage](#ui-usage)
