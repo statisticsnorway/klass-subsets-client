@@ -20,7 +20,7 @@ export const Metadata = ({
         <>
             <Title text='Metadata'
                    edit={ edit }
-                   save={ () => save(query.toString()) }
+                   save={ save ? () => save(query.toString()) : null }
                    info={ () => setShowInfo(prev => !prev)}
                    help={ () => setShowHelp(prev => !prev)}
             />
