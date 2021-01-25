@@ -3,10 +3,10 @@
 ## Table of Contents
 - [UI Usage](#ui-usage)
 - [Data structures](#data-structures)
+  - [Internal](#internal)
   - [Subsets API](#subsets-api)
   - [Klass API](#klass-api)
   - [GSIM schema](#gsim-schema)
-  - [Internal](#internal)
 - [API Guide](#api-guide)
 - [Tech Stack](#tech-stack)
   - [React web application](#react-web-application)
@@ -20,6 +20,7 @@
   - [Session management](#session-management)
   - [Error handling](#error-handlig)
   - [Cache](#cache)
+  - [File structure](#file-structure)
 - [Backend](#backend)
   - [Single page](#single-page)
   - [Log](#log)
@@ -40,17 +41,27 @@
 - [Accessibility](#accessibility)
 
 # UI Usage
+The application consist of two main parts:
+- View subsets (public).
+- Subset draft editor (admin). 
+  
+## View subsets
+This part allows any user to view and search published and drafted subsets. This part does not require authentication.
+
+## Subset draft editor
+The editor is a six step interactive form.
 
 # Data structures
+
+### Internal
+The main internal data structure is the `Subset.prototype`. It is responsible for holding all data about the subset draft and provide calculations and validation during editing.
+In order to persist the user data session storage is used. It updates on each change in the draft.
 
 ## Subsets API
 
 ## Klass API
 
 ### GSIM schema 
-
-### Internal
-The main data structure in the application is the Subset.prototype. It is responsible for holding all data about the subset draft and provide calculations and validation during editing.
 
 # API Guide
 
@@ -78,6 +89,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Error handling
 
 ## Cache
+
+## File structure
 
 # Backend
 
