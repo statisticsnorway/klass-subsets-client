@@ -18,8 +18,10 @@ export default function App() {
                 <Switch>
                     <Redirect push from='/' exact to='/subsets' />
                     <Redirect push from='/editor' to='/auth/editor' />
+
                     <Route path='/auth/save' component={ Step6Publish }/>
                     <Route path='/auth/editor' component={ SubsetForm }/>
+
                     <Route path='/subsets' exact component={ SearchSubsets }/>
                     <Route path='/subsets/:id' exact component={ SubsetPage }/>
                     <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>

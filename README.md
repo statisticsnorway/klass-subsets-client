@@ -58,14 +58,39 @@ The main internal data structure is the `Subset.prototype`. It is responsible fo
 In order to persist the user data session storage is used. It updates on each change in the draft.
 
 ## Subsets API
+### `GET /subsets`
+### `GET /subsets/{subsetId}/`
+### `GET /subsets/{subsetId}/versions/{versionId}`
+### `POST /subsets/{subsetId}/`
+### `POST /subsets/{subsetId}/versions/{versionId}`
+### `PUT /subsets/{subsetId}/`
+### `PUT /subsets/{subsetId}/versions/{versionId}`
+### `DELETE /subsets/{subsetId}/`
+### `DELETE /subsets/{subsetId}/versions/{versionId}`
 
 ## Klass API
+### `/classificationFamilies`
+### `/ssbsections`
+### `/classifications/{classificationId}`
+### `/classifications/{classificationId}/versions/{versionId}`
+### `/classifications/{classificationId}/codesAt...`
 
 ### GSIM schema 
 
-# API Guide
+# Client API Guide
+### `/subsets`
+### `/subsets/{subsetId}/`
+### `/subsets/{subsetId}/versions/{versionId}`
+### `/editor/*` redirects to `/auth/editor/*`
+### `/editor?step={ Metadata | Versions | Codes | Oreder | Review }`
+### `/editor?step={ Metadata | Versions | Codes | Oreder | Review }&subsetsId={subsetId}&versionsId={versionId}`
+### `/auth/save?metadata={ true | false }`
+### `/auth/save?version={ true | false }`
+### `/auth/save?metadata={ true | false }version={ true | false }`
 
 # Tech Stack
+React 17 med React hooks
+Docker
 
 ## React web application
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -75,22 +100,65 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Context Management
 
 ## Styling
+CSS
 
 ## Tests
+Jest
 
 ## Fetcher
+SWR
 
 ## PWA
+Issues with drag-and-drop. Additional library has to be installed to convert browser drag-and-drop events into respective mobile events.
+Mobile users can still reorder codes by using numbers and arrows.
+Issues with responsive design.
 
 ## Internationalization
+Internationalization is implemented with i18n.js library. The set up is for three languages (nb, nn, en), but oly two in use.
 
-## Session management
+## Session storage
+The local session storage is used to keep subset draft in memory throughout editing, site refresh and navigation.
+The subset draft resets in session storage when user chose to start a new subset draft. All unsaved changes from the previous edition will be discarded without warning.
+Current subset draft in edition mode will be overwritten by next subset draft opened in the editor. All unsaved changes from the previous edition will be discarded without warning.
 
 ## Error handling
 
 ## Cache
+Standard caching is disabled as long as service worker is unregistered. It should be registered before shipping to the production.
+SWR library has its own way to cache the response and update the content (stale-while-revalidate), this behaviour can be cofigured.
 
-## File structure
+## Essential File structure
+```text
+.
+├── src
+│ ├── components
+│ ├── controllers
+│ │ ├── context
+│ │ ├── klass-api
+│ │ └── subsets-api
+│ ├── internationalization
+│ ├── models
+│ │ └── Subset.prototype
+│ ├── pages
+│ │ ├── SearchSubsets
+│ │ ├── editor
+│ │ ├── subset
+│ │ └── changelog
+│ ├── utils
+│ └── views
+│ │ ├── code
+│ │ └── Subset
+│ ├── App.js
+│ ├── defaults.js
+│ └── serviceWorker.js
+├── .env
+├── azure-pipelines.yml
+├── Dockerfile
+├── jsconfig.json
+├── nginx.conf
+├── package.json
+└── README.md
+```
 
 # Backend
 
