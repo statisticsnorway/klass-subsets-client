@@ -15,21 +15,24 @@ export const Version = ({
 
     return (
         <>
-            <h2>{ t('Version') } { t(version.validFrom) }
-                { edit && <EditButton
+            <h2>{ t('Version') } { t(version?.validFrom) }
+                <EditButton
                     title={ t('Edit version') }
                     clickHandler={ () => edit(version?.versionId) }
-                />}
+                    visible={ edit }
+                />
 
-                { save && <SaveButton
+                <SaveButton
                     title={ t('Save version') }
                     clickHandler={ () => save(query.toString()) }
-                />}
+                    visible={ save }
+                />
 
-                { publish && <UploadButton
+                <UploadButton
                     title={ t('Publish version') }
                     clickHandler={ () => publish(query.toString()) }
-                />}
+                    visible={ publish }
+                />
             </h2>
             <BriefVersion
                 id={ version?.versionId }

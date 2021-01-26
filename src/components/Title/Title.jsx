@@ -39,22 +39,25 @@ export const Title = ({
                 </>
             }
 
-            { info && <InfoButton
+            <InfoButton
                 title={ `${t('Info')} ${ t(text) }` }
                 active={ info }
                 clickHandler={ info }
-            />}
+                visible={ info }
+            />
 
-            { edit && <EditButton
+            <EditButton
                 title={ `${t('Edit')} ${ t(text) }` }
                 clickHandler={ edit }
-            />}
+                visible={ edit }
+            />
 
-            { save && <SaveButton
+            <SaveButton
                 title={ `${t('Save')} ${ t(text) }` }
                 active={ save }
                 clickHandler={ save }
-            />}
+                visible={ save }
+            />
 
             <HelpButton
                 visible={ help }
