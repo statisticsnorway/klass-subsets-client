@@ -87,6 +87,8 @@ export const editable = (state = {}) => ({
     },
 
     isEditableOrigins() {
+        console.debug('isEditableOrigins', !state.isPublished);
+
         return !state.isPublished;
     },
 

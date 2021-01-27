@@ -10,6 +10,8 @@ import { nameControl, errorsControl, versionable,
 
 // FIXME: decide which version should be the default one
 function defaultVersion(versions) {
+    // console.log('defaultVersion', versions?.length > 0 ? versions[0] : null);
+
     return versions?.length > 0 ? versions[0] : null;
 }
 
