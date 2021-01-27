@@ -22,34 +22,6 @@ export const editable = (state = {}) => ({
             && state.version !== '1';
     },
 
-    /*    isAfterCoveredPeriod(date) {
-            //console.debug('isAfterCoveredPeriod');
-
-            return date
-                && (date >= state.latestVersion?.validUntil
-                    || date > state.latestVersion?.versionValidFrom);
-        },
-
-        isBeforeCoveredPeriod(date) {
-            //console.debug('isBeforeCoveredPeriod');
-
-            return date
-                && state.isInAcceptablePeriod(date)
-                && date < state.validFrom;
-        },
-
-        isInCoveredPeriod(date) {
-            const start = state.latestVersion?.validFrom || state._validFrom;
-            const end = state.latestVersion
-                ? state.latestVersion?.validUntil || state.latestVersion?.versionValidFrom
-                : state._validUntil;
-            return !end
-                ? date === start
-                : end === state.latestVersion?.versionValidFrom
-                    ? date >= start && date <= end
-                    : date >= start && date < end;
-        },*/
-
     isEditableId() {
         return state.isNew();
     },
@@ -87,7 +59,7 @@ export const editable = (state = {}) => ({
     },
 
     isEditableOrigins() {
-        console.debug('isEditableOrigins', !state.isPublished);
+        // console.debug('isEditableOrigins', !state.isPublished);
 
         return !state.isPublished;
     },
