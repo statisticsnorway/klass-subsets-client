@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AppContext } from 'controllers/context';
 import { Text } from '@statisticsnorway/ssb-component-library';
+import {toCodeId} from "../../utils";
 
 
 export const CodeCheckbox = ({ item, ...props }) => {
@@ -12,7 +13,7 @@ export const CodeCheckbox = ({ item, ...props }) => {
         }
     } = useContext(AppContext);
 
-    const mapKey = `${item.classificationId}:${item.code}:${encodeURI(item.name)}`;
+    const mapKey = toCodeId(item);
 
     return (
         <div className='ssb-checkbox' style={ props.style }>

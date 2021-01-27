@@ -1,3 +1,5 @@
+import { toCodeId } from 'utils';
+
 export const codesControl = (state = {}) => ({
 
     prependCodes(codes = []) {
@@ -5,8 +7,8 @@ export const codesControl = (state = {}) => ({
 
         if (state.isEditableCodes()) {
             const addition = codes.map(code => [
-                `${code?.classificationId}:${code?.code}:${encodeURI(code?.name)}`,
-                {...code, rank: -new Date().getTime()}
+                toCodeId(code),
+                {...code, rank: -1}
             ]);
 
             const merged = new Map([...addition, ...state.codesMap]);
@@ -19,7 +21,7 @@ export const codesControl = (state = {}) => ({
 
         if (state.isEditableCodes()) {
             const updated = state.codesMap;
-            codes?.forEach(code => updated.delete(`${code.classificationId}:${code.code}:${encodeURI(code.name)}`));
+            codes?.forEach(code => updated.delete(toCodeId(code)));
             state.codes = [...updated.values()];
         }
     },

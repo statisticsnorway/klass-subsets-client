@@ -1,7 +1,8 @@
 import { subsetDraft, STATUS_ENUM } from 'defaults';
-import { toId, sanitize, nextDefaultName,
+import {
+    toId, sanitize, nextDefaultName,
     orderByValidFromAsc, orderByValidFromDesc,
-    sanitizeArray
+    sanitizeArray, toCodeId
 } from 'utils';
 import { nameControl, errorsControl, versionable,
     descriptionControl, versionRationaleControl,
@@ -272,7 +273,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'codesMap', {
         get: () => {
             return new Map(subset?.currentVersion?.codes?.map(code => [
-                `${code.classificationId}:${code.code}:${encodeURI(code.name)}`,
+                toCodeId(code),
                 code
             ])); },
     });
@@ -283,9 +284,9 @@ export function Subset (data) {
             // console.debug('Set codes', codes);
 
             if (subset.isEditableCodes()) {
-                subset.currentVersion.codes = codes.map(c => ({
-                    id: `${c.classificationId}:${c.code}:${encodeURI(c.name)}`,
-                    ...c
+                subset.currentVersion.codes = codes.map(code => ({
+                    id: toCodeId(code),
+                    ...code
                 }));
                 subset.reorderCodes();
                 subset.rerankCodes();
