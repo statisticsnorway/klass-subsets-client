@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from 'controllers';
 import { Text } from '@statisticsnorway/ssb-component-library';
@@ -13,6 +13,15 @@ export const Codes = ({ codes = [] }) => {
         versionValidUntil,
         isEditableCodes,
     }, dispatch } } = useContext(AppContext);
+
+    // DOCME
+    // FIXME: magic number 35
+    const [ renderedCodes, setRenderedCodes ] = useState(codes.slice(0, Math.min(35, codes.length)));
+    useEffect(() => {
+        if (renderedCodes?.length < codes.length){
+            setTimeout(() => setRenderedCodes(codes),0);
+        }
+    });
 
     return (
             <div>
