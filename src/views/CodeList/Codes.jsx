@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppContext, useClassification } from 'controllers';
+import { AppContext } from 'controllers';
 import { Text } from '@statisticsnorway/ssb-component-library';
-import { CodeInfo, CodeList } from 'views';
+import { CodeInfo } from 'views';
 import { ListTabable } from 'components';
 import { toCodeId } from 'utils';
 
@@ -12,7 +12,6 @@ export const Codes = ({ codes = [] }) => {
         versionValidFrom,
         versionValidUntil,
         isEditableCodes,
-        codesMap
     }, dispatch } } = useContext(AppContext);
 
     return (
