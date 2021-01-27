@@ -2,13 +2,11 @@ export const editable = (state = {}) => ({
 
     isNew() {
         // console.debug('isNew', !state.createdDate);
-
         return !state.createdDate;
     },
 
     isLatestPublishedVersion() {
         //console.debug('isLatestSavedVersion');
-
         if (!state.versions) {
             return null;
         }
@@ -17,7 +15,6 @@ export const editable = (state = {}) => ({
 
     isNewVersion() {
         //console.debug('isNewVersion', state.administrativeStatus === 'INTERNAL' && state.version !== '1');
-
         return state.administrativeStatus === 'INTERNAL'
             && state.version !== '1';
     },
@@ -54,13 +51,11 @@ export const editable = (state = {}) => ({
 
     isEditableVersionValidUntil() {
         //console.debug('isEditableVersionValidUntil');
-
         return !state.isPublished || state.isLatestPublishedVersion();
     },
 
     isEditableOrigins() {
         // console.debug('isEditableOrigins', !state.isPublished);
-
         return !state.isPublished;
     },
 
@@ -73,7 +68,7 @@ export const editable = (state = {}) => ({
     },
 
     isEditableCodes() {
-        // console.debug('isEditableCodes ', !state.isPublished)
+        // console.debug('isEditableCodes ', !state.isPublished)7
         return !state.isPublished;
     }
 });
