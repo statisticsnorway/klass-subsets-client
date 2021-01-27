@@ -88,8 +88,8 @@ jobs:
       - task: SonarQubeAnalyze@4
       - task: SonarQubePublish@4
   - job: 'deployStaging'
-    displayName: 'Build Docker image and publish to GCR (staging)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
+    displayName: 'Build Docker image and publish to GCR'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     steps:
       - script: |
           npm install --only=prod
