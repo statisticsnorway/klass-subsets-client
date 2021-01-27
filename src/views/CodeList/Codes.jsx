@@ -34,7 +34,7 @@ export const Codes = ({ codes = [] }) => {
                 { !codes || codes.length === 0
                     ? <Text>{ t('No codes found for this validity period') }</Text>
                     : <div>
-                        { !isEditableCodes() &&
+                        { isEditableCodes() &&
                             <div style={{ padding: '5px' }}>
                                 <button onClick={() => dispatch({
                                     action: 'codes_include',
