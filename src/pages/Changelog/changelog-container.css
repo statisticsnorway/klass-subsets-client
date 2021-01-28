@@ -1,0 +1,28 @@
+#feedback { grid-area: feedback; }
+#changelog { grid-area: changelog; }
+
+@media only screen and (max-width: 1345px) {
+
+  #changelog-container {
+    grid-template-areas:
+    'feedback'
+    'changelog';
+    display: grid;
+    justify-content: center;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+}
+
+@media only screen and (min-width: 1346px) {
+
+  #changelog-container {
+    grid-template-areas:
+    'feedback changelog';
+    display: grid;
+    grid-template-columns: 400px 600px;
+    justify-content: center;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+}

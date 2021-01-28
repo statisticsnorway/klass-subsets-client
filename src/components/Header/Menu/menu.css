@@ -1,0 +1,49 @@
+
+@media only screen and (max-width: 767px) {
+  /* For mobile screens */
+
+  /* Show menu icon */
+  #Menu label {
+    display: inline-block;
+    color: darkgreen;
+    padding: 10px;
+  }
+
+  #MenuItems a:hover {
+    color: green;
+  }
+
+  .MenuItem {
+    padding: 10px;
+    border-top: 1px solid #c3dcdc;
+  }
+
+  /* Toggle show/hide menu items */
+  #MenuItems, #toggle {
+    display: none;
+  }
+
+  #toggle:checked ~ #MenuItems {
+    display: block;
+  }
+
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+
+  /* Hide menu icon */
+  #Menu label, #toggle {
+    display: none;
+  }
+
+  #MenuItems {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .MenuItem {
+    padding: 6px 20px 0 0;
+    border-top: none;
+  }
+}

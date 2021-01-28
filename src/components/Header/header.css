@@ -1,0 +1,92 @@
+#Logo { grid-area: logo; }
+#AppTitle { grid-area: title; }
+#LanguageSwitch { grid-area: languages; }
+#Menu { grid-area: menu; }
+
+@media only screen and (max-width: 767px) {
+
+  /* mobile first */
+  header {
+    grid-template-areas:
+    'languages languages languages languages'
+    'logo title menu menu';
+    grid-template-columns: 60px auto auto auto;
+    display: grid;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+
+  #AppTitle {
+    text-align: left;
+  }
+
+  #Logo, #LanguageSwitch, #Menu {
+    text-align: right;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+  header {
+    grid-template-areas:
+    'logo logo languages languages'
+    'title title menu menu';
+    display: grid;
+    grid-gap: 10px;
+    padding: 20px;
+  }
+
+  #Logo {
+    text-align: left;
+  }
+
+ #AppTitle {
+    text-align: center;
+  }
+
+  #LanguageSwitch {
+    text-align: right;
+  }
+}
+
+@media only screen and (min-width: 1050px) {
+
+  header {
+    grid-template-areas:
+    'languages languages languages languages'
+    'logo title menu menu';
+    display: grid;
+    grid-gap: 10px;
+    padding: 20px 0 40px 0;
+  }
+
+  #Logo, #AppTitle {
+    text-align: left;
+  }
+
+  #LanguageSwitch {
+    text-align: right;
+  }
+}
+
+@media only screen and (min-width: 1346px) {
+
+  header {
+    grid-template-areas:
+    'languages languages languages languages'
+    'logo title menu menu';
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 320px 280px 300px 300px;
+    grid-gap: 10px;
+    padding: 20px 0 40px 0;
+  }
+
+  #Logo, #AppTitle {
+    text-align: left;
+  }
+
+  #LanguageSwitch {
+    text-align: right;
+  }
+}

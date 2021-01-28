@@ -1,40 +1,196 @@
-Classification subsets web application
-Statistics Norway
-2019
+# Classification subsets web application
 
-# Installation guide for local environment
+## Table of Contents
+- [UI Usage](#ui-usage)
+- [Data structures](#data-structures)
+  - [Internal](#internal)
+  - [Subsets API](#subsets-api)
+  - [Klass API](#klass-api)
+  - [GSIM schema](#gsim-schema)
+- [API Guide](#api-guide)
+- [Tech Stack](#tech-stack)
+  - [React web application](#react-web-application)
+- [Frontend](#frontend)
+  - [Context Management](#context-management)
+  - [Styling](#styling)
+  - [Tests](#tests)
+  - [Fetcher](#fetcher)
+  - [PWA](#pwa)
+  - [Internationalization](#internationalization)
+  - [Session management](#session-management)
+  - [Error handling](#error-handlig)
+  - [Cache](#cache)
+  - [File structure](#file-structure)
+- [Backend](#backend)
+  - [Single page](#single-page)
+  - [Log](#log)
+  - [Deployment](#deployment)
+    - [Localhost](#lLocalhost)
+    - [Staging](#staging)
+    - [Production](#production)
+- [Configuration](#configuration)
+  - [React scripts](#react-scripts)
+- [Integrations and dependencies](#integrations-and-dependencies)
+  - [Data flow](#data-flow)
+  - [Authentication](#authentication)
+  - [Authorisation](#authorisation)
+- [Technical debt](#Technical-debt)
+  - [Known bugs](#known-bugs)
+- [Performance](#performance)
+- [User experience](#user-experience)
+- [Accessibility](#accessibility)
 
-## Required software 
+# UI Usage
+The application consist of two main parts:
+- View subsets (public).
+- Subset draft editor (admin). 
+  
+## View subsets
+This part allows any user to view and search published and drafted subsets. This part does not require authentication.
+
+## Subset draft editor
+The editor is a six step interactive form.
+
+# Data structures
+
+### Internal
+The main internal data structure is the `Subset.prototype`. It is responsible for holding all data about the subset draft and provide calculations and validation during editing.
+In order to persist the user data session storage is used. It updates on each change in the draft.
+
+## Subsets API
+### `GET /subsets`
+### `GET /subsets/{subsetId}/`
+### `GET /subsets/{subsetId}/versions/{versionId}`
+### `POST /subsets/{subsetId}/`
+### `POST /subsets/{subsetId}/versions/{versionId}`
+### `PUT /subsets/{subsetId}/`
+### `PUT /subsets/{subsetId}/versions/{versionId}`
+### `DELETE /subsets/{subsetId}/`
+### `DELETE /subsets/{subsetId}/versions/{versionId}`
+
+## Klass API
+### `/classificationFamilies`
+### `/ssbsections`
+### `/classifications/{classificationId}`
+### `/classifications/{classificationId}/versions/{versionId}`
+### `/classifications/{classificationId}/codesAt...`
+
+### GSIM schema 
+
+# Client API Guide
+### `/subsets`
+### `/subsets/{subsetId}/`
+### `/subsets/{subsetId}/versions/{versionId}`
+### `/editor/*` redirects to `/auth/editor/*`
+### `/editor?step={ Metadata | Versions | Codes | Oreder | Review }`
+### `/editor?step={ Metadata | Versions | Codes | Oreder | Review }&subsetsId={subsetId}&versionsId={versionId}`
+### `/auth/save?metadata={ true | false }`
+### `/auth/save?version={ true | false }`
+### `/auth/save?metadata={ true | false }version={ true | false }`
+
+# Tech Stack
+React 17 med React hooks
+Docker
+
+## React web application
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Frontend
+
+## Context Management
+
+## Styling
+CSS
+
+## Tests
+Jest
+
+## Fetcher
+SWR
+
+## PWA
+Issues with drag-and-drop. Additional library has to be installed to convert browser drag-and-drop events into respective mobile events.
+Mobile users can still reorder codes by using numbers and arrows.
+Issues with responsive design.
+
+## Internationalization
+Internationalization is implemented with i18n.js library. The set up is for three languages (nb, nn, en), but oly two in use.
+
+## Session storage
+The local session storage is used to keep subset draft in memory throughout editing, site refresh and navigation.
+The subset draft resets in session storage when user chose to start a new subset draft. All unsaved changes from the previous edition will be discarded without warning.
+Current subset draft in edition mode will be overwritten by next subset draft opened in the editor. All unsaved changes from the previous edition will be discarded without warning.
+
+## Error handling
+
+## Cache
+Standard caching is disabled as long as service worker is unregistered. It should be registered before shipping to the production.
+SWR library has its own way to cache the response and update the content (stale-while-revalidate), this behaviour can be cofigured.
+
+## Essential File structure
+```text
+.
+├── src
+│ ├── components
+│ ├── controllers
+│ │ ├── context
+│ │ ├── klass-api
+│ │ └── subsets-api
+│ ├── internationalization
+│ ├── models
+│ │ └── Subset.prototype
+│ ├── pages
+│ │ ├── SearchSubsets
+│ │ ├── editor
+│ │ ├── subset
+│ │ └── changelog
+│ ├── utils
+│ └── views
+│ │ ├── code
+│ │ └── Subset
+│ ├── App.js
+│ ├── defaults.js
+│ └── serviceWorker.js
+├── .env
+├── azure-pipelines.yml
+├── Dockerfile
+├── jsconfig.json
+├── nginx.conf
+├── package.json
+└── README.md
+```
+
+# Backend
+
+## Deployment
+
+### Localhost
+
+#### Required software
 *   Git<br>
-Download and install git.
+    Download and install git.
 
 *   Node.js (npm)<br>
-Download and install [node.js](https://nodejs.org/en/) 
+    Download and install [node.js](https://nodejs.org/en/)
 
 *   Browser<br>
-Download and install a modern browser of your choice.<br>
-Recommend to use Chrome, the most secure browser today.
+    Download and install a modern browser of your choice.<br>
+    Recommend to use Chrome, the most secure browser today.
 
-## Source code (development branch)
-This repo
-
-## Start local server
+#### Start local server
 Install dependencies for the project (production build):
 ```shell
-$ cd /klass-subsets-web
+$ cd /klass-subsets-client
 $ npm start
 ```
 In case you need to run a development build do: `$ npm install` instead of `$ npm run build`
 
-## Start application in a browser
+#### Start application in a browser
 [http://localhost:3000/](http://localhost:3000/)
 
-# React web application
+# Configuration
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
+## React scripts
 In the project directory, you can run:
 
 ### `npm start`
@@ -105,4 +261,13 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 
 This section has moved [here:](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4d3a5df8180b405aaa18131b975f7acd)](https://app.codacy.com/app/alina-lapina/klass-subsets-web?utm_source=github.com&utm_medium=referral&utm_content=statisticsnorway/klass-subsets-web&utm_campaign=Badge_Grade_Settings)
+# Integrations and dependencies
+## Data flow
+## Authentication
+## Authorisation]
+## Technical debt
+## Known bugs
+#Performance
+
+# User experience
+# Accessibility
