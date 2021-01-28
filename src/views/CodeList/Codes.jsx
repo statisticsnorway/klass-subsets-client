@@ -4,7 +4,7 @@ import { AppContext } from 'controllers';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { CodeInfo } from 'views';
 import { ListTabable } from 'components';
-import { toCodeId } from 'utils';
+import { toCodeIdWithValidFrom } from 'utils';
 
 export const Codes = ({ codes = [] }) => {
     const { t } = useTranslation();
@@ -53,7 +53,7 @@ export const Codes = ({ codes = [] }) => {
 
                         <ListTabable items={
                                         codes.map(code => ({
-                                            id: toCodeId(code),
+                                            id: toCodeIdWithValidFrom(code),
                                             ...code })) }
                                      placeholder={ t('No classifications in the subset draft') }
                                      component={ CodeInfo }

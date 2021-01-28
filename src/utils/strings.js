@@ -32,6 +32,14 @@ export const toCodeId = ({
     name,
     validFromInRequestedRange
 }) => {
+    return `${classificationId}:${code}:${encodeURI(name)}`
+}
 
+export const toCodeIdWithValidFrom= ({
+                             classificationId,
+                             code,
+                             name,
+                             validFromInRequestedRange
+                         }) => {
     return `${classificationId}:${code}:${encodeURI(name)}:${validFromInRequestedRange}`
 }
