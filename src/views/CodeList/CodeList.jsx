@@ -8,6 +8,7 @@ export const CodeList = ({ id, codes, metadata, errors }) => {
     const { t } = useTranslation();
     const [ show, setShow ] = useState({ none: true } );
     const { subset: { draft: {
+        isEditableOrigins,
         origins
     }, dispatch } } = useContext(AppContext);
 
@@ -43,7 +44,7 @@ export const CodeList = ({ id, codes, metadata, errors }) => {
 
                 <MinusButton
                     title={ t('Remove code list from version') }
-                    visible={ codes && codes?.codes?.length > 0 && origins.has(id) }
+                    visible={ isEditableOrigins() && codes && codes?.codes?.length > 0 && origins.has(id) }
                     clickHandler={ () => {
                         setShow({ none: true });
                         dispatch({
@@ -55,7 +56,7 @@ export const CodeList = ({ id, codes, metadata, errors }) => {
 
                 <PlusButton
                     title={ t('Add code lit to version') }
-                    visible={ codes && codes?.codes?.length > 0 && !origins.has(id) }
+                    visible={ isEditableOrigins() && codes && codes?.codes?.length > 0 && !origins.has(id) }
                     clickHandler={ () => {
                         setShow({ none: true });
                         dispatch({

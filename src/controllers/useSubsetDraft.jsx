@@ -81,25 +81,6 @@ function subsetReducer( state, { action, data = {} }) {
             state.removeEmptyVersionRationales();
             return Subset({...state});
         }
-        case 'version_from': {
-            state.versionValidFrom = data;
-            return Subset({...state});
-        }
-        case 'version_to': {
-            state.versionValidUntil = data;
-            return Subset({...state});
-        }
-        case 'version_to_sync': {
-            if (!data || data.administrativeStatus !== 'OPEN') return state;
-
-            const exists = state.versions?.find(v => v.versionId === data.versionId);
-            if (!exists || data.lastModified <= exists.lastModified) return state;
-
-            // DOCME: when the lastModified is updated it wont be possible to sync other fields
-            exists.validUntil = data.validUntil;
-            exists.lastModified = data.lastModified;
-            return Subset({...state});
-        }
         case 'version_rationale_init': {
             if (state.versionRationale?.length !== 0) return state;
             state.addVersionRationale();
@@ -127,7 +108,7 @@ function subsetReducer( state, { action, data = {} }) {
             return Subset({...state});
         }
         case 'version_switch': {
-            if (state.currentVersion?.versionId === data?.versionId) return state;
+            if (!data?.versionId || state.currentVersion?.versionId === data?.versionId) return state;
             state.currentVersion =
                 data?.versionId === `${ state.versions?.length + 1 }`
                     ? state.createNewVersion()
@@ -136,6 +117,25 @@ function subsetReducer( state, { action, data = {} }) {
         }
         case 'version_sync': {
             state.syncVersion(data.update, data.tempId);
+            return Subset({...state});
+        }
+        case 'version_to_sync': {
+            if (!data || !data.versionId || data.administrativeStatus !== 'OPEN') return state;
+
+            const exists = state.versions?.find(v => v.versionId === data.versionId);
+            if (!exists || data.lastModified <= exists.lastModified) return state;
+
+            // DOCME: when the lastModified is updated it won't be possible to sync other fields
+            exists.validUntil = data.validUntil;
+            exists.lastModified = data.lastModified;
+            return Subset({...state});
+        }
+        case 'version_to': {
+            state.versionValidUntil = data;
+            return Subset({...state});
+        }
+        case 'version_from': {
+            state.versionValidFrom = data;
             return Subset({...state});
         }
         // DOCME: if a codelist is chosen, but no codes are checked,

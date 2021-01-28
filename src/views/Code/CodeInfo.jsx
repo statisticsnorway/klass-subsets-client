@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Spinner, Panel, ListTabable } from 'components';
-import { Info, MessageSquare } from 'react-feather';
-import { CodeCheckbox, Note } from 'views';
+import { Panel, InfoButton} from 'components';
+import { CodeCheckbox } from 'views';
 
-export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
+export const CodeInfo = ({ item }) => {
     const { t } = useTranslation();
     const [ show, setShow ] = useState({ none: true } );
 
@@ -12,14 +11,7 @@ export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
         <>
             <div style={{ display: 'flex' }}>
                 <CodeCheckbox item={ item } style={{ width: '95%'}}/>
-                <button onClick={() => setShow(prev => ({ info: !prev.info }))}>
-                    <Info color={'#2D6975'}/>
-                </button>
-{/*                <button onClick={() => setShow(prev => ({ notes: !prev.notes }))}>
-                    { isLoadingVersion
-                        ? <Spinner />
-                        : <MessageSquare color={ notes.length > 0 ? '#62919A' : '#C3DCDC' }/>}
-                </button>*/}
+                <InfoButton clickHandler={ () => setShow(prev => ({ info: !prev.info })) }/>
             </div>
 
             <Panel visible={ show.info }>
@@ -33,16 +25,13 @@ export const CodeInfo = ({ item, notes = [], isLoadingVersion = false }) => {
                 <p className='small'>
                     <strong>{ t('Level') }:</strong> {item?.level}
                 </p>
-                { item?.parentCode && <p className='small'><strong>{ t('Parent code') }:</strong> { item?.parentCode }</p>}
+                { item?.parentCode &&
+                    <p className='small'><strong>{ t('Parent code') }:</strong> { item?.parentCode }
+                    </p>}
+                { item?.rank &&
+                    <p className='small'><strong>{ t('Rank') }:</strong> { item?.rank }
+                    </p>}
             </Panel>
-
-{/*            <Panel visible={ show.notes }>
-                <ListTabable items={ notes.map((note, id) => ({ id, ...note })) }
-                             placeholder={ t('No notes found') }
-                             component={ Note }
-                />
-            </Panel>*/}
-
         </>
     );
 };
