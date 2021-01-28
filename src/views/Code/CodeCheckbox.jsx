@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AppContext } from 'controllers/context';
 import { Text } from '@statisticsnorway/ssb-component-library';
-import {toCodeId} from "../../utils";
+import { toCodeId } from 'utils';
 
 
 export const CodeCheckbox = ({ item, ...props }) => {

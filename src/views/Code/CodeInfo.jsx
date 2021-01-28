@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, InfoButton} from 'components';
-import { CodeCheckbox, } from 'views';
+import { CodeCheckbox } from 'views';
 
 export const CodeInfo = ({ item }) => {
     const { t } = useTranslation();
