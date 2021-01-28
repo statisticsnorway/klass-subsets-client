@@ -57,7 +57,7 @@ jobs:
       - script: |
           CI=true npm run build
         displayName: 'Prod build'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+        condition: and(false, and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v')))
       - task: PublishTestResults@2
         displayName: "Publish test results"
         condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
