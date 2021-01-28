@@ -13,18 +13,6 @@ describe('Subset prototype: default values', () => {
         expect(Subset().name).toEqual([]);
     });
 
-    it('should by default set administrativeStatus to INTERNAL', () => {
-        expect(Subset().administrativeStatus).toBe('INTERNAL');
-    });
-
-    it('should by default set validFrom to null', () => {
-        expect(Subset().validFrom).toBeNull();
-    });
-
-    it('should by default set validUntil to null', () => {
-        expect(Subset().validUntil).toBeNull();
-    });
-
     it('should by default set owningSection to empty string', () => {
         expect(Subset().owningSection).toBe('');
     });
@@ -37,24 +25,23 @@ describe('Subset prototype: default values', () => {
         expect(Subset().description).toEqual([]);
     });
 
-    it('should by default set version to 1', () => {
-        expect(Subset().version).toBe('1');
+    it('should by default set version to first init version', () => {
+        expect(Subset().versions).toStrictEqual([{
+            versionId: '1',
+            administrativeStatus: 'INTERNAL',
+            versionRationale: [],
+            validFrom: null,
+            validUntil: null,
+            administrativeDetails: [{
+                administrativeDetailType: 'ORIGIN',
+                values: []
+            }],
+            codes: []
+        }]);
     });
 
-    it('should by default set versionRationale to empty array', () => {
-        expect(Subset().versionRationale).toEqual([]);
-    });
-
-    it('should by default set versionValidUntil to null', () => {
-        expect(Subset().versionValidUntil).toBeNull();
-    });
-
-    it('should by default set origin to empty array', () => {
-        expect(Subset().origin).toEqual([]);
-    });
-
-    it('should by default set codes to empty array', () => {
-        expect(Subset().codes).toEqual([]);
+    it('should by default set _currentVersion to a version', () => {
+        expect(Subset().currentVersion).not.toBeNull();
     });
 });
 
@@ -63,26 +50,28 @@ describe('Subset prototype: defined properties on an initial subset', () => {
         expect(Subset().isPublished).toBeFalsy();
     });
 
-    it('should initiate a Subset with no previous version', () => {
-        expect(Subset().previousVersion).toBeNull();
-    });
-
 /*    FIXME: there are initial errors - required fields
     it('should initiate a Subset with no errors', () => {
         expect(Subset().errors).toBeUndefined();
     });*/
 
-    it('should create a copy of a Subset with status DRAFT with no effect on the actual status', () => {
+    it('should create a copy of metadata with classification type SUBSET with no effect on the actual metadata', () => {
         const subset = Subset();
-        expect(subset.draftPayload.administrativeStatus).toBe('DRAFT');
+        expect(subset.metadataPayload.classificationType).toBe('Subset');
+        expect(subset.classificationType).toBeUndefined();
+    });
+
+/*    it('should create a copy of a current version with status DRAFT with no effect on the actual status', () => {
+        const subset = Subset();
+        expect(subset.versionPayload.administrativeStatus).toBe('DRAFT');
         expect(subset.administrativeStatus).toBe('INTERNAL');
     });
 
     it('should create a copy of a Subset with status OPEN with no effect on the actual status', () => {
         const subset = Subset();
-        expect(subset.publishPayload.administrativeStatus).toBe('OPEN');
+        expect(subset.publishVersionPayload.administrativeStatus).toBe('OPEN');
         expect(subset.administrativeStatus).toBe('INTERNAL');
-    });
+    });*/
 });
 
 describe('Subset prototype: published versions', () => {
@@ -96,7 +85,8 @@ describe('Subset prototype: published versions', () => {
             {
                 version: '2',
                 administrativeStatus: 'DRAFT'
-            },                {
+            },
+            {
                 version: '3',
                 administrativeStatus: 'OPEN'
             },
@@ -125,7 +115,6 @@ describe('Subset prototype: published versions', () => {
         const statuses = new Set(result.map(v => v.administrativeStatus));
         expect(statuses.size).toBe(1);
         expect([...statuses]).toEqual(expect.arrayContaining(['OPEN']));
-
     });
 });
 
