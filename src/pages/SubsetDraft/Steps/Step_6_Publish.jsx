@@ -28,22 +28,22 @@ export const Step6Publish = () => {
 
     useEffect(() => {
         if (!post && !update) {
-            if ((query.get('metadata') || query.get('version')) && isNew() && !query.get('auth')) {
+            if ((query.get('metadata') || query.get('version')) && isNew()) {
                 console.debug('New subset ', isNew());
                 setPOSTPayload(metadataPayload);
             }
-            if (query.get('metadata') && !isNew() && !query.get('auth')) {
+            if (query.get('metadata') && !isNew()) {
                 console.debug('Save metadata ', !isNew());
                 setPUTPayload(metadataPayload);
             }
-            if (query.get('version') && isNewVersion() && !isNew() && !query.get('auth')) {
+            if (query.get('version') && isNewVersion() && !isNew()) {
                 console.debug('New version ', isNewVersion());
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
                 );
             }
-            if (query.get('version') && !isNewVersion() && !query.get('auth')) {
+            if (query.get('version') && !isNewVersion()) {
                 console.debug('Update version ', !isNewVersion());
                 setPUTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
@@ -51,7 +51,7 @@ export const Step6Publish = () => {
                 );
             }
         } else {
-            if (query.get('version') && isNewVersion() && !query.get('auth')) {
+            if (query.get('version') && isNewVersion()) {
                 console.debug('New version when metadata is saved', isNewVersion());
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
