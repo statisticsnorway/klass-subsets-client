@@ -90,7 +90,7 @@ export const Step6Publish = () => {
             { (!errorPost && !errorUpdate && !post && !update && query.get('metadata')) &&
                 <p>{ t('Sending metadata to the server') }...</p>
             }
-            { (query.get('version') && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion)
+            { (query.get('version') && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && !errorPost && !errorUpdate)
                 &&
                 <p>{ t('Sending version to the server') }...</p>
             }
