@@ -1,7 +1,8 @@
 import { subsetDraft, STATUS_ENUM } from 'defaults';
-import { toId, sanitize, nextDefaultName,
+import {
+    toId, sanitize, nextDefaultName,
     orderByValidFromAsc, orderByValidFromDesc,
-    sanitizeArray
+    sanitizeArray, toCodeId
 } from 'utils';
 import { nameControl, errorsControl, versionable,
     descriptionControl, versionRationaleControl,
@@ -10,6 +11,8 @@ import { nameControl, errorsControl, versionable,
 
 // FIXME: decide which version should be the default one
 function defaultVersion(versions) {
+    // console.log('defaultVersion', versions?.length > 0 ? versions[0] : null);
+
     return versions?.length > 0 ? versions[0] : null;
 }
 
@@ -21,11 +24,22 @@ export function Subset (data) {
         _classificationFamily: data?.classificationFamily || data?._classificationFamily || '',
         _owningSection: data?.owningSection || data?._owningSection || '',
         _description: data?.description || data?._description || [],
-        _versions: data?.versions || data?._versions || [],
+        _versions: data?.versions || data?._versions || [{
+            versionId: '1',
+            administrativeStatus: 'INTERNAL',
+            versionRationale: [],
+            validFrom: null,
+            validUntil: null,
+            administrativeDetails: [{
+                administrativeDetailType: 'ORIGIN',
+                values: []
+            }],
+            codes: []
+        }],
 
         // internal controls
         // FIXME: default - a version valid at loading date
-        _currentVersion: data?._currentVersion || defaultVersion(data?.versions),
+        _currentVersion: data?._currentVersion || defaultVersion(data?.versions || data?._versions),
         _origins: data?._origins || [],
 
         // not protected
@@ -164,10 +178,12 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'currentVersion', {
         get: () => {
+            // console.debug('Get currentVersion', subset._currentVersion);
+
             return subset._versions?.find(v => v.versionId === subset._currentVersion?.versionId);
         },
         set: ( chosen = {} ) => {
-            //console.debug('Set currentVersion', chosen);
+            // console.debug('Set currentVersion', chosen);
 
             subset._currentVersion = subset.versions?.find(v => v.versionId === chosen?.versionId) || {};
             if (subset._currentVersion?.versionRationale?.length === 0) {
@@ -270,7 +286,7 @@ export function Subset (data) {
     Object.defineProperty(subset, 'codesMap', {
         get: () => {
             return new Map(subset?.currentVersion?.codes?.map(code => [
-                `${code.classificationId}:${code.code}:${encodeURI(code.name)}`,
+                toCodeId(code),
                 code
             ])); },
     });
@@ -278,13 +294,13 @@ export function Subset (data) {
     Object.defineProperty(subset, 'codes', {
         get: () => { return subset?.currentVersion?.codes },
         set: (codes = []) => {
-            // console.debug('Set codes', codes);
+            // console.debug('Set codes', codes, subset?.currentVersion);
 
-            if (subset.isEditableCodes()) {
-                subset.currentVersion.codes = codes.map(c => ({
-                    id: `${c.classificationId}:${c.code}:${encodeURI(c.name)}`,
-                    ...c
-                }));
+            if (subset.isEditableCodes() && subset.currentVersion) {
+                subset.currentVersion.codes = codes.map(code => ({
+                        id: toCodeId(code),
+                        ...code
+                    }));
                 subset.reorderCodes();
                 subset.rerankCodes();
             }

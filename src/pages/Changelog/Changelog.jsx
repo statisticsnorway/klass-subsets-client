@@ -1,7 +1,7 @@
 import React from 'react';
 import './changelog-container.css';
 import { useTranslation } from 'react-i18next';
-import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
+//import { Edit, HelpCircle, MessageSquare, Repeat, RefreshCw, Sliders } from 'react-feather';
 import { AlertButton, GlobeButton, SaveButton, Spinner, UploadButton } from 'components';
 
 export const Changelog = () => {
@@ -23,6 +23,13 @@ export const Changelog = () => {
            </div>
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
+
+               <h4>v0.6.14</h4>
+               <p>Disabled editing origins for published versions (no buttons).</p>
+               <p>Bugfix: no sync if version failed to save (Before Version step hang).</p>
+               <p>Bugfix: no crash when a code added to a new (empty) version.</p>
+               <p>Bugfix: no message about saving version when metadata saving failed.</p>
+               <p>No changelog for earlier versions.</p>
 
                <h4>v0.6.13</h4>
                <p>Version <code>validUntil</code> sync. Corrected.</p>
@@ -170,7 +177,7 @@ export const Changelog = () => {
                    <li>Id form for new subsets.</li>
                </ul>
 
-               <h4>v0.5.12</h4>
+               {/*<h4>v0.5.12</h4>
                <p>Translated help info for Code's Order form step.</p>
 
                <h4>v0.5.11</h4>
@@ -359,7 +366,7 @@ export const Changelog = () => {
                    <p>/be/subsets-service/ {t('and')} React v16.13.0</p>
 
                <h4>v0.2.0</h4>
-                   <p>{t('Authorization and subset-service integration')}</p>
+                   <p>{t('Authorization and subset-service integration')}</p>*/}
             </div>
         </div>
    );

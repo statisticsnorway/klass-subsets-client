@@ -25,3 +25,13 @@ export const sanitize = (text, maxLength) => {
         .replace(/[^A-ZÆØÅa-zæøå0-9-.,; _:!?()"'/%]*/g, '');
 };
 
+// TODO code prototype?
+export const toCodeId = ({
+    classificationId,
+    code,
+    name,
+    validFromInRequestedRange
+}) => {
+
+    return `${classificationId}:${code}:${encodeURI(name)}:${validFromInRequestedRange}`
+}

@@ -28,22 +28,22 @@ export const Step6Publish = () => {
 
     useEffect(() => {
         if (!post && !update) {
-            if ((query.get('metadata') || query.get('version')) && isNew() && !query.get('auth')) {
+            if ((query.get('metadata') || query.get('version')) && isNew()) {
                 console.debug('New subset ', isNew());
                 setPOSTPayload(metadataPayload);
             }
-            if (query.get('metadata') && !isNew() && !query.get('auth')) {
+            if (query.get('metadata') && !isNew()) {
                 console.debug('Save metadata ', !isNew());
                 setPUTPayload(metadataPayload);
             }
-            if (query.get('version') && isNewVersion() && !isNew() && !query.get('auth')) {
+            if (query.get('version') && isNewVersion() && !isNew()) {
                 console.debug('New version ', isNewVersion());
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
                 );
             }
-            if (query.get('version') && !isNewVersion() && !query.get('auth')) {
+            if (query.get('version') && !isNewVersion()) {
                 console.debug('Update version ', !isNewVersion());
                 setPUTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
@@ -51,7 +51,7 @@ export const Step6Publish = () => {
                 );
             }
         } else {
-            if (query.get('version') && isNewVersion() && !query.get('auth')) {
+            if (query.get('version') && isNewVersion()) {
                 console.debug('New version when metadata is saved', isNewVersion());
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
@@ -90,7 +90,7 @@ export const Step6Publish = () => {
             { (!errorPost && !errorUpdate && !post && !update && query.get('metadata')) &&
                 <p>{ t('Sending metadata to the server') }...</p>
             }
-            { (query.get('version') && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion)
+            { (query.get('version') && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && !errorPost && !errorUpdate)
                 &&
                 <p>{ t('Sending version to the server') }...</p>
             }
@@ -122,13 +122,13 @@ export const Step6Publish = () => {
                 </p>
             }
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button onClick={ () => history.push(`/auth/editor?step=Metadata&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') }`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Metadata&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
                     { t('Back to metadata') }
                 </button>
-                <button onClick={ () => history.push(`/auth/editor?step=Versions&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') }`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Versions&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
                     { t('Back to versions') }
                 </button>
-                <button onClick={ () => history.push(`/auth/editor?step=Review%20and%20publish&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') }`) }>
+                <button onClick={ () => history.push(`/auth/editor?step=Review%20and%20publish&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
                     { t('Back to review') }
                 </button>
                 <button onClick={ () => history.push(`/subsets/${id}`) }>
