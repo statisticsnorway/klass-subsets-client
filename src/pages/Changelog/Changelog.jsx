@@ -26,6 +26,7 @@ export const Changelog = () => {
 
                <h4>v0.6.14</h4>
                <p>Disabled editing origins for published versions (no buttons).</p>
+               <p>Bugfix: corrected reordering to remember the click order.</p>
                <p>Bugfix: no sync if version failed to save (Before Version step hang).</p>
                <p>Bugfix: no crash when a code added to a new (empty) version.</p>
                <p>Bugfix: no message about saving version when metadata saving failed.</p>
