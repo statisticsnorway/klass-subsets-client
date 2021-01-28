@@ -152,6 +152,10 @@ function subsetReducer( state, { action, data = {} }) {
             state.prependCodes(data);
             return Subset({...state});
         }
+        case 'remove_timestamps': {
+            state.removeTimestamps();
+            return Subset({...state});
+        }
         case 'codes_exclude': {
             state.removeCodes(data);
             return Subset({...state});
