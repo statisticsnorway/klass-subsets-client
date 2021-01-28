@@ -6,14 +6,18 @@ export const codesControl = (state = {}) => ({
         // console.debug('prependCodes', codes);
 
         if (state.isEditableCodes()) {
-            const addition = codes.map(code => [
+            const addition = codes.map((code, i) => [
                 toCodeId(code),
-                {...code, rank: -1}
+                {...code, rank: -1, timestamp: new Date().getTime()+i }
             ]);
 
             const merged = new Map([...addition, ...state.codesMap]);
             state.codes = [...merged.values()];
         }
+    },
+
+    removeTimestamps() {
+        state.codes.forEach(c => delete c.timestamp);
     },
 
     removeCodes(codes = []) {
@@ -37,7 +41,7 @@ export const codesControl = (state = {}) => ({
         // console.debug('reorderCodes', state.codes);
 
         if (state.isEditableCodes()) {
-            state.codes.sort((a, b) => (a.rank - b.rank - 1));
+            state.codes.sort((a, b) => (a.timestamp - b.timestamp || a.rank - b.rank - 1));
         }
     },
 

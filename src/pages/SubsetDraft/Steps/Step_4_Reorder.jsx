@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReorderableTable as Reorderable, Help, HelpButton } from 'components';
 import { BriefContextual } from 'views';
@@ -16,6 +16,8 @@ export const Step4Reorder = () => {
     }, dispatch } } = useContext(AppContext);
     const { t } = useTranslation();
     const [ showHelp, setShowHelp ] = useState(false);
+
+    useEffect(() => dispatch({ action: 'remove_timestamps' }), [ dispatch ] );
 
     return (<>
         <h2>{ t('Reorder codes') }<HelpButton

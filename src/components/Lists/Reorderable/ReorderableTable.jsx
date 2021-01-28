@@ -30,16 +30,16 @@ export const ReorderableTable = ({ list = [], rerank, remove, disabled }) => {
                 </tr>
                 { list.sort((a, b) => (a.rank - b.rank -1))
                     .map((item, i) => (
-                        <Item key={ item.id+item.rank }
+                        <Item key={ item?.id+item?.rank || i }
                                item={ item }
                                remove={ remove }
                                rerank={ rerank }
-                               rerankDragTargets={ (rank) => rerank(dragTargets, rank) }
+                               rerankDragTargets={ rank => rerank(dragTargets, rank) }
 
                                onDragEnter={ target => setDropTarget(target) }
                                onDragEnd={ () => rerank(dragTargets, dropTarget.rank) }
 
-                               isDragTarget={ dragTargets.find(t => t.id === item.id) }
+                               isDragTarget={ dragTargets.find(t => t.id === item?.id) }
                                toggleDragTarget={ dragTarget =>
                                    setDragTargets(prevTargets => {
                                        return prevTargets.find(t => t.id === dragTarget.id)

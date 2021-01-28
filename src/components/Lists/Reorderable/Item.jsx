@@ -14,7 +14,7 @@ export const Item = ({item = {}, remove,
                                   setDragTarget, disabled}) =>
 {
 
-    const [ rank, setRank ] = useState(item.rank);
+    const [ rank, setRank ] = useState(item?.rank);
     const [ background, setBackground ] = useState('#ECFEED');
 
     // TODO: cache fetched data in session storage
@@ -42,13 +42,13 @@ export const Item = ({item = {}, remove,
                     case keys.DOWN: {
                         event.preventDefault();
                         event.target.nextElementSibling && event.target.nextElementSibling.focus();
-                        event.ctrlKey && rerankDragTargets(item.rank + 1);
+                        event.ctrlKey && rerankDragTargets(item?.rank + 1);
                         break;
                     }
                     case keys.UP: {
                         event.preventDefault();
                         event.target.previousElementSibling && event.target.previousElementSibling.focus();
-                        event.ctrlKey && rerankDragTargets(item.rank - 1);
+                        event.ctrlKey && rerankDragTargets(item?.rank - 1);
                         break;
                     }
                     default: break;
@@ -70,23 +70,23 @@ export const Item = ({item = {}, remove,
                 event.currentTarget.style.backgroundColor = 'white'
             }
         >
-            <td>{ item.code || '-' }</td>
-            <td style={{ textAlign: 'right' }}>{ item.classificationId }</td>
-            <td style={{ width: '65%'}} onClick={() => toggleDragTarget(item)}>{ item.name }</td>
+            <td>{ item?.code || '-' }</td>
+            <td style={{ textAlign: 'right' }}>{ item?.classificationId }</td>
+            <td style={{ width: '65%'}} onClick={() => toggleDragTarget(item)}>{ item?.name }</td>
             { !disabled &&
             <td>
                          <span style={{display: 'inline-block', width: '40px'}}>
 
                             <button onClick={ (event) => {
                                 event.stopPropagation();
-                                rerank([item], item.rank - 1);
+                                rerank([item], item?.rank - 1);
                             }}>
                                 <ChevronUp size={16} color='#1A9D49'/>
                             </button>
 
                             <button onClick={(event) => {
                                 event.stopPropagation();
-                                rerank([item], item.rank + 1);
+                                rerank([item], item?.rank + 1);
                             }}>
                                 <ChevronDown size={16} color='#1A9D49'/>
                             </button>
@@ -110,30 +110,30 @@ export const Item = ({item = {}, remove,
                                if (event.which === keys.ENTER || event.which === keys.SPACE) {
                                    event.preventDefault();
                                    if (!rank || rank === '-') {
-                                       setRank(item.rank);
+                                       setRank(item?.rank);
                                    } else {
                                        rerank([item], rank);
                                    }
                                }
-                               if (event.which === keys.ESC && rank !== item.rank) {
+                               if (event.which === keys.ESC && rank !== item?.rank) {
                                    event.preventDefault();
-                                   setRank(item.rank);
+                                   setRank(item?.rank);
                                }
                            }}
                     />
 
                     <button onClick={(event) => {
                         event.stopPropagation();
-                        if (rank !== item.rank) {
+                        if (rank !== item?.rank) {
                             if (!rank || rank === '-') {
-                                setRank(item.rank);
+                                setRank(item?.rank);
                             } else {
                                 rerank([item], rank);
                             }
                         }
                     }
                     }>
-                        <Repeat color={ (!rank || rank === '-' || item.rank === rank) ? '#F0F8F9' : '#62919A' }/>
+                        <Repeat color={ (!rank || rank === '-' || item?.rank === rank) ? '#F0F8F9' : '#62919A' }/>
                     </button>
                 </td>
             }

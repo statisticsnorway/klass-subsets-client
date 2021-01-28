@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, FormError } from '@statisticsnorway/ssb-component-library';
@@ -6,9 +6,13 @@ import { Preview } from 'views';
 import { AppContext } from 'controllers';
 
 export const Step5Review = () => {
-    const { subset: { draft } } = useContext(AppContext);
+    const { subset: { draft, dispatch } } = useContext(AppContext);
     const { t } = useTranslation();
     let history = useHistory();
+
+    useEffect(() => dispatch({ action: 'remove_timestamps' }), [ dispatch ] );
+
+
 return (
         <>
             <h2>{ t('Review and publish') }</h2>
