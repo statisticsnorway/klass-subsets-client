@@ -79,14 +79,31 @@ In order to persist the user data session storage is used. It updates on each ch
 
 # Client API Guide
 ### `/subsets`
+To get overview over all published and saved subsets in the system.
+Search by name through the subsets.
 ### `/subsets/{subsetId}/`
+Shows a particular subset by setting the subsets ID instead of `{subsetsId}`.
+A subsets preview page allows to open its versions, as well as open in edition mode.
 ### `/subsets/{subsetId}/versions/{versionId}`
+Shows a particular version of a particular subset. One have to put correct `{subsetUd}` and `{versionId}`in the URL.
 ### `/editor/*` redirects to `/auth/editor/*`
+Opens an empty form for creation and saving a new subset with versions.
+Only SSB employees are allowed to create and edit subsets. By redirecting to `/auth` application will redirect to login page.
 ### `/editor?step={ Metadata | Versions | Codes | Oreder | Review }`
+Users can specify a particular form step by naming it as a search parameter `step`. 
+If the step name is wrong or outdated, the application will show the first step.
 ### `/editor?step={ Metadata | Versions | Codes | Oreder | Review }&subsetsId={subsetId}&versionsId={versionId}`
+In addition to form step, users can specify `{subsetId}` and `{versionId}`.
 ### `/auth/save?metadata={ true | false }`
+An extra step to save or publish a subset's metadata. 
+The payload will be generated from the session storage variable `draft`.
 ### `/auth/save?version={ true | false }`
+An extra step to save or publish a subset's version, which is set to be current.
+The payload will be generated from the session storage variable `draft`.
 ### `/auth/save?metadata={ true | false }version={ true | false }`
+An extra step to save or publish a subset's metadata.
+An extra step to save or publish a subset's version, which is set to be current.
+The payload will be generated from the session storage variable `draft`.
 
 # Tech Stack
 React 17 med React hooks
