@@ -178,8 +178,13 @@ SWR library has its own way to cache the response and update the content (stale-
 ```
 
 # Backend
+[Subsets API source code](https://github.com/statisticsnorway/klass-subsets-api)
 
 ## Deployment
+Subset client will automatically be deployed in Staging by pushing / merging into master branch.
+In order to deploy in Production follow the [platform-dev instructions](https://github.com/statisticsnorway/platform-dev). 
+Configuration files for [production](https://github.com/statisticsnorway/platform-dev/blob/master/flux/prod-bip-app/klass/subsets-client/subsets-client.yaml)
+Configuration files for [staging](https://github.com/statisticsnorway/platform-dev/blob/master/flux/staging-bip-app/klass/subsets-client/subsets-client.yaml)
 
 ### Localhost
 
@@ -228,7 +233,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
+The build is minified, and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
@@ -281,10 +286,22 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 # Integrations and dependencies
 ## Data flow
 ## Authentication
-## Authorisation]
+## Authorisation
 ## Technical debt
 ## Known bugs
 #Performance
 
 # User experience
 # Accessibility
+
+# Features
+## Codes reordering
+The main idea of the draft concept is to keep the internal version of the draft updated at each moment.
+The updates could happen on the steps "Choose codes" and "Reordering".
+
+On the "Choose codes" form step codes could be added and removed by clicking on the checkbox (one at a time) or clicking on the "All"/"None" buttons.  
+When codes are added to the draft, each code gets the timestamp of addition as a property.
+This property will be removed on the "Reorder" form step and "Review" form step.
+The timestamp is used to keep codes chosen on the "Choose codes" on the top of the list and ordered according to its clicking order, while the rest of the codes (without a timestamp) are ordered by rank.  
+
+On the "Reorder" form step codes can change their rank and/or can be deleted by clicking on the "Trash" button.
