@@ -319,7 +319,7 @@ A version can have different states (administrative status):
 - saved (DRAFT);
 - not saved (INITIAL), stored locally in Session storage.
 
-## Saving URL and parameters
+### Saving URL and parameters
 The saving and publishing process implemented on a single page (hidden 6th step) Step_6_Publish.jsx.
 This page is protected by authorization (`/auth/save`). I can be navigated through the URL only.
 It should be specified which part of the subset (draft) to save: `metadata=true`, `version=true` or both `?metadata=true&version=true`.
@@ -328,20 +328,47 @@ The payload will be generated at the sending point on the same page (hidden 6th 
 In order to specify which payload to be sent provide search parameter `publish=true`.
 If the type of payload is not specified a save payload (with administrativeStatus=DRAFT) will be generated and sent.
 
-## The flow
+### The flow
 The communication with Subsets API is implemented in Step_6_Publish.jsx.
 All the cases are gathered in a single component. It should be reviewed and refactored to single flows.
 
-## Save metadata
+### Save a metadata
 The flow initiated by clicking the "Save" button on metadata and `/auth/save?metadata=true` is pushed to the browser's history.
-If the user is logged in the page will be displayed, and the effects on the component will be fired.
+If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise the user will be redirected to login page.
 If the metadata is never been saved before (no `createdDate` registered), a metadata payload will be generated and passed to the usePOST React custom hook.
 If metadata was saved before, a metadata payload will be generated and passed to the usePUT React custom hook.
-While the application is waiting for the server response the message "Sending metadata to the server" is displayed for users.
+While the application is waiting for the server response, the message "Sending metadata to the server" is displayed for users.
 When the server response comes, another effect is fired.
-If the response is successful then the "metadata_sync" action is applied to the internal draft context, and the "Metadata is sent".
+If the response is successful then the "metadata_sync" action is applied to the internal draft context, and the "Metadata is sent" is displayed to the user.
 If the response contains an error, the error will be displayed, no synchronization applied.
 The application will then wait for the user where to go further, the options are displayed.
 
-## Save version
+### Save a version
+The flow initiated by clicking the "Save" button on a chosen version and `/auth/save?version=true` is pushed to the browser's history.
+If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise the user will be redirected to login page.
+If the version is new (no random `versionId` assigned), a version payload will be generated and passed to the usePOST React custom hook.
+If the version has a random ID, a version payload will be generated and passed to the usePUT React custom hook.
+While the application is waiting for the server response, the message "Sending version to the server" is displayed for users.
+When the server response comes, another effect is fired.
+If the response is successful then the "version_sync" action is applied to the internal draft context, and the "Metadata is sent" is displayed to the user.
+Only the current version will be updated. 
+At the moment the application receives the positive response the version ID becomes known. The application still uses tempId to double check than the correct version is getting the updates.
+If the response contains an error, the error will be displayed, no synchronization applied.
+The application will then wait for the user where to go further, the options are displayed.
+If the user chooses to go back to the form, the original (temporary ID) will be used to make a version to be current version in the editor.
+The sources for the version ID are:
+- from the search parameters of the URL;
+- from the context draft's _currentVersion;
+- from the successful response.
+
+### Publish a version
+The flow initiated by clicking the "Publish" button on a chosen version and `/auth/save?version=true&publish=true` is pushed to the browser's history.
+The flow is similar to [Save a version](#save-a-version). The only difference is the `administrtiveStatus: OPEN` in the payload.
+In order to make this difference application adds `publish=true` to the URL.
+
+## Duplicate codes
+Normally a code in a classification version or a coe list version has a unique code and/or a unique name.
+However, it is not true across mulitiple versions of the classification or the code list.
+In order to deal with such codes `validFromInRequestedRange` is used to provide uniqueness by combining it with the name and the code in addition to the classification ID.
+When the classification codes are displayed it is important to re
 
