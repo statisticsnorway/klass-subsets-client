@@ -289,7 +289,7 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 ## Authorisation
 ## Technical debt
 ## Known bugs
-#Performance
+# Performance
 
 # User experience
 # Accessibility
@@ -305,3 +305,43 @@ This property will be removed on the "Reorder" form step and "Review" form step.
 The timestamp is used to keep codes chosen on the "Choose codes" on the top of the list and ordered according to its clicking order, while the rest of the codes (without a timestamp) are ordered by rank.  
 
 On the "Reorder" form step codes can change their rank and/or can be deleted by clicking on the "Trash" button.
+
+## Saving and publishing subsets
+The process of saving a subset is complex, because initially a subset was meant to be a single object (Subsets API v1). 
+In Subsets API v2 a subset is a series of versions, and a version is a set of codes. 
+
+### Metadata (subset series)
+A series has metadata, it has no difference between saving and publishing.
+
+### Version (subset version)
+A version can have different states (administrative status):
+- published (OPEN);
+- saved (DRAFT);
+- not saved (INITIAL), stored locally in a Session storage.
+
+## Saving URL and parameters
+The saving and publishing process implemented on a single page (hidden 6th step) Step_6_Publish.jsx.
+This page is protected by authorisation (`/auth/save`). I can be navigated to through the URL only.
+It should be specified which part of the subset (draft) to save: `metadata=true`, `version=true` or both `?metadata=true&version=true`.
+The payload will provide the desired administrative status for the version.
+The payload will be generated at the sending point on the same page (hidden 6th step) Step_6_Publish.jsx.
+In order to specify which payload to be sent provide search parameter `publish=true`.
+If the type of payload is not specified a save payload (with administrativeStatus=DRAFT) will be generated and sent.
+
+## The flow
+The communication with Subsets API is implemented in Step_6_Publish.jsx. 
+All the cases are gathered in a single component. It should be reviewed and refactored to single flows. 
+
+## Save metadata
+The flow initiated by clicking "Save" button on metadata and `/auth/save?metadata=true` is pushed to the browser's history.
+If the user is logged in the page will be displayed, and the effects on the component will be fired.
+If the metadata is never been saved before (no `createdDate` registered), a metadata payload will be generated and passed to usePOST React hook. 
+If metadata was saved before, a metadata payload will be generated and passed to usePUT React hook.
+While application is waiting for the server response the message "Sending metadata to the server" is displayed for users.
+When the server response comes, another effect is fired.
+If the response is successful then the "metadata_sync" action is applied to the internal draft context, and the "Metadata is sent".
+If the response contains en error, the error will be displayed, no synchronisation applied.
+The application will then wait to the user where to go further, the options are displayed.
+
+## Save version
+
