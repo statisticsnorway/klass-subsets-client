@@ -284,6 +284,8 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 This section has moved [here:](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 # Integrations and dependencies
+
+
 ## Data flow
 ## Authentication
 ## Authorisation
@@ -333,10 +335,10 @@ The communication with Subsets API is implemented in Step_6_Publish.jsx.
 All the cases are gathered in a single component. It should be reviewed and refactored to single flows.
 
 ### Save a metadata
-The flow initiated by clicking the "Save" button on metadata and `/auth/save?metadata=true` is pushed to the browser's history.
-If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise the user will be redirected to login page.
+The flow initiated by clicking the "Save" ("floppy disk") button on metadata and `/auth/save?metadata=true` is pushed to the browser's history.
+If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise, the user will be redirected to login page.
 If the metadata is never been saved before (no `createdDate` registered), a metadata payload will be generated and passed to the usePOST React custom hook.
-If metadata was saved before, a metadata payload will be generated and passed to the usePUT React custom hook.
+If metadata was saved before, a metadata payload will be generated and passed to the `usePUT` React custom hook.
 While the application is waiting for the server response, the message "Sending metadata to the server" is displayed for users.
 When the server response comes, another effect is fired.
 If the response is successful then the "metadata_sync" action is applied to the internal draft context, and the "Metadata is sent" is displayed to the user.
@@ -344,31 +346,48 @@ If the response contains an error, the error will be displayed, no synchronizati
 The application will then wait for the user where to go further, the options are displayed.
 
 ### Save a version
-The flow initiated by clicking the "Save" button on a chosen version and `/auth/save?version=true` is pushed to the browser's history.
-If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise the user will be redirected to login page.
-If the version is new (no random `versionId` assigned), a version payload will be generated and passed to the usePOST React custom hook.
-If the version has a random ID, a version payload will be generated and passed to the usePUT React custom hook.
+The flow initiated by clicking the "Save" ("floppy disk") button on a chosen version and `/auth/save?version=true` is pushed to the browser's history.
+If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise, the user will be redirected to the login page.
+If the version is new (no random `versionID` assigned), a version payload will be generated and passed to the usePOST React custom hook.
+If the version has a random ID, a version payload will be generated and passed to the `usePUT` React custom hook.
 While the application is waiting for the server response, the message "Sending version to the server" is displayed for users.
 When the server response comes, another effect is fired.
 If the response is successful then the "version_sync" action is applied to the internal draft context, and the "Metadata is sent" is displayed to the user.
-Only the current version will be updated. 
-At the moment the application receives the positive response the version ID becomes known. The application still uses tempId to double check than the correct version is getting the updates.
+Only the current version will be updated.
+At the moment the application receives a positive response the version ID becomes known. The application still uses tempID to double-check that the correct version is getting the updates.
 If the response contains an error, the error will be displayed, no synchronization applied.
 The application will then wait for the user where to go further, the options are displayed.
-If the user chooses to go back to the form, the original (temporary ID) will be used to make a version to be current version in the editor.
+If the user chooses to go back to the form, the original (temporary ID) will be used to make a version to be the current version in the editor.
 The sources for the version ID are:
 - from the search parameters of the URL;
 - from the context draft's _currentVersion;
 - from the successful response.
 
 ### Publish a version
-The flow initiated by clicking the "Publish" button on a chosen version and `/auth/save?version=true&publish=true` is pushed to the browser's history.
+The flow initiated by clicking the "Publish" ("arrow to cloud") button on a chosen version and `/auth/save?version=true&publish=true` is pushed to the browser's history.
 The flow is similar to [Save a version](#save-a-version). The only difference is the `administrtiveStatus: OPEN` in the payload.
 In order to make this difference application adds `publish=true` to the URL.
 
+### Save or publish a subset
+A subset in the editor consists of metadata and a current version. A user can click the "Save" button or the "Publish" button (buttons with text on the bottom of the page).
+If the subset is new (no `createdDate` registered), then metadata will be sent to the server first.
+The process is described in [Save a metadata](#save-a-metadata).
+When the metadata is successfully saved, the version will be sent to the server.
+The process is described in [Save a version](#save-a-version) and [Publish a version](#publish-a-version).
+If the subset is not new, the version is sent in parallel with the metadata.
+
 ## Duplicate codes
-Normally a code in a classification version or a coe list version has a unique code and/or a unique name.
-However, it is not true across mulitiple versions of the classification or the code list.
+Normally a code in a classification version or in a code list version has a unique code and/or a unique name.
+However, it is not true across multiple versions of the classification or the code list.
 In order to deal with such codes `validFromInRequestedRange` is used to provide uniqueness by combining it with the name and the code in addition to the classification ID.
-When the classification codes are displayed it is important to re
+
+## Codes validity period (Klass)
+A code has its own validity period across multiple versions. 
+This validity period is not assigned to a code, but calculated by Klass.
+Calculation is available in response to `/codesAt?from={fromDate}&to={toDate}` as `validFromInRequestedRange` and `validToInRequestedRange` propterties to a code.
+This dates can vary and dependent om `fromDate` and `toDate`in the request.
+The dates are used to determine uniqueness for [Duplicate codes](#duplicate-codes).
+
+
+
 
