@@ -217,9 +217,12 @@ SWR library has its own way to cache the response and update the content (stale-
 
 ## Deployment
 Subset client will automatically be deployed in Staging by pushing / merging into master branch.
+
 In order to deploy in Production follow the [platform-dev instructions](https://github.com/statisticsnorway/platform-dev). 
-Configuration files for [production](https://github.com/statisticsnorway/platform-dev/blob/master/flux/prod-bip-app/klass/subsets-client/subsets-client.yaml)
-Configuration files for [staging](https://github.com/statisticsnorway/platform-dev/blob/master/flux/staging-bip-app/klass/subsets-client/subsets-client.yaml)
+
+Configuration files for [production](https://github.com/statisticsnorway/platform-dev/blob/master/flux/prod-bip-app/klass/subsets-client/subsets-client.yaml).
+
+Configuration files for [staging](https://github.com/statisticsnorway/platform-dev/blob/master/flux/staging-bip-app/klass/subsets-client/subsets-client.yaml).
 
 ### Localhost
 
@@ -322,29 +325,40 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 
 ## Data flow
 Data fetched from Klass API is composed into a subset and sent to the Subsets API. 
+
 Data fetched from Subsets API is displayed and modified.
 
 ## Authentication (OpenID Connect)
 Implemented and controlled by BIP.
+
 Subset client server redirects `/auth/*` requests to a login process.
+
 The rest of the client API is publicly available.
 
 ## Authorization (OAuth 2.0)
 In order to store and update data through Subsets API, the client has to present a JWS token. 
 The token is picked up from BIP's oath proxy server.
+
 GET requests to the Subsets API does not require authorization.
 
 ## Technical debt
 The application has gone through a series of major changes that affected the code structure as well as the core data structure.
+
 The components and the flow have been in a POC mode and require proper testing.
+
 Navigation in the application and especially in the form dependent on the URL search parameters, not tested yet.
+
 Low test coverage.
+
 UI and UX could be improved.
+
 Code requires refactoring (smaller components, shorter functions, encapsulating features).
-Check the TODOs and FIXMEs comment in the source sode.
+
+Check the `TODO` and `FIXME` comments in the source code.
 
 ## Known bugs
 The "Reorder codes" page crashes when the code objects (name in particular) is not as expected.
+
 [Registered issues](https://github.com/statisticsnorway/klass-subsets-client/issues)
 
 # Performance
