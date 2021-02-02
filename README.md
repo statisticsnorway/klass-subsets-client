@@ -106,8 +106,23 @@ An extra step to save or publish a subset's version, which is set to be current.
 The payload will be generated from the session storage variable `draft`.
 
 # Tech Stack
-React 17 med React hooks
-Docker
+[React](https://reactjs.org/) 17 with React hooks
+
+[React Router](https://reactrouter.com/)
+
+[SWR Documentation](https://swr.vercel.app/getting-started)
+
+[react-i18next](https://react.i18next.com)
+
+[Jest](https://jestjs.io)
+
+[CSS](https://www.w3.org/Style/CSS/Overview.en.html)
+
+[Docker](https://www.docker.com/)
+
+[Azure DevOps](https://azure.microsoft.com/en-us/services/devops) with Azure Pipelines.
+
+RESTfull APIs, JSON, Oauth 2, OpenID Connect, Azure
 
 ## React web application
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -115,15 +130,23 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # Frontend
 
 ## Context Management
+The application context is centralized in the `AppContext` component and available for all subcomponents to `ContextProvider`.
+Both components are declared in `context.jsx`.
+The first version of the application keeps in context only changes to a subset draft. Only one subset can be drafted at a time.
+The core data structure and properties of the subset draft model is defined in the `Subset.prototype.js`.
+Access to the subset draft data in the context has to be done via the `useSubsetDraft` React custom hook.
 
 ## Styling
-CSS
+[CSS](https://www.w3.org/Style/CSS/Overview.en.html)
 
 ## Tests
-Jest
+[Jest](https://jestjs.io)
 
-## Fetcher
-SWR
+## Fetcher SWR 
+[SWR Documentation](https://swr.vercel.app/getting-started)
+
+The migration to the library is not finished in the source code. Some calls (POSTs, PUTs, some GETs) are still happens via custom hooks.
+Recommended to use SWR for all calls.
 
 ## PWA
 Issues with drag-and-drop. Additional library has to be installed to convert browser drag-and-drop events into respective mobile events.
@@ -131,7 +154,7 @@ Mobile users can still reorder codes by using numbers and arrows.
 Issues with responsive design.
 
 ## Internationalization
-Internationalization is implemented with i18n.js library. The set up is for three languages (nb, nn, en), but oly two in use.
+Internationalization is implemented with [react-i18next](https://react.i18next.com) library. The set up is for three languages (nb, nn, en), but oly two in use.
 
 ## Session storage
 The local session storage is used to keep subset draft in memory throughout editing, site refresh and navigation.
@@ -285,16 +308,46 @@ This section has moved [here:](https://facebook.github.io/create-react-app/docs/
 
 # Integrations and dependencies
 
-
 ## Data flow
-## Authentication
-## Authorisation
+Data fetched from Klass API is composed into a subset and sent to the Subsets API. 
+Data fetched from Subsets API is displayed and modified.
+
+## Authentication (OpenID Connect)
+Implemented and controlled by BIP.
+Subset client server redirects `/auth/*` requests to a login process.
+The rest of the client API is publicly available.
+
+## Authorization (OAuth 2.0)
+In order to store and update data through Subsets API, the client has to present a JWS token. 
+The token is picked up from BIP's oath proxy server.
+GET requests to the Subsets API does not require authorization.
+
 ## Technical debt
+The application has gone through a series of major changes that affected the code structure as well as the core data structure.
+The components and the flow have been in a POC mode and require proper testing.
+Navigation in the application and especially in the form dependent on the URL search parameters, not tested yet.
+Low test coverage.
+UI and UX could be improved.
+Code requires refactoring (smaller components, shorter functions, encapsulating features).
+Check the TODOs and FIXMEs comment in the source sode.
+
 ## Known bugs
+The "Reorder codes" page crashes when the code objects (name in particular) is not as expected.
+[Registered issues](https://github.com/statisticsnorway/klass-subsets-client/issues)
+
 # Performance
+Lighthouse report: 85-95%
+Slow when a subset version operates too many codes (hundreds). 
+A click on a checkbox can too slow when a code list contains too many codes (hundreds).
 
 # User experience
+To be analysed. 
+
 # Accessibility
+Lighthouse report: 95-100% 
+
+#Best practices
+Lighthouse report: 95-100%
 
 # Features
 ## Codes reordering
@@ -321,7 +374,7 @@ A version can have different states (administrative status):
 - saved (DRAFT);
 - not saved (INITIAL), stored locally in Session storage.
 
-### Saving URL and parameters
+### Saving URL and search parameters
 The saving and publishing process implemented on a single page (hidden 6th step) Step_6_Publish.jsx.
 This page is protected by authorization (`/auth/save`). I can be navigated through the URL only.
 It should be specified which part of the subset (draft) to save: `metadata=true`, `version=true` or both `?metadata=true&version=true`.
@@ -337,9 +390,12 @@ All the cases are gathered in a single component. It should be reviewed and refa
 ### Save a metadata
 The flow initiated by clicking the "Save" ("floppy disk") button on metadata and `/auth/save?metadata=true` is pushed to the browser's history.
 If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise, the user will be redirected to login page.
-If the metadata is never been saved before (no `createdDate` registered), a metadata payload will be generated and passed to the usePOST React custom hook.
+
+If the metadata is never been saved before (no `createdDate` registered), a metadata payload will be generated and passed to the `usePOST` React custom hook.
 If metadata was saved before, a metadata payload will be generated and passed to the `usePUT` React custom hook.
+
 While the application is waiting for the server response, the message "Sending metadata to the server" is displayed for users.
+
 When the server response comes, another effect is fired.
 If the response is successful then the "metadata_sync" action is applied to the internal draft context, and the "Metadata is sent" is displayed to the user.
 If the response contains an error, the error will be displayed, no synchronization applied.
@@ -347,16 +403,22 @@ The application will then wait for the user where to go further, the options are
 
 ### Save a version
 The flow initiated by clicking the "Save" ("floppy disk") button on a chosen version and `/auth/save?version=true` is pushed to the browser's history.
-If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise, the user will be redirected to the login page.
-If the version is new (no random `versionID` assigned), a version payload will be generated and passed to the usePOST React custom hook.
+If the user is logged in the page will be displayed, and the effects on the component will be fired. 
+Otherwise, the user will be redirected to the login page.
+
+If the version is new (no random `versionID` assigned), a version payload will be generated and passed to the `usePOST` React custom hook.
 If the version has a random ID, a version payload will be generated and passed to the `usePUT` React custom hook.
 While the application is waiting for the server response, the message "Sending version to the server" is displayed for users.
 When the server response comes, another effect is fired.
+
 If the response is successful then the "version_sync" action is applied to the internal draft context, and the "Metadata is sent" is displayed to the user.
 Only the current version will be updated.
-At the moment the application receives a positive response the version ID becomes known. The application still uses tempID to double-check that the correct version is getting the updates.
+At the moment the application receives a positive response the version ID becomes known. 
+The application still uses tempID to double-check that the correct version is getting the updates.
+
 If the response contains an error, the error will be displayed, no synchronization applied.
 The application will then wait for the user where to go further, the options are displayed.
+
 If the user chooses to go back to the form, the original (temporary ID) will be used to make a version to be the current version in the editor.
 The sources for the version ID are:
 - from the search parameters of the URL;
