@@ -132,7 +132,7 @@ The payload will be generated from the session storage variable `draft`.
 
 [Azure DevOps](https://azure.microsoft.com/en-us/services/devops) with Azure Pipelines.
 
-RESTfull APIs, JSON, Oauth 2, OpenID Connect, Azure
+Git, GitHub, RESTfull APIs, JSON, Oauth 2, OpenID Connect, Azure, Snyk, Mabl
 
 ## React web application
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -415,7 +415,7 @@ All the cases are gathered in a single component. It should be reviewed and refa
 
 ### Save a metadata
 The flow initiated by clicking the "Save" ("floppy disk") button on metadata and `/auth/save?metadata=true` is pushed to the browser's history.
-If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise, the user will be redirected to login page.
+If the user is logged in the page will be displayed, and the effects on the component will be fired. Otherwise, the user will be redirected to login.
 
 If the metadata is never been saved before (no `createdDate` registered), a metadata payload will be generated and passed to the `usePOST` React custom hook.
 If metadata was saved before, a metadata payload will be generated and passed to the `usePUT` React custom hook.
@@ -457,7 +457,7 @@ The flow is similar to [Save a version](#save-a-version). The only difference is
 In order to make this difference application adds `publish=true` to the URL.
 
 ### Save or publish a subset
-A subset in the editor consists of metadata and a current version. A user can click the "Save" button or the "Publish" button (buttons with text on the bottom of the page).
+A subset in the editor consists of metadata and a current version. A user can click the "Save" button, or the "Publish" button (buttons with text on the bottom of the page).
 If the subset is new (no `createdDate` registered), then metadata will be sent to the server first.
 The process is described in [Save a metadata](#save-a-metadata).
 When the metadata is successfully saved, the version will be sent to the server.
@@ -466,13 +466,13 @@ If the subset is not new, the version is sent in parallel with the metadata.
 
 ## Duplicate codes
 Normally a code in a classification version or in a code list version has a unique code and/or a unique name.
-However, it is not true across multiple versions of the classification or the code list.
+However, it is not true across multiple versions of the classification, or the code list.
 In order to deal with such codes `validFromInRequestedRange` is used to provide uniqueness by combining it with the name and the code in addition to the classification ID.
 
 ## Codes validity period (Klass)
 A code has its own validity period across multiple versions. 
 This validity period is not assigned to a code, but calculated by Klass.
-Calculation is available in response to `/codesAt?from={fromDate}&to={toDate}` as `validFromInRequestedRange` and `validToInRequestedRange` propterties to a code.
+Calculation is available in response to `/codesAt?from={fromDate}&to={toDate}` as `validFromInRequestedRange` and `validToInRequestedRange` properties to a code.
 This dates can vary and dependent om `fromDate` and `toDate`in the request.
 The dates are used to determine uniqueness for [Duplicate codes](#duplicate-codes).
 
