@@ -6,7 +6,6 @@
   - [Internal](#internal)
   - [Subsets API](#subsets-api)
   - [Klass API](#klass-api)
-  - [GSIM schema](#gsim-schema)
 - [API Guide](#api-guide)
 - [Tech Stack](#tech-stack)
   - [React web application](#react-web-application)
@@ -86,9 +85,7 @@ In order to persist the user data session storage is used. It updates on each ch
 
 `/classifications/{classificationId}/versions/{versionId}`
 
-`/classifications/{classificationId}/codesAt...`
-
-### GSIM schema 
+`/classifications/{classificationId}/codesAt{...}`
 
 # Client API Guide
 ### `/subsets`
@@ -175,6 +172,8 @@ The subset draft resets in session storage when user chose to start a new subset
 Current subset draft in edition mode will be overwritten by next subset draft opened in the editor. All unsaved changes from the previous edition will be discarded without warning.
 
 ## Error handling
+Fetch errors displayed locally.
+Subset draft validation is commented out.
 
 ## Cache
 Standard caching is disabled as long as service worker is unregistered. It should be registered before shipping to the production.
