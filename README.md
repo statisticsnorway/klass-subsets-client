@@ -58,22 +58,35 @@ The main internal data structure is the `Subset.prototype`. It is responsible fo
 In order to persist the user data session storage is used. It updates on each change in the draft.
 
 ## Subsets API
-### `GET /subsets`
-### `GET /subsets/{subsetId}/`
-### `GET /subsets/{subsetId}/versions/{versionId}`
-### `POST /subsets/{subsetId}/`
-### `POST /subsets/{subsetId}/versions/{versionId}`
-### `PUT /subsets/{subsetId}/`
-### `PUT /subsets/{subsetId}/versions/{versionId}`
-### `DELETE /subsets/{subsetId}/`
-### `DELETE /subsets/{subsetId}/versions/{versionId}`
+`GET /subsets`
+
+`GET /subsets/{subsetId}/`
+
+`GET /subsets/{subsetId}/versions/{versionId}`
+
+`POST /subsets/{subsetId}/`
+
+`POST /subsets/{subsetId}/versions/{versionId}`
+
+`PUT /subsets/{subsetId}/`
+
+`PUT /subsets/{subsetId}/versions/{versionId}`
+
+`DELETE /subsets/{subsetId}/`
+
+`DELETE /subsets/{subsetId}/versions/{versionId}`
 
 ## Klass API
-### `/classificationFamilies`
-### `/ssbsections`
-### `/classifications/{classificationId}`
-### `/classifications/{classificationId}/versions/{versionId}`
-### `/classifications/{classificationId}/codesAt...`
+
+`/classificationFamilies`
+
+`/ssbsections`
+
+`/classifications/{classificationId}`
+
+`/classifications/{classificationId}/versions/{versionId}`
+
+`/classifications/{classificationId}/codesAt...`
 
 ### GSIM schema 
 
