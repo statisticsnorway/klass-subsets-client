@@ -30,7 +30,7 @@ export const versionable = (state = {}) => ({
     },
 
     syncVersion(updatedVersion = {}, tempId = '') {
-        // console.debug('syncVersion', updatedVersion);
+        console.debug('syncVersion', updatedVersion);
 
         if (updatedVersion?.subsetId !== state?.id) return;
 
