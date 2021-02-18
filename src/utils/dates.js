@@ -30,11 +30,14 @@ export const doPeriodsIntersect = (
 
     // console.debug({ from, until, validFrom, validUntil})
 
+    //prerequisites not tested here:
+    // if until is set: from < until
+    // if validUntil is set: valdiFrom < validUntil
     return(
-      from && validFrom
-      && from <= validFrom
-      && (!until ||
-        (!validUntil && until > validFrom) ||
-        (validUntil && until >= validUntil))
+      from && validFrom // both from and validFrom must be set
+      && from <= validFrom // and from must be before or equal to validFrom
+      && (!until || // and  - either is until not set (infinite)
+        (!validUntil && until > validFrom) || // or validUntil is not set and until must be after validFrom
+        (validUntil && until >= validUntil))  // or validUntil is set and until is after or equal to validUntil
     )
 }
