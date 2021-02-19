@@ -37,9 +37,9 @@ export const doPeriodsIntersect = (
     if (!until && !validUntil) //until and validUntil are optional
         return true; //If neither date range has an end date, there is always overlap
     else if (until && !validUntil)
-        return until > validFrom;
+        return until > validFrom; // If only one date range has an end, it is enough that the end is after the beginning of the other range
     else if (validUntil && !until)
-        return validUntil > from;
-    else //Both until and validUntil are set
-        return (until > validFrom && from < validUntil) || (validUntil > from && validFrom < until);
+        return validUntil > from; // If only one date range has an end, it is enough that the end is after the beginning of the other range
+    else // When both date ranges are closed, we can check for overlap regularly
+        return (until > validFrom && from < validUntil);
 }
