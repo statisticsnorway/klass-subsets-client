@@ -28,16 +28,14 @@ export const doPeriodsIntersect = (
     validUntil = null
 ) => {
 
-    // console.debug({ from, until, validFrom, validUntil})
+    // 'from' and 'validFrom' are not optional
+    if (!from || !validFrom) {
+        console.error("Either 'from' or 'validFrom' was not set. from: "+from+" validFrom: "+validFrom);
+        return false;
+    }
 
-    //prerequisites not tested here:
-    // if until is set: from < until
-    // if validUntil is set: valdiFrom < validUntil
-    return(
-      from && validFrom // both from and validFrom must be set
-      && from <= validFrom // and from must be before or equal to validFrom
-      && (!until || // and  - either is until not set (infinite)
-        (!validUntil && until > validFrom) || // or validUntil is not set and until must be after validFrom
-        (validUntil && until >= validUntil))  // or validUntil is set and until is after or equal to validUntil
-    )
+    if (!until && !validUntil) //until and validUntil are optional
+        return true; //If neither date range has an end date, there is always overlap
+    else
+        return (until && until > validFrom) || (validUntil && validUntil > from)
 }
