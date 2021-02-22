@@ -20,44 +20,6 @@ export const euTime = (dateString) => {
 
 export const datePattern = /^((?:18|19|20|21|22)\d{2})-((?:0[1-9])|(?:1[0-2]))-((?:0[0-9])|(?:[1-2][0-9])|(?:3[0-1]))T\d{2}:\d{2}:\d{2}.\d{3}Z$/i //2020-09-21T00:00:00.000Z
 
-// TODO: input validation (test date pattern)
-// TESTME
-export const isInPeriodInclEnd = (date = null, start = null, end = null) => {
-    if (!date || !start) {
-        return false;
-    }
-    // console.debug('isInPeriodInclEnd', date, !end ? date >= start : date >= start && date <= end);
-
-    return !end
-        ? date >= start
-        : date >= start && date <= end;
-};
-
-// TODO: input validation (test date pattern)
-// TESTME
-export const isInPeriodExclEnd = (date = null, start = null, end = null) => {
-    if (!date || !start) {
-        return false;
-    }
-    // console.debug('isInPeriodExclEnd', date, !end ? date >= start : date >= start && date < end);
-
-    return !end
-        ? date >= start
-        : date >= start && date < end;
-};
-
-// TODO: input validation (test date pattern)
-// TESTME
-export const isInPeriodExclStart = (date = null, start = null, end = null) => {
-    if (!date || !start) {
-        return false;
-    }
-    // console.debug('isInPeriodExclStart', date, !end ? date > start : date > start && date <= end);
-
-    return !end
-        ? date > start
-        : date > start && date <= end;
-};
 
 export const doPeriodsIntersect = (
     from = null,
@@ -65,11 +27,6 @@ export const doPeriodsIntersect = (
     validFrom = null,
     validUntil = null
 ) => {
-
-    // console.debug({ from, until, validFrom, validUntil})
-
-    return isInPeriodExclEnd(from, validFrom, validUntil )
-    || isInPeriodInclEnd(until, validFrom, validUntil )
-    || isInPeriodExclEnd( validFrom, from, until )
-    || isInPeriodExclStart( validUntil, from, until )
-};
+    const infinite = '9999-12-31'
+    return (until || infinite) > validFrom && from < (validUntil || infinite)
+}
