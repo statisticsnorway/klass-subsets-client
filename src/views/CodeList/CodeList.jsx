@@ -9,8 +9,20 @@ export const CodeList = ({ id, codes, metadata, errors }) => {
     const [ show, setShow ] = useState({ none: true } );
     const { subset: { draft: {
         isEditableOrigins,
-        origins
+        origins,
+        codesMap
     }, dispatch } } = useContext(AppContext);
+
+    function addPreviousCodesForIdVersionsToCodes() {
+      const newListOfCodes = codes?.codes? codes.codes : []
+      codesMap.forEach((v) => {
+        if (id == v.classificationId && newListOfCodes.findIndex(c => c.code == v.code) === -1) {
+          newListOfCodes.unshift(v)
+        }
+      })
+      // console.log(newListOfCodes, 'newListOfCodes')
+      return newListOfCodes
+    }
 
     return (
         <>
@@ -55,7 +67,7 @@ export const CodeList = ({ id, codes, metadata, errors }) => {
                 />
 
                 <PlusButton
-                    title={ t('Add code lit to version') }
+                    title={ t('Add code list to version') }
                     visible={ isEditableOrigins() && codes && codes?.codes?.length > 0 && !origins.has(id) }
                     clickHandler={ () => {
                         setShow({ none: true });
@@ -81,7 +93,7 @@ export const CodeList = ({ id, codes, metadata, errors }) => {
                 {
                     codes?.isLoading
                         ? <p>Loading...</p>
-                        : <Codes codes={ codes?.codes?.map(code => ({
+                        : <Codes codes={ addPreviousCodesForIdVersionsToCodes()?.map(code => ({
                                 ...code,
                                 classificationId: id,
                             }))}
