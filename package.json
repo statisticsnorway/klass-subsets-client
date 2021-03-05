@@ -66,11 +66,25 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/node_modules/"
+      "!<rootDir>/node_modules/",
+      "!src/index.js",
+      "!src/**/index.js",
+      "!src/images/**",
+      "!src/internationalization/**",
+      "!src/__tests__/test-data/**"
     ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 5,
+        "functions": 5,
+        "lines": 5,
+        "statements": 5
+      }
+    },
     "coverageReporters": [
-      "text",
-      "cobertura"
+      "cobertura",
+      "lcov",
+      "text"
     ]
   }
 }
