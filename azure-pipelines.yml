@@ -18,8 +18,8 @@ resources:
     - repository: templates
       type: github
       name: statisticsnorway/azure-pipelines-templates
-#      ref: refs/tags/1.1.10
-      endpoint: statisticsnorway
+      ref: refs/tags/1.1.17
+      endpoint: statisticsnorway (2)
 
 
 variables:
