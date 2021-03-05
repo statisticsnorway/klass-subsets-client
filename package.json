@@ -37,8 +37,9 @@
     "swr": "^0.4.0"
   },
   "scripts": {
+    "prestart": "react-env --dest ./public",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && react-env --dest ./build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --coverage --ci --testResultsProcessor=jest-junit-reporter",
     "eject": "react-scripts eject"
@@ -59,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@beam-australia/react-env": "^2.1.2",
     "jest-junit-reporter": "^1.1.0"
   },
   "jest": {
