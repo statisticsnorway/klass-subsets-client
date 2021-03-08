@@ -42,6 +42,7 @@ jobs:
       appName: $(appName)
       imageTag: $(imageTag)
       namespace: $(namespace)
+      sonarQube: $(sonarQube)
 
 #variables:
 #  - group: Hemmeligheter
