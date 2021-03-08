@@ -31,6 +31,9 @@ variables:
     value: 'klass'
   - name: 'imageTag'
     value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
+  - name: sonarQube
+    value: 'bipSonarQube-Klass'
+
 
 
 jobs:
