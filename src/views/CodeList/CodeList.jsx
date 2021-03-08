@@ -16,7 +16,7 @@ export const CodeList = ({ id, codes, metadata, errors }) => {
     function addPreviousCodesForIdVersionsToCodes() {
       const newListOfCodes = codes?.codes? codes.codes : []
       codesMap.forEach((v) => {
-        if (id == v.classificationId && newListOfCodes.findIndex(c => c.code == v.code) === -1) {
+        if (id === v.classificationId && newListOfCodes.findIndex(c => c.code === v.code) === -1) {
           newListOfCodes.unshift(v)
         }
       })
