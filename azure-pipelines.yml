@@ -18,7 +18,8 @@ resources:
     - repository: templates
       type: github
       name: statisticsnorway/azure-pipelines-templates
-      ref: refs/tags/1.1.16
+#      ref: refs/tags/1.1.16
+      ref: react-sonarqube-parameter
       endpoint: statisticsnorway (2)
 
 
