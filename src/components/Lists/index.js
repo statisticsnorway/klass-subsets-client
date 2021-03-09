@@ -1,2 +1,2 @@
-export * from './ListTabable';
+export * from './ListTable';
 export * from './Reorderable/index';
