@@ -2,7 +2,7 @@ import React from 'react';
 import './list.css';
 import keys from 'utils/keys';
 
-export const ListTabable = ({
+export const ListTable = ({
                               items = [],
                               placeholder = 'No items to show',
                               component = () => {}

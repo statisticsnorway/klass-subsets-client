@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { AppContext } from 'controllers';
 import { Text } from '@statisticsnorway/ssb-component-library';
 import { CodeInfo } from 'views';
-import { ListTabable } from 'components';
+import { ListTable } from 'components';
 import { toCodeIdWithValidFrom } from 'utils';
 
 export const Codes = ({ codes = [] }) => {
@@ -51,12 +51,12 @@ export const Codes = ({ codes = [] }) => {
                             </div>
                         }
 
-                        <ListTabable items={
+                        <ListTable items={
                                         codes.map(code => ({
                                             id: toCodeIdWithValidFrom(code),
                                             ...code })) }
-                                     placeholder={ t('No classifications in the subset draft') }
-                                     component={ CodeInfo }
+                                   placeholder={ t('No classifications in the subset draft') }
+                                   component={ CodeInfo }
                         />
                     </div>
                 }
