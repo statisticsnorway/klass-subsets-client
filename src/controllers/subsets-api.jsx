@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { fetcher } from 'utils';
+import env from "@beam-australia/react-env";
 
 // DOCME
-const subsetsServiceEndpoint = process.env.REACT_APP_SUBSETS_API;
+const subsetsServiceEndpoint = window.__ENV.REACT_APP_SUBSETS_API;
 // DOCME
-const subsetsServiceEndpointAUTH = process.env.REACT_APP_SUBSETS_API_AUTH;
+const subsetsServiceEndpointAUTH = window.__ENV.SUBSETS_API_AUTH;
 // DOCME
 const defaultQuery = 'includeFuture=true&includeDrafts=true&language=nb';
 const fullVersions = 'includeFullVersions=true';
