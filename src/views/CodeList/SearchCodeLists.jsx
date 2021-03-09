@@ -4,7 +4,7 @@ import { AppContext } from 'controllers';
 import { useGet, URL } from 'controllers/klass-api';
 import { CodeListFetcher } from 'views';
 import { eu } from 'utils';
-import { Search, Help, HelpButton, ListTabable } from 'components';
+import { Search, Help, HelpButton, ListTable } from 'components';
 
 export const SearchCodeLists = () => {
     const { subset: {
@@ -42,9 +42,9 @@ export const SearchCodeLists = () => {
                     eu(versionValidUntil) || '...' }`
             }/>
 
-            <ListTabable items={ searchResult.map(s => ({ id: URL.info(s._links?.self?.href).id })) }
-                         placeholder={ t('Nothing is found') }
-                         component={ CodeListFetcher }
+            <ListTable items={ searchResult.map(s => ({ id: URL.info(s._links?.self?.href).id })) }
+                       placeholder={ t('Nothing is found') }
+                       component={ CodeListFetcher }
             />
         </>
     );
