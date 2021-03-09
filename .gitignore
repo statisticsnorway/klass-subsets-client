@@ -98,3 +98,5 @@ dist/
 package-lock.json
 test-report.xml
 yarn.lock
+/public/__ENV.js
+/public/env.js
