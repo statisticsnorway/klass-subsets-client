@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { fetcher } from 'utils';
-import env from "@beam-australia/react-env";
 
 // DOCME
-const subsetsServiceEndpoint = window.__ENV.REACT_APP_SUBSETS_API;
+const subsetsServiceEndpoint = window.__ENV.REACT_APP_SUBSETS_API
 // DOCME
-const subsetsServiceEndpointAUTH = window.__ENV.SUBSETS_API_AUTH;
+const subsetsServiceEndpointAUTH = window.__ENV.REACT_APP_SUBSETS_API_AUTH
 // DOCME
-const defaultQuery = 'includeFuture=true&includeDrafts=true&language=nb';
-const fullVersions = 'includeFullVersions=true';
+const defaultQuery = 'includeFuture=true&includeDrafts=true&language=nb'
+const fullVersions = 'includeFullVersions=true'
 
 export function useSubsets() {
     const { data, error } = useSWR(
@@ -98,7 +97,7 @@ export function usePost(url = '') {
 
     useEffect(() => console.debug({
         method: 'POST',
-        payload, 
+        payload,
         path
     }), [ payload, path ]);
 
@@ -142,8 +141,8 @@ export function usePut(url = '') {
     const [ error, setError ] = useState(null);
 
     useEffect(() => console.debug({
-        method: 'PUT', 
-        payload, 
+        method: 'PUT',
+        payload,
         path
     }), [payload, path]);
 
