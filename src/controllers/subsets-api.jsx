@@ -129,7 +129,7 @@ export function usePost(url = '') {
             fetchData();
         }
 
-    }, [ payload ]);
+    }, [ payload, path ]);
 
     return [ data, setPayload, error, setPath ];
 }
@@ -176,7 +176,7 @@ export function usePut(url = '') {
             fetchData();
         }
 
-    }, [ payload ]);
+    }, [ payload, path ]);
 
 /*
     useEffect(() => {
