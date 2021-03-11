@@ -12,9 +12,9 @@ import { nameControl, errorsControl, versionable,
 // FIXME: decide which version should be the default one
 function defaultVersion(versions) {
     // console.log('defaultVersion', versions?.length > 0 ? versions[0] : null);
-
-    return versions?.length > 0 ? versions[0] : null;
-    // return versions?.length > 0 ? versions[versions.length-1] : null;
+    let orderedVersions = orderByValidFromDesc(versions)
+    // return versions?.length > 0 ? orderByValidFromDesc(versions)[0] : null;
+    return versions?.length > 0 ? orderedVersions[0] : null;
 }
 
 export function Subset (data) {
@@ -286,8 +286,8 @@ export function Subset (data) {
 
     Object.defineProperty(subset, 'codesMap', {
         get: () => {
-            console.log(subset, 'subset')
-            console.log(subset.currentVersion, 'currentVersion')
+            // console.log(subset, 'subset')
+            // console.log(subset.currentVersion, 'currentVersion')
             return new Map(subset?.currentVersion?.codes?.map(code => [
                 toCodeId(code),
                 code
