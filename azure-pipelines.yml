@@ -19,7 +19,7 @@ resources:
       type: github
       name: statisticsnorway/azure-pipelines-templates
 #      ref: refs/tags/1.1.17
-      ref: react-sonarqube-parameter
+      ref: react-complete-tag-for-production
       endpoint: statisticsnorway (2)
 
 
