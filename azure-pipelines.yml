@@ -26,7 +26,7 @@ resources:
 variables:
   - group: Hemmeligheter
   - name: 'appName'
-    value: 'subset-client'
+    value: 'subsets-client'
   - name: 'namespace'
     value: 'klass'
   - name: 'imageTag'
@@ -48,8 +48,7 @@ jobs:
 
   - template: 'docker/docker-tag-for-production.yml@templates'
     parameters:
-      tagToTag: 'master-$(fullSha)'
-      gcrImageName: $(imageName)
+      tagToTag: 'master-$(Build.SourceVersion)'
 
 #variables:
 #  - group: Hemmeligheter
