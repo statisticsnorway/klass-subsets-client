@@ -45,10 +45,11 @@ jobs:
       imageTag: $(imageTag)
       namespace: $(namespace)
       sonarQube: $(sonarQube)
-
-  - template: 'docker/docker-tag-for-production.yml@templates'
-    parameters:
-      tagToTag: 'master-$(Build.SourceVersion)'
+#
+#  - template: 'docker/docker-tag-for-production.yml@templates'
+#    parameters:
+#      tagToTag: 'master-$(Build.SourceVersion)'
+#      gcrImageName: $(imageName)
 
 #variables:
 #  - group: Hemmeligheter
