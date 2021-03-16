@@ -31,10 +31,12 @@ variables:
     value: 'klass'
   - name: 'imageTag'
     value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
-  - name: imageName
+  - name: 'imageName'
     value: 'eu.gcr.io/prod-bip/ssb/klass/subsets-client'
-  - name: sonarQube
+  - name: 'sonarQube'
     value: 'bipSonarQube-Klass'
+  - name: 'sourceVersion'
+    value: '$(Build.SourceVersion)'
 
 
 
@@ -45,6 +47,7 @@ jobs:
       imageTag: $(imageTag)
       namespace: $(namespace)
       sonarQube: $(sonarQube)
+      tagToTag: $(sourceVersion)
 #
 #  - template: 'docker/docker-tag-for-production.yml@templates'
 #    parameters:
