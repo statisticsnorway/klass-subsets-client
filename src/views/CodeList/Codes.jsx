@@ -12,11 +12,29 @@ export const Codes = ({ codes = [] }) => {
         versionValidFrom,
         versionValidUntil,
         isEditableCodes,
+      codesMap
     }, dispatch } } = useContext(AppContext);
 
     // DOCME
     // FIXME: magic number 35
     const [ renderedCodes, setRenderedCodes ] = useState(codes.slice(0, Math.min(35, codes.length)));
+    useEffect( () => {
+        //Set valid<From/To>InRequestedRange on
+        // console.log(codesMap, 'codesMap')
+        // console.log(codes, 'codes')
+        codesMap.forEach( cmc => {
+            let code = codes.find(c => {
+                return (c['classificationId'] === cmc['classificationId'] && c['code'] === cmc['code'])
+            })
+            if (code) {
+                cmc['validFromInRequestedRange'] = code['validFromInRequestedRange']
+                cmc['validToInRequestedRange'] = code['validToInRequestedRange']
+            }
+        })
+        console.log(codesMap, 'codesMap etter')
+
+
+    })
     useEffect(() => {
         if (renderedCodes?.length < codes.length){
             setTimeout(() => setRenderedCodes(codes),0);
