@@ -24,6 +24,11 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>1.0.2</h4>
+               <p>Use environment-variables.</p>
+               <p>Bugfix: no "white page"</p>
+               <p>Bugfix: yellow triangles for codes not valid in versindaterange - might still not work for some rear cases</p>
+
                <h4>v0.6.14</h4>
                <p>Disabled editing origins for published versions (no buttons).</p>
                <p>Bugfix: corrected reordering to remember the click order.</p>

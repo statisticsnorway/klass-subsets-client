@@ -85,7 +85,7 @@ typings/
 .idea/inspectionProfiles/
 .idea/jsLibraryMappings.xml
 .idea/jsLinters/
-.idea/klass-subsets-web.iml
+.idea/klass-subsets-client.iml
 .idea/misc.xml
 .idea/modules.xml
 .idea/shelf/
