@@ -24,7 +24,9 @@ export const Codes = ({ codes = [] }) => {
         // console.log(codes, 'codes')
         codesMap.forEach( cmc => {
             let code = codes.find(c => {
-                return (c['classificationId'] === cmc['classificationId'] && c['code'] === cmc['code'])
+                return (c['classificationId'] === cmc['classificationId']
+                  && c['code'] === cmc['code']
+                  && c['name'] === cmc['name'])
             })
             if (code) {
                 cmc['validFromInRequestedRange'] = code['validFromInRequestedRange']
