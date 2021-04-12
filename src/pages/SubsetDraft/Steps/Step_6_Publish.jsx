@@ -46,7 +46,7 @@ export const Step6Publish = () => {
                 console.log('Update metadata ');
                 setPUTPayload(metadataPayload);
             }
-            //TODO: Remeove if it works without
+            //TODO: Remove if it works without
             // if (query.get('version') && isNewVersion() && !isNew()) {
             //     console.log('Save version');
             //     setPOSTPayloadVersion(query.get('publish')
@@ -62,9 +62,8 @@ export const Step6Publish = () => {
                 );
             }
         } else {
-            // denne lagrer versjonen etter at metadata for første versjon av uttrekk er lagret
             if (query.get('version') && isNewVersion()) {
-                console.log('New version when metadata is saved');
+                console.log('New version when metadata for current version is saved');
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
