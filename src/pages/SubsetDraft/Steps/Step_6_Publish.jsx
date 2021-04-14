@@ -27,24 +27,35 @@ export const Step6Publish = () => {
     const [ updateVersion, setPUTPayloadVersion, errorUpdateVersion ] = usePut(`${id}/versions/${ versionId }`);
 
     useEffect(() => {
+        console.log(post, 'post')
+        console.log(update, 'update')
+        console.log(isNew(), 'isNew')
+        console.log(isNewVersion(), 'isNewVersion')
+        console.log(query.get('metadata'), 'query.get(\'metadata\')')
+        console.log(query.get('version'), 'query.get(\'version\')')
+        console.log(metadataPayload, 'metadataPayload')
+        console.log(publishVersionPayload, 'publishVersionPayload')
+        console.log(versionPayload, 'versionPayload')
+
         if (!post && !update) {
             if ((query.get('metadata') || query.get('version')) && isNew()) {
-                console.debug('New subset ', isNew());
+                console.log('Save metadata ', isNew());
                 setPOSTPayload(metadataPayload);
             }
             if (query.get('metadata') && !isNew()) {
-                console.debug('Save metadata ', !isNew());
+                console.log('Update metadata ');
                 setPUTPayload(metadataPayload);
             }
-            if (query.get('version') && isNewVersion() && !isNew()) {
-                console.debug('New version ', isNewVersion());
-                setPOSTPayloadVersion(query.get('publish')
-                    ? publishVersionPayload
-                    : versionPayload
-                );
-            }
+            //TODO: Remove if it works without
+            // if (query.get('version') && isNewVersion() && !isNew()) {
+            //     console.log('Save version');
+            //     setPOSTPayloadVersion(query.get('publish')
+            //         ? publishVersionPayload
+            //         : versionPayload
+            //     );
+            // }
             if (query.get('version') && !isNewVersion()) {
-                console.debug('Update version ', !isNewVersion());
+                console.log('Update version');
                 setPUTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
@@ -52,7 +63,7 @@ export const Step6Publish = () => {
             }
         } else {
             if (query.get('version') && isNewVersion()) {
-                console.debug('New version when metadata is saved', isNewVersion());
+                console.log('New version when metadata for current version is saved');
                 setPOSTPayloadVersion(query.get('publish')
                     ? publishVersionPayload
                     : versionPayload
