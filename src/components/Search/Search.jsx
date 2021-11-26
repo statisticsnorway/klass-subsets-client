@@ -7,7 +7,7 @@ export const Search = ({ resource = [],
     setChosen = () => {},
     placeholder = 'Type name',
     searchible = (item) => (item),
-    searchBy = (input, source) => 
+    searchBy = (input, source) =>
         input === ''
             ? []
             : source.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) > -1)

@@ -17,6 +17,7 @@
   "Sort by": "Sort by",
   "Last updated": "Last updated",
   "Name": "Name",
+  "Failed to connect to the server": "Failed to connect to the server",
 
   "Brief subset status": "Brief subset status",
   "Number of available versions": "Number of available versions",
@@ -96,9 +97,11 @@
   "to": "to excl.",
   "Period is not set": "Period is not set",
   "Type classification name": "Type classification name",
+  "Search code lists by name": "Search code lists by name",
   "Nothing is found": "Nothing is found",
   "Choose codes from classifications": "Choose codes from classifications",
   "No classifications in the subset draft": "No classifications in the subset draft",
+  "Help search results": "Search-results tips",
 
   "Classification": "Classification",
   "Code list cannot be added to the subset due to lack of codes": "Code list cannot be added to the subset due to lack of codes",
@@ -152,8 +155,10 @@
   "Raw JSON": "Raw JSON",
   "Some fields are not right": "Some fields are not right",
 
+  "Sending metadata to the server": "Sending metadata to the server",
   "Sending data to the server": "Sending data to the server",
-  "Update failed": "Update failed for subset with ID={{id}} version={{version}}",
+  "Sending version to the server": "Sending version to the server",
+  "Update failed": "Update of {{metaOrData}} failed for subset with ID={{id}} version={{version}}",
   "Success": "Success",
   "Metadata is sent": "Metadata is sent",
   "Version is sent": "Version is sent",

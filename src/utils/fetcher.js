@@ -7,7 +7,7 @@ export const fetcher = async url => {
     if (!response.ok) {
         const error = new Error(`Fetch failed with status ${ response.status } ${ response.statusText } ${ response.url }`);
         // Attach extra info to the error object.
-        error.info = await response.json();
+        // error.info = await response.json();
         error.status = response.status;
         throw error;
     }

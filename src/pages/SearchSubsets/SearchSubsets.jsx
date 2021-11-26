@@ -17,6 +17,14 @@ export const SearchSubsets = () => {
 
     useEffect(() => setSearchResults(subsets), [ subsets ]);
 
+    const errorMess = () => {
+      let urlIndex = errorSubsets?.message.indexOf("http")
+      return errorSubsets?.message.substring(0, urlIndex) +"\n" + errorSubsets?.message.substring(urlIndex)
+        || subsets?.error?.message
+        || subsets?.error
+        || subsets?.message
+    }
+
     return (
         <div id='search-container'>
             <div id='search-zone'>
@@ -33,7 +41,6 @@ export const SearchSubsets = () => {
             </div>
             <div id='results'>
                 <h2>{ t('Search results') }
-
                     <button aria-label='Set up result filtering and sorting'
                             title='Filters'
                             onClick={ () => setShowSettings(!showSettings) }
@@ -69,12 +76,10 @@ export const SearchSubsets = () => {
                 { !subsets && !errorSubsets
                     ? <div style={{ marginTop: '15px' }}><Spinner/></div>
                     : errorSubsets
-                        ? <p style={{ color: 'red' }}>{ t('Failed to connect to the server: ') }{
-                            errorSubsets?.message
-                            || subsets?.error?.message
-                            || subsets?.error
-                            || subsets?.message}
-                        </p>
+                        ? <p style={{ color: 'red', whiteSpace: 'pre-wrap' }}>
+                            { t('Failed to connect to the server') }{': '}<br/>
+                            <div style={{fontSize: 'smaller'}}>{ errorMess() }</div>
+                          </p>
                         : !searchResults || searchResults.length === 0
                             ? <p>{ t('Nothing is found') }</p>
                             : <BannerList items={ searchResults

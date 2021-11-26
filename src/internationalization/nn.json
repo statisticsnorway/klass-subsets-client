@@ -17,6 +17,7 @@
   "Sort by": "Sorter etter",
   "Last updated": "Sist oppdatert",
   "Name": "Navn",
+  "Failed to connect to the server": "Problem med å koble til server",
 
   "Brief subset status": "Brief subset status",
   "Number of available versions": "Antall tilgjengelige versioner",
@@ -97,8 +98,10 @@
   "Period is not set": "Gyldighetsperiode er ikke valgt",
   "Type classification name": "Velg kodeverk",
   "Nothing is found": "Ingen kodeverk funnet",
+  "Search code lists by name": "Søk etter kodeverk",
   "Choose codes from classifications": "Velg koder fra kodeverk",
   "No classifications in the subset draft": "Ingen kodeverk i uttrekket",
+  "Help search results": "Søkeresultat-tips",
 
   "Classification": "Kodeverk",
   "Code list cannot be added to the subset due to lack of codes": "Kodeverk uten koder kan ikke inngå i uttrekket",
@@ -152,8 +155,11 @@
   "Raw JSON": "JSON",
   "Some fields are not right": "Noen av feltene er ikke fylt ut korrekt",
 
+  "Sending metadata to the server": "Sender metadata til serveren",
   "Sending data to the server": "Sender data til serveren",
-  "Update failed": "Oppdatering mislykket for subset med ID={{id}} versjon={{version}}",
+  "Sending version to the server": "Sender versjoner til serveren",
+  "Update failed": "Oppdatering av {{metaOrData}} mislykket for subset med ID={{id}} versjon={{version}}",
+  "Error message": "Feilmelding",
   "Success": "Vellykket",
   "Metadata is sent": "Metadata er sendt",
   "Version is sent": "Versjon er sendt",

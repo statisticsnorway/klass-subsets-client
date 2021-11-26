@@ -19,10 +19,9 @@ export function useSubsets() {
 }
 
 export function useSubset(id) {
+    console.log(id, 'id in useSubset')
     const { data, error } = useSWR(
-        id
-            ? `${ subsetsServiceEndpoint }${ id }?${ defaultQuery }&${ fullVersions }`
-            : null,
+        id ? `${ subsetsServiceEndpoint }${ id }?${ defaultQuery }&${ fullVersions }` : null,
         fetcher, { shouldRetryOnError: false }
         );
     return [ data, error ];

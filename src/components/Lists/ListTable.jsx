@@ -6,7 +6,7 @@ export const ListTable = ({
                               items = [],
                               placeholder = 'No items to show',
                               component = () => {}
-}) => {
+  }) => {
 
     return (
         <>
