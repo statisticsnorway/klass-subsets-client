@@ -25,7 +25,7 @@
     "NPM will notify if any peer dependencies are required."
   ],
   "dependencies": {
-    "@statisticsnorway/ssb-component-library": "^2.0.28",
+    "@statisticsnorway/ssb-component-library": "^2.0.55",
     "dompurify": "^2.0.8",
     "feather-icons": "^4.25.0",
     "i18next": "^19.1.0",
@@ -62,7 +62,8 @@
   },
   "devDependencies": {
     "@beam-australia/react-env": "^3.0.8",
-    "jest-junit-reporter": "^1.1.0"
+    "jest-junit-reporter": "^1.1.0",
+    "sass": "^1.45.1"
   },
   "jest": {
     "collectCoverageFrom": [
