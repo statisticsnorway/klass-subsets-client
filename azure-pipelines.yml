@@ -32,7 +32,7 @@ variables:
   - name: 'imageTag'
     value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
   - name: 'sonarQube'
-    value: 'bipSonarQube-Klass'
+    value: 'bipSonarCloud-Klass'
   - name: 'sourceVersion'
     value: '$(Build.SourceVersion)'
 
