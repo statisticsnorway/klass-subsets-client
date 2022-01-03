@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { AppContext } from 'controllers';
 import { CheckCircle } from 'react-feather';
 import { useQuery } from 'utils';
+import { Spinner } from 'components';
 
 export const Step6Publish = () => {
     const { subset: { draft: {
@@ -46,7 +47,7 @@ export const Step6Publish = () => {
                 console.log('Update metadata ');
                 setPUTPayload(metadataPayload);
             }
-            //TODO: Remove if it works without
+            // TODO: Remove if it works without
             // if (query.get('version') && isNewVersion() && !isNew()) {
             //     console.log('Save version');
             //     setPOSTPayloadVersion(query.get('publish')
@@ -99,11 +100,12 @@ export const Step6Publish = () => {
         <div style={{ minHeight: '350px', textAlign: 'center', margin: 'auto', width: '100%' }}>
 
             { (!errorPost && !errorUpdate && !post && !update && query.get('metadata')) &&
-                <p>{ t('Sending metadata to the server') }...</p>
+                <p style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Spinner/>{ t('Sending metadata to the server') }...</p>
             }
-            { (query.get('version') && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && !errorPost && !errorUpdate)
-                &&
-                <p>{ t('Sending version to the server') }...</p>
+            { (query.get('version') && !errorPostVersion && !errorUpdateVersion && !postVersion && !updateVersion && !errorPost && !errorUpdate) &&
+                <p style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Spinner/>{ t('Sending version to the server') }...</p>
             }
             { (errorPost || errorUpdate || errorPostVersion || errorUpdateVersion) &&
             <div style={{
@@ -113,12 +115,14 @@ export const Step6Publish = () => {
                 margin: 'auto',
             }}>
                 <Dialog type='warning'
-                        title='Update failed'
-                          //  {t('Update failed', {id, version: versionId})}
+                        title=
+                           { t('Update failed', {id, version: versionId,
+                               metaOrData: errorPost || errorUpdate ? 'metadata' : 'version'})}
                 >
-                    {`Subset's ID: ${ id }. `}
-                    {`Version's ID: ${ versionId }. `}
-                    {`Error message: ${ errorPost || errorUpdate || errorPostVersion || errorUpdateVersion }`}
+                    {/*{`Subset's ID: ${ id }. `}*/}
+                    {/*{`Version's ID: ${ versionId }. `}*/}
+                    { t('Error message') }:
+                    { ` ${ errorPost || errorUpdate || errorPostVersion || errorUpdateVersion }`}
                 </Dialog>
             </div>
             }

@@ -21,6 +21,11 @@ export const CodeListFetcher = ({ item: { id }}) => {
     const [ codes, codesError ] = useSWRGet(codesUrl);
 
     return (
+
+      <div>
+        {console.log(codes, 'koder')}
+        {console.log(metadataError, 'metadataError')}
+        {console.log(codesError, 'codesError')}
             <CodeList
                 id={ id }
                 codes={{
@@ -33,5 +38,6 @@ export const CodeListFetcher = ({ item: { id }}) => {
                     }}
                 errors={ {metadataError, codesError} }
             />
+      </div>
     )
 };

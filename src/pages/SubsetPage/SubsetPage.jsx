@@ -18,8 +18,8 @@ export const SubsetPage = () => {
                 { error &&
                     <Warning visible={ error }
                              title='Fetch failed'>
-                        { error.message }
-                        { error.info }
+                      { error.message }
+                      {/*{ console.log( Object.entries(error.info) )}*/}
                     </Warning>
                 }
                 { subset && <Preview

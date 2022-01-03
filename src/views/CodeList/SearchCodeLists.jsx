@@ -33,7 +33,9 @@ export const SearchCodeLists = () => {
                     }
             />
 
-            <h3>{ t('Search results') }<HelpButton
+            <h3>{ t('Search results') }
+              <HelpButton
+                title={ t('Help search results') }
                 clickHandler={ () => setShowHelp(prev => !prev) } />
             </h3>
             <Help visible={ showHelp}

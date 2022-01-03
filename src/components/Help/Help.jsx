@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import './help.css';
 
 export const Help = ({ message = '',
-                         visible = false,
-                        children
+                       visible = false,
+                       children
 }) => {
     const { t } = useTranslation();
 
