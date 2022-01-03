@@ -18,7 +18,7 @@ resources:
     - repository: templates
       type: github
       name: statisticsnorway/azure-pipelines-templates
-      ref: refs/tags/1.1.27
+      ref: refs/tags/1.1.29
 #      ref: react-complete-tag-for-production
       endpoint: statisticsnorway (2)
 
@@ -31,7 +31,7 @@ variables:
     value: 'klass'
   - name: 'imageTag'
     value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
-  - name: 'sonarQube'
+  - name: 'sonarCloud'
     value: 'bipSonarCloud-Klass'
   - name: 'sourceVersion'
     value: '$(Build.SourceVersion)'
@@ -44,5 +44,5 @@ jobs:
       appName: $(appName)
       imageTag: $(imageTag)
       namespace: $(namespace)
-      sonarQube: $(sonarQube)
+      sonarCloud: $(sonarCloud)
       tagToTag: $(sourceVersion)
