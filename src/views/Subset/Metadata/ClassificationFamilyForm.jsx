@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Dropdown } from 'components';
 import { AppContext } from 'controllers';
-import { useGet } from 'controllers/klass-api';
+import { useKlassGet } from 'controllers/klass-api';
 
 export const ClassificationFamilyForm = () => {
     const { subset: { draft: {
@@ -9,7 +9,7 @@ export const ClassificationFamilyForm = () => {
         errors
     }, dispatch
     } } = useContext(AppContext);
-    const [ classificationfamilies ] = useGet('classificationfamilies.json');
+    const [ classificationfamilies ] = useKlassGet('classificationfamilies.json');
 
     return (
         <Dropdown label='Subject'

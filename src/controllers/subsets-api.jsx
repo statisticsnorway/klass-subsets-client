@@ -37,7 +37,7 @@ export function useVersion(id, versionId) {
     return [ data, error ];
 }
 
-export function useGet(url = null) {
+export function useSubsetsGet(url = null) {
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);

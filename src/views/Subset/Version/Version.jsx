@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, Tabs, JsonView, EditButton, SaveButton, UploadButton } from 'components';
-import { BriefVersion, HtmlView } from '../Version';
+import { BriefVersion, VersionHtmlView } from '../Version';
 import { useQuery } from 'utils';
 
 export const Version = ({
@@ -47,7 +47,7 @@ export const Version = ({
 
             <Tabs light>
                 <Tab title='HTML' path='html'>
-                    <HtmlView version={ version } />
+                    <VersionHtmlView version={ version } />
                 </Tab>
                 <Tab title='JSON' path='json'>
                     <JsonView data={ version } />
