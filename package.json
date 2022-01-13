@@ -63,7 +63,7 @@
   "devDependencies": {
     "@beam-australia/react-env": "^3.0.8",
     "jest-junit-reporter": "^1.1.0",
-    "sass": "^1.45.1"
+    "sass": "^1.48.0"
   },
   "jest": {
     "collectCoverageFrom": [
