@@ -41,7 +41,7 @@ export const codesControl = (state = {}) => ({
         // console.debug('reorderCodes', state.codes);
 
         if (state.isEditableCodes()) {
-            state.codes.sort((a, b) => (a.timestamp - b.timestamp || a.rank - b.rank - 1));
+            state.codes.sort((a, b) => (a.timestamp - b.timestamp || a.rank - b.rank));
         }
     },
 
@@ -59,10 +59,15 @@ export const codesControl = (state = {}) => ({
         // console.debug('changeRank', rank, codes);
 
         if (state.isEditableCodes() && rank && rank !== '-') {
-            state.codes = state.codes.map(c => codes.find(i => i.id === c.id)
-                    ? {...c, rank}
-                    : c
-            )
+            state.codes = state.codes.map(function(c) {
+                if (codes.find(i =>  i.id === c.id)) {
+                    // adjust rank up or down to "move" the target row
+                    const adjustedRank = (c.rank > rank) ? rank - 1 : rank + 1;
+                    return { ...c, rank: adjustedRank };
+                } else {
+                    return c;
+                }
+            })
         }
     }
 
