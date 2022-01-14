@@ -8,7 +8,7 @@ export const codesControl = (state = {}) => ({
         if (state.isEditableCodes()) {
             const addition = codes.map((code, i) => [
                 toCodeId(code),
-                {...code, rank: -1, timestamp: new Date().getTime()+i }
+                { ...code, rank: -1, timestamp: new Date().getTime() + i }
             ]);
 
             const merged = new Map([...addition, ...state.codesMap]);
@@ -59,8 +59,8 @@ export const codesControl = (state = {}) => ({
         // console.debug('changeRank', rank, codes);
 
         if (state.isEditableCodes() && rank && rank !== '-') {
-            state.codes = state.codes.map(function(c) {
-                if (codes.find(i =>  i.id === c.id)) {
+            state.codes = state.codes.map(function (c) {
+                if (codes.find(i => i.id === c.id)) {
                     // adjust rank up or down to "move" the target row
                     const adjustedRank = (c.rank > rank) ? rank - 1 : rank + 1;
                     return { ...c, rank: adjustedRank };
