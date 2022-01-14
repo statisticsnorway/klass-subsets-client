@@ -4,7 +4,7 @@ import { Version, Switcher } from 'views';
 import { CheckboxGroup } from '@statisticsnorway/ssb-component-library';
 import { useQuery } from 'utils';
 import { Help, Title } from 'components';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // TODO: clean and simplify
 export const Versions = ({ versions = [],
@@ -16,7 +16,7 @@ export const Versions = ({ versions = [],
                             syncQuery = false
 }) => {
     const { t } = useTranslation();
-    let history = useHistory();
+    let navigate = useNavigate();
     let query = useQuery();
     let { versionId } = useParams();
 
@@ -29,8 +29,8 @@ export const Versions = ({ versions = [],
         //.filter(v => v.validFrom > new Date().toJSON()))[0] || null
     );
     const [ showHelp, setShowHelp ] = useState(false);
-    const pushParams = (option) => history.push(`/subsets/${ option.subsetId }/versions/${ option.versionId }`);
-    const pushQuery = option => history.push(`?${ query.update('versionId', option.versionId) }`);
+    const pushParams = (option) => navigate(`/subsets/${ option.subsetId }/versions/${ option.versionId }`);
+    const pushQuery = option => navigate(`?${ query.update('versionId', option.versionId) }`);
 
     return (
         <>

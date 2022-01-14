@@ -30,8 +30,8 @@ export const MenuItem = ({
         <div className='MenuItem h3' onClick={ onClick }>
             <NavLink
                 to={ path }
-                activeClassName='active'
-                exact={ true }
+                className={({ isActive }) => "" + (isActive ? " active" : "")}
+                end={ true }
             >{ title }
             </NavLink>
         </div>

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'utils';
 import { ProgressBar, GoTo } from 'components';
 
 export function Navigation({ children }) {
     const { t } = useTranslation();
     let query = useQuery();
-    let history = useHistory();
+    let navigate = useNavigate();
     const [ step, setStep ] = useState(0);
 
     useEffect( () => {
         if (!children.find(c => c.props.label === query.get('step'))) {
-            history.push(`?${ query.update('step', children[0]?.props.label) }`);
+            navigate(`?${ query.update('step', children[0]?.props.label) }`);
         }
-    }, [ children, history, query ]);
+    }, [ children, navigate, query ]);
 
     useEffect(() => {
         setStep(children.findIndex(c => c.props.label === query.get('step')) || 0);

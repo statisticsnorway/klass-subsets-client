@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ContextProvider } from './controllers';
 import { Header, Footer } from './components';
 import { Changelog, SearchSubsets, SubsetPage, SubsetForm, Step6Publish, NoMatch } from './pages';
@@ -15,20 +15,20 @@ export default function App() {
             */}
             <BrowserRouter forceRefresh={true}>
                 <Header/>
-                <Switch>
-                    <Redirect push from='/' exact to='/subsets' />
-                    <Redirect push from='/editor' to='/auth/editor' />
+                <Routes>
+                    <Route path="/" exact element={ <Navigate to='/subsets' />} />
+                    <Route path="editor" element={ <Navigate to='/auth/editor' />} />
 
-                    <Route path='/auth/save' component={ Step6Publish }/>
-                    <Route path='/auth/editor' component={ SubsetForm }/>
+                    <Route path='/auth/save' element={ <Step6Publish /> }/>
+                    <Route path='/auth/editor' element={ <SubsetForm /> }/>
 
-                    <Route path='/subsets' exact component={ SearchSubsets }/>
-                    <Route path='/subsets/:id' exact component={ SubsetPage }/>
-                    <Route path='/subsets/:id/versions' exact component={ SubsetPage }/>
-                    <Route path='/subsets/:id/versions/:versionId' exact component={ SubsetPage }/>
-                    <Route path='/changelog' exact component={ Changelog }/>
-                    <Route component={ NoMatch }/>
-                </Switch>
+                    <Route path='/subsets' exact element={<SearchSubsets />} />
+                    <Route path='/subsets/:id' exact element={ <SubsetPage /> }/>
+                    <Route path='/subsets/:id/versions' exact element={ <SubsetPage /> }/>
+                    <Route path='/subsets/:id/versions/:versionId' exact element={ <SubsetPage /> }/>
+                    <Route path='/changelog' exact element={ <Changelog /> }/>
+                    <Route element={ <NoMatch/> }/>
+                </Routes>
                 <Footer/>
             </BrowserRouter>
         </ContextProvider>

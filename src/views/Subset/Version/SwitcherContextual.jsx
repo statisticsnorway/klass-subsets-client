@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from 'controllers';
 import { Switcher } from 'views';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'utils';
 
 export const SwitcherContextual = () => {
@@ -13,7 +13,7 @@ export const SwitcherContextual = () => {
     }, dispatch
     } } = useContext(AppContext);
 
-    let history = useHistory();
+    let navigate = useNavigate();
     let query = useQuery();
     const { t } = useTranslation();
 
@@ -30,7 +30,7 @@ export const SwitcherContextual = () => {
                 ]
             : []
         }
-                  onSelect={ option => history.push(`?${ query.update('versionId', option.versionId) }`) }
+                  onSelect={ option => navigate(`?${ query.update('versionId', option.versionId) }`) }
                   selected={ {versionId} || '-' }
                   errorMessages={ errors?.version }
         />
