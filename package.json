@@ -25,7 +25,7 @@
     "NPM will notify if any peer dependencies are required."
   ],
   "dependencies": {
-    "@statisticsnorway/ssb-component-library": "^2.0.55",
+    "@statisticsnorway/ssb-component-library": "^2.0.57",
     "dompurify": "^2.0.8",
     "feather-icons": "^4.25.0",
     "i18next": "^19.1.0",
