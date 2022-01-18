@@ -34,6 +34,9 @@ export const Changelog = () => {
                        <li>react: from 17.0.2 to 16.14.0</li>
                        <li>react-dom: from 16.13.0 to 16.14.0 "</li>
                        <li>react-i18next from 11.15.1 to 11.15.3</li>
+                       <li>follow-redirects from 1.14.6 to 1.14.7</li>
+                       <li>@statisticsnorway/ssb-component-library from 2.0.55 to 2.0.57</li>
+                       <li>react-scripts from 4.0.3 to 5.0.0</li>
                    </ul>
                </p>
 

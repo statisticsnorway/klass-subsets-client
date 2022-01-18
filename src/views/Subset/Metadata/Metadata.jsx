@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HtmlView } from './HtmlView';
+import { MetadataHtmlView } from './HtmlView';
 import { Tabs, Tab, Title, Help, JsonView } from 'components';
 import { Divider} from '@statisticsnorway/ssb-component-library';
 import { BriefMetadata } from './BriefMetadata';
@@ -47,7 +47,7 @@ export const Metadata = ({
             { showInfo &&
                 <Tabs light>
                     <Tab title='HTML' path='html'>
-                        <HtmlView subset={ subset }/>
+                        <MetadataHtmlView subset={ subset }/>
                     </Tab>
                     <Tab title='JSON' path='json'>
                         <JsonView data={ subset.metadataPayload || subset }/>

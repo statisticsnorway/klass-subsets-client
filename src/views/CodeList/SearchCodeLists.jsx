@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from 'controllers';
-import { useGet, URL } from 'controllers/klass-api';
+import { useKlassGet, URL } from 'controllers/klass-api';
 import { CodeListFetcher } from 'views';
 import { eu } from 'utils';
 import { Search, Help, HelpButton, ListTable } from 'components';
@@ -16,7 +16,7 @@ export const SearchCodeLists = () => {
     const { t } = useTranslation();
 
     // FIXME: more flexible url building based on first response?
-    const [ classifications ] = useGet('classifications.json?includeCodelists=true&page=0&size=1000');
+    const [ classifications ] = useKlassGet('classifications.json?includeCodelists=true&page=0&size=1000');
     const [ searchResult, setSearchResult ] = useState([]);
     const [ showHelp, setShowHelp ] = useState(false);
 

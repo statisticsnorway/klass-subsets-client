@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Dropdown } from 'components';
-import { AppContext, useGet } from 'controllers';
+import { AppContext, useKlassGet } from 'controllers';
 
 export const SectionForm = () => {
     const { subset:
@@ -10,7 +10,7 @@ export const SectionForm = () => {
         }, dispatch
         } } = useContext(AppContext);
 
-    const [ ssbsections ] = useGet('ssbsections.json');
+    const [ ssbsections ] = useKlassGet('ssbsections.json');
 
     // TODO: set automatically when logged inn
     return (
