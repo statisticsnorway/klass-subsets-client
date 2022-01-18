@@ -1456,14 +1456,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@statisticsnorway/ssb-component-library@^2.0.55":
-  version "2.0.55"
-  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.55.tgz#38a46cf832b063741f42cf48bf6ca6eed8714896"
-  integrity sha512-0hjVdiFD8SUQl64xptrSXte3ouHuUVeo7iaDca+rpFTLcgbwc4bAZmQbW24dctjNMjJ/txgqHCCKXNtZ7otC2g==
+"@statisticsnorway/ssb-component-library@^2.0.57":
+  version "2.0.57"
+  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.57.tgz#7883dca7f7dc58a0867f80859c5b238bee42bb6d"
+  integrity sha512-ANcS0pQTz+um9Bui9U70A9PumeBLpMgSvZuoj5Bl3E7TgQlSd5FFmYJDZ+hnBKe8mjw6hAdRcMC/lwiY6fTJAA==
   dependencies:
     prismjs "^1.23.0"
     react-feather "^2.0.9"
     react-test-renderer "^16.13.1"
+    sass "^1.26.11"
     uuid "^3.4.0"
 
 "@surma/rollup-plugin-off-main-thread@^1.1.1":
@@ -4898,9 +4899,9 @@ flush-write-stream@^1.0.0:
     readable-stream "^2.3.6"
 
 follow-redirects@^1.0.0:
-  version "1.14.6"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.6.tgz#8cfb281bbc035b3c067d6cd975b0f6ade6e855cd"
-  integrity sha512-fhUl5EwSJbbl8AR+uYL2KQDxLkdSjZGR36xy46AO7cOMTrCMON6Sa28FmAnC2tRTDbd/Uuzz3aJBv7EBN7JH8A==
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
+  integrity sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -9469,10 +9470,10 @@ sass-loader@^10.0.5:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@^1.45.1:
-  version "1.45.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.45.1.tgz#fa03951f924d1ba5762949567eaf660e608a1ab0"
-  integrity sha512-pwPRiq29UR0o4X3fiQyCtrESldXvUQAAE0QmcJTpsI4kuHHcLzZ54M1oNBVIXybQv8QF2zfkpFcTxp8ta97dUA==
+sass@^1.26.11, sass@^1.45.1:
+  version "1.48.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.48.0.tgz#b53cfccc1b8ab4be375cc54f306fda9d4711162c"
+  integrity sha512-hQi5g4DcfjcipotoHZ80l7GNJHGqQS5LwMBjVYB/TaT0vcSSpbgM8Ad7cgfsB2M0MinbkEQQPO9+sjjSiwxqmw==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
