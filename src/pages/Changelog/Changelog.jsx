@@ -24,6 +24,19 @@ export const Changelog = () => {
            <div id='changelog'>
                <h2>{ t('Changelog') }</h2>
 
+               <h4>1.0.5</h4>
+               <p>Bugfix
+                   <ul>
+                       <li>Sorting and selection in "Reorder codes" view</li>
+                </ul></p>
+               <p>Dependabot version updates
+                   <ul>
+                       <li>react: from 17.0.2 to 16.14.0</li>
+                       <li>react-dom: from 16.13.0 to 16.14.0 "</li>
+                       <li>react-i18next from 11.15.1 to 11.15.3</li>
+                   </ul>
+               </p>
+
                <h4>1.0.2</h4>
                <p>Use environment-variables.</p>
                <p>Bugfix: no "white page"</p>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './form.css';
 import keys from 'utils/keys';
+import { toCodeId } from 'utils/strings';
 import { Item } from './Item';
 
 export const ReorderableTable = ({ list = [], rerank, remove, disabled }) => {
@@ -9,6 +10,9 @@ export const ReorderableTable = ({ list = [], rerank, remove, disabled }) => {
 
     const [ dropTarget, setDropTarget] = useState({});
     const [ dragTargets, setDragTargets] = useState([]);
+
+    // Make sure 'id' is calculated if working with a previously saved subset
+    list = list.map(code => (code.id ? code : { ...code, id: toCodeId(code) }));
 
     return (
         <div style={{ height: '600px', overflow: 'auto' }}>
