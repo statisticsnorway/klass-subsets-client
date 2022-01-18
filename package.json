@@ -17,13 +17,6 @@
   "bugs": {
     "url": "https://github.com/statisticsnorway/klass-subsets-client/issues"
   },
-  "@comment dependencies": [
-    "typescript:             peer dependency tsutils@3.17.1",
-    "",
-    "To decide if this peer dependencies are stil needed, ",
-    "remove them from dependensies and run 'npm install' or 'yarn install'. ",
-    "NPM will notify if any peer dependencies are required."
-  ],
   "dependencies": {
     "@statisticsnorway/ssb-component-library": "^2.0.57",
     "dompurify": "^2.0.8",
@@ -33,7 +26,7 @@
     "react-dom": "^16.14.0",
     "react-i18next": "^11.15.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^4.0.1",
+    "react-scripts": "^5.0.0",
     "swr": "^0.4.0"
   },
   "scripts": {
@@ -61,9 +54,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/plugin-syntax-flow": "^7.16.7",
+    "@babel/plugin-transform-react-jsx": "^7.16.7",
     "@beam-australia/react-env": "^3.0.8",
+    "autoprefixer": "^10.4.2",
     "jest-junit-reporter": "^1.1.0",
-    "sass": "^1.45.1"
+    "postcss": "^8.4.5",
+    "sass": "^1.45.1",
+    "typescript": "^4.5.4"
   },
   "jest": {
     "collectCoverageFrom": [

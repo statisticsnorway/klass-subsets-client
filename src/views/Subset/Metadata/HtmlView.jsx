@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { eu } from 'utils';
 
-export const HtmlView = ({
+export const MetadataHtmlView = ({
     subset: {
         id,
         description,

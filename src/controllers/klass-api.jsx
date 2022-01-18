@@ -87,7 +87,7 @@ export const URL = {
 };
 
 // TODO: error handling using global and private error handlers
-export function useGet(url = null) {
+export function useKlassGet(url = null) {
     const [ path, setPath ] = useState(url);
     const [ data, setData ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);

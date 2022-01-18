@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from 'controllers';
-import { useGet } from 'controllers/subsets-api';
+import { useSubsetsGet } from 'controllers/subsets-api';
 import { subsetDraft } from 'defaults';
 import { ErrorTooltip } from 'components';
 
@@ -13,7 +13,7 @@ export const IdForm = () => {
         }, dispatch
     } } = useContext(AppContext);
 
-    const [ exist,,, setPathExist ] = useGet();
+    const [ exist,,, setPathExist ] = useSubsetsGet();
 
     useEffect(() => setPathExist(id),
         [id, setPathExist]

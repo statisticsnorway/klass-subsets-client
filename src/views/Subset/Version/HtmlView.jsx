@@ -5,7 +5,7 @@ import { doPeriodsIntersect, eu } from 'utils';
 import { languages as defaultLanguages } from 'defaults';
 import { Code } from 'views';
 
-export const HtmlView = ({ version: {
+export const VersionHtmlView = ({ version: {
                              administrativeStatus,
                              createdDate,
                              lastModified,
