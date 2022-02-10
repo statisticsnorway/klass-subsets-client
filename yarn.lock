@@ -2044,10 +2044,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@statisticsnorway/ssb-component-library@^2.0.58":
-  version "2.0.58"
-  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.58.tgz#dd9b59f82293237d35bb045ac4a5456d368b0dd5"
-  integrity sha512-2rmf42xjghvtbU/AaXlNFc6dWdDoK4Mv9GJ+ftPljD2PqCKphlS2SUZADKSXaVT5RhI6NwUSk40Ooz1MgULU7Q==
+"@statisticsnorway/ssb-component-library@^2.0.61":
+  version "2.0.61"
+  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.61.tgz#cf1b5a0665af92dc6e630509f09ce794fe087694"
+  integrity sha512-CqHi3JAykxN0v+pFjSXbR860/Pha1Ub0pin5U/z9nGppttw8+KCul3+TzpHrmIXD9HAYX1Y6TexM6C/oN5uiaQ==
   dependencies:
     prismjs "^1.23.0"
     react-feather "^2.0.9"
