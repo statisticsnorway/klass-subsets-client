@@ -18,7 +18,7 @@
     "url": "https://github.com/statisticsnorway/klass-subsets-client/issues"
   },
   "dependencies": {
-    "@statisticsnorway/ssb-component-library": "^2.0.58",
+    "@statisticsnorway/ssb-component-library": "^2.0.64",
     "dompurify": "^2.3.6",
     "feather-icons": "^4.25.0",
     "i18next": "^21.6.11",
