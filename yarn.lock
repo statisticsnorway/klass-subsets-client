@@ -2032,16 +2032,16 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@statisticsnorway/ssb-component-library@^2.0.67":
-  version "2.0.67"
-  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.67.tgz#8cbe556b9e9bdf8768d1e5d06dc0c53f159b4ddc"
-  integrity sha512-uzwQZoLvR1SJ5rtihUAk3yasDAoeD9VugZPT7WW3o1V7749T8lFonN0hBqSzMkn4v0tAyLIVmWC7+UHFnifXHw==
+"@statisticsnorway/ssb-component-library@^2.0.68":
+  version "2.0.68"
+  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.68.tgz#f9e7a1d2ef80a223f93cf2fa3e063073c71ad5be"
+  integrity sha512-gmPf6aEiqK7WGUv37nKedndvkZN7/Y4Ia5lFjd4+KKwwze8+ZbRhVYLBc+NzW9/4ifTzfZ7A5d8p4HWdCNTDcg==
   dependencies:
-    prismjs "^1.23.0"
+    prismjs "^1.27.0"
     react-feather "^2.0.9"
-    react-test-renderer "^16.13.1"
-    sass "^1.26.11"
-    uuid "^3.4.0"
+    react-test-renderer "^16.14.0"
+    sass "^1.49.9"
+    uuid "^8.3.2"
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
@@ -7487,7 +7487,7 @@ pretty-format@^27.4.6:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-prismjs@^1.23.0:
+prismjs@^1.27.0:
   version "1.27.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.27.0.tgz#bb6ee3138a0b438a3653dd4d6ce0cc6510a45057"
   integrity sha512-t13BGPUlFDR7wRB5kQDG4jjl7XeuH6jbJGt11JHPL96qwsEHNX2+68tFXqc1/k+/jALsbSWJKUOT/hcYAZ5LkA==
@@ -7765,7 +7765,7 @@ react-scripts@^5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react-test-renderer@^16.13.1:
+react-test-renderer@^16.14.0:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.14.0.tgz#e98360087348e260c56d4fe2315e970480c228ae"
   integrity sha512-L8yPjqPE5CZO6rKsKXRO/rVPiaCOy0tQQJbC+UjPNlobl5mad59lvPjwFsQHTvL03caVDIVr9x9/OSgDe6I5Eg==
@@ -8040,7 +8040,7 @@ sass-loader@^12.3.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@^1.26.11, sass@^1.49.9:
+sass@^1.49.9:
   version "1.49.9"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.9.tgz#b15a189ecb0ca9e24634bae5d1ebc191809712f9"
   integrity sha512-YlYWkkHP9fbwaFRZQRXgDi3mXZShslVmmo+FVK3kHLUELHHEYrCmL1x6IUjC7wLS6VuJSAFXRQS/DxdsC4xL1A==
@@ -8938,11 +8938,6 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
-
-uuid@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
-  integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
 uuid@^8.3.2:
   version "8.3.2"
