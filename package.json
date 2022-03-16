@@ -58,7 +58,7 @@
     "@babel/plugin-syntax-flow": "^7.16.7",
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@beam-australia/react-env": "^3.0.8",
-    "autoprefixer": "^10.4.2",
+    "autoprefixer": "^10.4.3",
     "jest-junit-reporter": "^1.1.0",
     "postcss": "^8.4.8",
     "sass": "^1.49.9",
