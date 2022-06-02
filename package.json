@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@statisticsnorway/ssb-component-library": "^2.0.70",
-    "dompurify": "^2.3.6",
+    "dompurify": "^2.3.7",
     "feather-icons": "^4.29.0",
     "i18next": "^21.6.14",
     "react": "^16.14.0",
