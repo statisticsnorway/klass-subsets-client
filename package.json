@@ -19,12 +19,12 @@
   },
   "dependencies": {
     "@statisticsnorway/ssb-component-library": "^2.0.70",
-    "dompurify": "^2.3.6",
+    "dompurify": "^2.3.8",
     "feather-icons": "^4.29.0",
     "i18next": "^21.6.14",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.16.9",
+    "react-i18next": "^11.17.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^5.0.1",
     "swr": "^1.2.2"
