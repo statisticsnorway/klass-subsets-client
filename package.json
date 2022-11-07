@@ -61,7 +61,7 @@
     "autoprefixer": "^10.4.4",
     "jest-junit-reporter": "^1.1.0",
     "postcss": "^8.4.18",
-    "sass": "^1.55.0",
+    "sass": "^1.56.0",
     "typescript": "^4.8.4"
   },
   "jest": {
