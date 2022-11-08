@@ -20,7 +20,7 @@ resources:
     - repository: templates
       type: github
       name: statisticsnorway/azure-pipelines-templates
-      ref: refs/tags/1.1.29
+      ref: refs/tags/1.1.32
 #      ref: react-complete-tag-for-production
       endpoint: statisticsnorway (2)
 
@@ -37,6 +37,8 @@ variables:
     value: 'bipSonarCloud-Klass'
   - name: 'sourceVersion'
     value: '$(Build.SourceVersion)'
+  - name: 'snykServiceConnection'
+    value: 'Klass-Snyk'
 
 
 
@@ -48,3 +50,4 @@ jobs:
       namespace: $(namespace)
       sonarCloud: $(sonarCloud)
       tagToTag: $(sourceVersion)
+      snykServiceConnection: $(snykServiceConnection)
