@@ -37,6 +37,8 @@ variables:
     value: 'bipSonarCloud-Klass'
   - name: 'sourceVersion'
     value: '$(Build.SourceVersion)'
+  - name: 'snykServiceConnection'
+    value: 'Klass-Snyk'
 
 
 
@@ -48,3 +50,4 @@ jobs:
       namespace: $(namespace)
       sonarCloud: $(sonarCloud)
       tagToTag: $(sourceVersion)
+      snykServiceConnection: $(snykServiceConnection)
