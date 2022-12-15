@@ -12,7 +12,7 @@
 # After BUILD
 # with loadbalancer NGINX
 
-FROM nginx:1.23.2-alpine
+FROM nginx:1.23.3-alpine
 
 RUN apk upgrade --no-cache
 RUN apk add --no-cache nodejs yarn
