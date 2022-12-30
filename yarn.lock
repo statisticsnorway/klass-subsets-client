@@ -1612,16 +1612,16 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@statisticsnorway/ssb-component-library@^2.0.73":
-  version "2.0.73"
-  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.73.tgz#6df39412c2a0891f1375fc6aac53bc50f63552ea"
-  integrity sha512-2BNJI4v7PRXZQ7m1hsv+CqgSwkpGeCjPBYV0lJUjRE0+Z48f5T3O9IBqk3PYcqEmYmb1nm/1cYqlhHxQuYrkgg==
+"@statisticsnorway/ssb-component-library@^2.0.75":
+  version "2.0.75"
+  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.75.tgz#066acd1bf1cf282b258505e5e30f0cc18c17687a"
+  integrity sha512-IIj1KP3EGP0d676mFyZaQf6cQrx2AyZ/P+GzPQ+2OL8yepV8nVy2EGnxdhuaEcH+Puy6iqZ+CxOdbcYSIyRJEg==
   dependencies:
-    prismjs "^1.28.0"
+    prismjs "^1.29.0"
     react-feather "^2.0.10"
     react-test-renderer "^16.14.0"
-    sass "^1.52.3"
-    uuid "^8.3.2"
+    sass "^1.56.2"
+    uuid "^9.0.0"
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
@@ -7012,7 +7012,7 @@ pretty-format@^28.1.3:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
-prismjs@^1.28.0:
+prismjs@^1.29.0:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.29.0.tgz#f113555a8fa9b57c35e637bba27509dcf802dd12"
   integrity sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==
@@ -7594,7 +7594,7 @@ sass-loader@^12.3.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@^1.52.3, sass@^1.57.1:
+sass@^1.56.2, sass@^1.57.1:
   version "1.57.1"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.57.1.tgz#dfafd46eb3ab94817145e8825208ecf7281119b5"
   integrity sha512-O2+LwLS79op7GI0xZ8fqzF7X2m/m8WFfI02dHOdsK5R2ECeS5F62zrwg/relM1rjSLy7Vd/DiMNIvPrQGsA0jw==
@@ -8510,6 +8510,11 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
+  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
 v8-to-istanbul@^8.1.0:
   version "8.1.1"
