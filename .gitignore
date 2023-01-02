@@ -98,3 +98,4 @@ dist/
 test-report.xml
 /public/__ENV.js
 /public/env.js
+.dccache
