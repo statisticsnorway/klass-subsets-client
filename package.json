@@ -21,7 +21,7 @@
     "@statisticsnorway/ssb-component-library": "^2.0.75",
     "dompurify": "^2.4.1",
     "feather-icons": "^4.29.0",
-    "i18next": "^22.4.7",
+    "i18next": "^22.4.8",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-i18next": "^12.1.1",
