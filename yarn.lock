@@ -1618,15 +1618,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@statisticsnorway/ssb-component-library@^2.0.75":
-  version "2.0.75"
-  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.75.tgz#066acd1bf1cf282b258505e5e30f0cc18c17687a"
-  integrity sha512-IIj1KP3EGP0d676mFyZaQf6cQrx2AyZ/P+GzPQ+2OL8yepV8nVy2EGnxdhuaEcH+Puy6iqZ+CxOdbcYSIyRJEg==
+"@statisticsnorway/ssb-component-library@^2.0.76":
+  version "2.0.76"
+  resolved "https://registry.yarnpkg.com/@statisticsnorway/ssb-component-library/-/ssb-component-library-2.0.76.tgz#243cd4383fbdef1f8fdb77bc6af1c0fb572ac003"
+  integrity sha512-CECLATU94gviBnFsYS683lLR/LWSkD+fu1FP7dHL0VlJ+X6yfFJnRNH0kfs/qXYTMAk0g47qFP898hzU80srlw==
   dependencies:
     prismjs "^1.29.0"
     react-feather "^2.0.10"
     react-test-renderer "^16.14.0"
-    sass "^1.56.2"
+    sass "^1.57.1"
     uuid "^9.0.0"
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
@@ -7607,7 +7607,7 @@ sass-loader@^12.3.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@^1.56.2, sass@^1.57.1:
+sass@^1.57.1:
   version "1.57.1"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.57.1.tgz#dfafd46eb3ab94817145e8825208ecf7281119b5"
   integrity sha512-O2+LwLS79op7GI0xZ8fqzF7X2m/m8WFfI02dHOdsK5R2ECeS5F62zrwg/relM1rjSLy7Vd/DiMNIvPrQGsA0jw==
