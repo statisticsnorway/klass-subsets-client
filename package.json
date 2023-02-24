@@ -26,7 +26,7 @@
     "react-dom": "^16.14.0",
     "react-i18next": "^12.2.0",
     "react-router-dom": "^5.3.4",
-    "swr": "^2.0.3"
+    "swr": "^2.0.4"
   },
   "resolutions": {
     "autoprefixer": "10.4.5"
