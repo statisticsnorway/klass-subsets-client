@@ -2,7 +2,7 @@ import React from 'react';
 import { Metadata, Versions } from 'views';
 import { Title } from 'components';
 import { Subset } from 'models';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const Preview = ({ data,
                           edit = false,
@@ -12,14 +12,14 @@ export const Preview = ({ data,
                           syncQuery = false
 }) => {
     const subset = new Subset(data);
-    let history = useHistory();
+    let navigate = useNavigate();
 
     // TODO: use simple Links instead of buttons
-    const editMetadata = () => history.push(`/auth/editor?step=Metadata&subsetId=${ data?.id }`);
-    const editVersion = (versionId) => history.push(`/auth/editor?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
-    const saveMetadata = (query) => history.push(`/auth/save?metadata=true&${ query }`);
-    const saveVersion = (query) => history.push(`/auth/save?version=true&${ query }`);
-    const publishVersion = (query) => history.push(`/auth/save?version=true&publish=true&${ query }`);
+    const editMetadata = () => navigate(`/auth/editor?step=Metadata&subsetId=${ data?.id }`);
+    const editVersion = (versionId) => navigate(`/auth/editor?step=Versions&subsetId=${ data?.id }&versionId=${ versionId }`);
+    const saveMetadata = (query) => navigate(`/auth/save?metadata=true&${ query }`);
+    const saveVersion = (query) => navigate(`/auth/save?version=true&${ query }`);
+    const publishVersion = (query) => navigate(`/auth/save?version=true&publish=true&${ query }`);
 
     return (
         <>

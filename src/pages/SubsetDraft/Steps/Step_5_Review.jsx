@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, FormError } from '@statisticsnorway/ssb-component-library';
 import { Preview } from 'views';
@@ -8,7 +8,7 @@ import { AppContext } from 'controllers';
 export const Step5Review = () => {
     const { subset: { draft, dispatch } } = useContext(AppContext);
     const { t } = useTranslation();
-    let history = useHistory();
+    let navigate = useNavigate();
 
     useEffect(() => dispatch({ action: 'remove_timestamps' }), [ dispatch ] );
 
@@ -34,14 +34,14 @@ return (
                 <div style={{ float: 'left', marginRight: '20px', padding: '0' }}>
                     <Button
                         disabled={ draft?.isPublished }
-                        onClick={() => history.push(`/auth/save?metadata=true&version=true`) }>{ t('Save') }
+                        onClick={() => navigate(`/auth/save?metadata=true&version=true`) }>{ t('Save') }
                     </Button>
                 </div>
 
                 <div style={{ float: 'right' }}>
                     <Button
                         disabled={ Object.values(draft.errors).flat().length > 0}
-                        onClick={() => history.push(`/auth/save?publish=true&metadata=true&version=true`) }>{ t('Publish') }
+                        onClick={() => navigate(`/auth/save?publish=true&metadata=true&version=true`) }>{ t('Publish') }
                     </Button>
                 </div>
                 {/*{ frame && <iframe src='/auth/save'

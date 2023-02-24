@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog } from '@statisticsnorway/ssb-component-library';
 import { usePost, usePut } from 'controllers/subsets-api';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from 'controllers';
 import { CheckCircle } from 'react-feather';
 import { useQuery } from 'utils';
@@ -19,7 +19,7 @@ export const Step6Publish = () => {
         isNewVersion
     }, dispatch} } = useContext(AppContext);
     const { t } = useTranslation();
-    let history = useHistory();
+    let navigate = useNavigate();
     let query = useQuery();
 
     const [ post, setPOSTPayload, errorPost ] = usePost();
@@ -137,16 +137,16 @@ export const Step6Publish = () => {
                 </p>
             }
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button onClick={ () => history.push(`/auth/editor?step=Metadata&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
+                <button onClick={ () => navigate(`/auth/editor?step=Metadata&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
                     { t('Back to metadata') }
                 </button>
-                <button onClick={ () => history.push(`/auth/editor?step=Versions&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
+                <button onClick={ () => navigate(`/auth/editor?step=Versions&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
                     { t('Back to versions') }
                 </button>
-                <button onClick={ () => history.push(`/auth/editor?step=Review%20and%20publish&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
+                <button onClick={ () => navigate(`/auth/editor?step=Review%20and%20publish&subsetId=${ id }&versionId=${ postVersion?.versionId || updateVersion?.versionId || query.get('versionId') || versionId }`) }>
                     { t('Back to review') }
                 </button>
-                <button onClick={ () => history.push(`/subsets/${id}`) }>
+                <button onClick={ () => navigate(`/subsets/${id}`) }>
                     { t('Out of edition mode') }
                 </button>
             </div>

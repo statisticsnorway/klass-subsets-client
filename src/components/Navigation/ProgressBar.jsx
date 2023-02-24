@@ -15,9 +15,9 @@ export const ProgressBar = ({ steps }) => {
                 >
                     <NavLink to={ `?${ query.update('step', step.props.label) }` }
                              area-current='step'
-                             className='ssb-link profiled'
-                             activeStyle={{ color: 'black', textDecoration: 'none'}}
-                             activeClassName='link-text with-icon profiled'
+                             //activeStyle={{ color: 'black', textDecoration: 'none'}}
+                             style={({ isActive }) => ({ color: isActive ? 'black' : '' })}
+                             className={({ isActive }) => "ssb-link profiled" + (isActive ? " with-icon" : "")}
                              isActive={ () => (query.get('step') === step.props.label) }
                     >{ t(step.props.label) }
                     </NavLink>
