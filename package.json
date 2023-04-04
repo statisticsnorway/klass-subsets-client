@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
-    "@babel/plugin-syntax-flow": "^7.18.6",
+    "@babel/plugin-syntax-flow": "^7.21.4",
     "@babel/plugin-transform-react-jsx": "^7.21.0",
     "@beam-australia/react-env": "^3.1.1",
     "jest-junit-reporter": "^1.1.0",
