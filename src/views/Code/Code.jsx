@@ -29,7 +29,7 @@ export const Code = ({ origin: {
             <p><strong>{ t('Code') }:</strong> { code || '-' }</p>
             <p><strong>{ t('Classification') }:</strong> { classificationId || '-' } </p>
             <p><strong>{ t('URL') }:</strong> { `${ 
-                process.env.REACT_APP_KLASS_API }/classifications/${classificationId}/codesAt?date=${ 
+                process.env.REACT_APP_KLASS_API }classifications/${classificationId}/codesAt?date=${ 
                 validFromInRequestedRange }&selectCodes=${ code }`
             }</p>
             <p><strong>{ 'validFromInRequestedRange' }:</strong> { validFromInRequestedRange || '-' }</p>

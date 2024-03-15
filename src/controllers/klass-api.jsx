@@ -25,12 +25,12 @@ export const URL = {
                         : `/${this.service}/${classificationId}/codesAt.json?date=${ today() }&selectCodes=${ code }`
             ,
             url: from && to
-            ? `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
+            ? `${klassApiServiceEndpoint}${this.service}/${classificationId}/codes.json?from=${ from }&to=${ to }&selectCodes=${ code }`
                 : from && !to
-                    ? `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codes.json?from=${ from }&selectCodes=${ code }`
+                    ? `${klassApiServiceEndpoint}${this.service}/${classificationId}/codes.json?from=${ from }&selectCodes=${ code }`
                     : !from && to
-                        ? `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codes.json?to=${ to }&selectCodes=${ code }`
-                        : `${klassApiServiceEndpoint}/${this.service}/${classificationId}/codesAt.json?date=${ today() }&selectCodes=${ code }`
+                        ? `${klassApiServiceEndpoint}${this.service}/${classificationId}/codes.json?to=${ to }&selectCodes=${ code }`
+                        : `${klassApiServiceEndpoint}${this.service}/${classificationId}/codesAt.json?date=${ today() }&selectCodes=${ code }`
         };
     },
 
@@ -46,14 +46,14 @@ export const URL = {
                     : !from && to
                         ? `/${ this.service }/${id}/codes.json?to=${ to }`
                         : `/${ this.service }/${id}/codesAt.json?date=${ today() }`,
-            url: `${klassApiServiceEndpoint}/${ this.service }/${ id }`,
+            url: `${klassApiServiceEndpoint}${ this.service }/${ id }`,
             codesUrl: from && to
-                ? `${klassApiServiceEndpoint}/${ this.service }/${ id }/codes.json?from=${ from }&to=${ to }`
+                ? `${klassApiServiceEndpoint}${ this.service }/${ id }/codes.json?from=${ from }&to=${ to }`
                 : from && !to
-                    ? `${klassApiServiceEndpoint}/${ this.service }/${ id }/codes.json?from=${ from }`
+                    ? `${klassApiServiceEndpoint}${ this.service }/${ id }/codes.json?from=${ from }`
                     : !from && to
-                        ? `${klassApiServiceEndpoint}/${ this.service }/${ id }/codes.json?to=${ to }`
-                        : `${klassApiServiceEndpoint}/${ this.service }/${ id }/codesAt.json?date=${ today() }`
+                        ? `${klassApiServiceEndpoint}${ this.service }/${ id }/codes.json?to=${ to }`
+                        : `${klassApiServiceEndpoint}${ this.service }/${ id }/codesAt.json?date=${ today() }`
         };
     },
 
