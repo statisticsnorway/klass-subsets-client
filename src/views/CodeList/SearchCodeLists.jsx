@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from 'controllers';
-import { useKlassGet, URL } from 'controllers/klass-api';
+import { useKlassGet } from 'controllers/klass-api';
 import { CodeListFetcher } from 'views';
 import { eu } from 'utils';
 import { Search, Help, HelpButton, ListTable } from 'components';
@@ -44,7 +44,7 @@ export const SearchCodeLists = () => {
                     eu(versionValidUntil) || '...' }`
             }/>
 
-            <ListTable items={ searchResult.map(s => ({ id: URL.info(s._links?.self?.href).id })) }
+            <ListTable items={ searchResult.map(s => ({ id: s.id })) }
                        placeholder={ t('Nothing is found') }
                        component={ CodeListFetcher }
             />
