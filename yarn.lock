@@ -1109,6 +1109,11 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
+"@babel/runtime@^7.27.6":
+  version "7.27.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.27.6.tgz#ec4070a04d76bae8ddbb10770ba55714a417b7c6"
+  integrity sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==
+
 "@babel/template@^7.18.10", "@babel/template@^7.22.15", "@babel/template@^7.3.3":
   version "7.22.15"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.22.15.tgz#09576efc3830f0430f4548ef971dde1350ef2f38"
@@ -7299,12 +7304,12 @@ react-feather@^2.0.10:
   dependencies:
     prop-types "^15.7.2"
 
-react-i18next@^12.3.1:
-  version "12.3.1"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-12.3.1.tgz#30134a41a2a71c61dc69c6383504929aed1c99e7"
-  integrity sha512-5v8E2XjZDFzK7K87eSwC7AJcAkcLt5xYZ4+yTPDAW1i7C93oOY1dnr4BaQM7un4Hm+GmghuiPvevWwlca5PwDA==
+react-i18next@^15.5.3:
+  version "15.5.3"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-15.5.3.tgz#63cae235d540d1b6bde5495b5ebe0c1d5c76de0f"
+  integrity sha512-ypYmOKOnjqPEJZO4m1BI0kS8kWqkBNsKYyhVUfij0gvjy9xJNoG/VcGkxq5dRlVwzmrmY1BQMAmpbbUBLwC4Kw==
   dependencies:
-    "@babel/runtime" "^7.20.6"
+    "@babel/runtime" "^7.27.6"
     html-parse-stringify "^3.0.1"
 
 react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.6:
